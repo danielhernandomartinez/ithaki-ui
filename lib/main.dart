@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'router.dart';
-import 'theme/ithaki_theme.dart';
+import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 void main() => runApp(const IthakiApp());
 

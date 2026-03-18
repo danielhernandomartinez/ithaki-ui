@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../theme/ithaki_theme.dart';
-import '../../widgets/ithaki_button.dart';
+import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 class WelcomeModalScreen extends StatelessWidget {
   const WelcomeModalScreen({super.key});

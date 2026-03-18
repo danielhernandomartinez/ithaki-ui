@@ -1,5 +1,4 @@
-import '../models/search_item.dart';
-import '../widgets/ithaki_flag.dart';
+import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 const _data = [
   ('ad', 'Andorra', 'Southern Europe'),

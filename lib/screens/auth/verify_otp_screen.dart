@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import '../../theme/ithaki_theme.dart';
-import '../../widgets/countdown_mixin.dart';
-import '../../widgets/ithaki_app_bar.dart';
-import '../../widgets/ithaki_button.dart';
+import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
   final String method;
@@ -37,7 +34,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const IthakiAppBar(showLogin: true),
+      appBar: IthakiAppBar(showLogin: true, onLoginPressed: () => context.go('/login')),
       body: SafeArea(
         top: false,
         bottom: true,

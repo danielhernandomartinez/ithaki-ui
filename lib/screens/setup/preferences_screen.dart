@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import '../../theme/ithaki_theme.dart';
-import '../../widgets/ithaki_app_bar.dart';
-import '../../widgets/ithaki_button.dart';
-import '../../widgets/ithaki_step_tabs.dart';
-import '../../widgets/search_bottom_sheet.dart';
-import '../../models/search_item.dart';
+import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 const _positionLevels = [
   SearchItem(id: 'intern', label: 'Intern', subtitle: '[0 years]'),

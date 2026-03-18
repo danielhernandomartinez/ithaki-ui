@@ -1,15 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/countries.dart';
-import '../../models/search_item.dart';
-import '../../theme/ithaki_theme.dart';
-import '../../widgets/ithaki_app_bar.dart';
-import '../../widgets/ithaki_button.dart';
-import '../../widgets/ithaki_flag.dart';
-import '../../widgets/ithaki_icon.dart';
-import '../../widgets/ithaki_step_tabs.dart';
-import '../../widgets/ithaki_text_field.dart';
-import '../../widgets/search_bottom_sheet.dart';
 
 class LocationScreen extends StatefulWidget {
   const LocationScreen({super.key});

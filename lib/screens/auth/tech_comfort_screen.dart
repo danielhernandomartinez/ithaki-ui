@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../theme/ithaki_theme.dart';
-import '../../widgets/ithaki_app_bar.dart';
-import '../../widgets/ithaki_button.dart';
+import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 enum _TechLevel { experienced, newToThis }
 
@@ -19,7 +17,7 @@ class _TechComfortScreenState extends State<TechComfortScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const IthakiAppBar(showLogin: true),
+      appBar: IthakiAppBar(showLogin: true, onLoginPressed: () => context.go('/login')),
       body: SafeArea(
         top: false,
         bottom: true,

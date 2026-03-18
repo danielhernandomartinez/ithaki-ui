@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import '../../widgets/ithaki_icon.dart';
-import '../../theme/ithaki_theme.dart';
-import '../../widgets/ithaki_app_bar.dart';
-import '../../widgets/ithaki_button.dart';
-import '../../widgets/ithaki_text_field.dart';
+import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 class _GoogleLogo extends StatelessWidget {
   final double size;
@@ -13,7 +8,7 @@ class _GoogleLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset('assets/icons/google-social.svg', width: size, height: size);
+    return IthakiIcon('google-social', size: size);
   }
 }
 
@@ -101,7 +96,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const IthakiAppBar(showLogin: true),
+      appBar: IthakiAppBar(showLogin: true, onLoginPressed: () => context.go('/login')),
       body: SafeArea(
         top: false,
         bottom: true,

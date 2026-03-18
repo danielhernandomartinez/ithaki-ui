@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../theme/ithaki_theme.dart';
-import '../../widgets/countdown_mixin.dart';
-import '../../widgets/ithaki_app_bar.dart';
-import '../../widgets/ithaki_button.dart';
-import '../../widgets/ithaki_icon.dart';
+import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 class VerifyEmailScreen extends StatefulWidget {
   const VerifyEmailScreen({super.key});
@@ -30,7 +26,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const IthakiAppBar(showLogin: true),
+      appBar: IthakiAppBar(showLogin: true, onLoginPressed: () => context.go('/login')),
       body: SafeArea(
         top: false,
         bottom: true,
