@@ -68,12 +68,9 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
               const SizedBox(height: 32),
 
               // Phone number field
-              IthakiTextField(
-                label: 'Phone Number',
-                hint: '+1 (555) 000-0000',
+              IthakiPhoneField(
                 controller: _phoneController,
                 onChanged: _validatePhone,
-                keyboardType: TextInputType.phone,
               ),
 
               const SizedBox(height: 24),
@@ -89,23 +86,25 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
                 const SizedBox(height: 16),
 
                 // SMS method card
-                _DeliveryMethodCard(
-                  title: 'Send secured code via SMS',
-                  value: 'sms',
+                IthakiOptionCard(
+                  layout: IthakiOptionCardLayout.column,
+                  label: 'Send secured code via SMS',
                   isSelected: _selectedMethod == 'sms',
                   onTap: () {
                     setState(() {
                       _selectedMethod = 'sms';
                     });
                   },
+                  icon: 'envelope',
                 ),
 
                 const SizedBox(height: 12),
 
                 // WhatsApp method card
-                _DeliveryMethodCard(
-                  title: 'Send secured code via WhatsApp',
-                  value: 'whatsapp',
+                IthakiOptionCard(
+                  layout: IthakiOptionCardLayout.column,
+                  label: 'Send secured code via WhatsApp',
+                  icon: 'whatsapp',
                   isSelected: _selectedMethod == 'whatsapp',
                   onTap: () {
                     setState(() {
@@ -200,78 +199,6 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
               const SizedBox(height: 32),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Custom delivery method card using design system
-class _DeliveryMethodCard extends StatelessWidget {
-  final String title;
-  final String value;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const _DeliveryMethodCard({
-    required this.title,
-    required this.value,
-    required this.isSelected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: isSelected
-                ? IthakiTheme.primaryPurple
-                : IthakiTheme.borderLight,
-            width: isSelected ? 2 : 1,
-          ),
-          borderRadius: BorderRadius.circular(12),
-          color: isSelected
-              ? IthakiTheme.primaryPurple.withValues(alpha: 0.05)
-              : IthakiTheme.backgroundWhite,
-        ),
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                title,
-                style: IthakiTheme.bodyRegular.copyWith(
-                  color: IthakiTheme.textPrimary,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            Container(
-              width: 24,
-              height: 24,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: isSelected
-                      ? IthakiTheme.primaryPurple
-                      : IthakiTheme.borderLight,
-                  width: 2,
-                ),
-                color:
-                    isSelected ? IthakiTheme.primaryPurple : Colors.transparent,
-              ),
-              child: isSelected
-                  ? const Icon(
-                      Icons.check,
-                      size: 16,
-                      color: Colors.white,
-                    )
-                  : null,
-            ),
-          ],
         ),
       ),
     );
