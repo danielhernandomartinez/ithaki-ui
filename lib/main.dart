@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 void main() => runApp(const IthakiApp());
@@ -9,11 +8,13 @@ class IthakiApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return MaterialApp(
       title: 'Ithaki',
       debugShowCheckedModeBanner: false,
       theme: IthakiTheme.light,
-      routerConfig: IthakiRouter.router,
+      home: const Scaffold(
+        body: Center(child: Text('Ithaki')),
+      ),
     );
   }
 }
