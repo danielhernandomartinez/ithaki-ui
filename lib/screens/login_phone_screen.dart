@@ -92,30 +92,32 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
 
                 // SMS method card
                 IthakiOptionCard(
-                  layout: IthakiOptionCardLayout.column,
-                  label: 'Send secured code via SMS',
                   isSelected: _selectedMethod == 'sms',
                   onTap: () {
                     setState(() {
                       _selectedMethod = 'sms';
                     });
                   },
+                  label: 'Send secured code via SMS',
                   icon: 'envelope',
+                  axis: Axis.vertical,
+                  iconSize: 20,
                 ),
 
                 const SizedBox(height: 12),
 
                 // WhatsApp method card
                 IthakiOptionCard(
-                  layout: IthakiOptionCardLayout.column,
-                  label: 'Send secured code via WhatsApp',
-                  icon: 'whatsapp',
                   isSelected: _selectedMethod == 'whatsapp',
                   onTap: () {
                     setState(() {
                       _selectedMethod = 'whatsapp';
                     });
                   },
+                  icon: 'whatsapp',
+                  label: 'Send secured code via WhatsApp',
+                  iconSize: 25,
+                  axis: Axis.vertical,
                 ),
 
                 const SizedBox(height: 24),
