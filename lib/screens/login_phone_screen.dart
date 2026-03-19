@@ -20,12 +20,6 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
     super.dispose();
   }
 
-  void _validatePhone(String value) {
-    final phoneRegex = RegExp(r'^\+?[0-9\s]{8,15}$');
-    setState(() {
-      _isPhoneValid = phoneRegex.hasMatch(value);
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +64,12 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
               // Phone number field
               IthakiPhoneField(
                 controller: _phoneController,
-                onChanged: _validatePhone,
+                onChanged: (_) => setState((){}),
+                onValidationChanged: (isValid) {
+                  setState(() {
+                    _isPhoneValid = isValid;
+                  });
+                },
               ),
 
               const SizedBox(height: 24),
