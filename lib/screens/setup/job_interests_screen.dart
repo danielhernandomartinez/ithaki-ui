@@ -20,7 +20,6 @@ final _jobItems = [
   const SearchItem(id: 'ux_designer', label: 'UX Designer', subtitle: 'Design'),
 ];
 
-
 class JobInterestsScreen extends StatefulWidget {
   const JobInterestsScreen({super.key});
 
@@ -39,67 +38,6 @@ class _JobInterestsScreenState extends State<JobInterestsScreen> {
       'Select Job Interest',
       available,
       (item) => setState(() => _selected.add(item)),
-    );
-  }
-
-  void _removeJob(String id) {
-    setState(() => _selected.removeWhere((j) => j.id == id));
-  }
-
-  Widget _jobCard(SearchItem job) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF0EAFA),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: IthakiTheme.primaryPurple, width: 1.5),
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: IthakiTheme.primaryPurple, width: 1),
-              ),
-              child: const Center(
-                child: IthakiIcon('rocket', size: 20, color: IthakiTheme.primaryPurple),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(job.label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary)),
-                  if (job.subtitle.isNotEmpty)
-                    Text(job.subtitle, style: const TextStyle(fontSize: 12, color: IthakiTheme.textSecondary)),
-                ],
-              ),
-            ),
-            GestureDetector(
-              onTap: () => _removeJob(job.id),
-              child: Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: IthakiTheme.textPrimary, width: 1),
-                ),
-                child: const Center(
-                  child: IthakiIcon('delete', size: 18, color: IthakiTheme.textSecondary),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -132,9 +70,14 @@ class _JobInterestsScreenState extends State<JobInterestsScreen> {
                       style: IthakiTheme.bodyRegular,
                     ),
                     const SizedBox(height: 24),
-                    // Selected job cards
-                    ..._selected.map(_jobCard),
-                    // Add button or initial trigger
+                    ..._selected.map((job) => Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: IthakiJobCard(
+                        title: job.label,
+                        subtitle: job.subtitle,
+                        onDelete: () => setState(() => _selected.removeWhere((j) => j.id == job.id)),
+                      ),
+                    )),
                     if (_selected.isEmpty)
                       GestureDetector(
                         onTap: _openJobSearch,
@@ -177,7 +120,7 @@ class _JobInterestsScreenState extends State<JobInterestsScreen> {
                     const SizedBox(height: 40),
                     IthakiButton(
                       'Continue',
-                      onPressed: () => context.go('/setup/preferences'),
+                      onPressed: _selected.isNotEmpty ? () => context.go('/setup/preferences') : null,
                     ),
                     const SizedBox(height: 12),
                     IthakiButton(

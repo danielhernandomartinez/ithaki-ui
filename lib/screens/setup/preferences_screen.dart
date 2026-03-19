@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
@@ -61,158 +60,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     );
   }
 
-  void _openPaymentTermPicker() {
-    SearchBottomSheet.show(
-      context,
-      'Payment Term',
-      _paymentTermOptions,
-      (item) => setState(() => _paymentTerm = item.label),
-    );
-  }
-
-  Widget _chipSection({required String title, required String description, required List<String> options, required Set<String> selected}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary)),
-        const SizedBox(height: 4),
-        Text(description, style: IthakiTheme.bodyRegular),
-        const SizedBox(height: 10),
-        IthakiChipGroup(
-          options: options,
-          selected: selected,
-          onChanged: (next) => setState(() {
-            selected.clear();
-            selected.addAll(next);
-          }),
-        ),
-      ],
-    );
-  }
-
-  Widget _salarySection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('Expected Payment', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary)),
-        const SizedBox(height: 10),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Amount field
-            Expanded(
-              flex: 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('From', style: TextStyle(fontSize: 12, color: IthakiTheme.textSecondary)),
-                  const SizedBox(height: 4),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      border: Border.all(color: IthakiTheme.borderLight),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _salaryController,
-                            enabled: !_preferNotToSpecify,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                            style: const TextStyle(fontSize: 14, color: IthakiTheme.textPrimary),
-                            decoration: const InputDecoration(
-                              hintText: '0',
-                              hintStyle: TextStyle(color: IthakiTheme.textHint),
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          child: const Text('€', style: TextStyle(fontSize: 16, color: IthakiTheme.textSecondary)),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 12),
-            // Payment term dropdown
-            Expanded(
-              flex: 2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('Payment Term', style: TextStyle(fontSize: 12, color: IthakiTheme.textSecondary)),
-                  const SizedBox(height: 4),
-                  GestureDetector(
-                    onTap: _preferNotToSpecify ? null : _openPaymentTermPicker,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(
-                          color: _paymentTerm != null ? IthakiTheme.primaryPurple : IthakiTheme.borderLight,
-                          width: _paymentTerm != null ? 1.5 : 1,
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              _paymentTerm ?? 'Monthly',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: _paymentTerm != null ? IthakiTheme.textPrimary : IthakiTheme.textHint,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          const Icon(Icons.keyboard_arrow_down, size: 18, color: IthakiTheme.textSecondary),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        GestureDetector(
-          onTap: () => setState(() {
-            _preferNotToSpecify = !_preferNotToSpecify;
-            if (_preferNotToSpecify) _salaryController.clear();
-          }),
-          child: Row(
-            children: [
-              Container(
-                width: 18,
-                height: 18,
-                decoration: BoxDecoration(
-                  color: _preferNotToSpecify ? IthakiTheme.primaryPurple : Colors.white,
-                  borderRadius: BorderRadius.circular(4),
-                  border: Border.all(
-                    color: _preferNotToSpecify ? IthakiTheme.primaryPurple : IthakiTheme.borderLight,
-                    width: 1.5,
-                  ),
-                ),
-                child: _preferNotToSpecify
-                    ? const Icon(Icons.check, size: 12, color: Colors.white)
-                    : null,
-              ),
-              const SizedBox(width: 8),
-              const Text('Prefer not to specify', style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary)),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -251,21 +98,36 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                       optional: true,
                     ),
                     const SizedBox(height: 24),
-                    _chipSection(
+                    IthakiChipSection(
                       title: 'Job Type',
                       description: 'Choose the types of employment you\'re interested in. You can select more than one option.',
                       options: _jobTypeOptions,
                       selected: _selectedJobTypes,
+                      onChanged: (next) => setState(() {
+                        _selectedJobTypes.clear();
+                        _selectedJobTypes.addAll(next);
+                      }),
                     ),
                     const SizedBox(height: 24),
-                    _chipSection(
+                    IthakiChipSection(
                       title: 'Workplace Format',
                       description: 'Select your preferred workplace formats. You can select more than one option.',
                       options: _workplaceOptions,
                       selected: _selectedWorkplaceFormats,
+                      onChanged: (next) => setState(() {
+                        _selectedWorkplaceFormats.clear();
+                        _selectedWorkplaceFormats.addAll(next);
+                      }),
                     ),
                     const SizedBox(height: 24),
-                    _salarySection(),
+                    IthakiSalaryInput(
+                      amountController: _salaryController,
+                      paymentTerm: _paymentTerm,
+                      paymentTermOptions: _paymentTermOptions,
+                      onPaymentTermChanged: (val) => setState(() => _paymentTerm = val),
+                      preferNotToSpecify: _preferNotToSpecify,
+                      onPreferNotToSpecifyChanged: (val) => setState(() => _preferNotToSpecify = val),
+                    ),
                     const SizedBox(height: 40),
                     IthakiButton(
                       'Continue',

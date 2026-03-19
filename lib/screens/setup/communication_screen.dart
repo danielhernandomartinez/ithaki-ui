@@ -73,7 +73,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
                     ),
                     const SizedBox(height: 40),
                     IthakiButton(
-                      'Continue',
+                      'Finish Setup',
                       onPressed: _selected.isNotEmpty ? () => context.go('/home') : null,
                     ),
                     const SizedBox(height: 12),

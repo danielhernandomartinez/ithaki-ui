@@ -7,9 +7,9 @@ class WelcomeModalScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black.withValues(alpha: 0.5),
-      body: Column(
+    return Material(
+      color: Colors.black.withValues(alpha: 0.5),
+      child: Column(
         children: [
           // Tappable overlay (dismiss to location)
           Expanded(

@@ -62,7 +62,7 @@ class _ValuesScreenState extends State<ValuesScreen> {
                     ),
                     const SizedBox(height: 40),
                     IthakiButton(
-                      'Finish Setup',
+                      'Continue',
                       onPressed: _selected.isNotEmpty ? () => context.go('/setup/communication') : null,
                     ),
                     const SizedBox(height: 12),

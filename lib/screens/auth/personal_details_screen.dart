@@ -20,6 +20,14 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
       _phoneController.text.trim().isNotEmpty;
 
   @override
+  void initState() {
+    super.initState();
+    _nameController.addListener(() => setState(() {}));
+    _lastNameController.addListener(() => setState(() {}));
+    _phoneController.addListener(() => setState(() {}));
+  }
+
+  @override
   void dispose() {
     _nameController.dispose();
     _lastNameController.dispose();
@@ -29,68 +37,44 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: IthakiAppBar(showLogin: true, onLoginPressed: () => context.go('/login')),
-      body: SafeArea(
-        top: false,
-        bottom: true,
-        child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            GestureDetector(
-              onTap: () => context.pop(),
-              child: Container(
-                padding: const EdgeInsets.only(bottom: 3),
-                decoration: const BoxDecoration(
-                  border: Border(bottom: BorderSide(color: IthakiTheme.textPrimary, width: 1.2)),
-                ),
-                child: const Text(
-                  'Back',
-                  style: TextStyle(fontSize: 14, color: IthakiTheme.textPrimary),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Welcome to Ithaki!\nLet\'s create an Account!',
-              style: IthakiTheme.headingLarge,
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              'Just a few more details to set up your account. Your name and phone number help employers reach you!',
-              style: IthakiTheme.bodyRegular,
-            ),
-            const SizedBox(height: 24),
-            IthakiTextField(
-              label: 'Name',
-              hint: 'Enter your Name',
-              controller: _nameController,
-              onChanged: (_) => setState(() {}),
-            ),
-            const SizedBox(height: 16),
-            IthakiTextField(
-              label: 'Last Name',
-              hint: 'Enter your Last Name',
-              controller: _lastNameController,
-              onChanged: (_) => setState(() {}),
-            ),
-            const SizedBox(height: 16),
-            IthakiPhoneField(
-              controller: _phoneController,
-              onChanged: (_) => setState(() {}),
-            ),
-            const SizedBox(height: 40),
-            IthakiButton(
-              'Continue',
-              isEnabled: _canContinue,
-              onPressed: _canContinue ? () => context.go('/choose-verify-method') : null,
-            ),
-          ],
-        ),
+    return IthakiScreenLayout(
+      appBar: IthakiAppBar(actionLabel: 'Login', onActionPressed: () => context.go('/login')),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          IthakiBackLink(onTap: () => context.go('/register')),
+          const SizedBox(height: 16),
+          const Text('Almost there!\nTell us about yourself', style: IthakiTheme.headingLarge),
+          const SizedBox(height: 12),
+          const Text(
+            'Your name and phone number help employers reach you directly.',
+            style: IthakiTheme.bodyRegular,
+          ),
+          const SizedBox(height: 24),
+          IthakiTextField(
+            label: 'Name',
+            hint: 'Enter your Name',
+            controller: _nameController,
+          ),
+          const SizedBox(height: 16),
+          IthakiTextField(
+            label: 'Last Name',
+            hint: 'Enter your Last Name',
+            controller: _lastNameController,
+          ),
+          const SizedBox(height: 16),
+          IthakiPhoneField(
+            controller: _phoneController,
+            onChanged: (_) => setState(() {}),
+          ),
+          const SizedBox(height: 40),
+          IthakiButton(
+            'Continue',
+            isEnabled: _canContinue,
+            onPressed: _canContinue ? () => context.go('/choose-verify-method') : null,
+          ),
+        ],
       ),
-    ),
     );
   }
 }

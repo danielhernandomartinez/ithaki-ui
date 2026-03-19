@@ -17,7 +17,7 @@ class _TechComfortScreenState extends State<TechComfortScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: IthakiAppBar(showLogin: true, onLoginPressed: () => context.go('/login')),
+      appBar: IthakiAppBar(actionLabel: "Login", onActionPressed: () => context.go('/login')),
       body: SafeArea(
         top: false,
         bottom: true,
@@ -105,10 +105,10 @@ class _OptionCard extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
-                color: selected ? IthakiTheme.primaryPurple : IthakiTheme.textPrimary,
+                color: IthakiTheme.textPrimary,
               ),
             ),
             const SizedBox(height: 4),

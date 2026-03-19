@@ -58,7 +58,7 @@ class _LocationScreenState extends State<LocationScreen> {
   void _openRolePicker() {
     SearchBottomSheet.show(
       context,
-      'Select Role',
+      'Work Authorization',
       _roles,
       (item) => setState(() => _role = item.label),
     );
@@ -73,42 +73,6 @@ class _LocationScreenState extends State<LocationScreen> {
     );
   }
 
-  Widget _selectorField({required String label, required String? value, required String hint, required VoidCallback onTap}) {
-    final selected = value != null;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary)),
-        const SizedBox(height: 6),
-        GestureDetector(
-          onTap: onTap,
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: selected ? IthakiTheme.primaryPurple : IthakiTheme.borderLight,
-                width: selected ? 1.5 : 1,
-              ),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    value ?? hint,
-                    style: TextStyle(fontSize: 14, color: selected ? IthakiTheme.textPrimary : IthakiTheme.textHint),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                const IthakiIcon('arrow-down', size: 18, color: IthakiTheme.textSecondary),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -173,14 +137,14 @@ class _LocationScreenState extends State<LocationScreen> {
                     onTap: () => _openCountryPicker(_residenceController, 'Residence', (code) => _residenceCode = code),
                   ),
                   const SizedBox(height: 16),
-                  _selectorField(
-                    label: 'Role',
+                  IthakiSelectorField(
+                    label: 'Work Authorization',
                     value: _role,
                     hint: 'Select your status',
                     onTap: _openRolePicker,
                   ),
                   const SizedBox(height: 16),
-                  _selectorField(
+                  IthakiSelectorField(
                     label: 'Relocation Readiness',
                     value: _relocation,
                     hint: 'Select your relocation preference',
@@ -189,7 +153,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   const SizedBox(height: 40),
                   IthakiButton(
                     'Continue',
-                    onPressed: () => context.go('/setup/job-interests'),
+                    onPressed: _residenceCode != null ? () => context.go('/setup/job-interests') : null,
                   ),
                   const SizedBox(height: 20),
                 ],
