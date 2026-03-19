@@ -15,12 +15,10 @@ class EmailLoginFooter extends StatelessWidget {
 
         const SizedBox(height: 24),
 
-        Center(
+        const Center(
           child: Text(
             'Prefer email? You can sign in with email instead.',
-            style: IthakiTheme.bodyRegular.copyWith(
-              color: IthakiTheme.textSecondary,
-            ),
+            style:  IthakiTheme.bodyRegular,
             textAlign: TextAlign.center,
           ),
         ),

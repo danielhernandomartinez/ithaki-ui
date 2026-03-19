@@ -93,7 +93,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
               Text(
                 'We\'ve sent a verification code to ${widget.phoneNumber}',
                 style: IthakiTheme.bodyRegular.copyWith(
-                  color: IthakiTheme.textSecondary,
+                  color: IthakiTheme.textPrimary,
                   height: 1.5,
                 ),
               ),
@@ -105,7 +105,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                   Text(
                     'This is not your phone? ',
                     style: IthakiTheme.bodyRegular.copyWith(
-                      color: IthakiTheme.textSecondary,
+                      color: IthakiTheme.textPrimary,
                     ),
                   ),
                   GestureDetector(
@@ -183,16 +183,13 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                         child: Text(
                           'Resend code',
                           style: IthakiTheme.bodyRegular.copyWith(
-                            color: IthakiTheme.primaryPurple,
                             decoration: TextDecoration.underline,
                           ),
                         ),
                       )
                     : Text(
                         'Resend code in 0:${countdownSeconds.toString().padLeft(2, '0')}',
-                        style: IthakiTheme.bodyRegular.copyWith(
-                          color: IthakiTheme.textSecondary,
-                        ),
+                        style: IthakiTheme.bodyRegular,
                       ),
               ),
 
