@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import 'verify_code_screen.dart';
+
 class LoginPhoneScreen extends StatefulWidget {
   const LoginPhoneScreen({super.key});
 
@@ -11,6 +13,7 @@ class LoginPhoneScreen extends StatefulWidget {
 class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
   final _phoneController = TextEditingController();
   bool _isPhoneValid = false;
+  String _fullPhoneNumber = '';
   String _selectedMethod = '';
   bool _rememberMe = false;
 
@@ -26,8 +29,8 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundWhite,
       appBar: IthakiAppBar(
-        showLogin: true,
-        onLoginPressed: () {
+        actionLabel: 'Sign Up',
+        onActionPressed: () {
           // TODO: Navigate to sign up
         },
       ),
@@ -64,7 +67,9 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
               // Phone number field
               IthakiPhoneField(
                 controller: _phoneController,
-                onChanged: (_) => setState((){}),
+                onChanged: (value) => setState(() {
+                  _fullPhoneNumber = value;
+                }),
                 onValidationChanged: (isValid) {
                   setState(() {
                     _isPhoneValid = isValid;
@@ -153,8 +158,15 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
                   'Send Code',
                   onPressed: (_isPhoneValid && _selectedMethod.isNotEmpty)
                       ? () {
-                          debugPrint('Sending code to $_selectedMethod');
-                          // TODO: Send code implementation
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => VerifyCodeScreen(
+                                phoneNumber: _fullPhoneNumber,
+                                method: _selectedMethod,
+                              ),
+                            ),
+                          );
                         }
                       : null,
                 ),
