@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../widgets/email_login_footer.dart';
+
 class VerifyCodeScreen extends StatefulWidget {
   final String phoneNumber;
   final String method;
@@ -212,35 +214,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
 
               const SizedBox(height: 24),
 
-              const Divider(
-                color: IthakiTheme.borderLight,
-                thickness: 1,
-              ),
-
-              const SizedBox(height: 24),
-
-              Center(
-                child: Text(
-                  'Prefer email? You can sign in with email instead.',
-                  style: IthakiTheme.bodyRegular.copyWith(
-                    color: IthakiTheme.textSecondary,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              SizedBox(
-                width: double.infinity,
-                child: IthakiButton(
-                  'Sign in with Email',
-                  variant: IthakiButtonVariant.outline,
-                  onPressed: () {
-                    // TODO: Navigate to email login
-                  },
-                ),
-              ),
+              const EmailLoginFooter(),
 
               const SizedBox(height: 32),
             ],
