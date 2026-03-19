@@ -70,7 +70,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
       appBar: IthakiAppBar(
         actionLabel: 'Sign Up',
         onActionPressed: () {
-          // TODO: Navigate to sign up
+          context.go('/register');
         },
       ),
       body: SafeArea(
