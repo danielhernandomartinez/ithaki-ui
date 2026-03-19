@@ -50,11 +50,7 @@ class IthakiRouter {
           final method = state.uri.queryParameters['method'] ?? 'sms';
           return VerifyOtpScreen(method: method);
         },
-      ),
-      GoRoute(
-        path: '/login',
-        builder: (context, state) => const LoginPhoneScreen(),
-      ),
+      ),    
       GoRoute(
         path: '/login-phone',
         builder: (context, state) => const LoginPhoneScreen(),
