@@ -7,6 +7,8 @@ import 'screens/auth/personal_details_screen.dart';
 import 'screens/auth/verify_email_screen.dart';
 import 'screens/auth/choose_verify_method_screen.dart';
 import 'screens/auth/verify_otp_screen.dart';
+import 'screens/auth/login_phone_screen.dart';
+import 'screens/auth/verify_code_screen.dart';
 import 'screens/auth/welcome_modal_screen.dart';
 import 'screens/setup/location_screen.dart';
 import 'screens/setup/job_interests_screen.dart';
@@ -47,6 +49,18 @@ class IthakiRouter {
         builder: (context, state) {
           final method = state.uri.queryParameters['method'] ?? 'sms';
           return VerifyOtpScreen(method: method);
+        },
+      ),
+      GoRoute(
+        path: '/login-phone',
+        builder: (context, state) => const LoginPhoneScreen(),
+      ),
+      GoRoute(
+        path: '/verify-code',
+        builder: (context, state) {
+          final phone = state.uri.queryParameters['phone'] ?? '';
+          final method = state.uri.queryParameters['method'] ?? 'sms';
+          return VerifyCodeScreen(phoneNumber: phone, method: method);
         },
       ),
       GoRoute(
