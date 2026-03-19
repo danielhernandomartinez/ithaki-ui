@@ -93,11 +93,11 @@ class _OptionCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: selected
               ? IthakiTheme.backgroundViolet
-              : IthakiTheme.cardBackground,
-          borderRadius: BorderRadius.circular(14),
+              : IthakiTheme.softGray,
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: selected ? IthakiTheme.primaryPurple : Colors.transparent,
-            width: 1.5,
+            width: 1,
           ),
         ),
         child: Column(
