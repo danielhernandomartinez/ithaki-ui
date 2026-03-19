@@ -56,7 +56,7 @@ class IthakiRouter {
         builder: (context, state) => const LoginPhoneScreen(),
       ),
       GoRoute(
-        path: '/verify-code',
+        path: '/verify-phone',
         builder: (context, state) {
           final phone = state.uri.queryParameters['phone'] ?? '';
           final method = state.uri.queryParameters['method'] ?? 'sms';

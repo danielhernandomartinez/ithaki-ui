@@ -162,7 +162,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
                   onPressed: (_isPhoneValid && _selectedMethod.isNotEmpty)
                       ? () {
                           context.push(
-                            '/verify-code?phone=${Uri.encodeComponent(_fullPhoneNumber)}&method=$_selectedMethod',
+                            '/verify-phone?phone=${Uri.encodeComponent(_fullPhoneNumber)}&method=$_selectedMethod',
                           );
                         }
                       : null,
