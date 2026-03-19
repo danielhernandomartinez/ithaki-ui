@@ -8,10 +8,10 @@ class VerifyOtpScreen extends StatefulWidget {
   final String title;
   final String subtitle;
   final String backLabel;
-  final VoidCallback? onBack;
+  final String backRoute;
   final String actionLabel;
-  final VoidCallback? onAction;
-  final VoidCallback? onSuccess;
+  final String actionRoute;
+  final String successRoute;
 
   const VerifyOtpScreen({
     super.key,
@@ -19,10 +19,10 @@ class VerifyOtpScreen extends StatefulWidget {
     this.title = "Let's verify your Account",
     this.subtitle = "We've sent a verification code to your phone number.",
     this.backLabel = 'This is not your phone?',
-    this.onBack,
+    this.backRoute = '/personal-details',
     this.actionLabel = 'Login',
-    this.onAction,
-    this.onSuccess,
+    this.actionRoute = '/login',
+    this.successRoute = '/welcome',
   });
 
   @override
@@ -52,7 +52,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> with CountdownMixin {
     return IthakiScreenLayout(
       appBar: IthakiAppBar(
         actionLabel: widget.actionLabel,
-        onActionPressed: widget.onAction ?? () => context.go('/login'),
+        onActionPressed: () => context.go(widget.actionRoute),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,7 +71,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> with CountdownMixin {
                 ),
               ),
               GestureDetector(
-                onTap: widget.onBack ?? () => context.go('/personal-details'),
+                onTap: () => context.go(widget.backRoute),
                 child: const Text(
                   'Go Back',
                   style: TextStyle(
@@ -121,7 +121,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> with CountdownMixin {
             'Continue',
             isEnabled: _otpComplete,
             onPressed: _otpComplete
-                ? () => widget.onSuccess?.call()
+                ? () => context.push(widget.successRoute)
                 : null,
           ),
         ],

@@ -92,7 +92,7 @@ class _OptionCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: selected
-              ? IthakiTheme.primaryPurple.withValues(alpha: 0.07)
+              ? IthakiTheme.backgroundViolet
               : IthakiTheme.cardBackground,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(

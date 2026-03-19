@@ -47,10 +47,7 @@ class IthakiRouter {
         path: '/verify-otp',
         builder: (context, state) {
           final method = state.uri.queryParameters['method'] ?? 'sms';
-          return VerifyOtpScreen(
-            method: method,
-            onSuccess: () => context.push('/welcome'),
-          );
+          return VerifyOtpScreen(method: method);
         },
       ),
       GoRoute(
@@ -63,10 +60,10 @@ class IthakiRouter {
             title: 'Login to Ithaki Talent',
             subtitle: "We've sent a verification code to $phone.",
             backLabel: 'This is not your phone?',
-            onBack: () => context.go('/login'),
+            backRoute: '/login',
             actionLabel: 'Sign Up',
-            onAction: () => context.go('/'),
-            onSuccess: () => context.go('/home'),
+            actionRoute: '/',
+            successRoute: '/home',
           );
         },
       ),
