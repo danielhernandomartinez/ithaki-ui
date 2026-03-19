@@ -32,7 +32,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
       appBar: IthakiAppBar(
         actionLabel: 'Sign Up',
         onActionPressed: () {
-          // TODO: Navigate to sign up
+          context.push('/register');
         },
       ),
       body: SafeArea(

@@ -38,7 +38,7 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: IthakiAppBar(actionLabel: "Login", onActionPressed: () => context.go('/login')),
+      appBar: IthakiAppBar(actionLabel: "Login", onActionPressed: () => context.go('/login-phone')),
       body: SafeArea(
         top: false,
         bottom: true,
