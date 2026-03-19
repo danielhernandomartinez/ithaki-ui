@@ -70,49 +70,6 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
     );
   }
 
-  Widget _selectorField({required String label, required String? value, required String hint, required VoidCallback onTap, bool optional = false}) {
-    final selected = value != null;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary)),
-            if (optional)
-              const Text(' (optional)', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, color: IthakiTheme.textSecondary)),
-          ],
-        ),
-        const SizedBox(height: 6),
-        GestureDetector(
-          onTap: onTap,
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(
-                color: selected ? IthakiTheme.primaryPurple : IthakiTheme.borderLight,
-                width: selected ? 1.5 : 1,
-              ),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    value ?? hint,
-                    style: TextStyle(fontSize: 14, color: selected ? IthakiTheme.textPrimary : IthakiTheme.textHint),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                const Icon(Icons.keyboard_arrow_down, size: 20, color: IthakiTheme.textSecondary),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _chipSection({required String title, required String description, required List<String> options, required Set<String> selected}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,45 +78,13 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
         const SizedBox(height: 4),
         Text(description, style: IthakiTheme.bodyRegular),
         const SizedBox(height: 10),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: options.map((option) {
-            final isSelected = selected.contains(option);
-            return GestureDetector(
-              onTap: () => setState(() {
-                if (isSelected) { selected.remove(option); } else { selected.add(option); }
-              }),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                decoration: BoxDecoration(
-                  color: isSelected ? const Color(0xFFF0EAFA) : Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: isSelected ? IthakiTheme.primaryPurple : IthakiTheme.borderLight,
-                    width: isSelected ? 1.5 : 1,
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (isSelected) ...[
-                      const Icon(Icons.check, size: 14, color: IthakiTheme.primaryPurple),
-                      const SizedBox(width: 6),
-                    ],
-                    Text(
-                      option,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: isSelected ? IthakiTheme.primaryPurple : IthakiTheme.textPrimary,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }).toList(),
+        IthakiChipGroup(
+          options: options,
+          selected: selected,
+          onChanged: (next) => setState(() {
+            selected.clear();
+            selected.addAll(next);
+          }),
         ),
       ],
     );
@@ -301,7 +226,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const IthakiStepTabs(
-                steps: ['Location', 'Job Interests', 'Preferences', 'Values'],
+                steps: ['Location', 'Job Interests', 'Preferences', 'Values', 'Communication'],
                 currentIndex: 2,
                 completedUpTo: 1,
               ),
@@ -318,7 +243,7 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                       style: IthakiTheme.bodyRegular,
                     ),
                     const SizedBox(height: 24),
-                    _selectorField(
+                    IthakiSelectorField(
                       label: 'Position Level',
                       value: _positionLevel,
                       hint: 'Select your position level',

@@ -125,7 +125,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen>
             IthakiButton(
               'Continue',
               isEnabled: _otpComplete,
-              onPressed: _otpComplete ? () => context.go('/welcome') : null,
+              onPressed: _otpComplete ? () => context.push('/welcome') : null,
             ),
           ],
         ),

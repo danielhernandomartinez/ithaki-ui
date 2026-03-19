@@ -1,25 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show TextInputFormatter, TextEditingValue, TextSelection;
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-
-class _PhoneFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(TextEditingValue old, TextEditingValue next) {
-    final digits = next.text.replaceAll(RegExp(r'[^\d]'), '');
-    final buf = StringBuffer();
-    if (digits.isNotEmpty) buf.write('+');
-    for (int i = 0; i < digits.length && i < 12; i++) {
-      if (i == 2 || i == 5 || i == 8 || i == 10) buf.write(' ');
-      buf.write(digits[i]);
-    }
-    final result = buf.toString();
-    return TextEditingValue(
-      text: result,
-      selection: TextSelection.collapsed(offset: result.length),
-    );
-  }
-}
 
 class PersonalDetailsScreen extends StatefulWidget {
   const PersonalDetailsScreen({super.key});
@@ -60,12 +41,14 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
           children: [
             GestureDetector(
               onTap: () => context.pop(),
-              child: const Text(
-                'Back',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: IthakiTheme.textPrimary,
-                  decoration: TextDecoration.underline,
+              child: Container(
+                padding: const EdgeInsets.only(bottom: 3),
+                decoration: const BoxDecoration(
+                  border: Border(bottom: BorderSide(color: IthakiTheme.textPrimary, width: 1.2)),
+                ),
+                child: const Text(
+                  'Back',
+                  style: TextStyle(fontSize: 14, color: IthakiTheme.textPrimary),
                 ),
               ),
             ),
@@ -94,16 +77,8 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
               onChanged: (_) => setState(() {}),
             ),
             const SizedBox(height: 16),
-            IthakiTextField(
-              label: 'Phone Number',
-              hint: '+XX XXX XXX XX XX',
+            IthakiPhoneField(
               controller: _phoneController,
-              inputFormatters: [_PhoneFormatter()],
-              suffixIcon: const Padding(
-                padding: EdgeInsets.all(12),
-                child: IthakiIcon('phone', size: 18, color: IthakiTheme.textHint),
-              ),
-              keyboardType: TextInputType.phone,
               onChanged: (_) => setState(() {}),
             ),
             const SizedBox(height: 40),

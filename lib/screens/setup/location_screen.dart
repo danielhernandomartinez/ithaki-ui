@@ -123,7 +123,7 @@ class _LocationScreenState extends State<LocationScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const IthakiStepTabs(
-              steps: ['Location', 'Job Interests', 'Preferences', 'Values'],
+              steps: ['Location', 'Job Interests', 'Preferences', 'Values', 'Communication'],
               currentIndex: 0,
               completedUpTo: -1,
             ),

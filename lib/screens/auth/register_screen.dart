@@ -26,7 +26,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool _obscurePassword = true;
   bool _termsAccepted = false;
-  bool _recaptchaChecked = false;
   bool _passwordFocused = false;
 
   @override
@@ -149,7 +148,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const Divider(),
             const SizedBox(height: 20),
             IthakiTextField(
-              label: 'Work Email',
+              label: 'Email',
               hint: 'Enter your email',
               controller: _emailController,
               suffixIcon: const Padding(
@@ -183,40 +182,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               _validationRow(_hasNumber, 'Includes at least one number'),
               _validationRow(_hasSpecial, 'Includes one special character (like !@#\$%^&)'),
             ],
-            const SizedBox(height: 16),
-            // reCAPTCHA mock
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: IthakiTheme.borderLight),
-              ),
-              child: Row(
-                children: [
-                  Checkbox(
-                    value: _recaptchaChecked,
-                    activeColor: IthakiTheme.primaryPurple,
-                    onChanged: (val) => setState(() => _recaptchaChecked = val ?? false),
-                  ),
-                  const Expanded(
-                    child: Text("I'm not a robot", style: TextStyle(fontSize: 14)),
-                  ),
-                  const Column(
-                    children: [
-                      Text(
-                        'reCAPTCHA',
-                        style: TextStyle(fontSize: 10, color: IthakiTheme.textSecondary),
-                      ),
-                      Text(
-                        'Privacy - Terms',
-                        style: TextStyle(fontSize: 9, color: IthakiTheme.textHint),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
             const SizedBox(height: 16),
             // Terms checkbox
             Row(

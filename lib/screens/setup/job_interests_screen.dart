@@ -116,7 +116,7 @@ class _JobInterestsScreenState extends State<JobInterestsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const IthakiStepTabs(
-                steps: ['Location', 'Job Interests', 'Preferences', 'Values'],
+                steps: ['Location', 'Job Interests', 'Preferences', 'Values', 'Communication'],
                 currentIndex: 1,
                 completedUpTo: 0,
               ),

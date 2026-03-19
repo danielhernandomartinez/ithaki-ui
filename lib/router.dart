@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'screens/auth/select_language_screen.dart';
 import 'screens/auth/tech_comfort_screen.dart';
@@ -11,6 +12,7 @@ import 'screens/setup/location_screen.dart';
 import 'screens/setup/job_interests_screen.dart';
 import 'screens/setup/preferences_screen.dart';
 import 'screens/setup/values_screen.dart';
+import 'screens/setup/communication_screen.dart';
 
 class IthakiRouter {
   static final router = GoRouter(
@@ -49,7 +51,13 @@ class IthakiRouter {
       ),
       GoRoute(
         path: '/welcome',
-        builder: (context, state) => const WelcomeModalScreen(),
+        pageBuilder: (context, state) => CustomTransitionPage(
+          opaque: false,
+          barrierColor: Colors.black54,
+          child: const WelcomeModalScreen(),
+          transitionsBuilder: (context, animation, _, child) =>
+              FadeTransition(opacity: animation, child: child),
+        ),
       ),
       GoRoute(
         path: '/setup/location',
@@ -66,6 +74,16 @@ class IthakiRouter {
       GoRoute(
         path: '/setup/values',
         builder: (context, state) => const ValuesScreen(),
+      ),
+      GoRoute(
+        path: '/setup/communication',
+        builder: (context, state) => const CommunicationScreen(),
+      ),
+      GoRoute(
+        path: '/home',
+        builder: (context, state) => const Scaffold(
+          body: Center(child: Text('Home – coming soon')),
+        ),
       ),
     ],
   );
