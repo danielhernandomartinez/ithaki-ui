@@ -79,7 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          IthakiBackLink(onTap: () => context.pop()),
+          IthakiBackLink(onTap: () => context.go('/tech-comfort')),
           const SizedBox(height: 16),
           const Text('Welcome to Ithaki!\nLet\'s create an Account!', style: IthakiTheme.headingLarge),
           const SizedBox(height: 24),

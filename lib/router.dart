@@ -52,6 +52,10 @@ class IthakiRouter {
         },
       ),
       GoRoute(
+        path: '/login',
+        builder: (context, state) => const LoginPhoneScreen(),
+      ),
+      GoRoute(
         path: '/login-phone',
         builder: (context, state) => const LoginPhoneScreen(),
       ),
