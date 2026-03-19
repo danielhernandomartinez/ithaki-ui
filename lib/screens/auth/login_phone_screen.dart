@@ -31,9 +31,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
       backgroundColor: IthakiTheme.backgroundWhite,
       appBar: IthakiAppBar(
         actionLabel: 'Sign Up',
-        onActionPressed: () {
-          // TODO: Navigate to sign up
-        },
+        onActionPressed: () => context.go('/'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(

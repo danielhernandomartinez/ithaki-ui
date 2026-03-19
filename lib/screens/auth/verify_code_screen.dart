@@ -69,9 +69,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
       backgroundColor: IthakiTheme.backgroundWhite,
       appBar: IthakiAppBar(
         actionLabel: 'Sign Up',
-        onActionPressed: () {
-          // TODO: Navigate to sign up
-        },
+        onActionPressed: () => context.go('/'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -202,10 +200,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                 child: IthakiButton(
                   'Login',
                   onPressed: _isCodeComplete
-                      ? () {
-                          debugPrint('Verifying code: $_code');
-                          // TODO: Verify code implementation
-                        }
+                      ? () => context.go('/home')
                       : null,
                 ),
               ),
