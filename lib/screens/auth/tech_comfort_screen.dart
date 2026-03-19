@@ -96,7 +96,7 @@ class _OptionCard extends StatelessWidget {
               : IthakiTheme.softGray,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: selected ? IthakiTheme.primaryPurple : Colors.transparent,
+            color: selected ? IthakiTheme.primaryPurple : IthakiTheme.lightGray,
             width: 1,
           ),
         ),
