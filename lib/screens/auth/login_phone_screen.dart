@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
-import '../widgets/email_login_footer.dart';
-import 'verify_code_screen.dart';
+import '../../widgets/email_login_footer.dart';
 
 class LoginPhoneScreen extends StatefulWidget {
   const LoginPhoneScreen({super.key});
@@ -161,14 +161,8 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
                   'Send Code',
                   onPressed: (_isPhoneValid && _selectedMethod.isNotEmpty)
                       ? () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => VerifyCodeScreen(
-                                phoneNumber: _fullPhoneNumber,
-                                method: _selectedMethod,
-                              ),
-                            ),
+                          context.push(
+                            '/verify-code?phone=${Uri.encodeComponent(_fullPhoneNumber)}&method=$_selectedMethod',
                           );
                         }
                       : null,

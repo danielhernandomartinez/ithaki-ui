@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
-import '../widgets/email_login_footer.dart';
+import '../../widgets/email_login_footer.dart';
 
 class VerifyCodeScreen extends StatefulWidget {
   final String phoneNumber;
@@ -109,7 +110,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                     ),
                   ),
                   GestureDetector(
-                    onTap: () => Navigator.pop(context),
+                    onTap: () => context.pop(),
                     child: Text(
                       'Go Back',
                       style: IthakiTheme.bodyRegular.copyWith(
