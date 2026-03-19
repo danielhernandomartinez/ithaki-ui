@@ -47,7 +47,10 @@ class IthakiRouter {
         path: '/verify-otp',
         builder: (context, state) {
           final method = state.uri.queryParameters['method'] ?? 'sms';
-          return VerifyOtpScreen(method: method);
+          return VerifyOtpScreen(
+            method: method,
+            onSuccess: () => context.push('/welcome'),
+          );
         },
       ),
       GoRoute(
