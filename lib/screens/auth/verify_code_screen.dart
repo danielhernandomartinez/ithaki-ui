@@ -70,7 +70,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
       appBar: IthakiAppBar(
         actionLabel: 'Sign Up',
         onActionPressed: () {
-          context.push('/register');
+          // TODO: Navigate to sign up
         },
       ),
       body: SafeArea(
@@ -202,10 +202,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen>
                 child: IthakiButton(
                   'Login',
                   onPressed: _isCodeComplete
-                      ? () {
-                          debugPrint('Verifying code: $_code');
-                          // TODO: Verify code implementation
-                        }
+                      ? () => context.go('/home')
                       : null,
                 ),
               ),
