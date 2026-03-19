@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import 'screens/login_phone_screen.dart';
 
 void main() => runApp(const IthakiApp());
 
@@ -12,9 +13,7 @@ class IthakiApp extends StatelessWidget {
       title: 'Ithaki',
       debugShowCheckedModeBanner: false,
       theme: IthakiTheme.light,
-      home: const Scaffold(
-        body: Center(child: Text('Ithaki')),
-      ),
+      home: const LoginPhoneScreen(),
     );
   }
 }
