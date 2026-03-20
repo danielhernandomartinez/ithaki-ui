@@ -117,9 +117,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
               ),
               const Spacer(),
               GestureDetector(
-                onTap: () {
-                  // TODO: Navigate to forgot password
-                },
+                onTap: () => context.push('/forgot-password'),
                 child: Container(
                   padding: const EdgeInsets.only(bottom: 2),
                   decoration: const BoxDecoration(

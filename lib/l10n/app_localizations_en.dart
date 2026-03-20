@@ -222,6 +222,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forgotPassword => 'Forgot your password?';
 
   @override
+  String get forgotPasswordHeading => 'Forgot your password';
+
+  @override
+  String get forgotPasswordDescription =>
+      'No worries. Enter your account\'s email address and we\'ll send you a link to reset your password.';
+
+  @override
+  String get backToLogin => 'Back to Login';
+
+  @override
+  String get sendResetLink => 'Send reset link';
+
+  @override
+  String get resetLinkSentHeading => 'Password reset link sent!';
+
+  @override
+  String get resetLinkSentDescription =>
+      'Check your inbox. Email includes a secure link to create a new password. Didn\'t get the email?';
+
+  @override
+  String get resendResetLinkEmail => 'Resend reset link via email';
+
+  @override
+  String get sendResetViaWhatsapp => 'Send secured code via WhatsApp';
+
+  @override
   String get welcomeModalHeading =>
       'Welcome on board!\nYour account is created and verified!';
 
