@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/registration_provider.dart';
 
 class _GoogleLogo extends StatelessWidget {
@@ -77,14 +78,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return IthakiScreenLayout(
-      appBar: IthakiAppBar(actionLabel: 'Login', onActionPressed: () => context.go('/login-phone')),
+      appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go('/login-phone')),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           IthakiBackLink(onTap: () => context.go('/tech-comfort')),
           const SizedBox(height: 16),
-          const Text('Welcome to Ithaki!\nLet\'s create an Account!', style: IthakiTheme.headingLarge),
+          Text(l.welcomeHeading, style: IthakiTheme.headingLarge),
           const SizedBox(height: 24),
           SizedBox(
             width: double.infinity,
@@ -95,12 +97,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                 side: const BorderSide(color: IthakiTheme.borderLight),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _GoogleLogo(size: 22),
-                  SizedBox(width: 12),
-                  Text('Sign in with Google', style: TextStyle(color: IthakiTheme.textPrimary, fontWeight: FontWeight.w600)),
+                  const _GoogleLogo(size: 22),
+                  const SizedBox(width: 12),
+                  Text(l.signInWithGoogle, style: const TextStyle(color: IthakiTheme.textPrimary, fontWeight: FontWeight.w600)),
                 ],
               ),
             ),
@@ -109,8 +111,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           const Divider(),
           const SizedBox(height: 20),
           IthakiTextField(
-            label: 'Email',
-            hint: 'Enter your email',
+            label: l.emailLabel,
+            hint: l.emailHint,
             controller: _emailController,
             suffixIcon: const Padding(
               padding: EdgeInsets.all(12),
@@ -121,29 +123,29 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           ),
           const SizedBox(height: 16),
           IthakiPasswordField(
-            label: 'Password',
-            hint: 'Enter your password',
+            label: l.passwordLabel,
+            hint: l.passwordHint,
             controller: _passwordController,
             focusNode: _passwordFocus,
             onChanged: _onPasswordChanged,
           ),
           if (_passwordFocused || _passwordController.text.isNotEmpty) ...[
             const SizedBox(height: 12),
-            IthakiValidationRow(valid: _hasUpperLower, text: 'Includes one uppercase and one lowercase letter'),
-            IthakiValidationRow(valid: _hasMinLength, text: 'At least 8 characters'),
-            IthakiValidationRow(valid: _hasNumber, text: 'Includes at least one number'),
-            IthakiValidationRow(valid: _hasSpecial, text: 'Includes one special character (like !@#\$%^&)'),
+            IthakiValidationRow(valid: _hasUpperLower, text: l.passwordUpperLower),
+            IthakiValidationRow(valid: _hasMinLength, text: l.passwordMinLength),
+            IthakiValidationRow(valid: _hasNumber, text: l.passwordNumber),
+            IthakiValidationRow(valid: _hasSpecial, text: l.passwordSpecial),
           ],
           const SizedBox(height: 16),
           IthakiPasswordField(
-            label: 'Confirm Password',
-            hint: 'Repeat your password',
+            label: l.confirmPasswordLabel,
+            hint: l.confirmPasswordHint,
             controller: _confirmPasswordController,
             onChanged: (_) => setState(() {}),
           ),
           if (_confirmPasswordController.text.isNotEmpty && !_passwordsMatch) ...[
             const SizedBox(height: 8),
-            const Text('Passwords do not match', style: TextStyle(fontSize: 13, color: Colors.red)),
+            Text(l.passwordsDoNotMatch, style: const TextStyle(fontSize: 13, color: Colors.red)),
           ],
           const SizedBox(height: 16),
           Row(
@@ -158,20 +160,20 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 12),
                   child: RichText(
-                    text: const TextSpan(
-                      style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+                    text: TextSpan(
+                      style: const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
                       children: [
-                        TextSpan(text: 'By continuing, you acknowledge that you have read and accepted our '),
+                        TextSpan(text: l.termsText),
                         TextSpan(
-                          text: 'Privacy Policy',
-                          style: TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline, color: IthakiTheme.textPrimary),
+                          text: l.privacyPolicy,
+                          style: const TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline, color: IthakiTheme.textPrimary),
                         ),
-                        TextSpan(text: ' and '),
+                        TextSpan(text: l.andText),
                         TextSpan(
-                          text: 'Terms of Use',
-                          style: TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline, color: IthakiTheme.textPrimary),
+                          text: l.termsOfUse,
+                          style: const TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline, color: IthakiTheme.textPrimary),
                         ),
-                        TextSpan(text: '.'),
+                        const TextSpan(text: '.'),
                       ],
                     ),
                   ),
@@ -181,7 +183,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           ),
           const SizedBox(height: 24),
           IthakiButton(
-            'Continue',
+            l.continueButton,
             isEnabled: _canContinue,
             onPressed: _canContinue
                 ? () {

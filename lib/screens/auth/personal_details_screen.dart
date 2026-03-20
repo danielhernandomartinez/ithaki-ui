@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/registration_provider.dart';
 
 class PersonalDetailsScreen extends ConsumerStatefulWidget {
@@ -40,29 +41,30 @@ class _PersonalDetailsScreenState extends ConsumerState<PersonalDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return IthakiScreenLayout(
-      appBar: IthakiAppBar(actionLabel: 'Login', onActionPressed: () => context.go('/login-phone')),
+      appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go('/login-phone')),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           IthakiBackLink(onTap: () => context.go('/register')),
           const SizedBox(height: 16),
-          const Text('Almost there!\nTell us about yourself', style: IthakiTheme.headingLarge),
+          Text(l.personalDetailsHeading, style: IthakiTheme.headingLarge),
           const SizedBox(height: 12),
-          const Text(
-            'Your name and phone number help employers reach you directly.',
+          Text(
+            l.personalDetailsDescription,
             style: IthakiTheme.bodyRegular,
           ),
           const SizedBox(height: 24),
           IthakiTextField(
-            label: 'Name',
-            hint: 'Enter your Name',
+            label: l.nameLabel,
+            hint: l.nameHint,
             controller: _nameController,
           ),
           const SizedBox(height: 16),
           IthakiTextField(
-            label: 'Last Name',
-            hint: 'Enter your Last Name',
+            label: l.lastNameLabel,
+            hint: l.lastNameHint,
             controller: _lastNameController,
           ),
           const SizedBox(height: 16),
@@ -72,7 +74,7 @@ class _PersonalDetailsScreenState extends ConsumerState<PersonalDetailsScreen> {
           ),
           const SizedBox(height: 40),
           IthakiButton(
-            'Continue',
+            l.continueButton,
             isEnabled: _canContinue,
             onPressed: _canContinue
                 ? () {

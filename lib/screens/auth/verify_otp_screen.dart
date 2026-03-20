@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
+
 class VerifyOtpScreen extends StatefulWidget {
   final String method;
   final String title;
@@ -49,6 +51,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> with CountdownMixin {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return IthakiScreenLayout(
       appBar: IthakiAppBar(
         actionLabel: widget.actionLabel,
@@ -72,9 +75,9 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> with CountdownMixin {
               ),
               GestureDetector(
                 onTap: () => context.go(widget.backRoute),
-                child: const Text(
-                  'Go Back',
-                  style: TextStyle(
+                child: Text(
+                  l.goBack,
+                  style: const TextStyle(
                     fontSize: 14,
                     color: IthakiTheme.primaryPurple,
                     decoration: TextDecoration.underline,
@@ -118,7 +121,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> with CountdownMixin {
           ),
           const SizedBox(height: 40),
           IthakiButton(
-            'Continue',
+            l.continueButton,
             isEnabled: _otpComplete,
             onPressed: _otpComplete
                 ? () => context.push(widget.successRoute)

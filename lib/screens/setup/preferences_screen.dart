@@ -3,28 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/setup_provider.dart';
-
-const _positionLevels = [
-  SearchItem(id: 'intern', label: 'Intern', subtitle: '[0 years]'),
-  SearchItem(id: 'junior', label: 'Junior', subtitle: '[0–2 years]'),
-  SearchItem(id: 'mid', label: 'Mid-Level', subtitle: '[2–5 years]'),
-  SearchItem(id: 'senior', label: 'Senior', subtitle: '[5–8 years]'),
-  SearchItem(id: 'lead', label: 'Lead', subtitle: '[8–12 years]'),
-  SearchItem(id: 'manager', label: 'Manager', subtitle: '[10+ years]'),
-  SearchItem(id: 'director', label: 'Director', subtitle: '[12+ years]'),
-];
-
-const _paymentTermOptions = [
-  SearchItem(id: 'monthly', label: 'Monthly'),
-  SearchItem(id: 'weekly', label: 'Weekly'),
-  SearchItem(id: 'yearly', label: 'Yearly'),
-  SearchItem(id: 'hourly', label: 'Hourly'),
-  SearchItem(id: 'daily', label: 'Daily'),
-];
-
-const _jobTypeOptions = ['Full-Time', 'Part-Time', 'Contract', 'Freelance', 'Internship'];
-const _workplaceOptions = ['On-site', 'Remote', 'Hybrid'];
 
 class PreferencesScreen extends ConsumerStatefulWidget {
   const PreferencesScreen({super.key});
@@ -52,11 +32,11 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
     super.dispose();
   }
 
-  void _openPositionPicker() {
+  void _openPositionPicker(AppLocalizations l, List<SearchItem> positionLevels) {
     SearchBottomSheet.show(
       context,
-      'Position Level',
-      _positionLevels,
+      l.positionLevelLabel,
+      positionLevels,
       (item) => setState(() => _positionLevel = item.subtitle.isNotEmpty
           ? '${item.label} ${item.subtitle}'
           : item.label),
@@ -65,6 +45,29 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
+    final positionLevels = [
+      SearchItem(id: 'intern', label: l.positionIntern, subtitle: '[0 years]'),
+      SearchItem(id: 'junior', label: l.positionJunior, subtitle: '[0–2 years]'),
+      SearchItem(id: 'mid', label: l.positionMid, subtitle: '[2–5 years]'),
+      SearchItem(id: 'senior', label: l.positionSenior, subtitle: '[5–8 years]'),
+      SearchItem(id: 'lead', label: l.positionLead, subtitle: '[8–12 years]'),
+      SearchItem(id: 'manager', label: l.positionManager, subtitle: '[10+ years]'),
+      SearchItem(id: 'director', label: l.positionDirector, subtitle: '[12+ years]'),
+    ];
+
+    final paymentTermOptions = [
+      SearchItem(id: 'monthly', label: l.payMonthly),
+      SearchItem(id: 'weekly', label: l.payWeekly),
+      SearchItem(id: 'yearly', label: l.payYearly),
+      SearchItem(id: 'hourly', label: l.payHourly),
+      SearchItem(id: 'daily', label: l.payDaily),
+    ];
+
+    final jobTypeOptions = [l.jobFullTime, l.jobPartTime, l.jobContract, l.jobFreelance, l.jobInternship];
+    final workplaceOptions = [l.workOnSite, l.workRemote, l.workHybrid];
+
     return Scaffold(
       appBar: const IthakiAppBar(showMenuAndAvatar: true),
       body: SafeArea(
@@ -75,8 +78,8 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const IthakiStepTabs(
-                steps: ['Location', 'Job Interests', 'Preferences', 'Values', 'Communication'],
+              IthakiStepTabs(
+                steps: [l.stepLocation, l.stepJobInterests, l.stepPreferences, l.stepValues, l.stepCommunication],
                 currentIndex: 2,
                 completedUpTo: 1,
               ),
@@ -85,26 +88,25 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Job Preferences', style: IthakiTheme.headingLarge),
+                    Text(l.preferencesHeading, style: IthakiTheme.headingLarge),
                     const SizedBox(height: 8),
-                    const Text(
-                      'Set your desired salary, position level, contract type, and work format '
-                      '(remote, on-site, or hybrid) to help us match you with the most relevant opportunities.',
+                    Text(
+                      l.preferencesDescription,
                       style: IthakiTheme.bodyRegular,
                     ),
                     const SizedBox(height: 24),
                     IthakiSelectorField(
-                      label: 'Position Level',
+                      label: l.positionLevelLabel,
                       value: _positionLevel,
-                      hint: 'Select your position level',
-                      onTap: _openPositionPicker,
+                      hint: l.positionLevelHint,
+                      onTap: () => _openPositionPicker(l, positionLevels),
                       optional: true,
                     ),
                     const SizedBox(height: 24),
                     IthakiChipSection(
-                      title: 'Job Type',
-                      description: 'Choose the types of employment you\'re interested in. You can select more than one option.',
-                      options: _jobTypeOptions,
+                      title: l.jobTypeTitle,
+                      description: l.jobTypeDescription,
+                      options: jobTypeOptions,
                       selected: _selectedJobTypes,
                       onChanged: (next) => setState(() {
                         _selectedJobTypes.clear();
@@ -113,9 +115,9 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
                     ),
                     const SizedBox(height: 24),
                     IthakiChipSection(
-                      title: 'Workplace Format',
-                      description: 'Select your preferred workplace formats. You can select more than one option.',
-                      options: _workplaceOptions,
+                      title: l.workplaceFormatTitle,
+                      description: l.workplaceFormatDescription,
+                      options: workplaceOptions,
                       selected: _selectedWorkplaceFormats,
                       onChanged: (next) => setState(() {
                         _selectedWorkplaceFormats.clear();
@@ -126,14 +128,14 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
                     IthakiSalaryInput(
                       amountController: _salaryController,
                       paymentTerm: _paymentTerm,
-                      paymentTermOptions: _paymentTermOptions,
+                      paymentTermOptions: paymentTermOptions,
                       onPaymentTermChanged: (val) => setState(() => _paymentTerm = val),
                       preferNotToSpecify: _preferNotToSpecify,
                       onPreferNotToSpecifyChanged: (val) => setState(() => _preferNotToSpecify = val),
                     ),
                     const SizedBox(height: 40),
                     IthakiButton(
-                      'Continue',
+                      l.continueButton,
                       onPressed: _canContinue
                           ? () {
                               ref.read(setupProvider.notifier).setPreferences(
@@ -150,7 +152,7 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
                     ),
                     const SizedBox(height: 12),
                     IthakiButton(
-                      'Back',
+                      l.backButton,
                       variant: IthakiButtonVariant.outline,
                       onPressed: () => context.go('/setup/job-interests'),
                     ),

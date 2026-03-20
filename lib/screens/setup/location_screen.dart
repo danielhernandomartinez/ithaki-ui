@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/countries.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/setup_provider.dart';
 
 class LocationScreen extends ConsumerStatefulWidget {
@@ -11,24 +12,6 @@ class LocationScreen extends ConsumerStatefulWidget {
   @override
   ConsumerState<LocationScreen> createState() => _LocationScreenState();
 }
-
-final _roles = [
-  const SearchItem(id: 'citizen', label: 'Citizen'),
-  const SearchItem(id: 'resident', label: 'Resident'),
-  const SearchItem(id: 'work_permit', label: 'Work Permit'),
-  const SearchItem(id: 'student', label: 'Student'),
-  const SearchItem(id: 'freelancer', label: 'Freelancer'),
-  const SearchItem(id: 'job_seeker', label: 'Job Seeker'),
-  const SearchItem(id: 'expat', label: 'Expat'),
-];
-
-final _relocationOptions = [
-  const SearchItem(id: 'yes', label: 'Yes, ready to relocate'),
-  const SearchItem(id: 'no', label: 'No, not looking to relocate'),
-  const SearchItem(id: 'open', label: 'Open to it'),
-  const SearchItem(id: 'remote_only', label: 'Remote only'),
-  const SearchItem(id: 'within_country', label: 'Within my country only'),
-];
 
 class _LocationScreenState extends ConsumerState<LocationScreen> {
   final _citizenshipController = TextEditingController();
@@ -57,20 +40,20 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
     );
   }
 
-  void _openRolePicker() {
+  void _openRolePicker(AppLocalizations l, List<SearchItem> roles) {
     SearchBottomSheet.show(
       context,
-      'Work Authorization',
-      _roles,
+      l.workAuthorizationLabel,
+      roles,
       (item) => setState(() => _role = item.label),
     );
   }
 
-  void _openRelocationPicker() {
+  void _openRelocationPicker(AppLocalizations l, List<SearchItem> relocationOptions) {
     SearchBottomSheet.show(
       context,
-      'Relocation Readiness',
-      _relocationOptions,
+      l.relocationLabel,
+      relocationOptions,
       (item) => setState(() => _relocation = item.label),
     );
   }
@@ -78,6 +61,26 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
+    final roles = [
+      SearchItem(id: 'citizen', label: l.roleCitizen),
+      SearchItem(id: 'resident', label: l.roleResident),
+      SearchItem(id: 'work_permit', label: l.roleWorkPermit),
+      SearchItem(id: 'student', label: l.roleStudent),
+      SearchItem(id: 'freelancer', label: l.roleFreelancer),
+      SearchItem(id: 'job_seeker', label: l.roleJobSeeker),
+      SearchItem(id: 'expat', label: l.roleExpat),
+    ];
+
+    final relocationOptions = [
+      SearchItem(id: 'yes', label: l.relocationYes),
+      SearchItem(id: 'no', label: l.relocationNo),
+      SearchItem(id: 'open', label: l.relocationOpen),
+      SearchItem(id: 'remote_only', label: l.relocationRemote),
+      SearchItem(id: 'within_country', label: l.relocationWithinCountry),
+    ];
+
     return Scaffold(
       appBar: const IthakiAppBar(showMenuAndAvatar: true),
       body: SafeArea(
@@ -88,8 +91,8 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const IthakiStepTabs(
-              steps: ['Location', 'Job Interests', 'Preferences', 'Values', 'Communication'],
+            IthakiStepTabs(
+              steps: [l.stepLocation, l.stepJobInterests, l.stepPreferences, l.stepValues, l.stepCommunication],
               currentIndex: 0,
               completedUpTo: -1,
             ),
@@ -98,16 +101,16 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Location', style: IthakiTheme.headingLarge),
+                  Text(l.locationHeading, style: IthakiTheme.headingLarge),
                   const SizedBox(height: 8),
-                  const Text(
-                    'Select a location to narrow down relevant job opportunities.',
+                  Text(
+                    l.locationDescription,
                     style: IthakiTheme.bodyRegular,
                   ),
                   const SizedBox(height: 24),
                   IthakiTextField(
-                    label: 'Citizenship',
-                    hint: 'Select a country or type to search',
+                    label: l.citizenshipLabel,
+                    hint: l.citizenshipHint,
                     controller: _citizenshipController,
                     suffixIcon: _citizenshipCode != null
                         ? Padding(
@@ -119,12 +122,12 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
                             child: IthakiIcon('flag', size: 18, color: IthakiTheme.textHint),
                           ),
                     readOnly: true,
-                    onTap: () => _openCountryPicker(_citizenshipController, 'Citizenship', (code) => _citizenshipCode = code),
+                    onTap: () => _openCountryPicker(_citizenshipController, l.citizenshipLabel, (code) => _citizenshipCode = code),
                   ),
                   const SizedBox(height: 16),
                   IthakiTextField(
-                    label: 'Residence',
-                    hint: 'Select a country or type to search',
+                    label: l.residenceLabel,
+                    hint: l.residenceHint,
                     controller: _residenceController,
                     suffixIcon: _residenceCode != null
                         ? Padding(
@@ -136,25 +139,25 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
                             child: IthakiIcon('flag', size: 18, color: IthakiTheme.textHint),
                           ),
                     readOnly: true,
-                    onTap: () => _openCountryPicker(_residenceController, 'Residence', (code) => _residenceCode = code),
+                    onTap: () => _openCountryPicker(_residenceController, l.residenceLabel, (code) => _residenceCode = code),
                   ),
                   const SizedBox(height: 16),
                   IthakiSelectorField(
-                    label: 'Work Authorization',
+                    label: l.workAuthorizationLabel,
                     value: _role,
-                    hint: 'Select your status',
-                    onTap: _openRolePicker,
+                    hint: l.workAuthorizationHint,
+                    onTap: () => _openRolePicker(l, roles),
                   ),
                   const SizedBox(height: 16),
                   IthakiSelectorField(
-                    label: 'Relocation Readiness',
+                    label: l.relocationLabel,
                     value: _relocation,
-                    hint: 'Select your relocation preference',
-                    onTap: _openRelocationPicker,
+                    hint: l.relocationHint,
+                    onTap: () => _openRelocationPicker(l, relocationOptions),
                   ),
                   const SizedBox(height: 40),
                   IthakiButton(
-                    'Continue',
+                    l.continueButton,
                     onPressed: _residenceCode != null
                         ? () {
                             ref.read(setupProvider.notifier).setLocation(

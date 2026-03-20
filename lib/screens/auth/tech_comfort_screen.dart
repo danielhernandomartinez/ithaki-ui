@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/registration_provider.dart';
 
 enum _TechLevel { experienced, newToThis }
@@ -19,36 +20,37 @@ class _TechComfortScreenState extends ConsumerState<TechComfortScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return IthakiScreenLayout(
-      appBar: IthakiAppBar(actionLabel: 'Login', onActionPressed: () => context.go('/login-phone')),
+      appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go('/login-phone')),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Welcome to Ithaki!\nLet\'s create an Account!', style: IthakiTheme.headingLarge),
+          Text(l.welcomeHeading, style: IthakiTheme.headingLarge),
           const SizedBox(height: 20),
-          const Text('How comfortable are you with technology?', style: IthakiTheme.sectionTitle),
+          Text(l.techComfortTitle, style: IthakiTheme.sectionTitle),
           const SizedBox(height: 8),
-          const Text(
-            'We\'ll use your answer to make the platform feel more comfortable for you.',
+          Text(
+            l.techComfortDescription,
             style: IthakiTheme.bodyRegular,
           ),
           const SizedBox(height: 24),
           IthakiOptionCard(
-            label: 'I\'m Experienced',
-            subtitle: 'I feel comfortable using digital tools and enjoy exploring new technologies',
+            label: l.techExperiencedLabel,
+            subtitle: l.techExperiencedSubtitle,
             isSelected: _selected == _TechLevel.experienced,
             onTap: () => setState(() => _selected = _TechLevel.experienced),
           ),
           const SizedBox(height: 12),
           IthakiOptionCard(
-            label: 'I\'m still new to this',
-            subtitle: 'I\'m not into complex tools - I prefer when technology just works smoothly',
+            label: l.techNewLabel,
+            subtitle: l.techNewSubtitle,
             isSelected: _selected == _TechLevel.newToThis,
             onTap: () => setState(() => _selected = _TechLevel.newToThis),
           ),
-          const Spacer(),
+          const SizedBox(height: 40),
           IthakiButton(
-            'Continue',
+            l.continueButton,
             isEnabled: _selected != null,
             onPressed: _selected != null
                 ? () {

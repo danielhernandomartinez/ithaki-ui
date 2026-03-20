@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/setup_provider.dart';
 
 class CommunicationScreen extends ConsumerStatefulWidget {
@@ -18,6 +19,8 @@ class _CommunicationScreenState extends ConsumerState<CommunicationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: const IthakiAppBar(showMenuAndAvatar: true),
       body: SafeArea(
@@ -28,8 +31,8 @@ class _CommunicationScreenState extends ConsumerState<CommunicationScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const IthakiStepTabs(
-                steps: ['Location', 'Job Interests', 'Preferences', 'Values', 'Communication'],
+              IthakiStepTabs(
+                steps: [l.stepLocation, l.stepJobInterests, l.stepPreferences, l.stepValues, l.stepCommunication],
                 currentIndex: 4,
                 completedUpTo: 3,
               ),
@@ -38,30 +41,30 @@ class _CommunicationScreenState extends ConsumerState<CommunicationScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Communication', style: IthakiTheme.headingLarge),
+                    Text(l.communicationHeading, style: IthakiTheme.headingLarge),
                     const SizedBox(height: 8),
-                    const Text(
-                      'Choose a channel to get notifications about new relevant job openings and responses to submitted applications. You can select multiple options and change them anytime.',
+                    Text(
+                      l.communicationDescription,
                       style: IthakiTheme.bodyRegular,
                     ),
                     const SizedBox(height: 24),
                     IthakiOptionCard(
                       icon: 'whatsapp',
-                      label: 'WhatsApp',
+                      label: l.whatsapp,
                       isSelected: _selected.contains('whatsapp'),
                       onTap: () => setState(() => _selected.contains('whatsapp') ? _selected.remove('whatsapp') : _selected.add('whatsapp')),
                     ),
                     const SizedBox(height: 12),
                     IthakiOptionCard(
                       icon: 'message',
-                      label: 'SMS',
+                      label: l.sms,
                       isSelected: _selected.contains('sms'),
                       onTap: () => setState(() => _selected.contains('sms') ? _selected.remove('sms') : _selected.add('sms')),
                     ),
                     const SizedBox(height: 12),
                     IthakiOptionCard(
                       icon: 'envelope',
-                      label: 'Email',
+                      label: l.email,
                       isSelected: _selected.contains('email'),
                       onTap: () => setState(() => _selected.contains('email') ? _selected.remove('email') : _selected.add('email')),
                     ),
@@ -69,14 +72,14 @@ class _CommunicationScreenState extends ConsumerState<CommunicationScreen> {
                     IthakiCheckbox(
                       value: _receiveTips,
                       onChanged: (val) => setState(() => _receiveTips = val),
-                      child: const Text(
-                        'Receive tips on job opportunities, information about courses, and upcoming events.',
-                        style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+                      child: Text(
+                        l.receiveTips,
+                        style: const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
                       ),
                     ),
                     const SizedBox(height: 40),
                     IthakiButton(
-                      'Finish Setup',
+                      l.finishSetup,
                       onPressed: _selected.isNotEmpty
                           ? () {
                               ref.read(setupProvider.notifier).setCommunication(Set.of(_selected), _receiveTips);
@@ -86,7 +89,7 @@ class _CommunicationScreenState extends ConsumerState<CommunicationScreen> {
                     ),
                     const SizedBox(height: 12),
                     IthakiButton(
-                      'Back',
+                      l.backButton,
                       variant: IthakiButtonVariant.outline,
                       onPressed: () => context.go('/setup/values'),
                     ),
