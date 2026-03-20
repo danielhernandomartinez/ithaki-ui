@@ -1,6 +1,6 @@
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
-final allCountries = [
+const allCountries = [
   SearchItem(id: 'af', label: 'Afghanistan', leadingWidget: IthakiFlag('AF', width: 28, height: 20)),
   SearchItem(id: 'al', label: 'Albania', leadingWidget: IthakiFlag('AL', width: 28, height: 20)),
   SearchItem(id: 'dz', label: 'Algeria', leadingWidget: IthakiFlag('DZ', width: 28, height: 20)),
