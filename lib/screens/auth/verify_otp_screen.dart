@@ -32,7 +32,7 @@ class VerifyOtpScreen extends StatefulWidget {
 }
 
 class _VerifyOtpScreenState extends State<VerifyOtpScreen> with CountdownMixin {
-  final _otpController = TextEditingController();
+  final _otpController = PinInputController();
   String _otp = '';
 
   bool get _otpComplete => _otp.length == 6;
@@ -89,25 +89,21 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> with CountdownMixin {
             ],
           ),
           const SizedBox(height: 32),
-          PinCodeTextField(
-            appContext: context,
+          MaterialPinField(
             length: 6,
-            controller: _otpController,
+            pinController: _otpController,
             keyboardType: TextInputType.number,
-            animationType: AnimationType.none,
-            enableActiveFill: true,
-            textStyle: const TextStyle(color: IthakiTheme.textPrimary),
-            pinTheme: PinTheme(
-              shape: PinCodeFieldShape.box,
+            theme: MaterialPinTheme(
+              shape: MaterialPinShape.outlined,
               borderRadius: BorderRadius.circular(14),
-              fieldHeight: 52,
-              fieldWidth: 46,
-              activeColor: IthakiTheme.primaryPurple,
-              inactiveColor: IthakiTheme.borderLight,
-              selectedColor: IthakiTheme.primaryPurple,
-              activeFillColor: Colors.white,
-              inactiveFillColor: Colors.white,
-              selectedFillColor: const Color(0xFFF0EAFA),
+              cellSize: const Size(46, 52),
+              borderColor: IthakiTheme.borderLight,
+              fillColor: Colors.white,
+              focusedBorderColor: IthakiTheme.primaryPurple,
+              focusedFillColor: const Color(0xFFF0EAFA),
+              filledBorderColor: IthakiTheme.primaryPurple,
+              filledFillColor: Colors.white,
+              textStyle: const TextStyle(color: IthakiTheme.textPrimary),
             ),
             onChanged: (value) => setState(() => _otp = value),
             onCompleted: (value) => setState(() => _otp = value),
