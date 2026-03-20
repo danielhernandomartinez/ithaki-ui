@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+
+import '../../providers/setup_provider.dart';
 
 const _valueOptions = [
   'Integrity', 'Responsibility', 'Teamwork', 'Respect',
@@ -12,14 +15,14 @@ const _valueOptions = [
 
 const _maxValues = 5;
 
-class ValuesScreen extends StatefulWidget {
+class ValuesScreen extends ConsumerStatefulWidget {
   const ValuesScreen({super.key});
 
   @override
-  State<ValuesScreen> createState() => _ValuesScreenState();
+  ConsumerState<ValuesScreen> createState() => _ValuesScreenState();
 }
 
-class _ValuesScreenState extends State<ValuesScreen> {
+class _ValuesScreenState extends ConsumerState<ValuesScreen> {
   final Set<String> _selected = {};
 
   @override
@@ -63,7 +66,12 @@ class _ValuesScreenState extends State<ValuesScreen> {
                     const SizedBox(height: 40),
                     IthakiButton(
                       'Continue',
-                      onPressed: _selected.isNotEmpty ? () => context.go('/setup/communication') : null,
+                      onPressed: _selected.isNotEmpty
+                          ? () {
+                              ref.read(setupProvider.notifier).setValues(Set.of(_selected));
+                              context.go('/setup/communication');
+                            }
+                          : null,
                     ),
                     const SizedBox(height: 12),
                     IthakiButton(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import 'router.dart';
 
-void main() => runApp(const IthakiApp());
+void main() => runApp(const ProviderScope(child: IthakiApp()));
 
 class IthakiApp extends StatelessWidget {
   const IthakiApp({super.key});

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+
+import '../../providers/setup_provider.dart';
 
 const _positionLevels = [
   SearchItem(id: 'intern', label: 'Intern', subtitle: '[0 years]'),
@@ -23,14 +26,14 @@ const _paymentTermOptions = [
 const _jobTypeOptions = ['Full-Time', 'Part-Time', 'Contract', 'Freelance', 'Internship'];
 const _workplaceOptions = ['On-site', 'Remote', 'Hybrid'];
 
-class PreferencesScreen extends StatefulWidget {
+class PreferencesScreen extends ConsumerStatefulWidget {
   const PreferencesScreen({super.key});
 
   @override
-  State<PreferencesScreen> createState() => _PreferencesScreenState();
+  ConsumerState<PreferencesScreen> createState() => _PreferencesScreenState();
 }
 
-class _PreferencesScreenState extends State<PreferencesScreen> {
+class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
   String? _positionLevel;
   final Set<String> _selectedJobTypes = {};
   final Set<String> _selectedWorkplaceFormats = {};
@@ -131,7 +134,19 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     const SizedBox(height: 40),
                     IthakiButton(
                       'Continue',
-                      onPressed: _canContinue ? () => context.go('/setup/values') : null,
+                      onPressed: _canContinue
+                          ? () {
+                              ref.read(setupProvider.notifier).setPreferences(
+                                positionLevel: _positionLevel,
+                                jobTypes: Set.of(_selectedJobTypes),
+                                workplaceFormats: Set.of(_selectedWorkplaceFormats),
+                                salary: _salaryController.text,
+                                paymentTerm: _paymentTerm,
+                                preferNotToSpecifySalary: _preferNotToSpecify,
+                              );
+                              context.go('/setup/values');
+                            }
+                          : null,
                     ),
                     const SizedBox(height: 12),
                     IthakiButton(
