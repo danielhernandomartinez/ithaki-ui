@@ -30,16 +30,11 @@ class _ValuesScreenState extends ConsumerState<ValuesScreen> {
       l.valueCustomerFocus, l.valueAmbition, l.valueInitiative, l.valueCollaboration,
     ];
 
-    final topOffset = MediaQuery.of(context).padding.top + kToolbarHeight + 16;
-    return Scaffold(
-      extendBodyBehindAppBar: true,
+    return IthakiScreenLayout(
       appBar: const IthakiAppBar(showMenuAndAvatar: true),
-      body: SafeArea(
-        top: false,
-        bottom: true,
-        child: SingleChildScrollView(
-          padding: EdgeInsets.only(top: topOffset + 8, bottom: 8),
-          child: Column(
+      horizontalPadding: 0,
+      verticalPadding: 8,
+      child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               IthakiStepTabs(
@@ -90,8 +85,6 @@ class _ValuesScreenState extends ConsumerState<ValuesScreen> {
               ),
             ],
           ),
-        ),
-      ),
     );
   }
 }

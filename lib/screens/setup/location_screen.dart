@@ -87,16 +87,11 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
       SearchItem(id: 'within_country', label: l.relocationWithinCountry),
     ];
 
-    final topOffset = MediaQuery.of(context).padding.top + kToolbarHeight + 16;
-    return Scaffold(
-      extendBodyBehindAppBar: true,
+    return IthakiScreenLayout(
       appBar: const IthakiAppBar(showMenuAndAvatar: true),
-      body: SafeArea(
-        top: false,
-        bottom: true,
-        child: SingleChildScrollView(
-        padding: EdgeInsets.only(top: topOffset + 8, bottom: 8),
-        child: Column(
+      horizontalPadding: 0,
+      verticalPadding: 8,
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             IthakiStepTabs(
@@ -127,7 +122,7 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
                           )
                         : Padding(
                             padding: const EdgeInsets.all(12),
-                            child: IthakiIcon('flag', size: 20, color: _citizenshipController.text.isNotEmpty ? Colors.black : IthakiTheme.textHint),
+                            child: IthakiIcon('flag', size: 20, color: _citizenshipController.text.isNotEmpty ? Colors.black : IthakiTheme.softGraphite),
                           ),
                     readOnly: true,
                     onTap: () => _openCountryPicker(_citizenshipController, l.citizenshipLabel, (code) => _citizenshipCode = code, l),
@@ -144,7 +139,7 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
                           )
                         : Padding(
                             padding: const EdgeInsets.all(12),
-                            child: IthakiIcon('flag', size: 20, color: _residenceController.text.isNotEmpty ? Colors.black : IthakiTheme.textHint),
+                            child: IthakiIcon('flag', size: 20, color: _residenceController.text.isNotEmpty ? Colors.black : IthakiTheme.softGraphite),
                           ),
                     readOnly: true,
                     onTap: () => _openCountryPicker(_residenceController, l.residenceLabel, (code) => _residenceCode = code, l),
@@ -186,8 +181,6 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
             ),
           ],
         ),
-      ),
-    ),
     );
   }
 }

@@ -43,16 +43,10 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
-    final topOffset = MediaQuery.of(context).padding.top + kToolbarHeight + 16;
-    return Scaffold(
-      extendBodyBehindAppBar: true,
+    return IthakiScreenLayout(
       appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go('/login-phone')),
-      body: SafeArea(
-        top: false,
-        bottom: true,
-        child: SingleChildScrollView(
-        padding: EdgeInsets.only(left: 24, right: 24, top: topOffset + 20, bottom: 20),
-        child: Column(
+      horizontalPadding: 24,
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -100,7 +94,7 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
                           fontSize: 14,
                           color: _selected != null
                               ? IthakiTheme.textPrimary
-                              : IthakiTheme.textHint,
+                              : IthakiTheme.softGraphite,
                         ),
                       ),
                     ),
@@ -132,8 +126,6 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
             ),
           ],
         ),
-      ),
-    ),
     );
   }
 }

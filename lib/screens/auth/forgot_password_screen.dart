@@ -56,7 +56,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             controller: _emailController,
             suffixIcon: const Padding(
               padding: EdgeInsets.all(12),
-              child: IthakiIcon('envelope', size: 18, color: IthakiTheme.textHint),
+              child: IthakiIcon('envelope', size: 18, color: IthakiTheme.softGraphite),
             ),
             keyboardType: TextInputType.emailAddress,
             onChanged: (_) => setState(() {}),
