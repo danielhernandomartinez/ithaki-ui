@@ -58,7 +58,7 @@ class _ResetLinkSentScreenState extends State<ResetLinkSentScreen>
             label: l.sendResetViaWhatsapp,
             isSelected: false,
             onTap: () {
-              // TODO: Handle send reset via WhatsApp
+              // TODO: Navigate to send reset via WhatsApp screen
             },
             backgroundColor: IthakiTheme.cardBackground,
             axis: Axis.vertical,
