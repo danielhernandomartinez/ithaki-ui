@@ -7,24 +7,26 @@ import '../../l10n/app_localizations.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
   final String method;
-  final String title;
-  final String subtitle;
-  final String backLabel;
+  final String? title;
+  final String? subtitle;
+  final String? backLabel;
   final String backRoute;
-  final String actionLabel;
+  final String? actionLabel;
   final String actionRoute;
   final String successRoute;
+  final String? resendLabel;
 
   const VerifyOtpScreen({
     super.key,
     this.method = 'sms',
-    this.title = "Let's verify your Account",
-    this.subtitle = "We've sent a verification code to your phone number.",
-    this.backLabel = 'This is not your phone?',
+    this.title,
+    this.subtitle,
+    this.backLabel,
     this.backRoute = '/personal-details',
-    this.actionLabel = 'Login',
+    this.actionLabel,
     this.actionRoute = '/login-phone',
     this.successRoute = '/welcome',
+    this.resendLabel,
   });
 
   @override
@@ -52,23 +54,28 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> with CountdownMixin {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
+    final title = widget.title ?? l.verifyAccountTitle;
+    final subtitle = widget.subtitle ?? l.verifyAccountSubtitle;
+    final backLabel = widget.backLabel ?? l.notYourPhone;
+    final actionLabel = widget.actionLabel ?? l.loginAction;
+    final resendLabel = widget.resendLabel ?? l.resendCode;
     return IthakiScreenLayout(
       appBar: IthakiAppBar(
-        actionLabel: widget.actionLabel,
+        actionLabel: actionLabel,
         onActionPressed: () => context.go(widget.actionRoute),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(widget.title, style: IthakiTheme.headingLarge),
+          Text(title, style: IthakiTheme.headingLarge),
           const SizedBox(height: 12),
-          Text(widget.subtitle, style: IthakiTheme.bodyRegular),
+          Text(subtitle, style: IthakiTheme.bodyRegular),
           const SizedBox(height: 8),
           Row(
             children: [
               Flexible(
                 child: Text(
-                  '${widget.backLabel}  ',
+                  '$backLabel  ',
                   style: IthakiTheme.bodyRegular,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -112,7 +119,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> with CountdownMixin {
           IthakiResendTimer(
             canResend: countdownCanResend,
             secondsLeft: countdownSeconds,
-            label: 'Resend code',
+            label: resendLabel,
             onResend: () => startCountdown(24),
           ),
           const SizedBox(height: 40),
