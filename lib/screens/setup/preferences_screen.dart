@@ -40,6 +40,8 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
       (item) => setState(() => _positionLevel = item.subtitle.isNotEmpty
           ? '${item.label} ${item.subtitle}'
           : item.label),
+      searchHint: l.searchHint,
+      selectLabel: l.selectAction,
     );
   }
 
@@ -134,6 +136,15 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
                       onPaymentTermChanged: (val) => setState(() => _paymentTerm = val),
                       preferNotToSpecify: _preferNotToSpecify,
                       onPreferNotToSpecifyChanged: (val) => setState(() => _preferNotToSpecify = val),
+                      expectedPaymentLabel: l.expectedPaymentLabel,
+                      fromLabel: l.fromLabel,
+                      paymentTermLabel: l.paymentTermTitle,
+                      paymentTermPlaceholder: l.paymentTermPlaceholder,
+                      currencySymbol: l.currencySymbol,
+                      preferNotToSpecifyLabel: l.preferNotToSpecify,
+                      paymentTermPickerTitle: l.paymentTermTitle,
+                      paymentTermPickerSearchHint: l.searchHint,
+                      paymentTermPickerSelectLabel: l.selectAction,
                     ),
                     const SizedBox(height: 40),
                     IthakiButton(

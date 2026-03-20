@@ -175,5 +175,17 @@
   "sms": "SMS",
   "email": "البريد الإلكتروني",
   "receiveTips": "تلقي نصائح حول فرص العمل ومعلومات عن الدورات والفعاليات القادمة.",
-  "finishSetup": "إنهاء الإعداد"
+  "finishSetup": "إنهاء الإعداد",
+
+  "searchHint": "بحث...",
+  "selectAction": "اختيار",
+  "expectedPaymentLabel": "الراتب المتوقع",
+  "fromLabel": "من",
+  "paymentTermTitle": "فترة الدفع",
+  "paymentTermPlaceholder": "شهري",
+  "currencySymbol": "€",
+  "preferNotToSpecify": "أفضل عدم التحديد",
+  "selectCountryTitle": "اختر الدولة",
+  "phoneValidationError": "يرجى إدخال رقم هاتف صحيح",
+  "phoneNumberLabel": "رقم الهاتف"
 }

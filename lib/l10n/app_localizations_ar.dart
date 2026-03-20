@@ -501,4 +501,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get finishSetup => 'إنهاء الإعداد';
+
+  @override
+  String get searchHint => 'بحث...';
+
+  @override
+  String get selectAction => 'اختيار';
+
+  @override
+  String get expectedPaymentLabel => 'الراتب المتوقع';
+
+  @override
+  String get fromLabel => 'من';
+
+  @override
+  String get paymentTermTitle => 'فترة الدفع';
+
+  @override
+  String get paymentTermPlaceholder => 'شهري';
+
+  @override
+  String get currencySymbol => '€';
+
+  @override
+  String get preferNotToSpecify => 'أفضل عدم التحديد';
+
+  @override
+  String get selectCountryTitle => 'اختر الدولة';
+
+  @override
+  String get phoneValidationError => 'يرجى إدخال رقم هاتف صحيح';
+
+  @override
+  String get phoneNumberLabel => 'رقم الهاتف';
 }

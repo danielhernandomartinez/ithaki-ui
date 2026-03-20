@@ -175,5 +175,17 @@
   "sms": "SMS",
   "email": "Email",
   "receiveTips": "Λήψη συμβουλών για ευκαιρίες εργασίας, πληροφορίες για μαθήματα και επερχόμενες εκδηλώσεις.",
-  "finishSetup": "Ολοκλήρωση Ρύθμισης"
+  "finishSetup": "Ολοκλήρωση Ρύθμισης",
+
+  "searchHint": "Αναζήτηση...",
+  "selectAction": "Επιλογή",
+  "expectedPaymentLabel": "Αναμενόμενη Αμοιβή",
+  "fromLabel": "Από",
+  "paymentTermTitle": "Περίοδος Πληρωμής",
+  "paymentTermPlaceholder": "Μηνιαία",
+  "currencySymbol": "€",
+  "preferNotToSpecify": "Προτιμώ να μην προσδιορίσω",
+  "selectCountryTitle": "Επιλογή Χώρας",
+  "phoneValidationError": "Παρακαλώ εισάγετε σωστό αριθμό τηλεφώνου",
+  "phoneNumberLabel": "Αριθμός Τηλεφώνου"
 }

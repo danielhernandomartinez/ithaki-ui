@@ -81,6 +81,11 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
                     _isPhoneValid = isValid;
                   });
                 },
+                label: l.phoneNumberLabel,
+                selectCountryTitle: l.selectCountryTitle,
+                validationErrorText: l.phoneValidationError,
+                countryPickerSearchHint: l.searchHint,
+                countryPickerSelectLabel: l.selectAction,
               ),
 
               const SizedBox(height: 24),

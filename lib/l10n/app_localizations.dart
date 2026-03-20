@@ -1047,6 +1047,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Finish Setup'**
   String get finishSetup;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search...'**
+  String get searchHint;
+
+  /// No description provided for @selectAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get selectAction;
+
+  /// No description provided for @expectedPaymentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected Payment'**
+  String get expectedPaymentLabel;
+
+  /// No description provided for @fromLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get fromLabel;
+
+  /// No description provided for @paymentTermTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Term'**
+  String get paymentTermTitle;
+
+  /// No description provided for @paymentTermPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get paymentTermPlaceholder;
+
+  /// No description provided for @currencySymbol.
+  ///
+  /// In en, this message translates to:
+  /// **'€'**
+  String get currencySymbol;
+
+  /// No description provided for @preferNotToSpecify.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefer not to specify'**
+  String get preferNotToSpecify;
+
+  /// No description provided for @selectCountryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Country'**
+  String get selectCountryTitle;
+
+  /// No description provided for @phoneValidationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter correct phone number'**
+  String get phoneValidationError;
+
+  /// No description provided for @phoneNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNumberLabel;
 }
 
 class _AppLocalizationsDelegate

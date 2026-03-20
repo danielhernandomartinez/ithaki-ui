@@ -42,6 +42,8 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
       l.selectJobInterest,
       available,
       (item) => setState(() => _selected.add(item)),
+      searchHint: l.searchHint,
+      selectLabel: l.selectAction,
     );
   }
 

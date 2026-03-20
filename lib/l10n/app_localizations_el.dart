@@ -508,4 +508,37 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get finishSetup => 'Ολοκλήρωση Ρύθμισης';
+
+  @override
+  String get searchHint => 'Αναζήτηση...';
+
+  @override
+  String get selectAction => 'Επιλογή';
+
+  @override
+  String get expectedPaymentLabel => 'Αναμενόμενη Αμοιβή';
+
+  @override
+  String get fromLabel => 'Από';
+
+  @override
+  String get paymentTermTitle => 'Περίοδος Πληρωμής';
+
+  @override
+  String get paymentTermPlaceholder => 'Μηνιαία';
+
+  @override
+  String get currencySymbol => '€';
+
+  @override
+  String get preferNotToSpecify => 'Προτιμώ να μην προσδιορίσω';
+
+  @override
+  String get selectCountryTitle => 'Επιλογή Χώρας';
+
+  @override
+  String get phoneValidationError => 'Παρακαλώ εισάγετε σωστό αριθμό τηλεφώνου';
+
+  @override
+  String get phoneNumberLabel => 'Αριθμός Τηλεφώνου';
 }

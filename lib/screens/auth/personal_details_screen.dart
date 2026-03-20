@@ -71,6 +71,11 @@ class _PersonalDetailsScreenState extends ConsumerState<PersonalDetailsScreen> {
           IthakiPhoneField(
             controller: _phoneController,
             onChanged: (_) => setState(() {}),
+            label: l.phoneNumberLabel,
+            selectCountryTitle: l.selectCountryTitle,
+            validationErrorText: l.phoneValidationError,
+            countryPickerSearchHint: l.searchHint,
+            countryPickerSelectLabel: l.selectAction,
           ),
           const SizedBox(height: 40),
           IthakiButton(

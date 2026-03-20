@@ -185,5 +185,17 @@
   "sms": "SMS",
   "email": "Email",
   "receiveTips": "Receive tips on job opportunities, information about courses, and upcoming events.",
-  "finishSetup": "Finish Setup"
+  "finishSetup": "Finish Setup",
+
+  "searchHint": "Search...",
+  "selectAction": "Select",
+  "expectedPaymentLabel": "Expected Payment",
+  "fromLabel": "From",
+  "paymentTermTitle": "Payment Term",
+  "paymentTermPlaceholder": "Monthly",
+  "currencySymbol": "€",
+  "preferNotToSpecify": "Prefer not to specify",
+  "selectCountryTitle": "Select Country",
+  "phoneValidationError": "Please enter correct phone number",
+  "phoneNumberLabel": "Phone Number"
 }

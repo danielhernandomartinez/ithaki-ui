@@ -35,6 +35,8 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
         setState(() => _selected = item);
         ref.read(localeProvider.notifier).setLocale(item.id);
       },
+      searchHint: l.searchHint,
+      selectLabel: l.selectAction,
     );
   }
 

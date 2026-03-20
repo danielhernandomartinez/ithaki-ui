@@ -507,4 +507,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get finishSetup => 'Finish Setup';
+
+  @override
+  String get searchHint => 'Search...';
+
+  @override
+  String get selectAction => 'Select';
+
+  @override
+  String get expectedPaymentLabel => 'Expected Payment';
+
+  @override
+  String get fromLabel => 'From';
+
+  @override
+  String get paymentTermTitle => 'Payment Term';
+
+  @override
+  String get paymentTermPlaceholder => 'Monthly';
+
+  @override
+  String get currencySymbol => '€';
+
+  @override
+  String get preferNotToSpecify => 'Prefer not to specify';
+
+  @override
+  String get selectCountryTitle => 'Select Country';
+
+  @override
+  String get phoneValidationError => 'Please enter correct phone number';
+
+  @override
+  String get phoneNumberLabel => 'Phone Number';
 }

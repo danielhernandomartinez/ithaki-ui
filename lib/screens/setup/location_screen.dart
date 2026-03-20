@@ -28,7 +28,7 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
     super.dispose();
   }
 
-  void _openCountryPicker(TextEditingController controller, String title, ValueChanged<String> onCode) {
+  void _openCountryPicker(TextEditingController controller, String title, ValueChanged<String> onCode, AppLocalizations l) {
     SearchBottomSheet.show(
       context,
       title,
@@ -37,6 +37,8 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
         controller.text = item.label;
         onCode(item.id);
       }),
+      searchHint: l.searchHint,
+      selectLabel: l.selectAction,
     );
   }
 
@@ -46,6 +48,8 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
       l.workAuthorizationLabel,
       roles,
       (item) => setState(() => _role = item.label),
+      searchHint: l.searchHint,
+      selectLabel: l.selectAction,
     );
   }
 
@@ -55,6 +59,8 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
       l.relocationLabel,
       relocationOptions,
       (item) => setState(() => _relocation = item.label),
+      searchHint: l.searchHint,
+      selectLabel: l.selectAction,
     );
   }
 
@@ -124,7 +130,7 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
                             child: IthakiIcon('flag', size: 20, color: _citizenshipController.text.isNotEmpty ? Colors.black : IthakiTheme.textHint),
                           ),
                     readOnly: true,
-                    onTap: () => _openCountryPicker(_citizenshipController, l.citizenshipLabel, (code) => _citizenshipCode = code),
+                    onTap: () => _openCountryPicker(_citizenshipController, l.citizenshipLabel, (code) => _citizenshipCode = code, l),
                   ),
                   const SizedBox(height: 16),
                   IthakiTextField(
@@ -141,7 +147,7 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
                             child: IthakiIcon('flag', size: 20, color: _residenceController.text.isNotEmpty ? Colors.black : IthakiTheme.textHint),
                           ),
                     readOnly: true,
-                    onTap: () => _openCountryPicker(_residenceController, l.residenceLabel, (code) => _residenceCode = code),
+                    onTap: () => _openCountryPicker(_residenceController, l.residenceLabel, (code) => _residenceCode = code, l),
                   ),
                   const SizedBox(height: 16),
                   IthakiSelectorField(
