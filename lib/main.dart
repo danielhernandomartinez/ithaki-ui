@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import 'screens/auth/login_phone_screen.dart';
+import 'router.dart';
 
 void main() => runApp(const IthakiApp());
 
@@ -9,11 +9,11 @@ class IthakiApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Ithaki',
       debugShowCheckedModeBanner: false,
       theme: IthakiTheme.light,
-      home: const LoginPhoneScreen(),
+      routerConfig: IthakiRouter.router,
     );
   }
 }

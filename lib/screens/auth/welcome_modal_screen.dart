@@ -68,7 +68,7 @@ class WelcomeModalScreen extends StatelessWidget {
                 IthakiButton(
                   'Skip for Now',
                   variant: IthakiButtonVariant.outline,
-                  onPressed: () => context.go('/setup/location'),
+                  onPressed: () => context.go('/home'),
                 ),
                 const SizedBox(height: 12),
                 IthakiButton(

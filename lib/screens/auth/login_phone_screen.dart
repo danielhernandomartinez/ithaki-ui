@@ -32,7 +32,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
       appBar: IthakiAppBar(
         actionLabel: 'Sign Up',
         onActionPressed: () {
-          // TODO: Navigate to sign up
+          context.push('/register');
         },
       ),
       body: SafeArea(
@@ -162,7 +162,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
                   onPressed: (_isPhoneValid && _selectedMethod.isNotEmpty)
                       ? () {
                           context.push(
-                            '/verify-code?phone=${Uri.encodeComponent(_fullPhoneNumber)}&method=$_selectedMethod',
+                            '/verify-phone?phone=${Uri.encodeComponent(_fullPhoneNumber)}&method=$_selectedMethod',
                           );
                         }
                       : null,
