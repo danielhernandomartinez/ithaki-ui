@@ -55,7 +55,7 @@ class _TechComfortScreenState extends ConsumerState<TechComfortScreen> {
             onPressed: _selected != null
                 ? () {
                     ref.read(registrationProvider.notifier).setTechLevel(_selected!.name);
-                    context.go('/register');
+                    context.push('/register');
                   }
                 : null,
           ),

@@ -84,7 +84,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          IthakiBackLink(onTap: () => context.go('/tech-comfort')),
+          IthakiBackLink(onTap: () => context.pop()),
           const SizedBox(height: 16),
           Text(l.welcomeHeading, style: IthakiTheme.headingLarge),
           const SizedBox(height: 24),
@@ -189,7 +189,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 ? () {
                     ref.read(registrationProvider.notifier)
                         .setCredentials(_emailController.text, _passwordController.text);
-                    context.go('/personal-details');
+                    context.push('/personal-details');
                   }
                 : null,
           ),

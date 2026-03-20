@@ -72,7 +72,7 @@ class _ValuesScreenState extends ConsumerState<ValuesScreen> {
                       onPressed: _selected.isNotEmpty
                           ? () {
                               ref.read(setupProvider.notifier).setValues(Set.of(_selected));
-                              context.go('/setup/communication');
+                              context.push('/setup/communication');
                             }
                           : null,
                     ),
@@ -80,7 +80,7 @@ class _ValuesScreenState extends ConsumerState<ValuesScreen> {
                     IthakiButton(
                       l.backButton,
                       variant: IthakiButtonVariant.outline,
-                      onPressed: () => context.go('/setup/preferences'),
+                      onPressed: () => context.pop(),
                     ),
                     const SizedBox(height: 20),
                   ],

@@ -168,7 +168,7 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
                               role: _role,
                               relocation: _relocation,
                             );
-                            context.go('/setup/job-interests');
+                            context.push('/setup/job-interests');
                           }
                         : null,
                   ),
