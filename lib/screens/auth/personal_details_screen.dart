@@ -41,7 +41,7 @@ class _PersonalDetailsScreenState extends ConsumerState<PersonalDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return IthakiScreenLayout(
-      appBar: IthakiAppBar(actionLabel: 'Login', onActionPressed: () => context.go('/login')),
+      appBar: IthakiAppBar(actionLabel: 'Login', onActionPressed: () => context.go('/login-phone')),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
