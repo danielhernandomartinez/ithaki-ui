@@ -211,6 +211,13 @@ class AppLocalizationsEl extends AppLocalizations {
   String get preferEmail => 'Προτιμάτε email; Μπορείτε να συνδεθείτε με email.';
 
   @override
+  String get signInWithPhone => 'Σύνδεση με Τηλέφωνο';
+
+  @override
+  String get preferPhone =>
+      'Προτιμάτε τηλέφωνο; Μπορείτε να συνδεθείτε με τηλέφωνο.';
+
+  @override
   String get signInButton => 'Σύνδεση';
 
   @override

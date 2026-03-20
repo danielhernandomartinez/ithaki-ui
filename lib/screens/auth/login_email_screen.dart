@@ -48,7 +48,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
     return IthakiScreenLayout(
       appBar: IthakiAppBar(
         actionLabel: l.signUpAction,
-        onActionPressed: () => context.go('/register'),
+        onActionPressed: () => context.push('/tech-comfort'),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

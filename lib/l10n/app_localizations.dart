@@ -472,6 +472,18 @@ abstract class AppLocalizations {
   /// **'Prefer email? You can sign in with email instead.'**
   String get preferEmail;
 
+  /// No description provided for @signInWithPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Phone'**
+  String get signInWithPhone;
+
+  /// No description provided for @preferPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefer phone? You can sign in with phone instead.'**
+  String get preferPhone;
+
   /// No description provided for @signInButton.
   ///
   /// In en, this message translates to:

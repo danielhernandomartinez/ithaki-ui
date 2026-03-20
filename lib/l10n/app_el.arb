@@ -73,6 +73,8 @@
   "sendCodeButton": "Αποστολή Κωδικού",
   "signInWithEmail": "Σύνδεση με Email",
   "preferEmail": "Προτιμάτε email; Μπορείτε να συνδεθείτε με email.",
+  "signInWithPhone": "Σύνδεση με Τηλέφωνο",
+  "preferPhone": "Προτιμάτε τηλέφωνο; Μπορείτε να συνδεθείτε με τηλέφωνο.",
   "signInButton": "Σύνδεση",
   "forgotPassword": "Ξεχάσατε τον κωδικό σας;",
 

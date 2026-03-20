@@ -206,6 +206,13 @@ class AppLocalizationsAr extends AppLocalizations {
       'تفضل البريد الإلكتروني؟ يمكنك تسجيل الدخول بالبريد الإلكتروني بدلاً من ذلك.';
 
   @override
+  String get signInWithPhone => 'تسجيل الدخول بالهاتف';
+
+  @override
+  String get preferPhone =>
+      'تفضل الهاتف؟ يمكنك تسجيل الدخول بالهاتف بدلاً من ذلك.';
+
+  @override
   String get signInButton => 'تسجيل الدخول';
 
   @override

@@ -210,6 +210,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get preferEmail => 'Prefer email? You can sign in with email instead.';
 
   @override
+  String get signInWithPhone => 'Sign in with Phone';
+
+  @override
+  String get preferPhone => 'Prefer phone? You can sign in with phone instead.';
+
+  @override
   String get signInButton => 'Sign In';
 
   @override

@@ -78,6 +78,8 @@
   "sendCodeButton": "Send Code",
   "signInWithEmail": "Sign in with Email",
   "preferEmail": "Prefer email? You can sign in with email instead.",
+  "signInWithPhone": "Sign in with Phone",
+  "preferPhone": "Prefer phone? You can sign in with phone instead.",
   "signInButton": "Sign In",
   "forgotPassword": "Forgot your password?",
 
