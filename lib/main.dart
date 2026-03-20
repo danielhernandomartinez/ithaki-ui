@@ -3,20 +3,23 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import 'providers/locale_provider.dart';
 import 'router.dart';
 
 void main() => runApp(const ProviderScope(child: IthakiApp()));
 
-class IthakiApp extends StatelessWidget {
+class IthakiApp extends ConsumerWidget {
   const IthakiApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = ref.watch(localeProvider);
     return MaterialApp.router(
       title: 'Ithaki',
       debugShowCheckedModeBanner: false,
       theme: IthakiTheme.light,
       routerConfig: IthakiRouter.router,
+      locale: locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

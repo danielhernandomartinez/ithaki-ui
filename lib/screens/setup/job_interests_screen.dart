@@ -99,7 +99,7 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
                               Expanded(
                                 child: Text(l.searchJobInterest, style: const TextStyle(fontSize: 14, color: IthakiTheme.textHint)),
                               ),
-                              const IthakiIcon('search', size: 20, color: IthakiTheme.textHint),
+                              const IthakiIcon('arrow-down', size: 20, color: IthakiTheme.textSecondary),
                             ],
                           ),
                         ),

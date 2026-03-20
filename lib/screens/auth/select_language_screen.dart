@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../providers/locale_provider.dart';
 import '../../providers/registration_provider.dart';
 
 Widget _flag(String code) => IthakiFlag(code);
@@ -11,13 +12,7 @@ Widget _flag(String code) => IthakiFlag(code);
 final _languages = [
   SearchItem(id: 'en', label: 'English', leadingWidget: _flag('GB')),
   SearchItem(id: 'el', label: 'Ελληνικά (Greek)', leadingWidget: _flag('GR')),
-  SearchItem(id: 'de', label: 'Deutsch (German)', leadingWidget: _flag('DE')),
-  SearchItem(id: 'fr', label: 'Français (French)', leadingWidget: _flag('FR')),
-  SearchItem(id: 'es', label: 'Español (Spanish)', leadingWidget: _flag('ES')),
-  SearchItem(id: 'it', label: 'Italiano (Italian)', leadingWidget: _flag('IT')),
-  SearchItem(id: 'pt', label: 'Português (Portuguese)', leadingWidget: _flag('PT')),
   SearchItem(id: 'ar', label: 'العربية (Arabic)', leadingWidget: _flag('SA')),
-  SearchItem(id: 'zh', label: '中文 (Chinese)', leadingWidget: _flag('CN')),
 ];
 
 class SelectLanguageScreen extends ConsumerStatefulWidget {
@@ -36,7 +31,10 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
       context,
       l.selectLanguageTitle,
       _languages,
-      (item) => setState(() => _selected = item),
+      (item) {
+        setState(() => _selected = item);
+        ref.read(localeProvider.notifier).setLocale(item.id);
+      },
     );
   }
 

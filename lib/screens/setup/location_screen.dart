@@ -117,9 +117,9 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
                             padding: const EdgeInsets.all(10),
                             child: IthakiFlag(_citizenshipCode!, width: 24, height: 18),
                           )
-                        : const Padding(
-                            padding: EdgeInsets.all(12),
-                            child: IthakiIcon('flag', size: 18, color: IthakiTheme.textHint),
+                        : Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: IthakiIcon('flag', size: 20, color: _citizenshipController.text.isNotEmpty ? Colors.black : IthakiTheme.textHint),
                           ),
                     readOnly: true,
                     onTap: () => _openCountryPicker(_citizenshipController, l.citizenshipLabel, (code) => _citizenshipCode = code),
@@ -134,9 +134,9 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
                             padding: const EdgeInsets.all(10),
                             child: IthakiFlag(_residenceCode!, width: 24, height: 18),
                           )
-                        : const Padding(
-                            padding: EdgeInsets.all(12),
-                            child: IthakiIcon('flag', size: 18, color: IthakiTheme.textHint),
+                        : Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: IthakiIcon('flag', size: 20, color: _residenceController.text.isNotEmpty ? Colors.black : IthakiTheme.textHint),
                           ),
                     readOnly: true,
                     onTap: () => _openCountryPicker(_residenceController, l.residenceLabel, (code) => _residenceCode = code),

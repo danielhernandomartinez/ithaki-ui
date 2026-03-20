@@ -114,9 +114,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             label: l.emailLabel,
             hint: l.emailHint,
             controller: _emailController,
-            suffixIcon: const Padding(
-              padding: EdgeInsets.all(12),
-              child: IthakiIcon('envelope', size: 18, color: IthakiTheme.textHint),
+            suffixIcon: Padding(
+              padding: const EdgeInsets.all(12),
+              child: IthakiIcon('envelope', size: 20, color: _emailController.text.isNotEmpty ? Colors.black : IthakiTheme.textHint),
             ),
             keyboardType: TextInputType.emailAddress,
             onChanged: (_) => setState(() {}),
