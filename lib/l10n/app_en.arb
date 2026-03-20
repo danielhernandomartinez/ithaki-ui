@@ -78,6 +78,8 @@
   "sendCodeButton": "Send Code",
   "signInWithEmail": "Sign in with Email",
   "preferEmail": "Prefer email? You can sign in with email instead.",
+  "signInButton": "Sign In",
+  "forgotPassword": "Forgot your password?",
 
   "welcomeModalHeading": "Welcome on board!\nYour account is created and verified!",
   "welcomeModalDescription": "Let's go through a short setup so we can match you with the best job options.",

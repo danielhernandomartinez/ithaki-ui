@@ -73,6 +73,8 @@
   "sendCodeButton": "Αποστολή Κωδικού",
   "signInWithEmail": "Σύνδεση με Email",
   "preferEmail": "Προτιμάτε email; Μπορείτε να συνδεθείτε με email.",
+  "signInButton": "Σύνδεση",
+  "forgotPassword": "Ξεχάσατε τον κωδικό σας;",
 
   "welcomeModalHeading": "Καλώς ήρθατε!\nΟ λογαριασμός σας δημιουργήθηκε και επαληθεύτηκε!",
   "welcomeModalDescription": "Ας κάνουμε μια σύντομη ρύθμιση για να σας ταιριάξουμε με τις καλύτερες επιλογές εργασίας.",

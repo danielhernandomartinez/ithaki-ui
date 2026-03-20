@@ -210,6 +210,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get preferEmail => 'Prefer email? You can sign in with email instead.';
 
   @override
+  String get signInButton => 'Sign In';
+
+  @override
+  String get forgotPassword => 'Forgot your password?';
+
+  @override
   String get welcomeModalHeading =>
       'Welcome on board!\nYour account is created and verified!';
 

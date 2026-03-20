@@ -206,6 +206,12 @@ class AppLocalizationsAr extends AppLocalizations {
       'تفضل البريد الإلكتروني؟ يمكنك تسجيل الدخول بالبريد الإلكتروني بدلاً من ذلك.';
 
   @override
+  String get signInButton => 'تسجيل الدخول';
+
+  @override
+  String get forgotPassword => 'هل نسيت كلمة المرور؟';
+
+  @override
   String get welcomeModalHeading => 'مرحبًا بك!\nتم إنشاء حسابك والتحقق منه!';
 
   @override

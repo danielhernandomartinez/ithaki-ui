@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../widgets/phone_login_footer.dart';
 
 class _GoogleLogo extends StatelessWidget {
@@ -42,9 +43,11 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return IthakiScreenLayout(
       appBar: IthakiAppBar(
-        actionLabel: 'Sign Up',
+        actionLabel: l.signUpAction,
         onActionPressed: () => context.go('/register'),
       ),
       child: Column(
@@ -54,7 +57,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
 
           // Title
           Text(
-            'Login to Ithaki Talent',
+            l.loginHeading,
             style: IthakiTheme.headingLarge.copyWith(
               color: IthakiTheme.textPrimary,
               height: 1.3,
@@ -65,8 +68,8 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
 
           // Email field
           IthakiTextField(
-            label: 'Email',
-            hint: 'Enter your email',
+            label: l.emailLabel,
+            hint: l.emailHint,
             controller: _emailController,
             suffixIcon: const Padding(
               padding: EdgeInsets.all(12),
@@ -80,8 +83,8 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
 
           // Password field
           IthakiPasswordField(
-            label: 'Password',
-            hint: 'Enter your new password',
+            label: l.passwordLabel,
+            hint: l.passwordHint,
             controller: _passwordController,
             onChanged: (_) => setState(() {}),
           ),
@@ -108,8 +111,8 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                 ),
               ),
               const SizedBox(width: 8),
-              const Text(
-                'Remember me',
+              Text(
+                l.rememberMe,
                 style: IthakiTheme.bodyRegular
               ),
               const Spacer(),
@@ -124,8 +127,8 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                       bottom: BorderSide(color: IthakiTheme.textPrimary, width: 1),
                     ),
                   ),
-                  child: const Text(
-                    'Forgot your password?',
+                  child: Text(
+                    l.forgotPassword,
                     style: IthakiTheme.bodyRegular,
                   ),
                 ),
@@ -139,7 +142,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
           SizedBox(
             width: double.infinity,
             child: IthakiButton(
-              'Sign In',
+              l.signInButton,
               onPressed: _canSignIn
                   ? () {
                       // TODO: Handle email sign in
@@ -162,14 +165,14 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                 side: const BorderSide(color: IthakiTheme.borderLight),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _GoogleLogo(size: 22),
-                  SizedBox(width: 12),
+                  const _GoogleLogo(size: 22),
+                  const SizedBox(width: 12),
                   Text(
-                    'Sign in with Google',
-                    style: TextStyle(
+                    l.signInWithGoogle,
+                    style: const TextStyle(
                       color: IthakiTheme.textPrimary,
                       fontWeight: FontWeight.w600,
                     ),

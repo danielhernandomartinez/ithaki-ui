@@ -211,6 +211,12 @@ class AppLocalizationsEl extends AppLocalizations {
   String get preferEmail => 'Προτιμάτε email; Μπορείτε να συνδεθείτε με email.';
 
   @override
+  String get signInButton => 'Σύνδεση';
+
+  @override
+  String get forgotPassword => 'Ξεχάσατε τον κωδικό σας;';
+
+  @override
   String get welcomeModalHeading =>
       'Καλώς ήρθατε!\nΟ λογαριασμός σας δημιουργήθηκε και επαληθεύτηκε!';
 
