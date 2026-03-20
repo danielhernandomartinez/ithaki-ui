@@ -41,13 +41,15 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
+    final topOffset = MediaQuery.of(context).padding.top + kToolbarHeight + 16;
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go('/login-phone')),
       body: SafeArea(
         top: false,
         bottom: true,
         child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+        padding: EdgeInsets.only(left: 24, right: 24, top: topOffset + 20, bottom: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

@@ -29,8 +29,10 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
+    final topOffset = MediaQuery.of(context).padding.top + kToolbarHeight + 16;
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundWhite,
+      extendBodyBehindAppBar: true,
       appBar: IthakiAppBar(
         actionLabel: l.signUpAction,
         onActionPressed: () {
@@ -38,8 +40,9 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
         },
       ),
       body: SafeArea(
+        top: false,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.only(left: 16, right: 16, top: topOffset),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

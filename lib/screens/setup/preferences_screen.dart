@@ -68,13 +68,15 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
     final jobTypeOptions = [l.jobFullTime, l.jobPartTime, l.jobContract, l.jobFreelance, l.jobInternship];
     final workplaceOptions = [l.workOnSite, l.workRemote, l.workHybrid];
 
+    final topOffset = MediaQuery.of(context).padding.top + kToolbarHeight + 16;
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: const IthakiAppBar(showMenuAndAvatar: true),
       body: SafeArea(
         top: false,
         bottom: true,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          padding: EdgeInsets.only(top: topOffset + 8, bottom: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
