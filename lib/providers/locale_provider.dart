@@ -1,12 +1,13 @@
 import 'dart:ui';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final localeProvider = StateNotifierProvider<LocaleNotifier, Locale?>(
-  (ref) => LocaleNotifier(),
+final localeProvider = NotifierProvider<LocaleNotifier, Locale?>(
+  LocaleNotifier.new,
 );
 
-class LocaleNotifier extends StateNotifier<Locale?> {
-  LocaleNotifier() : super(null);
+class LocaleNotifier extends Notifier<Locale?> {
+  @override
+  Locale? build() => null;
 
   void setLocale(String languageCode) {
     state = Locale(languageCode);
