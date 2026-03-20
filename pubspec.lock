@@ -201,10 +201,10 @@ packages:
     dependency: transitive
     description:
       name: google_fonts
-      sha256: ba03d03bcaa2f6cb7bd920e3b5027181db75ab524f8891c8bc3aa603885b8055
+      sha256: db9df7a5898d894eeda4c78143f35c30a243558be439518972366880b80bf88e
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.3"
+    version: "8.0.2"
   hooks:
     dependency: transitive
     description:
@@ -257,11 +257,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v0.9.15"
-      resolved-ref: "08c19db47d26ec5d42ffe012ee92ccc21c074c91"
+      ref: "v0.9.16"
+      resolved-ref: c506ffcc5d89110882624460733d0e02aed83731
       url: "https://github.com/danielhernandomartinez/ithaki_design_system.git"
     source: git
-    version: "0.8.1"
+    version: "0.9.13"
   leak_tracker:
     dependency: transitive
     description:
