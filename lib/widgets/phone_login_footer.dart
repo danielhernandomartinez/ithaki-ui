@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
-class EmailLoginFooter extends StatelessWidget {
-  const EmailLoginFooter({super.key});
+class PhoneLoginFooter extends StatelessWidget {
+  const PhoneLoginFooter({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +18,8 @@ class EmailLoginFooter extends StatelessWidget {
 
         const Center(
           child: Text(
-            'Prefer email? You can sign in with email instead.',
-            style:  IthakiTheme.bodyRegular,
+            'Prefer phone? You can sign in with phone instead.',
+            style: IthakiTheme.bodyRegular,
             textAlign: TextAlign.center,
           ),
         ),
@@ -29,10 +29,10 @@ class EmailLoginFooter extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: IthakiButton(
-            'Sign in with Email',
+            'Sign in with Phone',
             variant: IthakiButtonVariant.outline,
             onPressed: () {
-              context.go('/login-email');
+              context.go('/login-phone');
             },
           ),
         ),
