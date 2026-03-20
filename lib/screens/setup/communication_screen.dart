@@ -80,7 +80,7 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
                     IthakiButton(
                       'Back',
                       variant: IthakiButtonVariant.outline,
-                      onPressed: () => context.go('/setup/values'),
+                      onPressed: () => context.pop(),
                     ),
                     const SizedBox(height: 20),
                   ],

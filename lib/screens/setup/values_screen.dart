@@ -63,13 +63,13 @@ class _ValuesScreenState extends State<ValuesScreen> {
                     const SizedBox(height: 40),
                     IthakiButton(
                       'Continue',
-                      onPressed: _selected.isNotEmpty ? () => context.go('/setup/communication') : null,
+                      onPressed: _selected.isNotEmpty ? () => context.push('/setup/communication') : null,
                     ),
                     const SizedBox(height: 12),
                     IthakiButton(
                       'Back',
                       variant: IthakiButtonVariant.outline,
-                      onPressed: () => context.go('/setup/preferences'),
+                      onPressed: () => context.pop(),
                     ),
                     const SizedBox(height: 20),
                   ],

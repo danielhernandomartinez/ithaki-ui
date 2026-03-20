@@ -32,7 +32,7 @@ class EmailLoginFooter extends StatelessWidget {
             'Sign in with Email',
             variant: IthakiButtonVariant.outline,
             onPressed: () {
-              context.go('/login-email');
+              context.pushReplacement('/login-email');
             },
           ),
         ),

@@ -32,7 +32,7 @@ class PhoneLoginFooter extends StatelessWidget {
             'Sign in with Phone',
             variant: IthakiButtonVariant.outline,
             onPressed: () {
-              context.go('/login-phone');
+              context.pushReplacement('/login-phone');
             },
           ),
         ),

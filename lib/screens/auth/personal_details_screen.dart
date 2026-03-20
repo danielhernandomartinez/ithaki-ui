@@ -38,11 +38,11 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return IthakiScreenLayout(
-      appBar: IthakiAppBar(actionLabel: 'Login', onActionPressed: () => context.go('/login')),
+      appBar: IthakiAppBar(actionLabel: 'Login', onActionPressed: () => context.go('/login-phone')),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          IthakiBackLink(onTap: () => context.go('/register')),
+          IthakiBackLink(onTap: () => context.pop()),
           const SizedBox(height: 16),
           const Text('Almost there!\nTell us about yourself', style: IthakiTheme.headingLarge),
           const SizedBox(height: 12),
@@ -71,7 +71,7 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
           IthakiButton(
             'Continue',
             isEnabled: _canContinue,
-            onPressed: _canContinue ? () => context.go('/choose-verify-method') : null,
+            onPressed: _canContinue ? () => context.push('/choose-verify-method') : null,
           ),
         ],
       ),

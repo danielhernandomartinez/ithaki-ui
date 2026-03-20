@@ -116,13 +116,13 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
             IthakiButton(
               'Continue',
               isEnabled: _selected != null,
-              onPressed: _selected != null ? () => context.go('/tech-comfort') : null,
+              onPressed: _selected != null ? () => context.pushReplacement('/tech-comfort') : null,
             ),
             const SizedBox(height: 12),
             IthakiButton(
               'Skip',
               variant: IthakiButtonVariant.outline,
-              onPressed: () => context.go('/tech-comfort'),
+              onPressed: () => context.pushReplacement('/tech-comfort'),
             ),
           ],
         ),

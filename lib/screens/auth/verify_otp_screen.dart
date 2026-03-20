@@ -21,7 +21,7 @@ class VerifyOtpScreen extends StatefulWidget {
     this.backLabel = 'This is not your phone?',
     this.backRoute = '/personal-details',
     this.actionLabel = 'Login',
-    this.actionRoute = '/login',
+    this.actionRoute = '/login-phone',
     this.successRoute = '/welcome',
   });
 
@@ -71,7 +71,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> with CountdownMixin {
                 ),
               ),
               GestureDetector(
-                onTap: () => context.go(widget.backRoute),
+                onTap: () => context.pop(),
                 child: const Text(
                   'Go Back',
                   style: TextStyle(
@@ -121,7 +121,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> with CountdownMixin {
             'Continue',
             isEnabled: _otpComplete,
             onPressed: _otpComplete
-                ? () => context.push(widget.successRoute)
+                ? () => context.go(widget.successRoute)
                 : null,
           ),
         ],

@@ -19,7 +19,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> with CountdownMix
   @override
   Widget build(BuildContext context) {
     return IthakiScreenLayout(
-      appBar: IthakiAppBar(actionLabel: 'Login', onActionPressed: () => context.go('/login')),
+      appBar: IthakiAppBar(actionLabel: 'Login', onActionPressed: () => context.go('/login-phone')),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -37,13 +37,13 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> with CountdownMix
           const SizedBox(height: 24),
           IthakiButton(
             'I\'ve verified my email',
-            onPressed: () => context.go('/personal-details'),
+            onPressed: () => context.pop(),
           ),
           const SizedBox(height: 12),
           IthakiButton(
             'Back',
             variant: IthakiButtonVariant.outline,
-            onPressed: () => context.go('/register'),
+            onPressed: () => context.pop(),
           ),
           const SizedBox(height: 16),
           IthakiResendTimer(

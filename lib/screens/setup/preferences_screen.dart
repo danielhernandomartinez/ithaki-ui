@@ -131,13 +131,13 @@ class _PreferencesScreenState extends State<PreferencesScreen> {
                     const SizedBox(height: 40),
                     IthakiButton(
                       'Continue',
-                      onPressed: _canContinue ? () => context.go('/setup/values') : null,
+                      onPressed: _canContinue ? () => context.push('/setup/values') : null,
                     ),
                     const SizedBox(height: 12),
                     IthakiButton(
                       'Back',
                       variant: IthakiButtonVariant.outline,
-                      onPressed: () => context.go('/setup/job-interests'),
+                      onPressed: () => context.pop(),
                     ),
                     const SizedBox(height: 20),
                   ],

@@ -153,7 +153,7 @@ class _LocationScreenState extends State<LocationScreen> {
                   const SizedBox(height: 40),
                   IthakiButton(
                     'Continue',
-                    onPressed: _residenceCode != null ? () => context.go('/setup/job-interests') : null,
+                    onPressed: _residenceCode != null ? () => context.push('/setup/job-interests') : null,
                   ),
                   const SizedBox(height: 20),
                 ],

@@ -17,7 +17,7 @@ class _TechComfortScreenState extends State<TechComfortScreen> {
   @override
   Widget build(BuildContext context) {
     return IthakiScreenLayout(
-      appBar: IthakiAppBar(actionLabel: 'Login', onActionPressed: () => context.go('/login')),
+      appBar: IthakiAppBar(actionLabel: 'Login', onActionPressed: () => context.go('/login-phone')),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -43,11 +43,11 @@ class _TechComfortScreenState extends State<TechComfortScreen> {
             isSelected: _selected == _TechLevel.newToThis,
             onTap: () => setState(() => _selected = _TechLevel.newToThis),
           ),
-          const Spacer(),
+          const SizedBox(height: 40),
           IthakiButton(
             'Continue',
             isEnabled: _selected != null,
-            onPressed: _selected != null ? () => context.go('/register') : null,
+            onPressed: _selected != null ? () => context.push('/register') : null,
           ),
           const SizedBox(height: 20),
         ],

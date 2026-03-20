@@ -61,16 +61,12 @@ class IthakiRouter {
             title: 'Login to Ithaki Talent',
             subtitle: "We've sent a verification code to $phone.",
             backLabel: 'This is not your phone?',
-            backRoute: '/login',
+            backRoute: '/login-phone',
             actionLabel: 'Sign Up',
             actionRoute: '/',
             successRoute: '/home',
           );
         },
-      ),
-      GoRoute(
-        path: '/login',
-        builder: (context, state) => const LoginPhoneScreen(),
       ),
       GoRoute(
         path: '/login-email',

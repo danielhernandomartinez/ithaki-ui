@@ -14,7 +14,7 @@ class WelcomeModalScreen extends StatelessWidget {
           // Tappable overlay (dismiss to location)
           Expanded(
             child: GestureDetector(
-              onTap: () => context.go('/setup/location'),
+              onTap: () => context.push('/setup/location'),
               behavior: HitTestBehavior.opaque,
               child: const SizedBox.expand(),
             ),
@@ -73,7 +73,7 @@ class WelcomeModalScreen extends StatelessWidget {
                 const SizedBox(height: 12),
                 IthakiButton(
                   'Start Setup',
-                  onPressed: () => context.go('/setup/location'),
+                  onPressed: () => context.push('/setup/location'),
                 ),
               ],
             ),

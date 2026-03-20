@@ -120,13 +120,13 @@ class _JobInterestsScreenState extends State<JobInterestsScreen> {
                     const SizedBox(height: 40),
                     IthakiButton(
                       'Continue',
-                      onPressed: _selected.isNotEmpty ? () => context.go('/setup/preferences') : null,
+                      onPressed: _selected.isNotEmpty ? () => context.push('/setup/preferences') : null,
                     ),
                     const SizedBox(height: 12),
                     IthakiButton(
                       'Back',
                       variant: IthakiButtonVariant.outline,
-                      onPressed: () => context.go('/setup/location'),
+                      onPressed: () => context.pop(),
                     ),
                     const SizedBox(height: 20),
                   ],
