@@ -146,7 +146,7 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
                                 paymentTerm: _paymentTerm,
                                 preferNotToSpecifySalary: _preferNotToSpecify,
                               );
-                              context.go('/setup/values');
+                              context.push('/setup/values');
                             }
                           : null,
                     ),
@@ -154,7 +154,7 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
                     IthakiButton(
                       l.backButton,
                       variant: IthakiButtonVariant.outline,
-                      onPressed: () => context.go('/setup/job-interests'),
+                      onPressed: () => context.pop(),
                     ),
                     const SizedBox(height: 20),
                   ],

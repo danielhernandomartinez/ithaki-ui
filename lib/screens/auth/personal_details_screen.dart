@@ -47,7 +47,7 @@ class _PersonalDetailsScreenState extends ConsumerState<PersonalDetailsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          IthakiBackLink(onTap: () => context.go('/register')),
+          IthakiBackLink(onTap: () => context.pop()),
           const SizedBox(height: 16),
           Text(l.personalDetailsHeading, style: IthakiTheme.headingLarge),
           const SizedBox(height: 12),
@@ -83,7 +83,7 @@ class _PersonalDetailsScreenState extends ConsumerState<PersonalDetailsScreen> {
                       _lastNameController.text.trim(),
                       _phoneController.text.trim(),
                     );
-                    context.go('/choose-verify-method');
+                    context.push('/choose-verify-method');
                   }
                 : null,
           ),

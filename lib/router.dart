@@ -7,6 +7,7 @@ import 'screens/auth/personal_details_screen.dart';
 import 'screens/auth/verify_email_screen.dart';
 import 'screens/auth/choose_verify_method_screen.dart';
 import 'screens/auth/verify_otp_screen.dart';
+import 'screens/auth/login_email_screen.dart';
 import 'screens/auth/login_phone_screen.dart';
 import 'screens/auth/welcome_modal_screen.dart';
 import 'screens/setup/location_screen.dart';
@@ -60,13 +61,17 @@ class IthakiRouter {
             title: 'Login to Ithaki Talent',
             subtitle: "We've sent a verification code to $phone.",
             backLabel: 'This is not your phone?',
-            backRoute: '/login',
+            backRoute: '/login-phone',
             actionLabel: 'Sign Up',
             actionRoute: '/',
             successRoute: '/home',
           );
         },
-      ),    
+      ),
+      GoRoute(
+        path: '/login-email',
+        builder: (context, state) => const LoginEmailScreen(),
+      ),
       GoRoute(
         path: '/login-phone',
         builder: (context, state) => const LoginPhoneScreen(),

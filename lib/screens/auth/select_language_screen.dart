@@ -118,7 +118,7 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
               onPressed: _selected != null
                   ? () {
                       ref.read(registrationProvider.notifier).setLanguage(_selected!.id);
-                      context.go('/tech-comfort');
+                      context.push('/tech-comfort');
                     }
                   : null,
             ),
@@ -126,7 +126,7 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
             IthakiButton(
               l.skipButton,
               variant: IthakiButtonVariant.outline,
-              onPressed: () => context.go('/tech-comfort'),
+              onPressed: () => context.pushReplacement('/tech-comfort'),
             ),
           ],
         ),

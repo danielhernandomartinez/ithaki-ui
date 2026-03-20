@@ -131,7 +131,7 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
                               ref.read(setupProvider.notifier).setJobInterests(
                                 _selected.map((j) => JobInterest(id: j.id, label: j.label, subtitle: j.subtitle)).toList(),
                               );
-                              context.go('/setup/preferences');
+                              context.push('/setup/preferences');
                             }
                           : null,
                     ),
@@ -139,7 +139,7 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
                     IthakiButton(
                       l.backButton,
                       variant: IthakiButtonVariant.outline,
-                      onPressed: () => context.go('/setup/location'),
+                      onPressed: () => context.pop(),
                     ),
                     const SizedBox(height: 20),
                   ],
