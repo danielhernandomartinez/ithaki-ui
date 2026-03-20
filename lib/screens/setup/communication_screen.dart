@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
-class CommunicationScreen extends StatefulWidget {
+import '../../providers/setup_provider.dart';
+
+class CommunicationScreen extends ConsumerStatefulWidget {
   const CommunicationScreen({super.key});
 
   @override
-  State<CommunicationScreen> createState() => _CommunicationScreenState();
+  ConsumerState<CommunicationScreen> createState() => _CommunicationScreenState();
 }
 
-class _CommunicationScreenState extends State<CommunicationScreen> {
+class _CommunicationScreenState extends ConsumerState<CommunicationScreen> {
   final Set<String> _selected = {};
   bool _receiveTips = false;
 
@@ -74,7 +77,12 @@ class _CommunicationScreenState extends State<CommunicationScreen> {
                     const SizedBox(height: 40),
                     IthakiButton(
                       'Finish Setup',
-                      onPressed: _selected.isNotEmpty ? () => context.go('/home') : null,
+                      onPressed: _selected.isNotEmpty
+                          ? () {
+                              ref.read(setupProvider.notifier).setCommunication(Set.of(_selected), _receiveTips);
+                              context.go('/home');
+                            }
+                          : null,
                     ),
                     const SizedBox(height: 12),
                     IthakiButton(

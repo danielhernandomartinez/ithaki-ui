@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+
+import '../../providers/registration_provider.dart';
 
 class _GoogleLogo extends StatelessWidget {
   final double size;
@@ -12,14 +15,14 @@ class _GoogleLogo extends StatelessWidget {
   }
 }
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -180,7 +183,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           IthakiButton(
             'Continue',
             isEnabled: _canContinue,
-            onPressed: _canContinue ? () => context.push('/personal-details') : null,
+            onPressed: _canContinue
+                ? () {
+                    ref.read(registrationProvider.notifier)
+                        .setCredentials(_emailController.text, _passwordController.text);
+                    context.push('/personal-details');
+                  }
+                : null,
           ),
           const SizedBox(height: 20),
         ],

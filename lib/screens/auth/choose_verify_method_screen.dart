@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
-class ChooseVerifyMethodScreen extends StatefulWidget {
+import '../../providers/registration_provider.dart';
+
+class ChooseVerifyMethodScreen extends ConsumerStatefulWidget {
   const ChooseVerifyMethodScreen({super.key});
 
   @override
-  State<ChooseVerifyMethodScreen> createState() => _ChooseVerifyMethodScreenState();
+  ConsumerState<ChooseVerifyMethodScreen> createState() => _ChooseVerifyMethodScreenState();
 }
 
-class _ChooseVerifyMethodScreenState extends State<ChooseVerifyMethodScreen> {
+class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScreen> {
   String? _selectedMethod;
   bool _rememberChoice = false;
 
@@ -57,7 +60,11 @@ class _ChooseVerifyMethodScreenState extends State<ChooseVerifyMethodScreen> {
             'Continue',
             isEnabled: _selectedMethod != null,
             onPressed: _selectedMethod != null
-                ? () => context.push('/verify-otp?method=$_selectedMethod')
+                ? () {
+                    ref.read(registrationProvider.notifier)
+                        .setVerifyMethod(_selectedMethod!, remember: _rememberChoice);
+                    context.push('/verify-otp?method=$_selectedMethod');
+                  }
                 : null,
           ),
         ],

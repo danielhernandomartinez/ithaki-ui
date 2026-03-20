@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/countries.dart';
+import '../../providers/setup_provider.dart';
 
-class LocationScreen extends StatefulWidget {
+class LocationScreen extends ConsumerStatefulWidget {
   const LocationScreen({super.key});
 
   @override
-  State<LocationScreen> createState() => _LocationScreenState();
+  ConsumerState<LocationScreen> createState() => _LocationScreenState();
 }
 
 final _roles = [
@@ -28,7 +30,7 @@ final _relocationOptions = [
   const SearchItem(id: 'within_country', label: 'Within my country only'),
 ];
 
-class _LocationScreenState extends State<LocationScreen> {
+class _LocationScreenState extends ConsumerState<LocationScreen> {
   final _citizenshipController = TextEditingController();
   final _residenceController = TextEditingController();
   String? _citizenshipCode;
@@ -153,7 +155,19 @@ class _LocationScreenState extends State<LocationScreen> {
                   const SizedBox(height: 40),
                   IthakiButton(
                     'Continue',
-                    onPressed: _residenceCode != null ? () => context.push('/setup/job-interests') : null,
+                    onPressed: _residenceCode != null
+                        ? () {
+                            ref.read(setupProvider.notifier).setLocation(
+                              citizenshipCode: _citizenshipCode ?? '',
+                              citizenshipLabel: _citizenshipController.text,
+                              residenceCode: _residenceCode ?? '',
+                              residenceLabel: _residenceController.text,
+                              role: _role,
+                              relocation: _relocation,
+                            );
+                            context.push('/setup/job-interests');
+                          }
+                        : null,
                   ),
                   const SizedBox(height: 20),
                 ],

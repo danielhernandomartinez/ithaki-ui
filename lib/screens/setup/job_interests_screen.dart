@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+
+import '../../providers/setup_provider.dart';
 
 final _jobItems = [
   const SearchItem(id: 'accountant', label: 'Accountant', subtitle: 'Finance & Accounting'),
@@ -20,14 +23,14 @@ final _jobItems = [
   const SearchItem(id: 'ux_designer', label: 'UX Designer', subtitle: 'Design'),
 ];
 
-class JobInterestsScreen extends StatefulWidget {
+class JobInterestsScreen extends ConsumerStatefulWidget {
   const JobInterestsScreen({super.key});
 
   @override
-  State<JobInterestsScreen> createState() => _JobInterestsScreenState();
+  ConsumerState<JobInterestsScreen> createState() => _JobInterestsScreenState();
 }
 
-class _JobInterestsScreenState extends State<JobInterestsScreen> {
+class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
   final List<SearchItem> _selected = [];
 
   void _openJobSearch() {
@@ -120,7 +123,14 @@ class _JobInterestsScreenState extends State<JobInterestsScreen> {
                     const SizedBox(height: 40),
                     IthakiButton(
                       'Continue',
-                      onPressed: _selected.isNotEmpty ? () => context.push('/setup/preferences') : null,
+                      onPressed: _selected.isNotEmpty
+                          ? () {
+                              ref.read(setupProvider.notifier).setJobInterests(
+                                _selected.map((j) => JobInterest(id: j.id, label: j.label, subtitle: j.subtitle)).toList(),
+                              );
+                              context.push('/setup/preferences');
+                            }
+                          : null,
                     ),
                     const SizedBox(height: 12),
                     IthakiButton(

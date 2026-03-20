@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../providers/registration_provider.dart';
+
 enum _TechLevel { experienced, newToThis }
 
-class TechComfortScreen extends StatefulWidget {
+class TechComfortScreen extends ConsumerStatefulWidget {
   const TechComfortScreen({super.key});
 
   @override
-  State<TechComfortScreen> createState() => _TechComfortScreenState();
+  ConsumerState<TechComfortScreen> createState() => _TechComfortScreenState();
 }
 
-class _TechComfortScreenState extends State<TechComfortScreen> {
+class _TechComfortScreenState extends ConsumerState<TechComfortScreen> {
   _TechLevel? _selected;
 
   @override
@@ -47,7 +50,12 @@ class _TechComfortScreenState extends State<TechComfortScreen> {
           IthakiButton(
             'Continue',
             isEnabled: _selected != null,
-            onPressed: _selected != null ? () => context.push('/register') : null,
+            onPressed: _selected != null
+                ? () {
+                    ref.read(registrationProvider.notifier).setTechLevel(_selected!.name);
+                    context.push('/register');
+                  }
+                : null,
           ),
           const SizedBox(height: 20),
         ],

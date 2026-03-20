@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
-class PersonalDetailsScreen extends StatefulWidget {
+import '../../providers/registration_provider.dart';
+
+class PersonalDetailsScreen extends ConsumerStatefulWidget {
   const PersonalDetailsScreen({super.key});
 
   @override
-  State<PersonalDetailsScreen> createState() => _PersonalDetailsScreenState();
+  ConsumerState<PersonalDetailsScreen> createState() => _PersonalDetailsScreenState();
 }
 
-class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
+class _PersonalDetailsScreenState extends ConsumerState<PersonalDetailsScreen> {
   final _nameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -71,7 +74,16 @@ class _PersonalDetailsScreenState extends State<PersonalDetailsScreen> {
           IthakiButton(
             'Continue',
             isEnabled: _canContinue,
-            onPressed: _canContinue ? () => context.push('/choose-verify-method') : null,
+            onPressed: _canContinue
+                ? () {
+                    ref.read(registrationProvider.notifier).setPersonalDetails(
+                      _nameController.text.trim(),
+                      _lastNameController.text.trim(),
+                      _phoneController.text.trim(),
+                    );
+                    context.push('/choose-verify-method');
+                  }
+                : null,
           ),
         ],
       ),

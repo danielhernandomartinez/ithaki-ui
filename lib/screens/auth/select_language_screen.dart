@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+
+import '../../providers/registration_provider.dart';
 
 Widget _flag(String code) => IthakiFlag(code);
 
@@ -16,14 +19,14 @@ final _languages = [
   SearchItem(id: 'zh', label: '中文 (Chinese)', leadingWidget: _flag('CN')),
 ];
 
-class SelectLanguageScreen extends StatefulWidget {
+class SelectLanguageScreen extends ConsumerStatefulWidget {
   const SelectLanguageScreen({super.key});
 
   @override
-  State<SelectLanguageScreen> createState() => _SelectLanguageScreenState();
+  ConsumerState<SelectLanguageScreen> createState() => _SelectLanguageScreenState();
 }
 
-class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
+class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
   SearchItem? _selected;
 
   void _openPicker() {
@@ -116,7 +119,12 @@ class _SelectLanguageScreenState extends State<SelectLanguageScreen> {
             IthakiButton(
               'Continue',
               isEnabled: _selected != null,
-              onPressed: _selected != null ? () => context.pushReplacement('/tech-comfort') : null,
+              onPressed: _selected != null
+                  ? () {
+                      ref.read(registrationProvider.notifier).setLanguage(_selected!.id);
+                      context.push('/tech-comfort');
+                    }
+                  : null,
             ),
             const SizedBox(height: 12),
             IthakiButton(
