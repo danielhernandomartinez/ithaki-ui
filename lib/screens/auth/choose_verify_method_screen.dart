@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/registration_provider.dart';
 
 class ChooseVerifyMethodScreen extends ConsumerStatefulWidget {
@@ -18,23 +19,24 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return IthakiScreenLayout(
-      appBar: const IthakiAppBar(actionLabel: 'Login'),
+      appBar: IthakiAppBar(actionLabel: l.loginAction),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Verify your phone number', style: IthakiTheme.headingLarge),
+          Text(l.verifyPhoneHeading, style: IthakiTheme.headingLarge),
           const SizedBox(height: 12),
-          const Text(
-            'We\'ll send a verification code to your phone number. Choose how you\'d like to receive it.',
+          Text(
+            l.verifyPhoneDescription,
             style: IthakiTheme.bodyRegular,
           ),
           const SizedBox(height: 24),
-          const Text('Select a method to receive the code', style: IthakiTheme.sectionTitle),
+          Text(l.selectMethodTitle, style: IthakiTheme.sectionTitle),
           const SizedBox(height: 16),
           IthakiOptionCard(
             icon: 'envelope',
-            label: 'Send secured code via SMS',
+            label: l.sendViaSms,
             isSelected: _selectedMethod == 'sms',
             onTap: () => setState(() => _selectedMethod = 'sms'),
             backgroundColor: IthakiTheme.cardBackground,
@@ -43,7 +45,7 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
           const SizedBox(height: 12),
           IthakiOptionCard(
             icon: 'whatsapp',
-            label: 'Send secured code via WhatsApp',
+            label: l.sendViaWhatsapp,
             isSelected: _selectedMethod == 'whatsapp',
             onTap: () => setState(() => _selectedMethod = 'whatsapp'),
             backgroundColor: IthakiTheme.cardBackground,
@@ -53,11 +55,11 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
           IthakiCheckbox(
             value: _rememberChoice,
             onChanged: (val) => setState(() => _rememberChoice = val),
-            child: const Text('Remember my choice', style: IthakiTheme.bodyRegular),
+            child: Text(l.rememberChoice, style: IthakiTheme.bodyRegular),
           ),
           const SizedBox(height: 24),
           IthakiButton(
-            'Continue',
+            l.continueButton,
             isEnabled: _selectedMethod != null,
             onPressed: _selectedMethod != null
                 ? () {

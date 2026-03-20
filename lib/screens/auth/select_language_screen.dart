@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/registration_provider.dart';
 
 Widget _flag(String code) => IthakiFlag(code);
@@ -30,9 +31,10 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
   SearchItem? _selected;
 
   void _openPicker() {
+    final l = AppLocalizations.of(context)!;
     SearchBottomSheet.show(
       context,
-      'Select Language',
+      l.selectLanguageTitle,
       _languages,
       (item) => setState(() => _selected = item),
     );
@@ -40,8 +42,9 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: IthakiAppBar(actionLabel: "Login", onActionPressed: () => context.go('/login-phone')),
+      appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go('/login-phone')),
       body: SafeArea(
         top: false,
         bottom: true,
@@ -50,23 +53,21 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Welcome to Ithaki!\nLet\'s create an Account!',
+            Text(
+              l.welcomeHeading,
               style: IthakiTheme.headingLarge,
             ),
             const SizedBox(height: 20),
-            const Text('Select your Language', style: IthakiTheme.sectionTitle),
+            Text(l.selectLanguageTitle, style: IthakiTheme.sectionTitle),
             const SizedBox(height: 8),
-            const Text(
-              'You can change the interface language at any time. All content, '
-              'including the job description, your resume, and communication with '
-              'consultants and the chatbot, will be in English.',
+            Text(
+              l.selectLanguageDescription,
               style: IthakiTheme.bodyRegular,
             ),
             const SizedBox(height: 24),
-            const Text(
-              'Language',
-              style: TextStyle(
+            Text(
+              l.languageLabel,
+              style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: IthakiTheme.textPrimary,
@@ -81,10 +82,7 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(14),
                   border: Border.all(
-                    color: _selected != null
-                        ? IthakiTheme.primaryPurple
-                        : IthakiTheme.borderLight,
-                    width: _selected != null ? 1.5 : 1,
+                    color: IthakiTheme.borderLight,
                   ),
                 ),
                 child: Row(
@@ -95,7 +93,7 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
                     ],
                     Expanded(
                       child: Text(
-                        _selected?.label ?? 'Select your language',
+                        _selected?.label ?? l.selectLanguagePlaceholder,
                         style: TextStyle(
                           fontSize: 14,
                           color: _selected != null
@@ -104,12 +102,10 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
                         ),
                       ),
                     ),
-                    IthakiIcon(
-                      _selected != null ? 'check' : 'arrow-down',
+                    const IthakiIcon(
+                      'arrow-down',
                       size: 20,
-                      color: _selected != null
-                          ? IthakiTheme.primaryPurple
-                          : IthakiTheme.textSecondary,
+                      color: IthakiTheme.textSecondary,
                     ),
                   ],
                 ),
@@ -117,7 +113,7 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
             ),
             const SizedBox(height: 40),
             IthakiButton(
-              'Continue',
+              l.continueButton,
               isEnabled: _selected != null,
               onPressed: _selected != null
                   ? () {
@@ -128,7 +124,7 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
             ),
             const SizedBox(height: 12),
             IthakiButton(
-              'Skip',
+              l.skipButton,
               variant: IthakiButtonVariant.outline,
               onPressed: () => context.pushReplacement('/tech-comfort'),
             ),

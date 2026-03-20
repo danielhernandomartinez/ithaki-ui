@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../l10n/app_localizations.dart';
+
 class EmailLoginFooter extends StatelessWidget {
   const EmailLoginFooter({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         const Divider(
@@ -16,10 +20,10 @@ class EmailLoginFooter extends StatelessWidget {
 
         const SizedBox(height: 24),
 
-        const Center(
+        Center(
           child: Text(
-            'Prefer email? You can sign in with email instead.',
-            style:  IthakiTheme.bodyRegular,
+            l.preferEmail,
+            style: IthakiTheme.bodyRegular,
             textAlign: TextAlign.center,
           ),
         ),
@@ -29,7 +33,7 @@ class EmailLoginFooter extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           child: IthakiButton(
-            'Sign in with Email',
+            l.signInWithEmail,
             variant: IthakiButtonVariant.outline,
             onPressed: () {
               context.pushReplacement('/login-email');

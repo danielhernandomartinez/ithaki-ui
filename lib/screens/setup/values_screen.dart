@@ -3,15 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/setup_provider.dart';
-
-const _valueOptions = [
-  'Integrity', 'Responsibility', 'Teamwork', 'Respect',
-  'Growth & Learning', 'Innovation', 'Creativity', 'Transparency',
-  'Empathy', 'Accountability', 'Work-Life Balance', 'Open Communication',
-  'Reliability', 'Adaptability', 'Problem-Solving', 'Ownership',
-  'Customer Focus', 'Ambition', 'Initiative', 'Collaboration',
-];
 
 const _maxValues = 5;
 
@@ -27,6 +20,16 @@ class _ValuesScreenState extends ConsumerState<ValuesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
+    final valueOptions = [
+      l.valueIntegrity, l.valueResponsibility, l.valueTeamwork, l.valueRespect,
+      l.valueGrowth, l.valueInnovation, l.valueCreativity, l.valueTransparency,
+      l.valueEmpathy, l.valueAccountability, l.valueWorkLifeBalance, l.valueOpenCommunication,
+      l.valueReliability, l.valueAdaptability, l.valueProblemSolving, l.valueOwnership,
+      l.valueCustomerFocus, l.valueAmbition, l.valueInitiative, l.valueCollaboration,
+    ];
+
     return Scaffold(
       appBar: const IthakiAppBar(showMenuAndAvatar: true),
       body: SafeArea(
@@ -37,8 +40,8 @@ class _ValuesScreenState extends ConsumerState<ValuesScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const IthakiStepTabs(
-                steps: ['Location', 'Job Interests', 'Preferences', 'Values', 'Communication'],
+              IthakiStepTabs(
+                steps: [l.stepLocation, l.stepJobInterests, l.stepPreferences, l.stepValues, l.stepCommunication],
                 currentIndex: 3,
                 completedUpTo: 2,
               ),
@@ -47,15 +50,15 @@ class _ValuesScreenState extends ConsumerState<ValuesScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Values', style: IthakiTheme.headingLarge),
+                    Text(l.valuesHeading, style: IthakiTheme.headingLarge),
                     const SizedBox(height: 8),
-                    const Text(
-                      'Pick the values that feel closest to you. You can choose up to $_maxValues.',
+                    Text(
+                      l.valuesDescription(_maxValues),
                       style: IthakiTheme.bodyRegular,
                     ),
                     const SizedBox(height: 20),
                     IthakiChipGroup(
-                      options: _valueOptions,
+                      options: valueOptions,
                       selected: _selected,
                       maxSelect: _maxValues,
                       onChanged: (next) => setState(() {
@@ -65,7 +68,7 @@ class _ValuesScreenState extends ConsumerState<ValuesScreen> {
                     ),
                     const SizedBox(height: 40),
                     IthakiButton(
-                      'Continue',
+                      l.continueButton,
                       onPressed: _selected.isNotEmpty
                           ? () {
                               ref.read(setupProvider.notifier).setValues(Set.of(_selected));
@@ -75,7 +78,7 @@ class _ValuesScreenState extends ConsumerState<ValuesScreen> {
                     ),
                     const SizedBox(height: 12),
                     IthakiButton(
-                      'Back',
+                      l.backButton,
                       variant: IthakiButtonVariant.outline,
                       onPressed: () => context.pop(),
                     ),

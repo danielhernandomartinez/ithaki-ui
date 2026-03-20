@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
+
 class VerifyEmailScreen extends StatefulWidget {
   const VerifyEmailScreen({super.key});
 
@@ -18,30 +20,31 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> with CountdownMix
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return IthakiScreenLayout(
-      appBar: IthakiAppBar(actionLabel: 'Login', onActionPressed: () => context.go('/login-phone')),
+      appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go('/login-phone')),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Verify your email address', style: IthakiTheme.headingLarge),
+          Text(l.verifyEmailHeading, style: IthakiTheme.headingLarge),
           const SizedBox(height: 16),
-          const Text(
-            'We\'ve sent a verification link to your email address.\nPlease check your inbox and follow the link to complete your account setup.',
+          Text(
+            l.verifyEmailDescription,
             style: IthakiTheme.bodyRegular,
           ),
           const SizedBox(height: 12),
-          const Text(
-            'Didn\'t receive the email? Check your spam folder or resend it.',
+          Text(
+            l.verifyEmailSpamHint,
             style: IthakiTheme.bodyRegular,
           ),
           const SizedBox(height: 24),
           IthakiButton(
-            'I\'ve verified my email',
+            l.verifiedEmailButton,
             onPressed: () => context.pop(),
           ),
           const SizedBox(height: 12),
           IthakiButton(
-            'Back',
+            l.backButton,
             variant: IthakiButtonVariant.outline,
             onPressed: () => context.pop(),
           ),
@@ -49,7 +52,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> with CountdownMix
           IthakiResendTimer(
             canResend: countdownCanResend,
             secondsLeft: countdownSeconds,
-            label: 'Resend link via email',
+            label: l.resendEmailLabel,
             onResend: () => startCountdown(24),
             variant: IthakiResendTimerVariant.card,
             icon: 'envelope',

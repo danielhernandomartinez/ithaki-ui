@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../widgets/email_login_footer.dart';
 
 class LoginPhoneScreen extends StatefulWidget {
@@ -27,12 +28,13 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundWhite,
       appBar: IthakiAppBar(
-        actionLabel: 'Sign Up',
+        actionLabel: l.signUpAction,
         onActionPressed: () {
-          context.push('/register');
+          context.push('/tech-comfort');
         },
       ),
       body: SafeArea(
@@ -45,7 +47,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
 
               // Title
               Text(
-                'Login to Ithaki Talent',
+                l.loginHeading,
                 style: IthakiTheme.headingLarge.copyWith(
                   color: IthakiTheme.textPrimary,
                   height: 1.3,
@@ -56,7 +58,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
 
               // Subtitle
               Text(
-                'Enter your phone number. We\'ll send you a code by SMS.',
+                l.loginSubtitle,
                 style: IthakiTheme.bodyRegular.copyWith(
                   color: IthakiTheme.textSecondary,
                   height: 1.5,
@@ -83,7 +85,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
               // Delivery method selection
               if (_isPhoneValid) ...[
                 Text(
-                  'Select a method to receive the code',
+                  l.selectMethodTitle,
                   style: IthakiTheme.sectionTitle.copyWith(
                     color: IthakiTheme.textPrimary,
                   ),
@@ -98,7 +100,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
                       _selectedMethod = 'sms';
                     });
                   },
-                  label: 'Send secured code via SMS',
+                  label: l.sendViaSms,
                   icon: 'envelope',
                   axis: Axis.vertical,
                   iconSize: 20,
@@ -115,7 +117,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
                     });
                   },
                   icon: 'whatsapp',
-                  label: 'Send secured code via WhatsApp',
+                  label: l.sendViaWhatsapp,
                   iconSize: 25,
                   axis: Axis.vertical,
                 ),
@@ -143,7 +145,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
                     ),
                     const SizedBox(width: 12),
                     Text(
-                      'Remember me',
+                      l.rememberMe,
                       style: IthakiTheme.bodyRegular.copyWith(
                         color: IthakiTheme.textPrimary,
                       ),
@@ -158,7 +160,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
               SizedBox(
                 width: double.infinity,
                 child: IthakiButton(
-                  'Send Code',
+                  l.sendCodeButton,
                   onPressed: (_isPhoneValid && _selectedMethod.isNotEmpty)
                       ? () {
                           context.push(

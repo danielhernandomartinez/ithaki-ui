@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/setup_provider.dart';
 
 final _jobItems = [
@@ -33,12 +34,12 @@ class JobInterestsScreen extends ConsumerStatefulWidget {
 class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
   final List<SearchItem> _selected = [];
 
-  void _openJobSearch() {
+  void _openJobSearch(AppLocalizations l) {
     if (_selected.length >= 5) return;
     final available = _jobItems.where((j) => !_selected.any((s) => s.id == j.id)).toList();
     SearchBottomSheet.show(
       context,
-      'Select Job Interest',
+      l.selectJobInterest,
       available,
       (item) => setState(() => _selected.add(item)),
     );
@@ -46,6 +47,8 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: const IthakiAppBar(showMenuAndAvatar: true),
       body: SafeArea(
@@ -56,8 +59,8 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const IthakiStepTabs(
-                steps: ['Location', 'Job Interests', 'Preferences', 'Values', 'Communication'],
+              IthakiStepTabs(
+                steps: [l.stepLocation, l.stepJobInterests, l.stepPreferences, l.stepValues, l.stepCommunication],
                 currentIndex: 1,
                 completedUpTo: 0,
               ),
@@ -66,10 +69,10 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Job Interests', style: IthakiTheme.headingLarge),
+                    Text(l.jobInterestsHeading, style: IthakiTheme.headingLarge),
                     const SizedBox(height: 8),
-                    const Text(
-                      'Select job types or fields that match your professional interests. You can add up to 5 different fields.',
+                    Text(
+                      l.jobInterestsDescription,
                       style: IthakiTheme.bodyRegular,
                     ),
                     const SizedBox(height: 24),
@@ -83,7 +86,7 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
                     )),
                     if (_selected.isEmpty)
                       GestureDetector(
-                        onTap: _openJobSearch,
+                        onTap: () => _openJobSearch(l),
                         child: Container(
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
@@ -91,38 +94,38 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
                             borderRadius: BorderRadius.circular(14),
                             border: Border.all(color: IthakiTheme.borderLight),
                           ),
-                          child: const Row(
+                          child: Row(
                             children: [
                               Expanded(
-                                child: Text('Search and add job interest', style: TextStyle(fontSize: 14, color: IthakiTheme.textHint)),
+                                child: Text(l.searchJobInterest, style: const TextStyle(fontSize: 14, color: IthakiTheme.textHint)),
                               ),
-                              IthakiIcon('search', size: 20, color: IthakiTheme.textHint),
+                              const IthakiIcon('search', size: 20, color: IthakiTheme.textHint),
                             ],
                           ),
                         ),
                       )
                     else if (_selected.length < 5)
                       GestureDetector(
-                        onTap: _openJobSearch,
+                        onTap: () => _openJobSearch(l),
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             border: Border.all(color: IthakiTheme.textPrimary),
                           ),
-                          child: const Row(
+                          child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              IthakiIcon('plus', size: 14, color: IthakiTheme.textPrimary),
-                              SizedBox(width: 6),
-                              Text('Add Another Job Interest', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: IthakiTheme.textPrimary)),
+                              const IthakiIcon('plus', size: 14, color: IthakiTheme.textPrimary),
+                              const SizedBox(width: 6),
+                              Text(l.addAnotherJobInterest, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: IthakiTheme.textPrimary)),
                             ],
                           ),
                         ),
                       ),
                     const SizedBox(height: 40),
                     IthakiButton(
-                      'Continue',
+                      l.continueButton,
                       onPressed: _selected.isNotEmpty
                           ? () {
                               ref.read(setupProvider.notifier).setJobInterests(
@@ -134,7 +137,7 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
                     ),
                     const SizedBox(height: 12),
                     IthakiButton(
-                      'Back',
+                      l.backButton,
                       variant: IthakiButtonVariant.outline,
                       onPressed: () => context.pop(),
                     ),

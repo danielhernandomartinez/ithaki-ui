@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
+
 class WelcomeModalScreen extends StatelessWidget {
   const WelcomeModalScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Material(
       color: Colors.black.withValues(alpha: 0.5),
       child: Column(
@@ -44,9 +47,9 @@ class WelcomeModalScreen extends StatelessWidget {
                       color: IthakiTheme.cardBackground,
                       borderRadius: BorderRadius.circular(14),
                     ),
-                    child: const Text(
-                      'Ithaki-logo',
-                      style: TextStyle(
+                    child: Text(
+                      l.ithakiLogo,
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: IthakiTheme.primaryPurple,
@@ -55,24 +58,24 @@ class WelcomeModalScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  'Welcome on board!\nYour account is created and verified!',
+                Text(
+                  l.welcomeModalHeading,
                   style: IthakiTheme.headingLarge,
                 ),
                 const SizedBox(height: 12),
-                const Text(
-                  'Let\'s go through a short setup so we can match you with the best job options.',
+                Text(
+                  l.welcomeModalDescription,
                   style: IthakiTheme.bodyRegular,
                 ),
                 const SizedBox(height: 28),
                 IthakiButton(
-                  'Skip for Now',
+                  l.skipForNow,
                   variant: IthakiButtonVariant.outline,
                   onPressed: () => context.go('/home'),
                 ),
                 const SizedBox(height: 12),
                 IthakiButton(
-                  'Start Setup',
+                  l.startSetup,
                   onPressed: () => context.push('/setup/location'),
                 ),
               ],
