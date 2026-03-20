@@ -196,8 +196,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "v0.9.9"
-      resolved-ref: "338f2e8c070d10c00f570109b67c330b16ee318d"
+      ref: "v0.9.10"
+      resolved-ref: beda60cd2d0a6e03a0bd5819a57c49c7766f3449
       url: "https://github.com/danielhernandomartinez/ithaki_design_system.git"
     source: git
     version: "0.8.1"
