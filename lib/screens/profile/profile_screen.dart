@@ -35,7 +35,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       extendBodyBehindAppBar: true,
       appBar: IthakiAppBar(
         showMenuAndAvatar: true,
-        avatarInitials: '${profile.firstName[0]}${profile.lastName[0]}',
+        avatarInitials: '${profile.firstName.isNotEmpty ? profile.firstName[0] : '?'}${profile.lastName.isNotEmpty ? profile.lastName[0] : '?'}',
         onMenuPressed: () {},
         onAvatarPressed: () {},
       ),
@@ -76,7 +76,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               radius: 24,
               backgroundColor: IthakiTheme.primaryPurple,
               child: Text(
-                '${profile.firstName[0]}${profile.lastName[0]}',
+                '${profile.firstName.isNotEmpty ? profile.firstName[0] : '?'}${profile.lastName.isNotEmpty ? profile.lastName[0] : '?'}',
                 style: const TextStyle(
                     color: Colors.white, fontWeight: FontWeight.bold),
               ),
@@ -514,6 +514,42 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   // ─── Tab: Files ───────────────────────────────────────────────────
 
   Widget _buildFilesTab(ProfileState profile) {
+    if (profile.files.isEmpty) {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade200),
+        ),
+        child: Column(children: [
+          const Text(
+            'No documents uploaded yet.',
+            style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
+          ),
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton(
+              onPressed: () => UploadFilesSheet.show(context, onContinue: (files) {
+                for (final f in files) {
+                  ref.read(profileProvider.notifier).addFile(f);
+                }
+              }),
+              style: OutlinedButton.styleFrom(
+                side: BorderSide(color: Colors.grey.shade300),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                foregroundColor: IthakiTheme.textPrimary,
+              ),
+              child: const Text('↑ Upload Documents'),
+            ),
+          ),
+        ]),
+      );
+    }
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
