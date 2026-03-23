@@ -7,7 +7,9 @@ import 'screens/auth/personal_details_screen.dart';
 import 'screens/auth/verify_email_screen.dart';
 import 'screens/auth/choose_verify_method_screen.dart';
 import 'screens/auth/verify_otp_screen.dart';
+import 'screens/auth/forgot_password_screen.dart';
 import 'screens/auth/login_email_screen.dart';
+import 'screens/auth/reset_link_sent_screen.dart';
 import 'screens/auth/login_phone_screen.dart';
 import 'screens/auth/welcome_modal_screen.dart';
 import 'screens/setup/location_screen.dart';
@@ -72,6 +74,14 @@ class IthakiRouter {
       GoRoute(
         path: '/login-email',
         builder: (context, state) => const LoginEmailScreen(),
+      ),
+      GoRoute(
+        path: '/forgot-password',
+        builder: (context, state) => const ForgotPasswordScreen(),
+      ),
+      GoRoute(
+        path: '/reset-link-sent',
+        builder: (context, state) => const ResetLinkSentScreen(),
       ),
       GoRoute(
         path: '/login-phone',

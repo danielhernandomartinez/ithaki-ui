@@ -496,6 +496,54 @@ abstract class AppLocalizations {
   /// **'Forgot your password?'**
   String get forgotPassword;
 
+  /// No description provided for @forgotPasswordHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot your password'**
+  String get forgotPasswordHeading;
+
+  /// No description provided for @forgotPasswordDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'No worries. Enter your account\'s email address and we\'ll send you a link to reset your password.'**
+  String get forgotPasswordDescription;
+
+  /// No description provided for @backToLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Login'**
+  String get backToLogin;
+
+  /// No description provided for @sendResetLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Send reset link'**
+  String get sendResetLink;
+
+  /// No description provided for @resetLinkSentHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset link sent!'**
+  String get resetLinkSentHeading;
+
+  /// No description provided for @resetLinkSentDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your inbox. Email includes a secure link to create a new password. Didn\'t get the email?'**
+  String get resetLinkSentDescription;
+
+  /// No description provided for @resendResetLinkEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend reset link via email'**
+  String get resendResetLinkEmail;
+
+  /// No description provided for @sendResetViaWhatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'Send secured code via WhatsApp'**
+  String get sendResetViaWhatsapp;
+
   /// No description provided for @welcomeModalHeading.
   ///
   /// In en, this message translates to:

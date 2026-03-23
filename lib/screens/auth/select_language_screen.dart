@@ -43,16 +43,10 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
-    final topOffset = MediaQuery.of(context).padding.top + kToolbarHeight + 16;
-    return Scaffold(
-      extendBodyBehindAppBar: true,
+    return IthakiScreenLayout(
       appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go('/login-phone')),
-      body: SafeArea(
-        top: false,
-        bottom: true,
-        child: SingleChildScrollView(
-        padding: EdgeInsets.only(left: 24, right: 24, top: topOffset + 20, bottom: 20),
-        child: Column(
+      horizontalPadding: 24,
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -82,9 +76,9 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: IthakiTheme.borderLight,
+                    color: IthakiTheme.lightGraphite,
                   ),
                 ),
                 child: Row(
@@ -100,14 +94,14 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
                           fontSize: 14,
                           color: _selected != null
                               ? IthakiTheme.textPrimary
-                              : IthakiTheme.textHint,
+                              : IthakiTheme.softGraphite,
                         ),
                       ),
                     ),
                     const IthakiIcon(
                       'arrow-down',
                       size: 20,
-                      color: IthakiTheme.textSecondary,
+                      color: IthakiTheme.softGraphite,
                     ),
                   ],
                 ),
@@ -128,12 +122,10 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
             IthakiButton(
               l.skipButton,
               variant: IthakiButtonVariant.outline,
-              onPressed: () => context.pushReplacement('/tech-comfort'),
+              onPressed: () => context.push('/tech-comfort'),
             ),
           ],
         ),
-      ),
-    ),
     );
   }
 }
