@@ -17,6 +17,7 @@ import 'screens/setup/job_interests_screen.dart';
 import 'screens/setup/preferences_screen.dart';
 import 'screens/setup/values_screen.dart';
 import 'screens/setup/communication_screen.dart';
+import 'screens/home/home_screen.dart';
 
 class IthakiRouter {
   static final router = GoRouter(
@@ -118,9 +119,7 @@ class IthakiRouter {
       ),
       GoRoute(
         path: '/home',
-        builder: (context, state) => const Scaffold(
-          body: Center(child: Text('Home – coming soon')),
-        ),
+        builder: (context, state) => const HomeScreen(),
       ),
     ],
   );
