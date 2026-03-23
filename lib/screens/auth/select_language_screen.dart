@@ -122,7 +122,7 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
             IthakiButton(
               l.skipButton,
               variant: IthakiButtonVariant.outline,
-              onPressed: () => context.pushReplacement('/tech-comfort'),
+              onPressed: () => context.push('/tech-comfort'),
             ),
           ],
         ),

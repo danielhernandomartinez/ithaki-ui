@@ -33,7 +33,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
       appBar: IthakiAppBar(
         actionLabel: l.signUpAction,
         onActionPressed: () {
-          context.push('/tech-comfort');
+          context.go('/tech-comfort');
         },
       ),
       child: Column(
