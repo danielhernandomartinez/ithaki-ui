@@ -115,9 +115,11 @@ class _TourTooltip extends StatelessWidget {
                   ),
                 ),
               ),
-              IthakiButton(
-                isLast ? 'Finish' : 'Next',
-                onPressed: onNext,
+              Expanded(
+                child: IthakiButton(
+                  isLast ? 'Finish' : 'Next',
+                  onPressed: onNext,
+                ),
               ),
             ],
           ),
@@ -197,7 +199,7 @@ class _TourOverlayState extends ConsumerState<TourOverlay> {
         Positioned(
           top: tooltipTop.clamp(
             MediaQuery.of(context).padding.top + 8,
-            screenH - bubbleHeight - 8,
+            screenH - bubbleHeight - MediaQuery.of(context).padding.bottom - 8,
           ),
           left: sidePadding,
           right: sidePadding,

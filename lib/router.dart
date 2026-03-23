@@ -25,7 +25,7 @@ class IthakiRouter {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const SelectLanguageScreen(),
+        builder: (context, state) => const HomeScreen(),
       ),
       GoRoute(
         path: '/tech-comfort',

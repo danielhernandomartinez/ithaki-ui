@@ -16,9 +16,7 @@ dependencies:
   pin_code_fields: ^9.1.0
   shared_preferences: ^2.3.0
   ithaki_design_system:
-    git:
-      url: https://github.com/danielhernandomartinez/ithaki_design_system.git
-      ref: v0.10.1
+    path: C:\Users\pablo\projects\asd\ithaki_design_system
 
 dev_dependencies:
   flutter_test:

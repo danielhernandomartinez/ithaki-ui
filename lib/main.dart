@@ -8,7 +8,13 @@ import 'providers/tour_provider.dart';
 import 'router.dart';
 import 'tour/tour_overlay.dart';
 
-void main() => runApp(const ProviderScope(child: IthakiApp()));
+void main() {
+  FlutterError.onError = (details) {
+    FlutterError.presentError(details);
+    debugPrint(details.toString());
+  };
+  runApp(const ProviderScope(child: IthakiApp()));
+}
 
 class IthakiApp extends ConsumerWidget {
   const IthakiApp({super.key});
