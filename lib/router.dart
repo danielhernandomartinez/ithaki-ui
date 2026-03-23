@@ -18,6 +18,17 @@ import 'screens/setup/preferences_screen.dart';
 import 'screens/setup/values_screen.dart';
 import 'screens/setup/communication_screen.dart';
 import 'screens/home/home_screen.dart';
+import 'screens/profile/profile_screen.dart';
+import 'screens/profile/profile_basics_screen.dart';
+import 'screens/profile/edit_skills_screen.dart';
+import 'screens/profile/edit_competencies_screen.dart';
+import 'screens/profile/edit_languages_screen.dart';
+import 'screens/profile/edit_about_me_screen.dart';
+import 'screens/profile/edit_job_preferences_screen.dart';
+import 'screens/profile/work_experience_screen.dart';
+import 'screens/profile/education_screen.dart';
+import 'screens/settings/account_settings_screen.dart';
+import 'screens/settings/notifications_screen.dart';
 
 class IthakiRouter {
   static final navigatorKey = GlobalKey<NavigatorState>();
@@ -123,6 +134,50 @@ class IthakiRouter {
       GoRoute(
         path: '/home',
         builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: '/profile',
+        builder: (context, state) => const ProfileScreen(),
+      ),
+      GoRoute(
+        path: '/profile/basics',
+        builder: (context, state) => const ProfileBasicsScreen(),
+      ),
+      GoRoute(
+        path: '/profile/skills',
+        builder: (context, state) => const EditSkillsScreen(),
+      ),
+      GoRoute(
+        path: '/profile/competencies',
+        builder: (context, state) => const EditCompetenciesScreen(),
+      ),
+      GoRoute(
+        path: '/profile/languages',
+        builder: (context, state) => const EditLanguagesScreen(),
+      ),
+      GoRoute(
+        path: '/profile/about-me',
+        builder: (context, state) => const EditAboutMeScreen(),
+      ),
+      GoRoute(
+        path: '/profile/job-preferences',
+        builder: (context, state) => const EditJobPreferencesScreen(),
+      ),
+      GoRoute(
+        path: '/profile/work-experience',
+        builder: (context, state) => const WorkExperienceScreen(),
+      ),
+      GoRoute(
+        path: '/profile/education',
+        builder: (context, state) => const EducationScreen(),
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const AccountSettingsScreen(),
+      ),
+      GoRoute(
+        path: '/settings/notifications',
+        builder: (context, state) => const NotificationsScreen(),
       ),
     ],
   );
