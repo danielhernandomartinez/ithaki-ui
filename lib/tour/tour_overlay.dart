@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../providers/tour_provider.dart';
+import '../router.dart';
 import 'tour_steps.dart';
 import 'tour_skip_modal.dart';
 import 'tour_complete_modal.dart';
@@ -151,12 +152,16 @@ class _TourOverlayState extends ConsumerState<TourOverlay> {
   @override
   Widget build(BuildContext context) {
     // Drive skip/complete modals from state changes
+    // Use the navigator's context (below the Navigator) instead of the
+    // overlay's context (above the Navigator in the widget tree).
+    final navContext = IthakiRouter.navigatorKey.currentContext;
     ref.listen<TourState>(tourProvider, (prev, next) {
+      if (navContext == null) return;
       if (next.skipConfirmVisible && !(prev?.skipConfirmVisible ?? false)) {
-        TourSkipModal.show(context);
+        TourSkipModal.show(navContext);
       }
       if (next.completionVisible && !(prev?.completionVisible ?? false)) {
-        TourCompleteModal.show(context);
+        TourCompleteModal.show(navContext);
       }
     });
 

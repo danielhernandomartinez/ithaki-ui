@@ -20,7 +20,10 @@ import 'screens/setup/communication_screen.dart';
 import 'screens/home/home_screen.dart';
 
 class IthakiRouter {
+  static final navigatorKey = GlobalKey<NavigatorState>();
+
   static final router = GoRouter(
+    navigatorKey: navigatorKey,
     initialLocation: '/',
     routes: [
       GoRoute(
