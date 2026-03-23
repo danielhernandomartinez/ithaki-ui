@@ -22,7 +22,6 @@ class _EditJobPreferencesScreenState
   late String _jobType;
   late String _workplace;
   late bool _preferNotToSpecify;
-  late String _paymentTerm;
 
   final TextEditingController _salaryCtrl = TextEditingController();
   final TextEditingController _titleCtrl = TextEditingController();
@@ -39,7 +38,6 @@ class _EditJobPreferencesScreenState
     _salaryCtrl.text =
         p.expectedSalary != null ? p.expectedSalary!.toStringAsFixed(0) : '';
     _preferNotToSpecify = p.preferNotToSpecifySalary;
-    _paymentTerm = 'Monthly';
   }
 
   @override
@@ -60,6 +58,7 @@ class _EditJobPreferencesScreenState
           expectedSalary: _preferNotToSpecify ? null : salary,
           preferNotToSpecifySalary: _preferNotToSpecify,
         );
+    if (!mounted) return;
     SuccessBanner.show(context, 'Your Job Preferences has been updated.');
     context.pop();
   }
@@ -68,13 +67,13 @@ class _EditJobPreferencesScreenState
     final title = _titleCtrl.text.trim();
     final category = _categoryCtrl.text.trim();
     if (title.isEmpty || category.isEmpty) return;
+    _titleCtrl.clear();
+    _categoryCtrl.clear();
     setState(() {
       _interests = [
         ..._interests,
         JobInterest(title: title, category: category),
       ];
-      _titleCtrl.clear();
-      _categoryCtrl.clear();
     });
   }
 
@@ -126,7 +125,7 @@ class _EditJobPreferencesScreenState
         child: Text(
           text,
           style: const TextStyle(
-            fontSize: 15,
+            fontSize: 16,
             fontWeight: FontWeight.bold,
             color: IthakiTheme.textPrimary,
           ),
@@ -153,13 +152,12 @@ class _EditJobPreferencesScreenState
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
         child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16),
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.grey.shade200),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,8 +174,8 @@ class _EditJobPreferencesScreenState
                   ),
                 )
               else
-                ...List.generate(_interests.length, (i) {
-                  final interest = _interests[i];
+                ..._interests.asMap().entries.map((e) {
+                  final interest = e.value;
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 4),
                     child: Row(
@@ -193,7 +191,7 @@ class _EditJobPreferencesScreenState
                         IconButton(
                           icon: const Icon(Icons.close, size: 18),
                           color: IthakiTheme.textSecondary,
-                          onPressed: () => _removeInterest(i),
+                          onPressed: () => _removeInterest(e.key),
                           padding: EdgeInsets.zero,
                           constraints: const BoxConstraints(),
                         ),
@@ -303,65 +301,37 @@ class _EditJobPreferencesScreenState
 
               // ── Section 5: Expected Payment ───────────────────────────
               _sectionTitle('Expected Payment'),
-              Row(
-                children: [
-                  Flexible(
-                    child: TextField(
-                      controller: _salaryCtrl,
-                      enabled: !_preferNotToSpecify,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: 'Expected salary',
-                        hintStyle: TextStyle(
-                            fontSize: 13,
-                            color: IthakiTheme.textSecondary),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              BorderSide(color: Colors.grey.shade300),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: const BorderSide(
-                              color: IthakiTheme.primaryPurple),
-                        ),
-                        disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide:
-                              BorderSide(color: Colors.grey.shade200),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 14),
-                        filled: _preferNotToSpecify,
-                        fillColor: _preferNotToSpecify
-                            ? Colors.grey.shade100
-                            : null,
-                      ),
-                    ),
+              TextField(
+                controller: _salaryCtrl,
+                enabled: !_preferNotToSpecify,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: 'Expected salary',
+                  hintStyle: TextStyle(
+                      fontSize: 13,
+                      color: IthakiTheme.textSecondary),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide:
+                        BorderSide(color: Colors.grey.shade300),
                   ),
-                  const SizedBox(width: 12),
-                  InputDecorator(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide:
-                            BorderSide(color: Colors.grey.shade300),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
-                    ),
-                    child: DropdownButton<String>(
-                      value: _paymentTerm,
-                      items: const ['Monthly', 'Yearly']
-                          .map((t) =>
-                              DropdownMenuItem(value: t, child: Text(t)))
-                          .toList(),
-                      onChanged: (v) =>
-                          setState(() => _paymentTerm = v ?? 'Monthly'),
-                      underline: const SizedBox(),
-                    ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(
+                        color: IthakiTheme.primaryPurple),
                   ),
-                ],
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide:
+                        BorderSide(color: Colors.grey.shade200),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 14),
+                  filled: _preferNotToSpecify,
+                  fillColor: _preferNotToSpecify
+                      ? Colors.grey.shade100
+                      : null,
+                ),
               ),
               const SizedBox(height: 8),
               Row(
