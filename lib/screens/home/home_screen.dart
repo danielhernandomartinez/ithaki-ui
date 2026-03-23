@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/mock_home_data.dart';
+import '../../providers/tour_provider.dart';
+import '../../tour/tour_welcome_modal.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
 
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStateMixin {
   late final AnimationController _menuCtrl;
   late final Animation<Offset> _slideAnim;
   bool _menuOpen = false;
@@ -20,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late final AnimationController _profileCtrl;
   late final Animation<Offset> _profileSlideAnim;
   bool _profileOpen = false;
-  bool _showProductTour = MockHomeData.isNewUser;
 
   static const _navItems = [
     NavItem(icon: 'home',         label: 'Home',             route: '/home'),
@@ -44,6 +46,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _profileCtrl.addStatusListener((_) => setState(() {}));
     _profileSlideAnim = Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero)
         .animate(CurvedAnimation(parent: _profileCtrl, curve: Curves.easeOut));
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(tourProvider.notifier).init();
+      final tourState = ref.read(tourProvider);
+      if (tourState.welcomeVisible && mounted) {
+        TourWelcomeModal.show(context);
+      }
+    });
   }
 
   @override
@@ -77,15 +87,43 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _profileCtrl.reverse();
   }
 
+  Future<void> _scrollToStep(int step) async {
+    final tourKeys = ref.read(tourKeysProvider);
+    final key = tourKeys[step];
+    if (key == null) return;
+    final ctx = key.currentContext;
+    if (ctx == null) return;
+    await Scrollable.ensureVisible(
+      ctx,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeInOut,
+      alignment: 0.2,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final tourKeys = ref.watch(tourKeysProvider);
+    final showTourBanner = !ref.watch(tourProvider).tourCompleted;
     final topOffset =
         MediaQuery.of(context).padding.top + kToolbarHeight + 16;
+
+    ref.listen<TourState>(tourProvider, (prev, next) {
+      if (next.currentStep != (prev?.currentStep ?? 0) &&
+          next.currentStep >= 1 &&
+          next.currentStep <= 13) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _scrollToStep(next.currentStep);
+        });
+      }
+    });
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
       extendBodyBehindAppBar: true,
       appBar: IthakiAppBar(
+        menuKey: tourKeys[1],
+        avatarKey: tourKeys[2],
         showMenuAndAvatar: true,
         menuOpen: _menuOpen,
         profileOpen: _profileOpen,
@@ -101,94 +139,127 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // ─── Product Tour (new user) — primera tarjeta ───
-                if (_showProductTour) ...[
-                  _buildProductTourCard(firstItemOffset: topOffset),
+                if (showTourBanner) ...[
+                  KeyedSubtree(
+                    key: tourKeys[3],
+                    child: _buildProductTourCard(firstItemOffset: topOffset),
+                  ),
                   const SizedBox(height: 12),
                 ],
 
-                _buildGreetingHeader(_showProductTour ? 0 : topOffset),
+                KeyedSubtree(
+                  key: tourKeys[4],
+                  child: _buildGreetingHeader(showTourBanner ? 0 : topOffset),
+                ),
                 const SizedBox(height: 12),
 
                 // ─── Profile Completion (new user) ───────────────
                 if (MockHomeData.isNewUser) ...[
-                  _buildProfileCompletionCard(),
+                  KeyedSubtree(
+                    key: tourKeys[5],
+                    child: _buildProfileCompletionCard(),
+                  ),
                   const SizedBox(height: 12),
                 ],
 
 
-                _buildSectionCard(child: _buildSearchContent()),
+                KeyedSubtree(
+                  key: tourKeys[6],
+                  child: _buildSectionCard(child: _buildSearchContent()),
+                ),
                 const SizedBox(height: 12),
-                _buildSectionCard(child: _buildJobsContent()),
+                KeyedSubtree(
+                  key: tourKeys[7],
+                  child: _buildSectionCard(child: _buildJobsContent()),
+                ),
                 const SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: IthakiGradientBanner(
-                    title: 'Not sure how to find the right job?',
-                    subtitle:
-                        "Career Assistant can help if you're not sure where to start!",
-                    buttonLabel: 'Ask Career Assistant',
-                    buttonIcon: const IthakiIcon('ai', size: 18, color: Colors.white),
-                    onButtonPressed: () {},
-                    backgroundImage: const DecorationImage(
-                      image: AssetImage('assets/images/ai_banner_bg.png'),
-                      fit: BoxFit.cover,
+                KeyedSubtree(
+                  key: tourKeys[8],
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: IthakiGradientBanner(
+                      title: 'Not sure how to find the right job?',
+                      subtitle:
+                          "Career Assistant can help if you're not sure where to start!",
+                      buttonLabel: 'Ask Career Assistant',
+                      buttonIcon: const IthakiIcon('ai', size: 18, color: Colors.white),
+                      onButtonPressed: () {},
+                      backgroundImage: const DecorationImage(
+                        image: AssetImage('assets/images/ai_banner_bg.png'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 12),
-                _buildSectionCard(
-                  child: IthakiStatCard(
-                    title: 'Your CV Success',
-                    rows: [
-                      IthakiStatRowData(
-                        icon: const IthakiIcon('eye', size: 18, color: IthakiTheme.primaryPurple),
-                        label: 'Views',
-                        value: MockHomeData.cvStats.views,
-                        change: MockHomeData.cvStats.viewsChange,
-                      ),
-                      IthakiStatRowData(
-                        icon: const IthakiIcon('envelope', size: 18, color: IthakiTheme.primaryPurple),
-                        label: 'Invitations',
-                        value: MockHomeData.cvStats.invitations,
-                        change: MockHomeData.cvStats.invitationsChange,
-                      ),
-                      IthakiStatRowData(
-                        icon: const IthakiIcon('applications', size: 22, color: IthakiTheme.primaryPurple),
-                        label: 'Applications Sent',
-                        value: MockHomeData.cvStats.applicationsSent,
-                      ),
-                      IthakiStatRowData(
-                        icon: const IthakiIcon('rocket', size: 22, color: IthakiTheme.primaryPurple),
-                        label: 'Interviews',
-                        value: MockHomeData.cvStats.interviews,
-                      ),
-                    ],
+                KeyedSubtree(
+                  key: tourKeys[9],
+                  child: _buildSectionCard(
+                    child: IthakiStatCard(
+                      title: 'Your CV Success',
+                      rows: [
+                        IthakiStatRowData(
+                          icon: const IthakiIcon('eye', size: 18, color: IthakiTheme.primaryPurple),
+                          label: 'Views',
+                          value: MockHomeData.cvStats.views,
+                          change: MockHomeData.cvStats.viewsChange,
+                        ),
+                        IthakiStatRowData(
+                          icon: const IthakiIcon('envelope', size: 18, color: IthakiTheme.primaryPurple),
+                          label: 'Invitations',
+                          value: MockHomeData.cvStats.invitations,
+                          change: MockHomeData.cvStats.invitationsChange,
+                        ),
+                        IthakiStatRowData(
+                          icon: const IthakiIcon('applications', size: 22, color: IthakiTheme.primaryPurple),
+                          label: 'Applications Sent',
+                          value: MockHomeData.cvStats.applicationsSent,
+                        ),
+                        IthakiStatRowData(
+                          icon: const IthakiIcon('rocket', size: 22, color: IthakiTheme.primaryPurple),
+                          label: 'Interviews',
+                          value: MockHomeData.cvStats.interviews,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 12),
-                _buildSectionCard(child: _buildCoursesContent()),
+                KeyedSubtree(
+                  key: tourKeys[10],
+                  child: _buildSectionCard(child: _buildCoursesContent()),
+                ),
                 const SizedBox(height: 12),
-                _buildSectionCard(child: _buildNewsContent()),
+                KeyedSubtree(
+                  key: tourKeys[11],
+                  child: _buildSectionCard(child: _buildNewsContent()),
+                ),
                 const SizedBox(height: 12),
-                _buildSectionCard(child: _buildQuestionsContent()),
+                KeyedSubtree(
+                  key: tourKeys[12],
+                  child: _buildSectionCard(child: _buildQuestionsContent()),
+                ),
                 const SizedBox(height: 12),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24),
                   child: Divider(height: 1, color: IthakiTheme.borderLight),
                 ),
-                IthakiFooter(
-                  brandName: 'Odyssea',
-                  copyright: 'Copyright © Ithaki 2025. #1 Job-Seeker service in Greece',
-                  privacyLabel: 'Privacy Policy',
-                  termsLabel: 'Terms of Use',
-                  socialIcons: const [
-                    IthakiIcon('tiktok',    size: 24, color: IthakiTheme.softGraphite),
-                    IthakiIcon('youtube',   size: 24, color: IthakiTheme.softGraphite),
-                    IthakiIcon('instagram', size: 24, color: IthakiTheme.softGraphite),
-                    IthakiIcon('linkedin',  size: 24, color: IthakiTheme.softGraphite),
-                    IthakiIcon('facebook',  size: 24, color: IthakiTheme.softGraphite),
-                    IthakiIcon('x',         size: 24, color: IthakiTheme.softGraphite),
-                  ],
+                KeyedSubtree(
+                  key: tourKeys[13],
+                  child: IthakiFooter(
+                    brandName: 'Odyssea',
+                    copyright: 'Copyright © Ithaki 2025. #1 Job-Seeker service in Greece',
+                    privacyLabel: 'Privacy Policy',
+                    termsLabel: 'Terms of Use',
+                    socialIcons: const [
+                      IthakiIcon('tiktok',    size: 24, color: IthakiTheme.softGraphite),
+                      IthakiIcon('youtube',   size: 24, color: IthakiTheme.softGraphite),
+                      IthakiIcon('instagram', size: 24, color: IthakiTheme.softGraphite),
+                      IthakiIcon('linkedin',  size: 24, color: IthakiTheme.softGraphite),
+                      IthakiIcon('facebook',  size: 24, color: IthakiTheme.softGraphite),
+                      IthakiIcon('x',         size: 24, color: IthakiTheme.softGraphite),
+                    ],
+                  ),
                 ),
                 SizedBox(height: MediaQuery.of(context).padding.bottom + 16),
               ],
@@ -466,12 +537,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             IthakiIcon('help',
                 size: 24, color: IthakiTheme.accentPurpleLight),
             SizedBox(width: 8),
-            Text(
-              'Have questions?',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: IthakiTheme.textPrimary,
+            Expanded(
+              child: Text(
+                'Have questions?',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: IthakiTheme.textPrimary,
+                ),
               ),
             ),
           ],
@@ -544,7 +617,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => setState(() => _showProductTour = false),
+                  onTap: () => ref.read(tourProvider.notifier).confirmSkip(),
                   child: const IthakiIcon('x-close', size: 18, color: IthakiTheme.softGraphite),
                 ),
               ],
@@ -555,7 +628,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
             ),
             const SizedBox(height: 14),
-            _buildPurpleButton('Start Product Tour'),
+            _buildPurpleButton('Start Product Tour', onPressed: () {
+              ref.read(tourProvider.notifier).startTour();
+            }),
           ],
         ),
       ),
@@ -611,12 +686,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           child: item.completed ? const Icon(Icons.check, size: 14, color: Colors.white) : null,
                         ),
                         const SizedBox(width: 10),
-                        Text(
-                          item.label,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: item.completed ? IthakiTheme.textPrimary : IthakiTheme.textSecondary,
-                            fontWeight: item.completed ? FontWeight.w500 : FontWeight.w400,
+                        Expanded(
+                          child: Text(
+                            item.label,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: item.completed ? IthakiTheme.textPrimary : IthakiTheme.textSecondary,
+                              fontWeight: item.completed ? FontWeight.w500 : FontWeight.w400,
+                            ),
                           ),
                         ),
                       ],
@@ -655,7 +732,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       children: [
                         const Icon(Icons.check, size: 16, color: IthakiTheme.primaryPurple),
                         const SizedBox(width: 8),
-                        Expanded(child: Text(b, style: const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary, height: 1.4))),
+                        Expanded(child: Text(b, overflow: TextOverflow.ellipsis, maxLines: 3, style: const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary, height: 1.4))),
                       ],
                     ),
                   )),
