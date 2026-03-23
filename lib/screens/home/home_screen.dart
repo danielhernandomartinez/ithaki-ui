@@ -87,12 +87,36 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
     _profileCtrl.reverse();
   }
 
+  Future<void> _scrollToStep(int step) async {
+    final tourKeys = ref.read(tourKeysProvider);
+    final key = tourKeys[step];
+    if (key == null) return;
+    final ctx = key.currentContext;
+    if (ctx == null) return;
+    await Scrollable.ensureVisible(
+      ctx,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeInOut,
+      alignment: 0.2,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final tourKeys = ref.watch(tourKeysProvider);
     final showTourBanner = !ref.watch(tourProvider).tourCompleted;
     final topOffset =
         MediaQuery.of(context).padding.top + kToolbarHeight + 16;
+
+    ref.listen<TourState>(tourProvider, (prev, next) {
+      if (next.currentStep != (prev?.currentStep ?? 0) &&
+          next.currentStep >= 1 &&
+          next.currentStep <= 13) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _scrollToStep(next.currentStep);
+        });
+      }
+    });
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
