@@ -259,7 +259,7 @@ class _LanguageTile extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          IthakiFlag(flagCode, width: 28, height: 20),
+          IthakiFlag(flagCode, width: 28, height: 20, oval: true),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
