@@ -48,7 +48,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
     return IthakiScreenLayout(
       appBar: IthakiAppBar(
         actionLabel: l.signUpAction,
-        onActionPressed: () => context.push('/tech-comfort'),
+        onActionPressed: () => context.go('/tech-comfort'),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +73,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
             controller: _emailController,
             suffixIcon: const Padding(
               padding: EdgeInsets.all(12),
-              child: IthakiIcon('envelope', size: 18, color: IthakiTheme.textHint),
+              child: IthakiIcon('envelope', size: 18, color: IthakiTheme.softGraphite),
             ),
             keyboardType: TextInputType.emailAddress,
             onChanged: (_) => setState(() {}),
@@ -117,9 +117,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
               ),
               const Spacer(),
               GestureDetector(
-                onTap: () {
-                  // TODO: Navigate to forgot password
-                },
+                onTap: () => context.push('/forgot-password'),
                 child: Container(
                   padding: const EdgeInsets.only(bottom: 2),
                   decoration: const BoxDecoration(

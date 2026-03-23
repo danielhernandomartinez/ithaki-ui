@@ -7,7 +7,9 @@ import 'screens/auth/personal_details_screen.dart';
 import 'screens/auth/verify_email_screen.dart';
 import 'screens/auth/choose_verify_method_screen.dart';
 import 'screens/auth/verify_otp_screen.dart';
+import 'screens/auth/forgot_password_screen.dart';
 import 'screens/auth/login_email_screen.dart';
+import 'screens/auth/reset_link_sent_screen.dart';
 import 'screens/auth/login_phone_screen.dart';
 import 'screens/auth/welcome_modal_screen.dart';
 import 'screens/setup/location_screen.dart';
@@ -15,6 +17,7 @@ import 'screens/setup/job_interests_screen.dart';
 import 'screens/setup/preferences_screen.dart';
 import 'screens/setup/values_screen.dart';
 import 'screens/setup/communication_screen.dart';
+import 'screens/home/home_screen.dart';
 
 class IthakiRouter {
   static final router = GoRouter(
@@ -73,6 +76,14 @@ class IthakiRouter {
         builder: (context, state) => const LoginEmailScreen(),
       ),
       GoRoute(
+        path: '/forgot-password',
+        builder: (context, state) => const ForgotPasswordScreen(),
+      ),
+      GoRoute(
+        path: '/reset-link-sent',
+        builder: (context, state) => const ResetLinkSentScreen(),
+      ),
+      GoRoute(
         path: '/login-phone',
         builder: (context, state) => const LoginPhoneScreen(),
       ),
@@ -108,9 +119,7 @@ class IthakiRouter {
       ),
       GoRoute(
         path: '/home',
-        builder: (context, state) => const Scaffold(
-          body: Center(child: Text('Home – coming soon')),
-        ),
+        builder: (context, state) => const HomeScreen(),
       ),
     ],
   );

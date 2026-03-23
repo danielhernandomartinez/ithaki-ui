@@ -17,7 +17,7 @@ dependencies:
   ithaki_design_system:
     git:
       url: https://github.com/danielhernandomartinez/ithaki_design_system.git
-      ref: v0.9.16
+      ref: v0.9.19
 
 dev_dependencies:
   flutter_test:
@@ -27,3 +27,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    - assets/images/

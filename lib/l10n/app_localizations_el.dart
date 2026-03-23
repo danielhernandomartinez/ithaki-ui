@@ -224,6 +224,32 @@ class AppLocalizationsEl extends AppLocalizations {
   String get forgotPassword => 'Ξεχάσατε τον κωδικό σας;';
 
   @override
+  String get forgotPasswordHeading => 'Ξεχάσατε τον κωδικό σας';
+
+  @override
+  String get forgotPasswordDescription =>
+      'Μην ανησυχείτε. Εισάγετε τη διεύθυνση email του λογαριασμού σας και θα σας στείλουμε έναν σύνδεσμο για να επαναφέρετε τον κωδικό σας.';
+
+  @override
+  String get backToLogin => 'Επιστροφή στη Σύνδεση';
+
+  @override
+  String get sendResetLink => 'Αποστολή συνδέσμου';
+
+  @override
+  String get resetLinkSentHeading => 'Ο σύνδεσμος επαναφοράς στάλθηκε!';
+
+  @override
+  String get resetLinkSentDescription =>
+      'Ελέγξτε τα εισερχόμενά σας. Το email περιλαμβάνει έναν ασφαλή σύνδεσμο για τη δημιουργία νέου κωδικού. Δεν λάβατε το email;';
+
+  @override
+  String get resendResetLinkEmail => 'Αποστολή συνδέσμου ξανά μέσω email';
+
+  @override
+  String get sendResetViaWhatsapp => 'Αποστολή ασφαλούς κωδικού μέσω WhatsApp';
+
+  @override
   String get welcomeModalHeading =>
       'Καλώς ήρθατε!\nΟ λογαριασμός σας δημιουργήθηκε και επαληθεύτηκε!';
 
