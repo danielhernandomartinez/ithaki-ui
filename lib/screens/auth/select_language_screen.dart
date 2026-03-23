@@ -76,9 +76,9 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: IthakiTheme.borderLight,
+                    color: IthakiTheme.lightGraphite,
                   ),
                 ),
                 child: Row(
@@ -101,7 +101,7 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
                     const IthakiIcon(
                       'arrow-down',
                       size: 20,
-                      color: IthakiTheme.textSecondary,
+                      color: IthakiTheme.softGraphite,
                     ),
                   ],
                 ),
