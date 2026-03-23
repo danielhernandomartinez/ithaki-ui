@@ -1,0 +1,2 @@
+# Generated localization files – keep LF to avoid false diffs
+lib/l10n/*.dart text eol=lf
