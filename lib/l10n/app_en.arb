@@ -91,6 +91,14 @@
   "resendResetLinkEmail": "Resend reset link via email",
   "sendResetViaWhatsapp": "Send secured code via WhatsApp",
 
+  "resetPasswordHeading": "Reset your password",
+  "resetPasswordDescription": "Final step. Create a new password to secure your account.",
+  "newPasswordLabel": "New Password",
+  "newPasswordHint": "Enter your new password",
+  "confirmNewPasswordLabel": "Confirm new Password",
+  "confirmNewPasswordHint": "Enter your new password",
+  "resetPasswordButton": "Reset Password",
+
   "welcomeModalHeading": "Welcome on board!\nYour account is created and verified!",
   "welcomeModalDescription": "Let's go through a short setup so we can match you with the best job options.",
   "skipForNow": "Skip for Now",

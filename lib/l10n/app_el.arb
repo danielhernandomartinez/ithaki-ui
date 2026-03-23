@@ -86,6 +86,14 @@
   "resendResetLinkEmail": "Αποστολή συνδέσμου ξανά μέσω email",
   "sendResetViaWhatsapp": "Αποστολή ασφαλούς κωδικού μέσω WhatsApp",
 
+  "resetPasswordHeading": "Επαναφορά κωδικού",
+  "resetPasswordDescription": "Τελευταίο βήμα. Δημιουργήστε έναν νέο κωδικό για να ασφαλίσετε τον λογαριασμό σας.",
+  "newPasswordLabel": "Νέος Κωδικός",
+  "newPasswordHint": "Εισάγετε τον νέο κωδικό σας",
+  "confirmNewPasswordLabel": "Επιβεβαίωση νέου Κωδικού",
+  "confirmNewPasswordHint": "Εισάγετε τον νέο κωδικό σας",
+  "resetPasswordButton": "Επαναφορά Κωδικού",
+
   "welcomeModalHeading": "Καλώς ήρθατε!\nΟ λογαριασμός σας δημιουργήθηκε και επαληθεύτηκε!",
   "welcomeModalDescription": "Ας κάνουμε μια σύντομη ρύθμιση για να σας ταιριάξουμε με τις καλύτερες επιλογές εργασίας.",
   "skipForNow": "Παράλειψη Προς Τώρα",

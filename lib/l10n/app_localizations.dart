@@ -544,6 +544,48 @@ abstract class AppLocalizations {
   /// **'Send secured code via WhatsApp'**
   String get sendResetViaWhatsapp;
 
+  /// No description provided for @resetPasswordHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset your password'**
+  String get resetPasswordHeading;
+
+  /// No description provided for @resetPasswordDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Final step. Create a new password to secure your account.'**
+  String get resetPasswordDescription;
+
+  /// No description provided for @newPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get newPasswordLabel;
+
+  /// No description provided for @newPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your new password'**
+  String get newPasswordHint;
+
+  /// No description provided for @confirmNewPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm new Password'**
+  String get confirmNewPasswordLabel;
+
+  /// No description provided for @confirmNewPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your new password'**
+  String get confirmNewPasswordHint;
+
+  /// No description provided for @resetPasswordButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get resetPasswordButton;
+
   /// No description provided for @welcomeModalHeading.
   ///
   /// In en, this message translates to:

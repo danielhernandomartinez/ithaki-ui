@@ -10,6 +10,7 @@ import 'screens/auth/verify_otp_screen.dart';
 import 'screens/auth/forgot_password_screen.dart';
 import 'screens/auth/login_email_screen.dart';
 import 'screens/auth/reset_link_sent_screen.dart';
+import 'screens/auth/reset_password_screen.dart';
 import 'screens/auth/login_phone_screen.dart';
 import 'screens/auth/welcome_modal_screen.dart';
 import 'screens/setup/location_screen.dart';
@@ -28,7 +29,7 @@ class IthakiRouter {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) => const SelectLanguageScreen(),
       ),
       GoRoute(
         path: '/tech-comfort',
@@ -85,6 +86,10 @@ class IthakiRouter {
       GoRoute(
         path: '/reset-link-sent',
         builder: (context, state) => const ResetLinkSentScreen(),
+      ),
+      GoRoute(
+        path: '/reset-password',
+        builder: (context, state) => const ResetPasswordScreen(),
       ),
       GoRoute(
         path: '/login-phone',
