@@ -154,7 +154,7 @@ void _showChangeEmail(BuildContext context) {
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (_) => const _ChangeEmailSheet(),
+    builder: (_) => _ChangeEmailSheet(parentContext: context),
   );
 }
 
@@ -163,7 +163,7 @@ void _showChangePhone(BuildContext context) {
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (_) => const _ChangePhoneSheet(),
+    builder: (_) => _ChangePhoneSheet(parentContext: context),
   );
 }
 
@@ -172,7 +172,7 @@ void _showChangePassword(BuildContext context) {
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (_) => const _ChangePasswordSheet(),
+    builder: (_) => _ChangePasswordSheet(parentContext: context),
   );
 }
 
@@ -181,7 +181,7 @@ void _showVerification(BuildContext context) {
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
-    builder: (_) => const _VerificationSheet(),
+    builder: (_) => _VerificationSheet(parentContext: context),
   );
 }
 
@@ -278,7 +278,8 @@ class _Divider extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _ChangeEmailSheet extends StatefulWidget {
-  const _ChangeEmailSheet();
+  final BuildContext parentContext;
+  const _ChangeEmailSheet({required this.parentContext});
 
   @override
   State<_ChangeEmailSheet> createState() => _ChangeEmailSheetState();
@@ -311,7 +312,7 @@ class _ChangeEmailSheetState extends State<_ChangeEmailSheet> {
             'Send Verification Code',
             onPressed: () {
               Navigator.of(context).pop();
-              _showVerification(context);
+              _showVerification(widget.parentContext);
             },
           ),
         ],
@@ -325,7 +326,8 @@ class _ChangeEmailSheetState extends State<_ChangeEmailSheet> {
 // ---------------------------------------------------------------------------
 
 class _ChangePhoneSheet extends StatefulWidget {
-  const _ChangePhoneSheet();
+  final BuildContext parentContext;
+  const _ChangePhoneSheet({required this.parentContext});
 
   @override
   State<_ChangePhoneSheet> createState() => _ChangePhoneSheetState();
@@ -358,7 +360,7 @@ class _ChangePhoneSheetState extends State<_ChangePhoneSheet> {
             'Send Verification Code',
             onPressed: () {
               Navigator.of(context).pop();
-              SuccessBanner.show(context, 'Verification code sent.');
+              SuccessBanner.show(widget.parentContext, 'Verification code sent.');
             },
           ),
         ],
@@ -372,7 +374,8 @@ class _ChangePhoneSheetState extends State<_ChangePhoneSheet> {
 // ---------------------------------------------------------------------------
 
 class _ChangePasswordSheet extends StatefulWidget {
-  const _ChangePasswordSheet();
+  final BuildContext parentContext;
+  const _ChangePasswordSheet({required this.parentContext});
 
   @override
   State<_ChangePasswordSheet> createState() => _ChangePasswordSheetState();
@@ -437,7 +440,7 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
             onPressed: (_allRules && _passwordsMatch)
                 ? () {
                     Navigator.of(context).pop();
-                    SuccessBanner.show(context, 'Password changed successfully.');
+                    SuccessBanner.show(widget.parentContext, 'Password changed successfully.');
                   }
                 : null,
           ),
@@ -472,7 +475,8 @@ class _PasswordRule extends StatelessWidget {
 // ---------------------------------------------------------------------------
 
 class _VerificationSheet extends StatefulWidget {
-  const _VerificationSheet();
+  final BuildContext parentContext;
+  const _VerificationSheet({required this.parentContext});
 
   @override
   State<_VerificationSheet> createState() => _VerificationSheetState();
@@ -519,7 +523,7 @@ class _VerificationSheetState extends State<_VerificationSheet> {
             onPressed: _codeCtrl.text.length == 6
                 ? () {
                     Navigator.of(context).pop();
-                    SuccessBanner.show(context, 'Updated successfully.');
+                    SuccessBanner.show(widget.parentContext, 'Updated successfully.');
                   }
                 : null,
           ),
