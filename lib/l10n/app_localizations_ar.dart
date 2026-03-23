@@ -246,6 +246,28 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sendResetViaWhatsapp => 'إرسال رمز آمن عبر واتساب';
 
   @override
+  String get resetPasswordHeading => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get resetPasswordDescription =>
+      'الخطوة الأخيرة. أنشئ كلمة مرور جديدة لتأمين حسابك.';
+
+  @override
+  String get newPasswordLabel => 'كلمة المرور الجديدة';
+
+  @override
+  String get newPasswordHint => 'أدخل كلمة المرور الجديدة';
+
+  @override
+  String get confirmNewPasswordLabel => 'تأكيد كلمة المرور الجديدة';
+
+  @override
+  String get confirmNewPasswordHint => 'أدخل كلمة المرور الجديدة';
+
+  @override
+  String get resetPasswordButton => 'إعادة تعيين كلمة المرور';
+
+  @override
   String get welcomeModalHeading => 'مرحبًا بك!\nتم إنشاء حسابك والتحقق منه!';
 
   @override

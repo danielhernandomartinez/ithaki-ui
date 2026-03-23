@@ -86,6 +86,14 @@
   "resendResetLinkEmail": "إعادة إرسال رابط الإعادة عبر البريد الإلكتروني",
   "sendResetViaWhatsapp": "إرسال رمز آمن عبر واتساب",
 
+  "resetPasswordHeading": "إعادة تعيين كلمة المرور",
+  "resetPasswordDescription": "الخطوة الأخيرة. أنشئ كلمة مرور جديدة لتأمين حسابك.",
+  "newPasswordLabel": "كلمة المرور الجديدة",
+  "newPasswordHint": "أدخل كلمة المرور الجديدة",
+  "confirmNewPasswordLabel": "تأكيد كلمة المرور الجديدة",
+  "confirmNewPasswordHint": "أدخل كلمة المرور الجديدة",
+  "resetPasswordButton": "إعادة تعيين كلمة المرور",
+
   "welcomeModalHeading": "مرحبًا بك!\nتم إنشاء حسابك والتحقق منه!",
   "welcomeModalDescription": "لنقم بإعداد قصير حتى نتمكن من مطابقتك مع أفضل خيارات العمل.",
   "skipForNow": "تخطي الآن",

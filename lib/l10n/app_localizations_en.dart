@@ -248,6 +248,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sendResetViaWhatsapp => 'Send secured code via WhatsApp';
 
   @override
+  String get resetPasswordHeading => 'Reset your password';
+
+  @override
+  String get resetPasswordDescription =>
+      'Final step. Create a new password to secure your account.';
+
+  @override
+  String get newPasswordLabel => 'New Password';
+
+  @override
+  String get newPasswordHint => 'Enter your new password';
+
+  @override
+  String get confirmNewPasswordLabel => 'Confirm new Password';
+
+  @override
+  String get confirmNewPasswordHint => 'Enter your new password';
+
+  @override
+  String get resetPasswordButton => 'Reset Password';
+
+  @override
   String get welcomeModalHeading =>
       'Welcome on board!\nYour account is created and verified!';
 

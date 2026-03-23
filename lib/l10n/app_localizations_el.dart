@@ -250,6 +250,28 @@ class AppLocalizationsEl extends AppLocalizations {
   String get sendResetViaWhatsapp => 'Αποστολή ασφαλούς κωδικού μέσω WhatsApp';
 
   @override
+  String get resetPasswordHeading => 'Επαναφορά κωδικού';
+
+  @override
+  String get resetPasswordDescription =>
+      'Τελευταίο βήμα. Δημιουργήστε έναν νέο κωδικό για να ασφαλίσετε τον λογαριασμό σας.';
+
+  @override
+  String get newPasswordLabel => 'Νέος Κωδικός';
+
+  @override
+  String get newPasswordHint => 'Εισάγετε τον νέο κωδικό σας';
+
+  @override
+  String get confirmNewPasswordLabel => 'Επιβεβαίωση νέου Κωδικού';
+
+  @override
+  String get confirmNewPasswordHint => 'Εισάγετε τον νέο κωδικό σας';
+
+  @override
+  String get resetPasswordButton => 'Επαναφορά Κωδικού';
+
+  @override
   String get welcomeModalHeading =>
       'Καλώς ήρθατε!\nΟ λογαριασμός σας δημιουργήθηκε και επαληθεύτηκε!';
 
