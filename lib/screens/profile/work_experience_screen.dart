@@ -226,6 +226,7 @@ class _WorkExperienceFormSheetState extends State<_WorkExperienceFormSheet> {
           : _summaryCtrl.text.trim(),
     );
     widget.onSave(exp);
+    if (!mounted) return;
     Navigator.of(context).pop();
   }
 

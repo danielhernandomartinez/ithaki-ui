@@ -215,6 +215,7 @@ class _EducationFormSheetState extends State<_EducationFormSheet> {
       currentlyStudyHere: _currentlyStudyHere,
     );
     widget.onSave(edu);
+    if (!mounted) return;
     Navigator.of(context).pop();
   }
 
