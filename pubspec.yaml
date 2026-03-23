@@ -15,9 +15,7 @@ dependencies:
   go_router: ^17.1.0
   pin_code_fields: ^9.1.0
   ithaki_design_system:
-    git:
-      url: https://github.com/danielhernandomartinez/ithaki_design_system.git
-      ref: v0.9.16
+    path: ../ithaki_design_system
 
 dev_dependencies:
   flutter_test:
@@ -27,3 +25,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    - assets/images/
