@@ -1,9 +1,11 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../providers/profile_provider.dart';
+import '../../widgets/upload_files_sheet.dart';
 
 class EditAboutMeScreen extends ConsumerStatefulWidget {
   const EditAboutMeScreen({super.key});
@@ -24,6 +26,7 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
     final profile = ref.read(profileProvider);
     _bioCtrl = TextEditingController(text: profile.bio);
     _videoUrl = profile.videoUrl;
+    _bioCtrl.addListener(() => setState(() {}));
   }
 
   @override
@@ -40,29 +43,18 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
     context.pop();
   }
 
-  Widget _videoTab(String label, int index) {
+  Widget _tab(String label, int index) {
     final selected = _activeTab == index;
     return GestureDetector(
       onTap: () => setState(() => _activeTab = index),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: selected ? IthakiTheme.primaryPurple : Colors.white,
-          borderRadius: BorderRadius.circular(999),
-          border: Border.all(
-            color: selected
-                ? IthakiTheme.primaryPurple
-                : Colors.grey.shade300,
-          ),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: selected ? Colors.white : IthakiTheme.textSecondary,
-            fontSize: 13,
-            fontWeight:
-                selected ? FontWeight.w600 : FontWeight.w400,
-          ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: 14,
+          fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+          color: selected ? IthakiTheme.textPrimary : IthakiTheme.textSecondary,
+          decoration: selected ? TextDecoration.underline : TextDecoration.none,
+          decorationColor: IthakiTheme.textPrimary,
         ),
       ),
     );
@@ -70,109 +62,143 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bioLen = _bioCtrl.text.length;
+
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: IthakiAppBar(
-        showBackButton: true,
-        title: 'About Me',
-      ),
+      appBar: IthakiAppBar(showBackButton: true, title: 'About Me'),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // ── Page header ────────────────────────────────────
+              const Text('About Me',
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      color: IthakiTheme.textPrimary)),
+              const SizedBox(height: 6),
               const Text(
-                'Bio',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                'Please provide some basic information about yourself. This helps us set up your profile and personalize your experience. You can add information later or update this anytime in Profile.',
+                style:
+                    TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 24),
+
+              // ── Bio ────────────────────────────────────────────
+              const Text('Add Bio (optional)',
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: IthakiTheme.textPrimary)),
+              const SizedBox(height: 6),
+              const Text(
+                'Add a few words about yourself to help employers understand who you are and what you do. We recommend keeping it concise, avoiding unnecessary filler, and highlighting key skills and experience.',
+                style:
+                    TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+              ),
+              const SizedBox(height: 12),
               TextField(
                 controller: _bioCtrl,
                 maxLines: null,
                 minLines: 6,
                 maxLength: 1000,
-                buildCounter: (
-                  _, {
-                  required currentLength,
-                  required isFocused,
-                  maxLength,
-                }) =>
-                    null,
+                buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: const BorderSide(color: IthakiTheme.borderLight),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: const BorderSide(color: IthakiTheme.borderLight),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(16),
                     borderSide: const BorderSide(
-                      color: IthakiTheme.primaryPurple,
-                    ),
+                        color: IthakiTheme.primaryPurple, width: 1.5),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 14,
-                  ),
+                      horizontal: 16, vertical: 14),
                 ),
-                onChanged: (_) => setState(() {}),
               ),
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  '${_bioCtrl.text.length} / 1000 symbols',
+                  '$bioLen / 1000 symbols',
                   style: const TextStyle(
-                    fontSize: 12,
-                    color: IthakiTheme.textSecondary,
-                  ),
+                      fontSize: 11, color: IthakiTheme.textSecondary),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
+
+              // ── Video ──────────────────────────────────────────
+              const Text('Add Video Presentation (optional)',
+                  style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: IthakiTheme.textPrimary)),
+              const SizedBox(height: 6),
               const Text(
-                'Introduction Video (optional)',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                'Add a short video to introduce yourself to employers, highlight your experience, and showcase your skills. A video helps you stand out among other candidates.',
+                style:
+                    TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
+
+              // Tab row
               Row(
                 children: [
-                  _videoTab('Upload File', 0),
-                  const SizedBox(width: 8),
-                  _videoTab('Upload via URL', 1),
+                  _tab('Upload File', 0),
+                  const SizedBox(width: 20),
+                  _tab('Upload via URL', 1),
                 ],
               ),
               const SizedBox(height: 12),
+
+              // Tab content
               if (_activeTab == 0)
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade300),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
+                DottedBorderBox(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        Icons.upload_rounded,
-                        size: 32,
-                        color: IthakiTheme.softGraphite,
-                      ),
+                      const Icon(Icons.upload_rounded,
+                          size: 32, color: IthakiTheme.softGraphite),
                       const SizedBox(height: 8),
-                      Text(
-                        'Tap to select a video file',
+                      const Text(
+                        'tap button to browse (max 10 files, up to 5 MB\neach; supported formats: .pdf, .doc, .png, .jpg)',
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 13,
-                          color: IthakiTheme.textSecondary,
+                            fontSize: 12, color: IthakiTheme.textSecondary),
+                      ),
+                      const SizedBox(height: 12),
+                      OutlinedButton.icon(
+                        onPressed: () async {
+                          await FilePicker.platform.pickFiles(
+                            type: FileType.custom,
+                            allowedExtensions: [
+                              'mp4', 'mov', 'avi', 'mkv',
+                              'pdf', 'doc', 'docx',
+                            ],
+                          );
+                        },
+                        icon: const Icon(Icons.upload_rounded, size: 16),
+                        label: const Text('Upload File'),
+                        style: OutlinedButton.styleFrom(
+                          side: const BorderSide(
+                              color: IthakiTheme.softGraphite),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                          foregroundColor: IthakiTheme.textPrimary,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
                         ),
                       ),
                     ],
@@ -181,43 +207,46 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
               else
                 TextField(
                   controller: _videoUrlCtrl,
-                  onChanged: (v) => setState(
-                    () => _videoUrl =
-                        v.trim().isNotEmpty ? v.trim() : null,
-                  ),
+                  onChanged: (v) => setState(() =>
+                      _videoUrl = v.trim().isNotEmpty ? v.trim() : null),
                   decoration: InputDecoration(
                     hintText: 'Paste video URL here',
-                    hintStyle:
-                        TextStyle(color: IthakiTheme.softGraphite),
-                    prefixIcon: Icon(
-                      Icons.link,
-                      color: IthakiTheme.softGraphite,
-                    ),
+                    hintStyle: const TextStyle(
+                        color: IthakiTheme.softGraphite, fontSize: 14),
+                    prefixIcon: const Icon(Icons.link,
+                        color: IthakiTheme.softGraphite),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(16)),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide:
+                          const BorderSide(color: IthakiTheme.borderLight),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: const BorderSide(
+                          color: IthakiTheme.primaryPurple, width: 1.5),
                     ),
                     contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
+                        horizontal: 16, vertical: 14),
                   ),
                 ),
-              if (_videoUrl != null)
-                Container(
-                  height: 200,
-                  margin: const EdgeInsets.only(top: 12),
-                  decoration: BoxDecoration(
+
+              if (_videoUrl != null) ...[
+                const SizedBox(height: 12),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Container(
+                    height: 180,
                     color: Colors.black54,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  alignment: Alignment.center,
-                  child: const Icon(
-                    Icons.play_circle_filled_rounded,
-                    size: 56,
-                    color: Colors.white,
+                    alignment: Alignment.center,
+                    child: const Icon(Icons.play_circle_filled_rounded,
+                        size: 56, color: Colors.white),
                   ),
                 ),
-              const SizedBox(height: 24),
+              ],
+
+              const SizedBox(height: 28),
               IthakiButton('Save', onPressed: _save),
             ],
           ),

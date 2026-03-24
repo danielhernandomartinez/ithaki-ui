@@ -6,6 +6,25 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
 
+const _kProficiencyLevels = [
+  'Native',
+  'Fluent',
+  'Advanced',
+  'Conversational',
+  'Basic',
+];
+
+const _kLanguages = [
+  'English',
+  'Greek',
+  'Spanish',
+  'French',
+  'German',
+  'Italian',
+  'Arabic',
+  'Chinese',
+];
+
 class EditLanguagesScreen extends ConsumerStatefulWidget {
   const EditLanguagesScreen({super.key});
 
@@ -15,84 +34,33 @@ class EditLanguagesScreen extends ConsumerStatefulWidget {
 }
 
 class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
-  List<Language> _languages = [];
-  List<TextEditingController> _langCtrls = [];
+  List<String> _langs = [];
   List<String> _levels = [];
 
   @override
   void initState() {
     super.initState();
-    final langs = ref.read(profileProvider).languages;
-    _languages = List.from(langs);
-    _langCtrls =
-        langs.map((l) => TextEditingController(text: l.language)).toList();
-    _levels = langs.map((l) => l.proficiency).toList();
-    if (_languages.isEmpty) _addEntry();
-  }
-
-  @override
-  void dispose() {
-    for (final c in _langCtrls) {
-      c.dispose();
-    }
-    super.dispose();
+    final saved = ref.read(profileProvider).languages;
+    _langs = saved.map((l) => l.language).toList();
+    _levels = saved.map((l) => l.proficiency).toList();
+    if (_langs.isEmpty) _addEntry();
   }
 
   void _addEntry() {
     setState(() {
-      _languages.add(const Language(language: '', proficiency: ''));
-      _langCtrls.add(TextEditingController());
+      _langs.add('');
       _levels.add('');
     });
   }
 
   void _removeEntry(int i) {
     setState(() {
-      _languages.removeAt(i);
-      _langCtrls[i].dispose();
-      _langCtrls.removeAt(i);
+      _langs.removeAt(i);
       _levels.removeAt(i);
     });
   }
 
-  void _showLanguagePicker(int i) {
-    const commonLanguages = [
-      'English',
-      'Greek',
-      'Spanish',
-      'French',
-      'German',
-      'Italian',
-      'Arabic',
-      'Chinese',
-    ];
-    showModalBottomSheet(
-      context: context,
-      builder: (_) => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(16),
-            child: Text(
-              'Select Language',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-          ...commonLanguages.map(
-            (lang) => ListTile(
-              title: Text(lang),
-              onTap: () {
-                setState(() => _langCtrls[i].text = lang);
-                Navigator.of(context).pop();
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  String _langCodeFor(String language) {
+  String _langCode(String language) {
     const map = {
       'English': 'gb',
       'Greek': 'gr',
@@ -106,14 +74,57 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
     return map[language] ?? 'gr';
   }
 
-  void _save() {
-    final langs = List.generate(
-      _languages.length,
-      (i) => Language(
-        language: _langCtrls[i].text.trim(),
-        proficiency: _levels[i],
+  void _showLanguagePicker(int i) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-    ).where((l) => l.language.isNotEmpty && l.proficiency.isNotEmpty).toList();
+      builder: (ctx) {
+        final mq = MediaQuery.of(ctx);
+        return SafeArea(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: mq.size.height * 0.6,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 16),
+                const Text('Select Language',
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                const SizedBox(height: 8),
+                Flexible(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: _kLanguages
+                        .map((lang) => ListTile(
+                              leading: IthakiFlag(_langCode(lang),
+                                  width: 24, height: 24),
+                              title: Text(lang),
+                              onTap: () {
+                                setState(() => _langs[i] = lang);
+                                Navigator.of(context).pop();
+                              },
+                            ))
+                        .toList(),
+                  ),
+                ),
+                const SizedBox(height: 8),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _save() {
+    final langs = List.generate(_langs.length, (i) {
+      return Language(language: _langs[i], proficiency: _levels[i]);
+    }).where((l) => l.language.isNotEmpty && l.proficiency.isNotEmpty).toList();
     ref.read(profileProvider.notifier).updateLanguages(langs);
     context.pop();
   }
@@ -122,129 +133,123 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: IthakiAppBar(
-        showBackButton: true,
-        title: 'Edit Languages',
-      ),
+      appBar: IthakiAppBar(showBackButton: true, title: 'Edit Languages'),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  for (int i = 0; i < _languages.length; i++)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Language',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
+        padding: const EdgeInsets.all(16),
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (int i = 0; i < _langs.length; i++) ...[
+                if (i > 0) const Divider(height: 28),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: IthakiTextField(
+                        label: 'Language',
+                        hint: 'Select language',
+                        controller: TextEditingController(text: _langs[i]),
+                        readOnly: true,
+                        onTap: () => _showLanguagePicker(i),
+                        suffixIcon: _langs[i].isNotEmpty
+                            ? IthakiFlag(_langCode(_langs[i]),
+                                width: 22, height: 22)
+                            : const IthakiIcon('arrow-down',
+                                size: 20, color: IthakiTheme.textSecondary),
+                      ),
+                    ),
+                    if (_langs.length > 1) ...[
+                      const SizedBox(width: 8),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 2),
+                        child: IconButton(
+                          icon: const Icon(Icons.delete_outline,
+                              color: IthakiTheme.softGraphite),
+                          onPressed: () => _removeEntry(i),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+                const SizedBox(height: 12),
+                const Text('Proficiency Level',
+                    style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: IthakiTheme.textPrimary)),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: _kProficiencyLevels.map((level) {
+                    final isSelected = _levels[i] == level;
+                    return GestureDetector(
+                      onTap: () => setState(() => _levels[i] = level),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 150),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: isSelected
+                                ? IthakiTheme.primaryPurple
+                                : IthakiTheme.borderLight,
+                            width: isSelected ? 2 : 1,
                           ),
                         ),
-                        const SizedBox(height: 6),
-                        TextField(
-                          controller: _langCtrls[i],
-                          readOnly: true,
-                          onTap: () => _showLanguagePicker(i),
-                          decoration: InputDecoration(
-                            suffixIcon: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: IthakiFlag(
-                                _langCtrls[i].text.isNotEmpty
-                                    ? _langCodeFor(_langCtrls[i].text)
-                                    : 'gr',
-                              ),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(
-                                color: IthakiTheme.primaryPurple,
-                              ),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 14,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        const Text(
-                          'Proficiency Level',
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Row(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Expanded(
-                              child: DropdownButtonFormField<String>(
-                                initialValue: _levels[i].isNotEmpty
-                                    ? _levels[i]
-                                    : null,
-                                onChanged: (v) =>
-                                    setState(() => _levels[i] = v ?? ''),
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  contentPadding:
-                                      const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 14,
-                                  ),
-                                ),
-                                items: [
-                                  'Native',
-                                  'Fluent',
-                                  'Advanced',
-                                  'Conversational',
-                                  'Basic',
-                                ]
-                                    .map(
-                                      (o) => DropdownMenuItem(
-                                        value: o,
-                                        child: Text(o),
-                                      ),
-                                    )
-                                    .toList(),
+                            if (isSelected) ...[
+                              const Icon(Icons.check,
+                                  size: 14,
+                                  color: IthakiTheme.primaryPurple),
+                              const SizedBox(width: 4),
+                            ],
+                            Text(
+                              level,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: isSelected
+                                    ? FontWeight.w600
+                                    : FontWeight.w400,
+                                color: isSelected
+                                    ? IthakiTheme.primaryPurple
+                                    : IthakiTheme.textPrimary,
                               ),
-                            ),
-                            IconButton(
-                              icon: const Icon(
-                                Icons.delete_outline,
-                                color: IthakiTheme.softGraphite,
-                              ),
-                              onPressed: () => _removeEntry(i),
                             ),
                           ],
                         ),
-                        const Divider(height: 24),
-                      ],
-                    ),
-                  OutlinedButton(
-                    onPressed: _addEntry,
-                    child: const Text('+ Add Another Language'),
-                  ),
-                  const SizedBox(height: 16),
-                  IthakiButton('Save', onPressed: _save),
-                ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
+              const SizedBox(height: 20),
+              OutlinedButton.icon(
+                onPressed: _addEntry,
+                icon: const IthakiIcon('plus', size: 16),
+                label: const Text('Add Another Language'),
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: IthakiTheme.softGraphite),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  foregroundColor: IthakiTheme.textPrimary,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 12),
+              IthakiButton('Save', onPressed: _save),
+            ],
+          ),
         ),
       ),
     );

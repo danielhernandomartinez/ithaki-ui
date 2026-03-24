@@ -11,7 +11,9 @@ class ProfileState {
   final String dateOfBirth; // Format: 'dd-MM-yyyy'
   final String gender;
   final String citizenship;
+  final String citizenshipCode;
   final String residence;
+  final String residenceCode;
   final String status;
   final String relocationReadiness;
   final List<WorkExperience> workExperiences;
@@ -40,8 +42,10 @@ class ProfileState {
     this.photoUrl,
     this.dateOfBirth = '01-01-1997',
     this.gender = 'Male',
-    this.citizenship = 'Greek',
-    this.residence = 'Chalkidiki, Greece',
+    this.citizenship = 'Greece',
+    this.citizenshipCode = 'gr',
+    this.residence = 'Greece',
+    this.residenceCode = 'gr',
     this.status = 'Citizen',
     this.relocationReadiness = 'Yes',
     this.workExperiences = const [],
@@ -70,7 +74,8 @@ class ProfileState {
   ProfileState copyWith({
     String? firstName, String? lastName, String? email, String? phone,
     String? photoUrl, String? dateOfBirth, String? gender,
-    String? citizenship, String? residence, String? status,
+    String? citizenship, String? citizenshipCode,
+    String? residence, String? residenceCode, String? status,
     String? relocationReadiness, List<WorkExperience>? workExperiences,
     List<Education>? educations, List<String>? hardSkills,
     List<String>? softSkills, List<Language>? languages,
@@ -88,7 +93,9 @@ class ProfileState {
     dateOfBirth: dateOfBirth ?? this.dateOfBirth,
     gender: gender ?? this.gender,
     citizenship: citizenship ?? this.citizenship,
+    citizenshipCode: citizenshipCode ?? this.citizenshipCode,
     residence: residence ?? this.residence,
+    residenceCode: residenceCode ?? this.residenceCode,
     status: status ?? this.status,
     relocationReadiness: relocationReadiness ?? this.relocationReadiness,
     workExperiences: workExperiences ?? this.workExperiences,
@@ -118,14 +125,16 @@ class ProfileNotifier extends Notifier<ProfileState> {
   void updateBasics({
     required String firstName, required String lastName,
     required String dateOfBirth, required String gender,
-    required String citizenship, required String residence,
+    required String citizenship, String? citizenshipCode,
+    required String residence, String? residenceCode,
     required String status, required String relocationReadiness,
     String? photoUrl,
   }) {
     state = state.copyWith(
       firstName: firstName, lastName: lastName,
       dateOfBirth: dateOfBirth, gender: gender,
-      citizenship: citizenship, residence: residence,
+      citizenship: citizenship, citizenshipCode: citizenshipCode,
+      residence: residence, residenceCode: residenceCode,
       status: status, relocationReadiness: relocationReadiness,
       photoUrl: photoUrl,
     );

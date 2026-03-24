@@ -110,9 +110,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                   const SizedBox(height: 12),
                 ],
 
-                _buildSectionCard(child: _buildSearchContent()),
+                IthakiCard(margin: const EdgeInsets.symmetric(horizontal: 16), child: _buildSearchContent()),
                 const SizedBox(height: 12),
-                _buildSectionCard(child: _buildJobsContent()),
+                IthakiCard(margin: const EdgeInsets.symmetric(horizontal: 16), child: _buildJobsContent()),
                 const SizedBox(height: 12),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -129,7 +129,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                   ),
                 ),
                 const SizedBox(height: 12),
-                _buildSectionCard(
+                IthakiCard(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
                   child: IthakiStatCard(
                     title: 'Your CV Success',
                     rows: [
@@ -159,30 +160,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                   ),
                 ),
                 const SizedBox(height: 12),
-                _buildSectionCard(child: _buildCoursesContent()),
+                IthakiCard(margin: const EdgeInsets.symmetric(horizontal: 16), child: _buildCoursesContent()),
                 const SizedBox(height: 12),
-                _buildSectionCard(child: _buildNewsContent()),
+                IthakiCard(margin: const EdgeInsets.symmetric(horizontal: 16), child: _buildNewsContent()),
                 const SizedBox(height: 12),
-                _buildSectionCard(child: _buildQuestionsContent()),
+                IthakiCard(margin: const EdgeInsets.symmetric(horizontal: 16), child: _buildQuestionsContent()),
                 const SizedBox(height: 12),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: Divider(height: 1, color: IthakiTheme.borderLight),
-                ),
-                IthakiFooter(
-                  brandName: 'Odyssea',
-                  copyright: 'Copyright © Ithaki 2025. #1 Job-Seeker service in Greece',
-                  privacyLabel: 'Privacy Policy',
-                  termsLabel: 'Terms of Use',
-                  socialIcons: const [
-                    IthakiIcon('tiktok',    size: 24, color: IthakiTheme.softGraphite),
-                    IthakiIcon('youtube',   size: 24, color: IthakiTheme.softGraphite),
-                    IthakiIcon('instagram', size: 24, color: IthakiTheme.softGraphite),
-                    IthakiIcon('linkedin',  size: 24, color: IthakiTheme.softGraphite),
-                    IthakiIcon('facebook',  size: 24, color: IthakiTheme.softGraphite),
-                    IthakiIcon('x',         size: 24, color: IthakiTheme.softGraphite),
-                  ],
-                ),
                 SizedBox(height: MediaQuery.of(context).padding.bottom + 16),
               ],
             ),
@@ -240,19 +223,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
     );
   }
 
-  // ─── White Section Card Wrapper ───────────────────────────────────
 
-  Widget _buildSectionCard({required Widget child}) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: child,
-    );
-  }
 
   // ─── Greeting Header ─────────────────────────────────────────────
 

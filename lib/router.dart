@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ithaki_ui/screens/auth/select_language_screen.dart';
 import 'screens/auth/tech_comfort_screen.dart';
 import 'screens/auth/register_screen.dart';
 import 'screens/auth/personal_details_screen.dart';
@@ -26,10 +25,11 @@ import 'screens/profile/edit_competencies_screen.dart';
 import 'screens/profile/edit_languages_screen.dart';
 import 'screens/profile/edit_about_me_screen.dart';
 import 'screens/profile/edit_job_preferences_screen.dart';
+import 'screens/profile/edit_values_screen.dart';
 import 'screens/profile/work_experience_screen.dart';
+import 'models/profile_models.dart';
 import 'screens/profile/education_screen.dart';
 import 'screens/settings/account_settings_screen.dart';
-import 'screens/settings/notifications_screen.dart';
 
 class IthakiRouter {
   static final navigatorKey = GlobalKey<NavigatorState>();
@@ -173,16 +173,40 @@ class IthakiRouter {
         builder: (context, state) => const WorkExperienceScreen(),
       ),
       GoRoute(
+        path: '/profile/work-experience/edit',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return WorkExperienceFormScreen(
+            editIndex: extra?['index'] as int?,
+            initial: extra?['exp'] as WorkExperience?,
+          );
+        },
+      ),
+      GoRoute(
         path: '/profile/education',
         builder: (context, state) => const EducationScreen(),
       ),
       GoRoute(
+        path: '/profile/values',
+        builder: (context, state) => const EditValuesScreen(),
+      ),
+      GoRoute(
+        path: '/profile/education/edit',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return EducationFormScreen(
+            editIndex: extra?['index'] as int?,
+            initial: extra?['edu'] as Education?,
+          );
+        },
+      ),
+      GoRoute(
         path: '/settings',
-        builder: (context, state) => const AccountSettingsScreen(),
+        builder: (context, state) => const SettingsScreen(),
       ),
       GoRoute(
         path: '/settings/notifications',
-        builder: (context, state) => const NotificationsScreen(),
+        builder: (context, state) => const SettingsScreen(initialTab: 1),
       ),
     ],
   );

@@ -7,6 +7,12 @@ import '../../providers/profile_provider.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/upload_files_sheet.dart';
 
+class _CompRow {
+  final String label;
+  final String value;
+  const _CompRow(this.label, this.value);
+}
+
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
@@ -92,14 +98,53 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             _buildTabBar(),
             const SizedBox(height: 12),
             _buildTabContent(profile),
-            const SizedBox(height: 80),
-            IthakiFooter(
-              brandName: 'Ithaki',
-              copyright: '© 2025 Ithaki. All rights reserved.',
+            const SizedBox(height: 16),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () {},
+                      icon: const IthakiIcon('resume', size: 16),
+                      label: const Text('Open CV'),
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: Colors.grey.shade300),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
+                        foregroundColor: IthakiTheme.textPrimary,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () => context.push('/settings'),
+                      icon: const IthakiIcon('settings', size: 16),
+                      label: const Text('Account Settings'),
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: Colors.grey.shade300),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 10),
+                        foregroundColor: IthakiTheme.textPrimary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
+            const SizedBox(height: 32),
           ]),
         ),
-        _buildStickyBottomBar(profile),
         if (_menuOpen)
           Positioned.fill(
             child: GestureDetector(
@@ -426,49 +471,99 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   Widget _buildAboutMeTab(ProfileState profile) {
     if (profile.bio.isEmpty) {
-      return _emptyCard(
-        message: 'No about me information added yet.',
-        button: _iconOutlineButton(const IthakiIcon('plus', size: 16),
-            'Add About Me Information', () => context.push('/profile/about-me')),
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text('About Me',
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: IthakiTheme.textPrimary)),
+          const SizedBox(height: 8),
+          const Text(
+            'Add a few words about yourself to help employers understand who you are and what you do.',
+            style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
+          ),
+          const SizedBox(height: 16),
+          _iconOutlineButton(const IthakiIcon('plus', size: 16),
+              'Add About Me Information', () => context.push('/profile/about-me')),
+        ]),
       );
     }
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(profile.bio,
-            style: const TextStyle(
-                fontSize: 14, color: IthakiTheme.textSecondary, height: 1.5)),
-        if (profile.videoUrl != null) ...[
-          const SizedBox(height: 16),
-          const Text('Introduction Video',
+        // ── About ──────────────────────────────────────────────
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text('About Me',
               style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: IthakiTheme.textPrimary)),
-          const SizedBox(height: 8),
-          AspectRatio(
-            aspectRatio: 16 / 9,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Center(
-                child: Icon(Icons.play_circle_outline,
-                    size: 48, color: IthakiTheme.softGraphite),
+          const SizedBox(height: 12),
+          Text(profile.bio,
+              style: const TextStyle(
+                  fontSize: 16,
+                  color: IthakiTheme.textPrimary,
+                  height: 1.5)),
+        ]),
+        const SizedBox(height: 20),
+        // ── Video Introduction ─────────────────────────────────
+        if (profile.videoUrl != null) ...[
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            const Text('Video Introduction',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: IthakiTheme.textPrimary)),
+            const SizedBox(height: 8),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                width: double.infinity,
+                height: 190,
+                color: const Color(0xFF040404),
+                alignment: Alignment.center,
+                child: Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: const Color(0x801E1E1E),
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: const Icon(Icons.play_arrow_rounded,
+                      size: 28, color: Colors.white),
+                ),
               ),
             ),
-          ),
+          ]),
+          const SizedBox(height: 20),
         ],
-        const SizedBox(height: 12),
-        _iconOutlineButton(const IthakiIcon('edit-pencil', size: 16),
-            'Edit About Me', () => context.push('/profile/about-me')),
+        // ── Edit button ────────────────────────────────────────
+        OutlinedButton.icon(
+          onPressed: () => context.push('/profile/about-me'),
+          icon: const IthakiIcon('edit-pencil', size: 20),
+          label: const Text('Edit About Me & Video Introduction'),
+          style: OutlinedButton.styleFrom(
+            side: const BorderSide(color: IthakiTheme.softGraphite),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30)),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            minimumSize: const Size(0, 40),
+            foregroundColor: IthakiTheme.textPrimary,
+          ),
+        ),
       ]),
     );
   }
@@ -476,157 +571,415 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   // ─── Tab: Skills ──────────────────────────────────────────────────
 
   Widget _buildSkillsTab(ProfileState profile) {
-    final isEmpty = profile.hardSkills.isEmpty &&
-        profile.softSkills.isEmpty &&
-        profile.languages.isEmpty &&
-        profile.competencies.isEmpty;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _skillsCard(profile),
+        const SizedBox(height: 8),
+        _competenciesCard(profile),
+        const SizedBox(height: 8),
+        _languagesCard(profile),
+      ],
+    );
+  }
 
-    if (isEmpty) {
-      return _emptyCard(
-        message: 'No skills added yet.',
-        button: _iconOutlineButton(const IthakiIcon('plus', size: 16),
-            'Add Skills', () => context.push('/profile/skills')),
-      );
-    }
-
+  Widget _skillsCard(ProfileState profile) {
+    final hasSkills =
+        profile.hardSkills.isNotEmpty || profile.softSkills.isNotEmpty;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        if (profile.hardSkills.isNotEmpty) ...[
-          const Text('Hard Skills',
-              style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: IthakiTheme.textPrimary)),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: profile.hardSkills.map(_chip).toList(),
+        const Text('Skills',
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: IthakiTheme.textPrimary)),
+        const SizedBox(height: 8),
+        if (!hasSkills) ...[
+          const Text(
+            'Add your technical and soft skills to help employers find and evaluate you.',
+            style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
           ),
-          const SizedBox(height: 12),
-        ],
-        if (profile.softSkills.isNotEmpty) ...[
-          const Text('Soft Skills',
-              style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: IthakiTheme.textPrimary)),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: profile.softSkills.map(_chip).toList(),
-          ),
-          const SizedBox(height: 12),
-        ],
-        if (profile.competencies.isNotEmpty) ...[
-          const Text('Competencies',
-              style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: IthakiTheme.textPrimary)),
-          const SizedBox(height: 8),
-          ...profile.competencies.entries.map((e) => Padding(
-                padding: const EdgeInsets.only(bottom: 6),
-                child: Row(children: [
-                  Text('${e.key}: ',
-                      style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: IthakiTheme.textPrimary)),
-                  Text(e.value,
-                      style: const TextStyle(
-                          fontSize: 13, color: IthakiTheme.textSecondary)),
-                ]),
-              )),
-          const SizedBox(height: 12),
-        ],
-        if (profile.languages.isNotEmpty) ...[
-          const Text('Languages',
-              style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: IthakiTheme.textPrimary)),
-          const SizedBox(height: 8),
-          ...profile.languages.map((l) => Padding(
-                padding: const EdgeInsets.only(bottom: 6),
-                child: Row(children: [
-                  const Icon(Icons.flag_outlined,
-                      size: 16, color: IthakiTheme.softGraphite),
-                  const SizedBox(width: 6),
-                  Text(l.language,
-                      style: const TextStyle(
-                          fontSize: 13, color: IthakiTheme.textPrimary)),
-                  const SizedBox(width: 8),
-                  Text(l.proficiency,
-                      style: const TextStyle(
-                          fontSize: 12, color: IthakiTheme.textSecondary)),
-                ]),
-              )),
+          const SizedBox(height: 16),
+          _iconOutlineButton(const IthakiIcon('plus', size: 16),
+              'Add Skills', () => context.push('/profile/skills')),
+        ] else ...[
+          if (profile.hardSkills.isNotEmpty) ...[
+            const Text('Hard Skills',
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: IthakiTheme.textPrimary)),
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 4,
+              runSpacing: 4,
+              children: profile.hardSkills.map(_skillBadge).toList(),
+            ),
+            const SizedBox(height: 16),
+          ],
+          if (profile.softSkills.isNotEmpty) ...[
+            const Text('Soft Skills',
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: IthakiTheme.textPrimary)),
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 4,
+              runSpacing: 4,
+              children: profile.softSkills.map(_skillBadge).toList(),
+            ),
+            const SizedBox(height: 16),
+          ],
+          _iconOutlineButton(const IthakiIcon('edit-pencil', size: 16),
+              'Edit Skills', () => context.push('/profile/skills')),
         ],
       ]),
     );
   }
 
+  Widget _competenciesCard(ProfileState profile) {
+    final comp = profile.competencies;
+    final rows = <_CompRow>[];
+    if (profile.relocationReadiness.isNotEmpty) {
+      rows.add(_CompRow('Willing to relocate', profile.relocationReadiness));
+    }
+    if ((comp['workPermit'] ?? '').isNotEmpty) {
+      rows.add(_CompRow('Work Permit', comp['workPermit']!));
+    }
+    if ((comp['computerSkills'] ?? '').isNotEmpty) {
+      rows.add(_CompRow('Computer Skills', comp['computerSkills']!));
+    }
+    if ((comp['drivingLicense'] ?? '').isNotEmpty) {
+      final cat = comp['licenseCategory'] ?? '';
+      final value = comp['drivingLicense'] == 'Yes' && cat.isNotEmpty
+          ? 'Category $cat'
+          : comp['drivingLicense']!;
+      rows.add(_CompRow('Driving Licence', value));
+    }
+    final hasData = rows.isNotEmpty;
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const Text('Competencies',
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: IthakiTheme.textPrimary)),
+        const SizedBox(height: 8),
+        if (!hasData) ...[
+          const Text(
+            'Select the skills that best represent your qualifications and professional expertise.',
+            style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
+          ),
+          const SizedBox(height: 16),
+          _iconOutlineButton(const IthakiIcon('plus', size: 16),
+              'Add Competencies', () => context.push('/profile/competencies')),
+        ] else ...[
+          ...rows.map((r) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(r.label,
+                        style: const TextStyle(
+                            fontSize: 14, color: IthakiTheme.textSecondary)),
+                    Text(r.value,
+                        style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: IthakiTheme.textPrimary)),
+                  ],
+                ),
+              )),
+          _iconOutlineButton(const IthakiIcon('edit-pencil', size: 16),
+              'Edit Competencies',
+              () => context.push('/profile/competencies')),
+        ],
+      ]),
+    );
+  }
+
+  Widget _languagesCard(ProfileState profile) => Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text('Languages',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: IthakiTheme.textPrimary)),
+          const SizedBox(height: 12),
+          ...profile.languages.map((l) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(children: [
+                      IthakiFlag(_langCode(l.language), width: 20, height: 20),
+                      const SizedBox(width: 8),
+                      Text(l.language,
+                          style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: IthakiTheme.textSecondary)),
+                    ]),
+                    Text(l.proficiency,
+                        style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: IthakiTheme.textPrimary)),
+                  ],
+                ),
+              )),
+          OutlinedButton.icon(
+            onPressed: () => context.push('/profile/languages'),
+            icon: const IthakiIcon('edit-pencil', size: 20),
+            label: const Text('Edit Languages'),
+            style: OutlinedButton.styleFrom(
+              side: const BorderSide(color: IthakiTheme.softGraphite),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30)),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              minimumSize: const Size(0, 40),
+              foregroundColor: IthakiTheme.textPrimary,
+            ),
+          ),
+        ]),
+      );
+
+  Widget _skillBadge(String label) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF2F2F2),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Text(label,
+            style: const TextStyle(
+                fontSize: 16, color: IthakiTheme.textPrimary)),
+      );
+
+  String _langCode(String language) {
+    const map = {
+      'English': 'gb', 'Greek': 'gr', 'Spanish': 'es',
+      'French': 'fr', 'German': 'de', 'Italian': 'it',
+      'Arabic': 'sa', 'Chinese': 'cn',
+    };
+    return map[language] ?? 'gr';
+  }
+
   // ─── Tab: Work Experience ─────────────────────────────────────────
 
   Widget _buildWorkExperienceTab(ProfileState profile) {
+    if (profile.workExperiences.isEmpty) {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text('Work Experience',
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: IthakiTheme.textPrimary)),
+          const SizedBox(height: 8),
+          const Text(
+            'Add details about your previous roles and companies',
+            style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
+          ),
+          const SizedBox(height: 16),
+          _iconOutlineButton(const IthakiIcon('plus', size: 16),
+              'Add Work Experience',
+              () => context.push('/profile/work-experience')),
+        ]),
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ...profile.workExperiences.asMap().entries.map((entry) {
+          final index = entry.key;
           final exp = entry.value;
-          final endLabel =
-              exp.currentlyWorkHere ? 'Present' : (exp.endDate ?? '');
+          final endLabel = exp.currentlyWorkHere ? 'Present' : (exp.endDate ?? '');
+          final duration = _calcDuration(exp.startDate, exp.currentlyWorkHere ? null : exp.endDate);
           return Container(
             margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade200),
+              borderRadius: BorderRadius.circular(20),
             ),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(exp.jobTitle,
-                  style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: IthakiTheme.textPrimary)),
-              const SizedBox(height: 2),
-              Text(exp.companyName,
-                  style: const TextStyle(
-                      fontSize: 13, color: IthakiTheme.textSecondary)),
-              const SizedBox(height: 2),
-              Text('${exp.startDate} – $endLabel',
-                  style: const TextStyle(
-                      fontSize: 12, color: IthakiTheme.softGraphite)),
-              const SizedBox(height: 12),
-              _iconOutlineButton(const IthakiIcon('edit-pencil', size: 16),
-                  'Edit', () => context.push('/profile/work-experience')),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              // ── Header row ──────────────────────────────────────
+              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Expanded(
+                  child: RichText(
+                    text: TextSpan(
+                      style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                          color: IthakiTheme.textPrimary),
+                      children: [
+                        TextSpan(text: exp.jobTitle),
+                        const TextSpan(
+                            text: '  at  ',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: IthakiTheme.textSecondary)),
+                        TextSpan(text: exp.companyName),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                GestureDetector(
+                  onTap: () => context.push('/profile/work-experience/edit',
+                      extra: {'index': index, 'exp': exp}),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: IthakiTheme.borderLight),
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: const IthakiIcon('edit-pencil',
+                        size: 16, color: IthakiTheme.textSecondary),
+                  ),
+                ),
+              ]),
+              const SizedBox(height: 6),
+              // ── Date + duration ─────────────────────────────────
+              Text(
+                '${exp.startDate} - $endLabel${duration.isNotEmpty ? ' ($duration)' : ''}',
+                style: const TextStyle(
+                    fontSize: 13, color: IthakiTheme.textSecondary),
+              ),
+              const SizedBox(height: 10),
+              const Divider(height: 1, color: Color(0xFFEEEEEE)),
+              const SizedBox(height: 10),
+              // ── Metadata 2-col grid ─────────────────────────────
+              Row(children: [
+                if (exp.location.isNotEmpty)
+                  Expanded(child: _metaCell(Icons.location_on_outlined, exp.location)),
+                if (exp.workplace.isNotEmpty)
+                  Expanded(child: _metaCell(Icons.business_outlined, exp.workplace)),
+              ]),
+              if (exp.jobType.isNotEmpty || exp.experienceLevel.isNotEmpty) ...[
+                const SizedBox(height: 6),
+                Row(children: [
+                  if (exp.jobType.isNotEmpty)
+                    Expanded(child: _metaCell(Icons.access_time_outlined, exp.jobType)),
+                  if (exp.experienceLevel.isNotEmpty)
+                    Expanded(child: _metaCell(Icons.bar_chart_outlined, exp.experienceLevel)),
+                ]),
+              ],
+              // ── Summary ─────────────────────────────────────────
+              if (exp.summary != null && exp.summary!.isNotEmpty) ...[
+                const SizedBox(height: 10),
+                const Divider(height: 1, color: Color(0xFFEEEEEE)),
+                const SizedBox(height: 10),
+                Text(exp.summary!,
+                    style: const TextStyle(
+                        fontSize: 13,
+                        color: IthakiTheme.textPrimary,
+                        height: 1.5)),
+              ],
             ]),
           );
         }),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: _iconOutlineButton(const IthakiIcon('plus', size: 16),
-              'Add Work Experience', () => context.push('/profile/work-experience')),
-        ),
+              'Add Work Experience',
+              () => context.push('/profile/work-experience'))),
         const SizedBox(height: 4),
       ],
     );
   }
 
+  Widget _metaCell(IconData icon, String label) => Row(
+        children: [
+          Icon(icon, size: 14, color: IthakiTheme.textSecondary),
+          const SizedBox(width: 4),
+          Flexible(
+            child: Text(label,
+                style: const TextStyle(
+                    fontSize: 13, color: IthakiTheme.textSecondary),
+                overflow: TextOverflow.ellipsis),
+          ),
+        ],
+      );
+
+  String _calcDuration(String startDate, String? endDate) {
+    try {
+      final parts = startDate.split('-');
+      if (parts.length != 2) return '';
+      final start = DateTime(int.parse(parts[1]), int.parse(parts[0]));
+      final end = endDate != null
+          ? () {
+              final ep = endDate.split('-');
+              return DateTime(int.parse(ep[1]), int.parse(ep[0]));
+            }()
+          : DateTime.now();
+      int months = (end.year - start.year) * 12 + (end.month - start.month);
+      if (months < 0) return '';
+      final years = months ~/ 12;
+      final rem = months % 12;
+      if (years == 0) return '$rem month${rem != 1 ? 's' : ''}';
+      if (rem == 0) return '$years year${years != 1 ? 's' : ''}';
+      return '$years year${years != 1 ? 's' : ''} $rem month${rem != 1 ? 's' : ''}';
+    } catch (_) {
+      return '';
+    }
+  }
+
   // ─── Tab: Education ───────────────────────────────────────────────
 
   Widget _buildEducationTab(ProfileState profile) {
+    if (profile.educations.isEmpty) {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text('Education',
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: IthakiTheme.textPrimary)),
+          const SizedBox(height: 8),
+          const Text(
+            'Add information about your educational background, degree, and field of study.',
+            style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
+          ),
+          const SizedBox(height: 16),
+          _iconOutlineButton(const IthakiIcon('plus', size: 16),
+              'Add Education', () => context.push('/profile/education')),
+        ]),
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -636,11 +989,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               edu.currentlyStudyHere ? 'Present' : (edu.endDate ?? '');
           return Container(
             margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade200),
+              borderRadius: BorderRadius.circular(20),
             ),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -675,6 +1027,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   // ─── Tab: Files ───────────────────────────────────────────────────
 
+  void _openUpload() => UploadFilesSheet.show(context, onContinue: (files) {
+        for (final f in files) {
+          ref.read(profileProvider.notifier).addFile(f);
+        }
+      });
+
   Widget _buildFilesTab(ProfileState profile) {
     if (profile.files.isEmpty) {
       return Container(
@@ -682,23 +1040,24 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey.shade200),
+          borderRadius: BorderRadius.circular(20),
         ),
-        child: Column(children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text('My Files',
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: IthakiTheme.textPrimary)),
+          const SizedBox(height: 8),
           const Text(
-            'No documents uploaded yet.',
+            'Upload certificates, CV, photos, or any other files that showcase your qualifications.',
             style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           _iconOutlineButton(
             const IthakiIcon('upload-cloud', size: 16),
             'Upload Documents',
-            () => UploadFilesSheet.show(context, onContinue: (files) {
-              for (final f in files) {
-                ref.read(profileProvider.notifier).addFile(f);
-              }
-            }),
+            _openUpload,
           ),
         ]),
       );
@@ -706,13 +1065,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const Text('My Files',
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: IthakiTheme.textPrimary)),
+        const SizedBox(height: 16),
         ...profile.files.asMap().entries.map((entry) {
           final i = entry.key;
           final f = entry.value;
@@ -771,11 +1135,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         _iconOutlineButton(
           const IthakiIcon('upload-cloud', size: 16),
           'Upload Documents',
-          () => UploadFilesSheet.show(context, onContinue: (files) {
-            for (final f in files) {
-              ref.read(profileProvider.notifier).addFile(f);
-            }
-          }),
+          _openUpload,
         ),
       ]),
     );
@@ -788,7 +1148,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       return _emptyCard(
         message: 'No values added yet.',
         button: _iconOutlineButton(const IthakiIcon('edit-pencil', size: 16),
-            'Update Values', () => context.push('/setup/values')),
+            'Update Values', () => context.push('/profile/values')),
       );
     }
     return Container(
@@ -807,44 +1167,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         ),
         const SizedBox(height: 12),
         _iconOutlineButton(const IthakiIcon('edit-pencil', size: 16),
-            'Update Values', () => context.push('/setup/values')),
+            'Update Values', () => context.push('/profile/values')),
       ]),
     );
   }
 
   // ─── Sticky Bottom Bar ────────────────────────────────────────────
-
-  Widget _buildStickyBottomBar(ProfileState profile) {
-    final isIncomplete = profile.jobInterests.isEmpty &&
-        profile.workExperiences.isEmpty &&
-        profile.educations.isEmpty;
-    return Positioned(
-      left: 0,
-      right: 0,
-      bottom: 0,
-      child: Container(
-        color: Colors.white,
-        padding: EdgeInsets.fromLTRB(
-            16, 12, 16, MediaQuery.of(context).padding.bottom + 12),
-        child: isIncomplete
-            ? Row(children: [
-                Expanded(
-                    child: IthakiButton('Fill Profile',
-                        onPressed: () => context.push('/profile/basics'))),
-                const SizedBox(width: 8),
-                _moreButton(context),
-              ])
-            : Row(children: [
-                Expanded(child: _iconOutlineButton(
-                    const IthakiIcon('resume', size: 16), 'Open CV', () {})),
-                const SizedBox(width: 8),
-                Expanded(child: _iconOutlineButton(
-                    const IthakiIcon('settings', size: 16), 'Account Settings',
-                    () => context.push('/settings'))),
-              ]),
-      ),
-    );
-  }
 
   // ─── Small Helpers ────────────────────────────────────────────────
 
@@ -902,44 +1230,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       );
 
   Widget _iconOutlineButton(Widget icon, String label, VoidCallback onPressed) =>
-      SizedBox(
-        width: double.infinity,
-        child: OutlinedButton.icon(
-          onPressed: onPressed,
-          icon: icon,
-          label: Text(label),
-          style: OutlinedButton.styleFrom(
-            side: BorderSide(color: Colors.grey.shade300),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20)),
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            foregroundColor: IthakiTheme.textPrimary,
-          ),
-        ),
+      IthakiOutlineButton(
+        label,
+        icon: icon,
+        onPressed: onPressed,
+        borderRadius: 20,
+        padding: const EdgeInsets.symmetric(vertical: 12),
       );
 
 
-  Widget _moreButton(BuildContext ctx) => OutlinedButton(
-        onPressed: () {
-          showMenu(
-            context: ctx,
-            position: const RelativeRect.fromLTRB(100, 0, 16, 0),
-            items: [
-              const PopupMenuItem(value: 'cv', child: Text('Open CV')),
-              const PopupMenuItem(
-                  value: 'settings', child: Text('Account Settings')),
-            ],
-          ).then((v) {
-            if (v == 'settings' && mounted) context.push('/settings');
-          });
-        },
-        style: OutlinedButton.styleFrom(
-          side: BorderSide(color: Colors.grey.shade300),
-          shape: const CircleBorder(),
-          padding: const EdgeInsets.all(12),
-        ),
-        child: const Icon(Icons.more_horiz, color: IthakiTheme.textPrimary),
-      );
 
   String _calcAge(String dob) {
     final parts = dob.split('-');

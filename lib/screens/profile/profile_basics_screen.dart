@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../data/countries.dart';
 import '../../providers/profile_provider.dart';
 
 class ProfileBasicsScreen extends ConsumerStatefulWidget {
   const ProfileBasicsScreen({super.key});
 
   @override
-  ConsumerState<ProfileBasicsScreen> createState() => _ProfileBasicsScreenState();
+  ConsumerState<ProfileBasicsScreen> createState() =>
+      _ProfileBasicsScreenState();
 }
 
 class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
@@ -17,10 +19,16 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
   late TextEditingController _dobCtrl;
   late TextEditingController _citizenshipCtrl;
   late TextEditingController _residenceCtrl;
+  String _citizenshipCode = '';
+  String _residenceCode = '';
   String _gender = '';
   String _status = '';
   String _relocation = '';
   bool _isDirty = false;
+
+  static const _genderOptions = ['Male', 'Female', 'Other', 'Prefer not to say'];
+  static const _statusOptions = ['Citizen', 'Permanent Resident', 'Work Visa', 'Student'];
+  static const _relocationOptions = ['Yes', 'No', 'Open to discuss'];
 
   @override
   void initState() {
@@ -31,6 +39,8 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
     _dobCtrl = TextEditingController(text: profile.dateOfBirth);
     _citizenshipCtrl = TextEditingController(text: profile.citizenship);
     _residenceCtrl = TextEditingController(text: profile.residence);
+    _citizenshipCode = profile.citizenshipCode;
+    _residenceCode = profile.residenceCode;
     _gender = profile.gender;
     _status = profile.status;
     _relocation = profile.relocationReadiness;
@@ -49,6 +59,8 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
   bool get _isFormValid =>
       _nameCtrl.text.trim().isNotEmpty && _lastNameCtrl.text.trim().isNotEmpty;
 
+  void _markDirty() => setState(() => _isDirty = true);
+
   void _onBack() {
     if (_isDirty) {
       _showLeaveSheet();
@@ -59,16 +71,70 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
 
   void _save() {
     ref.read(profileProvider.notifier).updateBasics(
-      firstName: _nameCtrl.text.trim(),
-      lastName: _lastNameCtrl.text.trim(),
-      dateOfBirth: _dobCtrl.text.trim(),
-      gender: _gender,
-      citizenship: _citizenshipCtrl.text.trim(),
-      residence: _residenceCtrl.text.trim(),
-      status: _status,
-      relocationReadiness: _relocation,
-    );
+          firstName: _nameCtrl.text.trim(),
+          lastName: _lastNameCtrl.text.trim(),
+          dateOfBirth: _dobCtrl.text.trim(),
+          gender: _gender,
+          citizenship: _citizenshipCtrl.text.trim(),
+          citizenshipCode: _citizenshipCode.isNotEmpty ? _citizenshipCode : null,
+          residence: _residenceCtrl.text.trim(),
+          residenceCode: _residenceCode.isNotEmpty ? _residenceCode : null,
+          status: _status,
+          relocationReadiness: _relocation,
+        );
     context.pop();
+  }
+
+  Future<void> _pickDate() async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime(1995),
+      firstDate: DateTime(1940),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && mounted) {
+      final formatted =
+          '${picked.day.toString().padLeft(2, '0')}-${picked.month.toString().padLeft(2, '0')}-${picked.year}';
+      _dobCtrl.text = formatted;
+      _markDirty();
+    }
+  }
+
+  void _openCountryPicker(
+    String title,
+    TextEditingController ctrl,
+    ValueChanged<String> onCode,
+  ) {
+    SearchBottomSheet.show(
+      context,
+      title,
+      allCountries,
+      (item) => setState(() {
+        ctrl.text = item.label;
+        onCode(item.id);
+        _isDirty = true;
+      }),
+    );
+  }
+
+  void _openSelectorSheet(
+    String title,
+    List<String> options,
+    String? current,
+    ValueChanged<String> onSelect,
+  ) {
+    final items = options
+        .map((o) => SearchItem(id: o, label: o))
+        .toList();
+    SearchBottomSheet.show(
+      context,
+      title,
+      items,
+      (item) => setState(() {
+        onSelect(item.label);
+        _isDirty = true;
+      }),
+    );
   }
 
   void _showLeaveSheet() {
@@ -90,11 +156,11 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
               width: double.infinity,
               child: OutlinedButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // close sheet
-                  context.pop(); // leave screen
+                  Navigator.of(context).pop();
+                  context.pop();
                 },
                 style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: Colors.grey.shade300),
+                  side: const BorderSide(color: IthakiTheme.borderLight),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -109,7 +175,6 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
               child: IthakiButton('Save and Leave', onPressed: () {
                 _save();
                 Navigator.of(context).pop();
-                context.pop();
               }),
             ),
           ],
@@ -117,112 +182,6 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
       ),
     );
   }
-
-  Widget _labeledField(String label, TextEditingController ctrl) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(label,
-              style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: IthakiTheme.textPrimary)),
-          const SizedBox(height: 6),
-          TextField(
-            controller: ctrl,
-            onChanged: (_) => setState(() => _isDirty = true),
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey.shade300)),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide:
-                      const BorderSide(color: IthakiTheme.primaryPurple)),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            ),
-          ),
-        ],
-      );
-
-  Widget _dateField(String label, TextEditingController ctrl) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(label,
-              style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: IthakiTheme.textPrimary)),
-          const SizedBox(height: 6),
-          TextField(
-            controller: ctrl,
-            readOnly: true,
-            onTap: () async {
-              final picked = await showDatePicker(
-                context: context,
-                initialDate: DateTime(1995),
-                firstDate: DateTime(1940),
-                lastDate: DateTime.now(),
-              );
-              if (picked != null) {
-                final formatted =
-                    '${picked.day.toString().padLeft(2, '0')}-${picked.month.toString().padLeft(2, '0')}-${picked.year}';
-                ctrl.text = formatted;
-                setState(() => _isDirty = true);
-              }
-            },
-            decoration: InputDecoration(
-              suffixIcon: const Icon(Icons.calendar_today_outlined,
-                  size: 18, color: IthakiTheme.softGraphite),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey.shade300)),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide:
-                      const BorderSide(color: IthakiTheme.primaryPurple)),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            ),
-          ),
-        ],
-      );
-
-  Widget _dropdownField(String label, String value, List<String> options,
-          void Function(String?) onChanged) =>
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(label,
-              style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: IthakiTheme.textPrimary)),
-          const SizedBox(height: 6),
-          InputDecorator(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey.shade300)),
-              focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide:
-                      const BorderSide(color: IthakiTheme.primaryPurple)),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            ),
-            child: DropdownButton<String>(
-              value: value.isNotEmpty ? value : null,
-              onChanged: onChanged,
-              isExpanded: true,
-              underline: const SizedBox.shrink(),
-              items: options
-                  .map((o) => DropdownMenuItem(value: o, child: Text(o)))
-                  .toList(),
-            ),
-          ),
-        ],
-      );
 
   @override
   Widget build(BuildContext context) {
@@ -244,107 +203,155 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade200),
+              borderRadius: BorderRadius.circular(20),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Profile Basics',
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: IthakiTheme.textPrimary)),
-                const SizedBox(height: 4),
-                const Text('Update your basic information.',
-                    style: TextStyle(
-                        fontSize: 14, color: IthakiTheme.textSecondary)),
-                const SizedBox(height: 20),
-
-                // Upload photo section
+                // ── Photo ──────────────────────────────────────────
                 Row(children: [
                   const CircleAvatar(
-                      radius: 32,
-                      backgroundColor: IthakiTheme.primaryPurple,
-                      child:
-                          Icon(Icons.person, color: Colors.white, size: 32)),
+                    radius: 24,
+                    backgroundColor: IthakiTheme.primaryPurple,
+                    child: IthakiIcon('profile', size: 20, color: Colors.white),
+                  ),
                   const SizedBox(width: 12),
                   const Expanded(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         Text(
-                            '5 Mb max, supported formats: .png, .jpg',
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: IthakiTheme.textSecondary)),
+                          '5 Mb max, supported formats: .png, .jpg',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: IthakiTheme.textSecondary),
+                        ),
                         SizedBox(height: 4),
                         Text(
-                            'We recommend a professional photo that clearly shows your face.',
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: IthakiTheme.textSecondary)),
-                      ])),
+                          'We recommend a professional photo that clearly shows your face.',
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: IthakiTheme.textSecondary),
+                        ),
+                      ],
+                    ),
+                  ),
                 ]),
                 const SizedBox(height: 8),
                 SizedBox(
                   width: double.infinity,
-                  child: OutlinedButton(
+                  child: OutlinedButton.icon(
                     onPressed: () {},
+                    icon: const IthakiIcon('reset', size: 16,
+                        color: IthakiTheme.textPrimary),
+                    label: const Text('Replace'),
                     style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: Colors.grey.shade300),
+                      side: const BorderSide(color: IthakiTheme.borderLight),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12)),
                       foregroundColor: IthakiTheme.textPrimary,
                     ),
-                    child: const Text('↺ Replace'),
                   ),
                 ),
                 const SizedBox(height: 20),
 
-                // Form fields
-                _labeledField('Name', _nameCtrl),
-                const SizedBox(height: 12),
-                _labeledField('Last Name', _lastNameCtrl),
-                const SizedBox(height: 12),
-                _dateField('Date of Birth', _dobCtrl),
-                const SizedBox(height: 12),
-                _dropdownField(
-                    'Gender',
-                    _gender,
-                    ['Male', 'Female', 'Other', 'Prefer not to say'],
-                    (v) => setState(() {
-                          _gender = v!;
-                          _isDirty = true;
-                        })),
-                const SizedBox(height: 12),
-                _labeledField('Citizenship', _citizenshipCtrl),
-                const SizedBox(height: 12),
-                _labeledField('Residence', _residenceCtrl),
-                const SizedBox(height: 12),
-                _dropdownField(
-                    'Status',
-                    _status,
-                    ['Citizen', 'Permanent Resident', 'Work Visa', 'Student'],
-                    (v) => setState(() {
-                          _status = v!;
-                          _isDirty = true;
-                        })),
-                const SizedBox(height: 12),
-                _dropdownField(
-                    'Relocation Readiness',
-                    _relocation,
-                    ['Yes', 'No', 'Open to discuss'],
-                    (v) => setState(() {
-                          _relocation = v!;
-                          _isDirty = true;
-                        })),
-                const SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
-                  child: IthakiButton('Save',
-                      onPressed: _isFormValid ? _save : null),
+                // ── Fields ─────────────────────────────────────────
+                IthakiTextField(
+                  label: 'Name',
+                  hint: 'Your first name',
+                  controller: _nameCtrl,
+                  onChanged: (_) => _markDirty(),
                 ),
+                const SizedBox(height: 12),
+                IthakiTextField(
+                  label: 'Last Name',
+                  hint: 'Your last name',
+                  controller: _lastNameCtrl,
+                  onChanged: (_) => _markDirty(),
+                ),
+                const SizedBox(height: 12),
+                IthakiTextField(
+                  label: 'Date of Birth',
+                  hint: 'DD-MM-YYYY',
+                  controller: _dobCtrl,
+                  readOnly: true,
+                  onTap: _pickDate,
+                  suffixIcon: const IthakiIcon('calendar', size: 16,
+                      color: IthakiTheme.softGraphite),
+                ),
+                const SizedBox(height: 12),
+                IthakiSelectorField(
+                  label: 'Gender',
+                  hint: 'Select gender',
+                  value: _gender.isEmpty ? null : _gender,
+                  onTap: () => _openSelectorSheet(
+                    'Gender',
+                    _genderOptions,
+                    _gender.isEmpty ? null : _gender,
+                    (v) => _gender = v,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                // Citizenship with flag
+                IthakiTextField(
+                  label: 'Citizenship',
+                  hint: 'Select country',
+                  controller: _citizenshipCtrl,
+                  readOnly: true,
+                  onTap: () => _openCountryPicker(
+                    'Citizenship',
+                    _citizenshipCtrl,
+                    (code) => _citizenshipCode = code,
+                  ),
+                  suffixIcon: _citizenshipCode.isNotEmpty
+                      ? IthakiFlag(_citizenshipCode, width: 24, height: 18)
+                      : const IthakiIcon('flag', size: 16,
+                              color: IthakiTheme.softGraphite),
+                ),
+                const SizedBox(height: 12),
+                // Residence with flag
+                IthakiTextField(
+                  label: 'Residence',
+                  hint: 'Select country',
+                  controller: _residenceCtrl,
+                  readOnly: true,
+                  onTap: () => _openCountryPicker(
+                    'Residence',
+                    _residenceCtrl,
+                    (code) => _residenceCode = code,
+                  ),
+                  suffixIcon: _residenceCode.isNotEmpty
+                      ? IthakiFlag(_residenceCode, width: 24, height: 18)
+                      : const IthakiIcon('flag', size: 16,
+                              color: IthakiTheme.softGraphite),
+                ),
+                const SizedBox(height: 12),
+                IthakiSelectorField(
+                  label: 'Status',
+                  hint: 'Select status',
+                  value: _status.isEmpty ? null : _status,
+                  onTap: () => _openSelectorSheet(
+                    'Status',
+                    _statusOptions,
+                    _status.isEmpty ? null : _status,
+                    (v) => _status = v,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                IthakiSelectorField(
+                  label: 'Relocation Readiness',
+                  hint: 'Select option',
+                  value: _relocation.isEmpty ? null : _relocation,
+                  onTap: () => _openSelectorSheet(
+                    'Relocation Readiness',
+                    _relocationOptions,
+                    _relocation.isEmpty ? null : _relocation,
+                    (v) => _relocation = v,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                IthakiButton('Save',
+                    onPressed: _isFormValid ? _save : null),
               ],
             ),
           ),

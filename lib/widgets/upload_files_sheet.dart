@@ -1,4 +1,5 @@
 // lib/widgets/upload_files_sheet.dart
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../models/profile_models.dart';
@@ -43,24 +44,25 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
     super.dispose();
   }
 
-  void _simulateUpload() {
-    // Simulate adding a mock file with progress
-    final mock = const UploadedFile(
-      name: 'CV_Christos_Ioannou.pdf',
-      size: '2.4 MB',
-      uploadProgress: 0.0,
+  Future<void> _pickFiles() async {
+    final result = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg'],
     );
-    setState(() => _files.add(mock));
-
-    // Simulate progress to 1.0 over 1.5s
-    Future.delayed(const Duration(milliseconds: 1500), () {
-      if (!mounted) return;
-      setState(() {
-        final idx = _files.indexOf(mock);
-        if (idx >= 0) {
-          _files[idx] = mock.copyWith(uploadProgress: 1.0);
-        }
-      });
+    if (result == null || !mounted) return;
+    setState(() {
+      for (final file in result.files) {
+        final sizeKb = file.size / 1024;
+        final sizeStr = sizeKb >= 1024
+            ? '${(sizeKb / 1024).toStringAsFixed(1)} MB'
+            : '${sizeKb.toStringAsFixed(0)} KB';
+        _files.add(UploadedFile(
+          name: file.name,
+          size: sizeStr,
+          uploadProgress: 1.0,
+        ));
+      }
     });
   }
 
@@ -68,73 +70,84 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
 
   @override
   Widget build(BuildContext context) {
+    final mq = MediaQuery.of(context);
+    final tabHeight = mq.size.height * 0.38;
     return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        padding: const EdgeInsets.fromLTRB(24, 20, 24, 32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Upload Files',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,
-                        color: IthakiTheme.textPrimary)),
-                IconButton(
-                  icon: const Icon(Icons.close, size: 22),
-                  onPressed: () => Navigator.of(context).pop(),
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-
-            // Tabs
-            TabBar(
-              controller: _tabCtrl,
-              labelColor: IthakiTheme.primaryPurple,
-              unselectedLabelColor: IthakiTheme.textSecondary,
-              indicatorColor: IthakiTheme.primaryPurple,
-              tabs: const [Tab(text: 'Upload File'), Tab(text: 'Upload via URL')],
-            ),
-            const SizedBox(height: 16),
-
-            // Tab content
-            SizedBox(
-              height: 280,
-              child: TabBarView(
-                controller: _tabCtrl,
+      padding: EdgeInsets.only(bottom: mq.viewInsets.bottom),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: mq.size.height * 0.88),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildUploadFileTab(),
-                  _buildUploadUrlTab(),
+                  const Text('Upload Files',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: IthakiTheme.textPrimary)),
+                  IconButton(
+                    icon: const Icon(Icons.close, size: 22),
+                    onPressed: () => Navigator.of(context).pop(),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
                 ],
               ),
-            ),
+              const SizedBox(height: 12),
 
-            const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: IthakiButton(
-                'Continue',
-                onPressed: _allComplete || _urlFile != null
-                    ? () {
-                        final result = [..._files];
-                        if (_urlFile != null) result.add(_urlFile!);
-                        widget.onContinue(result);
-                        Navigator.of(context).pop();
-                      }
-                    : null,
+              // Tabs
+              TabBar(
+                controller: _tabCtrl,
+                labelColor: IthakiTheme.primaryPurple,
+                unselectedLabelColor: IthakiTheme.textSecondary,
+                indicatorColor: IthakiTheme.primaryPurple,
+                tabs: const [
+                  Tab(text: 'Upload File'),
+                  Tab(text: 'Upload via URL'),
+                ],
               ),
-            ),
-          ],
+              const SizedBox(height: 16),
+
+              // Tab content — flexible so it doesn't overflow
+              SizedBox(
+                height: tabHeight,
+                child: TabBarView(
+                  controller: _tabCtrl,
+                  children: [
+                    _buildUploadFileTab(),
+                    _buildUploadUrlTab(),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: IthakiButton(
+                  'Continue',
+                  onPressed: _allComplete || _urlFile != null
+                      ? () {
+                          final result = [..._files];
+                          if (_urlFile != null) result.add(_urlFile!);
+                          widget.onContinue(result);
+                          Navigator.of(context).pop();
+                        }
+                      : null,
+                ),
+              ),
+              SizedBox(height: mq.padding.bottom + 20),
+            ],
+          ),
         ),
       ),
     );
@@ -149,7 +162,7 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
         ..._files.map((f) => _buildFileRow(f)),
         const SizedBox(height: 8),
         OutlinedButton(
-          onPressed: _simulateUpload,
+          onPressed: _pickFiles,
           style: _outlineStyle(),
           child: const Text('+ Upload More'),
         ),
@@ -170,7 +183,7 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
             style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 12),
-          IthakiButton('↑ Upload File', onPressed: _simulateUpload),
+          IthakiButton('↑ Upload File', onPressed: _pickFiles),
         ],
       ),
     );
@@ -194,8 +207,13 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
               borderRadius: BorderRadius.circular(6),
             ),
             alignment: Alignment.center,
-            child: const Text('PDF', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold,
-                color: IthakiTheme.softGraphite)),
+            child: Text(
+              f.name.contains('.')
+                  ? f.name.split('.').last.toUpperCase()
+                  : 'FILE',
+              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold,
+                  color: IthakiTheme.softGraphite),
+            ),
           ),
           const SizedBox(width: 10),
           Expanded(
