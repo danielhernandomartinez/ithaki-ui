@@ -104,9 +104,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             ]),
           ]),
           const SizedBox(height: 12),
-          _contactRow(Icons.email_outlined, profile.email),
+          _contactRow(const IthakiIcon('envelope', size: 16), profile.email),
           const SizedBox(height: 4),
-          _contactRow(Icons.phone_outlined, profile.phone),
+          _contactRow(const IthakiIcon('phone', size: 16), profile.phone),
           const SizedBox(height: 8),
           const Text(
             "Employers won't see your contact details until you apply for a job or accept an invitation.",
@@ -793,8 +793,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 fontSize: 13, color: IthakiTheme.primaryPurple)),
       );
 
-  Widget _contactRow(IconData icon, String text) => Row(children: [
-        Icon(icon, size: 16, color: IthakiTheme.softGraphite),
+  Widget _contactRow(Widget icon, String text) => Row(children: [
+        icon,
         const SizedBox(width: 6),
         Text(text,
             style: const TextStyle(
