@@ -123,8 +123,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             Expanded(child: _infoCell('Location', profile.residence)),
           ]),
           const SizedBox(height: 12),
-          _outlineButton(
-              '✏ Edit Profile Basics', () => context.push('/profile/basics')),
+          _iconOutlineButton(
+              const IthakiIcon('edit-pencil', size: 16),
+              'Edit Profile Basics',
+              () => context.push('/profile/basics')),
         ]),
       );
 
@@ -239,7 +241,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         _prefGrid(profile),
         const SizedBox(height: 12),
         _iconOutlineButton(
-          Icons.edit_outlined,
+          const IthakiIcon('edit-pencil', size: 16),
           'Edit Jobs Preferences',
           () => context.push('/profile/job-preferences'),
         ),
@@ -341,8 +343,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     if (profile.bio.isEmpty) {
       return _emptyCard(
         message: 'No about me information added yet.',
-        button: _outlineButton('+ Add About Me Information',
-            () => context.push('/profile/about-me')),
+        button: _iconOutlineButton(const IthakiIcon('plus', size: 16),
+            'Add About Me Information', () => context.push('/profile/about-me')),
       );
     }
     return Container(
@@ -380,8 +382,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ),
         ],
         const SizedBox(height: 12),
-        _outlineButton(
-            '+ Edit About Me', () => context.push('/profile/about-me')),
+        _iconOutlineButton(const IthakiIcon('edit-pencil', size: 16),
+            'Edit About Me', () => context.push('/profile/about-me')),
       ]),
     );
   }
@@ -397,8 +399,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     if (isEmpty) {
       return _emptyCard(
         message: 'No skills added yet.',
-        button: _outlineButton(
-            '+ Add Skills', () => context.push('/profile/skills')),
+        button: _iconOutlineButton(const IthakiIcon('plus', size: 16),
+            'Add Skills', () => context.push('/profile/skills')),
       );
     }
 
@@ -522,15 +524,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   style: const TextStyle(
                       fontSize: 12, color: IthakiTheme.softGraphite)),
               const SizedBox(height: 12),
-              _outlineButton(
+              _iconOutlineButton(const IthakiIcon('edit-pencil', size: 16),
                   'Edit', () => context.push('/profile/work-experience')),
             ]),
           );
         }),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: _outlineButton('+ Add Work Experience',
-              () => context.push('/profile/work-experience')),
+          child: _iconOutlineButton(const IthakiIcon('plus', size: 16),
+              'Add Work Experience', () => context.push('/profile/work-experience')),
         ),
         const SizedBox(height: 4),
       ],
@@ -571,14 +573,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   style: const TextStyle(
                       fontSize: 12, color: IthakiTheme.softGraphite)),
               const SizedBox(height: 12),
-              _outlineButton('Edit', () => context.push('/profile/education')),
+              _iconOutlineButton(const IthakiIcon('edit-pencil', size: 16),
+                  'Edit', () => context.push('/profile/education')),
             ]),
           );
         }),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: _outlineButton(
-              '+ Add Education', () => context.push('/profile/education')),
+          child: _iconOutlineButton(const IthakiIcon('plus', size: 16),
+              'Add Education', () => context.push('/profile/education')),
         ),
         const SizedBox(height: 4),
       ],
@@ -603,24 +606,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 12),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton(
-              onPressed: () =>
-                  UploadFilesSheet.show(context, onContinue: (files) {
-                for (final f in files) {
-                  ref.read(profileProvider.notifier).addFile(f);
-                }
-              }),
-              style: OutlinedButton.styleFrom(
-                side: BorderSide(color: Colors.grey.shade300),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                foregroundColor: IthakiTheme.textPrimary,
-              ),
-              child: const Text('↑ Upload Documents'),
-            ),
+          _iconOutlineButton(
+            const IthakiIcon('upload-cloud', size: 16),
+            'Upload Documents',
+            () => UploadFilesSheet.show(context, onContinue: (files) {
+              for (final f in files) {
+                ref.read(profileProvider.notifier).addFile(f);
+              }
+            }),
           ),
         ]),
       );
@@ -690,16 +683,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           );
         }),
         const SizedBox(height: 4),
-        _outlineButton(
-          '↑ Upload Documents',
-          () => UploadFilesSheet.show(
-            context,
-            onContinue: (files) {
-              for (final f in files) {
-                ref.read(profileProvider.notifier).addFile(f);
-              }
-            },
-          ),
+        _iconOutlineButton(
+          const IthakiIcon('upload-cloud', size: 16),
+          'Upload Documents',
+          () => UploadFilesSheet.show(context, onContinue: (files) {
+            for (final f in files) {
+              ref.read(profileProvider.notifier).addFile(f);
+            }
+          }),
         ),
       ]),
     );
@@ -711,8 +702,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     if (profile.values.isEmpty) {
       return _emptyCard(
         message: 'No values added yet.',
-        button: _outlineButton(
-            '✏ Update Values', () => context.push('/setup/values')),
+        button: _iconOutlineButton(const IthakiIcon('edit-pencil', size: 16),
+            'Update Values', () => context.push('/setup/values')),
       );
     }
     return Container(
@@ -730,7 +721,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           children: profile.values.map(_chip).toList(),
         ),
         const SizedBox(height: 12),
-        _outlineButton('✏ Update Values', () => context.push('/setup/values')),
+        _iconOutlineButton(const IthakiIcon('edit-pencil', size: 16),
+            'Update Values', () => context.push('/setup/values')),
       ]),
     );
   }
@@ -758,11 +750,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 _moreButton(context),
               ])
             : Row(children: [
-                Expanded(child: _outlineButton('📄 Open CV', () {})),
+                Expanded(child: _iconOutlineButton(
+                    const IthakiIcon('resume', size: 16), 'Open CV', () {})),
                 const SizedBox(width: 8),
-                Expanded(
-                    child: _outlineButton(
-                        '⚙ Account Settings', () => context.push('/settings'))),
+                Expanded(child: _iconOutlineButton(
+                    const IthakiIcon('settings', size: 16), 'Account Settings',
+                    () => context.push('/settings'))),
               ]),
       ),
     );
@@ -823,12 +816,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ],
       );
 
-  Widget _iconOutlineButton(IconData icon, String label, VoidCallback onPressed) =>
+  Widget _iconOutlineButton(Widget icon, String label, VoidCallback onPressed) =>
       SizedBox(
         width: double.infinity,
         child: OutlinedButton.icon(
           onPressed: onPressed,
-          icon: Icon(icon, size: 16),
+          icon: icon,
           label: Text(label),
           style: OutlinedButton.styleFrom(
             side: BorderSide(color: Colors.grey.shade300),
@@ -840,20 +833,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ),
       );
 
-  Widget _outlineButton(String label, VoidCallback onPressed) => SizedBox(
-        width: double.infinity,
-        child: OutlinedButton(
-          onPressed: onPressed,
-          style: OutlinedButton.styleFrom(
-            side: BorderSide(color: Colors.grey.shade300),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            foregroundColor: IthakiTheme.textPrimary,
-          ),
-          child: Text(label),
-        ),
-      );
 
   Widget _moreButton(BuildContext ctx) => OutlinedButton(
         onPressed: () {
