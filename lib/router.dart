@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ithaki_ui/screens/auth/select_language_screen.dart';
 import 'screens/auth/tech_comfort_screen.dart';
 import 'screens/auth/register_screen.dart';
 import 'screens/auth/personal_details_screen.dart';
@@ -7,7 +8,6 @@ import 'screens/auth/verify_email_screen.dart';
 import 'screens/auth/choose_verify_method_screen.dart';
 import 'screens/auth/verify_otp_screen.dart';
 import 'screens/auth/forgot_password_screen.dart';
-import 'screens/auth/login_email_screen.dart';
 import 'screens/auth/reset_link_sent_screen.dart';
 import 'screens/auth/reset_password_screen.dart';
 import 'screens/auth/login_phone_screen.dart';
@@ -87,7 +87,7 @@ class IthakiRouter {
       ),
       GoRoute(
         path: '/login-email',
-        builder: (context, state) => const LoginEmailScreen(),
+        builder: (context, state) => const HomeScreen(),
       ),
       GoRoute(
         path: '/forgot-password',

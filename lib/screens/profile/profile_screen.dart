@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/upload_files_sheet.dart';
 
@@ -35,7 +36,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       extendBodyBehindAppBar: true,
       appBar: IthakiAppBar(
         showMenuAndAvatar: true,
-        avatarInitials: '${profile.firstName.isNotEmpty ? profile.firstName[0] : '?'}${profile.lastName.isNotEmpty ? profile.lastName[0] : '?'}',
+        avatarInitials:
+            '${profile.firstName.isNotEmpty ? profile.firstName[0] : '?'}${profile.lastName.isNotEmpty ? profile.lastName[0] : '?'}',
         onMenuPressed: () {},
         onAvatarPressed: () {},
       ),
@@ -90,10 +92,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     fontWeight: FontWeight.bold,
                     color: IthakiTheme.textPrimary),
               ),
-              const Text(
-                'Junior Front-End Developer',
-                style:
-                    TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
+              Text(
+                profile.jobInterests.isNotEmpty
+                    ? profile.jobInterests.first.title
+                    : profile.jobType.isNotEmpty
+                        ? profile.jobType
+                        : 'Job Seeker',
+                style: const TextStyle(
+                    fontSize: 14, color: IthakiTheme.textSecondary),
               ),
             ]),
           ]),
@@ -104,14 +110,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           const SizedBox(height: 8),
           const Text(
             "Employers won't see your contact details until you apply for a job or accept an invitation.",
-            style:
-                TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
+            style: TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
           ),
           const Divider(height: 24),
           Row(children: [
             Expanded(child: _infoCell('Gender', profile.gender)),
-            Expanded(
-                child: _infoCell('Age', _calcAge(profile.dateOfBirth))),
+            Expanded(child: _infoCell('Age', _calcAge(profile.dateOfBirth))),
           ]),
           const SizedBox(height: 8),
           Row(children: [
@@ -137,8 +141,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             onTap: () => setState(() => _tabIndex = e.key),
             child: Container(
               margin: const EdgeInsets.only(right: 8),
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: selected ? Colors.white : Colors.transparent,
                 borderRadius: BorderRadius.circular(999),
@@ -153,8 +156,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 e.value,
                 style: TextStyle(
                   fontSize: 13,
-                  fontWeight:
-                      selected ? FontWeight.w600 : FontWeight.w400,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
                   color: selected
                       ? IthakiTheme.primaryPurple
                       : IthakiTheme.textSecondary,
@@ -193,66 +195,145 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   // ─── Tab: Job Preferences ─────────────────────────────────────────
 
   Widget _buildJobPreferencesTab(ProfileState profile) {
-    if (profile.jobInterests.isEmpty) {
-      return _emptyCard(
-        message: 'No job preferences added yet.',
-        button: _outlineButton('+ Edit Job Preferences',
-            () => context.push('/profile/job-preferences')),
-      );
-    }
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('Job Interests',
-            style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: IthakiTheme.textPrimary)),
-        const SizedBox(height: 8),
-        ...profile.jobInterests.map((i) => Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: Text(
-                '${i.title}  •  ${i.category}',
-                style: const TextStyle(
-                    fontSize: 13, color: IthakiTheme.textSecondary),
-              ),
-            )),
-        const Divider(height: 24),
-        const Text('Preferences',
-            style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: IthakiTheme.textPrimary)),
-        const SizedBox(height: 8),
-        Wrap(
-          spacing: 12,
-          runSpacing: 8,
-          children: [
-            if (profile.positionLevel.isNotEmpty)
-              _infoCell('Level', profile.positionLevel),
-            if (profile.jobType.isNotEmpty)
-              _infoCell('Job Type', profile.jobType),
-            if (profile.workplace.isNotEmpty)
-              _infoCell('Workplace', profile.workplace),
-            if (profile.expectedSalary != null)
-              _infoCell('Expected Salary',
-                  '€${profile.expectedSalary!.toStringAsFixed(0)}'),
-            if (profile.preferNotToSpecifySalary)
-              _infoCell('Salary', 'Prefer not to specify'),
-          ],
+        const Text(
+          'Job Preferences',
+          style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: IthakiTheme.textPrimary),
         ),
+        const SizedBox(height: 4),
+        const Text(
+          'This shows the job you are currently looking for. You can change this anytime.',
+          style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+        ),
+        const SizedBox(height: 16),
+        if (profile.jobInterests.isNotEmpty) ...[
+          const Text(
+            'Job Interests',
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: IthakiTheme.textPrimary),
+          ),
+          const SizedBox(height: 8),
+          ...profile.jobInterests.map(_jobInterestCard),
+          const SizedBox(height: 8),
+        ],
+        const Text(
+          'Preferences',
+          style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: IthakiTheme.textPrimary),
+        ),
+        const SizedBox(height: 8),
+        _prefGrid(profile),
         const SizedBox(height: 12),
-        _outlineButton('+ Edit Job Preferences',
-            () => context.push('/profile/job-preferences')),
+        _iconOutlineButton(
+          Icons.edit_outlined,
+          'Edit Jobs Preferences',
+          () => context.push('/profile/job-preferences'),
+        ),
       ]),
     );
   }
+
+  Widget _jobInterestCard(JobInterest jobInterest) => Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF8F7FC),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(children: [
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: IthakiTheme.primaryPurple.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: const Icon(Icons.rocket_launch_outlined,
+                size: 18, color: IthakiTheme.primaryPurple),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(jobInterest.title,
+                      style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: IthakiTheme.textPrimary)),
+                  Text(jobInterest.category,
+                      style: const TextStyle(
+                          fontSize: 12, color: IthakiTheme.textSecondary)),
+                ]),
+          ),
+        ]),
+      );
+
+  Widget _prefGrid(ProfileState profile) {
+    final salary = profile.preferNotToSpecifySalary
+        ? 'Not specified'
+        : profile.expectedSalary != null
+            ? '${profile.expectedSalary!.toStringAsFixed(0)} € / month'
+            : '—';
+    return Column(children: [
+      Row(children: [
+        Expanded(child: _prefCell(Icons.business_outlined, 'Workspace',
+            profile.workplace.isNotEmpty ? profile.workplace : '—')),
+        const SizedBox(width: 8),
+        Expanded(child: _prefCell(Icons.access_time_outlined, 'Job Type',
+            profile.jobType.isNotEmpty ? profile.jobType : '—')),
+      ]),
+      const SizedBox(height: 8),
+      Row(children: [
+        Expanded(child: _prefCell(Icons.bar_chart_outlined, 'Level',
+            profile.positionLevel.isNotEmpty ? profile.positionLevel : '—')),
+        const SizedBox(width: 8),
+        Expanded(child: _prefCell(
+            Icons.account_balance_wallet_outlined, 'Desired Salary', salary)),
+      ]),
+    ]);
+  }
+
+  Widget _prefCell(IconData icon, String label, String value) => Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF8F7FC),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Icon(icon, size: 16, color: IthakiTheme.softGraphite),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(label,
+                      style: const TextStyle(
+                          fontSize: 11, color: IthakiTheme.textSecondary)),
+                  const SizedBox(height: 2),
+                  Text(value,
+                      style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: IthakiTheme.textPrimary)),
+                ]),
+          ),
+        ]),
+      );
 
   // ─── Tab: About Me ────────────────────────────────────────────────
 
@@ -275,9 +356,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(profile.bio,
             style: const TextStyle(
-                fontSize: 14,
-                color: IthakiTheme.textSecondary,
-                height: 1.5)),
+                fontSize: 14, color: IthakiTheme.textSecondary, height: 1.5)),
         if (profile.videoUrl != null) ...[
           const SizedBox(height: 16),
           const Text('Introduction Video',
@@ -301,8 +380,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ),
         ],
         const SizedBox(height: 12),
-        _outlineButton('+ Edit About Me',
-            () => context.push('/profile/about-me')),
+        _outlineButton(
+            '+ Edit About Me', () => context.push('/profile/about-me')),
       ]),
     );
   }
@@ -377,8 +456,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           color: IthakiTheme.textPrimary)),
                   Text(e.value,
                       style: const TextStyle(
-                          fontSize: 13,
-                          color: IthakiTheme.textSecondary)),
+                          fontSize: 13, color: IthakiTheme.textSecondary)),
                 ]),
               )),
           const SizedBox(height: 12),
@@ -402,8 +480,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   const SizedBox(width: 8),
                   Text(l.proficiency,
                       style: const TextStyle(
-                          fontSize: 12,
-                          color: IthakiTheme.textSecondary)),
+                          fontSize: 12, color: IthakiTheme.textSecondary)),
                 ]),
               )),
         ],
@@ -422,8 +499,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           final endLabel =
               exp.currentlyWorkHere ? 'Present' : (exp.endDate ?? '');
           return Container(
-            margin:
-                const EdgeInsets.only(left: 16, right: 16, bottom: 12),
+            margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -446,8 +522,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   style: const TextStyle(
                       fontSize: 12, color: IthakiTheme.softGraphite)),
               const SizedBox(height: 12),
-              _outlineButton('Edit',
-                  () => context.push('/profile/work-experience')),
+              _outlineButton(
+                  'Edit', () => context.push('/profile/work-experience')),
             ]),
           );
         }),
@@ -472,8 +548,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           final endLabel =
               edu.currentlyStudyHere ? 'Present' : (edu.endDate ?? '');
           return Container(
-            margin:
-                const EdgeInsets.only(left: 16, right: 16, bottom: 12),
+            margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -496,8 +571,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   style: const TextStyle(
                       fontSize: 12, color: IthakiTheme.softGraphite)),
               const SizedBox(height: 12),
-              _outlineButton(
-                  'Edit', () => context.push('/profile/education')),
+              _outlineButton('Edit', () => context.push('/profile/education')),
             ]),
           );
         }),
@@ -532,14 +606,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           SizedBox(
             width: double.infinity,
             child: OutlinedButton(
-              onPressed: () => UploadFilesSheet.show(context, onContinue: (files) {
+              onPressed: () =>
+                  UploadFilesSheet.show(context, onContinue: (files) {
                 for (final f in files) {
                   ref.read(profileProvider.notifier).addFile(f);
                 }
               }),
               style: OutlinedButton.styleFrom(
                 side: BorderSide(color: Colors.grey.shade300),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 foregroundColor: IthakiTheme.textPrimary,
               ),
@@ -596,8 +672,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               color: IthakiTheme.textPrimary)),
                       Text(f.size,
                           style: const TextStyle(
-                              fontSize: 12,
-                              color: IthakiTheme.textSecondary)),
+                              fontSize: 12, color: IthakiTheme.textSecondary)),
                     ]),
               ),
               TextButton(
@@ -608,8 +683,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               TextButton(
                 onPressed: () =>
                     ref.read(profileProvider.notifier).deleteFile(i),
-                child: const Text('Delete',
-                    style: TextStyle(color: Colors.red)),
+                child:
+                    const Text('Delete', style: TextStyle(color: Colors.red)),
               ),
             ]),
           );
@@ -655,8 +730,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           children: profile.values.map(_chip).toList(),
         ),
         const SizedBox(height: 12),
-        _outlineButton(
-            '✏ Update Values', () => context.push('/setup/values')),
+        _outlineButton('✏ Update Values', () => context.push('/setup/values')),
       ]),
     );
   }
@@ -664,8 +738,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   // ─── Sticky Bottom Bar ────────────────────────────────────────────
 
   Widget _buildStickyBottomBar(ProfileState profile) {
-    final isIncomplete =
-        profile.workExperiences.isEmpty || profile.educations.isEmpty;
+    final isIncomplete = profile.jobInterests.isEmpty &&
+        profile.workExperiences.isEmpty &&
+        profile.educations.isEmpty;
     return Positioned(
       left: 0,
       right: 0,
@@ -686,8 +761,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 Expanded(child: _outlineButton('📄 Open CV', () {})),
                 const SizedBox(width: 8),
                 Expanded(
-                    child: _outlineButton('⚙ Account Settings',
-                        () => context.push('/settings'))),
+                    child: _outlineButton(
+                        '⚙ Account Settings', () => context.push('/settings'))),
               ]),
       ),
     );
@@ -714,8 +789,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       );
 
   Widget _chip(String label) => Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           color: const Color(0xFFF6F2FE),
           borderRadius: BorderRadius.circular(999),
@@ -749,14 +823,31 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ],
       );
 
+  Widget _iconOutlineButton(IconData icon, String label, VoidCallback onPressed) =>
+      SizedBox(
+        width: double.infinity,
+        child: OutlinedButton.icon(
+          onPressed: onPressed,
+          icon: Icon(icon, size: 16),
+          label: Text(label),
+          style: OutlinedButton.styleFrom(
+            side: BorderSide(color: Colors.grey.shade300),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12)),
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            foregroundColor: IthakiTheme.textPrimary,
+          ),
+        ),
+      );
+
   Widget _outlineButton(String label, VoidCallback onPressed) => SizedBox(
         width: double.infinity,
         child: OutlinedButton(
           onPressed: onPressed,
           style: OutlinedButton.styleFrom(
             side: BorderSide(color: Colors.grey.shade300),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             padding: const EdgeInsets.symmetric(vertical: 12),
             foregroundColor: IthakiTheme.textPrimary,
           ),
