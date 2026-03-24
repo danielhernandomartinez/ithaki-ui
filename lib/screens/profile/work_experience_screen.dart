@@ -1,7 +1,6 @@
 // lib/screens/profile/work_experience_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
@@ -42,21 +41,9 @@ class WorkExperienceScreen extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: IthakiTheme.textPrimary),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
-          'Work Experience',
-          style: TextStyle(
-            color: IthakiTheme.textPrimary,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+      appBar: IthakiAppBar(
+        showBackButton: true,
+        title: 'Work Experience',
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(bottom: 32),

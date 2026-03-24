@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
+import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/upload_files_sheet.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -13,8 +14,48 @@ class ProfileScreen extends ConsumerStatefulWidget {
   ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends ConsumerState<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen>
+    with TickerProviderStateMixin {
   int _tabIndex = 0;
+  bool _menuOpen = false;
+  late final AnimationController _menuCtrl;
+  late final Animation<Offset> _slideAnim;
+
+  static const _navItems = [
+    NavItem(icon: 'home',         label: 'Home',             route: '/home'),
+    NavItem(icon: 'jobs',         label: 'Job Search',       route: '/job-search'),
+    NavItem(icon: 'applications', label: 'My Applications',  route: '/applications', badge: 3),
+    NavItem(icon: 'ai',           label: 'Career Assistant', route: '/career-assistant'),
+    NavItem(icon: 'assessment',   label: 'My Assessments',   route: '/assessments'),
+    NavItem(icon: 'learning-hub', label: 'Learning Hub',     route: '/learning-hub'),
+    NavItem(icon: 'blog',         label: 'Blog & News',      route: '/blog'),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _menuCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 250));
+    _menuCtrl.addStatusListener((_) => setState(() {}));
+    _slideAnim = Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero)
+        .animate(CurvedAnimation(parent: _menuCtrl, curve: Curves.easeOut));
+  }
+
+  @override
+  void dispose() {
+    _menuCtrl.dispose();
+    super.dispose();
+  }
+
+  void _toggleMenu() {
+    setState(() => _menuOpen = !_menuOpen);
+    _menuOpen ? _menuCtrl.forward() : _menuCtrl.reverse();
+  }
+
+  void _closeMenu() {
+    if (!_menuOpen) return;
+    setState(() => _menuOpen = false);
+    _menuCtrl.reverse();
+  }
 
   static const _tabs = [
     'Job Preferences',
@@ -36,9 +77,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       extendBodyBehindAppBar: true,
       appBar: IthakiAppBar(
         showMenuAndAvatar: true,
+        menuOpen: _menuOpen,
         avatarInitials:
             '${profile.firstName.isNotEmpty ? profile.firstName[0] : '?'}${profile.lastName.isNotEmpty ? profile.lastName[0] : '?'}',
-        onMenuPressed: () {},
+        onMenuPressed: _toggleMenu,
         onAvatarPressed: () {},
       ),
       body: Stack(children: [
@@ -58,6 +100,33 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           ]),
         ),
         _buildStickyBottomBar(profile),
+        if (_menuOpen)
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: _closeMenu,
+              child: Container(color: Colors.black26),
+            ),
+          ),
+        if (_menuOpen || _menuCtrl.status != AnimationStatus.dismissed)
+          Positioned(
+            top: topOffset + 16,
+            left: 16, right: 16, bottom: 40,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: SlideTransition(
+                position: _slideAnim,
+                child: AppNavDrawer(
+                  currentRoute: '/profile',
+                  profileProgress: 0.25,
+                  items: _navItems,
+                  onItemTap: (item) {
+                    _closeMenu();
+                    context.go(item.route);
+                  },
+                ),
+              ),
+            ),
+          ),
       ]),
     );
   }

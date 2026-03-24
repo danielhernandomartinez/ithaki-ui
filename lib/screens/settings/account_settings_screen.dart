@@ -17,22 +17,9 @@ class AccountSettingsScreen extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: IthakiTheme.textPrimary),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
-          'Account Settings',
-          style: TextStyle(
-            color: IthakiTheme.textPrimary,
-            fontWeight: FontWeight.w700,
-            fontSize: 18,
-          ),
-        ),
+      appBar: IthakiAppBar(
+        showBackButton: true,
+        title: 'Account Settings',
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(bottom: 32),

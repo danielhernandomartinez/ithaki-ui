@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/mock_home_data.dart';
-import '../../providers/tour_provider.dart';
-import '../../tour/tour_welcome_modal.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
 
@@ -47,13 +46,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
     _profileSlideAnim = Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero)
         .animate(CurvedAnimation(parent: _profileCtrl, curve: Curves.easeOut));
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref.read(tourProvider.notifier).init();
-      final tourState = ref.read(tourProvider);
-      if (tourState.welcomeVisible && mounted) {
-        TourWelcomeModal.show(context);
-      }
-    });
   }
 
   @override
@@ -87,43 +79,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
     _profileCtrl.reverse();
   }
 
-  Future<void> _scrollToStep(int step) async {
-    final tourKeys = ref.read(tourKeysProvider);
-    final key = tourKeys[step];
-    if (key == null) return;
-    final ctx = key.currentContext;
-    if (ctx == null) return;
-    await Scrollable.ensureVisible(
-      ctx,
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeInOut,
-      alignment: 0.2,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    final tourKeys = ref.watch(tourKeysProvider);
-    final showTourBanner = !ref.watch(tourProvider).tourCompleted;
     final topOffset =
         MediaQuery.of(context).padding.top + kToolbarHeight + 16;
-
-    ref.listen<TourState>(tourProvider, (prev, next) {
-      if (next.currentStep != (prev?.currentStep ?? 0) &&
-          next.currentStep >= 1 &&
-          next.currentStep <= 13) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _scrollToStep(next.currentStep);
-        });
-      }
-    });
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
       extendBodyBehindAppBar: true,
       appBar: IthakiAppBar(
-        menuKey: tourKeys[1],
-        avatarKey: tourKeys[2],
         showMenuAndAvatar: true,
         menuOpen: _menuOpen,
         profileOpen: _profileOpen,
@@ -138,128 +102,86 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ─── Product Tour (new user) — primera tarjeta ───
-                if (showTourBanner) ...[
-                  KeyedSubtree(
-                    key: tourKeys[3],
-                    child: _buildProductTourCard(firstItemOffset: topOffset),
-                  ),
-                  const SizedBox(height: 12),
-                ],
-
-                KeyedSubtree(
-                  key: tourKeys[4],
-                  child: _buildGreetingHeader(showTourBanner ? 0 : topOffset),
-                ),
+                _buildGreetingHeader(topOffset),
                 const SizedBox(height: 12),
 
-                // ─── Profile Completion (new user) ───────────────
                 if (MockHomeData.isNewUser) ...[
-                  KeyedSubtree(
-                    key: tourKeys[5],
-                    child: _buildProfileCompletionCard(),
-                  ),
+                  _buildProfileCompletionCard(),
                   const SizedBox(height: 12),
                 ],
 
-
-                KeyedSubtree(
-                  key: tourKeys[6],
-                  child: _buildSectionCard(child: _buildSearchContent()),
+                _buildSectionCard(child: _buildSearchContent()),
+                const SizedBox(height: 12),
+                _buildSectionCard(child: _buildJobsContent()),
+                const SizedBox(height: 12),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: IthakiGradientBanner(
+                    title: 'Not sure how to find the right job?',
+                    subtitle: "Career Assistant can help if you're not sure where to start!",
+                    buttonLabel: 'Ask Career Assistant',
+                    buttonIcon: const IthakiIcon('ai', size: 18, color: Colors.white),
+                    onButtonPressed: () {},
+                    backgroundImage: const DecorationImage(
+                      image: AssetImage('assets/images/ai_banner_bg.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 12),
-                KeyedSubtree(
-                  key: tourKeys[7],
-                  child: _buildSectionCard(child: _buildJobsContent()),
-                ),
-                const SizedBox(height: 12),
-                KeyedSubtree(
-                  key: tourKeys[8],
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: IthakiGradientBanner(
-                      title: 'Not sure how to find the right job?',
-                      subtitle:
-                          "Career Assistant can help if you're not sure where to start!",
-                      buttonLabel: 'Ask Career Assistant',
-                      buttonIcon: const IthakiIcon('ai', size: 18, color: Colors.white),
-                      onButtonPressed: () {},
-                      backgroundImage: const DecorationImage(
-                        image: AssetImage('assets/images/ai_banner_bg.png'),
-                        fit: BoxFit.cover,
+                _buildSectionCard(
+                  child: IthakiStatCard(
+                    title: 'Your CV Success',
+                    rows: [
+                      IthakiStatRowData(
+                        icon: const IthakiIcon('eye', size: 18, color: IthakiTheme.primaryPurple),
+                        label: 'Views',
+                        value: MockHomeData.cvStats.views,
+                        change: MockHomeData.cvStats.viewsChange,
                       ),
-                    ),
+                      IthakiStatRowData(
+                        icon: const IthakiIcon('envelope', size: 18, color: IthakiTheme.primaryPurple),
+                        label: 'Invitations',
+                        value: MockHomeData.cvStats.invitations,
+                        change: MockHomeData.cvStats.invitationsChange,
+                      ),
+                      IthakiStatRowData(
+                        icon: const IthakiIcon('applications', size: 22, color: IthakiTheme.primaryPurple),
+                        label: 'Applications Sent',
+                        value: MockHomeData.cvStats.applicationsSent,
+                      ),
+                      IthakiStatRowData(
+                        icon: const IthakiIcon('rocket', size: 22, color: IthakiTheme.primaryPurple),
+                        label: 'Interviews',
+                        value: MockHomeData.cvStats.interviews,
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 12),
-                KeyedSubtree(
-                  key: tourKeys[9],
-                  child: _buildSectionCard(
-                    child: IthakiStatCard(
-                      title: 'Your CV Success',
-                      rows: [
-                        IthakiStatRowData(
-                          icon: const IthakiIcon('eye', size: 18, color: IthakiTheme.primaryPurple),
-                          label: 'Views',
-                          value: MockHomeData.cvStats.views,
-                          change: MockHomeData.cvStats.viewsChange,
-                        ),
-                        IthakiStatRowData(
-                          icon: const IthakiIcon('envelope', size: 18, color: IthakiTheme.primaryPurple),
-                          label: 'Invitations',
-                          value: MockHomeData.cvStats.invitations,
-                          change: MockHomeData.cvStats.invitationsChange,
-                        ),
-                        IthakiStatRowData(
-                          icon: const IthakiIcon('applications', size: 22, color: IthakiTheme.primaryPurple),
-                          label: 'Applications Sent',
-                          value: MockHomeData.cvStats.applicationsSent,
-                        ),
-                        IthakiStatRowData(
-                          icon: const IthakiIcon('rocket', size: 22, color: IthakiTheme.primaryPurple),
-                          label: 'Interviews',
-                          value: MockHomeData.cvStats.interviews,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                _buildSectionCard(child: _buildCoursesContent()),
                 const SizedBox(height: 12),
-                KeyedSubtree(
-                  key: tourKeys[10],
-                  child: _buildSectionCard(child: _buildCoursesContent()),
-                ),
+                _buildSectionCard(child: _buildNewsContent()),
                 const SizedBox(height: 12),
-                KeyedSubtree(
-                  key: tourKeys[11],
-                  child: _buildSectionCard(child: _buildNewsContent()),
-                ),
-                const SizedBox(height: 12),
-                KeyedSubtree(
-                  key: tourKeys[12],
-                  child: _buildSectionCard(child: _buildQuestionsContent()),
-                ),
+                _buildSectionCard(child: _buildQuestionsContent()),
                 const SizedBox(height: 12),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24),
                   child: Divider(height: 1, color: IthakiTheme.borderLight),
                 ),
-                KeyedSubtree(
-                  key: tourKeys[13],
-                  child: IthakiFooter(
-                    brandName: 'Odyssea',
-                    copyright: 'Copyright © Ithaki 2025. #1 Job-Seeker service in Greece',
-                    privacyLabel: 'Privacy Policy',
-                    termsLabel: 'Terms of Use',
-                    socialIcons: const [
-                      IthakiIcon('tiktok',    size: 24, color: IthakiTheme.softGraphite),
-                      IthakiIcon('youtube',   size: 24, color: IthakiTheme.softGraphite),
-                      IthakiIcon('instagram', size: 24, color: IthakiTheme.softGraphite),
-                      IthakiIcon('linkedin',  size: 24, color: IthakiTheme.softGraphite),
-                      IthakiIcon('facebook',  size: 24, color: IthakiTheme.softGraphite),
-                      IthakiIcon('x',         size: 24, color: IthakiTheme.softGraphite),
-                    ],
-                  ),
+                IthakiFooter(
+                  brandName: 'Odyssea',
+                  copyright: 'Copyright © Ithaki 2025. #1 Job-Seeker service in Greece',
+                  privacyLabel: 'Privacy Policy',
+                  termsLabel: 'Terms of Use',
+                  socialIcons: const [
+                    IthakiIcon('tiktok',    size: 24, color: IthakiTheme.softGraphite),
+                    IthakiIcon('youtube',   size: 24, color: IthakiTheme.softGraphite),
+                    IthakiIcon('instagram', size: 24, color: IthakiTheme.softGraphite),
+                    IthakiIcon('linkedin',  size: 24, color: IthakiTheme.softGraphite),
+                    IthakiIcon('facebook',  size: 24, color: IthakiTheme.softGraphite),
+                    IthakiIcon('x',         size: 24, color: IthakiTheme.softGraphite),
+                  ],
                 ),
                 SizedBox(height: MediaQuery.of(context).padding.bottom + 16),
               ],
@@ -304,7 +226,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                 child: SlideTransition(
                   position: _profileSlideAnim,
                   child: ProfileMenuPanel(
-                    onItemTap: (_) => _closeProfile(),
+                    onItemTap: (item) {
+                      _closeProfile();
+                      if (item.route.isNotEmpty) context.push(item.route);
+                    },
                     onLogOut: _closeProfile,
                   ),
                 ),
@@ -589,53 +514,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
   // ─── Shared Helpers ───────────────────────────────────────────────
 
   // ─── Product Tour Card ────────────────────────────────────────────
-
-  Widget _buildProductTourCard({double firstItemOffset = 0}) {
-    return Padding(
-      padding: EdgeInsets.only(top: firstItemOffset + 12, left: 16, right: 16),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const IthakiIcon('rocket', size: 20, color: IthakiTheme.primaryPurple),
-                const SizedBox(width: 8),
-                const Expanded(
-                  child: Text(
-                    'Start product tour',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: IthakiTheme.textPrimary,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () => ref.read(tourProvider.notifier).confirmSkip(),
-                  child: const IthakiIcon('x-close', size: 18, color: IthakiTheme.softGraphite),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Learn how to use the platform and find jobs faster.',
-              style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
-            ),
-            const SizedBox(height: 14),
-            _buildPurpleButton('Start Product Tour', onPressed: () {
-              ref.read(tourProvider.notifier).startTour();
-            }),
-          ],
-        ),
-      ),
-    );
-  }
 
   // ─── Profile Completion Card ──────────────────────────────────────
 

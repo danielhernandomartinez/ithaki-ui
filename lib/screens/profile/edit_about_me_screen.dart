@@ -72,21 +72,9 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
-          'About Me',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+      appBar: IthakiAppBar(
+        showBackButton: true,
+        title: 'About Me',
       ),
       body: SingleChildScrollView(
         child: Container(

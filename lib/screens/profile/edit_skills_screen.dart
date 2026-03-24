@@ -95,20 +95,9 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: IthakiTheme.textPrimary),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
-          'Edit Skills',
-          style: TextStyle(
-              color: IthakiTheme.textPrimary,
-              fontSize: 16,
-              fontWeight: FontWeight.bold),
-        ),
+      appBar: IthakiAppBar(
+        showBackButton: true,
+        title: 'Edit Skills',
       ),
       body: SingleChildScrollView(
         child: Container(

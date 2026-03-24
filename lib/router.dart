@@ -8,6 +8,7 @@ import 'screens/auth/verify_email_screen.dart';
 import 'screens/auth/choose_verify_method_screen.dart';
 import 'screens/auth/verify_otp_screen.dart';
 import 'screens/auth/forgot_password_screen.dart';
+import 'screens/auth/login_email_screen.dart';
 import 'screens/auth/reset_link_sent_screen.dart';
 import 'screens/auth/reset_password_screen.dart';
 import 'screens/auth/login_phone_screen.dart';
@@ -39,7 +40,7 @@ class IthakiRouter {
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const SelectLanguageScreen(),
+        builder: (context, state) => const HomeScreen(),
       ),
       GoRoute(
         path: '/tech-comfort',
@@ -87,7 +88,7 @@ class IthakiRouter {
       ),
       GoRoute(
         path: '/login-email',
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) => const LoginEmailScreen(),
       ),
       GoRoute(
         path: '/forgot-password',

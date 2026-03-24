@@ -233,17 +233,10 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
       },
       child: Scaffold(
         backgroundColor: IthakiTheme.backgroundViolet,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          title: const Text('Profile Basics',
-              style: TextStyle(
-                  color: IthakiTheme.textPrimary,
-                  fontWeight: FontWeight.bold)),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: IthakiTheme.textPrimary),
-            onPressed: _onBack,
-          ),
+        appBar: IthakiAppBar(
+          showBackButton: true,
+          title: 'Profile Basics',
+          onMenuPressed: _onBack,
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16),

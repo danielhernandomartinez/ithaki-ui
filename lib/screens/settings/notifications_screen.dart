@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../providers/settings_provider.dart';
 
@@ -22,21 +21,9 @@ class NotificationsScreen extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: IthakiTheme.textPrimary),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
-          'Notifications',
-          style: TextStyle(
-            color: IthakiTheme.textPrimary,
-            fontWeight: FontWeight.w600,
-            fontSize: 18,
-          ),
-        ),
+      appBar: IthakiAppBar(
+        showBackButton: true,
+        title: 'Notifications',
       ),
       body: SingleChildScrollView(
         child: Column(

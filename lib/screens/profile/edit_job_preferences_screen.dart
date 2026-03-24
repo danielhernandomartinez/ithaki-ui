@@ -102,20 +102,9 @@ class _EditJobPreferencesScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text(
-          'Edit Job Preferences',
-          style: TextStyle(
-            color: IthakiTheme.textPrimary,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: IthakiTheme.textPrimary),
-          onPressed: () => context.pop(),
-        ),
+      appBar: IthakiAppBar(
+        showBackButton: true,
+        title: 'Edit Job Preferences',
       ),
       body: SingleChildScrollView(
         child: Container(
