@@ -252,10 +252,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         const SizedBox(height: 8),
         _prefGrid(profile),
         const SizedBox(height: 12),
-        _iconOutlineButton(
-          const IthakiIcon('edit-pencil', size: 16),
-          'Edit Jobs Preferences',
-          () => context.push('/profile/job-preferences'),
+        OutlinedButton.icon(
+          onPressed: () => context.push('/profile/job-preferences'),
+          icon: const IthakiIcon('edit-pencil', size: 16),
+          label: const Text('Edit Jobs Preferences'),
+          style: OutlinedButton.styleFrom(
+            side: BorderSide(color: Colors.grey.shade300),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20)),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            foregroundColor: IthakiTheme.textPrimary,
+          ),
         ),
       ]),
     );
@@ -263,35 +270,38 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   Widget _jobInterestCard(JobInterest jobInterest) => Container(
         margin: const EdgeInsets.only(bottom: 8),
+        height: 78,
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: const Color(0xFFF8F7FC),
-          borderRadius: BorderRadius.circular(10),
+          color: const Color(0xFFF2F2F2),
+          borderRadius: BorderRadius.circular(24),
         ),
         child: Row(children: [
           Container(
-            width: 36,
-            height: 36,
+            width: 54,
+            height: 54,
             decoration: BoxDecoration(
-              color: IthakiTheme.primaryPurple.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
             ),
-            child: const Icon(Icons.rocket_launch_outlined,
-                size: 18, color: IthakiTheme.primaryPurple),
+            alignment: Alignment.center,
+            child: const IthakiIcon('rocket', size: 20,
+                color: IthakiTheme.primaryPurple),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(jobInterest.title,
                       style: const TextStyle(
-                          fontSize: 14,
+                          fontSize: 16,
                           fontWeight: FontWeight.w600,
                           color: IthakiTheme.textPrimary)),
                   Text(jobInterest.category,
                       style: const TextStyle(
-                          fontSize: 12, color: IthakiTheme.textSecondary)),
+                          fontSize: 13, color: IthakiTheme.textSecondary)),
                 ]),
           ),
         ]),
@@ -303,51 +313,45 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         : profile.expectedSalary != null
             ? '${profile.expectedSalary!.toStringAsFixed(0)} € / month'
             : '—';
-    return Column(children: [
-      Row(children: [
-        Expanded(child: _prefCell(Icons.business_outlined, 'Workspace',
-            profile.workplace.isNotEmpty ? profile.workplace : '—')),
-        const SizedBox(width: 8),
-        Expanded(child: _prefCell(Icons.access_time_outlined, 'Job Type',
-            profile.jobType.isNotEmpty ? profile.jobType : '—')),
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFFF2F2F2),
+        borderRadius: BorderRadius.circular(24),
+      ),
+      padding: const EdgeInsets.all(12),
+      child: Column(children: [
+        Row(children: [
+          Expanded(child: _prefCell('briefcase-work', 'Workspace',
+              profile.workplace.isNotEmpty ? profile.workplace : '—')),
+          const SizedBox(width: 10),
+          Expanded(child: _prefCell('clock', 'Job Type',
+              profile.jobType.isNotEmpty ? profile.jobType : '—')),
+        ]),
+        const SizedBox(height: 10),
+        Row(children: [
+          Expanded(child: _prefCell('level', 'Level',
+              profile.positionLevel.isNotEmpty ? profile.positionLevel : '—')),
+          const SizedBox(width: 10),
+          Expanded(child: _prefCell('bank-note', 'Desired Salary', salary)),
+        ]),
       ]),
-      const SizedBox(height: 8),
-      Row(children: [
-        Expanded(child: _prefCell(Icons.bar_chart_outlined, 'Level',
-            profile.positionLevel.isNotEmpty ? profile.positionLevel : '—')),
-        const SizedBox(width: 8),
-        Expanded(child: _prefCell(
-            Icons.account_balance_wallet_outlined, 'Desired Salary', salary)),
-      ]),
-    ]);
+    );
   }
 
-  Widget _prefCell(IconData icon, String label, String value) => Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF8F7FC),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Icon(icon, size: 16, color: IthakiTheme.softGraphite),
-          const SizedBox(width: 6),
-          Expanded(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(label,
-                      style: const TextStyle(
-                          fontSize: 11, color: IthakiTheme.textSecondary)),
-                  const SizedBox(height: 2),
-                  Text(value,
-                      style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: IthakiTheme.textPrimary)),
-                ]),
-          ),
-        ]),
-      );
+  Widget _prefCell(String iconName, String label, String value) =>
+      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        IthakiIcon(iconName, size: 16, color: IthakiTheme.softGraphite),
+        const SizedBox(height: 4),
+        Text(label,
+            style: const TextStyle(
+                fontSize: 11, color: IthakiTheme.textSecondary)),
+        const SizedBox(height: 2),
+        Text(value,
+            style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: IthakiTheme.textPrimary)),
+      ]);
 
   // ─── Tab: About Me ────────────────────────────────────────────────
 
