@@ -197,7 +197,7 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
           // ─── Nav menu panel ───────────────────────────────
           if (_menuOpen || _menuCtrl.status != AnimationStatus.dismissed)
             Positioned(
-              top: topOffset,
+              top: topOffset - 14,
               left: 16,
               right: 16,
               bottom: 40,
@@ -224,7 +224,7 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
           if (_profileOpen ||
               _profileCtrl.status != AnimationStatus.dismissed)
             Positioned(
-              top: topOffset + 4,
+              top: topOffset - 14,
               left: 16,
               right: 16,
               bottom: 40,
@@ -322,7 +322,7 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
             // Search field
             Container(
               decoration: BoxDecoration(
-                border: Border.all(color: IthakiTheme.borderLight),
+                border: Border.all(color: IthakiTheme.lightGraphite),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: const TextField(
@@ -332,7 +332,7 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
                   prefixIcon: Padding(
                     padding: EdgeInsets.all(12),
                     child: IthakiIcon('search',
-                        size: 20, color: IthakiTheme.softGraphite),
+                        size: 20, color: IthakiTheme.lightGraphite),
                   ),
                   border: InputBorder.none,
                   contentPadding:
@@ -428,7 +428,7 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(30),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

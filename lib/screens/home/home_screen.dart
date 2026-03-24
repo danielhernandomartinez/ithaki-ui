@@ -23,6 +23,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
   late final Animation<Offset> _profileSlideAnim;
   bool _profileOpen = false;
 
+  String _selectedRoute = '/home';
+
   static const _navItems = [
     NavItem(icon: 'home',         label: 'Home',             route: '/home'),
     NavItem(icon: 'jobs',         label: 'Job Search',       route: '/job-search'),
@@ -200,18 +202,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
           // ─── Nav menu panel ───────────────────────────────────
           if (_menuOpen || _menuCtrl.status != AnimationStatus.dismissed)
             Positioned(
-              top: topOffset,
+              top: topOffset - 14,
               left: 16, right: 16, bottom: 40,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
                 child: SlideTransition(
                   position: _slideAnim,
                   child: AppNavDrawer(
-                    currentRoute: '/home',
+                    currentRoute: _selectedRoute,
                     profileProgress: 0.25,
                     items: _navItems,
                     onItemTap: (item) {
-                      _closeMenu();
+                      setState(() {
+                        _selectedRoute = item.route;
+                        _menuOpen = false;
+                      });
+                      _menuCtrl.reverse();
                       if (item.route != '/home') context.go(item.route);
                     },
                   ),
@@ -222,7 +228,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
           // ─── Profile menu panel ───────────────────────────────
           if (_profileOpen || _profileCtrl.status != AnimationStatus.dismissed)
             Positioned(
-              top: topOffset + 4,
+              top: topOffset - 14,
               left: 16, right: 16, bottom: 40,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
