@@ -106,7 +106,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           const SizedBox(height: 12),
           _contactRow(const IthakiIcon('envelope', size: 16), profile.email),
           const SizedBox(height: 4),
-          _contactRow(const IthakiIcon('phone', size: 16), profile.phone),
+          _contactRow(const IthakiIcon('phone', size: 20), profile.phone),
           const SizedBox(height: 8),
           const Text(
             "Employers won't see your contact details until you apply for a job or accept an invitation.",
@@ -133,40 +133,52 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   // ─── Tab Bar ──────────────────────────────────────────────────────
 
   Widget _buildTabBar() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: _tabs.asMap().entries.map((e) {
-          final selected = e.key == _tabIndex;
-          return GestureDetector(
-            onTap: () => setState(() => _tabIndex = e.key),
-            child: Container(
-              margin: const EdgeInsets.only(right: 8),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: selected ? Colors.white : Colors.transparent,
-                borderRadius: BorderRadius.circular(999),
-                border: Border.all(
-                  color: selected
-                      ? IthakiTheme.primaryPurple
-                      : Colors.grey.shade300,
-                  width: selected ? 2 : 1,
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      height: 48,
+      decoration: BoxDecoration(
+        color: const Color(0xFFE9DEFF),
+        borderRadius: BorderRadius.circular(24),
+      ),
+      padding: const EdgeInsets.all(4),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: _tabs.asMap().entries.map((e) {
+              final selected = e.key == _tabIndex;
+              return Padding(
+                padding: EdgeInsets.only(
+                    left: e.key == 0 ? 0 : 6),
+                child: GestureDetector(
+                  onTap: () => setState(() => _tabIndex = e.key),
+                  child: Container(
+                    height: 40,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: selected ? Colors.white : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      e.value,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight:
+                            selected ? FontWeight.w600 : FontWeight.w400,
+                        color: selected
+                            ? IthakiTheme.textPrimary
+                            : IthakiTheme.textSecondary,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              child: Text(
-                e.value,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                  color: selected
-                      ? IthakiTheme.primaryPurple
-                      : IthakiTheme.textSecondary,
-                ),
-              ),
-            ),
-          );
-        }).toList(),
+              );
+            }).toList(),
+          ),
+        ),
       ),
     );
   }
@@ -826,7 +838,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           style: OutlinedButton.styleFrom(
             side: BorderSide(color: Colors.grey.shade300),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12)),
+                borderRadius: BorderRadius.circular(20)),
             padding: const EdgeInsets.symmetric(vertical: 12),
             foregroundColor: IthakiTheme.textPrimary,
           ),
