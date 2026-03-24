@@ -114,15 +114,20 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           color: selected ? Colors.white : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
         ),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         alignment: Alignment.center,
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-            color: selected
-                ? IthakiTheme.textPrimary
-                : IthakiTheme.textSecondary,
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            label,
+            maxLines: 1,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+              color: selected
+                  ? IthakiTheme.textPrimary
+                  : IthakiTheme.textSecondary,
+            ),
           ),
         ),
       ),
