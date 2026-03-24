@@ -210,7 +210,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                     currentRoute: '/home',
                     profileProgress: 0.25,
                     items: _navItems,
-                    onItemTap: (_) => _closeMenu(),
+                    onItemTap: (item) {
+                      _closeMenu();
+                      if (item.route != '/home') context.go(item.route);
+                    },
                   ),
                 ),
               ),
