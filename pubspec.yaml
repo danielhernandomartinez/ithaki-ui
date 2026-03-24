@@ -17,7 +17,10 @@ dependencies:
   shared_preferences: ^2.3.0
   file_picker: ^8.1.2
   ithaki_design_system:
-    path: ../ithaki_design_system
+    git:
+      url: https://github.com/danielhernandomartinez/ithaki_design_system
+      ref: v0.10.10
+
 
 dev_dependencies:
   flutter_test:
