@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
-import '../../widgets/success_banner.dart';
 
 class EditJobPreferencesScreen extends ConsumerStatefulWidget {
   const EditJobPreferencesScreen({super.key});
@@ -19,9 +18,10 @@ class _EditJobPreferencesScreenState
     extends ConsumerState<EditJobPreferencesScreen> {
   late List<JobInterest> _interests;
   late String _positionLevel;
-  late String _jobType;
-  late String _workplace;
+  late Set<String> _jobTypeSelected;
+  late Set<String> _workplaceSelected;
   late bool _preferNotToSpecify;
+  String? _paymentTerm;
 
   final TextEditingController _salaryCtrl = TextEditingController();
   final TextEditingController _titleCtrl = TextEditingController();
@@ -33,11 +33,12 @@ class _EditJobPreferencesScreenState
     final p = ref.read(profileProvider);
     _interests = List<JobInterest>.from(p.jobInterests);
     _positionLevel = p.positionLevel;
-    _jobType = p.jobType;
-    _workplace = p.workplace;
+    _jobTypeSelected = p.jobType.isEmpty ? {} : {p.jobType};
+    _workplaceSelected = p.workplace.isEmpty ? {} : {p.workplace};
     _salaryCtrl.text =
         p.expectedSalary != null ? p.expectedSalary!.toStringAsFixed(0) : '';
     _preferNotToSpecify = p.preferNotToSpecifySalary;
+    _paymentTerm = null;
   }
 
   @override
@@ -53,8 +54,8 @@ class _EditJobPreferencesScreenState
     ref.read(profileProvider.notifier).updateJobPreferences(
           interests: _interests,
           positionLevel: _positionLevel,
-          jobType: _jobType,
-          workplace: _workplace,
+          jobType: _jobTypeSelected.isEmpty ? '' : _jobTypeSelected.first,
+          workplace: _workplaceSelected.isEmpty ? '' : _workplaceSelected.first,
           expectedSalary: _preferNotToSpecify ? null : salary,
           preferNotToSpecifySalary: _preferNotToSpecify,
         );
@@ -83,41 +84,6 @@ class _EditJobPreferencesScreenState
       list.removeAt(index);
       _interests = list;
     });
-  }
-
-  Widget _multiChip(
-      List<String> options, String selected, ValueChanged<String> onSelect) {
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: options.map((opt) {
-        final isSelected = selected == opt;
-        return GestureDetector(
-          onTap: () => onSelect(isSelected ? '' : opt),
-          child: Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            decoration: BoxDecoration(
-              color: isSelected ? IthakiTheme.primaryPurple : Colors.white,
-              borderRadius: BorderRadius.circular(999),
-              border: Border.all(
-                color: isSelected
-                    ? IthakiTheme.primaryPurple
-                    : IthakiTheme.borderLight,
-              ),
-            ),
-            child: Text(
-              opt,
-              style: TextStyle(
-                color:
-                    isSelected ? Colors.white : IthakiTheme.textPrimary,
-                fontSize: 13,
-              ),
-            ),
-          ),
-        );
-      }).toList(),
-    );
   }
 
   Widget _sectionTitle(String text) => Padding(
@@ -275,79 +241,45 @@ class _EditJobPreferencesScreenState
 
               // ── Section 3: Job Type ───────────────────────────────────
               _sectionTitle('Job Type'),
-              _multiChip(
-                const [
+              IthakiChipGroup(
+                options: const [
                   'Full Time',
                   'Part Time',
                   'Contract',
                   'Freelance',
                   'Internship',
                 ],
-                _jobType,
-                (v) => setState(() => _jobType = v),
+                selected: _jobTypeSelected,
+                onChanged: (s) => setState(() => _jobTypeSelected = s),
+                maxSelect: 1,
               ),
 
               const SizedBox(height: 24),
 
               // ── Section 4: Workplace Format ───────────────────────────
               _sectionTitle('Workplace Format'),
-              _multiChip(
-                const ['On-site', 'Remote', 'Hybrid'],
-                _workplace,
-                (v) => setState(() => _workplace = v),
+              IthakiChipGroup(
+                options: const ['On-site', 'Remote', 'Hybrid'],
+                selected: _workplaceSelected,
+                onChanged: (s) => setState(() => _workplaceSelected = s),
+                maxSelect: 1,
               ),
 
               const SizedBox(height: 24),
 
               // ── Section 5: Expected Payment ───────────────────────────
-              _sectionTitle('Expected Payment'),
-              TextField(
-                controller: _salaryCtrl,
-                enabled: !_preferNotToSpecify,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  hintText: 'Expected salary',
-                  hintStyle: TextStyle(
-                      fontSize: 13,
-                      color: IthakiTheme.textSecondary),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide:
-                        BorderSide(color: Colors.grey.shade300),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                        color: IthakiTheme.primaryPurple),
-                  ),
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide:
-                        BorderSide(color: Colors.grey.shade200),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 14),
-                  filled: _preferNotToSpecify,
-                  fillColor: _preferNotToSpecify
-                      ? Colors.grey.shade100
-                      : null,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Checkbox(
-                    value: _preferNotToSpecify,
-                    activeColor: IthakiTheme.primaryPurple,
-                    onChanged: (v) =>
-                        setState(() => _preferNotToSpecify = v ?? false),
-                  ),
-                  const Text(
-                    'Prefer not to specify',
-                    style: TextStyle(
-                        fontSize: 14, color: IthakiTheme.textPrimary),
-                  ),
+              IthakiSalaryInput(
+                amountController: _salaryCtrl,
+                paymentTerm: _paymentTerm,
+                paymentTermOptions: const [
+                  SearchItem(id: 'monthly', label: 'Monthly'),
+                  SearchItem(id: 'yearly', label: 'Yearly'),
                 ],
+                onPaymentTermChanged: (v) =>
+                    setState(() => _paymentTerm = v),
+                preferNotToSpecify: _preferNotToSpecify,
+                onPreferNotToSpecifyChanged: (v) =>
+                    setState(() => _preferNotToSpecify = v),
               ),
 
               const SizedBox(height: 28),

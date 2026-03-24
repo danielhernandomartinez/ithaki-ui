@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
-import '../../widgets/bottom_sheet_base.dart';
 
 class WorkExperienceScreen extends ConsumerWidget {
   const WorkExperienceScreen({super.key});
@@ -230,19 +229,6 @@ class _WorkExperienceFormSheetState extends State<_WorkExperienceFormSheet> {
     Navigator.of(context).pop();
   }
 
-  InputDecoration _fieldDecoration(String label, {String? hint}) =>
-      InputDecoration(
-        labelText: label,
-        hintText: hint,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: IthakiTheme.primaryPurple),
-        ),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      );
-
   @override
   Widget build(BuildContext context) {
     return BottomSheetBase(
@@ -253,19 +239,22 @@ class _WorkExperienceFormSheetState extends State<_WorkExperienceFormSheet> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 16),
-            TextField(
+            IthakiTextField(
+              label: 'Job Title',
+              hint: 'e.g. Software Engineer',
               controller: _jobTitleCtrl,
-              decoration: _fieldDecoration('Job Title'),
             ),
             const SizedBox(height: 12),
-            TextField(
+            IthakiTextField(
+              label: 'Company Name',
+              hint: 'e.g. Acme Corp',
               controller: _companyCtrl,
-              decoration: _fieldDecoration('Company Name'),
             ),
             const SizedBox(height: 12),
-            TextField(
+            IthakiTextField(
+              label: 'Location',
+              hint: 'e.g. Athens, Greece',
               controller: _locationCtrl,
-              decoration: _fieldDecoration('Location'),
             ),
             const SizedBox(height: 12),
             IthakiDropdown<String>(
@@ -305,29 +294,41 @@ class _WorkExperienceFormSheetState extends State<_WorkExperienceFormSheet> {
               onChanged: (v) => setState(() => _jobType = v ?? ''),
             ),
             const SizedBox(height: 12),
-            TextField(
+            IthakiTextField(
+              label: 'Start Date',
+              hint: 'MM-YYYY',
               controller: _startDateCtrl,
-              decoration: _fieldDecoration('Start Date', hint: 'MM-YYYY'),
+            ),
+            const SizedBox(height: 12),
+            IthakiTextField(
+              label: 'End Date',
+              hint: 'MM-YYYY',
+              controller: _endDateCtrl,
+              readOnly: _currentlyWorkHere,
+            ),
+            IthakiCheckbox(
+              value: _currentlyWorkHere,
+              onChanged: (v) => setState(() {
+                _currentlyWorkHere = v;
+                if (v) _endDateCtrl.clear();
+              }),
+              child: const Text(
+                'I currently work here',
+                style: TextStyle(fontSize: 14, color: IthakiTheme.textPrimary),
+              ),
             ),
             const SizedBox(height: 12),
             TextField(
-              controller: _endDateCtrl,
-              enabled: !_currentlyWorkHere,
-              decoration: _fieldDecoration('End Date', hint: 'MM-YYYY'),
-            ),
-            CheckboxListTile(
-              value: _currentlyWorkHere,
-              onChanged: (v) =>
-                  setState(() => _currentlyWorkHere = v ?? false),
-              title: const Text('I currently work here'),
-              controlAffinity: ListTileControlAffinity.leading,
-              contentPadding: EdgeInsets.zero,
-              activeColor: IthakiTheme.primaryPurple,
-            ),
-            TextField(
               controller: _summaryCtrl,
               maxLines: 3,
-              decoration: _fieldDecoration('Summary (optional)'),
+              decoration: InputDecoration(
+                labelText: 'Summary (optional)',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: IthakiTheme.borderLight),
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              ),
             ),
             const SizedBox(height: 20),
             IthakiButton('Save', onPressed: _save),

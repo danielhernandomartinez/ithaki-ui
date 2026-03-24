@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../providers/profile_provider.dart';
-import '../../widgets/bottom_sheet_base.dart';
 
 class ProfileBasicsScreen extends ConsumerStatefulWidget {
   const ProfileBasicsScreen({super.key});

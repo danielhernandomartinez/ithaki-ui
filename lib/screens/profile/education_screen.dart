@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
-import '../../widgets/bottom_sheet_base.dart';
 
 class EducationScreen extends ConsumerWidget {
   const EducationScreen({super.key});

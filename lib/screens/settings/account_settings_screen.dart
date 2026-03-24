@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../providers/profile_provider.dart';
-import '../../widgets/bottom_sheet_base.dart';
-import '../../widgets/success_banner.dart';
 
 // ---------------------------------------------------------------------------
 // Main screen
@@ -42,8 +40,10 @@ class AccountSettingsScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ---- Section 1: Account ----
-            _SectionLabel('ACCOUNT'),
-            _Card(
+            // TODO: replace with IthakiSettingsSection('ACCOUNT') when DS widget is ready
+            IthakiSettingsSection('ACCOUNT'),
+            // TODO: replace with IthakiSettingsCard when DS widget is ready
+            IthakiSettingsCard(
               children: [
                 ListTile(
                   title: const Text('Email',
@@ -55,7 +55,8 @@ class AccountSettingsScreen extends ConsumerWidget {
                       const Icon(Icons.chevron_right, color: IthakiTheme.softGraphite),
                   onTap: () => _showChangeEmail(context),
                 ),
-                _Divider(),
+                // TODO: replace with IthakiSettingsDivider() when DS widget is ready
+                IthakiSettingsDivider(),
                 ListTile(
                   title: const Text('Phone',
                       style: TextStyle(color: IthakiTheme.textPrimary)),
@@ -66,7 +67,7 @@ class AccountSettingsScreen extends ConsumerWidget {
                       const Icon(Icons.chevron_right, color: IthakiTheme.softGraphite),
                   onTap: () => _showChangePhone(context),
                 ),
-                _Divider(),
+                IthakiSettingsDivider(),
                 ListTile(
                   title: const Text('Password',
                       style: TextStyle(color: IthakiTheme.textPrimary)),
@@ -78,8 +79,8 @@ class AccountSettingsScreen extends ConsumerWidget {
             ),
 
             // ---- Section 2: Profile Visibility ----
-            _SectionLabel('PROFILE'),
-            _Card(
+            IthakiSettingsSection('PROFILE'),
+            IthakiSettingsCard(
               children: [
                 SwitchListTile(
                   title: const Text('Profile Visibility',
@@ -105,8 +106,8 @@ class AccountSettingsScreen extends ConsumerWidget {
             ),
 
             // ---- Section 3: Subscriptions ----
-            _SectionLabel('SUBSCRIPTIONS'),
-            _Card(
+            IthakiSettingsSection('SUBSCRIPTIONS'),
+            IthakiSettingsCard(
               children: [
                 ListTile(
                   title: const Text('Switch to Lite',
@@ -115,7 +116,7 @@ class AccountSettingsScreen extends ConsumerWidget {
                       const Icon(Icons.chevron_right, color: IthakiTheme.softGraphite),
                   onTap: () => _showSwitchLite(context),
                 ),
-                _Divider(),
+                IthakiSettingsDivider(),
                 ListTile(
                   title: const Text('Notifications',
                       style: TextStyle(color: IthakiTheme.textPrimary)),
@@ -127,8 +128,8 @@ class AccountSettingsScreen extends ConsumerWidget {
             ),
 
             // ---- Section 4: Danger Zone ----
-            _SectionLabel('DANGER ZONE'),
-            _Card(
+            IthakiSettingsSection('DANGER ZONE'),
+            IthakiSettingsCard(
               children: [
                 ListTile(
                   title: const Text('Delete Account',
@@ -222,58 +223,6 @@ void _showDeleteAccountStep2(BuildContext context) {
 }
 
 // ---------------------------------------------------------------------------
-// Shared small widgets
-// ---------------------------------------------------------------------------
-
-class _SectionLabel extends StatelessWidget {
-  final String label;
-  const _SectionLabel(this.label);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Text(
-        label,
-        style: const TextStyle(
-          fontSize: 12,
-          letterSpacing: 1,
-          color: IthakiTheme.textSecondary,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-}
-
-class _Card extends StatelessWidget {
-  final List<Widget> children;
-  const _Card({required this.children});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: children,
-      ),
-    );
-  }
-}
-
-class _Divider extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Divider(height: 1, indent: 16, endIndent: 16,
-        color: IthakiTheme.borderLight);
-  }
-}
-
-// ---------------------------------------------------------------------------
 // Sheet 1: Change Email
 // ---------------------------------------------------------------------------
 
@@ -302,10 +251,11 @@ class _ChangeEmailSheetState extends State<_ChangeEmailSheet> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: 16),
-          TextField(
+          IthakiTextField(
+            label: 'New Email',
+            hint: 'Enter new email address',
             controller: _emailCtrl,
             keyboardType: TextInputType.emailAddress,
-            decoration: _inputDecoration('New email address'),
           ),
           const SizedBox(height: 20),
           IthakiButton(
@@ -350,10 +300,11 @@ class _ChangePhoneSheetState extends State<_ChangePhoneSheet> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: 16),
-          TextField(
+          IthakiTextField(
+            label: 'New Phone',
+            hint: 'Enter new phone number',
             controller: _phoneCtrl,
             keyboardType: TextInputType.phone,
-            decoration: _inputDecoration('New phone number'),
           ),
           const SizedBox(height: 20),
           IthakiButton(
@@ -410,28 +361,28 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: 16),
-          TextField(
+          IthakiPasswordField(
+            label: 'Current Password',
+            hint: 'Enter current password',
             controller: _currentCtrl,
-            obscureText: true,
-            decoration: _inputDecoration('Current password'),
           ),
           const SizedBox(height: 12),
-          TextField(
+          IthakiPasswordField(
+            label: 'New Password',
+            hint: 'Enter new password',
             controller: _newCtrl,
-            obscureText: true,
-            decoration: _inputDecoration('New password'),
             onChanged: (_) => setState(() {}),
           ),
           const SizedBox(height: 8),
-          _PasswordRule('At least 8 characters', _hasLength),
-          _PasswordRule('At least one uppercase letter', _hasUpper),
-          _PasswordRule('At least one number', _hasNumber),
-          _PasswordRule('At least one special character', _hasSpecial),
+          IthakiValidationRow(text: 'At least 8 characters', valid: _hasLength),
+          IthakiValidationRow(text: 'At least one uppercase letter', valid: _hasUpper),
+          IthakiValidationRow(text: 'At least one number', valid: _hasNumber),
+          IthakiValidationRow(text: 'At least one special character', valid: _hasSpecial),
           const SizedBox(height: 12),
-          TextField(
+          IthakiPasswordField(
+            label: 'Confirm Password',
+            hint: 'Repeat new password',
             controller: _confirmCtrl,
-            obscureText: true,
-            decoration: _inputDecoration('Confirm new password'),
             onChanged: (_) => setState(() {}),
           ),
           const SizedBox(height: 20),
@@ -445,26 +396,6 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
                 : null,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _PasswordRule extends StatelessWidget {
-  final String label;
-  final bool satisfied;
-  const _PasswordRule(this.label, this.satisfied);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
-      child: Text(
-        '• $label',
-        style: TextStyle(
-          fontSize: 12,
-          color: satisfied ? Colors.green : IthakiTheme.textSecondary,
-        ),
       ),
     );
   }
@@ -716,10 +647,10 @@ class _DeleteAccountStep2SheetState extends State<_DeleteAccountStep2Sheet> {
             style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 16),
-          TextField(
+          IthakiPasswordField(
+            label: 'Password',
+            hint: 'Enter your password',
             controller: _passwordCtrl,
-            obscureText: true,
-            decoration: _inputDecoration('Password'),
             onChanged: (_) => setState(() {}),
           ),
           const SizedBox(height: 20),
@@ -739,7 +670,7 @@ class _DeleteAccountStep2SheetState extends State<_DeleteAccountStep2Sheet> {
 }
 
 // ---------------------------------------------------------------------------
-// Shared decoration helper
+// Shared decoration helper (used only by the verification code TextField)
 // ---------------------------------------------------------------------------
 
 InputDecoration _inputDecoration(String hint) {
