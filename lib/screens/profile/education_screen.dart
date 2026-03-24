@@ -60,7 +60,7 @@ class EducationScreen extends ConsumerWidget {
       backgroundColor: IthakiTheme.backgroundViolet,
       appBar: IthakiAppBar(showBackButton: true, title: 'Education'),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+        padding: EdgeInsets.fromLTRB(16, 16, 16, MediaQuery.viewPaddingOf(context).bottom + 32),
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -350,7 +350,7 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
       backgroundColor: IthakiTheme.backgroundViolet,
       appBar: IthakiAppBar(showBackButton: true, title: 'Edit Education'),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: MediaQuery.viewPaddingOf(context).bottom + 16),
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(

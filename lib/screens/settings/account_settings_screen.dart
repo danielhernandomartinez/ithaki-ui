@@ -67,11 +67,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               index: _tabIndex,
               children: [
                 SingleChildScrollView(
-                  padding: const EdgeInsets.only(bottom: 32),
+                  padding: EdgeInsets.only(bottom: MediaQuery.viewPaddingOf(context).bottom + 32),
                   child: _buildAccountSettingsContent(),
                 ),
                 SingleChildScrollView(
-                  padding: const EdgeInsets.only(bottom: 32),
+                  padding: EdgeInsets.only(bottom: MediaQuery.viewPaddingOf(context).bottom + 32),
                   child: _buildNotificationsContent(),
                 ),
               ],

@@ -142,7 +142,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 ],
               ),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: MediaQuery.viewPaddingOf(context).bottom + 32),
           ]),
         ),
         if (_menuOpen)

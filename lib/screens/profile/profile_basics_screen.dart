@@ -198,7 +198,7 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
           onMenuPressed: _onBack,
         ),
         body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: MediaQuery.viewPaddingOf(context).bottom + 16),
           child: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
