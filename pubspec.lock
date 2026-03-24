@@ -256,9 +256,11 @@ packages:
   ithaki_design_system:
     dependency: "direct main"
     description:
-      path: "../ithaki_design_system"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "73dcf550f4d77132b7e467fc24059373d0f111b4"
+      url: "https://github.com/danielhernandomartinez/ithaki_design_system.git"
+    source: git
     version: "0.9.13"
   leak_tracker:
     dependency: transitive
