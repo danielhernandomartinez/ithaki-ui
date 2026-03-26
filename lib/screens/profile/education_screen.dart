@@ -6,7 +6,6 @@ import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
-import '../../utils/profile_date_utils.dart';
 import '../../widgets/profile_meta_cell.dart';
 import '../../widgets/profile_picker_field.dart';
 
@@ -53,9 +52,7 @@ class EducationScreen extends ConsumerWidget {
               ...educations.asMap().entries.map((e) {
                 final index = e.key;
                 final edu = e.value;
-                final duration = calcDuration(
-                    edu.startDate,
-                    edu.currentlyStudyHere ? null : edu.endDate);
+                final duration = edu.duration;
                 return Container(
                   margin: const EdgeInsets.only(bottom: 12),
                   padding: const EdgeInsets.all(16),

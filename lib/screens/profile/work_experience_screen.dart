@@ -6,7 +6,6 @@ import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
-import '../../utils/profile_date_utils.dart';
 import '../../widgets/profile_meta_cell.dart';
 import '../../widgets/profile_picker_field.dart';
 
@@ -52,9 +51,7 @@ class WorkExperienceScreen extends ConsumerWidget {
               ...experiences.asMap().entries.map((e) {
                 final index = e.key;
                 final exp = e.value;
-                final duration = calcDuration(
-                    exp.startDate,
-                    exp.currentlyWorkHere ? null : exp.endDate);
+                final duration = exp.duration;
                 return Container(
                   margin: const EdgeInsets.only(bottom: 12),
                   padding: const EdgeInsets.all(16),

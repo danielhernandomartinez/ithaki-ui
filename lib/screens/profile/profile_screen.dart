@@ -859,7 +859,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           final index = entry.key;
           final exp = entry.value;
           final endLabel = exp.currentlyWorkHere ? 'Present' : (exp.endDate ?? '');
-          final duration = calcDuration(exp.startDate, exp.currentlyWorkHere ? null : exp.endDate);
+          final duration = _calcDuration(exp.startDate, exp.currentlyWorkHere ? null : exp.endDate);
           return Container(
             margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
             padding: const EdgeInsets.all(20),

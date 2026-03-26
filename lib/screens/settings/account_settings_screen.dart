@@ -6,6 +6,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../providers/profile_provider.dart';
 import '../../providers/settings_provider.dart';
+import '../../utils/validators.dart';
 
 // ---------------------------------------------------------------------------
 // Combined Settings Screen
@@ -873,15 +874,8 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
   final _newCtrl = TextEditingController();
   final _confirmCtrl = TextEditingController();
 
-  bool get _hasUpperAndLower =>
-      _newCtrl.text.contains(RegExp(r'[A-Z]')) &&
-      _newCtrl.text.contains(RegExp(r'[a-z]'));
-  bool get _hasLength => _newCtrl.text.length >= 8;
-  bool get _hasNumber => _newCtrl.text.contains(RegExp(r'[0-9]'));
-  bool get _hasSpecial =>
-      _newCtrl.text.contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>]'));
-  bool get _allRules =>
-      _hasUpperAndLower && _hasLength && _hasNumber && _hasSpecial;
+  PasswordValidation get _pwVal => PasswordValidation.of(_newCtrl.text);
+  bool get _allRules => _pwVal.isValid;
   bool get _passwordsMatch =>
       _newCtrl.text.isNotEmpty && _newCtrl.text == _confirmCtrl.text;
 
@@ -914,19 +908,19 @@ class _ChangePasswordSheetState extends State<_ChangePasswordSheet> {
           const SizedBox(height: 12),
           IthakiValidationRow(
             text: 'Includes one uppercase and one lowercase letter',
-            valid: _hasUpperAndLower,
+            valid: _pwVal.hasUpperAndLower,
           ),
           IthakiValidationRow(
             text: 'At least 8 characters',
-            valid: _hasLength,
+            valid: _pwVal.hasMinLength,
           ),
           IthakiValidationRow(
             text: 'Includes at least one number',
-            valid: _hasNumber,
+            valid: _pwVal.hasNumber,
           ),
           IthakiValidationRow(
             text: r'Includes one special character (like !@#$%^&)',
-            valid: _hasSpecial,
+            valid: _pwVal.hasSpecial,
           ),
           const SizedBox(height: 12),
           IthakiPasswordField(

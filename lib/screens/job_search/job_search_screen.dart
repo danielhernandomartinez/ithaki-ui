@@ -5,6 +5,8 @@ import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/mock_job_search_data.dart';
 import '../../data/mock_home_data.dart';
+import '../../providers/profile_provider.dart';
+import '../../utils/match_colors.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
 
@@ -208,7 +210,7 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
                   position: _slideAnim,
                   child: AppNavDrawer(
                     currentRoute: '/job-search',
-                    profileProgress: 0.25,
+                    profileProgress: ref.watch(profileProvider).profileCompletion,
                     items: _navItems,
                     onItemTap: (item) {
                       _closeMenu();
@@ -452,8 +454,8 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
               salary: jobs[i].salary,
               matchPercentage: jobs[i].matchPercentage,
               matchLabel: jobs[i].matchLabel,
-              matchGradientColors: _getMatchColors(jobs[i].matchLabel),
-              matchBackgroundColor: _getMatchBgColor(jobs[i].matchLabel),
+              matchGradientColors: getMatchGradientColors(jobs[i].matchLabel),
+              matchBackgroundColor: getMatchBgColor(jobs[i].matchLabel),
               category: jobs[i].category,
               location: jobs[i].location,
               workMode: jobs[i].workMode,
@@ -575,38 +577,6 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
 
   // ─── Helpers ─────────────────────────────────────────────────────
 
-  List<Color> _getMatchColors(String matchLabel) {
-    switch (matchLabel) {
-      case 'STRONG MATCH':
-        return const [Color(0xFF50C948), Color(0xFF75E767)];
-      case 'GREAT MATCH':
-        return const [Color(0xFF50C948), Color(0xFF75E767)];
-      case 'GOOD MATCH':
-        return const [Color(0xFFA8D84E), Color(0xFFC8E86E)];
-      case 'WEAK MATCH':
-        return const [Color(0xFFE8C84E), Color(0xFFF0DD6E)];
-      case 'NO BENEFICIARIES MATCH':
-        return const [Color(0xFFBDBDBD), Color(0xFFD0D0D0)];
-      default:
-        return const [Color(0xFF50C948), Color(0xFF75E767)];
-    }
-  }
-
-  Color _getMatchBgColor(String matchLabel) {
-    switch (matchLabel) {
-      case 'STRONG MATCH':
-      case 'GREAT MATCH':
-        return IthakiTheme.matchBarBg;
-      case 'GOOD MATCH':
-        return const Color(0xFFF5F9E8);
-      case 'WEAK MATCH':
-        return const Color(0xFFFDF8E4);
-      case 'NO BENEFICIARIES MATCH':
-        return IthakiTheme.softGray;
-      default:
-        return IthakiTheme.matchBarBg;
-    }
-  }
 
   String _formatNumber(int number) {
     if (number >= 1000) {

@@ -69,6 +69,18 @@ class ProfileState {
     this.profileVisible = true,
   });
 
+  double get profileCompletion {
+    int filled = 0;
+    int total = 6;
+    if (bio.isNotEmpty) filled++;
+    if (photoUrl != null) filled++;
+    if (workExperiences.isNotEmpty) filled++;
+    if (educations.isNotEmpty) filled++;
+    if (hardSkills.isNotEmpty || softSkills.isNotEmpty) filled++;
+    if (files.isNotEmpty) filled++;
+    return filled / total;
+  }
+
   // Note: nullable fields (photoUrl, videoUrl, expectedSalary) cannot be cleared via copyWith
   // once set (null argument is ignored). Acceptable for this in-memory mock.
   ProfileState copyWith({

@@ -4,6 +4,7 @@ import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../utils/validators.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -19,10 +20,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   bool _passwordFocused = false;
 
-  bool _hasUpperLower = false;
-  bool _hasMinLength = false;
-  bool _hasNumber = false;
-  bool _hasSpecial = false;
+  PasswordValidation _pwVal = PasswordValidation.of('');
 
   @override
   void initState() {
@@ -32,8 +30,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     });
   }
 
-  bool get _passwordValid =>
-      _hasUpperLower && _hasMinLength && _hasNumber && _hasSpecial;
+  bool get _passwordValid => _pwVal.isValid;
 
   bool get _passwordsMatch =>
       _confirmPasswordController.text == _passwordController.text &&
@@ -43,11 +40,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   void _onPasswordChanged(String value) {
     setState(() {
-      _hasUpperLower =
-          value.contains(RegExp(r'[A-Z]')) && value.contains(RegExp(r'[a-z]'));
-      _hasMinLength = value.length >= 8;
-      _hasNumber = value.contains(RegExp(r'[0-9]'));
-      _hasSpecial = value.contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>]'));
+      _pwVal = PasswordValidation.of(value);
     });
   }
 
@@ -93,10 +86,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           ),
           if (_passwordFocused || _passwordController.text.isNotEmpty) ...[
             const SizedBox(height: 12),
-            IthakiValidationRow(valid: _hasUpperLower, text: l.passwordUpperLower),
-            IthakiValidationRow(valid: _hasMinLength, text: l.passwordMinLength),
-            IthakiValidationRow(valid: _hasNumber, text: l.passwordNumber),
-            IthakiValidationRow(valid: _hasSpecial, text: l.passwordSpecial),
+            IthakiValidationRow(valid: _pwVal.hasUpperAndLower, text: l.passwordUpperLower),
+            IthakiValidationRow(valid: _pwVal.hasMinLength, text: l.passwordMinLength),
+            IthakiValidationRow(valid: _pwVal.hasNumber, text: l.passwordNumber),
+            IthakiValidationRow(valid: _pwVal.hasSpecial, text: l.passwordSpecial),
           ],
           const SizedBox(height: 16),
           IthakiPasswordField(
