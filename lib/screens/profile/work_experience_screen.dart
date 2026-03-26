@@ -8,6 +8,7 @@ import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/profile_meta_cell.dart';
 import '../../widgets/profile_picker_field.dart';
+import '../../widgets/profile_entry_list_shell.dart';
 
 // ─── List screen ────────────────────────────────────────────────────────────
 
@@ -19,36 +20,14 @@ class WorkExperienceScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final experiences = ref.watch(profileProvider).workExperiences;
 
-    return Scaffold(
-      backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: IthakiAppBar(showBackButton: true, title: 'Work Experience'),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(16, 16, 16, MediaQuery.viewPaddingOf(context).bottom + 32),
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // ── Header ──────────────────────────────────────────────
-              const Text('Work Experience',
-                  style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      color: IthakiTheme.textPrimary)),
-              const SizedBox(height: 6),
-              const Text(
-                'Add details about your previous roles and companies',
-                style:
-                    TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
-              ),
-              const SizedBox(height: 20),
-
-              // ── Experience sub-cards ─────────────────────────────────
-              ...experiences.asMap().entries.map((e) {
+    return ProfileEntryListShell(
+      appBarTitle: 'Work Experience',
+      title: 'Work Experience',
+      subtitle: 'Add details about your previous roles and companies',
+      addButtonLabel: 'Add Work Experience',
+      onAddPressed: () => context.push(Routes.profileWorkExperienceEdit),
+      onSavePressed: () => context.pop(),
+      entries: experiences.asMap().entries.map((e) {
                 final index = e.key;
                 final exp = e.value;
                 final duration = exp.duration;
@@ -152,34 +131,7 @@ class WorkExperienceScreen extends ConsumerWidget {
                     ],
                   ),
                 );
-              }),
-
-              // ── Add button ───────────────────────────────────────────
-              OutlinedButton.icon(
-                onPressed: () =>
-                    context.push(Routes.profileWorkExperienceEdit),
-                icon: const Icon(Icons.add, size: 16),
-                label: const Text('Add Work Experience'),
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: IthakiTheme.softGraphite),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 10),
-                  foregroundColor: IthakiTheme.textPrimary,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-              ),
-              const SizedBox(height: 16),
-              const Divider(height: 1, color: Color(0xFFEEEEEE)),
-              const SizedBox(height: 16),
-
-              // ── Save button ──────────────────────────────────────────
-              IthakiButton('Save', onPressed: () => context.pop()),
-            ],
-          ),
-        ),
-      ),
+              }).toList(),
     );
   }
 }

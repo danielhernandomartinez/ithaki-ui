@@ -9,6 +9,8 @@ import '../../providers/profile_provider.dart';
 import '../../constants/nav_items.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
+import '../../mixins/panel_menu_mixin.dart';
+
 import 'tabs/profile_job_preferences_tab.dart';
 import 'tabs/profile_about_me_tab.dart';
 import 'tabs/profile_skills_tab.dart';
@@ -26,57 +28,19 @@ class ProfileScreen extends ConsumerStatefulWidget {
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen>
     with TickerProviderStateMixin {
+  late final PanelMenuController _panels;
   int _tabIndex = 0;
-  bool _menuOpen = false;
-  bool _avatarOpen = false;
-  late final AnimationController _menuCtrl;
-  late final AnimationController _avatarCtrl;
-  late final Animation<Offset> _slideAnim;
-  late final Animation<Offset> _avatarSlideAnim;
-  final _avatarKey = GlobalKey();
-
 
   @override
   void initState() {
     super.initState();
-    _menuCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 250));
-    _menuCtrl.addStatusListener((_) => setState(() {}));
-    _slideAnim = Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero)
-        .animate(CurvedAnimation(parent: _menuCtrl, curve: Curves.easeOut));
-    _avatarCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 250));
-    _avatarCtrl.addStatusListener((_) => setState(() {}));
-    _avatarSlideAnim = Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero)
-        .animate(CurvedAnimation(parent: _avatarCtrl, curve: Curves.easeOut));
+    _panels = PanelMenuController(setState)..init(this);
   }
 
   @override
   void dispose() {
-    _menuCtrl.dispose();
-    _avatarCtrl.dispose();
+    _panels.dispose();
     super.dispose();
-  }
-
-  void _toggleMenu() {
-    setState(() => _menuOpen = !_menuOpen);
-    _menuOpen ? _menuCtrl.forward() : _menuCtrl.reverse();
-  }
-
-  void _toggleAvatarMenu() {
-    _closeMenu();
-    setState(() => _avatarOpen = !_avatarOpen);
-    _avatarOpen ? _avatarCtrl.forward() : _avatarCtrl.reverse();
-  }
-
-  void _closeAvatarMenu() {
-    if (!_avatarOpen) return;
-    setState(() => _avatarOpen = false);
-    _avatarCtrl.reverse();
-  }
-
-  void _closeMenu() {
-    if (!_menuOpen) return;
-    setState(() => _menuOpen = false);
-    _menuCtrl.reverse();
   }
 
   static const _tabs = [
@@ -99,13 +63,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       extendBodyBehindAppBar: true,
       appBar: IthakiAppBar(
         showMenuAndAvatar: true,
-        menuOpen: _menuOpen,
+        menuOpen: _panels.menuOpen,
         avatarInitials:
             '${profile.firstName.isNotEmpty ? profile.firstName[0] : '?'}${profile.lastName.isNotEmpty ? profile.lastName[0] : '?'}',
-        onMenuPressed: _toggleMenu,
-        avatarKey: _avatarKey,
-        profileOpen: _avatarOpen,
-        onAvatarPressed: _toggleAvatarMenu,
+        onMenuPressed: _panels.toggleMenu,
+        profileOpen: _panels.profileOpen,
+        onAvatarPressed: _panels.toggleProfile,
       ),
       body: Stack(children: [
         SingleChildScrollView(
@@ -163,55 +126,48 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             SizedBox(height: MediaQuery.viewPaddingOf(context).bottom + 32),
           ]),
         ),
-        if (_menuOpen)
+        if (_panels.menuOpen || _panels.profileOpen)
           Positioned.fill(
             child: GestureDetector(
-              onTap: _closeMenu,
-              child: Container(color: Colors.black26),
+              onTap: () { _panels.closeMenu(); _panels.closeProfile(); },
+              child: Container(color: Colors.transparent),
             ),
           ),
-        if (_avatarOpen)
-          Positioned.fill(
-            child: GestureDetector(
-              onTap: _closeAvatarMenu,
-              child: Container(color: Colors.black26),
-            ),
-          ),
-        if (_avatarOpen || _avatarCtrl.status != AnimationStatus.dismissed)
+        if (_panels.profileOpen || _panels.profileCtrl.status != AnimationStatus.dismissed)
           Positioned(
             top: topOffset - 14,
             left: 16, right: 16, bottom: 40,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: SlideTransition(
-                position: _avatarSlideAnim,
+                position: _panels.profileSlideAnim,
                 child: ProfileMenuPanel(
                   onItemTap: (item) {
-                    _closeAvatarMenu();
+                    _panels.closeProfile();
                     if (item.route.isNotEmpty) context.push(item.route);
                   },
                   onLogOut: () {
-                    _closeAvatarMenu();
+                    _panels.closeProfile();
                     context.go('/login');
                   },
                 ),
               ),
             ),
           ),
-        if (_menuOpen || _menuCtrl.status != AnimationStatus.dismissed)
+        if (_panels.menuOpen || _panels.menuCtrl.status != AnimationStatus.dismissed)
           Positioned(
             top: topOffset - 14,
             left: 16, right: 16, bottom: 40,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: SlideTransition(
-                position: _slideAnim,
+                position: _panels.slideAnim,
                 child: AppNavDrawer(
-                  currentRoute: '/profile',
-                  profileProgress: 0.25,
+                  currentRoute: Routes.profile,
+                  profileProgress: profile.profileCompletion,
                   items: kAppNavItems,
                   onItemTap: (item) {
-                    _closeMenu();
+                    _panels.closeMenu();
                     context.go(item.route);
                   },
                 ),

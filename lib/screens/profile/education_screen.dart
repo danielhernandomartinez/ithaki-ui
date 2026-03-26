@@ -8,6 +8,7 @@ import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/profile_meta_cell.dart';
 import '../../widgets/profile_picker_field.dart';
+import '../../widgets/profile_entry_list_shell.dart';
 
 // ─── List / hub screen ───────────────────────────────────────────────────────
 
@@ -20,36 +21,14 @@ class EducationScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final educations = ref.watch(profileProvider).educations;
 
-    return Scaffold(
-      backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: IthakiAppBar(showBackButton: true, title: 'Education'),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(16, 16, 16, MediaQuery.viewPaddingOf(context).bottom + 32),
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // ── Header ────────────────────────────────────────────
-              const Text('Education',
-                  style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      color: IthakiTheme.textPrimary)),
-              const SizedBox(height: 6),
-              const Text(
-                'Add information about your educational background, degree, and field of study.',
-                style:
-                    TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
-              ),
-              const SizedBox(height: 20),
-
-              // ── Education sub-cards ────────────────────────────────
-              ...educations.asMap().entries.map((e) {
+    return ProfileEntryListShell(
+      appBarTitle: 'Education',
+      title: 'Education',
+      subtitle: 'Add information about your educational background, degree, and field of study.',
+      addButtonLabel: 'Add Education',
+      onAddPressed: () => context.push(Routes.profileEducationEdit),
+      onSavePressed: () => context.pop(),
+      entries: educations.asMap().entries.map((e) {
                 final index = e.key;
                 final edu = e.value;
                 final duration = edu.duration;
@@ -133,33 +112,7 @@ class EducationScreen extends ConsumerWidget {
                     ],
                   ),
                 );
-              }),
-
-              // ── Add button ─────────────────────────────────────────
-              OutlinedButton.icon(
-                onPressed: () => context.push(Routes.profileEducationEdit),
-                icon: const Icon(Icons.add, size: 16),
-                label: const Text('Add Education'),
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: IthakiTheme.softGraphite),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 10),
-                  foregroundColor: IthakiTheme.textPrimary,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-              ),
-              const SizedBox(height: 16),
-              const Divider(height: 1, color: Color(0xFFEEEEEE)),
-              const SizedBox(height: 16),
-
-              // ── Save ───────────────────────────────────────────────
-              IthakiButton('Save', onPressed: () => context.pop()),
-            ],
-          ),
-        ),
-      ),
+              }).toList(),
     );
   }
 }

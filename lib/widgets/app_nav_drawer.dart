@@ -169,7 +169,8 @@ class _ProfileCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(color: const Color(0xFFE0E0E0)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,16 +195,22 @@ class _ProfileCard extends StatelessWidget {
                     size: const Size(double.infinity, 20),
                     painter: _HatchPainter(),
                   ),
-                  // Green filled
+                  // Green filled bar
                   FractionallySizedBox(
                     widthFactor: progress,
                     child: Container(
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.only(left: 10),
                       decoration: BoxDecoration(
                         color: const Color(0xFFCCFF00),
                         borderRadius: BorderRadius.circular(50),
                       ),
+                    ),
+                  ),
+                  // Percentage always visible on top
+                  Positioned(
+                    left: 10,
+                    top: 0,
+                    bottom: 0,
+                    child: Center(
                       child: Text(
                         '$pct%',
                         style: const TextStyle(

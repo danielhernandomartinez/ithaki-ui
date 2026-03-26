@@ -9,6 +9,8 @@ import '../../providers/profile_provider.dart';
 import '../../utils/match_colors.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
+import '../../constants/nav_items.dart';
+import '../../mixins/panel_menu_mixin.dart';
 
 class JobSearchScreen extends ConsumerStatefulWidget {
   const JobSearchScreen({super.key});
@@ -19,92 +21,26 @@ class JobSearchScreen extends ConsumerStatefulWidget {
 
 class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
     with TickerProviderStateMixin {
-  // ─── Menu / Profile animations (same pattern as HomeScreen) ────
-  late final AnimationController _menuCtrl;
-  late final Animation<Offset> _slideAnim;
-  bool _menuOpen = false;
-
-  late final AnimationController _profileCtrl;
-  late final Animation<Offset> _profileSlideAnim;
-  bool _profileOpen = false;
-
-  // ─── Tab state ─────────────────────────────────────────────────
-  int _selectedTab = 0; // 0 = All Jobs, 1 = Saved
-
-  // ─── Pagination ────────────────────────────────────────────────
+  late final PanelMenuController _panels;
+  int _selectedTab = 0;
   int _currentPage = 1;
-
-  // ─── Saved jobs state ──────────────────────────────────────────
   final Set<int> _savedJobIndices = {};
-
-  // ─── Filter state ────────────────────────────────────────────
   Set<String> _selectedCategories = {};
   Set<String> _selectedLocations = {};
   Set<String> _selectedWorkModes = {};
   Set<String> _selectedEmploymentTypes = {};
   Set<String> _selectedLevels = {};
 
-  static const _navItems = [
-    NavItem(icon: 'home', label: 'Home', route: Routes.home),
-    NavItem(icon: 'jobs', label: 'Job Search', route: Routes.jobSearch),
-    NavItem(
-        icon: 'applications',
-        label: 'My Applications',
-        route: '/applications',
-        badge: 3),
-    NavItem(icon: 'ai', label: 'Career Assistant', route: '/career-assistant'),
-    NavItem(
-        icon: 'assessment', label: 'My Assessments', route: '/assessments'),
-    NavItem(icon: 'learning-hub', label: 'Learning Hub', route: '/learning-hub'),
-    NavItem(icon: 'blog', label: 'Blog & News', route: '/blog'),
-  ];
-
   @override
   void initState() {
     super.initState();
-    _menuCtrl = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 250));
-    _menuCtrl.addStatusListener((_) => setState(() {}));
-    _slideAnim = Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero)
-        .animate(CurvedAnimation(parent: _menuCtrl, curve: Curves.easeOut));
-
-    _profileCtrl = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 250));
-    _profileCtrl.addStatusListener((_) => setState(() {}));
-    _profileSlideAnim =
-        Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero).animate(
-            CurvedAnimation(parent: _profileCtrl, curve: Curves.easeOut));
+    _panels = PanelMenuController(setState)..init(this);
   }
 
   @override
   void dispose() {
-    _menuCtrl.dispose();
-    _profileCtrl.dispose();
+    _panels.dispose();
     super.dispose();
-  }
-
-  void _toggleMenu() {
-    if (_profileOpen) _closeProfile();
-    setState(() => _menuOpen = !_menuOpen);
-    _menuOpen ? _menuCtrl.forward() : _menuCtrl.reverse();
-  }
-
-  void _closeMenu() {
-    if (!_menuOpen) return;
-    setState(() => _menuOpen = false);
-    _menuCtrl.reverse();
-  }
-
-  void _toggleProfile() {
-    if (_menuOpen) _closeMenu();
-    setState(() => _profileOpen = !_profileOpen);
-    _profileOpen ? _profileCtrl.forward() : _profileCtrl.reverse();
-  }
-
-  void _closeProfile() {
-    if (!_profileOpen) return;
-    setState(() => _profileOpen = false);
-    _profileCtrl.reverse();
   }
 
   @override
@@ -117,11 +53,11 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
       extendBodyBehindAppBar: true,
       appBar: IthakiAppBar(
         showMenuAndAvatar: true,
-        menuOpen: _menuOpen,
-        profileOpen: _profileOpen,
+        menuOpen: _panels.menuOpen,
+        profileOpen: _panels.profileOpen,
         avatarInitials: MockHomeData.userInitials,
-        onMenuPressed: _toggleMenu,
-        onAvatarPressed: _toggleProfile,
+        onMenuPressed: _panels.toggleMenu,
+        onAvatarPressed: _panels.toggleProfile,
       ),
       body: Stack(
         children: [
@@ -186,37 +122,33 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
           ),
 
           // ─── Dim overlay ──────────────────────────────────
-          if (_menuOpen || _profileOpen)
+          if (_panels.menuOpen || _panels.profileOpen)
             Positioned.fill(
               child: GestureDetector(
                 onTap: () {
-                  _closeMenu();
-                  _closeProfile();
+                  _panels.closeMenu();
+                  _panels.closeProfile();
                 },
                 child: const ColoredBox(color: Colors.transparent),
               ),
             ),
 
           // ─── Nav menu panel ───────────────────────────────
-          if (_menuOpen || _menuCtrl.status != AnimationStatus.dismissed)
+          if (_panels.menuOpen || _panels.menuCtrl.status != AnimationStatus.dismissed)
             Positioned(
               top: topOffset - 14,
-              left: 16,
-              right: 16,
-              bottom: 40,
+              left: 16, right: 16, bottom: 40,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
                 child: SlideTransition(
-                  position: _slideAnim,
+                  position: _panels.slideAnim,
                   child: AppNavDrawer(
-                    currentRoute: '/job-search',
+                    currentRoute: Routes.jobSearch,
                     profileProgress: ref.watch(profileProvider).profileCompletion,
-                    items: _navItems,
+                    items: kAppNavItems,
                     onItemTap: (item) {
-                      _closeMenu();
-                      if (item.route != '/job-search') {
-                        context.go(item.route);
-                      }
+                      _panels.closeMenu();
+                      if (item.route != Routes.jobSearch) context.go(item.route);
                     },
                   ),
                 ),
@@ -224,23 +156,20 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
             ),
 
           // ─── Profile menu panel ───────────────────────────
-          if (_profileOpen ||
-              _profileCtrl.status != AnimationStatus.dismissed)
+          if (_panels.profileOpen || _panels.profileCtrl.status != AnimationStatus.dismissed)
             Positioned(
               top: topOffset - 14,
-              left: 16,
-              right: 16,
-              bottom: 40,
+              left: 16, right: 16, bottom: 40,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(30),
                 child: SlideTransition(
-                  position: _profileSlideAnim,
+                  position: _panels.profileSlideAnim,
                   child: ProfileMenuPanel(
                     onItemTap: (item) {
-                      _closeProfile();
+                      _panels.closeProfile();
                       if (item.route.isNotEmpty) context.push(item.route);
                     },
-                    onLogOut: _closeProfile,
+                    onLogOut: _panels.closeProfile,
                   ),
                 ),
               ),
