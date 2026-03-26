@@ -7,7 +7,11 @@ import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
+import '../../utils/language_utils.dart';
+import '../../utils/profile_date_utils.dart';
+import '../../constants/nav_items.dart';
 import '../../widgets/app_nav_drawer.dart';
+import '../../widgets/profile_menu_panel.dart';
 import '../../widgets/profile_meta_cell.dart';
 import '../../widgets/upload_files_sheet.dart';
 
@@ -35,15 +39,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   late final Animation<Offset> _avatarSlideAnim;
   final _avatarKey = GlobalKey();
 
-  static const _navItems = [
-    NavItem(icon: 'home',         label: 'Home',             route: Routes.home),
-    NavItem(icon: 'jobs',         label: 'Job Search',       route: Routes.jobSearch),
-    NavItem(icon: 'applications', label: 'My Applications',  route: '/applications', badge: 3),
-    NavItem(icon: 'ai',           label: 'Career Assistant', route: '/career-assistant'),
-    NavItem(icon: 'assessment',   label: 'My Assessments',   route: '/assessments'),
-    NavItem(icon: 'learning-hub', label: 'Learning Hub',     route: '/learning-hub'),
-    NavItem(icon: 'blog',         label: 'Blog & News',      route: '/blog'),
-  ];
 
   @override
   void initState() {
@@ -70,39 +65,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     _menuOpen ? _menuCtrl.forward() : _menuCtrl.reverse();
   }
 
-  void _showAvatarMenu(BuildContext context) {
-    final box = _avatarKey.currentContext?.findRenderObject() as RenderBox?;
-    if (box == null) return;
-    final offset = box.localToGlobal(Offset.zero);
-    final size = box.size;
-    showMenu<String>(
-      context: context,
-      position: RelativeRect.fromLTRB(
-        offset.dx,
-        offset.dy + size.height + 4,
-        offset.dx + size.width,
-        0,
-      ),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      items: [
-        PopupMenuItem(value: 'profile', child: _menuRow('profile', 'My Profile')),
-        PopupMenuItem(value: 'cv', child: _menuRow('resume', 'Upload CV')),
-        PopupMenuItem(value: 'settings', child: _menuRow('settings', 'Settings')),
-      ],
-    ).then((val) {
-      if (!mounted) return;
-      if (val == 'profile') context.go(Routes.profile);
-      if (val == 'cv') context.push('/profile/files') /* TODO: add Routes.profileFiles */;
-      if (val == 'settings') context.push(Routes.settings);
-    });
-  }
-
-  Widget _menuRow(String icon, String label) => Row(
-        children: [
-          IthakiIcon(icon, size: 18, color: IthakiTheme.textPrimary),
-          const SizedBox(width: 10),
-          Text(label, style: const TextStyle(fontSize: 14, color: IthakiTheme.textPrimary)),
-        ],
   void _toggleAvatarMenu() {
     _closeMenu();
     setState(() => _avatarOpen = !_avatarOpen);
@@ -114,26 +76,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     setState(() => _avatarOpen = false);
     _avatarCtrl.reverse();
   }
-
-  Widget _avatarMenuItem(String icon, String label, VoidCallback onTap) =>
-      InkWell(
-        onTap: () {
-          _closeAvatarMenu();
-          onTap();
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
-          child: Row(
-            children: [
-              IthakiIcon(icon, size: 20, color: IthakiTheme.textPrimary),
-              const SizedBox(width: 16),
-              Text(label,
-                  style: const TextStyle(
-                      fontSize: 15, color: IthakiTheme.textPrimary)),
-            ],
-          ),
-        ),
-      );
 
   void _closeMenu() {
     if (!_menuOpen) return;
@@ -241,25 +183,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           ),
         if (_avatarOpen || _avatarCtrl.status != AnimationStatus.dismissed)
           Positioned(
-            top: topOffset + 16,
-            left: 16,
-            right: 16,
+            top: topOffset - 14,
+            left: 16, right: 16, bottom: 40,
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(30),
               child: SlideTransition(
                 position: _avatarSlideAnim,
-                child: Material(
-                  color: Colors.white,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _avatarMenuItem('profile', 'My Profile', () => context.go('/profile')),
-                      _avatarMenuItem('resume', 'My CV', () => context.push('/profile/files')),
-                      _avatarMenuItem('settings', 'Account Settings', () => context.push('/settings')),
-                      const Divider(height: 1, indent: 24, endIndent: 24),
-                      _avatarMenuItem('log-out', 'Log Out', () => context.go('/login')),
-                    ],
-                  ),
+                child: ProfileMenuPanel(
+                  onItemTap: (item) {
+                    _closeAvatarMenu();
+                    if (item.route.isNotEmpty) context.push(item.route);
+                  },
+                  onLogOut: () {
+                    _closeAvatarMenu();
+                    context.go('/login');
+                  },
                 ),
               ),
             ),
@@ -275,7 +213,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 child: AppNavDrawer(
                   currentRoute: '/profile',
                   profileProgress: 0.25,
-                  items: _navItems,
+                  items: kAppNavItems,
                   onItemTap: (item) {
                     _closeMenu();
                     context.go(item.route);
@@ -847,7 +785,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(children: [
-                      IthakiFlag(_langCode(l.language), width: 20, height: 20),
+                      IthakiFlag(langCode(l.language), width: 20, height: 20),
                       const SizedBox(width: 8),
                       Text(l.language,
                           style: const TextStyle(
@@ -883,15 +821,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             style: const TextStyle(
                 fontSize: 16, color: IthakiTheme.textPrimary)),
       );
-
-  String _langCode(String language) {
-    const map = {
-      'English': 'gb', 'Greek': 'gr', 'Spanish': 'es',
-      'French': 'fr', 'German': 'de', 'Italian': 'it',
-      'Arabic': 'sa', 'Chinese': 'cn',
-    };
-    return map[language] ?? 'gr';
-  }
 
   // ─── Tab: Work Experience ─────────────────────────────────────────
 
@@ -930,7 +859,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           final index = entry.key;
           final exp = entry.value;
           final endLabel = exp.currentlyWorkHere ? 'Present' : (exp.endDate ?? '');
-          final duration = _calcDuration(exp.startDate, exp.currentlyWorkHere ? null : exp.endDate);
+          final duration = calcDuration(exp.startDate, exp.currentlyWorkHere ? null : exp.endDate);
           return Container(
             margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
             padding: const EdgeInsets.all(20),
@@ -1028,28 +957,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   Widget _metaCell(IconData icon, String label) =>
       ProfileMetaCell(icon, label, flexible: true, fontSize: 13);
 
-  String _calcDuration(String startDate, String? endDate) {
-    try {
-      final parts = startDate.split('-');
-      if (parts.length != 2) return '';
-      final start = DateTime(int.parse(parts[1]), int.parse(parts[0]));
-      final end = endDate != null
-          ? () {
-              final ep = endDate.split('-');
-              return DateTime(int.parse(ep[1]), int.parse(ep[0]));
-            }()
-          : DateTime.now();
-      int months = (end.year - start.year) * 12 + (end.month - start.month);
-      if (months < 0) return '';
-      final years = months ~/ 12;
-      final rem = months % 12;
-      if (years == 0) return '$rem month${rem != 1 ? 's' : ''}';
-      if (rem == 0) return '$years year${years != 1 ? 's' : ''}';
-      return '$years year${years != 1 ? 's' : ''} $rem month${rem != 1 ? 's' : ''}';
-    } catch (_) {
-      return '';
-    }
-  }
 
   // ─── Tab: Education ───────────────────────────────────────────────
 
