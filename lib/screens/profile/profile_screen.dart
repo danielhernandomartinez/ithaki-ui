@@ -28,8 +28,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     with TickerProviderStateMixin {
   int _tabIndex = 0;
   bool _menuOpen = false;
+  bool _avatarOpen = false;
   late final AnimationController _menuCtrl;
+  late final AnimationController _avatarCtrl;
   late final Animation<Offset> _slideAnim;
+  late final Animation<Offset> _avatarSlideAnim;
   final _avatarKey = GlobalKey();
 
   static const _navItems = [
@@ -49,11 +52,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     _menuCtrl.addStatusListener((_) => setState(() {}));
     _slideAnim = Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero)
         .animate(CurvedAnimation(parent: _menuCtrl, curve: Curves.easeOut));
+    _avatarCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 250));
+    _avatarCtrl.addStatusListener((_) => setState(() {}));
+    _avatarSlideAnim = Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero)
+        .animate(CurvedAnimation(parent: _avatarCtrl, curve: Curves.easeOut));
   }
 
   @override
   void dispose() {
     _menuCtrl.dispose();
+    _avatarCtrl.dispose();
     super.dispose();
   }
 
@@ -95,6 +103,36 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           const SizedBox(width: 10),
           Text(label, style: const TextStyle(fontSize: 14, color: IthakiTheme.textPrimary)),
         ],
+  void _toggleAvatarMenu() {
+    _closeMenu();
+    setState(() => _avatarOpen = !_avatarOpen);
+    _avatarOpen ? _avatarCtrl.forward() : _avatarCtrl.reverse();
+  }
+
+  void _closeAvatarMenu() {
+    if (!_avatarOpen) return;
+    setState(() => _avatarOpen = false);
+    _avatarCtrl.reverse();
+  }
+
+  Widget _avatarMenuItem(String icon, String label, VoidCallback onTap) =>
+      InkWell(
+        onTap: () {
+          _closeAvatarMenu();
+          onTap();
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+          child: Row(
+            children: [
+              IthakiIcon(icon, size: 20, color: IthakiTheme.textPrimary),
+              const SizedBox(width: 16),
+              Text(label,
+                  style: const TextStyle(
+                      fontSize: 15, color: IthakiTheme.textPrimary)),
+            ],
+          ),
+        ),
       );
 
   void _closeMenu() {
@@ -128,7 +166,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             '${profile.firstName.isNotEmpty ? profile.firstName[0] : '?'}${profile.lastName.isNotEmpty ? profile.lastName[0] : '?'}',
         onMenuPressed: _toggleMenu,
         avatarKey: _avatarKey,
-        onAvatarPressed: () => _showAvatarMenu(context),
+        profileOpen: _avatarOpen,
+        onAvatarPressed: _toggleAvatarMenu,
       ),
       body: Stack(children: [
         SingleChildScrollView(
@@ -191,6 +230,38 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             child: GestureDetector(
               onTap: _closeMenu,
               child: Container(color: Colors.black26),
+            ),
+          ),
+        if (_avatarOpen)
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: _closeAvatarMenu,
+              child: Container(color: Colors.black26),
+            ),
+          ),
+        if (_avatarOpen || _avatarCtrl.status != AnimationStatus.dismissed)
+          Positioned(
+            top: topOffset + 16,
+            left: 16,
+            right: 16,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: SlideTransition(
+                position: _avatarSlideAnim,
+                child: Material(
+                  color: Colors.white,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _avatarMenuItem('profile', 'My Profile', () => context.go('/profile')),
+                      _avatarMenuItem('resume', 'My CV', () => context.push('/profile/files')),
+                      _avatarMenuItem('settings', 'Account Settings', () => context.push('/settings')),
+                      const Divider(height: 1, indent: 24, endIndent: 24),
+                      _avatarMenuItem('log-out', 'Log Out', () => context.go('/login')),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
         if (_menuOpen || _menuCtrl.status != AnimationStatus.dismissed)
