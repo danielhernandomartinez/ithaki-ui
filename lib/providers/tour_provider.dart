@@ -37,74 +37,74 @@ class TourState {
       );
 }
 
-class TourNotifier extends Notifier<TourState> {
+class TourNotifier extends AsyncNotifier<TourState> {
   @override
-  TourState build() => const TourState();
-
-  Future<void> init() async {
+  Future<TourState> build() async {
     final prefs = await SharedPreferences.getInstance();
     final completed = prefs.getBool(_kTourCompleted) ?? false;
     final step = prefs.getInt(_kTourStep) ?? 0;
-    state = state.copyWith(tourCompleted: completed, currentStep: step);
-    if (!completed) {
-      state = state.copyWith(welcomeVisible: true);
-    }
+    return TourState(
+      tourCompleted: completed,
+      currentStep: step,
+      welcomeVisible: !completed,
+    );
   }
 
   Future<void> startTour() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setInt(_kTourStep, 1);
-    state = state.copyWith(
+    state = AsyncData(state.requireValue.copyWith(
       welcomeVisible: false,
       currentStep: 1,
-    );
+    ));
   }
 
   Future<void> nextStep() async {
-    final next = state.currentStep + 1;
+    final current = state.requireValue;
+    final next = current.currentStep + 1;
     final prefs = await SharedPreferences.getInstance();
     if (next > 13) {
       await prefs.setBool(_kTourCompleted, true);
       await prefs.setInt(_kTourStep, 0);
-      state = state.copyWith(
+      state = AsyncData(current.copyWith(
         currentStep: 0,
         completionVisible: true,
-      );
+      ));
     } else {
       await prefs.setInt(_kTourStep, next);
-      state = state.copyWith(currentStep: next);
+      state = AsyncData(current.copyWith(currentStep: next));
     }
   }
 
   void showSkipConfirm() =>
-      state = state.copyWith(skipConfirmVisible: true);
+      state = AsyncData(state.requireValue.copyWith(skipConfirmVisible: true));
 
   void cancelSkip() =>
-      state = state.copyWith(skipConfirmVisible: false);
+      state = AsyncData(state.requireValue.copyWith(skipConfirmVisible: false));
 
   Future<void> confirmSkip() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_kTourCompleted, true);
     await prefs.setInt(_kTourStep, 0);
-    state = state.copyWith(
+    state = AsyncData(state.requireValue.copyWith(
       tourCompleted: true,
       currentStep: 0,
       skipConfirmVisible: false,
-    );
+    ));
   }
 
   Future<void> completeTour() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_kTourCompleted, true);
-    state = state.copyWith(
+    state = AsyncData(state.requireValue.copyWith(
       tourCompleted: true,
       currentStep: 0,
       completionVisible: false,
-    );
+    ));
   }
 }
 
-final tourProvider = NotifierProvider<TourNotifier, TourState>(
+final tourProvider = AsyncNotifierProvider<TourNotifier, TourState>(
   TourNotifier.new,
 );
 

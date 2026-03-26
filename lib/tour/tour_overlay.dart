@@ -7,6 +7,7 @@ import '../router.dart';
 import 'tour_steps.dart';
 import 'tour_skip_modal.dart';
 import 'tour_complete_modal.dart';
+import 'tour_welcome_modal.dart';
 
 /// Returns the screen-space [Rect] of any widget via its [GlobalKey].
 /// Returns [Rect.zero] if the key has no context yet.
@@ -151,71 +152,85 @@ class TourOverlay extends ConsumerStatefulWidget {
 class _TourOverlayState extends ConsumerState<TourOverlay> {
   @override
   Widget build(BuildContext context) {
-    // Drive skip/complete modals from state changes
+    // Drive modals from state changes.
     // Use the navigator's context (below the Navigator) instead of the
     // overlay's context (above the Navigator in the widget tree).
     final navContext = IthakiRouter.navigatorKey.currentContext;
-    ref.listen<TourState>(tourProvider, (prev, next) {
+    ref.listen<AsyncValue<TourState>>(tourProvider, (prev, next) {
       if (navContext == null) return;
-      if (next.skipConfirmVisible && !(prev?.skipConfirmVisible ?? false)) {
-        TourSkipModal.show(navContext);
-      }
-      if (next.completionVisible && !(prev?.completionVisible ?? false)) {
-        TourCompleteModal.show(navContext);
+      if (next case AsyncData(:final value)) {
+        final TourState? prevData = switch (prev) {
+          AsyncData(:final value) => value,
+          _ => null,
+        };
+        if (value.welcomeVisible && !(prevData?.welcomeVisible ?? false)) {
+          TourWelcomeModal.show(navContext);
+        }
+        if (value.skipConfirmVisible && !(prevData?.skipConfirmVisible ?? false)) {
+          TourSkipModal.show(navContext);
+        }
+        if (value.completionVisible && !(prevData?.completionVisible ?? false)) {
+          TourCompleteModal.show(navContext);
+        }
       }
     });
 
-    final tourState = ref.watch(tourProvider);
-    final notifier = ref.read(tourProvider.notifier);
-    final step = tourState.currentStep;
-    final isActive = !tourState.tourCompleted && step >= 1 && step <= 13;
+    return ref.watch(tourProvider).when(
+      loading: () => widget.child,
+      error: (_, __) => widget.child,
+      data: (tourState) {
+        final notifier = ref.read(tourProvider.notifier);
+        final step = tourState.currentStep;
+        final isActive = !tourState.tourCompleted && step >= 1 && step <= 13;
 
-    if (!isActive) return widget.child;
+        if (!isActive) return widget.child;
 
-    final stepDef = tourSteps[step - 1];
-    final targetKey = widget.keys[step];
-    final targetRect = targetKey != null ? _getWidgetRect(targetKey) : Rect.zero;
-    final screenH = MediaQuery.of(context).size.height;
-    const bubbleHeight = 160.0;
-    const sidePadding = 24.0;
+        final stepDef = tourSteps[step - 1];
+        final targetKey = widget.keys[step];
+        final targetRect = targetKey != null ? _getWidgetRect(targetKey) : Rect.zero;
+        final screenH = MediaQuery.of(context).size.height;
+        const bubbleHeight = 160.0;
+        const sidePadding = 24.0;
 
-    // Decide tooltip placement
-    final placeBelow = stepDef.placement == TooltipPlacement.below ||
-        targetRect.top < screenH / 2;
-    final tooltipTop = placeBelow
-        ? targetRect.bottom + 16
-        : targetRect.top - bubbleHeight - 16;
+        // Decide tooltip placement
+        final placeBelow = stepDef.placement == TooltipPlacement.below ||
+            targetRect.top < screenH / 2;
+        final tooltipTop = placeBelow
+            ? targetRect.bottom + 16
+            : targetRect.top - bubbleHeight - 16;
 
-    return Stack(
-      children: [
-        widget.child,
+        return Stack(
+          children: [
+            widget.child,
 
-        // Scrim + spotlight cutout
-        Positioned.fill(
-          child: GestureDetector(
-            onTap: () {}, // absorb taps on scrim
-            child: CustomPaint(
-              painter: _SpotlightPainter(spotlight: targetRect),
+            // Scrim + spotlight cutout
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: () {}, // absorb taps on scrim
+                child: CustomPaint(
+                  painter: _SpotlightPainter(spotlight: targetRect),
+                ),
+              ),
             ),
-          ),
-        ),
 
-        // Tooltip bubble
-        Positioned(
-          top: tooltipTop.clamp(
-            MediaQuery.of(context).padding.top + 8,
-            screenH - bubbleHeight - MediaQuery.of(context).padding.bottom - 8,
-          ),
-          left: sidePadding,
-          right: sidePadding,
-          child: _TourTooltip(
-            step: stepDef,
-            totalSteps: 13,
-            onNext: () => notifier.nextStep(),
-            onSkip: () => notifier.showSkipConfirm(),
-          ),
-        ),
-      ],
+            // Tooltip bubble
+            Positioned(
+              top: tooltipTop.clamp(
+                MediaQuery.of(context).padding.top + 8,
+                screenH - bubbleHeight - MediaQuery.of(context).padding.bottom - 8,
+              ),
+              left: sidePadding,
+              right: sidePadding,
+              child: _TourTooltip(
+                step: stepDef,
+                totalSteps: 13,
+                onNext: () => notifier.nextStep(),
+                onSkip: () => notifier.showSkipConfirm(),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

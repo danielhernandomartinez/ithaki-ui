@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../services/city_search_service.dart';
 
-class CitySearchBottomSheet extends StatefulWidget {
+class CitySearchBottomSheet extends ConsumerStatefulWidget {
   final void Function(String city) onSelected;
 
   const CitySearchBottomSheet({super.key, required this.onSelected});
@@ -18,10 +19,10 @@ class CitySearchBottomSheet extends StatefulWidget {
   }
 
   @override
-  State<CitySearchBottomSheet> createState() => _CitySearchBottomSheetState();
+  ConsumerState<CitySearchBottomSheet> createState() => _CitySearchBottomSheetState();
 }
 
-class _CitySearchBottomSheetState extends State<CitySearchBottomSheet> {
+class _CitySearchBottomSheetState extends ConsumerState<CitySearchBottomSheet> {
   final _ctrl = TextEditingController();
   Timer? _debounce;
   List<CityResult> _results = [];
@@ -47,7 +48,8 @@ class _CitySearchBottomSheetState extends State<CitySearchBottomSheet> {
 
   Future<void> _search(String query) async {
     setState(() => _loading = true);
-    final results = await CitySearchService.search(query);
+    final service = ref.read(citySearchServiceProvider);
+    final results = await service.search(query);
     _lastQuery = query;
     if (mounted) setState(() { _results = results; _loading = false; });
   }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
 class CityResult {
@@ -16,7 +17,7 @@ class CityResult {
 class CitySearchService {
   static const _baseUrl = 'https://nominatim.openstreetmap.org/search';
 
-  static Future<List<CityResult>> search(String query) async {
+  Future<List<CityResult>> search(String query) async {
     if (query.trim().length < 2) return [];
 
     final uri = Uri.parse(_baseUrl).replace(queryParameters: {
@@ -67,3 +68,7 @@ class CitySearchService {
     return results;
   }
 }
+
+final citySearchServiceProvider = Provider<CitySearchService>(
+  (_) => CitySearchService(),
+);
