@@ -16,7 +16,7 @@ dependencies:
   pin_code_fields: ^9.1.0
   shared_preferences: ^2.5.5
   file_picker: ^10.3.10
-  http: ^1.2.0
+  http: ^1.6.0
   ithaki_design_system:
     git:
       url: https://github.com/danielhernandomartinez/ithaki_design_system
