@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../routes.dart';
+import '../../../widgets/profile_empty_state_card.dart';
 
 class ProfileAboutMeTab extends StatelessWidget {
   final ProfileState profile;
@@ -11,35 +12,16 @@ class ProfileAboutMeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (profile.bio.isEmpty) {
-      return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('About Me',
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: IthakiTheme.textPrimary)),
-          const SizedBox(height: 8),
-          const Text(
+      return ProfileEmptyStateCard(
+        title: 'About Me',
+        description:
             'Add a few words about yourself to help employers understand who you are and what you do.',
-            style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
-          ),
-          const SizedBox(height: 16),
-          IthakiOutlineButton(
-            'Add About Me Information',
-            icon: const IthakiIcon('plus', size: 16),
-            onPressed: () => context.push(Routes.profileAboutMe),
-            borderRadius: 20,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          ),
-        ]),
+        buttonLabel: 'Add About Me Information',
+        buttonIcon: const IthakiIcon('plus', size: 16),
+        onPressed: () => context.push(Routes.profileAboutMe),
       );
     }
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),

@@ -49,6 +49,7 @@ class _EditCompetenciesScreenState
         duration: const Duration(milliseconds: 150),
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
         decoration: BoxDecoration(
+          color: isSelected ? const Color(0xFFF0EAFF) : Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected ? IthakiTheme.primaryPurple : IthakiTheme.borderLight,

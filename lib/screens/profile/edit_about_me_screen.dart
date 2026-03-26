@@ -16,8 +16,8 @@ class EditAboutMeScreen extends ConsumerStatefulWidget {
 
 class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
   late TextEditingController _bioCtrl;
+  late TextEditingController _videoUrlCtrl;
   String? _videoUrl;
-  final _videoUrlCtrl = TextEditingController();
   int _activeTab = 0; // 0 = Upload File, 1 = Upload via URL
 
   @override
@@ -26,6 +26,7 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
     final profile = ref.read(profileProvider);
     _bioCtrl = TextEditingController(text: profile.bio);
     _videoUrl = profile.videoUrl;
+    _videoUrlCtrl = TextEditingController(text: profile.videoUrl ?? '');
     _bioCtrl.addListener(() => setState(() {}));
   }
 

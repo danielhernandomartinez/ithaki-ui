@@ -16,7 +16,7 @@ class ProfileJobPreferencesTab extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Text(
@@ -141,17 +141,18 @@ class ProfileJobPreferencesTab extends StatelessWidget {
   }
 
   Widget _prefCell(String iconName, String label, String value) =>
-      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        IthakiIcon(iconName, size: 16, color: IthakiTheme.softGraphite),
-        const SizedBox(height: 4),
-        Text(label,
-            style: const TextStyle(
-                fontSize: 11, color: IthakiTheme.textSecondary)),
-        const SizedBox(height: 2),
-        Text(value,
-            style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: IthakiTheme.textPrimary)),
+      Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        IthakiIcon(iconName, size: 20, color: IthakiTheme.softGraphite),
+        const SizedBox(width: 8),
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(label,
+              style: const TextStyle(
+                  fontSize: 11, color: IthakiTheme.textSecondary)),
+          Text(value,
+              style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: IthakiTheme.textPrimary)),
+        ]),
       ]);
 }
