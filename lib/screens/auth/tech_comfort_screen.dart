@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -22,7 +23,7 @@ class _TechComfortScreenState extends ConsumerState<TechComfortScreen> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     return IthakiScreenLayout(
-      appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go('/login-phone')),
+      appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go(Routes.loginPhone)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -55,7 +56,7 @@ class _TechComfortScreenState extends ConsumerState<TechComfortScreen> {
             onPressed: _selected != null
                 ? () {
                     ref.read(registrationProvider.notifier).setTechLevel(_selected!.name);
-                    context.push('/register');
+                    context.push(Routes.register);
                   }
                 : null,
           ),

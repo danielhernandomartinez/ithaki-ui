@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -130,7 +131,7 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
                               ref.read(setupProvider.notifier).setJobInterests(
                                 _selected.map((j) => JobInterest(id: j.id, label: j.label, subtitle: j.subtitle)).toList(),
                               );
-                              context.push('/setup/preferences');
+                              context.push(Routes.setupPreferences);
                             }
                           : null,
                     ),

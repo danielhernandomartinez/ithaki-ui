@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -69,7 +70,7 @@ class _ValuesScreenState extends ConsumerState<ValuesScreen> {
                       onPressed: _selected.isNotEmpty
                           ? () {
                               ref.read(setupProvider.notifier).setValues(Set.of(_selected));
-                              context.push('/setup/communication');
+                              context.push(Routes.setupCommunication);
                             }
                           : null,
                     ),

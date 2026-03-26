@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -65,7 +66,7 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
                 ? () {
                     ref.read(registrationProvider.notifier)
                         .setVerifyMethod(_selectedMethod!, remember: _rememberChoice);
-                    context.push('/verify-otp?method=$_selectedMethod');
+                    context.push(Routes.verifyOtpWith(method: _selectedMethod!));
                   }
                 : null,
           ),

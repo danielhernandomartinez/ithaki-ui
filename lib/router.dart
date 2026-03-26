@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'routes.dart';
 import 'screens/auth/tech_comfort_screen.dart';
 import 'screens/auth/register_screen.dart';
 import 'screens/auth/personal_details_screen.dart';
@@ -28,7 +29,6 @@ import 'screens/profile/edit_about_me_screen.dart';
 import 'screens/profile/edit_job_preferences_screen.dart';
 import 'screens/profile/edit_values_screen.dart';
 import 'screens/profile/work_experience_screen.dart';
-import 'models/profile_models.dart';
 import 'screens/profile/education_screen.dart';
 import 'screens/settings/account_settings_screen.dart';
 
@@ -37,41 +37,41 @@ class IthakiRouter {
 
   static final router = GoRouter(
     navigatorKey: navigatorKey,
-    initialLocation: '/',
+    initialLocation: Routes.root,
     routes: [
       GoRoute(
-        path: '/',
+        path: Routes.root,
         builder: (context, state) => const HomeScreen(),
       ),
       GoRoute(
-        path: '/tech-comfort',
+        path: Routes.techComfort,
         builder: (context, state) => const TechComfortScreen(),
       ),
       GoRoute(
-        path: '/register',
+        path: Routes.register,
         builder: (context, state) => const RegisterScreen(),
       ),
       GoRoute(
-        path: '/personal-details',
+        path: Routes.personalDetails,
         builder: (context, state) => const PersonalDetailsScreen(),
       ),
       GoRoute(
-        path: '/verify-email',
+        path: Routes.verifyEmail,
         builder: (context, state) => const VerifyEmailScreen(),
       ),
       GoRoute(
-        path: '/choose-verify-method',
+        path: Routes.chooseVerifyMethod,
         builder: (context, state) => const ChooseVerifyMethodScreen(),
       ),
       GoRoute(
-        path: '/verify-otp',
+        path: Routes.verifyOtp,
         builder: (context, state) {
           final method = state.uri.queryParameters['method'] ?? 'sms';
           return VerifyOtpScreen(method: method);
         },
       ),
       GoRoute(
-        path: '/verify-phone',
+        path: Routes.verifyPhone,
         builder: (context, state) {
           final phone = state.uri.queryParameters['phone'] ?? '';
           final method = state.uri.queryParameters['method'] ?? 'sms';
@@ -80,35 +80,35 @@ class IthakiRouter {
             title: 'Login to Ithaki Talent',
             subtitle: "We've sent a verification code to $phone.",
             backLabel: 'This is not your phone?',
-            backRoute: '/login-phone',
+            backRoute: Routes.loginPhone,
             actionLabel: 'Sign Up',
-            actionRoute: '/',
-            successRoute: '/home',
+            actionRoute: Routes.root,
+            successRoute: Routes.home,
           );
         },
       ),
       GoRoute(
-        path: '/login-email',
+        path: Routes.loginEmail,
         builder: (context, state) => const LoginEmailScreen(),
       ),
       GoRoute(
-        path: '/forgot-password',
+        path: Routes.forgotPassword,
         builder: (context, state) => const ForgotPasswordScreen(),
       ),
       GoRoute(
-        path: '/reset-link-sent',
+        path: Routes.resetLinkSent,
         builder: (context, state) => const ResetLinkSentScreen(),
       ),
       GoRoute(
-        path: '/reset-password',
+        path: Routes.resetPassword,
         builder: (context, state) => const ResetPasswordScreen(),
       ),
       GoRoute(
-        path: '/login-phone',
+        path: Routes.loginPhone,
         builder: (context, state) => const LoginPhoneScreen(),
       ),
       GoRoute(
-        path: '/welcome',
+        path: Routes.welcome,
         pageBuilder: (context, state) => CustomTransitionPage(
           opaque: false,
           barrierColor: Colors.black54,
@@ -118,99 +118,99 @@ class IthakiRouter {
         ),
       ),
       GoRoute(
-        path: '/setup/location',
+        path: Routes.setupLocation,
         builder: (context, state) => const LocationScreen(),
       ),
       GoRoute(
-        path: '/setup/job-interests',
+        path: Routes.setupJobInterests,
         builder: (context, state) => const JobInterestsScreen(),
       ),
       GoRoute(
-        path: '/setup/preferences',
+        path: Routes.setupPreferences,
         builder: (context, state) => const PreferencesScreen(),
       ),
       GoRoute(
-        path: '/setup/values',
+        path: Routes.setupValues,
         builder: (context, state) => const ValuesScreen(),
       ),
       GoRoute(
-        path: '/setup/communication',
+        path: Routes.setupCommunication,
         builder: (context, state) => const CommunicationScreen(),
       ),
       GoRoute(
-        path: '/home',
+        path: Routes.home,
         builder: (context, state) => const HomeScreen(),
       ),
       GoRoute(
-        path: '/job-search',
+        path: Routes.jobSearch,
         builder: (context, state) => const JobSearchScreen(),
       ),
       GoRoute(
-        path: '/profile',
+        path: Routes.profile,
         builder: (context, state) => const ProfileScreen(),
       ),
       GoRoute(
-        path: '/profile/basics',
+        path: Routes.profileBasics,
         builder: (context, state) => const ProfileBasicsScreen(),
       ),
       GoRoute(
-        path: '/profile/skills',
+        path: Routes.profileSkills,
         builder: (context, state) => const EditSkillsScreen(),
       ),
       GoRoute(
-        path: '/profile/competencies',
+        path: Routes.profileCompetencies,
         builder: (context, state) => const EditCompetenciesScreen(),
       ),
       GoRoute(
-        path: '/profile/languages',
+        path: Routes.profileLanguages,
         builder: (context, state) => const EditLanguagesScreen(),
       ),
       GoRoute(
-        path: '/profile/about-me',
+        path: Routes.profileAboutMe,
         builder: (context, state) => const EditAboutMeScreen(),
       ),
       GoRoute(
-        path: '/profile/job-preferences',
+        path: Routes.profileJobPreferences,
         builder: (context, state) => const EditJobPreferencesScreen(),
       ),
       GoRoute(
-        path: '/profile/work-experience',
+        path: Routes.profileWorkExperience,
         builder: (context, state) => const WorkExperienceScreen(),
       ),
       GoRoute(
-        path: '/profile/work-experience/edit',
+        path: Routes.profileWorkExperienceEdit,
         builder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
+          final extra = WorkExperienceEditExtra.fromExtra(state.extra);
           return WorkExperienceFormScreen(
-            editIndex: extra?['index'] as int?,
-            initial: extra?['exp'] as WorkExperience?,
+            editIndex: extra.index,
+            initial: extra.exp,
           );
         },
       ),
       GoRoute(
-        path: '/profile/education',
+        path: Routes.profileEducation,
         builder: (context, state) => const EducationScreen(),
       ),
       GoRoute(
-        path: '/profile/values',
+        path: Routes.profileValues,
         builder: (context, state) => const EditValuesScreen(),
       ),
       GoRoute(
-        path: '/profile/education/edit',
+        path: Routes.profileEducationEdit,
         builder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>?;
+          final extra = EducationEditExtra.fromExtra(state.extra);
           return EducationFormScreen(
-            editIndex: extra?['index'] as int?,
-            initial: extra?['edu'] as Education?,
+            editIndex: extra.index,
+            initial: extra.edu,
           );
         },
       ),
       GoRoute(
-        path: '/settings',
+        path: Routes.settings,
         builder: (context, state) => const SettingsScreen(),
       ),
       GoRoute(
-        path: '/settings/notifications',
+        path: Routes.settingsNotifications,
         builder: (context, state) => const SettingsScreen(initialTab: 1),
       ),
     ],

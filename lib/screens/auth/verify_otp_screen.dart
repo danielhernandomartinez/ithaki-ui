@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
@@ -22,10 +23,10 @@ class VerifyOtpScreen extends StatefulWidget {
     this.title,
     this.subtitle,
     this.backLabel,
-    this.backRoute = '/personal-details',
+    this.backRoute = Routes.personalDetails,
     this.actionLabel,
-    this.actionRoute = '/login-phone',
-    this.successRoute = '/welcome',
+    this.actionRoute = Routes.loginPhone,
+    this.successRoute = Routes.welcome,
     this.resendLabel,
   });
 

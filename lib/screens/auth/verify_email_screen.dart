@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -22,7 +23,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> with CountdownMix
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     return IthakiScreenLayout(
-      appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go('/login-phone')),
+      appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go(Routes.loginPhone)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
@@ -90,8 +91,8 @@ class WorkExperienceScreen extends ConsumerWidget {
                           const SizedBox(width: 8),
                           GestureDetector(
                             onTap: () => context.push(
-                              '/profile/work-experience/edit',
-                              extra: {'index': index, 'exp': exp},
+                              Routes.profileWorkExperienceEdit,
+                              extra: WorkExperienceEditExtra(index: index, exp: exp).toMap(),
                             ),
                             child: Container(
                               padding: const EdgeInsets.all(8),
@@ -159,7 +160,7 @@ class WorkExperienceScreen extends ConsumerWidget {
               // ── Add button ───────────────────────────────────────────
               OutlinedButton.icon(
                 onPressed: () =>
-                    context.push('/profile/work-experience/edit'),
+                    context.push(Routes.profileWorkExperienceEdit),
                 icon: const Icon(Icons.add, size: 16),
                 label: const Text('Add Work Experience'),
                 style: OutlinedButton.styleFrom(
