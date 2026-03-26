@@ -6,9 +6,11 @@ import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
-import '../../widgets/profile_meta_cell.dart';
 import '../../widgets/profile_picker_field.dart';
 import '../../widgets/profile_entry_list_shell.dart';
+import '../../widgets/work_experience_card.dart';
+import '../../widgets/city_search_bottom_sheet.dart';
+
 
 // ─── List screen ────────────────────────────────────────────────────────────
 
@@ -27,111 +29,16 @@ class WorkExperienceScreen extends ConsumerWidget {
       addButtonLabel: 'Add Work Experience',
       onAddPressed: () => context.push(Routes.profileWorkExperienceEdit),
       onSavePressed: () => context.pop(),
-      entries: experiences.asMap().entries.map((e) {
-                final index = e.key;
-                final exp = e.value;
-                final duration = exp.duration;
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF5F5F8),
-                    borderRadius: BorderRadius.circular(16),
+      entries: experiences.asMap().entries.map((e) =>
+                WorkExperienceCard(
+                  exp: e.value,
+                  index: e.key,
+                  compact: true,
+                  onEditTap: () => context.push(
+                    Routes.profileWorkExperienceEdit,
+                    extra: WorkExperienceEditExtra(index: e.key, exp: e.value).toMap(),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // ── Header row ─────────────────────────────────
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: RichText(
-                              text: TextSpan(
-                                style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: IthakiTheme.textPrimary),
-                                children: [
-                                  TextSpan(text: exp.jobTitle),
-                                  const TextSpan(
-                                      text: '  at  ',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          color: IthakiTheme.textSecondary)),
-                                  TextSpan(text: exp.companyName),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          GestureDetector(
-                            onTap: () => context.push(
-                              Routes.profileWorkExperienceEdit,
-                              extra: WorkExperienceEditExtra(index: index, exp: exp).toMap(),
-                            ),
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(999),
-                                border: Border.all(
-                                    color: IthakiTheme.borderLight),
-                              ),
-                              child: const IthakiIcon('edit-pencil',
-                                  size: 16,
-                                  color: IthakiTheme.textSecondary),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      // ── Date + duration ────────────────────────────
-                      Text(
-                        [
-                          exp.currentlyWorkHere
-                              ? '${exp.startDate} – Present'
-                              : '${exp.startDate} – ${exp.endDate ?? ''}',
-                          if (duration.isNotEmpty) '($duration)',
-                        ].join(' '),
-                        style: const TextStyle(
-                            fontSize: 13,
-                            color: IthakiTheme.textSecondary),
-                      ),
-                      const SizedBox(height: 10),
-                      const Divider(height: 1, color: Color(0xFFE0E0E0)),
-                      const SizedBox(height: 10),
-                      // ── Metadata grid ──────────────────────────────
-                      Row(children: [
-                        if (exp.location.isNotEmpty)
-                          Expanded(child: ProfileMetaCell(Icons.location_on_outlined, exp.location)),
-                        if (exp.workplace.isNotEmpty)
-                          Expanded(child: ProfileMetaCell(Icons.business_outlined, exp.workplace)),
-                      ]),
-                      if (exp.jobType.isNotEmpty || exp.experienceLevel.isNotEmpty) ...[
-                        const SizedBox(height: 6),
-                        Row(children: [
-                          if (exp.jobType.isNotEmpty)
-                            Expanded(child: ProfileMetaCell(Icons.access_time_outlined, exp.jobType)),
-                          if (exp.experienceLevel.isNotEmpty)
-                            Expanded(child: ProfileMetaCell(Icons.bar_chart_outlined, exp.experienceLevel)),
-                        ]),
-                      ],
-                      // ── Summary ────────────────────────────────────
-                      if (exp.summary != null && exp.summary!.isNotEmpty) ...[
-                        const SizedBox(height: 10),
-                        const Divider(height: 1, color: Color(0xFFE0E0E0)),
-                        const SizedBox(height: 10),
-                        Text(exp.summary!,
-                            style: const TextStyle(
-                                fontSize: 13,
-                                color: IthakiTheme.textPrimary,
-                                height: 1.5)),
-                      ],
-                    ],
-                  ),
-                );
-              }).toList(),
+                )).toList(),
     );
   }
 }
@@ -296,10 +203,15 @@ class _WorkExperienceFormScreenState
                   hint: 'e.g. Acme Corp',
                   controller: _companyCtrl),
               const SizedBox(height: 12),
-              IthakiTextField(
-                  label: 'Location',
-                  hint: 'e.g. Athens, Greece',
-                  controller: _locationCtrl),
+              ProfilePickerField(
+                label: 'Location',
+                hint: 'Type city to search',
+                value: _locationCtrl.text,
+                onTap: () => CitySearchBottomSheet.show(
+                  context,
+                  (city) => setState(() => _locationCtrl.text = city),
+                ),
+              ),
               const SizedBox(height: 12),
               ProfilePickerField(label: 'Experience Level', hint: 'Select level', value: _experienceLevel, onTap: () => _openPicker(
                         title: 'Experience Level',

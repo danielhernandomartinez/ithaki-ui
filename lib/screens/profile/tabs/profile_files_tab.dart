@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/profile_provider.dart';
+import '../../../widgets/profile_empty_state_card.dart';
 import '../../../widgets/upload_files_sheet.dart';
 
 class ProfileFilesTab extends ConsumerWidget {
@@ -11,33 +12,13 @@ class ProfileFilesTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (profile.files.isEmpty) {
-      return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('My Files',
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: IthakiTheme.textPrimary)),
-          const SizedBox(height: 8),
-          const Text(
+      return ProfileEmptyStateCard(
+        title: 'My Files',
+        description:
             'Upload certificates, CV, photos, or any other files that showcase your qualifications.',
-            style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
-          ),
-          const SizedBox(height: 16),
-          IthakiOutlineButton(
-            'Upload Documents',
-            icon: const IthakiIcon('upload-cloud', size: 16),
-            onPressed: () => _openUpload(context, ref),
-            borderRadius: 20,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          ),
-        ]),
+        buttonLabel: 'Upload Documents',
+        buttonIcon: const IthakiIcon('upload-cloud', size: 16),
+        onPressed: () => _openUpload(context, ref),
       );
     }
 
@@ -58,6 +39,9 @@ class ProfileFilesTab extends ConsumerWidget {
         ...profile.files.asMap().entries.map((entry) {
           final i = entry.key;
           final f = entry.value;
+          final ext = f.name.contains('.')
+              ? f.name.split('.').last.toUpperCase()
+              : 'FILE';
           return Container(
             margin: const EdgeInsets.only(bottom: 8),
             padding: const EdgeInsets.all(12),
@@ -74,8 +58,8 @@ class ProfileFilesTab extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(6),
                 ),
                 alignment: Alignment.center,
-                child: const Text('PDF',
-                    style: TextStyle(
+                child: Text(ext,
+                    style: const TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
                         color: IthakiTheme.softGraphite)),
@@ -92,7 +76,8 @@ class ProfileFilesTab extends ConsumerWidget {
                               color: IthakiTheme.textPrimary)),
                       Text(f.size,
                           style: const TextStyle(
-                              fontSize: 12, color: IthakiTheme.textSecondary)),
+                              fontSize: 12,
+                              color: IthakiTheme.textSecondary)),
                     ]),
               ),
               TextButton(
@@ -103,8 +88,8 @@ class ProfileFilesTab extends ConsumerWidget {
               TextButton(
                 onPressed: () =>
                     ref.read(profileProvider.notifier).deleteFile(i),
-                child:
-                    const Text('Delete', style: TextStyle(color: Colors.red)),
+                child: const Text('Delete',
+                    style: TextStyle(color: Colors.red)),
               ),
             ]),
           );

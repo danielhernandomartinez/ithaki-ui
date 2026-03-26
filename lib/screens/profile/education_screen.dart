@@ -9,6 +9,7 @@ import '../../providers/profile_provider.dart';
 import '../../widgets/profile_meta_cell.dart';
 import '../../widgets/profile_picker_field.dart';
 import '../../widgets/profile_entry_list_shell.dart';
+import '../../widgets/city_search_bottom_sheet.dart';
 
 // ─── List / hub screen ───────────────────────────────────────────────────────
 
@@ -256,10 +257,14 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
                 controller: _fieldCtrl,
               ),
               const SizedBox(height: 12),
-              IthakiTextField(
+              ProfilePickerField(
                 label: 'Location',
-                hint: 'e.g. Athens, Greece',
-                controller: _locationCtrl,
+                hint: 'Type city to search',
+                value: _locationCtrl.text,
+                onTap: () => CitySearchBottomSheet.show(
+                  context,
+                  (city) => setState(() => _locationCtrl.text = city),
+                ),
               ),
               const SizedBox(height: 12),
               ProfilePickerField(label: 

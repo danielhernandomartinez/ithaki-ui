@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../routes.dart';
+import '../../../widgets/profile_empty_state_card.dart';
 
 class ProfileEducationTab extends StatelessWidget {
   final ProfileState profile;
@@ -11,33 +12,13 @@ class ProfileEducationTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (profile.educations.isEmpty) {
-      return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('Education',
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: IthakiTheme.textPrimary)),
-          const SizedBox(height: 8),
-          const Text(
+      return ProfileEmptyStateCard(
+        title: 'Education',
+        description:
             'Add information about your educational background, degree, and field of study.',
-            style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
-          ),
-          const SizedBox(height: 16),
-          IthakiOutlineButton(
-            'Add Education',
-            icon: const IthakiIcon('plus', size: 16),
-            onPressed: () => context.push(Routes.profileEducation),
-            borderRadius: 20,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          ),
-        ]),
+        buttonLabel: 'Add Education',
+        buttonIcon: const IthakiIcon('plus', size: 16),
+        onPressed: () => context.push(Routes.profileEducation),
       );
     }
 
@@ -76,7 +57,8 @@ class ProfileEducationTab extends StatelessWidget {
                 icon: const IthakiIcon('edit-pencil', size: 16),
                 onPressed: () => context.push(Routes.profileEducation),
                 borderRadius: 20,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               ),
             ]),
           );

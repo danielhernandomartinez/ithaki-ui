@@ -73,7 +73,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       body: Stack(children: [
         SingleChildScrollView(
           child: Column(children: [
-            SizedBox(height: topOffset + 16),
+            SizedBox(height: topOffset - 14),
             _buildHeaderCard(profile),
             const SizedBox(height: 12),
             _buildTabBar(),
@@ -185,7 +185,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(20),
           border: Border.all(color: Colors.grey.shade200),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

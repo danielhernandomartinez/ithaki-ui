@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/countries.dart';
 import '../../providers/profile_provider.dart';
+import '../../widgets/profile_picker_field.dart';
 
 class ProfileBasicsScreen extends ConsumerStatefulWidget {
   const ProfileBasicsScreen({super.key});
@@ -275,7 +276,7 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
                   width: double.infinity,
                   child: OutlinedButton.icon(
                     onPressed: _pickPhoto,
-                    icon: const IthakiIcon('reset', size: 16,
+                    icon: const IthakiIcon('upload-cloud', size: 16,
                         color: IthakiTheme.textPrimary),
                     label: Text(_photoPath == null ? 'Upload Photo' : 'Replace Photo'),
                     style: OutlinedButton.styleFrom(
@@ -313,10 +314,10 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
                       color: IthakiTheme.softGraphite),
                 ),
                 const SizedBox(height: 12),
-                IthakiSelectorField(
+                ProfilePickerField(
                   label: 'Gender',
                   hint: 'Select gender',
-                  value: _gender.isEmpty ? null : _gender,
+                  value: _gender,
                   onTap: () => _openSelectorSheet(
                     'Gender',
                     _genderOptions,
@@ -359,10 +360,10 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
                               color: IthakiTheme.softGraphite),
                 ),
                 const SizedBox(height: 12),
-                IthakiSelectorField(
+                ProfilePickerField(
                   label: 'Status',
                   hint: 'Select status',
-                  value: _status.isEmpty ? null : _status,
+                  value: _status,
                   onTap: () => _openSelectorSheet(
                     'Status',
                     _statusOptions,
@@ -371,10 +372,10 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
                   ),
                 ),
                 const SizedBox(height: 12),
-                IthakiSelectorField(
+                ProfilePickerField(
                   label: 'Relocation Readiness',
                   hint: 'Select option',
-                  value: _relocation.isEmpty ? null : _relocation,
+                  value: _relocation,
                   onTap: () => _openSelectorSheet(
                     'Relocation Readiness',
                     _relocationOptions,
