@@ -42,9 +42,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     _passwordFocus.addListener(() {
       setState(() => _passwordFocused = _passwordFocus.hasFocus);
     });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(registrationProvider.notifier).reset();
-    });
   }
 
   bool get _emailValid {

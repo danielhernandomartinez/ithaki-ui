@@ -31,6 +31,7 @@ import 'screens/profile/edit_values_screen.dart';
 import 'screens/profile/work_experience_screen.dart';
 import 'screens/profile/education_screen.dart';
 import 'screens/settings/account_settings_screen.dart';
+import 'screens/auth/select_language_screen.dart';
 
 class IthakiRouter {
   static final navigatorKey = GlobalKey<NavigatorState>();
@@ -41,7 +42,7 @@ class IthakiRouter {
     routes: [
       GoRoute(
         path: Routes.root,
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) => const SelectLanguageScreen(),
       ),
       GoRoute(
         path: Routes.techComfort,
