@@ -1,0 +1,74 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../providers/profile_provider.dart';
+import '../../../routes.dart';
+
+class ProfileValuesTab extends StatelessWidget {
+  final ProfileState profile;
+  const ProfileValuesTab({super.key, required this.profile});
+
+  @override
+  Widget build(BuildContext context) {
+    if (profile.values.isEmpty) {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade200),
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text('No values added yet.',
+              style: TextStyle(
+                  fontSize: 14, color: IthakiTheme.textSecondary)),
+          const SizedBox(height: 12),
+          IthakiOutlineButton(
+            'Update Values',
+            icon: const IthakiIcon('edit-pencil', size: 16),
+            onPressed: () => context.push(Routes.profileValues),
+            borderRadius: 20,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          ),
+        ]),
+      );
+    }
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: profile.values.map(_chip).toList(),
+        ),
+        const SizedBox(height: 12),
+        IthakiOutlineButton(
+          'Update Values',
+          icon: const IthakiIcon('edit-pencil', size: 16),
+          onPressed: () => context.push(Routes.profileValues),
+          borderRadius: 20,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        ),
+      ]),
+    );
+  }
+
+  Widget _chip(String label) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF6F2FE),
+          borderRadius: BorderRadius.circular(999),
+          border: Border.all(color: const Color(0xFFDDD5F8)),
+        ),
+        child: Text(label,
+            style: const TextStyle(
+                fontSize: 13, color: IthakiTheme.primaryPurple)),
+      );
+}
