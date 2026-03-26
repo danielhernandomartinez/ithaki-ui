@@ -92,7 +92,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     final profile = ref.watch(profileProvider);
-    final topOffset = MediaQuery.of(context).padding.top + kToolbarHeight;
+    final topOffset = MediaQuery.of(context).padding.top + kToolbarHeight + 16;
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
@@ -200,7 +200,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           ),
         if (_menuOpen || _menuCtrl.status != AnimationStatus.dismissed)
           Positioned(
-            top: topOffset + 16,
+            top: topOffset - 14,
             left: 16, right: 16, bottom: 40,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
