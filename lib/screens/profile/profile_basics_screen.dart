@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -24,6 +27,7 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
   String _gender = '';
   String _status = '';
   String _relocation = '';
+  String? _photoPath;
   bool _isDirty = false;
 
   static const _genderOptions = ['Male', 'Female', 'Other', 'Prefer not to say'];
@@ -44,6 +48,7 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
     _gender = profile.gender;
     _status = profile.status;
     _relocation = profile.relocationReadiness;
+    _photoPath = profile.photoUrl;
   }
 
   @override
@@ -70,19 +75,42 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
   }
 
   void _save() {
-    ref.read(profileProvider.notifier).updateBasics(
-          firstName: _nameCtrl.text.trim(),
-          lastName: _lastNameCtrl.text.trim(),
-          dateOfBirth: _dobCtrl.text.trim(),
-          gender: _gender,
-          citizenship: _citizenshipCtrl.text.trim(),
-          citizenshipCode: _citizenshipCode.isNotEmpty ? _citizenshipCode : null,
-          residence: _residenceCtrl.text.trim(),
-          residenceCode: _residenceCode.isNotEmpty ? _residenceCode : null,
-          status: _status,
-          relocationReadiness: _relocation,
-        );
+    final notifier = ref.read(profileProvider.notifier);
+    notifier.updateBasics(
+      firstName: _nameCtrl.text.trim(),
+      lastName: _lastNameCtrl.text.trim(),
+      dateOfBirth: _dobCtrl.text.trim(),
+      gender: _gender,
+      citizenship: _citizenshipCtrl.text.trim(),
+      citizenshipCode: _citizenshipCode.isNotEmpty ? _citizenshipCode : null,
+      residence: _residenceCtrl.text.trim(),
+      residenceCode: _residenceCode.isNotEmpty ? _residenceCode : null,
+      status: _status,
+      relocationReadiness: _relocation,
+      photoUrl: _photoPath,
+    );
     context.pop();
+  }
+
+  Future<void> _pickPhoto() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['png', 'jpg', 'jpeg'],
+    );
+    if (result == null || result.files.isEmpty) return;
+    final file = result.files.first;
+    if (file.size > 5 * 1024 * 1024) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('File exceeds 5 MB limit')),
+        );
+      }
+      return;
+    }
+    setState(() {
+      _photoPath = file.path;
+      _isDirty = true;
+    });
   }
 
   Future<void> _pickDate() async {
@@ -210,10 +238,15 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
               children: [
                 // ── Photo ──────────────────────────────────────────
                 Row(children: [
-                  const CircleAvatar(
-                    radius: 24,
+                  CircleAvatar(
+                    radius: 32,
                     backgroundColor: IthakiTheme.primaryPurple,
-                    child: IthakiIcon('profile', size: 20, color: Colors.white),
+                    backgroundImage: _photoPath != null
+                        ? FileImage(File(_photoPath!))
+                        : null,
+                    child: _photoPath == null
+                        ? const IthakiIcon('profile', size: 24, color: Colors.white)
+                        : null,
                   ),
                   const SizedBox(width: 12),
                   const Expanded(
@@ -221,7 +254,7 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '5 Mb max, supported formats: .png, .jpg',
+                          '5 MB max · PNG or JPG',
                           style: TextStyle(
                               fontSize: 12,
                               color: IthakiTheme.textSecondary),
@@ -241,10 +274,10 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: OutlinedButton.icon(
-                    onPressed: () {},
+                    onPressed: _pickPhoto,
                     icon: const IthakiIcon('reset', size: 16,
                         color: IthakiTheme.textPrimary),
-                    label: const Text('Replace'),
+                    label: Text(_photoPath == null ? 'Upload Photo' : 'Replace Photo'),
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: IthakiTheme.borderLight),
                       shape: RoundedRectangleBorder(

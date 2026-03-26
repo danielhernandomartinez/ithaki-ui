@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
+import '../../widgets/profile_picker_field.dart';
 
 class EditJobPreferencesScreen extends ConsumerStatefulWidget {
   const EditJobPreferencesScreen({super.key});
@@ -182,52 +183,6 @@ class _EditJobPreferencesScreenState
     );
   }
 
-  Widget _pickerField(
-      String label, String hint, String value, VoidCallback onTap) {
-    final hasValue = value.isNotEmpty;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label,
-            style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: IthakiTheme.textPrimary)),
-        const SizedBox(height: 6),
-        GestureDetector(
-          onTap: onTap,
-          child: Container(
-            width: double.infinity,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: IthakiTheme.borderLight),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    hasValue ? value : hint,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight:
-                          hasValue ? FontWeight.w600 : FontWeight.w400,
-                      color: hasValue
-                          ? IthakiTheme.textPrimary
-                          : IthakiTheme.softGraphite,
-                    ),
-                  ),
-                ),
-                const IthakiIcon('arrow-down',
-                    size: 18, color: IthakiTheme.softGraphite),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -332,11 +287,14 @@ class _EditJobPreferencesScreenState
               const SizedBox(height: 24),
 
               // ── Position Level ───────────────────────────────────────
-              _pickerField(
-                'Position Level (optional)',
-                'Select level',
-                _positionLevel,
-                () => SearchBottomSheet.show(
+              ProfilePickerField(
+                label: 'Position Level (optional)',
+                hint: 'Select level',
+                value: _positionLevel,
+                fontSize: 14,
+                verticalPadding: 11,
+                arrowSize: 18,
+                onTap: () => SearchBottomSheet.show(
                   context,
                   'Position Level',
                   _positionLevels
@@ -481,11 +439,14 @@ class _EditJobPreferencesScreenState
                   const SizedBox(width: 12),
                   Expanded(
                     flex: 2,
-                    child: _pickerField(
-                      'Payment Term',
-                      'Select',
-                      _paymentTerm,
-                      () => SearchBottomSheet.show(
+                    child: ProfilePickerField(
+                      label: 'Payment Term',
+                      hint: 'Select',
+                      value: _paymentTerm,
+                      fontSize: 14,
+                      verticalPadding: 11,
+                      arrowSize: 18,
+                      onTap: () => SearchBottomSheet.show(
                         context,
                         'Payment Term',
                         _paymentTerms

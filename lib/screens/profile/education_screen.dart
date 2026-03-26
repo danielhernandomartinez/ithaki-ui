@@ -5,52 +5,16 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
+import '../../utils/profile_date_utils.dart';
+import '../../widgets/profile_meta_cell.dart';
+import '../../widgets/profile_picker_field.dart';
 
 // ─── List / hub screen ───────────────────────────────────────────────────────
 
 class EducationScreen extends ConsumerWidget {
   const EducationScreen({super.key});
 
-  String _calcDuration(String startDate, String? endDate) {
-    try {
-      final parts = startDate.split('-');
-      if (parts.length != 2) return '';
-      final start = DateTime(int.parse(parts[1]), int.parse(parts[0]));
-      final end = endDate != null
-          ? () {
-              final ep = endDate.split('-');
-              return DateTime(int.parse(ep[1]), int.parse(ep[0]));
-            }()
-          : DateTime.now();
-      int months =
-          (end.year - start.year) * 12 + (end.month - start.month);
-      if (months < 0) return '';
-      final years = months ~/ 12;
-      final rem = months % 12;
-      if (years == 0) return '$rem month${rem != 1 ? 's' : ''}';
-      if (rem == 0) return '$years year${years != 1 ? 's' : ''}';
-      return '$years year${years != 1 ? 's' : ''} '
-          '$rem month${rem != 1 ? 's' : ''}';
-    } catch (_) {
-      return '';
-    }
-  }
 
-  Widget _metaCell(IconData icon, String value) => Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 1),
-            child: Icon(icon, size: 14, color: IthakiTheme.softGraphite),
-          ),
-          const SizedBox(width: 4),
-          Expanded(
-            child: Text(value,
-                style: const TextStyle(
-                    fontSize: 12, color: IthakiTheme.textSecondary)),
-          ),
-        ],
-      );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -88,7 +52,7 @@ class EducationScreen extends ConsumerWidget {
               ...educations.asMap().entries.map((e) {
                 final index = e.key;
                 final edu = e.value;
-                final duration = _calcDuration(
+                final duration = calcDuration(
                     edu.startDate,
                     edu.currentlyStudyHere ? null : edu.endDate);
                 return Container(
@@ -163,10 +127,10 @@ class EducationScreen extends ConsumerWidget {
                       const SizedBox(height: 10),
                       // ── Metadata ─────────────────────────────────
                       if (edu.location.isNotEmpty)
-                        _metaCell(Icons.location_on_outlined, edu.location),
+                        ProfileMetaCell(Icons.location_on_outlined, edu.location, alignIconTop: true),
                       if (edu.degreeType.isNotEmpty) ...[
                         const SizedBox(height: 6),
-                        _metaCell(Icons.school_outlined, edu.degreeType),
+                        ProfileMetaCell(Icons.school_outlined, edu.degreeType, alignIconTop: true),
                       ],
                     ],
                   ),
@@ -297,53 +261,6 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
     context.pop();
   }
 
-  Widget _pickerField(
-      String label, String hint, String value, VoidCallback onTap) {
-    final hasValue = value.isNotEmpty;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label,
-            style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: IthakiTheme.textPrimary)),
-        const SizedBox(height: 6),
-        GestureDetector(
-          onTap: onTap,
-          child: Container(
-            width: double.infinity,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: IthakiTheme.borderLight),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    hasValue ? value : hint,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight:
-                          hasValue ? FontWeight.w600 : FontWeight.w400,
-                      color: hasValue
-                          ? IthakiTheme.textPrimary
-                          : IthakiTheme.softGraphite,
-                    ),
-                  ),
-                ),
-                const IthakiIcon('arrow-down',
-                    size: 20, color: IthakiTheme.softGraphite),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -394,11 +311,8 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
                 controller: _locationCtrl,
               ),
               const SizedBox(height: 12),
-              _pickerField(
-                'Degree Type',
-                'Select degree',
-                _degreeType,
-                () => SearchBottomSheet.show(
+              ProfilePickerField(label: 
+                'Degree Type', hint: 'Select degree', value: _degreeType, onTap: () => SearchBottomSheet.show(
                   context,
                   'Degree Type',
                   _degreeTypes

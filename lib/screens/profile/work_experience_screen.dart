@@ -5,48 +5,15 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
+import '../../utils/profile_date_utils.dart';
+import '../../widgets/profile_meta_cell.dart';
+import '../../widgets/profile_picker_field.dart';
 
 // ─── List screen ────────────────────────────────────────────────────────────
 
 class WorkExperienceScreen extends ConsumerWidget {
   const WorkExperienceScreen({super.key});
 
-  String _calcDuration(String startDate, String? endDate) {
-    try {
-      final parts = startDate.split('-');
-      if (parts.length != 2) return '';
-      final start = DateTime(int.parse(parts[1]), int.parse(parts[0]));
-      final end = endDate != null
-          ? () {
-              final ep = endDate.split('-');
-              return DateTime(int.parse(ep[1]), int.parse(ep[0]));
-            }()
-          : DateTime.now();
-      int months =
-          (end.year - start.year) * 12 + (end.month - start.month);
-      if (months < 0) return '';
-      final years = months ~/ 12;
-      final rem = months % 12;
-      if (years == 0) return '$rem month${rem != 1 ? 's' : ''}';
-      if (rem == 0) return '$years year${years != 1 ? 's' : ''}';
-      return '$years year${years != 1 ? 's' : ''} '
-          '$rem month${rem != 1 ? 's' : ''}';
-    } catch (_) {
-      return '';
-    }
-  }
-
-  Widget _metaCell(IconData icon, String value) => Row(
-        children: [
-          Icon(icon, size: 14, color: IthakiTheme.softGraphite),
-          const SizedBox(width: 4),
-          Expanded(
-            child: Text(value,
-                style: const TextStyle(
-                    fontSize: 12, color: IthakiTheme.textSecondary)),
-          ),
-        ],
-      );
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -84,7 +51,7 @@ class WorkExperienceScreen extends ConsumerWidget {
               ...experiences.asMap().entries.map((e) {
                 final index = e.key;
                 final exp = e.value;
-                final duration = _calcDuration(
+                final duration = calcDuration(
                     exp.startDate,
                     exp.currentlyWorkHere ? null : exp.endDate);
                 return Container(
@@ -160,17 +127,17 @@ class WorkExperienceScreen extends ConsumerWidget {
                       // ── Metadata grid ──────────────────────────────
                       Row(children: [
                         if (exp.location.isNotEmpty)
-                          Expanded(child: _metaCell(Icons.location_on_outlined, exp.location)),
+                          Expanded(child: ProfileMetaCell(Icons.location_on_outlined, exp.location)),
                         if (exp.workplace.isNotEmpty)
-                          Expanded(child: _metaCell(Icons.business_outlined, exp.workplace)),
+                          Expanded(child: ProfileMetaCell(Icons.business_outlined, exp.workplace)),
                       ]),
                       if (exp.jobType.isNotEmpty || exp.experienceLevel.isNotEmpty) ...[
                         const SizedBox(height: 6),
                         Row(children: [
                           if (exp.jobType.isNotEmpty)
-                            Expanded(child: _metaCell(Icons.access_time_outlined, exp.jobType)),
+                            Expanded(child: ProfileMetaCell(Icons.access_time_outlined, exp.jobType)),
                           if (exp.experienceLevel.isNotEmpty)
-                            Expanded(child: _metaCell(Icons.bar_chart_outlined, exp.experienceLevel)),
+                            Expanded(child: ProfileMetaCell(Icons.bar_chart_outlined, exp.experienceLevel)),
                         ]),
                       ],
                       // ── Summary ────────────────────────────────────
@@ -315,49 +282,6 @@ class _WorkExperienceFormScreenState
     );
   }
 
-  Widget _pickerField(String label, String hint, String value, VoidCallback onTap) {
-    final hasValue = value.isNotEmpty;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label,
-            style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: IthakiTheme.textPrimary)),
-        const SizedBox(height: 6),
-        GestureDetector(
-          onTap: onTap,
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: IthakiTheme.borderLight),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    hasValue ? value : hint,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: hasValue ? FontWeight.w600 : FontWeight.w400,
-                      color: hasValue
-                          ? IthakiTheme.textPrimary
-                          : IthakiTheme.softGraphite,
-                    ),
-                  ),
-                ),
-                const IthakiIcon('arrow-down',
-                    size: 20, color: IthakiTheme.softGraphite),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
 
   void _save() {
     final notifier = ref.read(profileProvider.notifier);
@@ -427,24 +351,21 @@ class _WorkExperienceFormScreenState
                   hint: 'e.g. Athens, Greece',
                   controller: _locationCtrl),
               const SizedBox(height: 12),
-              _pickerField('Experience Level', 'Select level', _experienceLevel,
-                  () => _openPicker(
+              ProfilePickerField(label: 'Experience Level', hint: 'Select level', value: _experienceLevel, onTap: () => _openPicker(
                         title: 'Experience Level',
                         options: _experienceLevels,
                         current: _experienceLevel,
                         onSelect: (v) => _experienceLevel = v,
                       )),
               const SizedBox(height: 12),
-              _pickerField('Workplace', 'Select workplace', _workplaceType,
-                  () => _openPicker(
+              ProfilePickerField(label: 'Workplace', hint: 'Select workplace', value: _workplaceType, onTap: () => _openPicker(
                         title: 'Workplace',
                         options: _workplaces,
                         current: _workplaceType,
                         onSelect: (v) => _workplaceType = v,
                       )),
               const SizedBox(height: 12),
-              _pickerField('Job Type', 'Select job type', _jobType,
-                  () => _openPicker(
+              ProfilePickerField(label: 'Job Type', hint: 'Select job type', value: _jobType, onTap: () => _openPicker(
                         title: 'Job Type',
                         options: _jobTypes,
                         current: _jobType,

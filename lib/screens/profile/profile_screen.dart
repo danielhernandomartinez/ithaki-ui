@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +7,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/app_nav_drawer.dart';
+import '../../widgets/profile_meta_cell.dart';
 import '../../widgets/upload_files_sheet.dart';
 
 class _CompRow {
@@ -26,6 +29,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   bool _menuOpen = false;
   late final AnimationController _menuCtrl;
   late final Animation<Offset> _slideAnim;
+  final _avatarKey = GlobalKey();
 
   static const _navItems = [
     NavItem(icon: 'home',         label: 'Home',             route: '/home'),
@@ -57,6 +61,41 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     _menuOpen ? _menuCtrl.forward() : _menuCtrl.reverse();
   }
 
+  void _showAvatarMenu(BuildContext context) {
+    final box = _avatarKey.currentContext?.findRenderObject() as RenderBox?;
+    if (box == null) return;
+    final offset = box.localToGlobal(Offset.zero);
+    final size = box.size;
+    showMenu<String>(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        offset.dx,
+        offset.dy + size.height + 4,
+        offset.dx + size.width,
+        0,
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      items: [
+        PopupMenuItem(value: 'profile', child: _menuRow('profile', 'My Profile')),
+        PopupMenuItem(value: 'cv', child: _menuRow('resume', 'Upload CV')),
+        PopupMenuItem(value: 'settings', child: _menuRow('settings', 'Settings')),
+      ],
+    ).then((val) {
+      if (!mounted) return;
+      if (val == 'profile') context.go('/profile');
+      if (val == 'cv') context.push('/profile/files');
+      if (val == 'settings') context.push('/settings');
+    });
+  }
+
+  Widget _menuRow(String icon, String label) => Row(
+        children: [
+          IthakiIcon(icon, size: 18, color: IthakiTheme.textPrimary),
+          const SizedBox(width: 10),
+          Text(label, style: const TextStyle(fontSize: 14, color: IthakiTheme.textPrimary)),
+        ],
+      );
+
   void _closeMenu() {
     if (!_menuOpen) return;
     setState(() => _menuOpen = false);
@@ -87,7 +126,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         avatarInitials:
             '${profile.firstName.isNotEmpty ? profile.firstName[0] : '?'}${profile.lastName.isNotEmpty ? profile.lastName[0] : '?'}',
         onMenuPressed: _toggleMenu,
-        onAvatarPressed: () {},
+        avatarKey: _avatarKey,
+        onAvatarPressed: () => _showAvatarMenu(context),
       ),
       body: Stack(children: [
         SingleChildScrollView(
@@ -191,11 +231,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             CircleAvatar(
               radius: 24,
               backgroundColor: IthakiTheme.primaryPurple,
-              child: Text(
-                '${profile.firstName.isNotEmpty ? profile.firstName[0] : '?'}${profile.lastName.isNotEmpty ? profile.lastName[0] : '?'}',
-                style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
-              ),
+              backgroundImage: profile.photoUrl != null
+                  ? FileImage(File(profile.photoUrl!))
+                  : null,
+              child: profile.photoUrl == null
+                  ? Text(
+                      '${profile.firstName.isNotEmpty ? profile.firstName[0] : '?'}${profile.lastName.isNotEmpty ? profile.lastName[0] : '?'}',
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    )
+                  : null,
             ),
             const SizedBox(width: 12),
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -606,7 +651,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 16),
-          _iconOutlineButton(const IthakiIcon('plus', size: 16),
+          _autoOutlineButton(const IthakiIcon('plus', size: 16),
               'Add Skills', () => context.push('/profile/skills')),
         ] else ...[
           if (profile.hardSkills.isNotEmpty) ...[
@@ -637,7 +682,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             ),
             const SizedBox(height: 16),
           ],
-          _iconOutlineButton(const IthakiIcon('edit-pencil', size: 16),
+          _autoOutlineButton(const IthakiIcon('edit-pencil', size: 16),
               'Edit Skills', () => context.push('/profile/skills')),
         ],
       ]),
@@ -684,7 +729,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 16),
-          _iconOutlineButton(const IthakiIcon('plus', size: 16),
+          _autoOutlineButton(const IthakiIcon('plus', size: 16),
               'Add Competencies', () => context.push('/profile/competencies')),
         ] else ...[
           ...rows.map((r) => Padding(
@@ -703,9 +748,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   ],
                 ),
               )),
-          _iconOutlineButton(const IthakiIcon('edit-pencil', size: 16),
-              'Edit Competencies',
-              () => context.push('/profile/competencies')),
+          _autoOutlineButton(const IthakiIcon('edit-pencil', size: 16),
+              'Edit Competencies', () => context.push('/profile/competencies')),
         ],
       ]),
     );
@@ -747,18 +791,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   ],
                 ),
               )),
-          OutlinedButton.icon(
-            onPressed: () => context.push('/profile/languages'),
-            icon: const IthakiIcon('edit-pencil', size: 20),
-            label: const Text('Edit Languages'),
-            style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: IthakiTheme.softGraphite),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30)),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              minimumSize: const Size(0, 40),
-              foregroundColor: IthakiTheme.textPrimary,
-            ),
+          _autoOutlineButton(
+            profile.languages.isEmpty
+                ? const IthakiIcon('plus', size: 16)
+                : const IthakiIcon('edit-pencil', size: 16),
+            profile.languages.isEmpty ? 'Add Languages' : 'Edit Languages',
+            () => context.push('/profile/languages'),
           ),
         ]),
       );
@@ -915,18 +953,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     );
   }
 
-  Widget _metaCell(IconData icon, String label) => Row(
-        children: [
-          Icon(icon, size: 14, color: IthakiTheme.textSecondary),
-          const SizedBox(width: 4),
-          Flexible(
-            child: Text(label,
-                style: const TextStyle(
-                    fontSize: 13, color: IthakiTheme.textSecondary),
-                overflow: TextOverflow.ellipsis),
-          ),
-        ],
-      );
+  Widget _metaCell(IconData icon, String label) =>
+      ProfileMetaCell(icon, label, flexible: true, fontSize: 13);
 
   String _calcDuration(String startDate, String? endDate) {
     try {
@@ -1235,7 +1263,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         icon: icon,
         onPressed: onPressed,
         borderRadius: 20,
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      );
+
+  Widget _autoOutlineButton(Widget icon, String label, VoidCallback onPressed) =>
+      OutlinedButton.icon(
+        onPressed: onPressed,
+        icon: icon,
+        label: Text(label),
+        style: OutlinedButton.styleFrom(
+          side: const BorderSide(color: IthakiTheme.softGraphite),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          foregroundColor: IthakiTheme.textPrimary,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
       );
 
 
