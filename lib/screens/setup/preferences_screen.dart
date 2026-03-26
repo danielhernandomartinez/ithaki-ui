@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -154,7 +155,7 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
                                 paymentTerm: _paymentTerm,
                                 preferNotToSpecifySalary: _preferNotToSpecify,
                               );
-                              context.push('/setup/values');
+                              context.push(Routes.setupValues);
                             }
                           : null,
                     ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -80,7 +81,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     return IthakiScreenLayout(
-      appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go('/login-phone')),
+      appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go(Routes.loginPhone)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -189,7 +190,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 ? () {
                     ref.read(registrationProvider.notifier)
                         .setCredentials(_emailController.text, _passwordController.text);
-                    context.push('/personal-details');
+                    context.push(Routes.personalDetails);
                   }
                 : null,
           ),

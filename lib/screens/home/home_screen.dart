@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/mock_home_data.dart';
 import '../../widgets/app_nav_drawer.dart';
@@ -26,8 +27,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
   String _selectedRoute = '/home';
 
   static const _navItems = [
-    NavItem(icon: 'home',         label: 'Home',             route: '/home'),
-    NavItem(icon: 'jobs',         label: 'Job Search',       route: '/job-search'),
+    NavItem(icon: 'home',         label: 'Home',             route: Routes.home),
+    NavItem(icon: 'jobs',         label: 'Job Search',       route: Routes.jobSearch),
     NavItem(icon: 'applications', label: 'My Applications',  route: '/applications', badge: 3),
     NavItem(icon: 'ai',           label: 'Career Assistant', route: '/career-assistant'),
     NavItem(icon: 'assessment',   label: 'My Assessments',   route: '/assessments'),
@@ -201,7 +202,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                         _menuOpen = false;
                       });
                       _menuCtrl.reverse();
-                      if (item.route != '/home') context.go(item.route);
+                      if (item.route != Routes.home) context.go(item.route);
                     },
                   ),
                 ),

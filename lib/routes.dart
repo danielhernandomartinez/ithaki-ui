@@ -1,0 +1,94 @@
+import 'models/profile_models.dart';
+
+/// Centralized route paths — eliminates magic strings from navigation.
+abstract final class Routes {
+  // Auth
+  static const root = '/';
+  static const techComfort = '/tech-comfort';
+  static const register = '/register';
+  static const personalDetails = '/personal-details';
+  static const verifyEmail = '/verify-email';
+  static const chooseVerifyMethod = '/choose-verify-method';
+  static const verifyOtp = '/verify-otp';
+  static const verifyPhone = '/verify-phone';
+  static const loginEmail = '/login-email';
+  static const forgotPassword = '/forgot-password';
+  static const resetLinkSent = '/reset-link-sent';
+  static const resetPassword = '/reset-password';
+  static const loginPhone = '/login-phone';
+  static const welcome = '/welcome';
+
+  // Setup
+  static const setupLocation = '/setup/location';
+  static const setupJobInterests = '/setup/job-interests';
+  static const setupPreferences = '/setup/preferences';
+  static const setupValues = '/setup/values';
+  static const setupCommunication = '/setup/communication';
+
+  // Core
+  static const home = '/home';
+  static const jobSearch = '/job-search';
+
+  // Profile
+  static const profile = '/profile';
+  static const profileBasics = '/profile/basics';
+  static const profileSkills = '/profile/skills';
+  static const profileCompetencies = '/profile/competencies';
+  static const profileLanguages = '/profile/languages';
+  static const profileAboutMe = '/profile/about-me';
+  static const profileJobPreferences = '/profile/job-preferences';
+  static const profileValues = '/profile/values';
+  static const profileWorkExperience = '/profile/work-experience';
+  static const profileWorkExperienceEdit = '/profile/work-experience/edit';
+  static const profileEducation = '/profile/education';
+  static const profileEducationEdit = '/profile/education/edit';
+
+  // Settings
+  static const settings = '/settings';
+  static const settingsNotifications = '/settings/notifications';
+
+  // -- Query-parameter helpers --
+
+  static String verifyOtpWith({required String method}) =>
+      '$verifyOtp?method=$method';
+
+  static String verifyPhoneWith({
+    required String phone,
+    required String method,
+  }) =>
+      '$verifyPhone?phone=${Uri.encodeComponent(phone)}&method=$method';
+}
+
+/// Type-safe extras for [Routes.profileWorkExperienceEdit].
+class WorkExperienceEditExtra {
+  final int? index;
+  final WorkExperience? exp;
+  const WorkExperienceEditExtra({this.index, this.exp});
+
+  Map<String, dynamic> toMap() => {'index': index, 'exp': exp};
+
+  factory WorkExperienceEditExtra.fromExtra(Object? extra) {
+    final map = extra as Map<String, dynamic>?;
+    return WorkExperienceEditExtra(
+      index: map?['index'] as int?,
+      exp: map?['exp'] as WorkExperience?,
+    );
+  }
+}
+
+/// Type-safe extras for [Routes.profileEducationEdit].
+class EducationEditExtra {
+  final int? index;
+  final Education? edu;
+  const EducationEditExtra({this.index, this.edu});
+
+  Map<String, dynamic> toMap() => {'index': index, 'edu': edu};
+
+  factory EducationEditExtra.fromExtra(Object? extra) {
+    final map = extra as Map<String, dynamic>?;
+    return EducationEditExtra(
+      index: map?['index'] as int?,
+      edu: map?['edu'] as Education?,
+    );
+  }
+}

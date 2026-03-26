@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/mock_job_search_data.dart';
 import '../../data/mock_home_data.dart';
@@ -42,8 +43,8 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
   Set<String> _selectedLevels = {};
 
   static const _navItems = [
-    NavItem(icon: 'home', label: 'Home', route: '/home'),
-    NavItem(icon: 'jobs', label: 'Job Search', route: '/job-search'),
+    NavItem(icon: 'home', label: 'Home', route: Routes.home),
+    NavItem(icon: 'jobs', label: 'Job Search', route: Routes.jobSearch),
     NavItem(
         icon: 'applications',
         label: 'My Applications',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -48,7 +49,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
     return IthakiScreenLayout(
       appBar: IthakiAppBar(
         actionLabel: l.signUpAction,
-        onActionPressed: () => context.go('/tech-comfort'),
+        onActionPressed: () => context.go(Routes.techComfort),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,7 +118,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
               ),
               const Spacer(),
               GestureDetector(
-                onTap: () => context.push('/forgot-password'),
+                onTap: () => context.push(Routes.forgotPassword),
                 child: Container(
                   padding: const EdgeInsets.only(bottom: 2),
                   decoration: const BoxDecoration(

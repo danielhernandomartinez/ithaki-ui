@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -65,7 +66,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return IthakiScreenLayout(
       appBar: IthakiAppBar(
         actionLabel: l.backToLogin,
-        onActionPressed: () => context.go('/login-phone'),
+        onActionPressed: () => context.go(Routes.loginPhone),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,7 +117,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             onPressed: _canSubmit
                 ? () {
                     // TODO: call reset password API
-                    context.go('/login-phone');
+                    context.go(Routes.loginPhone);
                   }
                 : null,
           ),

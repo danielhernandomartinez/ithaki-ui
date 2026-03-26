@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/countries.dart';
 import '../../l10n/app_localizations.dart';
@@ -171,7 +172,7 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
                               role: _role,
                               relocation: _relocation,
                             );
-                            context.push('/setup/job-interests');
+                            context.push(Routes.setupJobInterests);
                           }
                         : null,
                   ),

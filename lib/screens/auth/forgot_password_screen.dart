@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -66,7 +67,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             l.sendResetLink,
             isEnabled: _emailValid,
             onPressed: _emailValid
-                ? () => context.push('/reset-link-sent')
+                ? () => context.push(Routes.resetLinkSent)
                 : null,
           ),
           const SizedBox(height: 32),

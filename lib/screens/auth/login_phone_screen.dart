@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -33,7 +34,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
       appBar: IthakiAppBar(
         actionLabel: l.signUpAction,
         onActionPressed: () {
-          context.go('/tech-comfort');
+          context.go(Routes.techComfort);
         },
       ),
       child: Column(
@@ -165,7 +166,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
                   onPressed: (_isPhoneValid && _selectedMethod.isNotEmpty)
                       ? () {
                           context.push(
-                            '/verify-phone?phone=${Uri.encodeComponent(_fullPhoneNumber)}&method=$_selectedMethod',
+                            Routes.verifyPhoneWith(phone: _fullPhoneNumber, method: _selectedMethod),
                           );
                         }
                       : null,

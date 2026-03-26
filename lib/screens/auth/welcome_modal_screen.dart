@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -17,7 +18,7 @@ class WelcomeModalScreen extends StatelessWidget {
           // Tappable overlay (dismiss to location)
           Expanded(
             child: GestureDetector(
-              onTap: () => context.push('/setup/location'),
+              onTap: () => context.push(Routes.setupLocation),
               behavior: HitTestBehavior.opaque,
               child: const SizedBox.expand(),
             ),
@@ -71,12 +72,12 @@ class WelcomeModalScreen extends StatelessWidget {
                 IthakiButton(
                   l.skipForNow,
                   variant: IthakiButtonVariant.outline,
-                  onPressed: () => context.go('/home'),
+                  onPressed: () => context.go(Routes.home),
                 ),
                 const SizedBox(height: 12),
                 IthakiButton(
                   l.startSetup,
-                  onPressed: () => context.push('/setup/location'),
+                  onPressed: () => context.push(Routes.setupLocation),
                 ),
               ],
             ),

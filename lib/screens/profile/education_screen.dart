@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
@@ -91,8 +92,8 @@ class EducationScreen extends ConsumerWidget {
                           const SizedBox(width: 8),
                           GestureDetector(
                             onTap: () => context.push(
-                              '/profile/education/edit',
-                              extra: {'index': index, 'edu': edu},
+                              Routes.profileEducationEdit,
+                              extra: EducationEditExtra(index: index, edu: edu).toMap(),
                             ),
                             child: Container(
                               padding: const EdgeInsets.all(8),
@@ -139,7 +140,7 @@ class EducationScreen extends ConsumerWidget {
 
               // ── Add button ─────────────────────────────────────────
               OutlinedButton.icon(
-                onPressed: () => context.push('/profile/education/edit'),
+                onPressed: () => context.push(Routes.profileEducationEdit),
                 icon: const Icon(Icons.add, size: 16),
                 label: const Text('Add Education'),
                 style: OutlinedButton.styleFrom(
