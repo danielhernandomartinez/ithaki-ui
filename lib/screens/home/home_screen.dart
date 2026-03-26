@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/mock_home_data.dart';
+import '../../providers/profile_provider.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
 
@@ -194,7 +195,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
                   position: _slideAnim,
                   child: AppNavDrawer(
                     currentRoute: _selectedRoute,
-                    profileProgress: 0.25,
+                    profileProgress: ref.watch(profileProvider).profileCompletion,
                     items: _navItems,
                     onItemTap: (item) {
                       setState(() {
@@ -499,9 +500,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> with TickerProviderStat
   // ─── Profile Completion Card ──────────────────────────────────────
 
   Widget _buildProfileCompletionCard() {
-    final completedCount = MockHomeData.profileItems.where((i) => i.completed).length;
-    final total = MockHomeData.profileItems.length;
-    final progress = completedCount / total;
+    final progress = ref.watch(profileProvider).profileCompletion;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),

@@ -203,7 +203,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 position: _slideAnim,
                 child: AppNavDrawer(
                   currentRoute: '/profile',
-                  profileProgress: 0.25,
+                  profileProgress: ref.watch(profileProvider).profileCompletion,
                   items: _navItems,
                   onItemTap: (item) {
                     _closeMenu();
@@ -859,7 +859,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           final index = entry.key;
           final exp = entry.value;
           final endLabel = exp.currentlyWorkHere ? 'Present' : (exp.endDate ?? '');
-          final duration = _calcDuration(exp.startDate, exp.currentlyWorkHere ? null : exp.endDate);
+          final duration = exp.duration;
           return Container(
             margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
             padding: const EdgeInsets.all(20),
@@ -957,28 +957,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   Widget _metaCell(IconData icon, String label) =>
       ProfileMetaCell(icon, label, flexible: true, fontSize: 13);
 
-  String _calcDuration(String startDate, String? endDate) {
-    try {
-      final parts = startDate.split('-');
-      if (parts.length != 2) return '';
-      final start = DateTime(int.parse(parts[1]), int.parse(parts[0]));
-      final end = endDate != null
-          ? () {
-              final ep = endDate.split('-');
-              return DateTime(int.parse(ep[1]), int.parse(ep[0]));
-            }()
-          : DateTime.now();
-      int months = (end.year - start.year) * 12 + (end.month - start.month);
-      if (months < 0) return '';
-      final years = months ~/ 12;
-      final rem = months % 12;
-      if (years == 0) return '$rem month${rem != 1 ? 's' : ''}';
-      if (rem == 0) return '$years year${years != 1 ? 's' : ''}';
-      return '$years year${years != 1 ? 's' : ''} $rem month${rem != 1 ? 's' : ''}';
-    } catch (_) {
-      return '';
-    }
-  }
 
   // ─── Tab: Education ───────────────────────────────────────────────
 
