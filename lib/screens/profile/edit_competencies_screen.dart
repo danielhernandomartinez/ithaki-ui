@@ -25,7 +25,7 @@ class _EditCompetenciesScreenState
   @override
   void initState() {
     super.initState();
-    final comp = ref.read(profileProvider).competencies;
+    final comp = ref.read(profileSkillsProvider).competencies;
     _computerSkill = comp['computerSkills'] ?? '';
     _drivingLicense = comp['drivingLicense'] ?? 'No';
     _licenseCategory = comp['licenseCategory'] ?? '';
@@ -33,7 +33,7 @@ class _EditCompetenciesScreenState
   }
 
   void _save() {
-    ref.read(profileProvider.notifier).updateCompetencies({
+    ref.read(profileSkillsProvider.notifier).updateCompetencies({
       'computerSkills': _computerSkill,
       'drivingLicense': _drivingLicense,
       'licenseCategory': _licenseCategory,

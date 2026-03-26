@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../routes.dart';
 import '../../../widgets/profile_empty_state_card.dart';
 
-class ProfileAboutMeTab extends StatelessWidget {
-  final ProfileState profile;
-  const ProfileAboutMeTab({super.key, required this.profile});
+class ProfileAboutMeTab extends ConsumerWidget {
+  const ProfileAboutMeTab({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    if (profile.bio.isEmpty) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final aboutMe = ref.watch(profileAboutMeProvider);
+    if (aboutMe.bio.isEmpty) {
       return ProfileEmptyStateCard(
         title: 'About Me',
         description:
@@ -37,14 +38,14 @@ class ProfileAboutMeTab extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   color: IthakiTheme.textPrimary)),
           const SizedBox(height: 12),
-          Text(profile.bio,
+          Text(aboutMe.bio,
               style: const TextStyle(
                   fontSize: 16,
                   color: IthakiTheme.textPrimary,
                   height: 1.5)),
         ]),
         const SizedBox(height: 20),
-        if (profile.videoUrl != null) ...[
+        if (aboutMe.videoUrl != null) ...[
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const Text('Video Introduction',
                 style: TextStyle(

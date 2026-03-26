@@ -138,7 +138,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   // ── Account Settings content ─────────────────────────────────────────────
 
   Widget _buildAccountSettingsContent() {
-    final profile = ref.watch(profileProvider);
+    final profile = ref.watch(profileBasicsProvider);
+    final profileVisible = ref.watch(profileVisibleProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -240,12 +241,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    profile.profileVisible
+                    profileVisible
                         ? IthakiIcon('eye', size: 14)
                         : IthakiIcon('eye-closed', size: 14),
                     const SizedBox(width: 4),
                     Text(
-                      profile.profileVisible
+                      profileVisible
                           ? 'Profile Visible for Employers'
                           : 'Profile Hidden from Employers',
                       style: const TextStyle(fontSize: 13),
@@ -260,7 +261,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
               ),
               const SizedBox(height: 12),
-              profile.profileVisible
+              profileVisible
                   ? IthakiOutlineButton(
                       'Hide Profile from Employers',
                       icon: IthakiIcon('eye-closed', size: 14),
@@ -270,8 +271,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                       'Show Profile to Employers',
                       icon: IthakiIcon('eye', size: 14),
                       onPressed: () => ref
-                          .read(profileProvider.notifier)
-                          .toggleProfileVisibility(),
+                          .read(profileVisibleProvider.notifier)
+                          .toggle(),
                     ),
             ],
           ),
@@ -353,7 +354,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Widget _buildNotificationsContent() {
     final settings = ref.watch(settingsProvider);
     final notifier = ref.read(settingsProvider.notifier);
-    final profile = ref.watch(profileProvider);
+    final profile = ref.watch(profileBasicsProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -607,7 +608,7 @@ class _ChangeEmailSheetState extends ConsumerState<_ChangeEmailSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final profile = ref.watch(profileProvider);
+    final profile = ref.watch(profileBasicsProvider);
 
     return BottomSheetBase(
       title: 'Change Email',
@@ -685,7 +686,7 @@ class _ChangePhoneSheetState extends ConsumerState<_ChangePhoneSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final profile = ref.watch(profileProvider);
+    final profile = ref.watch(profileBasicsProvider);
 
     return BottomSheetBase(
       title: 'Change Phone Number',
@@ -991,8 +992,8 @@ class _MakeInvisibleSheet extends ConsumerWidget {
                   'Make Profile Invisible',
                   onPressed: () {
                     ref
-                        .read(profileProvider.notifier)
-                        .toggleProfileVisibility();
+                        .read(profileVisibleProvider.notifier)
+                        .toggle();
                     Navigator.pop(context);
                   },
                 ),

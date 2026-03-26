@@ -37,13 +37,13 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
   @override
   void initState() {
     super.initState();
-    final profile = ref.read(profileProvider);
-    _hardSkills = List<String>.from(profile.hardSkills);
-    _softSkills = List<String>.from(profile.softSkills);
+    final skills = ref.read(profileSkillsProvider);
+    _hardSkills = List<String>.from(skills.hardSkills);
+    _softSkills = List<String>.from(skills.softSkills);
   }
 
   void _save() {
-    ref.read(profileProvider.notifier).updateSkills(_hardSkills, _softSkills);
+    ref.read(profileSkillsProvider.notifier).updateSkills(_hardSkills, _softSkills);
     context.pop();
   }
 

@@ -20,7 +20,7 @@ class WorkExperienceScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final experiences = ref.watch(profileProvider).workExperiences;
+    final experiences = ref.watch(profileWorkExperiencesProvider);
 
     return ProfileEntryListShell(
       appBarTitle: 'Work Experience',
@@ -141,7 +141,7 @@ class _WorkExperienceFormScreenState
 
 
   void _save() {
-    final notifier = ref.read(profileProvider.notifier);
+    final notifier = ref.read(profileWorkExperiencesProvider.notifier);
     final exp = WorkExperience(
       jobTitle: _jobTitleCtrl.text.trim(),
       companyName: _companyCtrl.text.trim(),
@@ -155,9 +155,9 @@ class _WorkExperienceFormScreenState
       summary: _summaryCtrl.text.trim().isEmpty ? null : _summaryCtrl.text.trim(),
     );
     if (widget.editIndex != null) {
-      notifier.updateWorkExperience(widget.editIndex!, exp);
+      notifier.update(widget.editIndex!, exp);
     } else {
-      notifier.addWorkExperience(exp);
+      notifier.add(exp);
     }
     context.pop();
   }

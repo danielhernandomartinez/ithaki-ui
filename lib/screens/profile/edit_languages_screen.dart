@@ -40,7 +40,7 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
   @override
   void initState() {
     super.initState();
-    final saved = ref.read(profileProvider).languages;
+    final saved = ref.read(profileSkillsProvider).languages;
     _langs = saved.map((l) => l.language).toList();
     _levels = saved.map((l) => l.proficiency).toList();
     if (_langs.isEmpty) _addEntry();
@@ -125,7 +125,7 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
     final langs = List.generate(_langs.length, (i) {
       return Language(language: _langs[i], proficiency: _levels[i]);
     }).where((l) => l.language.isNotEmpty && l.proficiency.isNotEmpty).toList();
-    ref.read(profileProvider.notifier).updateLanguages(langs);
+    ref.read(profileSkillsProvider.notifier).updateLanguages(langs);
     context.pop();
   }
 

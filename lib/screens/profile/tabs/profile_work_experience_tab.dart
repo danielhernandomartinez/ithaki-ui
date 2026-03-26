@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/profile_provider.dart';
@@ -6,13 +7,13 @@ import '../../../routes.dart';
 import '../../../widgets/profile_empty_state_card.dart';
 import '../../../widgets/work_experience_card.dart';
 
-class ProfileWorkExperienceTab extends StatelessWidget {
-  final ProfileState profile;
-  const ProfileWorkExperienceTab({super.key, required this.profile});
+class ProfileWorkExperienceTab extends ConsumerWidget {
+  const ProfileWorkExperienceTab({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    if (profile.workExperiences.isEmpty) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final experiences = ref.watch(profileWorkExperiencesProvider);
+    if (experiences.isEmpty) {
       return ProfileEmptyStateCard(
         title: 'Work Experience',
         description: 'Add details about your previous roles and companies',
@@ -25,7 +26,7 @@ class ProfileWorkExperienceTab extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ...profile.workExperiences.asMap().entries.map((entry) =>
+        ...experiences.asMap().entries.map((entry) =>
             WorkExperienceCard(
               exp: entry.value,
               index: entry.key,

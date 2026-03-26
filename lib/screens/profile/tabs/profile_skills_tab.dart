@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/profile_provider.dart';
@@ -11,27 +12,29 @@ class _CompRow {
   const _CompRow(this.label, this.value);
 }
 
-class ProfileSkillsTab extends StatelessWidget {
-  final ProfileState profile;
-  const ProfileSkillsTab({super.key, required this.profile});
+class ProfileSkillsTab extends ConsumerWidget {
+  const ProfileSkillsTab({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final skills = ref.watch(profileSkillsProvider);
+    final relocation = ref.watch(
+        profileBasicsProvider.select((b) => b.relocationReadiness));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _skillsCard(context),
+        _skillsCard(context, skills),
         const SizedBox(height: 8),
-        _competenciesCard(context),
+        _competenciesCard(context, skills, relocation),
         const SizedBox(height: 8),
-        _languagesCard(context),
+        _languagesCard(context, skills),
       ],
     );
   }
 
-  Widget _skillsCard(BuildContext context) {
+  Widget _skillsCard(BuildContext context, ProfileSkills skills) {
     final hasSkills =
-        profile.hardSkills.isNotEmpty || profile.softSkills.isNotEmpty;
+        skills.hardSkills.isNotEmpty || skills.softSkills.isNotEmpty;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(20),
@@ -55,7 +58,7 @@ class ProfileSkillsTab extends StatelessWidget {
           _outlineButton(const IthakiIcon('plus', size: 16),
               'Add Skills', () => context.push(Routes.profileSkills)),
         ] else ...[
-          if (profile.hardSkills.isNotEmpty) ...[
+          if (skills.hardSkills.isNotEmpty) ...[
             const Text('Hard Skills',
                 style: TextStyle(
                     fontSize: 14,
@@ -65,11 +68,11 @@ class ProfileSkillsTab extends StatelessWidget {
             Wrap(
               spacing: 4,
               runSpacing: 4,
-              children: profile.hardSkills.map(_skillBadge).toList(),
+              children: skills.hardSkills.map(_skillBadge).toList(),
             ),
             const SizedBox(height: 16),
           ],
-          if (profile.softSkills.isNotEmpty) ...[
+          if (skills.softSkills.isNotEmpty) ...[
             const Text('Soft Skills',
                 style: TextStyle(
                     fontSize: 14,
@@ -79,7 +82,7 @@ class ProfileSkillsTab extends StatelessWidget {
             Wrap(
               spacing: 4,
               runSpacing: 4,
-              children: profile.softSkills.map(_skillBadge).toList(),
+              children: skills.softSkills.map(_skillBadge).toList(),
             ),
             const SizedBox(height: 16),
           ],
@@ -90,11 +93,12 @@ class ProfileSkillsTab extends StatelessWidget {
     );
   }
 
-  Widget _competenciesCard(BuildContext context) {
-    final comp = profile.competencies;
+  Widget _competenciesCard(
+      BuildContext context, ProfileSkills skills, String relocation) {
+    final comp = skills.competencies;
     final rows = <_CompRow>[];
-    if (profile.relocationReadiness.isNotEmpty) {
-      rows.add(_CompRow('Willing to relocate', profile.relocationReadiness));
+    if (relocation.isNotEmpty) {
+      rows.add(_CompRow('Willing to relocate', relocation));
     }
     if ((comp['workPermit'] ?? '').isNotEmpty) {
       rows.add(_CompRow('Work Permit', comp['workPermit']!));
@@ -156,7 +160,8 @@ class ProfileSkillsTab extends StatelessWidget {
     );
   }
 
-  Widget _languagesCard(BuildContext context) => Container(
+  Widget _languagesCard(BuildContext context, ProfileSkills skills) =>
+      Container(
         margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
         decoration: BoxDecoration(
@@ -170,7 +175,7 @@ class ProfileSkillsTab extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   color: IthakiTheme.textPrimary)),
           const SizedBox(height: 12),
-          ...profile.languages.map((l) => Padding(
+          ...skills.languages.map((l) => Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -193,10 +198,10 @@ class ProfileSkillsTab extends StatelessWidget {
                 ),
               )),
           _outlineButton(
-            profile.languages.isEmpty
+            skills.languages.isEmpty
                 ? const IthakiIcon('plus', size: 16)
                 : const IthakiIcon('edit-pencil', size: 16),
-            profile.languages.isEmpty ? 'Add Languages' : 'Edit Languages',
+            skills.languages.isEmpty ? 'Add Languages' : 'Edit Languages',
             () => context.push(Routes.profileLanguages),
           ),
         ]),

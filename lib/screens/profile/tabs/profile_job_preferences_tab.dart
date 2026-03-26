@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../models/profile_models.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../routes.dart';
 
-class ProfileJobPreferencesTab extends StatelessWidget {
-  final ProfileState profile;
-  const ProfileJobPreferencesTab({super.key, required this.profile});
+class ProfileJobPreferencesTab extends ConsumerWidget {
+  const ProfileJobPreferencesTab({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final prefs = ref.watch(profileJobPreferencesProvider);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
@@ -32,7 +33,7 @@ class ProfileJobPreferencesTab extends StatelessWidget {
           style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 16),
-        if (profile.jobInterests.isNotEmpty) ...[
+        if (prefs.jobInterests.isNotEmpty) ...[
           const Text(
             'Job Interests',
             style: TextStyle(
@@ -41,7 +42,7 @@ class ProfileJobPreferencesTab extends StatelessWidget {
                 color: IthakiTheme.textPrimary),
           ),
           const SizedBox(height: 8),
-          ...profile.jobInterests.map(_jobInterestCard),
+          ...prefs.jobInterests.map(_jobInterestCard),
           const SizedBox(height: 8),
         ],
         const Text(
@@ -52,7 +53,7 @@ class ProfileJobPreferencesTab extends StatelessWidget {
               color: IthakiTheme.textPrimary),
         ),
         const SizedBox(height: 8),
-        _prefGrid(),
+        _prefGrid(prefs),
         const SizedBox(height: 12),
         OutlinedButton.icon(
           onPressed: () => context.push(Routes.profileJobPreferences),
@@ -109,11 +110,11 @@ class ProfileJobPreferencesTab extends StatelessWidget {
         ]),
       );
 
-  Widget _prefGrid() {
-    final salary = profile.preferNotToSpecifySalary
+  Widget _prefGrid(ProfileJobPreferences prefs) {
+    final salary = prefs.preferNotToSpecifySalary
         ? 'Not specified'
-        : profile.expectedSalary != null
-            ? '${profile.expectedSalary!.toStringAsFixed(0)} € / month'
+        : prefs.expectedSalary != null
+            ? '${prefs.expectedSalary!.toStringAsFixed(0)} € / month'
             : '—';
     return Container(
       decoration: BoxDecoration(
@@ -124,15 +125,15 @@ class ProfileJobPreferencesTab extends StatelessWidget {
       child: Column(children: [
         Row(children: [
           Expanded(child: _prefCell('briefcase-work', 'Workspace',
-              profile.workplace.isNotEmpty ? profile.workplace : '—')),
+              prefs.workplace.isNotEmpty ? prefs.workplace : '—')),
           const SizedBox(width: 10),
           Expanded(child: _prefCell('clock', 'Job Type',
-              profile.jobType.isNotEmpty ? profile.jobType : '—')),
+              prefs.jobType.isNotEmpty ? prefs.jobType : '—')),
         ]),
         const SizedBox(height: 10),
         Row(children: [
           Expanded(child: _prefCell('level', 'Level',
-              profile.positionLevel.isNotEmpty ? profile.positionLevel : '—')),
+              prefs.positionLevel.isNotEmpty ? prefs.positionLevel : '—')),
           const SizedBox(width: 10),
           Expanded(child: _prefCell('bank-note', 'Desired Salary', salary)),
         ]),

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../routes.dart';
 
-class ProfileValuesTab extends StatelessWidget {
-  final ProfileState profile;
-  const ProfileValuesTab({super.key, required this.profile});
+class ProfileValuesTab extends ConsumerWidget {
+  const ProfileValuesTab({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    if (profile.values.isEmpty) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final values = ref.watch(profileValuesProvider);
+    if (values.isEmpty) {
       return Container(
         margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: const EdgeInsets.all(16),
@@ -46,7 +47,7 @@ class ProfileValuesTab extends StatelessWidget {
         Wrap(
           spacing: 8,
           runSpacing: 8,
-          children: profile.values.map(_chip).toList(),
+          children: values.map(_chip).toList(),
         ),
         const SizedBox(height: 12),
         IthakiOutlineButton(

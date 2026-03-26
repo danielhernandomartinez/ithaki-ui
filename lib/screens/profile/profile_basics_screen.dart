@@ -38,18 +38,18 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
   @override
   void initState() {
     super.initState();
-    final profile = ref.read(profileProvider);
-    _nameCtrl = TextEditingController(text: profile.firstName);
-    _lastNameCtrl = TextEditingController(text: profile.lastName);
-    _dobCtrl = TextEditingController(text: profile.dateOfBirth);
-    _citizenshipCtrl = TextEditingController(text: profile.citizenship);
-    _residenceCtrl = TextEditingController(text: profile.residence);
-    _citizenshipCode = profile.citizenshipCode;
-    _residenceCode = profile.residenceCode;
-    _gender = profile.gender;
-    _status = profile.status;
-    _relocation = profile.relocationReadiness;
-    _photoPath = profile.photoUrl;
+    final basics = ref.read(profileBasicsProvider);
+    _nameCtrl = TextEditingController(text: basics.firstName);
+    _lastNameCtrl = TextEditingController(text: basics.lastName);
+    _dobCtrl = TextEditingController(text: basics.dateOfBirth);
+    _citizenshipCtrl = TextEditingController(text: basics.citizenship);
+    _residenceCtrl = TextEditingController(text: basics.residence);
+    _citizenshipCode = basics.citizenshipCode;
+    _residenceCode = basics.residenceCode;
+    _gender = basics.gender;
+    _status = basics.status;
+    _relocation = basics.relocationReadiness;
+    _photoPath = basics.photoUrl;
   }
 
   @override
@@ -76,8 +76,7 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
   }
 
   void _save() {
-    final notifier = ref.read(profileProvider.notifier);
-    notifier.updateBasics(
+    ref.read(profileBasicsProvider.notifier).update(
       firstName: _nameCtrl.text.trim(),
       lastName: _lastNameCtrl.text.trim(),
       dateOfBirth: _dobCtrl.text.trim(),

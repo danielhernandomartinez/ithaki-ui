@@ -144,7 +144,7 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
                   position: _panels.slideAnim,
                   child: AppNavDrawer(
                     currentRoute: Routes.jobSearch,
-                    profileProgress: ref.watch(profileProvider).profileCompletion,
+                    profileProgress: ref.watch(profileCompletionProvider),
                     items: kAppNavItems,
                     onItemTap: (item) {
                       _panels.closeMenu();

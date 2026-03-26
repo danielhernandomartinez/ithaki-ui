@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../routes.dart';
 import '../../../widgets/profile_empty_state_card.dart';
 
-class ProfileEducationTab extends StatelessWidget {
-  final ProfileState profile;
-  const ProfileEducationTab({super.key, required this.profile});
+class ProfileEducationTab extends ConsumerWidget {
+  const ProfileEducationTab({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    if (profile.educations.isEmpty) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final educations = ref.watch(profileEducationsProvider);
+    if (educations.isEmpty) {
       return ProfileEmptyStateCard(
         title: 'Education',
         description:
@@ -25,7 +26,7 @@ class ProfileEducationTab extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ...profile.educations.asMap().entries.map((entry) {
+        ...educations.asMap().entries.map((entry) {
           final edu = entry.value;
           final endLabel =
               edu.currentlyStudyHere ? 'Present' : (edu.endDate ?? '');

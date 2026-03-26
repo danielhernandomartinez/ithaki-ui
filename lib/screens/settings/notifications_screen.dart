@@ -36,7 +36,7 @@ class NotificationsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsProvider);
     final notifier = ref.read(settingsProvider.notifier);
-    final profile = ref.watch(profileProvider);
+    final phone = ref.watch(profileBasicsProvider.select((b) => b.phone));
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
@@ -73,7 +73,7 @@ class NotificationsScreen extends ConsumerWidget {
                   IthakiOptionCard(
                     showLeadingCheckbox: true,
                     label: 'WhatsApp',
-                    subtitle: profile.phone.isNotEmpty ? profile.phone : null,
+                    subtitle: phone.isNotEmpty ? phone : null,
                     isSelected: settings.whatsappEnabled,
                     onTap: () => notifier.toggleChannel('whatsapp'),
                   ),
@@ -81,7 +81,7 @@ class NotificationsScreen extends ConsumerWidget {
                   IthakiOptionCard(
                     showLeadingCheckbox: true,
                     label: 'SMS',
-                    subtitle: profile.phone.isNotEmpty ? profile.phone : null,
+                    subtitle: phone.isNotEmpty ? phone : null,
                     isSelected: settings.smsEnabled,
                     onTap: () => notifier.toggleChannel('sms'),
                   ),

@@ -55,7 +55,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
-    final profile = ref.watch(profileProvider);
+    final basics = ref.watch(profileBasicsProvider);
     final topOffset = MediaQuery.of(context).padding.top + kToolbarHeight + 16;
 
     return Scaffold(
@@ -65,7 +65,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         showMenuAndAvatar: true,
         menuOpen: _panels.menuOpen,
         avatarInitials:
-            '${profile.firstName.isNotEmpty ? profile.firstName[0] : '?'}${profile.lastName.isNotEmpty ? profile.lastName[0] : '?'}',
+            '${basics.firstName.isNotEmpty ? basics.firstName[0] : '?'}${basics.lastName.isNotEmpty ? basics.lastName[0] : '?'}',
         onMenuPressed: _panels.toggleMenu,
         profileOpen: _panels.profileOpen,
         onAvatarPressed: _panels.toggleProfile,
@@ -74,11 +74,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         SingleChildScrollView(
           child: Column(children: [
             SizedBox(height: topOffset - 14),
-            _buildHeaderCard(profile),
+            _buildHeaderCard(basics),
             const SizedBox(height: 12),
             _buildTabBar(),
             const SizedBox(height: 12),
-            _buildTabContent(profile),
+            _buildTabContent(),
             const SizedBox(height: 16),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -164,7 +164,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 position: _panels.slideAnim,
                 child: AppNavDrawer(
                   currentRoute: Routes.profile,
-                  profileProgress: profile.profileCompletion,
+                  profileProgress: ref.watch(profileCompletionProvider),
                   items: kAppNavItems,
                   onItemTap: (item) {
                     _panels.closeMenu();
@@ -180,79 +180,82 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   // ─── Header Card ──────────────────────────────────────────────────
 
-  Widget _buildHeaderCard(ProfileState profile) => Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.grey.shade200),
-        ),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(children: [
-            CircleAvatar(
-              radius: 24,
-              backgroundColor: IthakiTheme.primaryPurple,
-              backgroundImage: profile.photoUrl != null
-                  ? FileImage(File(profile.photoUrl!))
-                  : null,
-              child: profile.photoUrl == null
-                  ? Text(
-                      '${profile.firstName.isNotEmpty ? profile.firstName[0] : '?'}${profile.lastName.isNotEmpty ? profile.lastName[0] : '?'}',
-                      style: const TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    )
-                  : null,
+  Widget _buildHeaderCard(ProfileBasics basics) {
+    final prefs = ref.watch(profileJobPreferencesProvider);
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          CircleAvatar(
+            radius: 24,
+            backgroundColor: IthakiTheme.primaryPurple,
+            backgroundImage: basics.photoUrl != null
+                ? FileImage(File(basics.photoUrl!))
+                : null,
+            child: basics.photoUrl == null
+                ? Text(
+                    '${basics.firstName.isNotEmpty ? basics.firstName[0] : '?'}${basics.lastName.isNotEmpty ? basics.lastName[0] : '?'}',
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  )
+                : null,
+          ),
+          const SizedBox(width: 12),
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(
+              '${basics.firstName} ${basics.lastName}',
+              style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: IthakiTheme.textPrimary),
             ),
-            const SizedBox(width: 12),
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                '${profile.firstName} ${profile.lastName}',
-                style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: IthakiTheme.textPrimary),
-              ),
-              Text(
-                profile.jobInterests.isNotEmpty
-                    ? profile.jobInterests.first.title
-                    : profile.jobType.isNotEmpty
-                        ? profile.jobType
-                        : 'Job Seeker',
-                style: const TextStyle(
-                    fontSize: 14, color: IthakiTheme.textSecondary),
-              ),
-            ]),
+            Text(
+              prefs.jobInterests.isNotEmpty
+                  ? prefs.jobInterests.first.title
+                  : prefs.jobType.isNotEmpty
+                      ? prefs.jobType
+                      : 'Job Seeker',
+              style: const TextStyle(
+                  fontSize: 14, color: IthakiTheme.textSecondary),
+            ),
           ]),
-          const SizedBox(height: 12),
-          _contactRow(const IthakiIcon('envelope', size: 16), profile.email),
-          const SizedBox(height: 4),
-          _contactRow(const IthakiIcon('phone', size: 20), profile.phone),
-          const SizedBox(height: 8),
-          const Text(
-            "Employers won't see your contact details until you apply for a job or accept an invitation.",
-            style: TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
-          ),
-          const Divider(height: 24),
-          Row(children: [
-            Expanded(child: _infoCell('Gender', profile.gender)),
-            Expanded(child: _infoCell('Age', _calcAge(profile.dateOfBirth))),
-          ]),
-          const SizedBox(height: 8),
-          Row(children: [
-            Expanded(child: _infoCell('Citizenship', profile.citizenship)),
-            Expanded(child: _infoCell('Location', profile.residence)),
-          ]),
-          const SizedBox(height: 12),
-          IthakiOutlineButton(
-            'Edit Profile Basics',
-            icon: const IthakiIcon('edit-pencil', size: 16),
-            onPressed: () => context.push(Routes.profileBasics),
-            borderRadius: 20,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          ),
         ]),
-      );
+        const SizedBox(height: 12),
+        _contactRow(const IthakiIcon('envelope', size: 16), basics.email),
+        const SizedBox(height: 4),
+        _contactRow(const IthakiIcon('phone', size: 20), basics.phone),
+        const SizedBox(height: 8),
+        const Text(
+          "Employers won't see your contact details until you apply for a job or accept an invitation.",
+          style: TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
+        ),
+        const Divider(height: 24),
+        Row(children: [
+          Expanded(child: _infoCell('Gender', basics.gender)),
+          Expanded(child: _infoCell('Age', _calcAge(basics.dateOfBirth))),
+        ]),
+        const SizedBox(height: 8),
+        Row(children: [
+          Expanded(child: _infoCell('Citizenship', basics.citizenship)),
+          Expanded(child: _infoCell('Location', basics.residence)),
+        ]),
+        const SizedBox(height: 12),
+        IthakiOutlineButton(
+          'Edit Profile Basics',
+          icon: const IthakiIcon('edit-pencil', size: 16),
+          onPressed: () => context.push(Routes.profileBasics),
+          borderRadius: 20,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        ),
+      ]),
+    );
+  }
 
   // ─── Tab Bar ──────────────────────────────────────────────────────
 
@@ -309,24 +312,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   // ─── Tab Content Dispatcher ───────────────────────────────────────
 
-  Widget _buildTabContent(ProfileState profile) {
+  Widget _buildTabContent() {
     switch (_tabIndex) {
-      case 0:
-        return ProfileJobPreferencesTab(profile: profile);
-      case 1:
-        return ProfileAboutMeTab(profile: profile);
-      case 2:
-        return ProfileSkillsTab(profile: profile);
-      case 3:
-        return ProfileWorkExperienceTab(profile: profile);
-      case 4:
-        return ProfileEducationTab(profile: profile);
-      case 5:
-        return ProfileFilesTab(profile: profile);
-      case 6:
-        return ProfileValuesTab(profile: profile);
-      default:
-        return const SizedBox.shrink();
+      case 0: return const ProfileJobPreferencesTab();
+      case 1: return const ProfileAboutMeTab();
+      case 2: return const ProfileSkillsTab();
+      case 3: return const ProfileWorkExperienceTab();
+      case 4: return const ProfileEducationTab();
+      case 5: return const ProfileFilesTab();
+      case 6: return const ProfileValuesTab();
+      default: return const SizedBox.shrink();
     }
   }
 

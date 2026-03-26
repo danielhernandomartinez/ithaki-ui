@@ -147,7 +147,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                   position: _panels.slideAnim,
                   child: AppNavDrawer(
                     currentRoute: _selectedRoute,
-                    profileProgress: ref.watch(profileProvider).profileCompletion,
+                    profileProgress: ref.watch(profileCompletionProvider),
                     items: kAppNavItems,
                     onItemTap: (item) {
                       setState(() => _selectedRoute = item.route);
@@ -449,7 +449,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   // ─── Profile Completion Card ──────────────────────────────────────
 
   Widget _buildProfileCompletionCard() {
-    final progress = ref.watch(profileProvider).profileCompletion;
+    final progress = ref.watch(profileCompletionProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),

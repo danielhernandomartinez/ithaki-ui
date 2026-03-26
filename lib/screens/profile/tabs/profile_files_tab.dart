@@ -6,12 +6,12 @@ import '../../../widgets/profile_empty_state_card.dart';
 import '../../../widgets/upload_files_sheet.dart';
 
 class ProfileFilesTab extends ConsumerWidget {
-  final ProfileState profile;
-  const ProfileFilesTab({super.key, required this.profile});
+  const ProfileFilesTab({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (profile.files.isEmpty) {
+    final files = ref.watch(profileFilesProvider);
+    if (files.isEmpty) {
       return ProfileEmptyStateCard(
         title: 'My Files',
         description:
@@ -36,7 +36,7 @@ class ProfileFilesTab extends ConsumerWidget {
                 fontWeight: FontWeight.w600,
                 color: IthakiTheme.textPrimary)),
         const SizedBox(height: 16),
-        ...profile.files.asMap().entries.map((entry) {
+        ...files.asMap().entries.map((entry) {
           final i = entry.key;
           final f = entry.value;
           final ext = f.name.contains('.')
@@ -87,7 +87,7 @@ class ProfileFilesTab extends ConsumerWidget {
               ),
               TextButton(
                 onPressed: () =>
-                    ref.read(profileProvider.notifier).deleteFile(i),
+                    ref.read(profileFilesProvider.notifier).delete(i),
                 child: const Text('Delete',
                     style: TextStyle(color: Colors.red)),
               ),
@@ -109,7 +109,7 @@ class ProfileFilesTab extends ConsumerWidget {
   void _openUpload(BuildContext context, WidgetRef ref) =>
       UploadFilesSheet.show(context, onContinue: (files) {
         for (final f in files) {
-          ref.read(profileProvider.notifier).addFile(f);
+          ref.read(profileFilesProvider.notifier).add(f);
         }
       });
 }
