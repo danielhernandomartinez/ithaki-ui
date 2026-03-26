@@ -23,6 +23,14 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
   String? _relocation;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(setupProvider.notifier).reset();
+    });
+  }
+
+  @override
   void dispose() {
     _citizenshipController.dispose();
     _residenceController.dispose();
