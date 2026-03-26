@@ -103,6 +103,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           const SizedBox(width: 10),
           Text(label, style: const TextStyle(fontSize: 14, color: IthakiTheme.textPrimary)),
         ],
+      );
+
   void _toggleAvatarMenu() {
     _closeMenu();
     setState(() => _avatarOpen = !_avatarOpen);
