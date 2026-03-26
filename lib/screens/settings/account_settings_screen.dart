@@ -263,8 +263,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               const SizedBox(height: 12),
               profileVisible
                   ? IthakiOutlineButton(
-                      'Hide Profile from Employers',
-                      icon: IthakiIcon('eye-closed', size: 14),
+                      'Hide Profile from Employers',                    
                       onPressed: () => _showMakeInvisible(context),
                     )
                   : IthakiOutlineButton(
