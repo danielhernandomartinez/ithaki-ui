@@ -26,6 +26,14 @@ class SelectLanguageScreen extends ConsumerStatefulWidget {
 class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
   SearchItem? _selected;
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(registrationProvider.notifier).reset();
+    });
+  }
+
   void _openPicker() {
     final l = AppLocalizations.of(context)!;
     SearchBottomSheet.show(
