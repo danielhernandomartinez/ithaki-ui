@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import '../../../data/mock_job_search_data.dart';
+import '../../../repositories/job_search_repository.dart';
 import '../../../providers/job_search_provider.dart';
 
 class JobSearchTabBar extends ConsumerWidget {
@@ -25,7 +25,7 @@ class JobSearchTabBar extends ConsumerWidget {
             _TabItem(label: 'All Jobs', index: 0, selectedTab: selectedTab),
             const SizedBox(width: 4),
             _TabItem(
-              label: 'Saved (${MockJobSearchData.savedCount})',
+              label: 'Saved (${ref.watch(jobSearchRepositoryProvider).savedCount})',
               index: 1,
               selectedTab: selectedTab,
             ),

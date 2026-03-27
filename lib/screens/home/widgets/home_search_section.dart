@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import '../../../data/mock_home_data.dart';
+import '../../../repositories/home_repository.dart';
 
-class HomeSearchSection extends StatelessWidget {
+class HomeSearchSection extends ConsumerWidget {
   const HomeSearchSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final homeRepo = ref.watch(homeRepositoryProvider);
     return Column(
       children: [
         Container(
@@ -31,7 +33,7 @@ class HomeSearchSection extends StatelessWidget {
         Wrap(
           spacing: 8,
           runSpacing: 8,
-          children: MockHomeData.filterChips
+          children: homeRepo.filterChips
               .map((label) => Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import '../../../data/mock_home_data.dart';
+import '../../../repositories/home_repository.dart';
 import 'home_purple_button.dart';
 
-class HomeCoursesSection extends StatelessWidget {
+class HomeCoursesSection extends ConsumerWidget {
   const HomeCoursesSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final homeRepo = ref.watch(homeRepositoryProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -21,7 +23,7 @@ class HomeCoursesSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        ...MockHomeData.courses.map(
+        ...homeRepo.courses.map(
           (course) => Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: IthakiCourseCard(

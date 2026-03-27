@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import '../../data/mock_home_data.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
@@ -48,7 +47,7 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
         showMenuAndAvatar: true,
         menuOpen: _panels.menuOpen,
         profileOpen: _panels.profileOpen,
-        avatarInitials: MockHomeData.userInitials,
+        avatarInitials: ref.watch(profileBasicsProvider).initials,
         onMenuPressed: _panels.toggleMenu,
         onAvatarPressed: _panels.toggleProfile,
       ),

@@ -14,9 +14,17 @@ class CityResult {
   });
 }
 
-class CitySearchService {
+abstract class CitySearchRepository {
+  Future<List<CityResult>> search(String query, {String? countryCode});
+}
+
+class NominatimCitySearch implements CitySearchRepository {
+  final http.Client _client;
   static const _baseUrl = 'https://nominatim.openstreetmap.org/search';
 
+  NominatimCitySearch(this._client);
+
+  @override
   Future<List<CityResult>> search(String query, {String? countryCode}) async {
     if (query.trim().length < 2) return [];
 
@@ -32,7 +40,7 @@ class CitySearchService {
 
     final uri = Uri.parse(_baseUrl).replace(queryParameters: params);
 
-    final response = await http.get(uri, headers: {
+    final response = await _client.get(uri, headers: {
       'User-Agent': 'IthakiApp/1.0',
     });
 
@@ -72,6 +80,6 @@ class CitySearchService {
   }
 }
 
-final citySearchServiceProvider = Provider<CitySearchService>(
-  (_) => CitySearchService(),
+final citySearchRepositoryProvider = Provider<CitySearchRepository>(
+  (ref) => NominatimCitySearch(http.Client()),
 );

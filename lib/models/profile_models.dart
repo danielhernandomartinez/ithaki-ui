@@ -153,3 +153,130 @@ class UploadedFile {
     uploadProgress: uploadProgress ?? this.uploadProgress,
   );
 }
+
+// ─── Profile State Classes ───────────────────────────────────────────────────
+
+class ProfileBasics {
+  final String firstName;
+  final String lastName;
+  final String email;
+  final String phone;
+  final String? photoUrl;
+  final String dateOfBirth;
+  final String gender;
+  final String citizenship;
+  final String citizenshipCode;
+  final String residence;
+  final String residenceCode;
+  final String status;
+  final String relocationReadiness;
+
+  const ProfileBasics({
+    this.firstName = '',
+    this.lastName = '',
+    this.email = '',
+    this.phone = '',
+    this.photoUrl,
+    this.dateOfBirth = '',
+    this.gender = '',
+    this.citizenship = '',
+    this.citizenshipCode = '',
+    this.residence = '',
+    this.residenceCode = '',
+    this.status = '',
+    this.relocationReadiness = '',
+  });
+
+  String get initials =>
+      '${firstName.isNotEmpty ? firstName[0] : '?'}${lastName.isNotEmpty ? lastName[0] : '?'}';
+
+  ProfileBasics copyWith({
+    String? firstName, String? lastName, String? email, String? phone,
+    String? photoUrl, String? dateOfBirth, String? gender,
+    String? citizenship, String? citizenshipCode,
+    String? residence, String? residenceCode,
+    String? status, String? relocationReadiness,
+  }) => ProfileBasics(
+    firstName: firstName ?? this.firstName,
+    lastName: lastName ?? this.lastName,
+    email: email ?? this.email,
+    phone: phone ?? this.phone,
+    photoUrl: photoUrl ?? this.photoUrl,
+    dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+    gender: gender ?? this.gender,
+    citizenship: citizenship ?? this.citizenship,
+    citizenshipCode: citizenshipCode ?? this.citizenshipCode,
+    residence: residence ?? this.residence,
+    residenceCode: residenceCode ?? this.residenceCode,
+    status: status ?? this.status,
+    relocationReadiness: relocationReadiness ?? this.relocationReadiness,
+  );
+}
+
+class ProfileAboutMe {
+  final String bio;
+  final String? videoUrl;
+
+  const ProfileAboutMe({this.bio = '', this.videoUrl});
+
+  ProfileAboutMe copyWith({String? bio, String? videoUrl}) => ProfileAboutMe(
+    bio: bio ?? this.bio,
+    videoUrl: videoUrl ?? this.videoUrl,
+  );
+}
+
+class ProfileSkills {
+  final List<String> hardSkills;
+  final List<String> softSkills;
+  final List<Language> languages;
+  final Map<String, String> competencies;
+
+  const ProfileSkills({
+    this.hardSkills = const [],
+    this.softSkills = const [],
+    this.languages = const [],
+    this.competencies = const {},
+  });
+
+  ProfileSkills copyWith({
+    List<String>? hardSkills, List<String>? softSkills,
+    List<Language>? languages, Map<String, String>? competencies,
+  }) => ProfileSkills(
+    hardSkills: hardSkills ?? this.hardSkills,
+    softSkills: softSkills ?? this.softSkills,
+    languages: languages ?? this.languages,
+    competencies: competencies ?? this.competencies,
+  );
+}
+
+class ProfileJobPreferences {
+  final List<JobInterest> jobInterests;
+  final String positionLevel;
+  final String jobType;
+  final String workplace;
+  final double? expectedSalary;
+  final bool preferNotToSpecifySalary;
+
+  const ProfileJobPreferences({
+    this.jobInterests = const [],
+    this.positionLevel = '',
+    this.jobType = '',
+    this.workplace = '',
+    this.expectedSalary,
+    this.preferNotToSpecifySalary = false,
+  });
+
+  ProfileJobPreferences copyWith({
+    List<JobInterest>? jobInterests, String? positionLevel,
+    String? jobType, String? workplace,
+    double? expectedSalary, bool? preferNotToSpecifySalary,
+  }) => ProfileJobPreferences(
+    jobInterests: jobInterests ?? this.jobInterests,
+    positionLevel: positionLevel ?? this.positionLevel,
+    jobType: jobType ?? this.jobType,
+    workplace: workplace ?? this.workplace,
+    expectedSalary: expectedSalary ?? this.expectedSalary,
+    preferNotToSpecifySalary:
+        preferNotToSpecifySalary ?? this.preferNotToSpecifySalary,
+  );
+}

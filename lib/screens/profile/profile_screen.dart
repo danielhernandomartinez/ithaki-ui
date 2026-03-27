@@ -77,8 +77,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       appBar: IthakiAppBar(
         showMenuAndAvatar: true,
         menuOpen: _panels.menuOpen,
-        avatarInitials:
-            '${basics.firstName.isNotEmpty ? basics.firstName[0] : '?'}${basics.lastName.isNotEmpty ? basics.lastName[0] : '?'}',
+        avatarInitials: basics.initials,
         onMenuPressed: _panels.toggleMenu,
         profileOpen: _panels.profileOpen,
         onAvatarPressed: _panels.toggleProfile,

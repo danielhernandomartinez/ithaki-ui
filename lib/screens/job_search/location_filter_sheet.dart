@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/countries.dart';
-import '../../services/city_search_service.dart';
+import '../../repositories/city_search_repository.dart';
 
 class LocationFilterSheet extends ConsumerStatefulWidget {
   final Set<String> selected;
@@ -60,7 +60,7 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
   Future<void> _search(String query) async {
     setState(() => _loading = true);
     final results = await ref
-        .read(citySearchServiceProvider)
+        .read(citySearchRepositoryProvider)
         .search(query, countryCode: _country?.id);
     if (mounted) setState(() { _results = results; _loading = false; });
   }

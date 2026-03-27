@@ -1,66 +1,15 @@
 // lib/providers/profile_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/profile_models.dart';
+import '../repositories/profile_repository.dart';
+
+export '../models/profile_models.dart';
 
 // ─── Profile Basics ──────────────────────────────────────────────────────────
 
-class ProfileBasics {
-  final String firstName;
-  final String lastName;
-  final String email;
-  final String phone;
-  final String? photoUrl;
-  final String dateOfBirth;
-  final String gender;
-  final String citizenship;
-  final String citizenshipCode;
-  final String residence;
-  final String residenceCode;
-  final String status;
-  final String relocationReadiness;
-
-  const ProfileBasics({
-    this.firstName = 'Christos',
-    this.lastName = 'Ioannides',
-    this.email = 'c.ioannidis@gmail.com',
-    this.phone = '+30 123 456 78 90',
-    this.photoUrl,
-    this.dateOfBirth = '01-01-1997',
-    this.gender = 'Male',
-    this.citizenship = 'Greece',
-    this.citizenshipCode = 'gr',
-    this.residence = 'Greece',
-    this.residenceCode = 'gr',
-    this.status = 'Citizen',
-    this.relocationReadiness = 'Yes',
-  });
-
-  ProfileBasics copyWith({
-    String? firstName, String? lastName, String? email, String? phone,
-    String? photoUrl, String? dateOfBirth, String? gender,
-    String? citizenship, String? citizenshipCode,
-    String? residence, String? residenceCode,
-    String? status, String? relocationReadiness,
-  }) => ProfileBasics(
-    firstName: firstName ?? this.firstName,
-    lastName: lastName ?? this.lastName,
-    email: email ?? this.email,
-    phone: phone ?? this.phone,
-    photoUrl: photoUrl ?? this.photoUrl,
-    dateOfBirth: dateOfBirth ?? this.dateOfBirth,
-    gender: gender ?? this.gender,
-    citizenship: citizenship ?? this.citizenship,
-    citizenshipCode: citizenshipCode ?? this.citizenshipCode,
-    residence: residence ?? this.residence,
-    residenceCode: residenceCode ?? this.residenceCode,
-    status: status ?? this.status,
-    relocationReadiness: relocationReadiness ?? this.relocationReadiness,
-  );
-}
-
 class ProfileBasicsNotifier extends Notifier<ProfileBasics> {
   @override
-  ProfileBasics build() => const ProfileBasics();
+  ProfileBasics build() => ref.read(profileRepositoryProvider).getBasics();
 
   void update({
     required String firstName, required String lastName,
@@ -88,21 +37,9 @@ final profileBasicsProvider =
 
 // ─── About Me ─────────────────────────────────────────────────────────────────
 
-class ProfileAboutMe {
-  final String bio;
-  final String? videoUrl;
-
-  const ProfileAboutMe({this.bio = '', this.videoUrl});
-
-  ProfileAboutMe copyWith({String? bio, String? videoUrl}) => ProfileAboutMe(
-    bio: bio ?? this.bio,
-    videoUrl: videoUrl ?? this.videoUrl,
-  );
-}
-
 class ProfileAboutMeNotifier extends Notifier<ProfileAboutMe> {
   @override
-  ProfileAboutMe build() => const ProfileAboutMe();
+  ProfileAboutMe build() => ref.read(profileRepositoryProvider).getAboutMe();
 
   void update(String bio, {String? videoUrl}) {
     state = state.copyWith(bio: bio, videoUrl: videoUrl);
@@ -116,33 +53,9 @@ final profileAboutMeProvider =
 
 // ─── Skills ───────────────────────────────────────────────────────────────────
 
-class ProfileSkills {
-  final List<String> hardSkills;
-  final List<String> softSkills;
-  final List<Language> languages;
-  final Map<String, String> competencies;
-
-  const ProfileSkills({
-    this.hardSkills = const [],
-    this.softSkills = const [],
-    this.languages = const [],
-    this.competencies = const {},
-  });
-
-  ProfileSkills copyWith({
-    List<String>? hardSkills, List<String>? softSkills,
-    List<Language>? languages, Map<String, String>? competencies,
-  }) => ProfileSkills(
-    hardSkills: hardSkills ?? this.hardSkills,
-    softSkills: softSkills ?? this.softSkills,
-    languages: languages ?? this.languages,
-    competencies: competencies ?? this.competencies,
-  );
-}
-
 class ProfileSkillsNotifier extends Notifier<ProfileSkills> {
   @override
-  ProfileSkills build() => const ProfileSkills();
+  ProfileSkills build() => ref.read(profileRepositoryProvider).getSkills();
 
   void updateSkills(List<String> hard, List<String> soft) {
     state = state.copyWith(hardSkills: hard, softSkills: soft);
@@ -166,7 +79,8 @@ final profileSkillsProvider =
 
 class ProfileWorkExperiencesNotifier extends Notifier<List<WorkExperience>> {
   @override
-  List<WorkExperience> build() => const [];
+  List<WorkExperience> build() =>
+      ref.read(profileRepositoryProvider).getWorkExperiences();
 
   void add(WorkExperience exp) => state = [...state, exp];
 
@@ -186,7 +100,8 @@ final profileWorkExperiencesProvider =
 
 class ProfileEducationsNotifier extends Notifier<List<Education>> {
   @override
-  List<Education> build() => const [];
+  List<Education> build() =>
+      ref.read(profileRepositoryProvider).getEducations();
 
   void add(Education edu) => state = [...state, edu];
 
@@ -206,7 +121,8 @@ final profileEducationsProvider =
 
 class ProfileFilesNotifier extends Notifier<List<UploadedFile>> {
   @override
-  List<UploadedFile> build() => const [];
+  List<UploadedFile> build() =>
+      ref.read(profileRepositoryProvider).getFiles();
 
   void add(UploadedFile file) => state = [...state, file];
 
@@ -226,7 +142,7 @@ final profileFilesProvider =
 
 class ProfileValuesNotifier extends Notifier<List<String>> {
   @override
-  List<String> build() => const [];
+  List<String> build() => ref.read(profileRepositoryProvider).getValues();
 
   void update(List<String> values) => state = values;
 }
@@ -238,43 +154,10 @@ final profileValuesProvider =
 
 // ─── Job Preferences ──────────────────────────────────────────────────────────
 
-class ProfileJobPreferences {
-  final List<JobInterest> jobInterests;
-  final String positionLevel;
-  final String jobType;
-  final String workplace;
-  final double? expectedSalary;
-  final bool preferNotToSpecifySalary;
-
-  const ProfileJobPreferences({
-    this.jobInterests = const [
-      JobInterest(title: 'Web Developer', category: 'IT & Development'),
-    ],
-    this.positionLevel = 'Senior',
-    this.jobType = 'Full time',
-    this.workplace = 'On-site',
-    this.expectedSalary = 1800,
-    this.preferNotToSpecifySalary = false,
-  });
-
-  ProfileJobPreferences copyWith({
-    List<JobInterest>? jobInterests, String? positionLevel,
-    String? jobType, String? workplace,
-    double? expectedSalary, bool? preferNotToSpecifySalary,
-  }) => ProfileJobPreferences(
-    jobInterests: jobInterests ?? this.jobInterests,
-    positionLevel: positionLevel ?? this.positionLevel,
-    jobType: jobType ?? this.jobType,
-    workplace: workplace ?? this.workplace,
-    expectedSalary: expectedSalary ?? this.expectedSalary,
-    preferNotToSpecifySalary:
-        preferNotToSpecifySalary ?? this.preferNotToSpecifySalary,
-  );
-}
-
 class ProfileJobPreferencesNotifier extends Notifier<ProfileJobPreferences> {
   @override
-  ProfileJobPreferences build() => const ProfileJobPreferences();
+  ProfileJobPreferences build() =>
+      ref.read(profileRepositoryProvider).getJobPreferences();
 
   void update({
     required List<JobInterest> interests,
@@ -304,7 +187,7 @@ final profileJobPreferencesProvider =
 
 class ProfileVisibleNotifier extends Notifier<bool> {
   @override
-  bool build() => true;
+  bool build() => ref.read(profileRepositoryProvider).getProfileVisible();
 
   void toggle() => state = !state;
 }

@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/job_search_models.dart';
 
-class MockJobSearchData {
-  static const int totalJobs = 1500;
-  static const int savedCount = 5;
-  static const int totalPages = 25;
+abstract class JobSearchRepository {
+  int get totalJobs;
+  int get savedCount;
+  int get totalPages;
+  List<JobListing> get jobs;
+}
 
-  static const jobs = [
+class MockJobSearchRepository implements JobSearchRepository {
+  @override
+  final int totalJobs = 1500;
+
+  @override
+  final int savedCount = 5;
+
+  @override
+  final int totalPages = 25;
+
+  @override
+  final List<JobListing> jobs = const [
     JobListing(
       jobTitle: 'Office Secretary',
       companyName: 'HelioForce Studio',
       companyInitials: 'HS',
       companyColor: Color(0xFF6B4EAA),
-      salary: '2,000 €/ month',
+      salary: '2,000 \u20ac/ month',
       matchPercentage: 90,
       matchLabel: 'STRONG MATCH',
       category: 'Design and Creative',
@@ -26,7 +40,7 @@ class MockJobSearchData {
       companyName: 'TechWave',
       companyInitials: 'TW',
       companyColor: Color(0xFF2E7D32),
-      salary: '1,500 €/ month',
+      salary: '1,500 \u20ac/ month',
       matchPercentage: 82,
       matchLabel: 'GREAT MATCH',
       category: 'IT and Web Development',
@@ -40,7 +54,7 @@ class MockJobSearchData {
       companyName: 'Aegean Waves Hotel & Restaurant',
       companyInitials: 'AW',
       companyColor: Color(0xFF795548),
-      salary: '1,500 €/ month',
+      salary: '1,500 \u20ac/ month',
       matchPercentage: 35,
       matchLabel: 'WEAK MATCH',
       category: 'Arts, Entertainment and Music',
@@ -54,7 +68,7 @@ class MockJobSearchData {
       companyName: 'MarketGR',
       companyInitials: 'MG',
       companyColor: Color(0xFF1B5E20),
-      salary: '1,500 €/ month',
+      salary: '1,500 \u20ac/ month',
       matchPercentage: 78,
       matchLabel: 'GREAT MATCH',
       category: 'Sales',
@@ -68,7 +82,7 @@ class MockJobSearchData {
       companyName: 'PixelPerfect Imaging',
       companyInitials: 'PP',
       companyColor: Color(0xFF37474F),
-      salary: '1,500 €/ month',
+      salary: '1,500 \u20ac/ month',
       matchPercentage: 0,
       matchLabel: 'NO BENEFICIARIES MATCH',
       category: 'Logistics and Supply Chain',
@@ -81,7 +95,7 @@ class MockJobSearchData {
       companyName: 'PixelPerfect Imaging',
       companyInitials: 'PP',
       companyColor: Color(0xFF37474F),
-      salary: '1,800 €/ month',
+      salary: '1,800 \u20ac/ month',
       matchPercentage: 80,
       matchLabel: 'GREAT MATCH',
       category: 'Design and Creative',
@@ -95,7 +109,7 @@ class MockJobSearchData {
       companyName: 'MarketGR',
       companyInitials: 'MG',
       companyColor: Color(0xFF1B5E20),
-      salary: '1,600 €/ month',
+      salary: '1,600 \u20ac/ month',
       matchPercentage: 65,
       matchLabel: 'GOOD MATCH',
       category: 'Customer Service',
@@ -109,7 +123,7 @@ class MockJobSearchData {
       companyName: 'Global Solutions Corp',
       companyInitials: 'GS',
       companyColor: Color(0xFF0D47A1),
-      salary: '2,800 €/ month',
+      salary: '2,800 \u20ac/ month',
       matchPercentage: 92,
       matchLabel: 'STRONG MATCH',
       category: 'Admin and Secretarial',
@@ -122,7 +136,7 @@ class MockJobSearchData {
       companyName: 'MyTech Solutions',
       companyInitials: 'MT',
       companyColor: Color(0xFF4A148C),
-      salary: '1,600 €/ month',
+      salary: '1,600 \u20ac/ month',
       matchPercentage: 68,
       matchLabel: 'GOOD MATCH',
       category: 'Admin and Secretarial',
@@ -135,7 +149,7 @@ class MockJobSearchData {
       companyName: 'Creative Agency',
       companyInitials: 'CA',
       companyColor: Color(0xFFE65100),
-      salary: '1,600 €/ month',
+      salary: '1,600 \u20ac/ month',
       matchPercentage: 62,
       matchLabel: 'GOOD MATCH',
       category: 'Marketing',
@@ -146,3 +160,7 @@ class MockJobSearchData {
     ),
   ];
 }
+
+final jobSearchRepositoryProvider = Provider<JobSearchRepository>(
+  (_) => MockJobSearchRepository(),
+);

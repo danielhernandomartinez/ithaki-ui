@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import '../../../data/mock_home_data.dart';
+import '../../../repositories/home_repository.dart';
 
-class HomeNewsSection extends StatelessWidget {
+class HomeNewsSection extends ConsumerWidget {
   const HomeNewsSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final newsList = MockHomeData.news;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final newsList = ref.watch(homeRepositoryProvider).news;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

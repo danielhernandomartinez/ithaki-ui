@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import '../services/city_search_service.dart';
+import '../repositories/city_search_repository.dart';
 
 class CitySearchBottomSheet extends ConsumerStatefulWidget {
   final void Function(String city) onSelected;
@@ -48,8 +48,8 @@ class _CitySearchBottomSheetState extends ConsumerState<CitySearchBottomSheet> {
 
   Future<void> _search(String query) async {
     setState(() => _loading = true);
-    final service = ref.read(citySearchServiceProvider);
-    final results = await service.search(query);
+    final repo = ref.read(citySearchRepositoryProvider);
+    final results = await repo.search(query);
     _lastQuery = query;
     if (mounted) setState(() { _results = results; _loading = false; });
   }

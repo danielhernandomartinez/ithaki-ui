@@ -14,54 +14,6 @@
 
 ## 1. Arquitectura y Escalabilidad
 
-### **[Crítico] Sin capa de abstracción para la integración del backend**
-
-La app carece completamente de interfaces/repositorios abstractos. El único servicio existente (`lib/services/city_search_service.dart`) es una clase concreta sin contrato:
-
-```dart
-// ACTUAL — Acoplamiento directo
-class CitySearchService {
-  Future<List<CityResult>> search(String query, {String? countryCode}) async {
-    final response = await http.get(uri, headers: { ... });
-    // ...
-  }
-}
-
-final citySearchServiceProvider = Provider<CitySearchService>(
-  (_) => CitySearchService(),
-);
-```
-
-Cuando el backend llegue, **no será un "cambio de enchufe"**. Cada pantalla que consume datos mock directamente (ej. `MockHomeData.jobs`, `MockJobSearchData.jobs`) tendrá que ser reescrita.
-
-**Propuesta de refactorización:**
-
-```dart
-// 1. Definir contrato abstracto
-abstract class CitySearchRepository {
-  Future<List<CityResult>> search(String query, {String? countryCode});
-}
-
-// 2. Implementación actual (mock/API externa)
-class NominatimCitySearch implements CitySearchRepository {
-  final http.Client _client;
-  NominatimCitySearch(this._client);
-
-  @override
-  Future<List<CityResult>> search(String query, {String? countryCode}) async {
-    // ... lógica HTTP actual
-  }
-}
-
-// 3. Provider inyectable — cambio de enchufe futuro aquí
-final citySearchRepoProvider = Provider<CitySearchRepository>(
-  (ref) => NominatimCitySearch(http.Client()),
-);
-```
-
-Aplicar el mismo patrón para **Home**, **JobSearch** y **Profile** creando:
-- `HomeRepository` (abstracto) → `MockHomeRepository` → futuro `ApiHomeRepository`
-- `JobSearchRepository` (abstracto) → `MockJobSearchRepository` → futuro `ApiJobSearchRepository`
 
 ### **[Moderado] Datos mock acoplados directamente a la UI**
 
@@ -96,37 +48,6 @@ Los providers en `lib/providers/` están bien granularizados:
 
 ## 2. God Screens, Code Smells y Malas Prácticas
 
-**Propuesta de refactorización:**
-
-```
-lib/screens/job_search/
-├── job_search_screen.dart          (≤150 líneas — solo orquestación)
-├── widgets/
-│   ├── job_search_tab_bar.dart
-│   ├── job_search_list.dart
-│   ├── job_search_pagination.dart
-│   └── job_search_filters/
-│       ├── filters_sheet.dart
-│       ├── filter_sub_sheet.dart
-│       ├── location_filter_sheet.dart
-│       └── sort_sheet.dart
-└── providers/
-    └── job_search_provider.dart     (filtros, paginación, jobs guardados)
-```
-
-### **[Crítico] God Screen: `lib/screens/home/home_screen.dart` — 582 líneas**
-
-Construye al menos 6 secciones distintas dentro de un solo `build()`:
-- Greeting header, search bar, jobs section, courses section, news section, profile completion card, questions section
-
-### **[Moderado] Pantallas pesadas (>350 líneas)**
-
-| Archivo | Líneas | Problema principal |
-|---|---|---|
-| `lib/screens/profile/edit_job_preferences_screen.dart` | 478 | Picker modal + validación salary + form UI |
-| `lib/screens/profile/profile_basics_screen.dart` | 395 | File picker + date picker + country picker + form |
-| `lib/screens/profile/profile_screen.dart` | 361 | Header + tabs + contact info |
-| `lib/widgets/upload_files_sheet.dart` | 357 | Custom painter + upload progress UI |
 
 ### **[Moderado] Rendimiento: `MediaQuery.of(context)` en build()**
 

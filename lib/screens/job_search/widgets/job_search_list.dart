@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import '../../../data/mock_job_search_data.dart';
+import '../../../repositories/job_search_repository.dart';
 import '../../../providers/job_search_provider.dart';
 import '../../../utils/match_colors.dart';
 import '../sort_sheet.dart';
@@ -26,7 +26,8 @@ class JobSearchList extends ConsumerWidget {
     final notifier = ref.read(jobSearchProvider.notifier);
     final savedIndices =
         ref.watch(jobSearchProvider.select((s) => s.savedJobIndices));
-    final jobs = MockJobSearchData.jobs;
+    final jobSearchRepo = ref.watch(jobSearchRepositoryProvider);
+    final jobs = jobSearchRepo.jobs;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -43,7 +44,7 @@ class JobSearchList extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${_fmt(MockJobSearchData.totalJobs)} jobs found',
+                '${_fmt(jobSearchRepo.totalJobs)} jobs found',
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -106,7 +107,7 @@ class JobSearchPagination extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const totalPages = MockJobSearchData.totalPages;
+    final totalPages = ref.watch(jobSearchRepositoryProvider).totalPages;
     final currentPage =
         ref.watch(jobSearchProvider.select((s) => s.currentPage));
     final notifier = ref.read(jobSearchProvider.notifier);
