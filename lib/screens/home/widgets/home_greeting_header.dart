@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import '../../../repositories/home_repository.dart';
+import '../../../providers/home_provider.dart';
 
 class HomeGreetingHeader extends ConsumerWidget {
   final double topOffset;
@@ -10,7 +10,8 @@ class HomeGreetingHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final homeRepo = ref.watch(homeRepositoryProvider);
+    final homeData = ref.watch(homeProvider).value;
+    if (homeData == null) return const SizedBox.shrink();
     return Container(
       margin: EdgeInsets.only(
         top: topOffset + 12,
@@ -27,7 +28,7 @@ class HomeGreetingHeader extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Hi, ${homeRepo.userName}!',
+            'Hi, ${homeData.userName}!',
             style: IthakiTheme.headingLarge,
           ),
           const SizedBox(height: 8),

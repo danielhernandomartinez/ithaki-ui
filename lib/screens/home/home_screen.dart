@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import '../../repositories/home_repository.dart';
+import '../../providers/home_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
@@ -43,7 +43,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    final homeRepo = ref.watch(homeRepositoryProvider);
+    final homeData = ref.watch(homeProvider).value;
+    if (homeData == null) return const Scaffold(backgroundColor: IthakiTheme.backgroundViolet, body: Center(child: CircularProgressIndicator()));
     final topOffset =
         MediaQuery.of(context).padding.top + kToolbarHeight + 16;
 
@@ -54,7 +55,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         showMenuAndAvatar: true,
         menuOpen: _panels.menuOpen,
         profileOpen: _panels.profileOpen,
-        avatarInitials: homeRepo.userInitials,
+        avatarInitials: homeData.userInitials,
         onMenuPressed: _panels.toggleMenu,
         onAvatarPressed: _panels.toggleProfile,
       ),
@@ -68,7 +69,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 HomeGreetingHeader(topOffset: topOffset),
                 const SizedBox(height: 12),
 
-                if (homeRepo.isNewUser) ...[
+                if (homeData.isNewUser) ...[
                   const HomeProfileCompletionCard(),
                   const SizedBox(height: 12),
                 ],
@@ -106,24 +107,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                       IthakiStatRowData(
                         icon: const IthakiIcon('eye', size: 18, color: IthakiTheme.primaryPurple),
                         label: 'Views',
-                        value: homeRepo.cvStats.views,
-                        change: homeRepo.cvStats.viewsChange,
+                        value: homeData.cvStats.views,
+                        change: homeData.cvStats.viewsChange,
                       ),
                       IthakiStatRowData(
                         icon: const IthakiIcon('envelope', size: 18, color: IthakiTheme.primaryPurple),
                         label: 'Invitations',
-                        value: homeRepo.cvStats.invitations,
-                        change: homeRepo.cvStats.invitationsChange,
+                        value: homeData.cvStats.invitations,
+                        change: homeData.cvStats.invitationsChange,
                       ),
                       IthakiStatRowData(
                         icon: const IthakiIcon('applications', size: 22, color: IthakiTheme.primaryPurple),
                         label: 'Applications Sent',
-                        value: homeRepo.cvStats.applicationsSent,
+                        value: homeData.cvStats.applicationsSent,
                       ),
                       IthakiStatRowData(
                         icon: const IthakiIcon('rocket', size: 22, color: IthakiTheme.primaryPurple),
                         label: 'Interviews',
-                        value: homeRepo.cvStats.interviews,
+                        value: homeData.cvStats.interviews,
                       ),
                     ],
                   ),

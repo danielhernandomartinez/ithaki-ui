@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import '../../../repositories/home_repository.dart';
+import '../../../providers/home_provider.dart';
 import 'home_purple_button.dart';
 
 class HomeJobsSection extends ConsumerWidget {
@@ -9,13 +9,14 @@ class HomeJobsSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final homeRepo = ref.watch(homeRepositoryProvider);
+    final homeData = ref.watch(homeProvider).value;
+    if (homeData == null) return const SizedBox.shrink();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Smart Job Recommendations', style: IthakiTheme.headingMedium),
         const SizedBox(height: 12),
-        ...homeRepo.jobs.map(
+        ...homeData.jobs.map(
           (job) => Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: IthakiJobRecommendationCard(

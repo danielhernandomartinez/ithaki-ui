@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import '../../../repositories/home_repository.dart';
+import '../../../providers/home_provider.dart';
 import '../../../providers/profile_provider.dart';
 import 'home_purple_button.dart';
 
@@ -10,7 +10,8 @@ class HomeProfileCompletionCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final homeRepo = ref.watch(homeRepositoryProvider);
+    final homeData = ref.watch(homeProvider).value;
+    if (homeData == null) return const SizedBox.shrink();
     final progress = ref.watch(profileCompletionProvider);
 
     return Padding(
@@ -46,7 +47,7 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                       const SizedBox(height: 10),
                       IthakiHatchProgressBar(progress: progress),
                       const SizedBox(height: 12),
-                      ...homeRepo.profileItems.map((item) => Padding(
+                      ...homeData.profileItems.map((item) => Padding(
                             padding: const EdgeInsets.only(bottom: 8),
                             child: Row(
                               children: [
@@ -119,7 +120,7 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    ...homeRepo.profileBenefits.map((b) => Padding(
+                    ...homeData.profileBenefits.map((b) => Padding(
                           padding: const EdgeInsets.only(bottom: 6),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
