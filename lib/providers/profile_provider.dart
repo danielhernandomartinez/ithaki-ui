@@ -7,19 +7,20 @@ export '../models/profile_models.dart';
 
 // ─── Profile Basics ──────────────────────────────────────────────────────────
 
-class ProfileBasicsNotifier extends Notifier<ProfileBasics> {
+class ProfileBasicsNotifier extends AsyncNotifier<ProfileBasics> {
   @override
-  ProfileBasics build() => ref.read(profileRepositoryProvider).getBasics();
+  Future<ProfileBasics> build() =>
+      ref.read(profileRepositoryProvider).getBasics();
 
-  void update({
+  Future<void> save({
     required String firstName, required String lastName,
     required String dateOfBirth, required String gender,
     required String citizenship, String? citizenshipCode,
     required String residence, String? residenceCode,
     required String status, required String relocationReadiness,
     String? photoUrl,
-  }) {
-    state = state.copyWith(
+  }) async {
+    final updated = state.requireValue.copyWith(
       firstName: firstName, lastName: lastName,
       dateOfBirth: dateOfBirth, gender: gender,
       citizenship: citizenship, citizenshipCode: citizenshipCode,
@@ -27,147 +28,180 @@ class ProfileBasicsNotifier extends Notifier<ProfileBasics> {
       status: status, relocationReadiness: relocationReadiness,
       photoUrl: photoUrl,
     );
+    await ref.read(profileRepositoryProvider).saveBasics(updated);
+    state = AsyncData(updated);
   }
 }
 
 final profileBasicsProvider =
-    NotifierProvider<ProfileBasicsNotifier, ProfileBasics>(
+    AsyncNotifierProvider<ProfileBasicsNotifier, ProfileBasics>(
   ProfileBasicsNotifier.new,
 );
 
 // ─── About Me ─────────────────────────────────────────────────────────────────
 
-class ProfileAboutMeNotifier extends Notifier<ProfileAboutMe> {
+class ProfileAboutMeNotifier extends AsyncNotifier<ProfileAboutMe> {
   @override
-  ProfileAboutMe build() => ref.read(profileRepositoryProvider).getAboutMe();
+  Future<ProfileAboutMe> build() =>
+      ref.read(profileRepositoryProvider).getAboutMe();
 
-  void update(String bio, {String? videoUrl}) {
-    state = state.copyWith(bio: bio, videoUrl: videoUrl);
+  Future<void> save(String bio, {String? videoUrl}) async {
+    final updated = state.requireValue.copyWith(bio: bio, videoUrl: videoUrl);
+    await ref.read(profileRepositoryProvider).saveAboutMe(updated);
+    state = AsyncData(updated);
   }
 }
 
 final profileAboutMeProvider =
-    NotifierProvider<ProfileAboutMeNotifier, ProfileAboutMe>(
+    AsyncNotifierProvider<ProfileAboutMeNotifier, ProfileAboutMe>(
   ProfileAboutMeNotifier.new,
 );
 
 // ─── Skills ───────────────────────────────────────────────────────────────────
 
-class ProfileSkillsNotifier extends Notifier<ProfileSkills> {
+class ProfileSkillsNotifier extends AsyncNotifier<ProfileSkills> {
   @override
-  ProfileSkills build() => ref.read(profileRepositoryProvider).getSkills();
+  Future<ProfileSkills> build() =>
+      ref.read(profileRepositoryProvider).getSkills();
 
-  void updateSkills(List<String> hard, List<String> soft) {
-    state = state.copyWith(hardSkills: hard, softSkills: soft);
+  Future<void> updateSkills(List<String> hard, List<String> soft) async {
+    final updated = state.requireValue.copyWith(hardSkills: hard, softSkills: soft);
+    await ref.read(profileRepositoryProvider).saveSkills(updated);
+    state = AsyncData(updated);
   }
 
-  void updateLanguages(List<Language> langs) {
-    state = state.copyWith(languages: langs);
+  Future<void> updateLanguages(List<Language> langs) async {
+    final updated = state.requireValue.copyWith(languages: langs);
+    await ref.read(profileRepositoryProvider).saveSkills(updated);
+    state = AsyncData(updated);
   }
 
-  void updateCompetencies(Map<String, String> comp) {
-    state = state.copyWith(competencies: comp);
+  Future<void> updateCompetencies(Map<String, String> comp) async {
+    final updated = state.requireValue.copyWith(competencies: comp);
+    await ref.read(profileRepositoryProvider).saveSkills(updated);
+    state = AsyncData(updated);
   }
 }
 
 final profileSkillsProvider =
-    NotifierProvider<ProfileSkillsNotifier, ProfileSkills>(
+    AsyncNotifierProvider<ProfileSkillsNotifier, ProfileSkills>(
   ProfileSkillsNotifier.new,
 );
 
 // ─── Work Experiences ─────────────────────────────────────────────────────────
 
-class ProfileWorkExperiencesNotifier extends Notifier<List<WorkExperience>> {
+class ProfileWorkExperiencesNotifier
+    extends AsyncNotifier<List<WorkExperience>> {
   @override
-  List<WorkExperience> build() =>
+  Future<List<WorkExperience>> build() =>
       ref.read(profileRepositoryProvider).getWorkExperiences();
 
-  void add(WorkExperience exp) => state = [...state, exp];
+  Future<void> add(WorkExperience exp) async {
+    final updated = [...state.requireValue, exp];
+    await ref.read(profileRepositoryProvider).saveWorkExperiences(updated);
+    state = AsyncData(updated);
+  }
 
-  void update(int index, WorkExperience exp) {
-    final list = [...state];
+  Future<void> save(int index, WorkExperience exp) async {
+    final list = [...state.requireValue];
     list[index] = exp;
-    state = list;
+    await ref.read(profileRepositoryProvider).saveWorkExperiences(list);
+    state = AsyncData(list);
   }
 }
 
 final profileWorkExperiencesProvider =
-    NotifierProvider<ProfileWorkExperiencesNotifier, List<WorkExperience>>(
+    AsyncNotifierProvider<ProfileWorkExperiencesNotifier, List<WorkExperience>>(
   ProfileWorkExperiencesNotifier.new,
 );
 
 // ─── Educations ───────────────────────────────────────────────────────────────
 
-class ProfileEducationsNotifier extends Notifier<List<Education>> {
+class ProfileEducationsNotifier extends AsyncNotifier<List<Education>> {
   @override
-  List<Education> build() =>
+  Future<List<Education>> build() =>
       ref.read(profileRepositoryProvider).getEducations();
 
-  void add(Education edu) => state = [...state, edu];
+  Future<void> add(Education edu) async {
+    final updated = [...state.requireValue, edu];
+    await ref.read(profileRepositoryProvider).saveEducations(updated);
+    state = AsyncData(updated);
+  }
 
-  void update(int index, Education edu) {
-    final list = [...state];
+  Future<void> save(int index, Education edu) async {
+    final list = [...state.requireValue];
     list[index] = edu;
-    state = list;
+    await ref.read(profileRepositoryProvider).saveEducations(list);
+    state = AsyncData(list);
   }
 }
 
 final profileEducationsProvider =
-    NotifierProvider<ProfileEducationsNotifier, List<Education>>(
+    AsyncNotifierProvider<ProfileEducationsNotifier, List<Education>>(
   ProfileEducationsNotifier.new,
 );
 
 // ─── Files ────────────────────────────────────────────────────────────────────
 
-class ProfileFilesNotifier extends Notifier<List<UploadedFile>> {
+class ProfileFilesNotifier extends AsyncNotifier<List<UploadedFile>> {
   @override
-  List<UploadedFile> build() =>
+  Future<List<UploadedFile>> build() =>
       ref.read(profileRepositoryProvider).getFiles();
 
-  void add(UploadedFile file) => state = [...state, file];
+  Future<void> add(UploadedFile file) async {
+    final updated = [...state.requireValue, file];
+    await ref.read(profileRepositoryProvider).saveFiles(updated);
+    state = AsyncData(updated);
+  }
 
-  void delete(int index) {
-    final list = [...state];
+  Future<void> delete(int index) async {
+    final list = [...state.requireValue];
     list.removeAt(index);
-    state = list;
+    await ref.read(profileRepositoryProvider).saveFiles(list);
+    state = AsyncData(list);
   }
 }
 
 final profileFilesProvider =
-    NotifierProvider<ProfileFilesNotifier, List<UploadedFile>>(
+    AsyncNotifierProvider<ProfileFilesNotifier, List<UploadedFile>>(
   ProfileFilesNotifier.new,
 );
 
 // ─── Values ───────────────────────────────────────────────────────────────────
 
-class ProfileValuesNotifier extends Notifier<List<String>> {
+class ProfileValuesNotifier extends AsyncNotifier<List<String>> {
   @override
-  List<String> build() => ref.read(profileRepositoryProvider).getValues();
+  Future<List<String>> build() =>
+      ref.read(profileRepositoryProvider).getValues();
 
-  void update(List<String> values) => state = values;
+  Future<void> save(List<String> values) async {
+    await ref.read(profileRepositoryProvider).saveValues(values);
+    state = AsyncData(values);
+  }
 }
 
 final profileValuesProvider =
-    NotifierProvider<ProfileValuesNotifier, List<String>>(
+    AsyncNotifierProvider<ProfileValuesNotifier, List<String>>(
   ProfileValuesNotifier.new,
 );
 
 // ─── Job Preferences ──────────────────────────────────────────────────────────
 
-class ProfileJobPreferencesNotifier extends Notifier<ProfileJobPreferences> {
+class ProfileJobPreferencesNotifier
+    extends AsyncNotifier<ProfileJobPreferences> {
   @override
-  ProfileJobPreferences build() =>
+  Future<ProfileJobPreferences> build() =>
       ref.read(profileRepositoryProvider).getJobPreferences();
 
-  void update({
+  Future<void> save({
     required List<JobInterest> interests,
     required String positionLevel,
     required String jobType,
     required String workplace,
     double? expectedSalary,
     required bool preferNotToSpecifySalary,
-  }) {
-    state = ProfileJobPreferences(
+  }) async {
+    final updated = ProfileJobPreferences(
       jobInterests: interests,
       positionLevel: positionLevel,
       jobType: jobType,
@@ -175,44 +209,52 @@ class ProfileJobPreferencesNotifier extends Notifier<ProfileJobPreferences> {
       expectedSalary: expectedSalary,
       preferNotToSpecifySalary: preferNotToSpecifySalary,
     );
+    await ref.read(profileRepositoryProvider).saveJobPreferences(updated);
+    state = AsyncData(updated);
   }
 }
 
 final profileJobPreferencesProvider =
-    NotifierProvider<ProfileJobPreferencesNotifier, ProfileJobPreferences>(
+    AsyncNotifierProvider<ProfileJobPreferencesNotifier, ProfileJobPreferences>(
   ProfileJobPreferencesNotifier.new,
 );
 
 // ─── Profile Visible ──────────────────────────────────────────────────────────
 
-class ProfileVisibleNotifier extends Notifier<bool> {
+class ProfileVisibleNotifier extends AsyncNotifier<bool> {
   @override
-  bool build() => ref.read(profileRepositoryProvider).getProfileVisible();
+  Future<bool> build() =>
+      ref.read(profileRepositoryProvider).getProfileVisible();
 
-  void toggle() => state = !state;
+  Future<void> toggle() async {
+    final updated = !state.requireValue;
+    await ref.read(profileRepositoryProvider).saveProfileVisible(updated);
+    state = AsyncData(updated);
+  }
 }
 
 final profileVisibleProvider =
-    NotifierProvider<ProfileVisibleNotifier, bool>(
+    AsyncNotifierProvider<ProfileVisibleNotifier, bool>(
   ProfileVisibleNotifier.new,
 );
 
 // ─── Profile Completion (derived) ─────────────────────────────────────────────
 
 final profileCompletionProvider = Provider<double>((ref) {
-  final photoUrl = ref.watch(profileBasicsProvider.select((b) => b.photoUrl));
-  final bio = ref.watch(profileAboutMeProvider.select((a) => a.bio));
-  final experiences = ref.watch(profileWorkExperiencesProvider);
-  final educations = ref.watch(profileEducationsProvider);
-  final skills = ref.watch(profileSkillsProvider);
-  final files = ref.watch(profileFilesProvider);
+  final photoUrl = ref.watch(profileBasicsProvider).value?.photoUrl;
+  final bio = ref.watch(profileAboutMeProvider).value?.bio ?? '';
+  final experiences = ref.watch(profileWorkExperiencesProvider).value ?? [];
+  final educations = ref.watch(profileEducationsProvider).value ?? [];
+  final skills = ref.watch(profileSkillsProvider).value;
+  final files = ref.watch(profileFilesProvider).value ?? [];
 
   int filled = 0;
-  if (bio.isNotEmpty) filled++;
-  if (photoUrl != null) filled++;
-  if (experiences.isNotEmpty) filled++;
-  if (educations.isNotEmpty) filled++;
-  if (skills.hardSkills.isNotEmpty || skills.softSkills.isNotEmpty) filled++;
-  if (files.isNotEmpty) filled++;
+  if (bio.isNotEmpty) { filled++; }
+  if (photoUrl != null) { filled++; }
+  if (experiences.isNotEmpty) { filled++; }
+  if (educations.isNotEmpty) { filled++; }
+  if (skills != null &&
+      (skills.hardSkills.isNotEmpty || skills.softSkills.isNotEmpty)) { filled++; }
+  if (files.isNotEmpty) { filled++; }
   return filled / 6;
 });
