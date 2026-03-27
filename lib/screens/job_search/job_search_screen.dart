@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +12,8 @@ import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
 import '../../constants/nav_items.dart';
 import '../../mixins/panel_menu_mixin.dart';
+import '../../data/countries.dart';
+import '../../services/city_search_service.dart';
 
 class JobSearchScreen extends ConsumerStatefulWidget {
   const JobSearchScreen({super.key});
@@ -25,11 +28,16 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
   int _selectedTab = 0;
   int _currentPage = 1;
   final Set<int> _savedJobIndices = {};
-  Set<String> _selectedCategories = {};
-  Set<String> _selectedLocations = {};
-  Set<String> _selectedWorkModes = {};
-  Set<String> _selectedEmploymentTypes = {};
-  Set<String> _selectedLevels = {};
+  final Map<String, Set<String>> _filters = {
+    'Location': {},
+    'Industry': {},
+    'Skills': {},
+    'Job Type': {},
+    'Workplace': {},
+    'Experience Level': {},
+    'Salary': {},
+    'Travel': {},
+  };
 
   @override
   void initState() {
@@ -233,11 +241,7 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
   // ─── Search + Filters ────────────────────────────────────────────
 
   int get _activeFilterCount =>
-      _selectedCategories.length +
-      _selectedLocations.length +
-      _selectedWorkModes.length +
-      _selectedEmploymentTypes.length +
-      _selectedLevels.length;
+      _filters.values.fold(0, (sum, s) => sum + s.length);
 
   Widget _buildSearchAndFilters() {
     final count = _activeFilterCount;
@@ -333,20 +337,12 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) => _FiltersSheet(
-        selectedCategories: _selectedCategories,
-        selectedLocations: _selectedLocations,
-        selectedWorkModes: _selectedWorkModes,
-        selectedEmploymentTypes: _selectedEmploymentTypes,
-        selectedLevels: _selectedLevels,
-        onApply: (categories, locations, workModes, employmentTypes, levels) {
-          setState(() {
-            _selectedCategories = categories;
-            _selectedLocations = locations;
-            _selectedWorkModes = workModes;
-            _selectedEmploymentTypes = employmentTypes;
-            _selectedLevels = levels;
-          });
-        },
+        filters: _filters,
+        onApply: (updated) => setState(() {
+          for (final e in updated.entries) {
+            _filters[e.key] = e.value;
+          }
+        }),
       ),
     );
   }
@@ -523,236 +519,592 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
 
 // ─── Filters Bottom Sheet ──────────────────────────────────────────
 
-class _FiltersSheet extends StatefulWidget {
-  final Set<String> selectedCategories;
-  final Set<String> selectedLocations;
-  final Set<String> selectedWorkModes;
-  final Set<String> selectedEmploymentTypes;
-  final Set<String> selectedLevels;
-  final void Function(
-    Set<String> categories,
-    Set<String> locations,
-    Set<String> workModes,
-    Set<String> employmentTypes,
-    Set<String> levels,
-  ) onApply;
+const _kFilterOptions = {
+  'Location':         ['Athens', 'Thessaloniki', 'Remote', 'Chalkida', 'Patras'],
+  'Industry':         ['IT & Web Development', 'Design & Creative', 'Sales', 'Marketing', 'Customer Service', 'Logistics', 'Finance', 'Healthcare'],
+  'Skills':           ['Flutter', 'React', 'Python', 'Figma', 'SQL', 'Node.js', 'Swift', 'Kotlin'],
+  'Job Type':         ['Full-Time', 'Part-Time', 'Contract', 'Freelance', 'Internship'],
+  'Workplace':        ['On-site', 'Remote', 'Hybrid'],
+  'Experience Level': ['Entry', 'Junior', 'Mid-level', 'Senior', 'Lead'],
+  'Salary':           ['< 1 000 €', '1 000 – 2 000 €', '2 000 – 3 500 €', '3 500 – 5 000 €', '> 5 000 €'],
+  'Travel':           ['No travel', 'Occasional', 'Frequent', 'International'],
+};
 
-  const _FiltersSheet({
-    required this.selectedCategories,
-    required this.selectedLocations,
-    required this.selectedWorkModes,
-    required this.selectedEmploymentTypes,
-    required this.selectedLevels,
-    required this.onApply,
-  });
+class _FiltersSheet extends StatefulWidget {
+  final Map<String, Set<String>> filters;
+  final void Function(Map<String, Set<String>>) onApply;
+
+  const _FiltersSheet({required this.filters, required this.onApply});
 
   @override
   State<_FiltersSheet> createState() => _FiltersSheetState();
 }
 
 class _FiltersSheetState extends State<_FiltersSheet> {
-  late Set<String> _categories;
-  late Set<String> _locations;
-  late Set<String> _workModes;
-  late Set<String> _employmentTypes;
-  late Set<String> _levels;
+  late Map<String, Set<String>> _local;
 
   @override
   void initState() {
     super.initState();
-    _categories = Set.from(widget.selectedCategories);
-    _locations = Set.from(widget.selectedLocations);
-    _workModes = Set.from(widget.selectedWorkModes);
-    _employmentTypes = Set.from(widget.selectedEmploymentTypes);
-    _levels = Set.from(widget.selectedLevels);
+    _local = {for (final e in widget.filters.entries) e.key: Set.from(e.value)};
   }
 
-  void _clearAll() {
-    setState(() {
-      _categories.clear();
-      _locations.clear();
-      _workModes.clear();
-      _employmentTypes.clear();
-      _levels.clear();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      initialChildSize: 0.85,
-      maxChildSize: 0.95,
-      minChildSize: 0.5,
-      builder: (context, scrollController) => Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+  void _openSubSheet(String filterName) {
+    if (filterName == 'Location') {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (_) => _LocationFilterSheet(
+          selected: Set.from(_local['Location'] ?? {}),
+          onConfirm: (selected) =>
+              setState(() => _local['Location'] = selected),
         ),
-        child: Column(
-          children: [
-            // Header
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Filters',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: IthakiTheme.textPrimary,
-                    ),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.close,
-                        size: 22, color: IthakiTheme.textPrimary),
-                    onPressed: () => Navigator.pop(context),
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 8),
-
-            // Scrollable filter sections
-            Expanded(
-              child: ListView(
-                controller: scrollController,
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                children: [
-                  _buildSection(
-                    'Category',
-                    [
-                      'Design and Creative',
-                      'IT and Web Development',
-                      'Sales',
-                      'Customer Service',
-                      'Admin and Secretarial',
-                      'Marketing',
-                      'Logistics and Supply Chain',
-                      'Arts, Entertainment and Music',
-                    ],
-                    _categories,
-                    (v) => setState(() => _categories = v),
-                  ),
-                  _buildSection(
-                    'Location',
-                    ['Athens', 'Thessaloniki', 'Chalkida'],
-                    _locations,
-                    (v) => setState(() => _locations = v),
-                  ),
-                  _buildSection(
-                    'Work Mode',
-                    ['On-site', 'Remote', 'Hybrid'],
-                    _workModes,
-                    (v) => setState(() => _workModes = v),
-                  ),
-                  _buildSection(
-                    'Employment Type',
-                    ['Full-Time', 'Part-Time', 'Contract', 'Freelance', 'Internship'],
-                    _employmentTypes,
-                    (v) => setState(() => _employmentTypes = v),
-                  ),
-                  _buildSection(
-                    'Level',
-                    ['Entry', 'Junior', 'Mid-level', 'Senior', 'Lead'],
-                    _levels,
-                    (v) => setState(() => _levels = v),
-                  ),
-                  const SizedBox(height: 16),
-                ],
-              ),
-            ),
-
-            // Bottom buttons
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                  24, 12, 24, MediaQuery.of(context).padding.bottom + 16),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: SizedBox(
-                      height: 48,
-                      child: OutlinedButton(
-                        onPressed: _clearAll,
-                        style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: IthakiTheme.borderLight),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                        ),
-                        child: const Text(
-                          'Clear All',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: IthakiTheme.textPrimary,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: SizedBox(
-                      height: 48,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          widget.onApply(
-                            _categories,
-                            _locations,
-                            _workModes,
-                            _employmentTypes,
-                            _levels,
-                          );
-                          Navigator.pop(context);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: IthakiTheme.primaryPurple,
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                        ),
-                        child: const Text(
-                          'Apply',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+      );
+      return;
+    }
+    final options = _kFilterOptions[filterName] ?? [];
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _FilterSubSheet(
+        title: filterName,
+        options: options,
+        selected: Set.from(_local[filterName] ?? {}),
+        onConfirm: (selected) => setState(() => _local[filterName] = selected),
       ),
     );
   }
 
-  Widget _buildSection(
-    String title,
-    List<String> options,
-    Set<String> selected,
-    ValueChanged<Set<String>> onChanged,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).padding.bottom + 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // ── Header ──────────────────────────────────────────
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 16, 8, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Filters',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: IthakiTheme.textPrimary)),
+                IconButton(
+                  icon: const Icon(Icons.close,
+                      size: 22, color: IthakiTheme.textPrimary),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+          ),
+
+          // ── Filter rows ─────────────────────────────────────
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: _kFilterOptions.keys.map((name) {
+                final count = (_local[name] ?? {}).length;
+                return GestureDetector(
+                  onTap: () => _openSubSheet(name),
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 8),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 14),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(color: const Color(0xFFE0E0E0)),
+                    ),
+                    child: Row(children: [
+                      Expanded(
+                        child: Text(name,
+                            style: const TextStyle(
+                                fontSize: 15,
+                                color: IthakiTheme.textPrimary)),
+                      ),
+                      if (count > 0)
+                        Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: IthakiTheme.primaryPurple,
+                            borderRadius: BorderRadius.circular(99),
+                          ),
+                          child: Text('$count',
+                              style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600)),
+                        ),
+                      const Icon(Icons.chevron_right,
+                          color: IthakiTheme.softGraphite, size: 20),
+                    ]),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          // ── Buttons ─────────────────────────────────────────
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () => setState(
+                      () => _local.updateAll((_, __) => {})),
+                  icon: const Icon(Icons.refresh, size: 16),
+                  label: const Text('Reset Filters'),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    side: const BorderSide(color: IthakiTheme.borderLight),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24)),
+                    foregroundColor: IthakiTheme.textPrimary,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    widget.onApply(_local);
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: IthakiTheme.primaryPurple,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24)),
+                  ),
+                  child: const Text('Apply Filters',
+                      style: TextStyle(fontWeight: FontWeight.w600)),
+                ),
+              ),
+            ]),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Filter Sub Sheet ───────────────────────────────────────────────
+
+class _FilterSubSheet extends StatefulWidget {
+  final String title;
+  final List<String> options;
+  final Set<String> selected;
+  final void Function(Set<String>) onConfirm;
+
+  const _FilterSubSheet({
+    required this.title,
+    required this.options,
+    required this.selected,
+    required this.onConfirm,
+  });
+
+  @override
+  State<_FilterSubSheet> createState() => _FilterSubSheetState();
+}
+
+class _FilterSubSheetState extends State<_FilterSubSheet> {
+  late Set<String> _selected;
+
+  @override
+  void initState() {
+    super.initState();
+    _selected = Set.from(widget.selected);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).padding.bottom + 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Header
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 16, 8, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(widget.title,
+                    style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                        color: IthakiTheme.textPrimary)),
+                IconButton(
+                  icon: const Icon(Icons.close,
+                      size: 22, color: IthakiTheme.textPrimary),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          // Options
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: IthakiChipGroup(
+              options: widget.options,
+              selected: _selected,
+              onChanged: (v) => setState(() => _selected = v),
+            ),
+          ),
+          const SizedBox(height: 20),
+          // Confirm button
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  widget.onConfirm(_selected);
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: IthakiTheme.primaryPurple,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24)),
+                ),
+                child: const Text('Done',
+                    style: TextStyle(fontWeight: FontWeight.w600)),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Location Filter Sheet ──────────────────────────────────────────
+
+class _LocationFilterSheet extends ConsumerStatefulWidget {
+  final Set<String> selected;
+  final void Function(Set<String>) onConfirm;
+
+  const _LocationFilterSheet(
+      {required this.selected, required this.onConfirm});
+
+  @override
+  ConsumerState<_LocationFilterSheet> createState() =>
+      _LocationFilterSheetState();
+}
+
+class _LocationFilterSheetState extends ConsumerState<_LocationFilterSheet> {
+  SearchItem? _country;
+  final _searchCtrl = TextEditingController();
+  Timer? _debounce;
+  List<CityResult> _results = [];
+  bool _loading = false;
+  late Set<String> _selected;
+
+  @override
+  void initState() {
+    super.initState();
+    _selected = Set.from(widget.selected);
+  }
+
+  @override
+  void dispose() {
+    _searchCtrl.dispose();
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+  void _pickCountry() {
+    SearchBottomSheet.show(context, 'Select Country', allCountries,
+        (item) => setState(() {
+              _country = item;
+              _searchCtrl.clear();
+              _results = [];
+            }));
+  }
+
+  void _onSearchChanged(String value) {
+    _debounce?.cancel();
+    if (value.trim().length < 2) {
+      setState(() => _results = []);
+      return;
+    }
+    _debounce = Timer(
+        const Duration(milliseconds: 400), () => _search(value.trim()));
+  }
+
+  Future<void> _search(String query) async {
+    setState(() => _loading = true);
+    final results = await ref
+        .read(citySearchServiceProvider)
+        .search(query, countryCode: _country?.id);
+    if (mounted) setState(() { _results = results; _loading = false; });
+  }
+
+  void _toggle(String city) => setState(() =>
+      _selected.contains(city) ? _selected.remove(city) : _selected.add(city));
+
+  @override
+  Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.viewInsetsOf(context).bottom;
+
+    return Container(
+      height: MediaQuery.sizeOf(context).height * 0.85,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      padding: EdgeInsets.only(bottom: bottomPadding + 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: IthakiTheme.fieldLabel),
+          // ── Header ────────────────────────────────────────
+          Padding(
+            padding: const EdgeInsets.fromLTRB(4, 16, 20, 0),
+            child: Row(children: [
+              IconButton(
+                icon: const Icon(Icons.arrow_back,
+                    size: 22, color: IthakiTheme.textPrimary),
+                onPressed: () => Navigator.pop(context),
+              ),
+              const Text('Location',
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: IthakiTheme.textPrimary)),
+            ]),
+          ),
+          const SizedBox(height: 12),
+
+          // ── Country picker ────────────────────────────────
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: GestureDetector(
+              onTap: _pickCountry,
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                      color: _country != null
+                          ? IthakiTheme.primaryPurple
+                          : IthakiTheme.borderLight),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(children: [
+                  if (_country != null) ...[
+                    IthakiFlag(_country!.id, width: 22, height: 16),
+                    const SizedBox(width: 8),
+                  ],
+                  Expanded(
+                    child: Text(
+                      _country?.label ?? 'Select a country first',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: _country != null
+                            ? IthakiTheme.textPrimary
+                            : IthakiTheme.softGraphite,
+                      ),
+                    ),
+                  ),
+                  const Icon(Icons.keyboard_arrow_down,
+                      color: IthakiTheme.softGraphite),
+                ]),
+              ),
+            ),
+          ),
           const SizedBox(height: 10),
-          IthakiChipGroup(
-            options: options,
-            selected: selected,
-            onChanged: onChanged,
+
+          // ── City search ───────────────────────────────────
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: TextField(
+              controller: _searchCtrl,
+              enabled: _country != null,
+              onChanged: _onSearchChanged,
+              decoration: InputDecoration(
+                hintText: _country != null
+                    ? 'Search city in ${_country!.label}…'
+                    : 'Search for Location',
+                hintStyle: const TextStyle(
+                    color: IthakiTheme.softGraphite, fontSize: 14),
+                prefixIcon:
+                    const Icon(Icons.search, color: IthakiTheme.softGraphite),
+                suffixIcon: _loading
+                    ? const Padding(
+                        padding: EdgeInsets.all(12),
+                        child: SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2)))
+                    : null,
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide:
+                        const BorderSide(color: IthakiTheme.borderLight)),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide:
+                        const BorderSide(color: IthakiTheme.borderLight)),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: const BorderSide(
+                        color: IthakiTheme.primaryPurple, width: 1.5)),
+                disabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide:
+                        const BorderSide(color: Color(0xFFEEEEEE))),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                filled: _country == null,
+                fillColor: const Color(0xFFF8F8F8),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 8),
+          const Divider(height: 1, color: Color(0xFFF0F0F0)),
+
+          // ── Checkbox list ─────────────────────────────────
+          Expanded(
+            child: ListView(
+              children: [
+                // "All" row
+                CheckboxListTile(
+                  value: _selected.isEmpty,
+                  onChanged: (_) => setState(() => _selected.clear()),
+                  title: const Text('All',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: IthakiTheme.textPrimary)),
+                  controlAffinity: ListTileControlAffinity.trailing,
+                  activeColor: IthakiTheme.primaryPurple,
+                  checkboxShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4)),
+                ),
+                const Divider(height: 1, color: Color(0xFFF0F0F0)),
+                // Selected cities not currently in results
+                ..._selected
+                    .where((city) => !_results.any((r) => r.city == city))
+                    .map((city) => Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CheckboxListTile(
+                              value: true,
+                              onChanged: (_) => _toggle(city),
+                              title: Text(city,
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: IthakiTheme.textPrimary)),
+                              controlAffinity:
+                                  ListTileControlAffinity.trailing,
+                              activeColor: IthakiTheme.primaryPurple,
+                              checkboxShape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(4)),
+                            ),
+                            const Divider(
+                                height: 1, color: Color(0xFFF0F0F0)),
+                          ],
+                        )),
+                // API results
+                ..._results.map((r) {
+                  final isChosen = _selected.contains(r.city);
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CheckboxListTile(
+                        value: isChosen,
+                        onChanged: (_) => _toggle(r.city),
+                        title: Text(r.city,
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: isChosen
+                                    ? FontWeight.w600
+                                    : FontWeight.w400,
+                                color: IthakiTheme.textPrimary)),
+                        subtitle: r.country.isNotEmpty
+                            ? Text(r.country,
+                                style: const TextStyle(
+                                    fontSize: 12,
+                                    color: IthakiTheme.textSecondary))
+                            : null,
+                        controlAffinity: ListTileControlAffinity.trailing,
+                        activeColor: IthakiTheme.primaryPurple,
+                        checkboxShape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4)),
+                      ),
+                      const Divider(height: 1, color: Color(0xFFF0F0F0)),
+                    ],
+                  );
+                }),
+              ],
+            ),
+          ),
+
+          // ── Buttons ───────────────────────────────────────
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+            child: Row(children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () => setState(() => _selected.clear()),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    side: const BorderSide(color: IthakiTheme.borderLight),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24)),
+                    foregroundColor: IthakiTheme.textPrimary,
+                  ),
+                  child: const Text('Clear'),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    widget.onConfirm(_selected);
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: IthakiTheme.primaryPurple,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24)),
+                  ),
+                  child: const Text('Apply Filter',
+                      style: TextStyle(fontWeight: FontWeight.w600)),
+                ),
+              ),
+            ]),
           ),
         ],
       ),

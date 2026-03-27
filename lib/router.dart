@@ -42,7 +42,7 @@ class IthakiRouter {
     routes: [
       GoRoute(
         path: Routes.root,
-        builder: (context, state) => const SelectLanguageScreen(),
+        builder: (context, state) => const HomeScreen(),
       ),
       GoRoute(
         path: Routes.techComfort,
