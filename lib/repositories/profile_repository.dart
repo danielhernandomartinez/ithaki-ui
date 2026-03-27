@@ -2,20 +2,29 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/profile_models.dart';
 
 abstract class ProfileRepository {
-  ProfileBasics getBasics();
-  ProfileAboutMe getAboutMe();
-  ProfileSkills getSkills();
-  List<WorkExperience> getWorkExperiences();
-  List<Education> getEducations();
-  List<UploadedFile> getFiles();
-  List<String> getValues();
-  ProfileJobPreferences getJobPreferences();
-  bool getProfileVisible();
+  Future<ProfileBasics> getBasics();
+  Future<ProfileAboutMe> getAboutMe();
+  Future<ProfileSkills> getSkills();
+  Future<List<WorkExperience>> getWorkExperiences();
+  Future<List<Education>> getEducations();
+  Future<List<UploadedFile>> getFiles();
+  Future<List<String>> getValues();
+  Future<ProfileJobPreferences> getJobPreferences();
+  Future<bool> getProfileVisible();
+
+  Future<void> saveBasics(ProfileBasics basics);
+  Future<void> saveAboutMe(ProfileAboutMe aboutMe);
+  Future<void> saveSkills(ProfileSkills skills);
+  Future<void> saveWorkExperiences(List<WorkExperience> experiences);
+  Future<void> saveEducations(List<Education> educations);
+  Future<void> saveFiles(List<UploadedFile> files);
+  Future<void> saveValues(List<String> values);
+  Future<void> saveJobPreferences(ProfileJobPreferences prefs);
+  Future<void> saveProfileVisible(bool visible);
 }
 
 class MockProfileRepository implements ProfileRepository {
-  @override
-  ProfileBasics getBasics() => const ProfileBasics(
+  ProfileBasics _basics = const ProfileBasics(
     firstName: 'Christos',
     lastName: 'Ioannides',
     email: 'c.ioannidis@gmail.com',
@@ -29,27 +38,13 @@ class MockProfileRepository implements ProfileRepository {
     status: 'Citizen',
     relocationReadiness: 'Yes',
   );
-
-  @override
-  ProfileAboutMe getAboutMe() => const ProfileAboutMe();
-
-  @override
-  ProfileSkills getSkills() => const ProfileSkills();
-
-  @override
-  List<WorkExperience> getWorkExperiences() => const [];
-
-  @override
-  List<Education> getEducations() => const [];
-
-  @override
-  List<UploadedFile> getFiles() => const [];
-
-  @override
-  List<String> getValues() => const [];
-
-  @override
-  ProfileJobPreferences getJobPreferences() => const ProfileJobPreferences(
+  ProfileAboutMe _aboutMe = const ProfileAboutMe();
+  ProfileSkills _skills = const ProfileSkills();
+  List<WorkExperience> _workExperiences = const [];
+  List<Education> _educations = const [];
+  List<UploadedFile> _files = const [];
+  List<String> _values = const [];
+  ProfileJobPreferences _jobPreferences = const ProfileJobPreferences(
     jobInterests: [
       JobInterest(title: 'Web Developer', category: 'IT & Development'),
     ],
@@ -58,9 +53,49 @@ class MockProfileRepository implements ProfileRepository {
     workplace: 'On-site',
     expectedSalary: 1800,
   );
+  bool _profileVisible = true;
 
   @override
-  bool getProfileVisible() => true;
+  Future<ProfileBasics> getBasics() async => _basics;
+  @override
+  Future<ProfileAboutMe> getAboutMe() async => _aboutMe;
+  @override
+  Future<ProfileSkills> getSkills() async => _skills;
+  @override
+  Future<List<WorkExperience>> getWorkExperiences() async => _workExperiences;
+  @override
+  Future<List<Education>> getEducations() async => _educations;
+  @override
+  Future<List<UploadedFile>> getFiles() async => _files;
+  @override
+  Future<List<String>> getValues() async => _values;
+  @override
+  Future<ProfileJobPreferences> getJobPreferences() async => _jobPreferences;
+  @override
+  Future<bool> getProfileVisible() async => _profileVisible;
+
+  @override
+  Future<void> saveBasics(ProfileBasics basics) async => _basics = basics;
+  @override
+  Future<void> saveAboutMe(ProfileAboutMe aboutMe) async => _aboutMe = aboutMe;
+  @override
+  Future<void> saveSkills(ProfileSkills skills) async => _skills = skills;
+  @override
+  Future<void> saveWorkExperiences(List<WorkExperience> experiences) async =>
+      _workExperiences = experiences;
+  @override
+  Future<void> saveEducations(List<Education> educations) async =>
+      _educations = educations;
+  @override
+  Future<void> saveFiles(List<UploadedFile> files) async => _files = files;
+  @override
+  Future<void> saveValues(List<String> values) async => _values = values;
+  @override
+  Future<void> saveJobPreferences(ProfileJobPreferences prefs) async =>
+      _jobPreferences = prefs;
+  @override
+  Future<void> saveProfileVisible(bool visible) async =>
+      _profileVisible = visible;
 }
 
 final profileRepositoryProvider = Provider<ProfileRepository>(
