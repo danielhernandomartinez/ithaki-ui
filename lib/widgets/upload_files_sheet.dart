@@ -3,6 +3,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../models/profile_models.dart';
+import 'upload_file_tab.dart';
+import 'upload_url_tab.dart';
 
 /// Two-tab bottom sheet: "Upload File" and "Upload via URL".
 /// Simulates upload progress with mock data.
@@ -11,7 +13,8 @@ class UploadFilesSheet extends StatefulWidget {
 
   const UploadFilesSheet({super.key, required this.onContinue});
 
-  static void show(BuildContext context, {required void Function(List<UploadedFile>) onContinue}) {
+  static void show(BuildContext context,
+      {required void Function(List<UploadedFile>) onContinue}) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -66,7 +69,8 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
     });
   }
 
-  bool get _allComplete => _files.isNotEmpty && _files.every((f) => f.isComplete);
+  bool get _allComplete =>
+      _files.isNotEmpty && _files.every((f) => f.isComplete);
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +90,6 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -104,8 +107,6 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
                 ],
               ),
               const SizedBox(height: 12),
-
-              // Tabs
               TabBar(
                 controller: _tabCtrl,
                 labelColor: IthakiTheme.primaryPurple,
@@ -117,19 +118,30 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
                 ],
               ),
               const SizedBox(height: 16),
-
-              // Tab content — flexible so it doesn't overflow
               SizedBox(
                 height: tabHeight,
                 child: TabBarView(
                   controller: _tabCtrl,
                   children: [
-                    _buildUploadFileTab(),
-                    _buildUploadUrlTab(),
+                    UploadFileTab(
+                      files: _files,
+                      onPickFiles: _pickFiles,
+                      onRemoveFile: (f) => setState(() => _files.remove(f)),
+                    ),
+                    UploadUrlTab(
+                      controller: _urlCtrl,
+                      onChanged: (v) => setState(() {
+                        _urlFile = v.trim().isNotEmpty
+                            ? UploadedFile(
+                                name: v.trim(),
+                                size: 'URL',
+                                uploadProgress: 1.0)
+                            : null;
+                      }),
+                    ),
                   ],
                 ),
               ),
-
               const SizedBox(height: 16),
               SizedBox(
                 width: double.infinity,
@@ -152,206 +164,4 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
       ),
     );
   }
-
-  Widget _buildUploadFileTab() {
-    if (_files.isEmpty) {
-      return _buildDropZone();
-    }
-    return ListView(
-      children: [
-        ..._files.map((f) => _buildFileRow(f)),
-        const SizedBox(height: 8),
-        OutlinedButton(
-          onPressed: _pickFiles,
-          style: _outlineStyle(),
-          child: const Text('+ Upload More'),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDropZone() {
-    return DottedBorderBox(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.upload_rounded, size: 32, color: IthakiTheme.softGraphite),
-          const SizedBox(height: 8),
-          const Text(
-            'Tap button to browse\n(max 10 files, up to 5 MB each;\nsupported: .pdf, .doc, .png, .jpg)',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
-          ),
-          const SizedBox(height: 12),
-          IthakiButton('↑ Upload File', onPressed: _pickFiles),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFileRow(UploadedFile f) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 36, height: 36,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade100,
-              borderRadius: BorderRadius.circular(6),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              f.name.contains('.')
-                  ? f.name.split('.').last.toUpperCase()
-                  : 'FILE',
-              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold,
-                  color: IthakiTheme.softGraphite),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(f.name, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600,
-                    color: IthakiTheme.textPrimary)),
-                const SizedBox(height: 2),
-                Text(
-                  f.isComplete ? '${f.size} | Complete' : '${f.size} | Uploading...',
-                  style: const TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
-                ),
-                if (!f.isComplete) ...[
-                  const SizedBox(height: 4),
-                  LinearProgressIndicator(
-                    value: f.uploadProgress,
-                    color: IthakiTheme.primaryPurple,
-                    backgroundColor: Colors.grey.shade200,
-                    minHeight: 3,
-                  ),
-                ],
-              ],
-            ),
-          ),
-          if (f.isComplete)
-            IconButton(
-              icon: const Icon(Icons.delete_outline, size: 18, color: IthakiTheme.softGraphite),
-              onPressed: () => setState(() => _files.remove(f)),
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-            ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildUploadUrlTab() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Provide a link to a document to import it into the system.',
-          style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
-        ),
-        const SizedBox(height: 8),
-        const _BulletText('The link must be active and accessible without login.'),
-        const _BulletText('The document must be in a supported format (PDF, DOC, DOCX).'),
-        const _BulletText('Common services: Google Drive, Dropbox, iCloud.'),
-        const SizedBox(height: 12),
-        TextField(
-          controller: _urlCtrl,
-          onChanged: (v) => setState(() {
-            _urlFile = v.trim().isNotEmpty
-                ? UploadedFile(name: v.trim(), size: 'URL', uploadProgress: 1.0)
-                : null;
-          }),
-          decoration: InputDecoration(
-            hintText: "Add Document's Link",
-            hintStyle: const TextStyle(color: IthakiTheme.softGraphite, fontSize: 14),
-            prefixIcon: const Icon(Icons.link, color: IthakiTheme.softGraphite),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: Colors.grey.shade300)),
-            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: IthakiTheme.primaryPurple)),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          ),
-        ),
-      ],
-    );
-  }
-
-  ButtonStyle _outlineStyle() => OutlinedButton.styleFrom(
-    side: BorderSide(color: Colors.grey.shade300),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(999)),
-    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-    foregroundColor: IthakiTheme.textPrimary,
-    textStyle: const TextStyle(fontSize: 14),
-  );
-}
-
-class _BulletText extends StatelessWidget {
-  final String text;
-  const _BulletText(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('• ', style: TextStyle(color: IthakiTheme.textSecondary, fontSize: 13)),
-          Expanded(child: Text(text,
-              style: const TextStyle(color: IthakiTheme.textSecondary, fontSize: 13))),
-        ],
-      ),
-    );
-  }
-}
-
-/// Simple dashed-border container. Uses a CustomPainter.
-class DottedBorderBox extends StatelessWidget {
-  final Widget child;
-  const DottedBorderBox({super.key, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _DashPainter(),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(24),
-        child: child,
-      ),
-    );
-  }
-}
-
-class _DashPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.grey.shade300
-      ..strokeWidth = 1.5
-      ..style = PaintingStyle.stroke;
-    const dashW = 6.0, gap = 4.0;
-    final rr = RRect.fromRectAndRadius(
-        Rect.fromLTWH(0, 0, size.width, size.height), const Radius.circular(12));
-    final path = Path()..addRRect(rr);
-    final metric = path.computeMetrics().first;
-    double dist = 0;
-    while (dist < metric.length) {
-      canvas.drawPath(metric.extractPath(dist, dist + dashW), paint);
-      dist += dashW + gap;
-    }
-  }
-
-  @override
-  bool shouldRepaint(_DashPainter old) => false;
 }

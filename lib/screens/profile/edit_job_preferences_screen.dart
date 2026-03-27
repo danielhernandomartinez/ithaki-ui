@@ -1,12 +1,15 @@
 // lib/screens/profile/edit_job_preferences_screen.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/profile_models.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/profile_picker_field.dart';
+import '../../widgets/job_interest_tile.dart';
+import '../../widgets/option_chip.dart';
+import '../../widgets/add_job_interest_sheet.dart';
+import '../../widgets/salary_field_row.dart';
 
 class EditJobPreferencesScreen extends ConsumerStatefulWidget {
   const EditJobPreferencesScreen({super.key});
@@ -79,118 +82,17 @@ class _EditJobPreferencesScreenState
     context.pop();
   }
 
-  void _removeInterest(int index) {
-    setState(() {
-      final list = List<JobInterest>.from(_interests);
-      list.removeAt(index);
-      _interests = list;
-    });
-  }
-
-  void _openAddInterest() {
-    final titleCtrl = TextEditingController();
-    final categoryCtrl = TextEditingController();
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (ctx) => Padding(
-        padding:
-            EdgeInsets.only(bottom: MediaQuery.of(ctx).viewInsets.bottom),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('Add Job Interest',
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: IthakiTheme.textPrimary)),
-              const SizedBox(height: 16),
-              IthakiTextField(
-                label: 'Job Title',
-                hint: 'e.g. Web Developer',
-                controller: titleCtrl,
-              ),
-              const SizedBox(height: 12),
-              IthakiTextField(
-                label: 'Category',
-                hint: 'e.g. IT & Development',
-                controller: categoryCtrl,
-              ),
-              const SizedBox(height: 20),
-              IthakiButton('Add', onPressed: () {
-                final title = titleCtrl.text.trim();
-                final category = categoryCtrl.text.trim();
-                if (title.isEmpty || category.isEmpty) return;
-                setState(() {
-                  _interests = [
-                    ..._interests,
-                    JobInterest(title: title, category: category),
-                  ];
-                });
-                Navigator.of(ctx).pop();
-              }),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _optionTile(String label, bool isSelected, VoidCallback onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isSelected
-                ? IthakiTheme.primaryPurple
-                : IthakiTheme.borderLight,
-            width: isSelected ? 2 : 1,
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (isSelected) ...[
-              const Icon(Icons.check,
-                  size: 14, color: IthakiTheme.primaryPurple),
-              const SizedBox(width: 4),
-            ],
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight:
-                    isSelected ? FontWeight.w600 : FontWeight.w400,
-                color: isSelected
-                    ? IthakiTheme.primaryPurple
-                    : IthakiTheme.textPrimary,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
       appBar: IthakiAppBar(showBackButton: true, title: 'Job Preferences'),
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: MediaQuery.viewPaddingOf(context).bottom + 16),
+        padding: EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: 16,
+            bottom: MediaQuery.viewPaddingOf(context).bottom + 16),
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -217,62 +119,20 @@ class _EditJobPreferencesScreenState
               const SizedBox(height: 24),
 
               // ── Job Interests ────────────────────────────────────────
-              ..._interests.asMap().entries.map((e) {
-                final interest = e.value;
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 8),
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF5F5F8),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(children: [
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      alignment: Alignment.center,
-                      child: const IthakiIcon('rocket',
-                          size: 20, color: IthakiTheme.primaryPurple),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(interest.title,
-                              style: const TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: IthakiTheme.textPrimary)),
-                          Text(interest.category,
-                              style: const TextStyle(
-                                  fontSize: 13,
-                                  color: IthakiTheme.textSecondary)),
-                        ],
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => _removeInterest(e.key),
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const IthakiIcon('delete',
-                            size: 16,
-                            color: IthakiTheme.softGraphite),
-                      ),
-                    ),
-                  ]),
-                );
-              }),
+              ..._interests.asMap().entries.map((e) => JobInterestTile(
+                    interest: e.value,
+                    onRemove: () => setState(() {
+                      final list = List<JobInterest>.from(_interests);
+                      list.removeAt(e.key);
+                      _interests = list;
+                    }),
+                  )),
               OutlinedButton.icon(
-                onPressed: _openAddInterest,
+                onPressed: () => AddJobInterestSheet.show(
+                  context,
+                  onAdd: (interest) =>
+                      setState(() => _interests = [..._interests, interest]),
+                ),
                 icon: const Icon(Icons.add, size: 16),
                 label: const Text('Add Another Job Interest'),
                 style: OutlinedButton.styleFrom(
@@ -323,13 +183,12 @@ class _EditJobPreferencesScreenState
                 spacing: 8,
                 runSpacing: 8,
                 children: _jobTypes
-                    .map((t) => _optionTile(
-                          t,
-                          _jobTypeSelected.contains(t),
-                          () => setState(() {
+                    .map((t) => OptionChip(
+                          label: t,
+                          isSelected: _jobTypeSelected.contains(t),
+                          onTap: () => setState(() {
                             if (_jobTypeSelected.contains(t)) {
-                              _jobTypeSelected =
-                                  {..._jobTypeSelected}..remove(t);
+                              _jobTypeSelected = {..._jobTypeSelected}..remove(t);
                             } else {
                               _jobTypeSelected = {..._jobTypeSelected, t};
                             }
@@ -357,18 +216,15 @@ class _EditJobPreferencesScreenState
                 spacing: 8,
                 runSpacing: 8,
                 children: _workplaceTypes
-                    .map((t) => _optionTile(
-                          t,
-                          _workplaceSelected.contains(t),
-                          () => setState(() {
+                    .map((t) => OptionChip(
+                          label: t,
+                          isSelected: _workplaceSelected.contains(t),
+                          onTap: () => setState(() {
                             if (_workplaceSelected.contains(t)) {
                               _workplaceSelected =
                                   {..._workplaceSelected}..remove(t);
                             } else {
-                              _workplaceSelected = {
-                                ..._workplaceSelected,
-                                t
-                              };
+                              _workplaceSelected = {..._workplaceSelected, t};
                             }
                           }),
                         ))
@@ -377,95 +233,20 @@ class _EditJobPreferencesScreenState
               const SizedBox(height: 24),
 
               // ── Expected Payment ─────────────────────────────────────
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('Expected Payment From',
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: IthakiTheme.textPrimary)),
-                        const SizedBox(height: 6),
-                        TextField(
-                          controller: _salaryCtrl,
-                          enabled: !_preferNotToSpecify,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          style: const TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w600),
-                          decoration: InputDecoration(
-                            hintText: '0',
-                            hintStyle: const TextStyle(
-                                color: IthakiTheme.softGraphite),
-                            suffixText: '€',
-                            suffixStyle: const TextStyle(
-                                fontSize: 14,
-                                color: IthakiTheme.textSecondary),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: const BorderSide(
-                                  color: IthakiTheme.borderLight),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: const BorderSide(
-                                  color: IthakiTheme.borderLight),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: const BorderSide(
-                                  color: IthakiTheme.primaryPurple,
-                                  width: 1.5),
-                            ),
-                            disabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: const BorderSide(
-                                  color: IthakiTheme.borderLight),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 14, vertical: 11),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    flex: 2,
-                    child: ProfilePickerField(
-                      label: 'Payment Term',
-                      hint: 'Select',
-                      value: _paymentTerm,
-                      fontSize: 14,
-                      verticalPadding: 11,
-                      arrowSize: 18,
-                      onTap: () => SearchBottomSheet.show(
-                        context,
-                        'Payment Term',
-                        _paymentTerms
-                            .map((t) => SearchItem(id: t, label: t))
-                            .toList(),
-                        (item) =>
-                            setState(() => _paymentTerm = item.id),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              IthakiCheckbox(
-                value: _preferNotToSpecify,
-                onChanged: (v) => setState(() => _preferNotToSpecify = v),
-                child: const Text('Prefer not to specify',
-                    style: TextStyle(
-                        fontSize: 14, color: IthakiTheme.textPrimary)),
+              SalaryFieldRow(
+                controller: _salaryCtrl,
+                preferNotToSpecify: _preferNotToSpecify,
+                paymentTerm: _paymentTerm,
+                onPaymentTermTap: () => SearchBottomSheet.show(
+                  context,
+                  'Payment Term',
+                  _paymentTerms
+                      .map((t) => SearchItem(id: t, label: t))
+                      .toList(),
+                  (item) => setState(() => _paymentTerm = item.id),
+                ),
+                onPreferNotToSpecifyChanged: (v) =>
+                    setState(() => _preferNotToSpecify = v),
               ),
               const SizedBox(height: 28),
               IthakiButton('Save', onPressed: _save),

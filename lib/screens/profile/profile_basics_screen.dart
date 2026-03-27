@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +6,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/countries.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/profile_picker_field.dart';
+import '../../widgets/profile_photo_section.dart';
 
 class ProfileBasicsScreen extends ConsumerStatefulWidget {
   const ProfileBasicsScreen({super.key});
@@ -237,54 +236,9 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // ── Photo ──────────────────────────────────────────
-                Row(children: [
-                  CircleAvatar(
-                    radius: 32,
-                    backgroundColor: IthakiTheme.primaryPurple,
-                    backgroundImage: _photoPath != null
-                        ? FileImage(File(_photoPath!))
-                        : null,
-                    child: _photoPath == null
-                        ? const IthakiIcon('profile', size: 24, color: Colors.white)
-                        : null,
-                  ),
-                  const SizedBox(width: 12),
-                  const Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '5 MB max · PNG or JPG',
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: IthakiTheme.textSecondary),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          'We recommend a professional photo that clearly shows your face.',
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: IthakiTheme.textSecondary),
-                        ),
-                      ],
-                    ),
-                  ),
-                ]),
-                const SizedBox(height: 8),
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton.icon(
-                    onPressed: _pickPhoto,
-                    icon: const IthakiIcon('upload-cloud', size: 16,
-                        color: IthakiTheme.textPrimary),
-                    label: Text(_photoPath == null ? 'Upload Photo' : 'Replace Photo'),
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: IthakiTheme.borderLight),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      foregroundColor: IthakiTheme.textPrimary,
-                    ),
-                  ),
+                ProfilePhotoSection(
+                  photoPath: _photoPath,
+                  onPick: _pickPhoto,
                 ),
                 const SizedBox(height: 20),
 
