@@ -22,6 +22,7 @@ class MockJobSearchRepository implements JobSearchRepository {
   @override
   final List<JobListing> jobs = const [
     JobListing(
+      id: 'job-1',
       jobTitle: 'Office Secretary',
       companyName: 'HelioForce Studio',
       companyInitials: 'HS',
@@ -36,6 +37,7 @@ class MockJobSearchRepository implements JobSearchRepository {
       level: 'Entry',
     ),
     JobListing(
+      id: 'job-2',
       jobTitle: 'Junior Front-End Developer',
       companyName: 'TechWave',
       companyInitials: 'TW',
@@ -50,6 +52,7 @@ class MockJobSearchRepository implements JobSearchRepository {
       level: 'Entry',
     ),
     JobListing(
+      id: 'job-3',
       jobTitle: 'Pianist',
       companyName: 'Aegean Waves Hotel & Restaurant',
       companyInitials: 'AW',
@@ -64,6 +67,7 @@ class MockJobSearchRepository implements JobSearchRepository {
       level: 'Entry',
     ),
     JobListing(
+      id: 'job-4',
       jobTitle: 'Cashier - Grocery Store',
       companyName: 'MarketGR',
       companyInitials: 'MG',
@@ -78,6 +82,7 @@ class MockJobSearchRepository implements JobSearchRepository {
       level: 'Entry',
     ),
     JobListing(
+      id: 'job-5',
       jobTitle: 'Office Assistant',
       companyName: 'PixelPerfect Imaging',
       companyInitials: 'PP',
@@ -91,6 +96,7 @@ class MockJobSearchRepository implements JobSearchRepository {
       level: 'Entry',
     ),
     JobListing(
+      id: 'job-6',
       jobTitle: 'Junior Photographer',
       companyName: 'PixelPerfect Imaging',
       companyInitials: 'PP',
@@ -105,6 +111,7 @@ class MockJobSearchRepository implements JobSearchRepository {
       level: 'Entry',
     ),
     JobListing(
+      id: 'job-7',
       jobTitle: 'Cashier',
       companyName: 'MarketGR',
       companyInitials: 'MG',
@@ -119,6 +126,7 @@ class MockJobSearchRepository implements JobSearchRepository {
       level: 'Entry',
     ),
     JobListing(
+      id: 'job-8',
       jobTitle: 'Administrative Assistant',
       companyName: 'Global Solutions Corp',
       companyInitials: 'GS',
@@ -132,6 +140,7 @@ class MockJobSearchRepository implements JobSearchRepository {
       level: 'Entry',
     ),
     JobListing(
+      id: 'job-9',
       jobTitle: 'Data Entry Clerk',
       companyName: 'MyTech Solutions',
       companyInitials: 'MT',
@@ -145,6 +154,7 @@ class MockJobSearchRepository implements JobSearchRepository {
       level: 'Entry',
     ),
     JobListing(
+      id: 'job-10',
       jobTitle: 'Marketing Intern',
       companyName: 'Creative Agency',
       companyInitials: 'CA',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class JobListing {
+  final String id;
   final String jobTitle;
   final String companyName;
   final String companyInitials;
@@ -17,6 +18,7 @@ class JobListing {
   final bool isSaved;
 
   const JobListing({
+    required this.id,
     required this.jobTitle,
     required this.companyName,
     required this.companyInitials,
