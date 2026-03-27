@@ -8,7 +8,7 @@ class JobSearchSearchBar extends ConsumerWidget {
   const JobSearchSearchBar({super.key});
 
   void _openFilters(BuildContext context, WidgetRef ref) {
-    final filters = ref.read(jobSearchProvider).filters;
+    final filters = ref.read(jobSearchProvider).value?.filters ?? const {};
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -24,7 +24,7 @@ class JobSearchSearchBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final count =
-        ref.watch(jobSearchProvider.select((s) => s.activeFilterCount));
+        ref.watch(jobSearchProvider).value?.activeFilterCount ?? 0;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),

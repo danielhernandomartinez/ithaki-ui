@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import '../../../repositories/job_search_repository.dart';
 import '../../../providers/job_search_provider.dart';
 
 class JobSearchTabBar extends ConsumerWidget {
@@ -9,7 +8,7 @@ class JobSearchTabBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedTab = ref.watch(jobSearchProvider.select((s) => s.selectedTab));
+    final selectedTab = ref.watch(jobSearchProvider).value?.selectedTab ?? 0;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -25,7 +24,7 @@ class JobSearchTabBar extends ConsumerWidget {
             _TabItem(label: 'All Jobs', index: 0, selectedTab: selectedTab),
             const SizedBox(width: 4),
             _TabItem(
-              label: 'Saved (${ref.watch(jobSearchRepositoryProvider).savedCount})',
+              label: 'Saved (${ref.watch(jobSearchProvider).value?.savedCount ?? 0})',
               index: 1,
               selectedTab: selectedTab,
             ),

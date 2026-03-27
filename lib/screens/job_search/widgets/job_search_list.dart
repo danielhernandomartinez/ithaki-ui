@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import '../../../repositories/job_search_repository.dart';
+import '../../../providers/job_search_data_provider.dart';
 import '../../../providers/job_search_provider.dart';
 import '../../../utils/match_colors.dart';
 import '../sort_sheet.dart';
@@ -10,7 +10,7 @@ class JobSearchList extends ConsumerWidget {
   const JobSearchList({super.key});
 
   void _openSort(BuildContext context, WidgetRef ref) {
-    final current = ref.read(jobSearchProvider).sortOption;
+    final current = ref.read(jobSearchProvider).value?.sortOption ?? 'Date: Recent';
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -24,10 +24,12 @@ class JobSearchList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(jobSearchProvider.notifier);
-    final savedIndices =
-        ref.watch(jobSearchProvider.select((s) => s.savedJobIndices));
-    final jobSearchRepo = ref.watch(jobSearchRepositoryProvider);
-    final jobs = jobSearchRepo.jobs;
+    final searchState = ref.watch(jobSearchProvider).value;
+    final searchResult = ref.watch(jobSearchDataProvider).value;
+    if (searchState == null || searchResult == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    final jobs = searchResult.jobs;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -44,7 +46,7 @@ class JobSearchList extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${_fmt(jobSearchRepo.totalJobs)} jobs found',
+                '${_fmt(searchResult.totalJobs)} jobs found',
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -76,8 +78,8 @@ class JobSearchList extends ConsumerWidget {
               employmentType: jobs[i].employmentType,
               level: jobs[i].level,
               postedAgo: jobs[i].postedAgo,
-              isSaved: savedIndices.contains(i),
-              onSave: () => notifier.toggleSaved(i),
+              isSaved: searchState.isSaved(jobs[i].id),
+              onSave: () => notifier.toggleSaved(jobs[i].id),
               onView: () {},
             ),
             if (i < jobs.length - 1) const SizedBox(height: 12),
@@ -107,9 +109,8 @@ class JobSearchPagination extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final totalPages = ref.watch(jobSearchRepositoryProvider).totalPages;
-    final currentPage =
-        ref.watch(jobSearchProvider.select((s) => s.currentPage));
+    final totalPages = ref.watch(jobSearchDataProvider).value?.totalPages ?? 0;
+    final currentPage = ref.watch(jobSearchProvider).value?.currentPage ?? 1;
     final notifier = ref.read(jobSearchProvider.notifier);
 
     final pages = <int>[];

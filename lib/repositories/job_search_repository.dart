@@ -2,25 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/job_search_models.dart';
 
+class JobSearchResult {
+  final List<JobListing> jobs;
+  final int totalJobs;
+  final int totalPages;
+
+  const JobSearchResult({
+    required this.jobs,
+    required this.totalJobs,
+    required this.totalPages,
+  });
+}
+
 abstract class JobSearchRepository {
-  int get totalJobs;
-  int get savedCount;
-  int get totalPages;
-  List<JobListing> get jobs;
+  Future<JobSearchResult> search({
+    Map<String, Set<String>> filters,
+    String sort,
+    int page,
+  });
+
+  Future<Set<String>> getSavedJobIds();
+  Future<void> saveJob(String jobId);
+  Future<void> unsaveJob(String jobId);
 }
 
 class MockJobSearchRepository implements JobSearchRepository {
-  @override
-  final int totalJobs = 1500;
+  final Set<String> _savedIds = {};
 
-  @override
-  final int savedCount = 5;
-
-  @override
-  final int totalPages = 25;
-
-  @override
-  final List<JobListing> jobs = const [
+  static const _allJobs = [
     JobListing(
       id: 'job-1',
       jobTitle: 'Office Secretary',
@@ -169,6 +178,28 @@ class MockJobSearchRepository implements JobSearchRepository {
       level: 'Entry',
     ),
   ];
+
+  @override
+  Future<JobSearchResult> search({
+    Map<String, Set<String>> filters = const {},
+    String sort = 'Date: Recent',
+    int page = 1,
+  }) async {
+    return const JobSearchResult(
+      jobs: _allJobs,
+      totalJobs: 1500,
+      totalPages: 25,
+    );
+  }
+
+  @override
+  Future<Set<String>> getSavedJobIds() async => Set.from(_savedIds);
+
+  @override
+  Future<void> saveJob(String jobId) async => _savedIds.add(jobId);
+
+  @override
+  Future<void> unsaveJob(String jobId) async => _savedIds.remove(jobId);
 }
 
 final jobSearchRepositoryProvider = Provider<JobSearchRepository>(

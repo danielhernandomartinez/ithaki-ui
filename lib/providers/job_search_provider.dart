@@ -1,17 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../repositories/job_search_repository.dart';
 
 class JobSearchState {
   final int selectedTab;
   final int currentPage;
   final String sortOption;
-  final Set<int> savedJobIndices;
+  final Set<String> savedJobIds;
   final Map<String, Set<String>> filters;
 
   const JobSearchState({
     this.selectedTab = 0,
     this.currentPage = 1,
     this.sortOption = 'Date: Recent',
-    this.savedJobIndices = const {},
+    this.savedJobIds = const {},
     this.filters = const {
       'Location': {},
       'Industry': {},
@@ -27,64 +28,81 @@ class JobSearchState {
   int get activeFilterCount =>
       filters.values.fold(0, (sum, s) => sum + s.length);
 
-  bool isSaved(int index) => savedJobIndices.contains(index);
+  int get savedCount => savedJobIds.length;
+
+  bool isSaved(String jobId) => savedJobIds.contains(jobId);
 
   JobSearchState copyWith({
     int? selectedTab,
     int? currentPage,
     String? sortOption,
-    Set<int>? savedJobIndices,
+    Set<String>? savedJobIds,
     Map<String, Set<String>>? filters,
   }) =>
       JobSearchState(
         selectedTab: selectedTab ?? this.selectedTab,
         currentPage: currentPage ?? this.currentPage,
         sortOption: sortOption ?? this.sortOption,
-        savedJobIndices: savedJobIndices ?? this.savedJobIndices,
+        savedJobIds: savedJobIds ?? this.savedJobIds,
         filters: filters ?? this.filters,
       );
 }
 
-class JobSearchNotifier extends Notifier<JobSearchState> {
+class JobSearchNotifier extends AsyncNotifier<JobSearchState> {
   @override
-  JobSearchState build() => const JobSearchState();
+  Future<JobSearchState> build() async {
+    final savedIds =
+        await ref.read(jobSearchRepositoryProvider).getSavedJobIds();
+    return JobSearchState(savedJobIds: savedIds);
+  }
 
-  void selectTab(int tab) => state = state.copyWith(selectedTab: tab);
+  void selectTab(int tab) =>
+      state = AsyncData(state.requireValue.copyWith(selectedTab: tab));
 
-  void changePage(int page) => state = state.copyWith(currentPage: page);
+  void changePage(int page) =>
+      state = AsyncData(state.requireValue.copyWith(currentPage: page));
 
   void nextPage(int totalPages) {
-    if (state.currentPage < totalPages) {
-      state = state.copyWith(currentPage: state.currentPage + 1);
+    final current = state.requireValue;
+    if (current.currentPage < totalPages) {
+      state = AsyncData(current.copyWith(currentPage: current.currentPage + 1));
     }
   }
 
-  void setSort(String option) => state = state.copyWith(sortOption: option);
+  void setSort(String option) =>
+      state = AsyncData(state.requireValue.copyWith(sortOption: option));
 
-  void toggleSaved(int index) {
-    final updated = Set<int>.from(state.savedJobIndices);
-    if (updated.contains(index)) {
-      updated.remove(index);
+  Future<void> toggleSaved(String jobId) async {
+    final current = state.requireValue;
+    final updated = Set<String>.from(current.savedJobIds);
+    if (updated.contains(jobId)) {
+      updated.remove(jobId);
+      await ref.read(jobSearchRepositoryProvider).unsaveJob(jobId);
     } else {
-      updated.add(index);
+      updated.add(jobId);
+      await ref.read(jobSearchRepositoryProvider).saveJob(jobId);
     }
-    state = state.copyWith(savedJobIndices: updated);
+    state = AsyncData(current.copyWith(savedJobIds: updated));
   }
 
   void applyFilters(Map<String, Set<String>> updated) {
-    final merged = Map<String, Set<String>>.from(state.filters);
+    final current = state.requireValue;
+    final merged = Map<String, Set<String>>.from(current.filters);
     for (final e in updated.entries) {
       merged[e.key] = e.value;
     }
-    state = state.copyWith(filters: merged);
+    state = AsyncData(current.copyWith(filters: merged));
   }
 
   void resetFilters() {
-    state = state.copyWith(
-      filters: {for (final k in state.filters.keys) k: {}},
+    final current = state.requireValue;
+    state = AsyncData(
+      current.copyWith(filters: {for (final k in current.filters.keys) k: {}}),
     );
   }
 }
 
 final jobSearchProvider =
-    NotifierProvider<JobSearchNotifier, JobSearchState>(JobSearchNotifier.new);
+    AsyncNotifierProvider<JobSearchNotifier, JobSearchState>(
+  JobSearchNotifier.new,
+);
