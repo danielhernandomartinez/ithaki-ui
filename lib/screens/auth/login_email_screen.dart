@@ -4,7 +4,7 @@ import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
-import '../../widgets/phone_login_footer.dart';
+import '../../widgets/login_method_footer.dart';
 
 class _GoogleLogo extends StatelessWidget {
   final double size;
@@ -183,7 +183,11 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
 
           const SizedBox(height: 24),
 
-          const PhoneLoginFooter(),
+          LoginMethodFooter(
+            promptText: l.preferPhone,
+            buttonLabel: l.signInWithPhone,
+            route: Routes.loginPhone,
+          ),
 
           const SizedBox(height: 32),
         ],

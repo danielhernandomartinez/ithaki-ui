@@ -4,7 +4,7 @@ import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
-import '../../widgets/email_login_footer.dart';
+import '../../widgets/login_method_footer.dart';
 
 class LoginPhoneScreen extends StatefulWidget {
   const LoginPhoneScreen({super.key});
@@ -175,7 +175,11 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
 
               const SizedBox(height: 24),
 
-              const EmailLoginFooter(),
+              LoginMethodFooter(
+                promptText: l.preferEmail,
+                buttonLabel: l.signInWithEmail,
+                route: Routes.loginEmail,
+              ),
 
               const SizedBox(height: 32),
             ],

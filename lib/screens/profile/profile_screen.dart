@@ -148,7 +148,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   },
                   onLogOut: () {
                     _panels.closeProfile();
-                    context.go('/login');
+                    context.go(Routes.root);
                   },
                 ),
               ),
