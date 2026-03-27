@@ -1,3 +1,7 @@
+/// Returns true if [bytes] exceeds [maxMb] megabytes.
+bool exceedsMaxFileSize(int bytes, {int maxMb = 5}) =>
+    bytes > maxMb * 1024 * 1024;
+
 /// Reusable password validation result.
 ///
 /// Shared between register, reset-password, and change-password flows.

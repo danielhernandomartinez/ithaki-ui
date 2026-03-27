@@ -46,7 +46,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     final homeData = ref.watch(homeProvider).value;
     if (homeData == null) return const Scaffold(backgroundColor: IthakiTheme.backgroundViolet, body: Center(child: CircularProgressIndicator()));
     final topOffset =
-        MediaQuery.of(context).padding.top + kToolbarHeight + 16;
+        MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
@@ -145,7 +145,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                   child: const HomeQuestionsSection(),
                 ),
                 const SizedBox(height: 12),
-                SizedBox(height: MediaQuery.of(context).padding.bottom + 16),
+                SizedBox(height: MediaQuery.paddingOf(context).bottom + 16),
               ],
             ),
           ),

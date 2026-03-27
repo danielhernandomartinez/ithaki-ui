@@ -4,17 +4,16 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 List<Color> getMatchGradientColors(String matchLabel) {
   switch (matchLabel) {
     case 'STRONG MATCH':
-      return const [Color(0xFF50C948), Color(0xFF75E767)];
     case 'GREAT MATCH':
-      return const [Color(0xFF50C948), Color(0xFF75E767)];
+      return [IthakiTheme.matchGradientHighStart, IthakiTheme.matchGreen];
     case 'GOOD MATCH':
-      return const [Color(0xFFA8D84E), Color(0xFFC8E86E)];
+      return [IthakiTheme.matchGradientGoodStart, IthakiTheme.matchGradientGoodEnd];
     case 'WEAK MATCH':
-      return const [Color(0xFFE8C84E), Color(0xFFF0DD6E)];
+      return [IthakiTheme.matchGradientWeakStart, IthakiTheme.matchGradientWeakEnd];
     case 'NO BENEFICIARIES MATCH':
-      return const [Color(0xFFBDBDBD), Color(0xFFD0D0D0)];
+      return [IthakiTheme.matchGradientNoneStart, IthakiTheme.matchGradientNoneEnd];
     default:
-      return const [Color(0xFF50C948), Color(0xFF75E767)];
+      return [IthakiTheme.matchGradientHighStart, IthakiTheme.matchGreen];
   }
 }
 
@@ -24,9 +23,9 @@ Color getMatchBgColor(String matchLabel) {
     case 'GREAT MATCH':
       return IthakiTheme.matchBarBg;
     case 'GOOD MATCH':
-      return const Color(0xFFF5F9E8);
+      return IthakiTheme.matchBgGood;
     case 'WEAK MATCH':
-      return const Color(0xFFFDF8E4);
+      return IthakiTheme.matchBgWeak;
     case 'NO BENEFICIARIES MATCH':
       return IthakiTheme.softGray;
     default:

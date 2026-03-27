@@ -250,22 +250,6 @@ Los 39 widgets del design system son puramente presentacionales con callbacks (`
 
 ## 4. Calidad de los Tests
 
-### **[CRÍTICO] 0 Widget Tests — 62 pantallas/widgets sin cobertura de UI**
-
-No existe un solo widget test. La carpeta `test/` contiene únicamente unit tests de providers y utilities.
-
-**Riesgo real:** Un bug de validación en formularios, un error de navegación, o una regresión en la habilitación de un botón son completamente invisibles al CI.
-
-**Ejemplo de lo que falta:**
-```dart
-testWidgets('Botón "Continuar" deshabilitado con email vacío', (tester) async {
-  await tester.pumpWidget(
-    ProviderScope(child: MaterialApp(home: LoginEmailScreen())),
-  );
-  final button = find.byType(IthakiButton);
-  expect(tester.widget<IthakiButton>(button).onPressed, isNull);
-});
-```
 
 ### **[CRÍTICO] 0 Integration Tests — Flujos de usuario críticos sin verificar**
 
@@ -274,44 +258,6 @@ Flujos no testeados:
 - Búsqueda con filtros → Guardar job → Ver tab "Saved"
 - Editar perfil → Guardar → Verificar datos actualizados
 
-### **[CRÍTICO] `CitySearchRepository` — El único cliente HTTP sin un solo test**
-
-```dart
-// lib/repositories/city_search_repository.dart:83-85
-final citySearchRepositoryProvider = Provider<CitySearchRepository>(
-  (ref) => NominatimCitySearch(http.Client()),  // ← http.Client no sobreescribible en tests
-);
-```
-
-La clase `NominatimCitySearch` acepta un `http.Client` en el constructor (buena práctica), pero el **provider no lo expone para sobreescribirse en tests**. Casos sin testear:
-
-- ¿Qué pasa si `statusCode != 200`? (devuelve `[]`, pero nunca se verifica)
-- ¿Qué pasa si el JSON está malformado? → excepción no capturada
-- ¿La deduplicación por `'$city,$country'` funciona correctamente?
-- ¿El filtro por `countryCode` se construye bien en la URL?
-
-**Propuesta:**
-```dart
-test('search deduplicates results by city,country key', () async {
-  final mockClient = MockClient((req) async => http.Response(
-    jsonEncode([
-      {'address': {'city': 'Athens', 'country': 'Greece'}},
-      {'address': {'city': 'Athens', 'country': 'Greece'}}, // duplicado
-    ]),
-    200,
-  ));
-  final service = NominatimCitySearch(mockClient);
-  final results = await service.search('Athens');
-  expect(results.length, 1);
-});
-```
-
-**Requiere añadir a `dev_dependencies`:**
-```yaml
-dev_dependencies:
-  mocktail: ^1.0.4
-  integration_test:
-    sdk: flutter
 ```
 
 ### **[Mejora] Tests existentes — Excelente calidad**
@@ -338,13 +284,8 @@ Lo que SÍ está testeado merece reconocimiento explícito:
 
 | # | Hallazgo | Archivo(s) afectado(s) | Esfuerzo |
 |---|---|---|---|
-| C-1 | Repositorios síncronos — incompatibles con cualquier API real | `lib/repositories/profile_repository.dart`, `lib/providers/profile_provider.dart` | Alto |
 | C-2 | Filtros de Job Search no llegan al repositorio | `lib/repositories/job_search_repository.dart`, `lib/providers/job_search_provider.dart` | Medio |
-| C-3 | `savedJobIndices: Set<int>` — índice posicional en lugar de ID de trabajo | `lib/providers/job_search_provider.dart:7` | Bajo |
-| C-4 | 0 widget tests — 62 pantallas sin ninguna cobertura de UI | `test/` | Alto |
 | C-5 | 0 integration tests — flujos de usuario críticos sin verificar | `test/` | Alto |
-| C-6 | `CitySearchRepository` sin tests — único cliente HTTP del proyecto | `lib/repositories/city_search_repository.dart` | Bajo |
-| C-7 | `mocktail` e `integration_test` ausentes de `pubspec.yaml` | `pubspec.yaml:26-29` | Muy bajo |
 
 ### 🟡 Moderado
 
@@ -374,25 +315,15 @@ Lo que SÍ está testeado merece reconocimiento explícito:
 
 ## 6. Plan de Acción Recomendado
 
-### Fase 1 — Desbloquear el backend
-1. Refactorizar `ProfileRepository` y `HomeRepository` a async — cambiar todos los getters a `Future<T>` y añadir métodos de escritura
-2. Refactorizar `JobSearchRepository` — añadir `Future<List<JobListing>> search({filters, sort, page})` y conectarlo al provider
-3. Convertir los notifiers afectados de `Notifier` a `AsyncNotifier` — siguiendo el patrón de `TourNotifier`
-4. Cambiar `savedJobIndices` de `Set<int>` a `Set<String>` usando un campo `id` en `JobListing`
-
 ### Fase 2 — Cobertura de tests
-5. Añadir `mocktail` e `integration_test` a `pubspec.yaml`
-6. Tests de `CitySearchRepository` con `MockClient` — casos: 200, 400, 500, JSON malformado, deduplicación, filtro por país
-7. Widget tests para auth — `LoginEmailScreen`, `RegisterScreen`, `VerifyOtpScreen`
+7. Widget tests para auth — `VerifyOtpScreen`
 8. Widget tests para profile — `ProfileBasicsScreen` (dirty state, botón Save habilita/deshabilita)
 9. 1 integration test de flujo completo — registro → home
 
 ### Fase 3 — Limpieza y design system
-10. Mover colores de gradiente de `match_colors.dart` a tokens en `ithaki_design_system`
 11. Crear `IthakiSpacing` en el design system
 12. Migrar colores hardcodeados — empezar por `job_search_screen.dart` (30+ instancias)
 13. Mover `_formatNumber()` y validación de 5MB a `utils/`
-14. Reemplazar `MediaQuery.of()` por `MediaQuery.paddingOf()` en home y job search
 
 ---
 

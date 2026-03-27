@@ -38,7 +38,7 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
   @override
   Widget build(BuildContext context) {
     final topOffset =
-        MediaQuery.of(context).padding.top + kToolbarHeight + 16;
+        MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
@@ -107,7 +107,7 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
                         size: 24, color: IthakiTheme.softGraphite),
                   ],
                 ),
-                SizedBox(height: MediaQuery.of(context).padding.bottom + 16),
+                SizedBox(height: MediaQuery.paddingOf(context).bottom + 16),
               ],
             ),
           ),

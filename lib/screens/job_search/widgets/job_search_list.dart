@@ -4,6 +4,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/job_search_data_provider.dart';
 import '../../../providers/job_search_provider.dart';
 import '../../../utils/match_colors.dart';
+import '../../../utils/number_utils.dart';
 import '../sort_sheet.dart';
 
 class JobSearchList extends ConsumerWidget {
@@ -46,7 +47,7 @@ class JobSearchList extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${_fmt(searchResult.totalJobs)} jobs found',
+                '${formatNumber(searchResult.totalJobs)} jobs found',
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -92,16 +93,6 @@ class JobSearchList extends ConsumerWidget {
     );
   }
 
-  String _fmt(int number) {
-    if (number < 1000) return '$number';
-    final str = number.toString();
-    final buf = StringBuffer();
-    for (int i = 0; i < str.length; i++) {
-      if (i > 0 && (str.length - i) % 3 == 0) buf.write(',');
-      buf.write(str[i]);
-    }
-    return buf.toString();
-  }
 }
 
 class JobSearchPagination extends ConsumerWidget {

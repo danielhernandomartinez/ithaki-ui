@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/countries.dart';
+import '../../utils/validators.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/profile_picker_field.dart';
 import '../../widgets/profile_photo_section.dart';
@@ -98,7 +99,7 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
     );
     if (result == null || result.files.isEmpty) return;
     final file = result.files.first;
-    if (file.size > 5 * 1024 * 1024) {
+    if (exceedsMaxFileSize(file.size)) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('File exceeds 5 MB limit')),

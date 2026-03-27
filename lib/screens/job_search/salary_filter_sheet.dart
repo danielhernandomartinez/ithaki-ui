@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../utils/number_utils.dart';
 
 class SalaryFilterSheet extends StatefulWidget {
   final Set<String> selected;
@@ -33,16 +34,6 @@ class _SalaryFilterSheetState extends State<SalaryFilterSheet> {
       }
     }
     _range = const RangeValues(_min, _max);
-  }
-
-  String _fmt(double v) {
-    final s = v.toInt().toString();
-    final buf = StringBuffer();
-    for (int i = 0; i < s.length; i++) {
-      if (i > 0 && (s.length - i) % 3 == 0) buf.write(' ');
-      buf.write(s[i]);
-    }
-    return buf.toString();
   }
 
   @override
@@ -100,7 +91,7 @@ class _SalaryFilterSheetState extends State<SalaryFilterSheet> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(_fmt(_range.start),
+                          Text(formatNumber(_range.start.toInt(), separator: ' '),
                               style: const TextStyle(
                                   fontSize: 15,
                                   color: IthakiTheme.textPrimary)),
@@ -133,7 +124,7 @@ class _SalaryFilterSheetState extends State<SalaryFilterSheet> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(_fmt(_range.end),
+                          Text(formatNumber(_range.end.toInt(), separator: ' '),
                               style: const TextStyle(
                                   fontSize: 15,
                                   color: IthakiTheme.textPrimary)),
