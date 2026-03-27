@@ -96,26 +96,6 @@ Los providers en `lib/providers/` están bien granularizados:
 
 ## 2. God Screens, Code Smells y Malas Prácticas
 
-### **[Crítico] God Screen: `lib/screens/job_search/job_search_screen.dart` — 1,113 líneas**
-
-Este archivo concentra **al menos 7 responsabilidades**:
-
-| Líneas | Responsabilidad |
-|---|---|
-| 18–517 | `JobSearchScreen` — tabs, paginación, filtros, jobs guardados |
-| 506–517 | `_formatNumber()` — lógica de negocio de formato numérico |
-| 533–705 | `_FiltersSheet` — StatefulWidget completo con su propio estado |
-| 707–807 | `_FilterSubSheet` — otra pantalla completa para sub-filtros |
-| 809–1050 | `_LocationFilterSheet` — widget con llamada API directa (línea 863) |
-| 1052–1113 | `_SortSheet` — otro bottom sheet |
-
-**Problema crítico en línea ~863** — llamada a API dentro del árbol de widgets:
-```dart
-final results = await ref
-    .read(citySearchServiceProvider)
-    .search(query, countryCode: _country?.id);
-```
-
 **Propuesta de refactorización:**
 
 ```

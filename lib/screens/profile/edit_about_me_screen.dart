@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../providers/profile_provider.dart';
+import '../../widgets/dotted_border_box.dart';
 import '../../widgets/upload_files_sheet.dart';
 
 class EditAboutMeScreen extends ConsumerStatefulWidget {
