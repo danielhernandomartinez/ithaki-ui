@@ -284,7 +284,7 @@ class ProfileJobPreferencesNotifier extends Notifier<ProfileJobPreferences> {
     double? expectedSalary,
     required bool preferNotToSpecifySalary,
   }) {
-    state = state.copyWith(
+    state = ProfileJobPreferences(
       jobInterests: interests,
       positionLevel: positionLevel,
       jobType: jobType,
