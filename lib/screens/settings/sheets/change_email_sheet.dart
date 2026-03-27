@@ -24,7 +24,7 @@ class _ChangeEmailSheetState extends ConsumerState<ChangeEmailSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final profile = ref.watch(profileBasicsProvider);
+    final profile = ref.watch(profileBasicsProvider).value;
 
     return BottomSheetBase(
       title: 'Change Email',
@@ -46,7 +46,7 @@ class _ChangeEmailSheetState extends ConsumerState<ChangeEmailSheet> {
           ),
           const SizedBox(height: 4),
           Text(
-            profile.email,
+            profile?.email ?? '',
             style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 16),

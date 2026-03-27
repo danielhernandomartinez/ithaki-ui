@@ -37,7 +37,7 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
   @override
   void initState() {
     super.initState();
-    final basics = ref.read(profileBasicsProvider);
+    final basics = ref.read(profileBasicsProvider).requireValue;
     _nameCtrl = TextEditingController(text: basics.firstName);
     _lastNameCtrl = TextEditingController(text: basics.lastName);
     _dobCtrl = TextEditingController(text: basics.dateOfBirth);
@@ -75,7 +75,7 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
   }
 
   void _save() {
-    ref.read(profileBasicsProvider.notifier).update(
+    ref.read(profileBasicsProvider.notifier).save(
       firstName: _nameCtrl.text.trim(),
       lastName: _lastNameCtrl.text.trim(),
       dateOfBirth: _dobCtrl.text.trim(),

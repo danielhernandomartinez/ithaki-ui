@@ -14,7 +14,7 @@ class ProfileHeaderCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prefs = ref.watch(profileJobPreferencesProvider);
+    final prefs = ref.watch(profileJobPreferencesProvider).value;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
@@ -49,9 +49,9 @@ class ProfileHeaderCard extends ConsumerWidget {
                   color: IthakiTheme.textPrimary),
             ),
             Text(
-              prefs.jobInterests.isNotEmpty
+              prefs != null && prefs.jobInterests.isNotEmpty
                   ? prefs.jobInterests.first.title
-                  : prefs.jobType.isNotEmpty
+                  : prefs != null && prefs.jobType.isNotEmpty
                       ? prefs.jobType
                       : 'Job Seeker',
               style: const TextStyle(

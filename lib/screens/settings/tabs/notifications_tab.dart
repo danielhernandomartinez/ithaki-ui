@@ -35,7 +35,7 @@ class NotificationsTab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsProvider);
     final notifier = ref.read(settingsProvider.notifier);
-    final profile = ref.watch(profileBasicsProvider);
+    final profile = ref.watch(profileBasicsProvider).value;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +63,7 @@ class NotificationsTab extends ConsumerWidget {
               IthakiOptionCard(
                 showLeadingCheckbox: true,
                 label: 'WhatsApp',
-                subtitle: profile.phone.isNotEmpty ? profile.phone : null,
+                subtitle: (profile?.phone ?? '').isNotEmpty ? profile!.phone : null,
                 isSelected: settings.whatsappEnabled,
                 onTap: () => notifier.toggleChannel('whatsapp'),
               ),
@@ -71,7 +71,7 @@ class NotificationsTab extends ConsumerWidget {
               IthakiOptionCard(
                 showLeadingCheckbox: true,
                 label: 'SMS',
-                subtitle: profile.phone.isNotEmpty ? profile.phone : null,
+                subtitle: (profile?.phone ?? '').isNotEmpty ? profile!.phone : null,
                 isSelected: settings.smsEnabled,
                 onTap: () => notifier.toggleChannel('sms'),
               ),

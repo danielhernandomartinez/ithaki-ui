@@ -45,7 +45,7 @@ class _EditJobPreferencesScreenState
   @override
   void initState() {
     super.initState();
-    final p = ref.read(profileJobPreferencesProvider);
+    final p = ref.read(profileJobPreferencesProvider).requireValue;
     _interests = List<JobInterest>.from(p.jobInterests);
     _positionLevel = p.positionLevel;
     _jobTypeSelected =
@@ -65,7 +65,7 @@ class _EditJobPreferencesScreenState
 
   void _save() {
     final salary = double.tryParse(_salaryCtrl.text.trim());
-    ref.read(profileJobPreferencesProvider.notifier).update(
+    ref.read(profileJobPreferencesProvider.notifier).save(
           interests: _interests,
           positionLevel: _positionLevel,
           jobType:

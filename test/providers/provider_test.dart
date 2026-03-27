@@ -1,7 +1,6 @@
 // test/providers/provider_test.dart
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ithaki_ui/models/profile_models.dart';
 import 'package:ithaki_ui/providers/profile_provider.dart';
 import 'package:ithaki_ui/providers/registration_provider.dart';
 
@@ -10,18 +9,18 @@ import 'package:ithaki_ui/providers/registration_provider.dart';
 
 class _BioFilledNotifier extends ProfileAboutMeNotifier {
   @override
-  ProfileAboutMe build() => const ProfileAboutMe(bio: 'Pre-set bio');
+  Future<ProfileAboutMe> build() async => const ProfileAboutMe(bio: 'Pre-set bio');
 }
 
 class _PhotoFilledNotifier extends ProfileBasicsNotifier {
   @override
-  ProfileBasics build() =>
+  Future<ProfileBasics> build() async =>
       const ProfileBasics(photoUrl: 'https://img.test/photo.jpg');
 }
 
 class _OneExpNotifier extends ProfileWorkExperiencesNotifier {
   @override
-  List<WorkExperience> build() => const [
+  Future<List<WorkExperience>> build() async => const [
         WorkExperience(
           jobTitle: 'Dev',
           companyName: 'Co',
@@ -36,7 +35,7 @@ class _OneExpNotifier extends ProfileWorkExperiencesNotifier {
 
 class _OneEduNotifier extends ProfileEducationsNotifier {
   @override
-  List<Education> build() => const [
+  Future<List<Education>> build() async => const [
         Education(
           institutionName: 'Uni',
           fieldOfStudy: 'CS',
@@ -49,12 +48,12 @@ class _OneEduNotifier extends ProfileEducationsNotifier {
 
 class _OneSkillNotifier extends ProfileSkillsNotifier {
   @override
-  ProfileSkills build() => const ProfileSkills(hardSkills: ['Dart']);
+  Future<ProfileSkills> build() async => const ProfileSkills(hardSkills: ['Dart']);
 }
 
 class _OneFileNotifier extends ProfileFilesNotifier {
   @override
-  List<UploadedFile> build() =>
+  Future<List<UploadedFile>> build() async =>
       const [UploadedFile(name: 'cv.pdf', size: '1 MB')];
 }
 
@@ -167,18 +166,19 @@ void main() {
   // ─── profileBasicsProvider ────────────────────────────────────────────────
 
   group('profileBasicsProvider', () {
-    test('initial state has hard-coded defaults', () {
+    test('initial state has hard-coded defaults', () async {
       final c = ProviderContainer.test();
-      final s = c.read(profileBasicsProvider);
+      final s = await c.read(profileBasicsProvider.future);
       expect(s.firstName, 'Christos');
       expect(s.lastName, 'Ioannides');
       expect(s.email, 'c.ioannidis@gmail.com');
       expect(s.photoUrl, isNull);
     });
 
-    test('update replaces the provided fields', () {
+    test('save replaces the provided fields', () async {
       final c = ProviderContainer.test();
-      c.read(profileBasicsProvider.notifier).update(
+      await c.read(profileBasicsProvider.future);
+      await c.read(profileBasicsProvider.notifier).save(
             firstName: 'Maria',
             lastName: 'García',
             dateOfBirth: '15-06-1990',
@@ -188,15 +188,16 @@ void main() {
             status: 'Citizen',
             relocationReadiness: 'No',
           );
-      final s = c.read(profileBasicsProvider);
+      final s = c.read(profileBasicsProvider).requireValue;
       expect(s.firstName, 'Maria');
       expect(s.lastName, 'García');
       expect(s.gender, 'Female');
     });
 
-    test('update with photoUrl sets photoUrl', () {
+    test('save with photoUrl sets photoUrl', () async {
       final c = ProviderContainer.test();
-      c.read(profileBasicsProvider.notifier).update(
+      await c.read(profileBasicsProvider.future);
+      await c.read(profileBasicsProvider.notifier).save(
             firstName: 'X',
             lastName: 'Y',
             dateOfBirth: '01-01-2000',
@@ -207,7 +208,7 @@ void main() {
             relocationReadiness: 'Yes',
             photoUrl: 'https://cdn.test/avatar.jpg',
           );
-      expect(c.read(profileBasicsProvider).photoUrl,
+      expect(c.read(profileBasicsProvider).requireValue.photoUrl,
           'https://cdn.test/avatar.jpg');
     });
   });
@@ -215,78 +216,86 @@ void main() {
   // ─── profileAboutMeProvider ───────────────────────────────────────────────
 
   group('profileAboutMeProvider', () {
-    test('initial bio is empty, videoUrl is null', () {
+    test('initial bio is empty, videoUrl is null', () async {
       final c = ProviderContainer.test();
-      final s = c.read(profileAboutMeProvider);
+      final s = await c.read(profileAboutMeProvider.future);
       expect(s.bio, '');
       expect(s.videoUrl, isNull);
     });
 
-    test('update sets bio and videoUrl', () {
+    test('save sets bio and videoUrl', () async {
       final c = ProviderContainer.test();
-      c.read(profileAboutMeProvider.notifier)
-          .update('Software dev', videoUrl: 'https://youtu.be/xyz');
-      final s = c.read(profileAboutMeProvider);
+      await c.read(profileAboutMeProvider.future);
+      await c.read(profileAboutMeProvider.notifier)
+          .save('Software dev', videoUrl: 'https://youtu.be/xyz');
+      final s = c.read(profileAboutMeProvider).requireValue;
       expect(s.bio, 'Software dev');
       expect(s.videoUrl, 'https://youtu.be/xyz');
     });
 
-    test('update with only bio leaves videoUrl null', () {
+    test('save with only bio leaves videoUrl null', () async {
       final c = ProviderContainer.test();
-      c.read(profileAboutMeProvider.notifier).update('Just bio');
-      expect(c.read(profileAboutMeProvider).videoUrl, isNull);
+      await c.read(profileAboutMeProvider.future);
+      await c.read(profileAboutMeProvider.notifier).save('Just bio');
+      expect(c.read(profileAboutMeProvider).requireValue.videoUrl, isNull);
     });
 
-    test('update overwrites previous bio', () {
+    test('save overwrites previous bio', () async {
       final c = ProviderContainer.test();
-      c.read(profileAboutMeProvider.notifier).update('First');
-      c.read(profileAboutMeProvider.notifier).update('Second');
-      expect(c.read(profileAboutMeProvider).bio, 'Second');
+      await c.read(profileAboutMeProvider.future);
+      await c.read(profileAboutMeProvider.notifier).save('First');
+      await c.read(profileAboutMeProvider.notifier).save('Second');
+      expect(c.read(profileAboutMeProvider).requireValue.bio, 'Second');
     });
   });
 
   // ─── profileSkillsProvider ────────────────────────────────────────────────
 
   group('profileSkillsProvider', () {
-    test('initial state is fully empty', () {
+    test('initial state is fully empty', () async {
       final c = ProviderContainer.test();
-      final s = c.read(profileSkillsProvider);
+      final s = await c.read(profileSkillsProvider.future);
       expect(s.hardSkills, isEmpty);
       expect(s.softSkills, isEmpty);
       expect(s.languages, isEmpty);
       expect(s.competencies, isEmpty);
     });
 
-    test('updateSkills sets hard and soft skills', () {
+    test('updateSkills sets hard and soft skills', () async {
       final c = ProviderContainer.test();
-      c.read(profileSkillsProvider.notifier)
+      await c.read(profileSkillsProvider.future);
+      await c.read(profileSkillsProvider.notifier)
           .updateSkills(['Dart', 'Flutter'], ['Teamwork']);
-      final s = c.read(profileSkillsProvider);
+      final s = c.read(profileSkillsProvider).requireValue;
       expect(s.hardSkills, ['Dart', 'Flutter']);
       expect(s.softSkills, ['Teamwork']);
     });
 
-    test('updateSkills replaces previous lists', () {
+    test('updateSkills replaces previous lists', () async {
       final c = ProviderContainer.test();
-      c.read(profileSkillsProvider.notifier).updateSkills(['A'], ['B']);
-      c.read(profileSkillsProvider.notifier).updateSkills(['C'], []);
-      expect(c.read(profileSkillsProvider).hardSkills, ['C']);
-      expect(c.read(profileSkillsProvider).softSkills, isEmpty);
+      await c.read(profileSkillsProvider.future);
+      await c.read(profileSkillsProvider.notifier).updateSkills(['A'], ['B']);
+      await c.read(profileSkillsProvider.notifier).updateSkills(['C'], []);
+      expect(c.read(profileSkillsProvider).requireValue.hardSkills, ['C']);
+      expect(c.read(profileSkillsProvider).requireValue.softSkills, isEmpty);
     });
 
-    test('updateLanguages sets language list', () {
+    test('updateLanguages sets language list', () async {
       final c = ProviderContainer.test();
+      await c.read(profileSkillsProvider.future);
       const lang = Language(language: 'English', proficiency: 'Fluent');
-      c.read(profileSkillsProvider.notifier).updateLanguages([lang]);
+      await c.read(profileSkillsProvider.notifier).updateLanguages([lang]);
       expect(
-          c.read(profileSkillsProvider).languages.first.language, 'English');
+          c.read(profileSkillsProvider).requireValue.languages.first.language,
+          'English');
     });
 
-    test('updateCompetencies sets competency map', () {
+    test('updateCompetencies sets competency map', () async {
       final c = ProviderContainer.test();
-      c.read(profileSkillsProvider.notifier)
+      await c.read(profileSkillsProvider.future);
+      await c.read(profileSkillsProvider.notifier)
           .updateCompetencies({'leadership': 'Advanced'});
-      expect(c.read(profileSkillsProvider).competencies,
+      expect(c.read(profileSkillsProvider).requireValue.competencies,
           {'leadership': 'Advanced'});
     });
   });
@@ -294,137 +303,160 @@ void main() {
   // ─── profileWorkExperiencesProvider ──────────────────────────────────────
 
   group('profileWorkExperiencesProvider', () {
-    test('initial state is empty list', () {
+    test('initial state is empty list', () async {
       expect(
-          ProviderContainer.test().read(profileWorkExperiencesProvider),
+          await ProviderContainer.test().read(profileWorkExperiencesProvider.future),
           isEmpty);
     });
 
-    test('add appends a new experience', () {
+    test('add appends a new experience', () async {
       final c = ProviderContainer.test();
-      c.read(profileWorkExperiencesProvider.notifier).add(_sampleExp);
-      expect(c.read(profileWorkExperiencesProvider).length, 1);
-      expect(c.read(profileWorkExperiencesProvider).first.jobTitle,
+      await c.read(profileWorkExperiencesProvider.future);
+      await c.read(profileWorkExperiencesProvider.notifier).add(_sampleExp);
+      expect(c.read(profileWorkExperiencesProvider).requireValue.length, 1);
+      expect(
+          c.read(profileWorkExperiencesProvider).requireValue.first.jobTitle,
           'Developer');
     });
 
-    test('add twice results in two items', () {
+    test('add twice results in two items', () async {
       final c = ProviderContainer.test();
-      c.read(profileWorkExperiencesProvider.notifier).add(_sampleExp);
-      c.read(profileWorkExperiencesProvider.notifier)
+      await c.read(profileWorkExperiencesProvider.future);
+      await c.read(profileWorkExperiencesProvider.notifier).add(_sampleExp);
+      await c.read(profileWorkExperiencesProvider.notifier)
           .add(_sampleExp.copyWith(jobTitle: 'Lead'));
-      expect(c.read(profileWorkExperiencesProvider).length, 2);
+      expect(c.read(profileWorkExperiencesProvider).requireValue.length, 2);
     });
 
-    test('update replaces experience at given index', () {
+    test('save replaces experience at given index', () async {
       final c = ProviderContainer.test();
-      c.read(profileWorkExperiencesProvider.notifier).add(_sampleExp);
-      c.read(profileWorkExperiencesProvider.notifier)
-          .update(0, _sampleExp.copyWith(jobTitle: 'Lead'));
-      expect(c.read(profileWorkExperiencesProvider).first.jobTitle, 'Lead');
+      await c.read(profileWorkExperiencesProvider.future);
+      await c.read(profileWorkExperiencesProvider.notifier).add(_sampleExp);
+      await c.read(profileWorkExperiencesProvider.notifier)
+          .save(0, _sampleExp.copyWith(jobTitle: 'Lead'));
+      expect(
+          c.read(profileWorkExperiencesProvider).requireValue.first.jobTitle,
+          'Lead');
     });
   });
 
   // ─── profileEducationsProvider ────────────────────────────────────────────
 
   group('profileEducationsProvider', () {
-    test('initial state is empty list', () {
+    test('initial state is empty list', () async {
       expect(
-          ProviderContainer.test().read(profileEducationsProvider), isEmpty);
+          await ProviderContainer.test().read(profileEducationsProvider.future),
+          isEmpty);
     });
 
-    test('add appends a new education', () {
+    test('add appends a new education', () async {
       final c = ProviderContainer.test();
-      c.read(profileEducationsProvider.notifier).add(_sampleEdu);
-      expect(c.read(profileEducationsProvider).length, 1);
+      await c.read(profileEducationsProvider.future);
+      await c.read(profileEducationsProvider.notifier).add(_sampleEdu);
+      expect(c.read(profileEducationsProvider).requireValue.length, 1);
       expect(
-          c.read(profileEducationsProvider).first.institutionName, 'UPM');
+          c.read(profileEducationsProvider).requireValue.first.institutionName,
+          'UPM');
     });
 
-    test('add twice results in two items', () {
+    test('add twice results in two items', () async {
       final c = ProviderContainer.test();
-      c.read(profileEducationsProvider.notifier).add(_sampleEdu);
-      c.read(profileEducationsProvider.notifier)
+      await c.read(profileEducationsProvider.future);
+      await c.read(profileEducationsProvider.notifier).add(_sampleEdu);
+      await c.read(profileEducationsProvider.notifier)
           .add(_sampleEdu.copyWith(degreeType: 'Master'));
-      expect(c.read(profileEducationsProvider).length, 2);
+      expect(c.read(profileEducationsProvider).requireValue.length, 2);
     });
 
-    test('update replaces education at given index', () {
+    test('save replaces education at given index', () async {
       final c = ProviderContainer.test();
-      c.read(profileEducationsProvider.notifier).add(_sampleEdu);
-      c.read(profileEducationsProvider.notifier)
-          .update(0, _sampleEdu.copyWith(degreeType: 'Master'));
+      await c.read(profileEducationsProvider.future);
+      await c.read(profileEducationsProvider.notifier).add(_sampleEdu);
+      await c.read(profileEducationsProvider.notifier)
+          .save(0, _sampleEdu.copyWith(degreeType: 'Master'));
       expect(
-          c.read(profileEducationsProvider).first.degreeType, 'Master');
+          c.read(profileEducationsProvider).requireValue.first.degreeType,
+          'Master');
     });
   });
 
   // ─── profileFilesProvider ─────────────────────────────────────────────────
 
   group('profileFilesProvider', () {
-    test('initial state is empty list', () {
-      expect(ProviderContainer.test().read(profileFilesProvider), isEmpty);
+    test('initial state is empty list', () async {
+      expect(
+          await ProviderContainer.test().read(profileFilesProvider.future),
+          isEmpty);
     });
 
-    test('add appends a file', () {
+    test('add appends a file', () async {
       final c = ProviderContainer.test();
-      c.read(profileFilesProvider.notifier).add(_sampleFile);
-      expect(c.read(profileFilesProvider).length, 1);
-      expect(c.read(profileFilesProvider).first.name, 'cv.pdf');
+      await c.read(profileFilesProvider.future);
+      await c.read(profileFilesProvider.notifier).add(_sampleFile);
+      expect(c.read(profileFilesProvider).requireValue.length, 1);
+      expect(c.read(profileFilesProvider).requireValue.first.name, 'cv.pdf');
     });
 
-    test('delete removes file at index, preserving order', () {
+    test('delete removes file at index, preserving order', () async {
       final c = ProviderContainer.test();
+      await c.read(profileFilesProvider.future);
       const second = UploadedFile(name: 'cert.pdf', size: '50 KB');
-      c.read(profileFilesProvider.notifier).add(_sampleFile);
-      c.read(profileFilesProvider.notifier).add(second);
-      c.read(profileFilesProvider.notifier).delete(0);
-      expect(c.read(profileFilesProvider).length, 1);
-      expect(c.read(profileFilesProvider).first.name, 'cert.pdf');
+      await c.read(profileFilesProvider.notifier).add(_sampleFile);
+      await c.read(profileFilesProvider.notifier).add(second);
+      await c.read(profileFilesProvider.notifier).delete(0);
+      expect(c.read(profileFilesProvider).requireValue.length, 1);
+      expect(c.read(profileFilesProvider).requireValue.first.name, 'cert.pdf');
     });
 
-    test('delete last item results in empty list', () {
+    test('delete last item results in empty list', () async {
       final c = ProviderContainer.test();
-      c.read(profileFilesProvider.notifier).add(_sampleFile);
-      c.read(profileFilesProvider.notifier).delete(0);
-      expect(c.read(profileFilesProvider), isEmpty);
+      await c.read(profileFilesProvider.future);
+      await c.read(profileFilesProvider.notifier).add(_sampleFile);
+      await c.read(profileFilesProvider.notifier).delete(0);
+      expect(c.read(profileFilesProvider).requireValue, isEmpty);
     });
   });
 
   // ─── profileValuesProvider ────────────────────────────────────────────────
 
   group('profileValuesProvider', () {
-    test('initial state is empty list', () {
-      expect(ProviderContainer.test().read(profileValuesProvider), isEmpty);
+    test('initial state is empty list', () async {
+      expect(
+          await ProviderContainer.test().read(profileValuesProvider.future),
+          isEmpty);
     });
 
-    test('update sets values list', () {
+    test('save sets values list', () async {
       final c = ProviderContainer.test();
-      c.read(profileValuesProvider.notifier).update(['Integrity', 'Innovation']);
-      expect(c.read(profileValuesProvider), ['Integrity', 'Innovation']);
+      await c.read(profileValuesProvider.future);
+      await c.read(profileValuesProvider.notifier).save(['Integrity', 'Innovation']);
+      expect(c.read(profileValuesProvider).requireValue,
+          ['Integrity', 'Innovation']);
     });
 
-    test('update replaces previous list entirely', () {
+    test('save replaces previous list entirely', () async {
       final c = ProviderContainer.test();
-      c.read(profileValuesProvider.notifier).update(['A', 'B', 'C']);
-      c.read(profileValuesProvider.notifier).update(['X']);
-      expect(c.read(profileValuesProvider), ['X']);
+      await c.read(profileValuesProvider.future);
+      await c.read(profileValuesProvider.notifier).save(['A', 'B', 'C']);
+      await c.read(profileValuesProvider.notifier).save(['X']);
+      expect(c.read(profileValuesProvider).requireValue, ['X']);
     });
 
-    test('update with empty list clears values', () {
+    test('save with empty list clears values', () async {
       final c = ProviderContainer.test();
-      c.read(profileValuesProvider.notifier).update(['Integrity']);
-      c.read(profileValuesProvider.notifier).update([]);
-      expect(c.read(profileValuesProvider), isEmpty);
+      await c.read(profileValuesProvider.future);
+      await c.read(profileValuesProvider.notifier).save(['Integrity']);
+      await c.read(profileValuesProvider.notifier).save([]);
+      expect(c.read(profileValuesProvider).requireValue, isEmpty);
     });
   });
 
   // ─── profileJobPreferencesProvider ───────────────────────────────────────
 
   group('profileJobPreferencesProvider', () {
-    test('initial state has expected defaults', () {
+    test('initial state has expected defaults', () async {
       final c = ProviderContainer.test();
-      final s = c.read(profileJobPreferencesProvider);
+      final s = await c.read(profileJobPreferencesProvider.future);
       expect(s.positionLevel, 'Senior');
       expect(s.jobType, 'Full time');
       expect(s.workplace, 'On-site');
@@ -433,9 +465,10 @@ void main() {
       expect(s.jobInterests, isNotEmpty);
     });
 
-    test('update changes all preference fields', () {
+    test('save changes all preference fields', () async {
       final c = ProviderContainer.test();
-      c.read(profileJobPreferencesProvider.notifier).update(
+      await c.read(profileJobPreferencesProvider.future);
+      await c.read(profileJobPreferencesProvider.notifier).save(
             interests: [
               const JobInterest(title: 'PM', category: 'Management')
             ],
@@ -445,7 +478,7 @@ void main() {
             expectedSalary: 1200,
             preferNotToSpecifySalary: false,
           );
-      final s = c.read(profileJobPreferencesProvider);
+      final s = c.read(profileJobPreferencesProvider).requireValue;
       expect(s.positionLevel, 'Junior');
       expect(s.jobType, 'Part time');
       expect(s.workplace, 'Remote');
@@ -453,16 +486,18 @@ void main() {
       expect(s.jobInterests.first.title, 'PM');
     });
 
-    test('preferNotToSpecifySalary can be toggled on', () {
+    test('preferNotToSpecifySalary can be toggled on', () async {
       final c = ProviderContainer.test();
-      c.read(profileJobPreferencesProvider.notifier).update(
+      await c.read(profileJobPreferencesProvider.future);
+      await c.read(profileJobPreferencesProvider.notifier).save(
             interests: [],
             positionLevel: 'Mid',
             jobType: 'Full time',
             workplace: 'Hybrid',
             preferNotToSpecifySalary: true,
           );
-      expect(c.read(profileJobPreferencesProvider).preferNotToSpecifySalary,
+      expect(
+          c.read(profileJobPreferencesProvider).requireValue.preferNotToSpecifySalary,
           true);
     });
   });
@@ -470,21 +505,25 @@ void main() {
   // ─── profileVisibleProvider ───────────────────────────────────────────────
 
   group('profileVisibleProvider', () {
-    test('initial state is true (visible)', () {
-      expect(ProviderContainer.test().read(profileVisibleProvider), true);
+    test('initial state is true (visible)', () async {
+      expect(
+          await ProviderContainer.test().read(profileVisibleProvider.future),
+          true);
     });
 
-    test('toggle flips to false', () {
+    test('toggle flips to false', () async {
       final c = ProviderContainer.test();
-      c.read(profileVisibleProvider.notifier).toggle();
-      expect(c.read(profileVisibleProvider), false);
+      await c.read(profileVisibleProvider.future);
+      await c.read(profileVisibleProvider.notifier).toggle();
+      expect(c.read(profileVisibleProvider).requireValue, false);
     });
 
-    test('double toggle returns to true', () {
+    test('double toggle returns to true', () async {
       final c = ProviderContainer.test();
-      c.read(profileVisibleProvider.notifier).toggle();
-      c.read(profileVisibleProvider.notifier).toggle();
-      expect(c.read(profileVisibleProvider), true);
+      await c.read(profileVisibleProvider.future);
+      await c.read(profileVisibleProvider.notifier).toggle();
+      await c.read(profileVisibleProvider.notifier).toggle();
+      expect(c.read(profileVisibleProvider).requireValue, true);
     });
   });
 
@@ -497,48 +536,54 @@ void main() {
       expect(ProviderContainer.test().read(profileCompletionProvider), 0.0);
     });
 
-    test('bio filled → 1/6 via direct mutation', () {
+    test('bio filled → 1/6 via direct mutation', () async {
       final c = ProviderContainer.test();
-      c.read(profileAboutMeProvider.notifier).update('Hello world');
+      await c.read(profileAboutMeProvider.future);
+      await c.read(profileAboutMeProvider.notifier).save('Hello world');
       expect(c.read(profileCompletionProvider), closeTo(1 / 6, 0.001));
     });
 
-    test('photo set → 1/6 via override', () {
+    test('photo set → 1/6 via override', () async {
       final c = ProviderContainer.test(overrides: [
         profileBasicsProvider.overrideWith(_PhotoFilledNotifier.new),
       ]);
+      await c.read(profileBasicsProvider.future);
       expect(c.read(profileCompletionProvider), closeTo(1 / 6, 0.001));
     });
 
-    test('experience added → 1/6 via override', () {
+    test('experience added → 1/6 via override', () async {
       final c = ProviderContainer.test(overrides: [
         profileWorkExperiencesProvider.overrideWith(_OneExpNotifier.new),
       ]);
+      await c.read(profileWorkExperiencesProvider.future);
       expect(c.read(profileCompletionProvider), closeTo(1 / 6, 0.001));
     });
 
-    test('education added → 1/6 via override', () {
+    test('education added → 1/6 via override', () async {
       final c = ProviderContainer.test(overrides: [
         profileEducationsProvider.overrideWith(_OneEduNotifier.new),
       ]);
+      await c.read(profileEducationsProvider.future);
       expect(c.read(profileCompletionProvider), closeTo(1 / 6, 0.001));
     });
 
-    test('skills added → 1/6 via override', () {
+    test('skills added → 1/6 via override', () async {
       final c = ProviderContainer.test(overrides: [
         profileSkillsProvider.overrideWith(_OneSkillNotifier.new),
       ]);
+      await c.read(profileSkillsProvider.future);
       expect(c.read(profileCompletionProvider), closeTo(1 / 6, 0.001));
     });
 
-    test('file added → 1/6 via override', () {
+    test('file added → 1/6 via override', () async {
       final c = ProviderContainer.test(overrides: [
         profileFilesProvider.overrideWith(_OneFileNotifier.new),
       ]);
+      await c.read(profileFilesProvider.future);
       expect(c.read(profileCompletionProvider), closeTo(1 / 6, 0.001));
     });
 
-    test('all 6 sections filled → 1.0 via overrides', () {
+    test('all 6 sections filled → 1.0 via overrides', () async {
       final c = ProviderContainer.test(overrides: [
         profileAboutMeProvider.overrideWith(_BioFilledNotifier.new),
         profileBasicsProvider.overrideWith(_PhotoFilledNotifier.new),
@@ -547,13 +592,27 @@ void main() {
         profileSkillsProvider.overrideWith(_OneSkillNotifier.new),
         profileFilesProvider.overrideWith(_OneFileNotifier.new),
       ]);
+      await Future.wait([
+        c.read(profileAboutMeProvider.future),
+        c.read(profileBasicsProvider.future),
+        c.read(profileWorkExperiencesProvider.future),
+        c.read(profileEducationsProvider.future),
+        c.read(profileSkillsProvider.future),
+        c.read(profileFilesProvider.future),
+      ]);
       expect(c.read(profileCompletionProvider), 1.0);
     });
 
-    test('all 6 sections filled → 1.0 via direct mutations', () {
+    test('all 6 sections filled → 1.0 via direct mutations', () async {
       final c = ProviderContainer.test();
-      c.read(profileAboutMeProvider.notifier).update('Bio');
-      c.read(profileBasicsProvider.notifier).update(
+      await c.read(profileAboutMeProvider.future);
+      await c.read(profileBasicsProvider.future);
+      await c.read(profileWorkExperiencesProvider.future);
+      await c.read(profileEducationsProvider.future);
+      await c.read(profileSkillsProvider.future);
+      await c.read(profileFilesProvider.future);
+      await c.read(profileAboutMeProvider.notifier).save('Bio');
+      await c.read(profileBasicsProvider.notifier).save(
             firstName: 'X',
             lastName: 'Y',
             dateOfBirth: '01-01-2000',
@@ -564,24 +623,28 @@ void main() {
             relocationReadiness: 'Yes',
             photoUrl: 'https://photo.url',
           );
-      c.read(profileWorkExperiencesProvider.notifier).add(_sampleExp);
-      c.read(profileEducationsProvider.notifier).add(_sampleEdu);
-      c.read(profileSkillsProvider.notifier).updateSkills(['Dart'], []);
-      c.read(profileFilesProvider.notifier).add(_sampleFile);
+      await c.read(profileWorkExperiencesProvider.notifier).add(_sampleExp);
+      await c.read(profileEducationsProvider.notifier).add(_sampleEdu);
+      await c.read(profileSkillsProvider.notifier).updateSkills(['Dart'], []);
+      await c.read(profileFilesProvider.notifier).add(_sampleFile);
       expect(c.read(profileCompletionProvider), 1.0);
     });
 
-    test('softSkills alone count as skills section filled', () {
+    test('softSkills alone count as skills section filled', () async {
       final c = ProviderContainer.test();
-      c.read(profileSkillsProvider.notifier).updateSkills([], ['Teamwork']);
+      await c.read(profileSkillsProvider.future);
+      await c.read(profileSkillsProvider.notifier).updateSkills([], ['Teamwork']);
       expect(c.read(profileCompletionProvider), closeTo(1 / 6, 0.001));
     });
 
-    test('3 of 6 sections filled → 0.5', () {
+    test('3 of 6 sections filled → 0.5', () async {
       final c = ProviderContainer.test();
-      c.read(profileAboutMeProvider.notifier).update('Bio');
-      c.read(profileWorkExperiencesProvider.notifier).add(_sampleExp);
-      c.read(profileSkillsProvider.notifier).updateSkills(['Dart'], []);
+      await c.read(profileAboutMeProvider.future);
+      await c.read(profileWorkExperiencesProvider.future);
+      await c.read(profileSkillsProvider.future);
+      await c.read(profileAboutMeProvider.notifier).save('Bio');
+      await c.read(profileWorkExperiencesProvider.notifier).add(_sampleExp);
+      await c.read(profileSkillsProvider.notifier).updateSkills(['Dart'], []);
       expect(c.read(profileCompletionProvider), closeTo(0.5, 0.001));
     });
   });
@@ -732,20 +795,22 @@ void main() {
   // ─── Additional edge-case tests ───────────────────────────────────────────
 
   group('profileAboutMeProvider – copyWith nullable semantics', () {
-    test('update without videoUrl preserves previously set videoUrl', () {
+    test('save without videoUrl preserves previously set videoUrl', () async {
       final c = ProviderContainer.test();
-      c.read(profileAboutMeProvider.notifier)
-          .update('Bio', videoUrl: 'https://v.url');
+      await c.read(profileAboutMeProvider.future);
+      await c.read(profileAboutMeProvider.notifier)
+          .save('Bio', videoUrl: 'https://v.url');
       // second call omits videoUrl
-      c.read(profileAboutMeProvider.notifier).update('Updated bio');
-      expect(c.read(profileAboutMeProvider).videoUrl, 'https://v.url');
+      await c.read(profileAboutMeProvider.notifier).save('Updated bio');
+      expect(c.read(profileAboutMeProvider).requireValue.videoUrl, 'https://v.url');
     });
   });
 
-  group('profileBasicsProvider – update API boundary', () {
-    test('update cannot change email or phone (not in params)', () {
+  group('profileBasicsProvider – save API boundary', () {
+    test('save cannot change email or phone (not in params)', () async {
       final c = ProviderContainer.test();
-      c.read(profileBasicsProvider.notifier).update(
+      await c.read(profileBasicsProvider.future);
+      await c.read(profileBasicsProvider.notifier).save(
             firstName: 'X',
             lastName: 'Y',
             dateOfBirth: '01-01-2000',
@@ -756,13 +821,14 @@ void main() {
             relocationReadiness: 'Yes',
           );
       // email and phone keep the hard-coded default values
-      expect(c.read(profileBasicsProvider).email, 'c.ioannidis@gmail.com');
-      expect(c.read(profileBasicsProvider).phone, '+30 123 456 78 90');
+      expect(c.read(profileBasicsProvider).requireValue.email, 'c.ioannidis@gmail.com');
+      expect(c.read(profileBasicsProvider).requireValue.phone, '+30 123 456 78 90');
     });
 
-    test('update without photoUrl preserves previously set photoUrl', () {
+    test('save without photoUrl preserves previously set photoUrl', () async {
       final c = ProviderContainer.test();
-      c.read(profileBasicsProvider.notifier).update(
+      await c.read(profileBasicsProvider.future);
+      await c.read(profileBasicsProvider.notifier).save(
             firstName: 'X',
             lastName: 'Y',
             dateOfBirth: '01-01-2000',
@@ -773,7 +839,7 @@ void main() {
             relocationReadiness: 'Yes',
             photoUrl: 'https://cdn.test/avatar.jpg',
           );
-      c.read(profileBasicsProvider.notifier).update(
+      await c.read(profileBasicsProvider.notifier).save(
             firstName: 'X',
             lastName: 'Y',
             dateOfBirth: '01-01-2000',
@@ -784,40 +850,43 @@ void main() {
             relocationReadiness: 'Yes',
             // photoUrl omitted
           );
-      expect(c.read(profileBasicsProvider).photoUrl,
+      expect(c.read(profileBasicsProvider).requireValue.photoUrl,
           'https://cdn.test/avatar.jpg');
     });
   });
 
   group('profileSkillsProvider – orthogonality of update methods', () {
-    test('updateLanguages does not reset existing skills', () {
+    test('updateLanguages does not reset existing skills', () async {
       final c = ProviderContainer.test();
-      c.read(profileSkillsProvider.notifier)
+      await c.read(profileSkillsProvider.future);
+      await c.read(profileSkillsProvider.notifier)
           .updateSkills(['Dart'], ['Teamwork']);
-      c.read(profileSkillsProvider.notifier).updateLanguages(
+      await c.read(profileSkillsProvider.notifier).updateLanguages(
           [const Language(language: 'English', proficiency: 'Fluent')]);
-      expect(c.read(profileSkillsProvider).hardSkills, ['Dart']);
-      expect(c.read(profileSkillsProvider).softSkills, ['Teamwork']);
+      expect(c.read(profileSkillsProvider).requireValue.hardSkills, ['Dart']);
+      expect(c.read(profileSkillsProvider).requireValue.softSkills, ['Teamwork']);
     });
 
-    test('updateCompetencies does not reset skills or languages', () {
+    test('updateCompetencies does not reset skills or languages', () async {
       final c = ProviderContainer.test();
-      c.read(profileSkillsProvider.notifier).updateSkills(['Dart'], []);
-      c.read(profileSkillsProvider.notifier).updateLanguages(
+      await c.read(profileSkillsProvider.future);
+      await c.read(profileSkillsProvider.notifier).updateSkills(['Dart'], []);
+      await c.read(profileSkillsProvider.notifier).updateLanguages(
           [const Language(language: 'Spanish', proficiency: 'Native')]);
-      c.read(profileSkillsProvider.notifier)
+      await c.read(profileSkillsProvider.notifier)
           .updateCompetencies({'leadership': 'Advanced'});
-      expect(c.read(profileSkillsProvider).hardSkills, ['Dart']);
+      expect(c.read(profileSkillsProvider).requireValue.hardSkills, ['Dart']);
       expect(
-          c.read(profileSkillsProvider).languages.first.language, 'Spanish');
+          c.read(profileSkillsProvider).requireValue.languages.first.language, 'Spanish');
     });
   });
 
   group('profileJobPreferencesProvider – null salary', () {
     test('expectedSalary can be null when preferNotToSpecifySalary is true',
-        () {
+        () async {
       final c = ProviderContainer.test();
-      c.read(profileJobPreferencesProvider.notifier).update(
+      await c.read(profileJobPreferencesProvider.future);
+      await c.read(profileJobPreferencesProvider.notifier).save(
             interests: [],
             positionLevel: 'Mid',
             jobType: 'Full time',
@@ -826,23 +895,24 @@ void main() {
             // expectedSalary omitted → null
           );
       expect(
-          c.read(profileJobPreferencesProvider).expectedSalary, isNull);
-      expect(c.read(profileJobPreferencesProvider).preferNotToSpecifySalary,
+          c.read(profileJobPreferencesProvider).requireValue.expectedSalary, isNull);
+      expect(c.read(profileJobPreferencesProvider).requireValue.preferNotToSpecifySalary,
           true);
     });
   });
 
   group('profileFilesProvider – delete from middle', () {
-    test('deleting middle item preserves surrounding items in order', () {
+    test('deleting middle item preserves surrounding items in order', () async {
       final c = ProviderContainer.test();
+      await c.read(profileFilesProvider.future);
       const a = UploadedFile(name: 'a.pdf', size: '1 KB');
       const b = UploadedFile(name: 'b.pdf', size: '2 KB');
       const d = UploadedFile(name: 'c.pdf', size: '3 KB');
-      c.read(profileFilesProvider.notifier).add(a);
-      c.read(profileFilesProvider.notifier).add(b);
-      c.read(profileFilesProvider.notifier).add(d);
-      c.read(profileFilesProvider.notifier).delete(1); // remove b
-      final files = c.read(profileFilesProvider);
+      await c.read(profileFilesProvider.notifier).add(a);
+      await c.read(profileFilesProvider.notifier).add(b);
+      await c.read(profileFilesProvider.notifier).add(d);
+      await c.read(profileFilesProvider.notifier).delete(1); // remove b
+      final files = c.read(profileFilesProvider).requireValue;
       expect(files.length, 2);
       expect(files[0].name, 'a.pdf');
       expect(files[1].name, 'c.pdf');

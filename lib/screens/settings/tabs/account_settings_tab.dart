@@ -15,8 +15,8 @@ class AccountSettingsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profile = ref.watch(profileBasicsProvider);
-    final profileVisible = ref.watch(profileVisibleProvider);
+    final profile = ref.watch(profileBasicsProvider).value;
+    final profileVisible = ref.watch(profileVisibleProvider).value ?? false;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +50,7 @@ class AccountSettingsTab extends ConsumerWidget {
               ),
               const SizedBox(height: 2),
               Text(
-                profile.email,
+                profile?.email ?? '',
                 style:
                     TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
               ),
@@ -75,7 +75,7 @@ class AccountSettingsTab extends ConsumerWidget {
               ),
               const SizedBox(height: 2),
               Text(
-                profile.phone,
+                profile?.phone ?? '',
                 style:
                     TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
               ),

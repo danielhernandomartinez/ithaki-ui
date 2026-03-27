@@ -10,7 +10,7 @@ class ProfileValuesTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final values = ref.watch(profileValuesProvider);
+    final values = ref.watch(profileValuesProvider).value ?? const [];
     if (values.isEmpty) {
       return Container(
         margin: const EdgeInsets.symmetric(horizontal: 16),

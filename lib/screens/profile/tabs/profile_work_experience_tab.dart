@@ -12,7 +12,7 @@ class ProfileWorkExperienceTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final experiences = ref.watch(profileWorkExperiencesProvider);
+    final experiences = ref.watch(profileWorkExperiencesProvider).value ?? const [];
     if (experiences.isEmpty) {
       return ProfileEmptyStateCard(
         title: 'Work Experience',

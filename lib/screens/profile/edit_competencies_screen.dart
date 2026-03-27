@@ -25,7 +25,7 @@ class _EditCompetenciesScreenState
   @override
   void initState() {
     super.initState();
-    final comp = ref.read(profileSkillsProvider).competencies;
+    final comp = ref.read(profileSkillsProvider).requireValue.competencies;
     _computerSkill = comp['computerSkills'] ?? '';
     _drivingLicense = comp['drivingLicense'] ?? 'No';
     _licenseCategory = comp['licenseCategory'] ?? '';

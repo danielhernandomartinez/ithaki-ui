@@ -10,7 +10,7 @@ class ProfileFilesTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final files = ref.watch(profileFilesProvider);
+    final files = ref.watch(profileFilesProvider).value ?? const [];
     if (files.isEmpty) {
       return ProfileEmptyStateCard(
         title: 'My Files',

@@ -39,7 +39,7 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
   @override
   void initState() {
     super.initState();
-    final saved = ref.read(profileSkillsProvider).languages;
+    final saved = ref.read(profileSkillsProvider).requireValue.languages;
     _langs = saved.map((l) => l.language).toList();
     _levels = saved.map((l) => l.proficiency).toList();
     if (_langs.isEmpty) _addEntry();

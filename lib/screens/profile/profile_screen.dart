@@ -68,7 +68,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
-    final basics = ref.watch(profileBasicsProvider);
+    final basics = ref.watch(profileBasicsProvider).value;
+    if (basics == null) {
+      return const Scaffold(
+        backgroundColor: IthakiTheme.backgroundViolet,
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
     final topOffset = MediaQuery.of(context).padding.top + kToolbarHeight + 16;
 
     return Scaffold(

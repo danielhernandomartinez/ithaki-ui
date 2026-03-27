@@ -10,7 +10,8 @@ class ProfileJobPreferencesTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final prefs = ref.watch(profileJobPreferencesProvider);
+    final prefs = ref.watch(profileJobPreferencesProvider).value;
+    if (prefs == null) return const SizedBox.shrink();
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),

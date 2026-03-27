@@ -23,7 +23,7 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
   @override
   void initState() {
     super.initState();
-    final aboutMe = ref.read(profileAboutMeProvider);
+    final aboutMe = ref.read(profileAboutMeProvider).requireValue;
     _bioCtrl = TextEditingController(text: aboutMe.bio);
     _videoUrl = aboutMe.videoUrl;
     _videoUrlCtrl = TextEditingController(text: aboutMe.videoUrl ?? '');
@@ -40,7 +40,7 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
   void _save() {
     ref
         .read(profileAboutMeProvider.notifier)
-        .update(_bioCtrl.text.trim(), videoUrl: _videoUrl);
+        .save(_bioCtrl.text.trim(), videoUrl: _videoUrl);
     context.pop();
   }
 

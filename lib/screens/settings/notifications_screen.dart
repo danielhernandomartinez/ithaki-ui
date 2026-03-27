@@ -36,7 +36,7 @@ class NotificationsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(settingsProvider);
     final notifier = ref.read(settingsProvider.notifier);
-    final phone = ref.watch(profileBasicsProvider.select((b) => b.phone));
+    final phone = ref.watch(profileBasicsProvider.select((b) => b.value?.phone ?? ''));
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,

@@ -25,7 +25,7 @@ class _ChangePhoneSheetState extends ConsumerState<ChangePhoneSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final profile = ref.watch(profileBasicsProvider);
+    final profile = ref.watch(profileBasicsProvider).value;
 
     return BottomSheetBase(
       title: 'Change Phone Number',
@@ -42,7 +42,7 @@ class _ChangePhoneSheetState extends ConsumerState<ChangePhoneSheet> {
           ),
           const SizedBox(height: 4),
           Text(
-            profile.phone,
+            profile?.phone ?? '',
             style: const TextStyle(
                 fontSize: 13, color: IthakiTheme.textSecondary),
           ),

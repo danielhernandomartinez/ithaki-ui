@@ -19,7 +19,7 @@ class EducationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final educations = ref.watch(profileEducationsProvider);
+    final educations = ref.watch(profileEducationsProvider).value ?? const [];
 
     return ProfileEntryListShell(
       appBarTitle: 'Education',
@@ -205,7 +205,7 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
       currentlyStudyHere: _currentlyStudyHere,
     );
     if (widget.editIndex != null) {
-      notifier.update(widget.editIndex!, edu);
+      notifier.save(widget.editIndex!, edu);
     } else {
       notifier.add(edu);
     }

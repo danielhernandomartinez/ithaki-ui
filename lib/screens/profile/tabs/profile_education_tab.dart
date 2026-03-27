@@ -11,7 +11,7 @@ class ProfileEducationTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final educations = ref.watch(profileEducationsProvider);
+    final educations = ref.watch(profileEducationsProvider).value ?? const [];
     if (educations.isEmpty) {
       return ProfileEmptyStateCard(
         title: 'Education',

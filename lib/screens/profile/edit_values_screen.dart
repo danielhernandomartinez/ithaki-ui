@@ -28,11 +28,11 @@ class _EditValuesScreenState extends ConsumerState<EditValuesScreen> {
   @override
   void initState() {
     super.initState();
-    _selected = Set<String>.from(ref.read(profileValuesProvider));
+    _selected = Set<String>.from(ref.read(profileValuesProvider).requireValue);
   }
 
   void _save() {
-    ref.read(profileValuesProvider.notifier).update(_selected.toList());
+    ref.read(profileValuesProvider.notifier).save(_selected.toList());
     context.pop();
   }
 

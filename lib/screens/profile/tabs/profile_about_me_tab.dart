@@ -11,7 +11,7 @@ class ProfileAboutMeTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final aboutMe = ref.watch(profileAboutMeProvider);
+    final aboutMe = ref.watch(profileAboutMeProvider).value ?? const ProfileAboutMe();
     if (aboutMe.bio.isEmpty) {
       return ProfileEmptyStateCard(
         title: 'About Me',

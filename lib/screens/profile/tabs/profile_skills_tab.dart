@@ -17,9 +17,9 @@ class ProfileSkillsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final skills = ref.watch(profileSkillsProvider);
+    final skills = ref.watch(profileSkillsProvider).value ?? const ProfileSkills();
     final relocation = ref.watch(
-        profileBasicsProvider.select((b) => b.relocationReadiness));
+        profileBasicsProvider.select((b) => b.value?.relocationReadiness ?? ''));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
