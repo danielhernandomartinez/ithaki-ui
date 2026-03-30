@@ -1,6 +1,7 @@
 # Reporte de Auditoría Técnica — Ithaki UI
 
-**Fecha:** 2026-03-30 | **Auditor:** Claude Code (claude-sonnet-4-6) | **Rama:** `main` @ `d65677a`
+**Fecha:** 2026-03-30 | **Auditor:** Claude Code (claude-sonnet-4-6) | **Rama:** `main` @ `c646630`
+**Última actualización:** 2026-03-30 — refactor `PanelScaffold` + fix `JobInterest.category`
 
 ---
 
@@ -91,12 +92,14 @@ Toda la lógica de `applyFilters`, `resetFilters`, `setSort` en el notifier actu
 **Archivos:** [`lib/providers/setup_provider.dart:79`](lib/providers/setup_provider.dart#L79) y [`lib/models/profile_models.dart:124`](lib/models/profile_models.dart#L124)
 
 ```dart
-// setup_provider.dart — flujo de onboarding
+// setup_provider.dart — flujo de onboarding (pendiente de unificar)
 class JobInterest { final String id; final String label; final String subtitle; }
 
 // profile_models.dart — perfil guardado
-class JobInterest { final String title; final String category; }
+class JobInterest { final String id; required final String title; required final String category; }
 ```
+
+> **✅ Mejora parcial (2026-03-30):** `profile_models.dart` ahora exige `title` y `category` como campos requeridos (commit `c646630`). Los tests de `setup_provider_test.dart` se actualizaron para pasar `category`. La dualidad con `setup_provider.dart` (que usa `label`/`subtitle`) sigue pendiente de unificación.
 
 Cuando el flujo de setup necesite persistir al perfil, habrá que mapear manualmente entre ambas. Esta inconsistencia también genera confusión al importar (requiere atención al contexto del archivo).
 
@@ -149,7 +152,9 @@ if (_panels.profileOpen || _panels.profileCtrl.status != AnimationStatus.dismiss
   ),
 ```
 
-Un bug o cambio de diseño en el panel debe aplicarse en 3 lugares. La solución es un `PanelScaffold` widget que reciba `body`, `currentRoute` y los callbacks necesarios, eliminando ~120 líneas duplicadas.
+Un bug o cambio de diseño en el panel debe aplicarse en 3 lugares. La solución es un `NavPanelScaffold` widget que reciba `body`, `currentRoute` y los callbacks necesarios, eliminando ~120 líneas duplicadas.
+
+> **⚠️ Nota (2026-03-30):** Se creó `lib/widgets/panel_scaffold.dart` (`PanelScaffold`) para las **6 pantallas de edición de perfil** (edit_about_me, edit_skills, edit_languages, edit_values, edit_competencies, edit_job_preferences), eliminando el boilerplate de `Scaffold + IthakiAppBar + SingleChildScrollView + Container`. Esa extracción está resuelta. **La duplicación del panel de navegación en las pantallas principales (home/profile/job_search) es un problema independiente y sigue abierto.**
 
 ---
 
@@ -288,7 +293,7 @@ Los tests usan Fake Notifiers que precargan estado sin pasar por `MockProfileRep
 | # | Hallazgo | Archivo(s) afectado(s) |
 |---|---|---|
 | M-1 | `MockJobSearchRepository.search()` ignora todos los parámetros | [`repositories/job_search_repository.dart`](lib/repositories/job_search_repository.dart) |
-| M-2 | Dos clases `JobInterest` con estructuras incompatibles | `setup_provider.dart`, `profile_models.dart` |
+| M-2 | Dos clases `JobInterest` con estructuras incompatibles _(parcial: `category` ahora required en `profile_models.dart`)_ | `setup_provider.dart`, `profile_models.dart` |
 | M-3 | `profileCompletionProvider` silent 0.0 durante la carga | [`providers/profile_provider.dart:243`](lib/providers/profile_provider.dart#L243) |
 | M-4 | `ProfileBasicsScreen` con múltiples responsabilidades (350L) | [`screens/profile/profile_basics_screen.dart`](lib/screens/profile/profile_basics_screen.dart) |
 | M-5 | `Colors.grey.shade*` fuera de `IthakiTheme`, no-const | 8+ archivos |
@@ -315,7 +320,8 @@ Los tests usan Fake Notifiers que precargan estado sin pasar por `MockProfileRep
 3. Definir el contrato de `JobSearchRepository.search()` con parámetros reales de filtro/sort/paginación
 
 ### Fase 2 — Deuda técnica de alta rentabilidad
-4. Extraer `PanelScaffold` widget compartido (elimina ~120 líneas duplicadas en 3 pantallas)
+
+4. ~~Extraer `PanelScaffold` widget compartido~~ ✅ **Resuelto (2026-03-30)** — `lib/widgets/panel_scaffold.dart` creado, aplicado en 6 pantallas de edición de perfil. Pendiente: extraer `NavPanelScaffold` para el panel de navegación en home/profile/job\_search (hallazgo 🔴 Crítico, ~120 líneas).
 5. Añadir tokens de color a `IthakiTheme` para los grises hardcodeados (`borderSubtle`, `surfaceMuted`, etc.)
 6. Resolver ruta duplicada `/` vs `/home` y el dead import de `select_language_screen.dart`
 
@@ -325,4 +331,13 @@ Los tests usan Fake Notifiers que precargan estado sin pasar por `MockProfileRep
 
 ---
 
-*Auditoría basada en lectura directa de los 121 archivos Dart en `lib/` y los 11 archivos de test. El codebase está en estado saludable para un producto pre-backend. El camino crítico hacia producción pasa por: (2) extraer `PanelScaffold`, (3) ampliar cobertura de widget tests.*
+*Auditoría basada en lectura directa de los 121 archivos Dart en `lib/` y los 11 archivos de test. El codebase está en estado saludable para un producto pre-backend. El camino crítico hacia producción pasa por: unificar `JobInterest`, extraer `NavPanelScaffold` para las pantallas principales, y ampliar la cobertura de widget tests.*
+
+---
+
+## Changelog
+
+| Fecha | Cambio | Hallazgo resuelto |
+|---|---|---|
+| 2026-03-30 | Creado `lib/widgets/panel_scaffold.dart`; refactorizadas 6 pantallas de edición de perfil | Fase 2, ítem 4 (parcial) |
+| 2026-03-30 | `JobInterest.category` ahora campo requerido en `profile_models.dart`; tests actualizados | M-2 (parcial) |
