@@ -33,7 +33,7 @@ class WelcomeModalScreen extends StatelessWidget {
               MediaQuery.of(context).padding.bottom + 24,
             ),
             decoration: const BoxDecoration(
-              color: Colors.white,
+              color: IthakiTheme.backgroundWhite,
               borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
             child: Column(

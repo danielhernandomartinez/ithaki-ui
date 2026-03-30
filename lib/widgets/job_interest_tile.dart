@@ -26,7 +26,7 @@ class JobInterestTile extends StatelessWidget {
           width: 48,
           height: 48,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: IthakiTheme.backgroundWhite,
             borderRadius: BorderRadius.circular(14),
           ),
           alignment: Alignment.center,
@@ -53,7 +53,7 @@ class JobInterestTile extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: IthakiTheme.backgroundWhite,
               borderRadius: BorderRadius.circular(10),
             ),
             child: const IthakiIcon('delete', size: 16, color: IthakiTheme.softGraphite),

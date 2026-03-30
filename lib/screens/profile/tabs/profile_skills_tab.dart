@@ -39,7 +39,7 @@ class ProfileSkillsTab extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -118,7 +118,7 @@ class ProfileSkillsTab extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -165,7 +165,7 @@ class ProfileSkillsTab extends ConsumerWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: IthakiTheme.backgroundWhite,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -210,7 +210,7 @@ class ProfileSkillsTab extends ConsumerWidget {
   Widget _skillBadge(String label) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         decoration: BoxDecoration(
-          color: const Color(0xFFF2F2F2),
+          color: IthakiTheme.softGray,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Text(label,

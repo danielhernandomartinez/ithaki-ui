@@ -68,7 +68,7 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
   Widget _chip(String label, VoidCallback onRemove) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: const Color(0xFFF2F2F2),
+          color: IthakiTheme.softGray,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -151,7 +151,7 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: IthakiTheme.backgroundWhite,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(

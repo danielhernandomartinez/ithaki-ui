@@ -60,7 +60,7 @@ class _CitySearchBottomSheetState extends ConsumerState<CitySearchBottomSheet> {
 
     return Container(
       decoration: const BoxDecoration(
-        color: Colors.white,
+        color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       padding: EdgeInsets.fromLTRB(16, 16, 16, bottomPadding + 16),
@@ -74,7 +74,7 @@ class _CitySearchBottomSheetState extends ConsumerState<CitySearchBottomSheet> {
               width: 40, height: 4,
               margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
-                color: const Color(0xFFE0E0E0),
+                color: IthakiTheme.placeholderBg,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),

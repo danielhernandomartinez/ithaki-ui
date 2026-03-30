@@ -36,7 +36,7 @@ class JobSearchList extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.circular(30),
       ),
       child: Column(
@@ -178,7 +178,7 @@ class _PageButton extends ConsumerWidget {
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w500,
-            color: isSelected ? Colors.white : IthakiTheme.textPrimary,
+            color: isSelected ? IthakiTheme.backgroundWhite : IthakiTheme.textPrimary,
           ),
         ),
       ),

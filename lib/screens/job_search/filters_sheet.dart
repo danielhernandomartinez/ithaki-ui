@@ -79,7 +79,7 @@ class _FiltersSheetState extends State<FiltersSheet> {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        color: Colors.white,
+        color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       padding: EdgeInsets.only(
@@ -138,13 +138,13 @@ class _FiltersSheetState extends State<FiltersSheet> {
                         horizontal: 16, vertical: 14),
                     decoration: BoxDecoration(
                       color: hasSelection
-                          ? const Color(0xFFF6F2FE)
-                          : Colors.white,
+                          ? IthakiTheme.backgroundViolet
+                          : IthakiTheme.backgroundWhite,
                       borderRadius: BorderRadius.circular(30),
                       border: Border.all(
                           color: hasSelection
                               ? const Color(0xFFDDD5F8)
-                              : const Color(0xFFE0E0E0)),
+                              : IthakiTheme.placeholderBg),
                     ),
                     child: Row(children: [
                       Text(name,
@@ -206,7 +206,7 @@ class _FiltersSheetState extends State<FiltersSheet> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: IthakiTheme.primaryPurple,
-                    foregroundColor: Colors.white,
+                    foregroundColor: IthakiTheme.backgroundWhite,
                     elevation: 0,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(

@@ -62,7 +62,7 @@ class _TourTooltip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(

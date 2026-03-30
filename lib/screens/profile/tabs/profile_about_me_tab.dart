@@ -27,7 +27,7 @@ class ProfileAboutMeTab extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -68,7 +68,7 @@ class ProfileAboutMeTab extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(100),
                   ),
                   child: const Icon(Icons.play_arrow_rounded,
-                      size: 28, color: Colors.white),
+                      size: 28, color: IthakiTheme.backgroundWhite),
                 ),
               ),
             ),

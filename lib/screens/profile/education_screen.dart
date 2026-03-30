@@ -74,7 +74,7 @@ class EducationScreen extends ConsumerWidget {
                             child: Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: IthakiTheme.backgroundWhite,
                                 borderRadius: BorderRadius.circular(999),
                                 border: Border.all(
                                     color: IthakiTheme.borderLight),
@@ -100,7 +100,7 @@ class EducationScreen extends ConsumerWidget {
                             color: IthakiTheme.textSecondary),
                       ),
                       const SizedBox(height: 10),
-                      const Divider(height: 1, color: Color(0xFFE0E0E0)),
+                      const Divider(height: 1, color: IthakiTheme.placeholderBg),
                       const SizedBox(height: 10),
                       // ── Metadata ─────────────────────────────────
                       if (edu.location.isNotEmpty)
@@ -222,7 +222,7 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: IthakiTheme.backgroundWhite,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(

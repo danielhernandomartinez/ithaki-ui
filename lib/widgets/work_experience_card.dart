@@ -56,7 +56,7 @@ class WorkExperienceCard extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: compact ? Colors.white : null,
+                color: compact ? IthakiTheme.backgroundWhite : null,
                 border: Border.all(color: IthakiTheme.borderLight),
                 borderRadius: BorderRadius.circular(999),
               ),
@@ -73,7 +73,7 @@ class WorkExperienceCard extends StatelessWidget {
               fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 10),
-        const Divider(height: 1, color: Color(0xFFE0E0E0)),
+        const Divider(height: 1, color: IthakiTheme.placeholderBg),
         const SizedBox(height: 10),
         // ── Metadata grid ────────────────────────────────────
         Row(children: [
@@ -103,7 +103,7 @@ class WorkExperienceCard extends StatelessWidget {
         // ── Summary ──────────────────────────────────────────
         if (exp.summary != null && exp.summary!.isNotEmpty) ...[
           const SizedBox(height: 10),
-          const Divider(height: 1, color: Color(0xFFE0E0E0)),
+          const Divider(height: 1, color: IthakiTheme.placeholderBg),
           const SizedBox(height: 10),
           Text(exp.summary!,
               style: const TextStyle(
@@ -130,7 +130,7 @@ class WorkExperienceCard extends StatelessWidget {
       margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.circular(20),
       ),
       child: content,

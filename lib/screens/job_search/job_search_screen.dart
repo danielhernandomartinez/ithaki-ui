@@ -73,7 +73,7 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
                         "Career Assistant can help you if you're not sure where to start!",
                     buttonLabel: 'Ask Career Assistant',
                     buttonIcon:
-                        const IthakiIcon('ai', size: 18, color: Colors.white),
+                        const IthakiIcon('ai', size: 18, color: IthakiTheme.backgroundWhite),
                     onButtonPressed: () {},
                     backgroundImage: const DecorationImage(
                       image: AssetImage('assets/images/ai_banner_bg.png'),

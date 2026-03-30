@@ -73,7 +73,7 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: IthakiTheme.backgroundWhite,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
@@ -242,7 +242,7 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
                     color: Colors.black54,
                     alignment: Alignment.center,
                     child: const Icon(Icons.play_circle_filled_rounded,
-                        size: 56, color: Colors.white),
+                        size: 56, color: IthakiTheme.backgroundWhite),
                   ),
                 ),
               ],

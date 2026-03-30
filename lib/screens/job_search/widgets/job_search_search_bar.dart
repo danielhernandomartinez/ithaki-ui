@@ -30,7 +30,7 @@ class JobSearchSearchBar extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: IthakiTheme.backgroundWhite,
           borderRadius: BorderRadius.circular(30),
         ),
         padding: const EdgeInsets.all(12),
@@ -67,8 +67,8 @@ class JobSearchSearchBar extends ConsumerWidget {
                     horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
                   color: count > 0
-                      ? const Color(0xFFF6F2FE)
-                      : Colors.white,
+                      ? IthakiTheme.backgroundViolet
+                      : IthakiTheme.backgroundWhite,
                   border: Border.all(
                     color: count > 0
                         ? const Color(0xFFDDD5F8)

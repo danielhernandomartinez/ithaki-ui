@@ -41,7 +41,7 @@ class AppNavDrawer extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
@@ -142,7 +142,7 @@ class _NavTile extends StatelessWidget {
                   child: Text(
                     '${item.badge}',
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: IthakiTheme.backgroundWhite,
                       fontSize: 11,
                       fontWeight: FontWeight.bold,
                     ),
@@ -168,9 +168,9 @@ class _ProfileCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: const Color(0xFFE0E0E0)),
+        border: Border.all(color: IthakiTheme.placeholderBg),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,7 +236,7 @@ class _HatchPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     canvas.drawRect(
       Rect.fromLTWH(0, 0, size.width, size.height),
-      Paint()..color = const Color(0xFFE0E0E0),
+      Paint()..color = IthakiTheme.placeholderBg,
     );
     final paint = Paint()
       ..color = const Color(0xFFCCCCCC)

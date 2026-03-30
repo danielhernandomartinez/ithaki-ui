@@ -42,7 +42,7 @@ class _SalaryFilterSheetState extends State<SalaryFilterSheet> {
 
     return Container(
       decoration: const BoxDecoration(
-        color: Colors.white,
+        color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       padding: EdgeInsets.only(bottom: bottomPadding + 16),
@@ -196,7 +196,7 @@ class _SalaryFilterSheetState extends State<SalaryFilterSheet> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: IthakiTheme.primaryPurple,
-                    foregroundColor: Colors.white,
+                    foregroundColor: IthakiTheme.backgroundWhite,
                     elevation: 0,
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(

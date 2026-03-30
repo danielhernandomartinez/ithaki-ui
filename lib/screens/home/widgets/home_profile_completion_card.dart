@@ -29,7 +29,7 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: IthakiTheme.backgroundWhite,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   padding: const EdgeInsets.all(16),
@@ -61,7 +61,7 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                                     shape: BoxShape.circle,
                                   ),
                                   child: item.completed
-                                      ? const Icon(Icons.check, size: 14, color: Colors.white)
+                                      ? const Icon(Icons.check, size: 14, color: IthakiTheme.backgroundWhite)
                                       : null,
                                 ),
                                 const SizedBox(width: 10),

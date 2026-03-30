@@ -15,7 +15,7 @@ class JobSearchTabBar extends ConsumerWidget {
       child: Container(
         height: 48,
         decoration: BoxDecoration(
-          color: const Color(0xFFE9DEFF),
+          color: IthakiTheme.chipActive,
           borderRadius: BorderRadius.circular(24),
         ),
         padding: const EdgeInsets.all(4),
@@ -57,7 +57,7 @@ class _TabItem extends ConsumerWidget {
           height: double.infinity,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: isSelected ? Colors.white : const Color(0x00FFFFFF),
+            color: isSelected ? IthakiTheme.backgroundWhite : const Color(0x00FFFFFF),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(

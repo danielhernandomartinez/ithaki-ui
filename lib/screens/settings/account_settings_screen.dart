@@ -60,7 +60,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       height: 48,
       decoration: BoxDecoration(
-        color: const Color(0xFFE9DEFF),
+        color: IthakiTheme.chipActive,
         borderRadius: BorderRadius.circular(24),
       ),
       padding: const EdgeInsets.all(4),
@@ -82,7 +82,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         duration: const Duration(milliseconds: 180),
         height: 40,
         decoration: BoxDecoration(
-          color: selected ? Colors.white : const Color(0xFFE9DEFF),
+          color: selected ? IthakiTheme.backgroundWhite : IthakiTheme.chipActive,
           borderRadius: BorderRadius.circular(20),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 8),

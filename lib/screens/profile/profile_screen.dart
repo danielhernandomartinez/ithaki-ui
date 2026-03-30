@@ -106,7 +106,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               margin: const EdgeInsets.symmetric(horizontal: 16),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: IthakiTheme.backgroundWhite,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(

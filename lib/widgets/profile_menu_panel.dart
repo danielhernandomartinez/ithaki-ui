@@ -31,7 +31,7 @@ class ProfileMenuPanel extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.circular(30),
       ),
       child: Column(

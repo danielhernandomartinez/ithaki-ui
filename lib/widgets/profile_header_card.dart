@@ -19,7 +19,7 @@ class ProfileHeaderCard extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.grey.shade200),
       ),
@@ -35,7 +35,7 @@ class ProfileHeaderCard extends ConsumerWidget {
                 ? Text(
                     '${basics.firstName.isNotEmpty ? basics.firstName[0] : '?'}${basics.lastName.isNotEmpty ? basics.lastName[0] : '?'}',
                     style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                        color: IthakiTheme.backgroundWhite, fontWeight: FontWeight.bold),
                   )
                 : null,
           ),

@@ -82,7 +82,7 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
         constraints: BoxConstraints(maxHeight: mq.size.height * 0.88),
         child: Container(
           decoration: const BoxDecoration(
-            color: Colors.white,
+            color: IthakiTheme.backgroundWhite,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
           padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),

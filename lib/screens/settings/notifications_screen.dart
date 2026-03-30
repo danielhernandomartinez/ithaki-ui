@@ -230,7 +230,7 @@ class NotificationsScreen extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       height: 48,
       decoration: BoxDecoration(
-        color: const Color(0xFFE9DEFF),
+        color: IthakiTheme.chipActive,
         borderRadius: BorderRadius.circular(24),
       ),
       padding: const EdgeInsets.all(4),
@@ -259,7 +259,7 @@ class NotificationsScreen extends ConsumerWidget {
             child: Container(
               height: 40,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: IthakiTheme.backgroundWhite,
                 borderRadius: BorderRadius.circular(20),
               ),
               alignment: Alignment.center,
@@ -283,7 +283,7 @@ class NotificationsScreen extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.circular(20),
       ),
       child: child,

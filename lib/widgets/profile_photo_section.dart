@@ -25,7 +25,7 @@ class ProfilePhotoSection extends StatelessWidget {
             backgroundImage:
                 photoPath != null ? FileImage(File(photoPath!)) : null,
             child: photoPath == null
-                ? const IthakiIcon('profile', size: 24, color: Colors.white)
+                ? const IthakiIcon('profile', size: 24, color: IthakiTheme.backgroundWhite)
                 : null,
           ),
           const SizedBox(width: 12),

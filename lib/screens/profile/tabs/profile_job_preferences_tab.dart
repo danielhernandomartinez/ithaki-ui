@@ -16,7 +16,7 @@ class ProfileJobPreferencesTab extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -76,7 +76,7 @@ class ProfileJobPreferencesTab extends ConsumerWidget {
         height: 78,
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: const Color(0xFFF2F2F2),
+          color: IthakiTheme.softGray,
           borderRadius: BorderRadius.circular(24),
         ),
         child: Row(children: [
@@ -84,7 +84,7 @@ class ProfileJobPreferencesTab extends ConsumerWidget {
             width: 54,
             height: 54,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: IthakiTheme.backgroundWhite,
               borderRadius: BorderRadius.circular(16),
             ),
             alignment: Alignment.center,

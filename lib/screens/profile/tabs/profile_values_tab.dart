@@ -16,7 +16,7 @@ class ProfileValuesTab extends ConsumerWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: IthakiTheme.backgroundWhite,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: Colors.grey.shade200),
         ),
@@ -64,7 +64,7 @@ class ProfileValuesTab extends ConsumerWidget {
   Widget _chip(String label) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: const Color(0xFFF6F2FE),
+          color: IthakiTheme.backgroundViolet,
           borderRadius: BorderRadius.circular(999),
           border: Border.all(color: const Color(0xFFDDD5F8)),
         ),

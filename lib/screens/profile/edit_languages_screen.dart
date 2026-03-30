@@ -76,7 +76,7 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
   void _showLanguagePicker(int i) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.white,
+      backgroundColor: IthakiTheme.backgroundWhite,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -138,7 +138,7 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: IthakiTheme.backgroundWhite,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(

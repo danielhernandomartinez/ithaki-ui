@@ -16,7 +16,7 @@ class HomePurpleButton extends StatelessWidget {
         onPressed: onPressed ?? () {},
         style: ElevatedButton.styleFrom(
           backgroundColor: IthakiTheme.primaryPurple,
-          foregroundColor: Colors.white,
+          foregroundColor: IthakiTheme.backgroundWhite,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
