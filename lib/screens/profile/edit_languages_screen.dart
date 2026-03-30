@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../providers/profile_provider.dart';
+import '../../widgets/panel_scaffold.dart';
 
 const _kProficiencyLevels = [
   'Native',
@@ -130,20 +131,10 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: IthakiAppBar(showBackButton: true, title: 'Edit Languages'),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: MediaQuery.viewPaddingOf(context).bottom + 16),
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: IthakiTheme.backgroundWhite,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+    return PanelScaffold(
+      title: 'Edit Languages',
+      onSave: _save,
+      children: [
               for (int i = 0; i < _langs.length; i++) ...[
                 if (i > 0) const Divider(height: 28),
                 Row(
@@ -245,12 +236,7 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
                   foregroundColor: IthakiTheme.textPrimary,
                 ),
               ),
-              const SizedBox(height: 12),
-              IthakiButton('Save', onPressed: _save),
-            ],
-          ),
-        ),
-      ),
+      ],
     );
   }
 }

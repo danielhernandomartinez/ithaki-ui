@@ -8,6 +8,7 @@ import '../../widgets/profile_picker_field.dart';
 import '../../widgets/job_interest_tile.dart';
 import '../../widgets/option_chip.dart';
 import '../../widgets/add_job_interest_sheet.dart';
+import '../../widgets/panel_scaffold.dart';
 import '../../widgets/salary_field_row.dart';
 
 class EditJobPreferencesScreen extends ConsumerStatefulWidget {
@@ -83,24 +84,10 @@ class _EditJobPreferencesScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: IthakiAppBar(showBackButton: true, title: 'Job Preferences'),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(
-            left: 16,
-            right: 16,
-            top: 16,
-            bottom: MediaQuery.viewPaddingOf(context).bottom + 16),
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: IthakiTheme.backgroundWhite,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+    return PanelScaffold(
+      title: 'Job Preferences',
+      onSave: _save,
+      children: [
               // ── Header ──────────────────────────────────────────────
               const Text('Job Preferences',
                   style: TextStyle(
@@ -247,12 +234,7 @@ class _EditJobPreferencesScreenState
                 onPreferNotToSpecifyChanged: (v) =>
                     setState(() => _preferNotToSpecify = v),
               ),
-              const SizedBox(height: 28),
-              IthakiButton('Save', onPressed: _save),
-            ],
-          ),
-        ),
-      ),
+      ],
     );
   }
 }

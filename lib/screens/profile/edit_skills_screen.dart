@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../providers/profile_provider.dart';
+import '../../widgets/panel_scaffold.dart';
 
 const _kHardSkills = [
   'Web Development', 'HTML5 / CSS3', 'JavaScript (ES6+)',
@@ -143,53 +144,38 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: IthakiAppBar(showBackButton: true, title: 'Edit Skills'),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: MediaQuery.viewPaddingOf(context).bottom + 16),
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: IthakiTheme.backgroundWhite,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('Edit Skills',
-                  style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      color: IthakiTheme.textPrimary)),
-              const SizedBox(height: 6),
-              const Text(
-                'Select the skills that best represent your qualifications and professional expertise.',
-                style: TextStyle(
-                    fontSize: 13, color: IthakiTheme.textSecondary),
-              ),
-              const SizedBox(height: 24),
-              _section(
-                title: 'Hard Skills',
-                skills: _hardSkills,
-                allOptions: _kHardSkills,
-                onAdd: (s) => _hardSkills.add(s),
-                onRemove: (i) => _hardSkills.removeAt(i),
-              ),
-              const SizedBox(height: 24),
-              _section(
-                title: 'Soft Skills',
-                skills: _softSkills,
-                allOptions: _kSoftSkills,
-                onAdd: (s) => _softSkills.add(s),
-                onRemove: (i) => _softSkills.removeAt(i),
-              ),
-              const SizedBox(height: 28),
-              IthakiButton('Save', onPressed: _save),
-            ],
-          ),
+    return PanelScaffold(
+      title: 'Edit Skills',
+      onSave: _save,
+      children: [
+        const Text('Edit Skills',
+            style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                color: IthakiTheme.textPrimary)),
+        const SizedBox(height: 6),
+        const Text(
+          'Select the skills that best represent your qualifications and professional expertise.',
+          style: TextStyle(
+              fontSize: 13, color: IthakiTheme.textSecondary),
         ),
-      ),
+        const SizedBox(height: 24),
+        _section(
+          title: 'Hard Skills',
+          skills: _hardSkills,
+          allOptions: _kHardSkills,
+          onAdd: (s) => _hardSkills.add(s),
+          onRemove: (i) => _hardSkills.removeAt(i),
+        ),
+        const SizedBox(height: 24),
+        _section(
+          title: 'Soft Skills',
+          skills: _softSkills,
+          allOptions: _kSoftSkills,
+          onAdd: (s) => _softSkills.add(s),
+          onRemove: (i) => _softSkills.removeAt(i),
+        ),
+      ],
     );
   }
 }
