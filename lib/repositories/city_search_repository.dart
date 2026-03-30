@@ -80,6 +80,8 @@ class NominatimCitySearch implements CitySearchRepository {
   }
 }
 
+final httpClientProvider = Provider<http.Client>((ref) => http.Client());
+
 final citySearchRepositoryProvider = Provider<CitySearchRepository>(
-  (ref) => NominatimCitySearch(http.Client()),
+  (ref) => NominatimCitySearch(ref.watch(httpClientProvider)),
 );

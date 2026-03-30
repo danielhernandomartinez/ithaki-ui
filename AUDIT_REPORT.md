@@ -63,25 +63,6 @@ final profileRepositoryProvider = Provider<ProfileRepository>(
 
 ---
 
-### 🔴 [Crítico] — Sin `AuthRepository`: el dominio de autenticación no tiene contrato
-
-**Archivos:** todo [`lib/screens/auth/`](lib/screens/auth/), [`lib/providers/registration_provider.dart`](lib/providers/registration_provider.dart)
-
-De los 5 dominios del sistema (home, jobs, profile, cities, **auth**), auth es el único sin interface abstracta. Las pantallas guardan credenciales directamente en `registrationProvider` y navegan sin llamar a ningún repositorio:
-
-```dart
-// lib/screens/auth/register_screen.dart:186 — sin repositorio
-ref.read(registrationProvider.notifier)
-    .setCredentials(_emailController.text, _passwordController.text);
-context.push(Routes.personalDetails);
-```
-
-Cuando llegue el backend, no hay un "enchufe" que cambiar: habrá que crear el contrato `AuthRepository` y refactorizar todas las pantallas de auth. Es cirugía, no sustitución.
-
-**Acción:** Crear `abstract class AuthRepository { Future<void> loginWithEmail(...); Future<void> register(...); Future<void> verifyOtp(...); Future<void> logout(); }` y un `MockAuthRepository` que retorne `Future.value()`. Las pantallas deben delegar en él.
-
----
-
 ### 🟡 [Moderado] — `MockJobSearchRepository.search()` ignora todos sus parámetros
 
 **Archivo:** [`lib/repositories/job_search_repository.dart:183`](lib/repositories/job_search_repository.dart#L183)
@@ -135,20 +116,6 @@ final profileCompletionProvider = Provider<double>((ref) {
 ```
 
 El `HomeProfileCompletionCard` y el indicador del drawer mostrarán 0% con un flash visual al inicializar. Sería más correcto usar `AsyncValue<double>` o retornar `null` para renderizar un shimmer.
-
----
-
-### 🟢 [Mejora] — `CitySearchRepository` crea `http.Client` en el provider sin inyección
-
-**Archivo:** [`lib/repositories/city_search_repository.dart:83`](lib/repositories/city_search_repository.dart#L83)
-
-```dart
-final citySearchRepositoryProvider = Provider<CitySearchRepository>(
-  (ref) => NominatimCitySearch(http.Client()), // ← client no inyectado
-);
-```
-
-Esto dificulta mockearlo en tests. Usar `.family` o un `clientProvider` intermedio permitiría sobreescribir el cliente en el entorno de tests.
 
 ---
 
@@ -324,13 +291,6 @@ Los tests usan Fake Notifiers que precargan estado sin pasar por `MockProfileRep
 
 ## 4. Resumen de Hallazgos
 
-### 🔴 Crítico
-
-| # | Hallazgo | Archivo(s) afectado(s) |
-|---|---|---|
-| C-1 | Sin `AuthRepository`: auth no tiene contrato para backend swap | [`screens/auth/`](lib/screens/auth/) |
-| C-2 | Panel de navegación duplicado verbatim en 3 pantallas | `home_screen`, `profile_screen`, `job_search_screen` |
-
 ### 🟡 Moderado
 
 | # | Hallazgo | Archivo(s) afectado(s) |
@@ -361,7 +321,6 @@ Los tests usan Fake Notifiers que precargan estado sin pasar por `MockProfileRep
 ## 5. Plan de Acción Recomendado
 
 ### Fase 1 — Antes de conectar el backend (bloqueantes)
-1. Crear `abstract class AuthRepository` + `MockAuthRepository` + refactorizar pantallas auth
 2. Unificar las dos clases `JobInterest` en un único modelo compartido en `profile_models.dart`
 3. Definir el contrato de `JobSearchRepository.search()` con parámetros reales de filtro/sort/paginación
 
@@ -377,4 +336,4 @@ Los tests usan Fake Notifiers que precargan estado sin pasar por `MockProfileRep
 
 ---
 
-*Auditoría basada en lectura directa de los 121 archivos Dart en `lib/` y los 11 archivos de test. El codebase está en estado saludable para un producto pre-backend. El camino crítico hacia producción pasa por: (1) crear `AuthRepository`, (2) extraer `PanelScaffold`, (3) ampliar cobertura de widget tests.*
+*Auditoría basada en lectura directa de los 121 archivos Dart en `lib/` y los 11 archivos de test. El codebase está en estado saludable para un producto pre-backend. El camino crítico hacia producción pasa por: (2) extraer `PanelScaffold`, (3) ampliar cobertura de widget tests.*
