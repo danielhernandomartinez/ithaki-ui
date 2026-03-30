@@ -1,330 +1,380 @@
-# Reporte de Auditoría Técnica — Ithaki UI + ithaki_design_system
+# Reporte de Auditoría Técnica — Ithaki UI
 
-**Fecha:** 2026-03-27 | **Auditor:** Claude Code (claude-sonnet-4-6) | **Versión analizada:** `main` @ `3d8a097`
+**Fecha:** 2026-03-30 | **Auditor:** Claude Code (claude-sonnet-4-6) | **Rama:** `main` @ `d65677a`
+
+---
+
+## Nota Global del Proyecto
+
+```
+┌─────────────────────────────────────────────────────┐
+│                                                     │
+│   NOTA GENERAL DEL PROYECTO:   7.8 / 10  →  B+     │
+│                                                     │
+│   Arquitectura / Backend-ready    ★★★★☆  8.5/10   │
+│   State Management (Riverpod)     ★★★★★  9.0/10   │
+│   Calidad de Código / Smells      ★★★☆☆  7.0/10   │
+│   Cobertura y Calidad de Tests    ★★★☆☆  6.5/10   │
+│   Consistencia con Design System  ★★★★☆  8.0/10   │
+│                                                     │
+└─────────────────────────────────────────────────────┘
+```
+
+**Veredicto:** El proyecto está en un estado **saludable para una fase pre-backend**. La arquitectura de Riverpod es idiomática y correcta, y el patrón Repository está bien establecido en 4 de 5 dominios. Los tests de providers son de una calidad notable. Los principales puntos de deuda son: la ausencia de un `AuthRepository`, la duplicación literal del panel de navegación en cada pantalla, y una cobertura de tests de widgets prácticamente inexistente (2/58 pantallas).
 
 ---
 
 ## Resumen Ejecutivo
 
-| Dimensión | Estado | Severidad |
+| Dimensión | Estado | Severidad máxima |
 |---|---|---|
-| Arquitectura / Preparación Backend | **Bloqueante** | Crítico |
-| State Management (Riverpod) | Bueno con excepciones | Moderado |
-| God Screens & Code Smells | Presente pero contenido | Moderado |
-| Consistencia con Design System | Parcial — 100+ violaciones | Moderado |
-| Calidad de Tests | Excelente en providers, inexistente en UI | Crítico |
-
-El proyecto tiene una **base sólida** en state management y tests de providers. Sin embargo, presenta **dos bloqueantes críticos para producción**: (1) la capa de repositorios es síncrona, lo que hace imposible una integración directa con cualquier backend, y (2) hay cero cobertura de tests de widgets e integración.
+| Arquitectura / Preparación Backend | Sólida con una brecha crítica | 🔴 Crítico |
+| State Management (Riverpod) | Excelente | — |
+| God Screens & Code Smells | Presente pero contenido | 🟡 Moderado |
+| Calidad de Tests | Excelente en providers, inexistente en UI | 🟡 Moderado |
 
 ---
 
 ## 1. Arquitectura y Escalabilidad
 
-### **[CRÍTICO] Los repositorios son síncronos — No están preparados para un backend real**
+### ✅ Lo que está bien
 
-**El problema más importante del proyecto.** Todos los métodos de `ProfileRepository` devuelven valores síncronos:
+**Patrón Repository con interfaces abstractas: implementado correctamente en 4 dominios.**
 
-```dart
-// lib/repositories/profile_repository.dart:4-13
-abstract class ProfileRepository {
-  ProfileBasics getBasics();          // ❌ debería ser Future<ProfileBasics>
-  ProfileAboutMe getAboutMe();        // ❌
-  ProfileSkills getSkills();          // ❌
-  List<WorkExperience> getWorkExperiences();  // ❌
-  List<Education> getEducations();    // ❌
-  // ...
-}
-```
-
-Cuando se integre el backend, **todos los notifiers** que leen estos repositorios en `build()` deberán convertirse de `Notifier<T>` a `AsyncNotifier<T>`, lo que implica una reescritura masiva en cascada:
+`HomeRepository`, `ProfileRepository`, `JobSearchRepository` y `CitySearchRepository` exponen todos sus métodos como `Future<T>` desde la interface. Los providers registran el mock con el tipo abstracto, por lo que cambiar la implementación al backend real es literalmente una línea:
 
 ```dart
-// lib/providers/profile_provider.dart:10-12
-// ACTUAL — síncrono
-class ProfileBasicsNotifier extends Notifier<ProfileBasics> {
-  @override
-  ProfileBasics build() => ref.read(profileRepositoryProvider).getBasics();
-  // ↑ Esto reventará cuando getBasics() sea async
-}
-
-// CORRECTO para preparar el backend
+// lib/repositories/profile_repository.dart — contrato listo
 abstract class ProfileRepository {
   Future<ProfileBasics> getBasics();
-  Future<void> saveBasics(ProfileBasics basics);  // también falta el método de escritura
+  Future<void> saveBasics(ProfileBasics basics);
+  // ...9 métodos más, todos async
 }
 
-class ProfileBasicsNotifier extends AsyncNotifier<ProfileBasics> {
-  @override
-  Future<ProfileBasics> build() => ref.read(profileRepositoryProvider).getBasics();
+// lib/repositories/profile_repository.dart:101
+final profileRepositoryProvider = Provider<ProfileRepository>(
+  (_) => MockProfileRepository(), // ← swap a RealProfileRepository aquí
+);
+```
+
+**Riverpod con `AsyncNotifier`: bien aplicado.** El patrón `ref.read(repo).save(); state = AsyncData(updated)` es idiomático. Los providers usan `ref.watch` para lecturas y `ref.read` para escrituras. El provider derivado `profileCompletionProvider` minimiza reconstrucciones. `TourNotifier` con persistencia a `SharedPreferences` es el ejemplo más maduro del proyecto.
+
+**Rutas centralizadas.** La clase `Routes` elimina todas las cadenas mágicas de navegación. Los extras tipados `WorkExperienceEditExtra` y `EducationEditExtra` son un buen patrón para pasar datos complejos entre rutas.
+
+---
+
+### 🔴 [Crítico] — Sin `AuthRepository`: el dominio de autenticación no tiene contrato
+
+**Archivos:** todo [`lib/screens/auth/`](lib/screens/auth/), [`lib/providers/registration_provider.dart`](lib/providers/registration_provider.dart)
+
+De los 5 dominios del sistema (home, jobs, profile, cities, **auth**), auth es el único sin interface abstracta. Las pantallas guardan credenciales directamente en `registrationProvider` y navegan sin llamar a ningún repositorio:
+
+```dart
+// lib/screens/auth/register_screen.dart:186 — sin repositorio
+ref.read(registrationProvider.notifier)
+    .setCredentials(_emailController.text, _passwordController.text);
+context.push(Routes.personalDetails);
+```
+
+Cuando llegue el backend, no hay un "enchufe" que cambiar: habrá que crear el contrato `AuthRepository` y refactorizar todas las pantallas de auth. Es cirugía, no sustitución.
+
+**Acción:** Crear `abstract class AuthRepository { Future<void> loginWithEmail(...); Future<void> register(...); Future<void> verifyOtp(...); Future<void> logout(); }` y un `MockAuthRepository` que retorne `Future.value()`. Las pantallas deben delegar en él.
+
+---
+
+### 🟡 [Moderado] — `MockJobSearchRepository.search()` ignora todos sus parámetros
+
+**Archivo:** [`lib/repositories/job_search_repository.dart:183`](lib/repositories/job_search_repository.dart#L183)
+
+```dart
+@override
+Future<JobSearchResult> search({
+  Map<String, Set<String>> filters = const {},
+  String sort = 'Date: Recent',
+  int page = 1,
+}) async {
+  return const JobSearchResult(
+    jobs: _allJobs,       // ← siempre los mismos 10, sin filtrar
+    totalJobs: 1500,      // ← dato inventado, no derivado de la lista
+    totalPages: 25,
+  );
 }
 ```
 
-**Impacto:** Refactorización de 8 providers + 4 repositorios + todos los widgets que los consumen.
+Toda la lógica de `applyFilters`, `resetFilters`, `setSort` en el notifier actualiza estado y no produce ningún efecto visual. El contrato del método (qué devuelve dado ciertos filtros) nunca fue validado, lo que puede generar desacuerdos con el API real.
 
 ---
 
-### **[CRÍTICO] Los filtros de Job Search no llegan al repositorio**
+### 🟡 [Moderado] — Dos clases `JobInterest` con estructuras incompatibles
 
-El `jobSearchProvider` gestiona correctamente los filtros activos en su estado, pero `MockJobSearchRepository` devuelve **siempre los mismos 10 jobs sin filtrar**, ignorando completamente ese estado:
+**Archivos:** [`lib/providers/setup_provider.dart:79`](lib/providers/setup_provider.dart#L79) y [`lib/models/profile_models.dart:124`](lib/models/profile_models.dart#L124)
 
 ```dart
-// lib/providers/job_search_provider.dart:74-86
-void applyFilters(Map<String, Set<String>> updated) { ... }  // ✅ actualiza estado
+// setup_provider.dart — flujo de onboarding
+class JobInterest { final String id; final String label; final String subtitle; }
 
-// lib/repositories/job_search_repository.dart:9
-List<JobListing> get jobs;  // ❌ getter sin parámetros — no recibe los filtros
-
-// El repositorio no tiene:
-// Future<List<JobListing>> search({Map<String,Set<String>> filters, int page, String sort});
+// profile_models.dart — perfil guardado
+class JobInterest { final String title; final String category; }
 ```
 
-La interfaz del repositorio necesita un método que acepte los filtros, el sorting y la paginación como parámetros para que la futura integración con la API sea directa.
+Cuando el flujo de setup necesite persistir al perfil, habrá que mapear manualmente entre ambas. Esta inconsistencia también genera confusión al importar (requiere atención al contexto del archivo).
 
 ---
 
-### **[CRÍTICO] `savedJobIndices` usa posición en lista, no ID de job**
+### 🟡 [Moderado] — `profileCompletionProvider` retorna 0.0 silenciosamente durante la carga
+
+**Archivo:** [`lib/providers/profile_provider.dart:243`](lib/providers/profile_provider.dart#L243)
 
 ```dart
-// lib/providers/job_search_provider.dart:7,64-72
-final Set<int> savedJobIndices;  // ❌ índice de posición, NO ID de trabajo
+final profileCompletionProvider = Provider<double>((ref) {
+  final photoUrl = ref.watch(profileBasicsProvider).value?.photoUrl; // null durante loading
+  final bio = ref.watch(profileAboutMeProvider).value?.bio ?? '';
+  // ...
+  return filled / 6; // retorna 0.0 mientras cargan los async providers
+});
+```
 
-void toggleSaved(int index) {
-  final updated = Set<int>.from(state.savedJobIndices);
-  if (updated.contains(index)) {
-    updated.remove(index);
-  } else {
-    updated.add(index);
-  }
+El `HomeProfileCompletionCard` y el indicador del drawer mostrarán 0% con un flash visual al inicializar. Sería más correcto usar `AsyncValue<double>` o retornar `null` para renderizar un shimmer.
+
+---
+
+### 🟢 [Mejora] — `CitySearchRepository` crea `http.Client` en el provider sin inyección
+
+**Archivo:** [`lib/repositories/city_search_repository.dart:83`](lib/repositories/city_search_repository.dart#L83)
+
+```dart
+final citySearchRepositoryProvider = Provider<CitySearchRepository>(
+  (ref) => NominatimCitySearch(http.Client()), // ← client no inyectado
+);
+```
+
+Esto dificulta mockearlo en tests. Usar `.family` o un `clientProvider` intermedio permitiría sobreescribir el cliente en el entorno de tests.
+
+---
+
+## 2. Malas Prácticas, Code Smells y "God Screens"
+
+### 🔴 [Crítico] — Panel de navegación duplicado verbatim en 3 pantallas
+
+**Archivos:**
+- [`lib/screens/home/home_screen.dart`](lib/screens/home/home_screen.dart) (208 líneas)
+- [`lib/screens/profile/profile_screen.dart`](lib/screens/profile/profile_screen.dart) (202 líneas)
+- [`lib/screens/job_search/job_search_screen.dart`](lib/screens/job_search/job_search_screen.dart) (176 líneas)
+
+Las tres pantallas son estructuralmente idénticas. Este bloque se copia literalmente en todas:
+
+```dart
+// ~60 líneas IDÉNTICAS en cada pantalla:
+if (_panels.menuOpen || _panels.menuCtrl.status != AnimationStatus.dismissed)
+  Positioned(
+    top: topOffset - 14, left: 16, right: 16, bottom: 40,
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(30),
+      child: SlideTransition(
+        position: _panels.slideAnim,
+        child: AppNavDrawer(...),
+      ),
+    ),
+  ),
+if (_panels.profileOpen || _panels.profileCtrl.status != AnimationStatus.dismissed)
+  Positioned(
+    // ... ídem para ProfileMenuPanel
+  ),
+```
+
+Un bug o cambio de diseño en el panel debe aplicarse en 3 lugares. La solución es un `PanelScaffold` widget que reciba `body`, `currentRoute` y los callbacks necesarios, eliminando ~120 líneas duplicadas.
+
+---
+
+### 🟡 [Moderado] — `ProfileBasicsScreen` acumula demasiadas responsabilidades (350 líneas)
+
+**Archivo:** [`lib/screens/profile/profile_basics_screen.dart`](lib/screens/profile/profile_basics_screen.dart)
+
+La pantalla gestiona simultáneamente: 5 `TextEditingController`, `FilePicker`, `showDatePicker`, selector de país, selector de opciones, estado `_isDirty`, y construye la UI del modal "Leave Editing?" de forma inline:
+
+```dart
+// lines 168-211 — modal completo embebido en el State
+void _showLeaveSheet() {
+  showModalBottomSheet(
+    builder: (_) => BottomSheetBase(
+      child: Column(children: [
+        const Text('All entered information will be lost...'),
+        OutlinedButton(...),
+        IthakiButton('Save and Leave', ...),
+      ]),
+    ),
+  );
 }
 ```
 
-Si la lista cambia de orden (sorting diferente, nueva página, filtros), el índice `3` ya no corresponde al mismo trabajo. Debería usar `String jobId` desde el modelo `JobListing`.
+No es un caso extremo, pero el patrón de construir UIs modales inline en el `State` debería estandarizarse extrayendo los modales a widgets propios.
 
 ---
 
-### **[Mejora] State Management bien estructurado**
+### 🟡 [Moderado] — Colores fuera del sistema de diseño en 8+ archivos
 
-Lo que está bien — digno de destacar como patrón a seguir:
+`IthakiTheme` define tokens semánticos pero varios archivos usan `Colors.grey.shade*` directamente, que además **no puede ser `const`** (son getters que crean instancias en tiempo de ejecución):
 
-- **17 providers granulares** con responsabilidades únicas (10 solo para profile)
-- **`profileCompletionProvider`** (`lib/providers/profile_provider.dart:202-218`) es un provider derivado excelente — usa `.select()` para minimizar reconstrucciones
-- **`TourNotifier`** usa `AsyncNotifier` con persistencia real a SharedPreferences — es el único ejemplo correcto de cómo debería funcionar la capa de datos cuando se integre el backend
-- **Estado inmutable** con `copyWith()` en todos los modelos
-
----
-
-## 2. God Screens, Code Smells y Malas Prácticas
-
-### **[Moderado] Pantallas más grandes — candidatas a refactorización**
-
-| Archivo | Líneas | Tipo | Responsabilidades mixtas |
-|---|---|---|---|
-| `lib/screens/profile/profile_basics_screen.dart` | **~349** | ConsumerStatefulWidget | Formulario, validación, file picker, dirty state, navegación condicional |
-| `lib/screens/profile/education_screen.dart` | **~323** | ConsumerWidget | Lista + formulario inline, lógica de add/edit mezclada |
-| `lib/screens/profile/work_experience_screen.dart` | **~317** | Mixto | Patrón dual (lista + formulario) en un solo archivo |
-| `lib/screens/job_search/location_filter_sheet.dart` | **~309** | ConsumerStatefulWidget | Búsqueda HTTP + debounce + selector de país + lista de ciudades + confirmación |
-| `lib/screens/settings/notifications_screen.dart` | **~292** | ConsumerWidget | Múltiples secciones de settings con TextStyle inline |
-| `lib/screens/job_search/filters_sheet.dart` | **~225** | ConsumerStatefulWidget | Orquestación de sub-sheets + estado local de filtros |
-
-Ninguno llega a ser un "God Screen" de 1000+ líneas, lo cual es positivo. La refactorización más urgente es `ProfileBasicsScreen`.
-
----
-
-### **[Moderado] Lógica de negocio embebida en la UI**
-
-**Caso 1: Validación de tamaño de archivo hardcodeada en widget**
-```dart
-// lib/screens/profile/profile_basics_screen.dart (~línea 95-110)
-Future<void> _pickPhoto() async {
-  final result = await FilePicker.platform.pickFiles(...);
-  if (file.size > 5 * 1024 * 1024) {  // ❌ 5MB hardcodeado en la UI
-    ScaffoldMessenger.of(context).showSnackBar(...);
-    return;
-  }
-  setState(() { _photoPath = file.path; });
-}
-```
-Debería ser una constante en una clase `FileValidationConfig` o en el repositorio.
-
-**Caso 2: `_isFormValid` como getter del widget**
-```dart
-// lib/screens/profile/profile_basics_screen.dart:64-65
-bool get _isFormValid =>
-    _nameCtrl.text.trim().isNotEmpty && _lastNameCtrl.text.trim().isNotEmpty;
-```
-Esta validación no es testeable sin levantar el widget completo. Debería estar en el notifier o en un `Validator`.
-
-**Caso 3: `_formatNumber()` en `job_search_screen.dart` (~línea 506)**
-Lógica de formateo de números (`1500 → '1.5K'`) dentro del widget. Debería estar en `/utils/`.
-
----
-
-### **[Moderado] `MediaQuery.of(context)` en `build()` — Reconstrucciones innecesarias**
-
-```dart
-// lib/screens/home/home_screen.dart:41 y lib/screens/job_search/job_search_screen.dart:57
-final topOffset = MediaQuery.of(context).padding.top + kToolbarHeight + 16;
-// ❌ Se reconstruye ante cualquier cambio de MediaQuery (teclado, orientación, etc.)
-```
-
-**Corrección:**
-```dart
-// Escucha solo la propiedad necesaria
-final topPadding = MediaQuery.paddingOf(context).top;
-final topOffset = topPadding + kToolbarHeight + 16;
-```
-
----
-
-### **[Mejora] `Color` importado dentro de modelos de datos**
-
-```dart
-// lib/repositories/job_search_repository.dart:29
-JobListing(
-  companyColor: Color(0xFF6B4EAA),  // ❌ Flutter Color dentro de un modelo de datos puro
-  ...
-)
-```
-
-Los modelos de datos no deberían depender de `package:flutter`. `companyColor` debería ser un `String` (hex) y la UI lo convierte al renderizar.
-
----
-
-## 3. Consistencia con `ithaki_design_system`
-
-### **[Crítico] Colores de gradiente fuera del Design System**
-
-`lib/utils/match_colors.dart` define 10+ colores que son tokens de dominio de negocio y deberían vivir en el design system:
-
-```dart
-// lib/utils/match_colors.dart
-case 'STRONG MATCH':
-  return const [Color(0xFF50C948), Color(0xFF75E767)];  // ❌ fuera del DS
-
-// DEBERÍA SER en ithaki_design_system → ithaki_theme.dart:
-static const matchStrongStart = Color(0xFF50C948);
-static const matchStrongEnd   = Color(0xFF75E767);
-```
-
-### **[Moderado] ~100+ violaciones de colores inline**
-
-| Archivo | Violaciones aprox. | Ejemplo |
+| Archivo | Instancias | Ejemplo |
 |---|---|---|
-| `lib/screens/job_search/job_search_screen.dart` | 30+ | `Color(0xFFE9DEFF)`, `Color(0xFFF8F8F8)` |
-| `lib/screens/home/home_screen.dart` | 20+ | `Color(0xFFDACCF8)`, `Colors.white` |
-| `lib/widgets/app_nav_drawer.dart` | 15+ | `Color(0xFFCCFF00)`, `Color(0xFFE0E0E0)` |
-| `lib/screens/settings/account_settings_screen.dart` | 8+ | `Color(0xFFE9DEFF)` (mismo hex que job_search) |
-| `lib/screens/auth/verify_otp_screen.dart` | 5+ | `Color(0xFFF0EAFA)`, `Colors.white` |
+| [`profile_screen.dart:120`](lib/screens/profile/profile_screen.dart#L120) | 2 | `BorderSide(color: Colors.grey.shade300)` — no-const |
+| [`profile_job_preferences_tab.dart:63`](lib/screens/profile/tabs/profile_job_preferences_tab.dart#L63) | 1 | `BorderSide(color: Colors.grey.shade300)` — no-const |
+| [`upload_file_tab.dart`](lib/widgets/upload_file_tab.dart) | 4 | `.shade300`, `.shade200`, `.shade100` |
+| [`profile_values_tab.dart`](lib/screens/profile/tabs/profile_values_tab.dart) | 2 | `Colors.grey.shade200` |
 
-El hecho de que `Color(0xFFE9DEFF)` aparezca en varios archivos sin estar definido como token es una **deuda técnica compuesta** — cuando el color cambie en el design system, habrá que buscar y reemplazar manualmente en N archivos.
-
-### **[Moderado] 235+ instancias de `TextStyle()` inline**
-
-En lugar de tokens tipográficos del design system, las pantallas construyen `TextStyle()` con valores hardcodeados. El design system ya provee `IthakiTheme.headingLarge`, `bodyRegular`, etc., pero se usan inconsistentemente.
-
-```dart
-// VIOLACIÓN — fontSize y fontWeight hardcodeados
-TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary)
-
-// CORRECTO — usando token del design system
-IthakiTheme.labelMedium
-```
-
-### **[Moderado] Sin escala de spacing**
-
-`EdgeInsets.symmetric(horizontal: 16)` aparece 20+ veces. No existe `IthakiSpacing` en el design system.
-
-**Propuesta:**
-```dart
-// En ithaki_design_system
-abstract class IthakiSpacing {
-  static const double xs = 4, sm = 8, md = 12, lg = 16, xl = 24, xxl = 32;
-}
-```
-
-### **[Mejora] Widgets del Design System — correctamente agnósticos**
-
-Los 39 widgets del design system son puramente presentacionales con callbacks (`onPressed`, `onChanged`) y sin lógica de negocio. Esto está bien y es el patrón a mantener.
+Estos deberían ser tokens en `IthakiTheme` (e.g. `IthakiTheme.borderLight` ya existe, pero no se usa consistentemente).
 
 ---
 
-## 4. Calidad de los Tests
+### 🟡 [Moderado] — Ruta duplicada y dead import en `router.dart`
 
+**Archivo:** [`lib/router.dart`](lib/router.dart)
 
-### **[CRÍTICO] 0 Integration Tests — Flujos de usuario críticos sin verificar**
+**Problema 1 — Dos rutas para la misma pantalla:**
+```dart
+GoRoute(path: Routes.root,  builder: (_, __) => const HomeScreen()), // '/'
+GoRoute(path: Routes.home,  builder: (_, __) => const HomeScreen()), // '/home'
+```
+`_HomeScreenState` tiene `String _selectedRoute = '/home'` pero `initialLocation` es `Routes.root = '/'`. El estado del drawer puede desincronizarse.
 
-Flujos no testeados:
-- Registro → Verificación OTP → Onboarding → Home
-- Búsqueda con filtros → Guardar job → Ver tab "Saved"
-- Editar perfil → Guardar → Verificar datos actualizados
-
+**Problema 2 — Import sin ruta:**
+```dart
+import 'screens/auth/select_language_screen.dart'; // importado pero sin GoRoute ni Routes.selectLanguage
 ```
 
-### **[Mejora] Tests existentes — Excelente calidad**
+---
 
-Lo que SÍ está testeado merece reconocimiento explícito:
+### 🟢 [Mejora] — Validación de email duplicada e incompleta
 
-| Archivo | Tests | Destacado |
+**Archivos:** [`lib/screens/auth/register_screen.dart:47`](lib/screens/auth/register_screen.dart#L47), `login_email_screen.dart`
+
+```dart
+bool get _emailValid =>
+    email.contains('@') && email.contains('.');  // duplicado en ambas pantallas
+```
+
+La validación de contraseña vive en `validators.dart` con una clase `PasswordValidation`. La de email debería seguir el mismo patrón: `EmailValidation.isValid(email)` centralizado.
+
+---
+
+### 🟢 [Mejora] — `_selectedRoute` es estado redundante en `HomeScreen`
+
+**Archivo:** [`lib/screens/home/home_screen.dart:31`](lib/screens/home/home_screen.dart#L31)
+
+GoRouter ya mantiene la ruta activa. Este `setState` local puede desincronizarse ante navegación por deep link. `ProfileScreen` y `JobSearchScreen` pasan la ruta como constante hardcodeada, lo que es más robusto.
+
+---
+
+## 3. Calidad de los Tests
+
+### Fortalezas destacadas
+
+Los tests existentes son de **calidad ejemplar** para lo que cubren. El patrón `ProviderContainer.test()` con override de notifiers es idiomático para Riverpod 3.x. Destacan especialmente:
+
+| Archivo | Tests | Qué prueba bien |
 |---|---|---|
-| `test/providers/provider_test.dart` | 72 | `ProviderContainer.test()`, overrides de notifiers, `closeTo()` para floats |
-| `test/providers/setup_provider_test.dart` | 37 | Tests de preservación de campos no modificados (orthogonality) |
-| `test/providers/tour_provider_test.dart` | 24 | AsyncNotifier + verificación de persistencia en SharedPreferences real |
-| `test/providers/settings_provider_test.dart` | 12 | Canales independientes, edge cases de input inválido |
-| `test/utils/validators_test.dart` | 21 | Parametric testing sobre todos los caracteres especiales válidos |
-| `test/utils/match_colors_test.dart` | 21 | Todos los labels de match + fallback behavior |
-| `test/utils/language_utils_test.dart` | 14 | Variantes regionales + fallback |
-
-**Total: 303 unit tests** con patrón `ProviderContainer.test()` correcto para Riverpod 3.x.
+| [`test/providers/settings_provider_test.dart`](test/providers/settings_provider_test.dart) | 12 | Estado inicial, toggles, ortogonalidad, aislamiento de contenedores |
+| [`test/providers/provider_test.dart`](test/providers/provider_test.dart) | ~72 | `profileCompletionProvider` con overrides declarativos, `closeTo()` para floats |
+| [`test/screens/auth/login_email_screen_test.dart`](test/screens/auth/login_email_screen_test.dart) | ~18 | Layout, estado del botón Sign In, checkbox, navegación |
+| [`test/screens/auth/register_screen_test.dart`](test/screens/auth/register_screen_test.dart) | ~20 | Todas las condiciones del botón Continue, filas de validación, mismatch error |
 
 ---
 
-## 5. Resumen de Hallazgos por Severidad
+### 🟡 [Moderado] — Tests de widget usan selectores posicionales frágiles
+
+**Archivos:** [`test/screens/auth/login_email_screen_test.dart:58`](test/screens/auth/login_email_screen_test.dart#L58), [`register_screen_test.dart:62`](test/screens/auth/register_screen_test.dart#L62)
+
+```dart
+// Frágil: se rompe silenciosamente si se añade o reordena un campo
+await tester.enterText(find.byType(TextField).at(0), email);
+await tester.enterText(find.byType(TextField).at(1), password);
+await tester.enterText(find.byType(TextField).at(2), confirmPassword);
+```
+
+Si se añade un campo antes del email, el texto entra en el campo equivocado sin que el test falle con un error claro. La solución es añadir `Key('email_field')`, `Key('password_field')` a los widgets y buscar por `find.byKey(...)`.
+
+---
+
+### 🟡 [Moderado] — Cobertura de pantallas: 2 de 58 (~3%)
+
+Solo `LoginEmailScreen` y `RegisterScreen` tienen tests de widget. Las 56 pantallas restantes (perfil completo, settings, setup, tour, home, job search) no tienen ninguna cobertura. El valor mínimo es un "smoke test" que asegure que la pantalla renderiza sin errores con sus providers — algo que habría detectado errores de composición del árbol de widgets.
+
+**Prioridad de cobertura sugerida:**
+1. `ProfileBasicsScreen` — formulario más complejo, mayor riesgo de regresión
+2. `HomeScreen` — pantalla principal con múltiples providers async
+3. Pantallas de setup — flujo de onboarding crítico
+
+---
+
+### 🟡 [Moderado] — `city_search_repository_test.dart` hace llamadas HTTP reales
+
+**Archivo:** [`test/repositories/city_search_repository_test.dart`](test/repositories/city_search_repository_test.dart)
+
+Los tests llaman directamente a `nominatim.openstreetmap.org`. Esto los hace no-deterministas (dependen de red y disponibilidad de Nominatim), lentos, y sujetos a rate-limiting. `NominatimCitySearch` ya recibe `http.Client` por inyección, por lo que mockear con `mocktail` (ya está en dev dependencies) es directo.
+
+---
+
+### 🟢 [Mejora] — La ruta `Notifier.save() → repository` no está cubierta
+
+**Archivo:** [`test/providers/provider_test.dart`](test/providers/provider_test.dart)
+
+Los tests usan Fake Notifiers que precargan estado sin pasar por `MockProfileRepository`. Este es el enfoque correcto para probar `profileCompletionProvider` en aislamiento, pero significa que la cadena `notifier.save() → repo.saveBasics() → state = AsyncData(updated)` nunca es ejercida por ningún test. Un bug en `MockProfileRepository.saveBasics` pasaría desapercibido.
+
+---
+
+## 4. Resumen de Hallazgos
 
 ### 🔴 Crítico
 
-| # | Hallazgo | Archivo(s) afectado(s) | Esfuerzo |
-|---|---|---|---|
-| C-2 | Filtros de Job Search no llegan al repositorio | `lib/repositories/job_search_repository.dart`, `lib/providers/job_search_provider.dart` | Medio |
-| C-5 | 0 integration tests — flujos de usuario críticos sin verificar | `test/` | Alto |
+| # | Hallazgo | Archivo(s) afectado(s) |
+|---|---|---|
+| C-1 | Sin `AuthRepository`: auth no tiene contrato para backend swap | [`screens/auth/`](lib/screens/auth/) |
+| C-2 | Panel de navegación duplicado verbatim en 3 pantallas | `home_screen`, `profile_screen`, `job_search_screen` |
 
 ### 🟡 Moderado
 
-| # | Hallazgo | Archivo(s) afectado(s) | Esfuerzo |
-|---|---|---|---|
-| M-1 | Validación del formulario y lógica de file picker embebidas en la UI | `lib/screens/profile/profile_basics_screen.dart:64` | Bajo |
-| M-2 | `_formatNumber()` como método de widget en lugar de utilidad | `lib/screens/job_search/job_search_screen.dart` | Muy bajo |
-| M-3 | `MediaQuery.of(context)` en `build()` — reconstrucciones innecesarias | `lib/screens/home/home_screen.dart:41`, `lib/screens/job_search/job_search_screen.dart:57` | Muy bajo |
-| M-4 | 100+ colores `Color(0x...)` hardcodeados fuera del design system | Todos los screens | Medio |
-| M-5 | 235+ `TextStyle()` inline — tokens tipográficos del DS no usados | Todos los screens | Medio |
-| M-6 | Sin escala de spacing (`IthakiSpacing`) en el design system | `ithaki_design_system` | Bajo |
-| M-7 | `Color` de Flutter importado dentro de modelos de datos puros | `lib/repositories/job_search_repository.dart:29` | Bajo |
-| M-8 | Colores de gradiente de `matchLabel` fuera del design system | `lib/utils/match_colors.dart` | Bajo |
+| # | Hallazgo | Archivo(s) afectado(s) |
+|---|---|---|
+| M-1 | `MockJobSearchRepository.search()` ignora todos los parámetros | [`repositories/job_search_repository.dart`](lib/repositories/job_search_repository.dart) |
+| M-2 | Dos clases `JobInterest` con estructuras incompatibles | `setup_provider.dart`, `profile_models.dart` |
+| M-3 | `profileCompletionProvider` silent 0.0 durante la carga | [`providers/profile_provider.dart:243`](lib/providers/profile_provider.dart#L243) |
+| M-4 | `ProfileBasicsScreen` con múltiples responsabilidades (350L) | [`screens/profile/profile_basics_screen.dart`](lib/screens/profile/profile_basics_screen.dart) |
+| M-5 | `Colors.grey.shade*` fuera de `IthakiTheme`, no-const | 8+ archivos |
+| M-6 | Ruta duplicada `/` y `/home`, dead import en router | [`router.dart`](lib/router.dart) |
+| M-7 | Tests de widget con selectores posicionales frágiles | [`test/screens/auth/`](test/screens/auth/) |
+| M-8 | `city_search_repository_test` hace HTTP real | [`test/repositories/`](test/repositories/) |
+| M-9 | Cobertura de tests de pantalla: 2/58 (3%) | [`test/screens/`](test/screens/) |
 
 ### 🟢 Mejora / Nice-to-have
 
 | # | Hallazgo |
 |---|---|
-| N-1 | `ProfileRepository` no tiene métodos de escritura (`saveBasics`, `saveExperience`, etc.) — prepararlos ahora para cuando exista el backend |
-| N-2 | `HomeRepository` también carece de abstracción async — misma situación que profile |
-| N-3 | Falta estrategia de caché para `CitySearchRepository` (misma query → misma llamada HTTP) |
-| N-4 | El `http.Client` en `citySearchRepositoryProvider` se crea directamente; usar `.family` para poder sobreescribirlo en tests |
-| N-5 | Añadir `const` a constructores de widgets sin estado dinámico |
-| N-6 | No hay manejo de excepciones si `json.decode()` falla en `NominatimCitySearch` |
+| N-1 | Email validation duplicada en register y login — mover a `validators.dart` |
+| N-2 | `_selectedRoute` estado redundante en `HomeScreen` |
+| N-3 | Tests no cubren la cadena `Notifier.save() → repository` |
+| N-4 | `http.Client` de `CitySearchRepository` no inyectable desde tests |
+| N-5 | `CitySearchRepository` sin caché — misma query produce llamada HTTP repetida |
+| N-6 | `profileCompletionProvider` debería retornar `AsyncValue<double>` o `double?` |
 
 ---
 
-## 6. Plan de Acción Recomendado
+## 5. Plan de Acción Recomendado
 
-### Fase 2 — Cobertura de tests
-7. Widget tests para auth — `VerifyOtpScreen`
-8. Widget tests para profile — `ProfileBasicsScreen` (dirty state, botón Save habilita/deshabilita)
-9. 1 integration test de flujo completo — registro → home
+### Fase 1 — Antes de conectar el backend (bloqueantes)
+1. Crear `abstract class AuthRepository` + `MockAuthRepository` + refactorizar pantallas auth
+2. Unificar las dos clases `JobInterest` en un único modelo compartido en `profile_models.dart`
+3. Definir el contrato de `JobSearchRepository.search()` con parámetros reales de filtro/sort/paginación
 
-### Fase 3 — Limpieza y design system
-11. Crear `IthakiSpacing` en el design system
-12. Migrar colores hardcodeados — empezar por `job_search_screen.dart` (30+ instancias)
-13. Mover `_formatNumber()` y validación de 5MB a `utils/`
+### Fase 2 — Deuda técnica de alta rentabilidad
+4. Extraer `PanelScaffold` widget compartido (elimina ~120 líneas duplicadas en 3 pantallas)
+5. Añadir tokens de color a `IthakiTheme` para los grises hardcodeados (`borderSubtle`, `surfaceMuted`, etc.)
+6. Resolver ruta duplicada `/` vs `/home` y el dead import de `select_language_screen.dart`
+
+### Fase 3 — Tests
+7. Reemplazar `find.byType(TextField).at(n)` por `find.byKey(Key('field_name'))`
+8. Mockear `http.Client` en `city_search_repository_test` con `mocktail`
+9. Añadir smoke tests para las 5 pantallas de mayor riesgo: `ProfileBasicsScreen`, `HomeScreen`, `EditJobPreferencesScreen`, `LocationFilterSheet`, `SetupPreferencesScreen`
 
 ---
 
-*El codebase está en un estado saludable para un producto en fase pre-backend. La arquitectura de Riverpod es correcta y la calidad de los unit tests de providers es ejemplar. El camino crítico hacia producción pasa por: (1) hacer los repositorios async, (2) añadir cobertura de widget tests, (3) limpiar las violaciones del design system.*
+*Auditoría basada en lectura directa de los 121 archivos Dart en `lib/` y los 11 archivos de test. El codebase está en estado saludable para un producto pre-backend. El camino crítico hacia producción pasa por: (1) crear `AuthRepository`, (2) extraer `PanelScaffold`, (3) ampliar cobertura de widget tests.*

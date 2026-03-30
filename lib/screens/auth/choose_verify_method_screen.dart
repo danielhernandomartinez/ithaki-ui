@@ -6,6 +6,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../providers/registration_provider.dart';
+import '../../repositories/auth_repository.dart';
 
 class ChooseVerifyMethodScreen extends ConsumerStatefulWidget {
   const ChooseVerifyMethodScreen({super.key});
@@ -63,10 +64,20 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
             l.continueButton,
             isEnabled: _selectedMethod != null,
             onPressed: _selectedMethod != null
-                ? () {
+                ? () async {
+                    final method = _selectedMethod!;
                     ref.read(registrationProvider.notifier)
-                        .setVerifyMethod(_selectedMethod!, remember: _rememberChoice);
-                    context.push(Routes.verifyOtpWith(method: _selectedMethod!));
+                        .setVerifyMethod(method, remember: _rememberChoice);
+                    final state = ref.read(registrationProvider);
+                    await ref.read(authRepositoryProvider).register(
+                          email: state.email,
+                          password: state.password,
+                          name: state.name,
+                          lastName: state.lastName,
+                          phone: state.phone,
+                          verifyMethod: method,
+                        );
+                    if (context.mounted) context.push(Routes.verifyOtpWith(method: method));
                   }
                 : null,
           ),

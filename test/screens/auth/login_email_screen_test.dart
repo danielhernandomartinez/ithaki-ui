@@ -1,7 +1,10 @@
 // test/screens/auth/login_email_screen_test.dart
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:ithaki_ui/repositories/auth_repository.dart';
 
 import 'package:ithaki_ui/l10n/app_localizations.dart';
 import 'package:ithaki_ui/routes.dart';
@@ -32,11 +35,16 @@ GoRouter _router() => GoRouter(
       ],
     );
 
-Widget _buildApp(GoRouter router) => MaterialApp.router(
-      routerConfig: router,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('en'),
+Widget _buildApp(GoRouter router) => ProviderScope(
+      overrides: [
+        authRepositoryProvider.overrideWithValue(MockAuthRepository()),
+      ],
+      child: MaterialApp.router(
+        routerConfig: router,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: const Locale('en'),
+      ),
     );
 
 /// Returns the [ButtonStyleButton] ancestor of the "Sign In" label.

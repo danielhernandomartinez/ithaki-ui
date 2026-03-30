@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../repositories/auth_repository.dart';
 import '../../widgets/login_method_footer.dart';
 
 class _GoogleLogo extends StatelessWidget {
@@ -16,14 +18,14 @@ class _GoogleLogo extends StatelessWidget {
   }
 }
 
-class LoginEmailScreen extends StatefulWidget {
+class LoginEmailScreen extends ConsumerStatefulWidget {
   const LoginEmailScreen({super.key});
 
   @override
-  State<LoginEmailScreen> createState() => _LoginEmailScreenState();
+  ConsumerState<LoginEmailScreen> createState() => _LoginEmailScreenState();
 }
 
-class _LoginEmailScreenState extends State<LoginEmailScreen> {
+class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
@@ -143,8 +145,12 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
             child: IthakiButton(
               l.signInButton,
               onPressed: _canSignIn
-                  ? () {
-                      // TODO: Handle email sign in
+                  ? () async {
+                      await ref.read(authRepositoryProvider).loginWithEmail(
+                            _emailController.text,
+                            _passwordController.text,
+                          );
+                      if (context.mounted) context.go(Routes.verifyEmail);
                     }
                   : null,
             ),

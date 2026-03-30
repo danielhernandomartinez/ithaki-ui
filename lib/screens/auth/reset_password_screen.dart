@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../repositories/auth_repository.dart';
 import '../../utils/validators.dart';
 
-class ResetPasswordScreen extends StatefulWidget {
+class ResetPasswordScreen extends ConsumerStatefulWidget {
   const ResetPasswordScreen({super.key});
 
   @override
-  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
+  ConsumerState<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
-class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _passwordFocus = FocusNode();
@@ -108,9 +110,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             l.resetPasswordButton,
             isEnabled: _canSubmit,
             onPressed: _canSubmit
-                ? () {
-                    // TODO: call reset password API
-                    context.go(Routes.loginPhone);
+                ? () async {
+                    await ref.read(authRepositoryProvider).resetPassword(
+                          _passwordController.text,
+                        );
+                    if (context.mounted) context.go(Routes.loginPhone);
                   }
                 : null,
           ),

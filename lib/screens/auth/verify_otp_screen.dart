@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../routes.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../repositories/auth_repository.dart';
 
-class VerifyOtpScreen extends StatefulWidget {
+class VerifyOtpScreen extends ConsumerStatefulWidget {
   final String method;
   final String? title;
   final String? subtitle;
@@ -31,10 +33,10 @@ class VerifyOtpScreen extends StatefulWidget {
   });
 
   @override
-  State<VerifyOtpScreen> createState() => _VerifyOtpScreenState();
+  ConsumerState<VerifyOtpScreen> createState() => _VerifyOtpScreenState();
 }
 
-class _VerifyOtpScreenState extends State<VerifyOtpScreen> with CountdownMixin {
+class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> with CountdownMixin {
   final _otpController = PinInputController();
   String _otp = '';
 
@@ -128,7 +130,10 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> with CountdownMixin {
             l.continueButton,
             isEnabled: _otpComplete,
             onPressed: _otpComplete
-                ? () => context.go(widget.successRoute)
+                ? () async {
+                    await ref.read(authRepositoryProvider).verifyOtp(_otp);
+                    if (context.mounted) context.go(widget.successRoute);
+                  }
                 : null,
           ),
         ],
