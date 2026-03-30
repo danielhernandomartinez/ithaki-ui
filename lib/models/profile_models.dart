@@ -122,11 +122,12 @@ class Language {
 }
 
 class JobInterest {
+  final String id;
   final String title;
   final String category;
   final String? iconName; // IthakiIcon name, optional
 
-  const JobInterest({required this.title, required this.category, this.iconName});
+  const JobInterest({this.id = '', required this.title, required this.category, this.iconName});
 }
 
 class UploadedFile {

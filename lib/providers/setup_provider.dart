@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../models/profile_models.dart';
 
 class SetupState {
   final String citizenshipCode;
@@ -74,18 +75,6 @@ class SetupState {
       receiveTips: receiveTips ?? this.receiveTips,
     );
   }
-}
-
-class JobInterest {
-  final String id;
-  final String label;
-  final String subtitle;
-
-  const JobInterest({
-    required this.id,
-    required this.label,
-    this.subtitle = '',
-  });
 }
 
 class SetupNotifier extends Notifier<SetupState> {

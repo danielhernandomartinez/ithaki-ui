@@ -1,6 +1,7 @@
 // test/providers/setup_provider_test.dart
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ithaki_ui/models/profile_models.dart';
 import 'package:ithaki_ui/providers/setup_provider.dart';
 
 void main() {
@@ -91,7 +92,7 @@ void main() {
     test('setLocation does not affect other state sections', () {
       final c = ProviderContainer.test();
       c.read(setupProvider.notifier).setJobInterests([
-        const JobInterest(id: '1', label: 'Software'),
+        const JobInterest(id: '1', title:'Software', category: ''),
       ]);
       c.read(setupProvider.notifier).setLocation(
             citizenshipCode: 'GR',
@@ -107,29 +108,29 @@ void main() {
     test('setJobInterests populates the list', () {
       final c = ProviderContainer.test();
       c.read(setupProvider.notifier).setJobInterests([
-        const JobInterest(id: '1', label: 'Software', subtitle: 'Dev'),
+        const JobInterest(id: '1', title:'Software', category:'Dev'),
       ]);
       expect(c.read(setupProvider).jobInterests.length, 1);
-      expect(c.read(setupProvider).jobInterests.first.label, 'Software');
+      expect(c.read(setupProvider).jobInterests.first.title, 'Software');
     });
 
     test('setJobInterests replaces the previous list entirely', () {
       final c = ProviderContainer.test();
       c.read(setupProvider.notifier).setJobInterests([
-        const JobInterest(id: '1', label: 'Software'),
+        const JobInterest(id: '1', title:'Software', category: ''),
       ]);
       c.read(setupProvider.notifier).setJobInterests([
-        const JobInterest(id: '2', label: 'Design'),
-        const JobInterest(id: '3', label: 'Marketing'),
+        const JobInterest(id: '2', title:'Design', category: ''),
+        const JobInterest(id: '3', title:'Marketing', category: ''),
       ]);
       expect(c.read(setupProvider).jobInterests.length, 2);
-      expect(c.read(setupProvider).jobInterests.first.label, 'Design');
+      expect(c.read(setupProvider).jobInterests.first.title, 'Design');
     });
 
     test('setJobInterests with empty list clears interests', () {
       final c = ProviderContainer.test();
       c.read(setupProvider.notifier).setJobInterests([
-        const JobInterest(id: '1', label: 'Software'),
+        const JobInterest(id: '1', title:'Software', category: ''),
       ]);
       c.read(setupProvider.notifier).setJobInterests([]);
       expect(c.read(setupProvider).jobInterests, isEmpty);
@@ -232,7 +233,7 @@ void main() {
             role: 'Employed',
           );
       c.read(setupProvider.notifier).setJobInterests([
-        const JobInterest(id: '1', label: 'Dev'),
+        const JobInterest(id: '1', title: 'Dev', category: ''),
       ]);
       c.read(setupProvider.notifier).setValues({'Innovation'});
       c.read(setupProvider.notifier).setCommunication({'email'}, true);

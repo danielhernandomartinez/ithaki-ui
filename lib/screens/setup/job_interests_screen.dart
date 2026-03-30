@@ -5,6 +5,7 @@ import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../models/profile_models.dart';
 import '../../providers/setup_provider.dart';
 
 final _jobItems = [
@@ -129,7 +130,7 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
                       onPressed: _selected.isNotEmpty
                           ? () {
                               ref.read(setupProvider.notifier).setJobInterests(
-                                _selected.map((j) => JobInterest(id: j.id, label: j.label, subtitle: j.subtitle)).toList(),
+                                _selected.map((j) => JobInterest(id: j.id, title: j.label, category: j.subtitle)).toList(),
                               );
                               context.push(Routes.setupPreferences);
                             }
