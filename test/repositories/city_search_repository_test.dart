@@ -1,6 +1,7 @@
 // test/repositories/city_search_repository_test.dart
 import 'dart:convert';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
@@ -186,5 +187,26 @@ void main() {
     ]));
 
     expect((await repo.search('Ha')).single.city, 'Hamlet');
+  });
+
+  // ── provider injection ──────────────────────────────────────────────────────
+  group('citySearchRepositoryProvider', () {
+    test('uses the client from httpClientProvider', () async {
+      final mockClient = _MockClient();
+      when(() => mockClient.get(any(), headers: any(named: 'headers')))
+          .thenAnswer((_) async => _resp([_item('Lisbon', 'Portugal')]));
+
+      final container = ProviderContainer(
+        overrides: [httpClientProvider.overrideWithValue(mockClient)],
+      );
+      addTearDown(container.dispose);
+
+      final result =
+          await container.read(citySearchRepositoryProvider).search('Li');
+
+      expect(result.single.city, 'Lisbon');
+      verify(() => mockClient.get(any(), headers: any(named: 'headers')))
+          .called(1);
+    });
   });
 }

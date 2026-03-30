@@ -273,14 +273,6 @@ Solo `LoginEmailScreen` y `RegisterScreen` tienen tests de widget. Las 56 pantal
 
 ---
 
-### 🟡 [Moderado] — `city_search_repository_test.dart` hace llamadas HTTP reales
-
-**Archivo:** [`test/repositories/city_search_repository_test.dart`](test/repositories/city_search_repository_test.dart)
-
-Los tests llaman directamente a `nominatim.openstreetmap.org`. Esto los hace no-deterministas (dependen de red y disponibilidad de Nominatim), lentos, y sujetos a rate-limiting. `NominatimCitySearch` ya recibe `http.Client` por inyección, por lo que mockear con `mocktail` (ya está en dev dependencies) es directo.
-
----
-
 ### 🟢 [Mejora] — La ruta `Notifier.save() → repository` no está cubierta
 
 **Archivo:** [`test/providers/provider_test.dart`](test/providers/provider_test.dart)
@@ -302,7 +294,6 @@ Los tests usan Fake Notifiers que precargan estado sin pasar por `MockProfileRep
 | M-5 | `Colors.grey.shade*` fuera de `IthakiTheme`, no-const | 8+ archivos |
 | M-6 | Ruta duplicada `/` y `/home`, dead import en router | [`router.dart`](lib/router.dart) |
 | M-7 | Tests de widget con selectores posicionales frágiles | [`test/screens/auth/`](test/screens/auth/) |
-| M-8 | `city_search_repository_test` hace HTTP real | [`test/repositories/`](test/repositories/) |
 | M-9 | Cobertura de tests de pantalla: 2/58 (3%) | [`test/screens/`](test/screens/) |
 
 ### 🟢 Mejora / Nice-to-have
@@ -312,7 +303,6 @@ Los tests usan Fake Notifiers que precargan estado sin pasar por `MockProfileRep
 | N-1 | Email validation duplicada en register y login — mover a `validators.dart` |
 | N-2 | `_selectedRoute` estado redundante en `HomeScreen` |
 | N-3 | Tests no cubren la cadena `Notifier.save() → repository` |
-| N-4 | `http.Client` de `CitySearchRepository` no inyectable desde tests |
 | N-5 | `CitySearchRepository` sin caché — misma query produce llamada HTTP repetida |
 | N-6 | `profileCompletionProvider` debería retornar `AsyncValue<double>` o `double?` |
 
@@ -331,7 +321,6 @@ Los tests usan Fake Notifiers que precargan estado sin pasar por `MockProfileRep
 
 ### Fase 3 — Tests
 7. Reemplazar `find.byType(TextField).at(n)` por `find.byKey(Key('field_name'))`
-8. Mockear `http.Client` en `city_search_repository_test` con `mocktail`
 9. Añadir smoke tests para las 5 pantallas de mayor riesgo: `ProfileBasicsScreen`, `HomeScreen`, `EditJobPreferencesScreen`, `LocationFilterSheet`, `SetupPreferencesScreen`
 
 ---
