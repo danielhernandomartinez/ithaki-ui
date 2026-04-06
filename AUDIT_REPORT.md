@@ -87,24 +87,6 @@ Toda la lógica de `applyFilters`, `resetFilters`, `setSort` en el notifier actu
 
 ---
 
-### 🟡 [Moderado] — Dos clases `JobInterest` con estructuras incompatibles
-
-**Archivos:** [`lib/providers/setup_provider.dart:79`](lib/providers/setup_provider.dart#L79) y [`lib/models/profile_models.dart:124`](lib/models/profile_models.dart#L124)
-
-```dart
-// setup_provider.dart — flujo de onboarding (pendiente de unificar)
-class JobInterest { final String id; final String label; final String subtitle; }
-
-// profile_models.dart — perfil guardado
-class JobInterest { final String id; required final String title; required final String category; }
-```
-
-> **✅ Mejora parcial (2026-03-30):** `profile_models.dart` ahora exige `title` y `category` como campos requeridos (commit `c646630`). Los tests de `setup_provider_test.dart` se actualizaron para pasar `category`. La dualidad con `setup_provider.dart` (que usa `label`/`subtitle`) sigue pendiente de unificación.
-
-Cuando el flujo de setup necesite persistir al perfil, habrá que mapear manualmente entre ambas. Esta inconsistencia también genera confusión al importar (requiere atención al contexto del archivo).
-
----
-
 ### 🟡 [Moderado] — `profileCompletionProvider` retorna 0.0 silenciosamente durante la carga
 
 **Archivo:** [`lib/providers/profile_provider.dart:243`](lib/providers/profile_provider.dart#L243)
