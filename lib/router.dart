@@ -31,7 +31,8 @@ import 'screens/profile/edit_values_screen.dart';
 import 'screens/profile/work_experience_screen.dart';
 import 'screens/profile/education_screen.dart';
 import 'screens/settings/account_settings_screen.dart';
-import 'screens/auth/select_language_screen.dart';
+import 'screens/applications/my_applications_screen.dart';
+import 'screens/applications/application_details_screen.dart';
 
 class IthakiRouter {
   static final navigatorKey = GlobalKey<NavigatorState>();
@@ -205,6 +206,19 @@ class IthakiRouter {
             initial: extra.edu,
           );
         },
+      ),
+      GoRoute(
+        path: Routes.myApplications,
+        builder: (context, state) => const MyApplicationsScreen(),
+        routes: [
+          GoRoute(
+            path: ':id',
+            builder: (context, state) {
+              final id = state.pathParameters['id'] ?? '';
+              return ApplicationDetailsScreen(applicationId: id);
+            },
+          ),
+        ],
       ),
       GoRoute(
         path: Routes.settings,

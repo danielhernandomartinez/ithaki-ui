@@ -28,6 +28,8 @@ abstract final class Routes {
   // Core
   static const home = '/home';
   static const jobSearch = '/job-search';
+  static const myApplications = '/applications';
+  static const applicationDetail = '/applications/:id';
 
   // Profile
   static const profile = '/profile';
@@ -48,6 +50,8 @@ abstract final class Routes {
   static const settingsNotifications = '/settings/notifications';
 
   // -- Query-parameter helpers --
+
+  static String applicationDetailFor(String id) => '/applications/$id';
 
   static String verifyOtpWith({required String method}) =>
       '$verifyOtp?method=$method';
