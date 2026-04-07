@@ -33,6 +33,7 @@ import 'screens/profile/education_screen.dart';
 import 'screens/settings/account_settings_screen.dart';
 import 'screens/applications/my_applications_screen.dart';
 import 'screens/applications/application_details_screen.dart';
+import 'screens/applications/job_detail_screen.dart';
 
 class IthakiRouter {
   static final navigatorKey = GlobalKey<NavigatorState>();
@@ -216,6 +217,13 @@ class IthakiRouter {
             builder: (context, state) {
               final id = state.pathParameters['id'] ?? '';
               return ApplicationDetailsScreen(applicationId: id);
+            },
+          ),
+          GoRoute(
+            path: ':id/job',
+            builder: (context, state) {
+              final id = state.pathParameters['id'] ?? '';
+              return JobDetailScreen(applicationId: id);
             },
           ),
         ],

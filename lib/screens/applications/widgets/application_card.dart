@@ -241,45 +241,65 @@ class _MatchBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bgColor = getMatchBgColor(application.matchLabel);
+    final gradientColors = getMatchGradientColors(application.matchLabel);
+    final pct = application.matchPercentage;
+
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+      height: 36,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
         color: bgColor,
-        borderRadius: BorderRadius.circular(26),
       ),
-      child: Row(
+      clipBehavior: Clip.antiAlias,
+      child: Stack(
         children: [
-          Container(
-            width: 32,
-            height: 32,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              '${application.matchPercentage}%',
-              style: const TextStyle(
-                fontFamily: 'Noto Sans',
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: IthakiTheme.textPrimary,
-                height: 1.5,
-                letterSpacing: -0.24,
+          const SizedBox.expand(),
+          FractionallySizedBox(
+            widthFactor: pct / 100,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                gradient: LinearGradient(colors: gradientColors),
               ),
             ),
           ),
-          const SizedBox(width: 8),
-          Text(
-            application.matchLabel,
-            style: const TextStyle(
-              fontFamily: 'Noto Sans',
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: IthakiTheme.textPrimary,
-              height: 1.5,
-              letterSpacing: -0.32,
+          Positioned.fill(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                children: [
+                  Container(
+                    width: 28,
+                    height: 28,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      '$pct%',
+                      style: const TextStyle(
+                        fontSize: 9,
+                        fontWeight: FontWeight.bold,
+                        color: IthakiTheme.textPrimary,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  Flexible(
+                    child: Text(
+                      application.matchLabel,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: IthakiTheme.textPrimary,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

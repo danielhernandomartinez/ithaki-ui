@@ -30,6 +30,8 @@ abstract final class Routes {
   static const jobSearch = '/job-search';
   static const myApplications = '/applications';
   static const applicationDetail = '/applications/:id';
+  static const jobDetail = '/applications/:id/job';
+  static String jobDetailFor(String applicationId) => '/applications/$applicationId/job';
 
   // Profile
   static const profile = '/profile';

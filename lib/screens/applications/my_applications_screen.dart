@@ -91,12 +91,9 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
                           color: IthakiTheme.textPrimary,
-                          height: 1.5,
                           letterSpacing: -0.32,
                         ),
                       ),
-                      const SizedBox(height: 16),
-
                       // Application cards list
                       ListView.separated(
                         shrinkWrap: true,
@@ -232,37 +229,46 @@ class _ApplicationsTabBarState extends State<_ApplicationsTabBar> {
         color: IthakiTheme.chipActive,
         borderRadius: BorderRadius.circular(24),
       ),
-      child: Row(
-        children: List.generate(_tabs.length, (i) {
-          final isActive = widget.controller.index == i;
-          return Expanded(
-            child: GestureDetector(
-              onTap: () => widget.controller.animateTo(i),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                height: double.infinity,
-                decoration: BoxDecoration(
-                  color: isActive
-                      ? IthakiTheme.backgroundWhite
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  _tabs[i],
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight:
-                        isActive ? FontWeight.w600 : FontWeight.w400,
-                    color: isActive
-                        ? IthakiTheme.textPrimary
-                        : IthakiTheme.textSecondary,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: List.generate(_tabs.length, (i) {
+              final isActive = widget.controller.index == i;
+              return Padding(
+                padding: EdgeInsets.only(left: i == 0 ? 0 : 6),
+                child: GestureDetector(
+                  onTap: () => widget.controller.animateTo(i),
+                  child: Container(
+                    height: 40,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: isActive
+                          ? IthakiTheme.backgroundWhite
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      _tabs[i],
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight:
+                            isActive ? FontWeight.w600 : FontWeight.w400,
+                        color: isActive
+                            ? IthakiTheme.textPrimary
+                            : IthakiTheme.textSecondary,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          );
-        }),
+              );
+            }),
+          ),
+        ),
       ),
     );
   }

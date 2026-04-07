@@ -4,25 +4,23 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../constants/nav_items.dart';
 import '../../mixins/panel_menu_mixin.dart';
-import '../../providers/application_detail_provider.dart';
 import '../../providers/home_provider.dart';
+import '../../providers/job_detail_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../routes.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
-import 'widgets/application_detail_cards.dart';
+import 'widgets/job_detail_cards.dart';
 
-class ApplicationDetailsScreen extends ConsumerStatefulWidget {
+class JobDetailScreen extends ConsumerStatefulWidget {
   final String applicationId;
-  const ApplicationDetailsScreen({super.key, required this.applicationId});
+  const JobDetailScreen({super.key, required this.applicationId});
 
   @override
-  ConsumerState<ApplicationDetailsScreen> createState() =>
-      _ApplicationDetailsScreenState();
+  ConsumerState<JobDetailScreen> createState() => _JobDetailScreenState();
 }
 
-class _ApplicationDetailsScreenState
-    extends ConsumerState<ApplicationDetailsScreen>
+class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
     with TickerProviderStateMixin {
   late final PanelMenuController _panels;
 
@@ -40,7 +38,7 @@ class _ApplicationDetailsScreenState
 
   @override
   Widget build(BuildContext context) {
-    final detail = ref.watch(applicationDetailProvider(widget.applicationId));
+    final detail = ref.watch(jobDetailProvider(widget.applicationId));
     final homeData = ref.watch(homeProvider).value;
     final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
@@ -62,7 +60,7 @@ class _ApplicationDetailsScreenState
         onMenuPressed: _panels.toggleMenu,
         onAvatarPressed: _panels.toggleProfile,
       ),
-      bottomNavigationBar: ApplicationDetailStickyBar(applicationId: widget.applicationId),
+      bottomNavigationBar: JobDetailStickyBar(detail: detail),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -70,12 +68,11 @@ class _ApplicationDetailsScreenState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: topOffset),
-                _pad(ApplicationStatusCard(detail: detail)),
-                _pad(JobPostBasicsCard(detail: detail)),
-                _pad(TalentProfileCard(candidate: detail.candidate)),
-                _pad(CoverLetterCard(text: detail.coverLetter)),
-                _pad(ScreeningQuestionsCard(questions: detail.screeningQuestions)),
-                _pad(ApplicationDetailCompanyCard(company: detail.company)),
+                _pad(JobStatusCard(detail: detail)),
+                _pad(JobMainCard(detail: detail)),
+                _pad(ReviewsCard(detail: detail)),
+                _pad(RecommendedCard(job: detail.recommended)),
+                _pad(JobDetailCompanyCard(company: detail.company)),
                 SizedBox(height: MediaQuery.paddingOf(context).bottom + 16),
               ],
             ),
