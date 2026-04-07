@@ -6,25 +6,8 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../models/profile_models.dart';
+import '../../providers/reference_data_provider.dart';
 import '../../providers/setup_provider.dart';
-
-final _jobItems = [
-  const SearchItem(id: 'accountant', label: 'Accountant', subtitle: 'Finance & Accounting'),
-  const SearchItem(id: 'actor', label: 'Actor', subtitle: 'Entertainment'),
-  const SearchItem(id: 'architect', label: 'Architect', subtitle: 'Construction'),
-  const SearchItem(id: 'archivist', label: 'Archivist', subtitle: 'Information'),
-  const SearchItem(id: 'attorney', label: 'Attorney', subtitle: 'Law & Legal Services'),
-  const SearchItem(id: 'auditor', label: 'Auditor', subtitle: 'Finance & Accounting'),
-  const SearchItem(id: 'web_developer', label: 'Web Developer', subtitle: 'IT & Development'),
-  const SearchItem(id: 'welder', label: 'Welder', subtitle: 'Construction'),
-  const SearchItem(id: 'wedding_planner', label: 'Wedding Planner', subtitle: 'Entertainment'),
-  const SearchItem(id: 'web_designer', label: 'Web Designer', subtitle: 'IT & Development'),
-  const SearchItem(id: 'weaver', label: 'Weaver', subtitle: 'Manufacturing'),
-  const SearchItem(id: 'software_engineer', label: 'Software Engineer', subtitle: 'IT & Development'),
-  const SearchItem(id: 'data_analyst', label: 'Data Analyst', subtitle: 'IT & Development'),
-  const SearchItem(id: 'product_manager', label: 'Product Manager', subtitle: 'Management'),
-  const SearchItem(id: 'ux_designer', label: 'UX Designer', subtitle: 'Design'),
-];
 
 class JobInterestsScreen extends ConsumerStatefulWidget {
   const JobInterestsScreen({super.key});
@@ -36,9 +19,9 @@ class JobInterestsScreen extends ConsumerStatefulWidget {
 class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
   final List<SearchItem> _selected = [];
 
-  void _openJobSearch(AppLocalizations l) {
+  void _openJobSearch(AppLocalizations l, List<SearchItem> allItems) {
     if (_selected.length >= 5) return;
-    final available = _jobItems.where((j) => !_selected.any((s) => s.id == j.id)).toList();
+    final available = allItems.where((j) => !_selected.any((s) => s.id == j.id)).toList();
     SearchBottomSheet.show(
       context,
       l.selectJobInterest,
@@ -52,6 +35,15 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
+    final jobInterestsAsync = ref.watch(jobInterestsListProvider);
+    final allItems = jobInterestsAsync.value
+            ?.map((j) => SearchItem(
+                  id: j.id.toString(),
+                  label: j.title,
+                  subtitle: j.category,
+                ))
+            .toList() ??
+        const [];
 
     return IthakiScreenLayout(
       appBar: const IthakiAppBar(showMenuAndAvatar: true),
@@ -87,7 +79,7 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
                     )),
                     if (_selected.isEmpty)
                       GestureDetector(
-                        onTap: () => _openJobSearch(l),
+                        onTap: () => _openJobSearch(l, allItems),
                         child: Container(
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
@@ -107,7 +99,7 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
                       )
                     else if (_selected.length < 5)
                       GestureDetector(
-                        onTap: () => _openJobSearch(l),
+                        onTap: () => _openJobSearch(l, allItems),
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                           decoration: BoxDecoration(

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../providers/profile_provider.dart';
+import '../../providers/reference_data_provider.dart';
 import '../../widgets/panel_scaffold.dart';
 
 const _kProficiencyLevels = [
@@ -12,17 +13,6 @@ const _kProficiencyLevels = [
   'Advanced',
   'Conversational',
   'Basic',
-];
-
-const _kLanguages = [
-  'English',
-  'Greek',
-  'Spanish',
-  'French',
-  'German',
-  'Italian',
-  'Arabic',
-  'Chinese',
 ];
 
 class EditLanguagesScreen extends ConsumerStatefulWidget {
@@ -74,7 +64,7 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
     return map[language] ?? 'gr';
   }
 
-  void _showLanguagePicker(int i) {
+  void _showLanguagePicker(int i, List<String> availableLanguages) {
     showModalBottomSheet(
       context: context,
       backgroundColor: IthakiTheme.backgroundWhite,
@@ -85,24 +75,20 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
         final mq = MediaQuery.of(ctx);
         return SafeArea(
           child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: mq.size.height * 0.6,
-            ),
+            constraints: BoxConstraints(maxHeight: mq.size.height * 0.6),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: 16),
                 const Text('Select Language',
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                 const SizedBox(height: 8),
                 Flexible(
                   child: ListView(
                     shrinkWrap: true,
-                    children: _kLanguages
+                    children: availableLanguages
                         .map((lang) => ListTile(
-                              leading: IthakiFlag(_langCode(lang),
-                                  width: 24, height: 24),
+                              leading: IthakiFlag(_langCode(lang), width: 24, height: 24),
                               title: Text(lang),
                               onTap: () {
                                 setState(() => _langs[i] = lang);
@@ -131,6 +117,9 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final langsAsync = ref.watch(languagesListProvider);
+    final availableLanguages = langsAsync.value?.map((l) => l.name).toList() ?? const [];
+
     return PanelScaffold(
       title: 'Edit Languages',
       onSave: _save,
@@ -146,7 +135,9 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
                         hint: 'Select language',
                         controller: TextEditingController(text: _langs[i]),
                         readOnly: true,
-                        onTap: () => _showLanguagePicker(i),
+                        onTap: availableLanguages.isEmpty
+                            ? null
+                            : () => _showLanguagePicker(i, availableLanguages),
                         suffixIcon: _langs[i].isNotEmpty
                             ? IthakiFlag(_langCode(_langs[i]),
                                 width: 22, height: 22)

@@ -3,26 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../providers/profile_provider.dart';
+import '../../providers/reference_data_provider.dart';
 import '../../widgets/panel_scaffold.dart';
-
-const _kHardSkills = [
-  'Web Development', 'HTML5 / CSS3', 'JavaScript (ES6+)',
-  'React / Vue / Angular', 'Node.js / Express.js', 'TypeScript',
-  'Webflow', 'iOS Development', 'GitHub', 'RESTful APIs', 'GraphQL',
-  'Python', 'Java', 'Flutter', 'Swift', 'Kotlin', 'SQL', 'Docker',
-  'Kubernetes', 'AWS', 'Azure', 'Machine Learning', 'Data Analysis',
-  'UI/UX Design', 'Figma', 'Product Management', 'SEO',
-  'Digital Marketing', 'Excel / Spreadsheets', 'Blockchain', 'Cybersecurity',
-];
-
-const _kSoftSkills = [
-  'Problem Solving', 'Attention to Detail', 'Teamwork', 'Responsibility',
-  'Continuous Learning', 'Time Management', 'Critical Thinking',
-  'Communication', 'Adaptability', 'Leadership', 'Creativity',
-  'Conflict Resolution', 'Emotional Intelligence', 'Decision Making',
-  'Multitasking', 'Networking', 'Mentoring', 'Public Speaking',
-  'Negotiation', 'Work Ethic',
-];
 
 class EditSkillsScreen extends ConsumerStatefulWidget {
   const EditSkillsScreen({super.key});
@@ -74,13 +56,11 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
         ),
         child: Row(mainAxisSize: MainAxisSize.min, children: [
           Text(label,
-              style: const TextStyle(
-                  fontSize: 14, color: IthakiTheme.textPrimary)),
+              style: const TextStyle(fontSize: 14, color: IthakiTheme.textPrimary)),
           const SizedBox(width: 6),
           GestureDetector(
             onTap: onRemove,
-            child: const Icon(Icons.close,
-                size: 14, color: IthakiTheme.softGraphite),
+            child: const Icon(Icons.close, size: 14, color: IthakiTheme.softGraphite),
           ),
         ]),
       );
@@ -106,7 +86,7 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
           children: skills
               .asMap()
               .entries
-              .map((e) => _chip(e.value, () => onRemove(e.key)))
+              .map((e) => _chip(e.value, () => setState(() => onRemove(e.key))))
               .toList(),
         ),
         const SizedBox(height: 10),
@@ -120,8 +100,7 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
         ),
         child: Container(
           width: double.infinity,
-          padding:
-              const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             border: Border.all(color: IthakiTheme.borderLight),
@@ -130,12 +109,10 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
             Expanded(
               child: Text(
                 'Start typing to add a skill',
-                style: TextStyle(
-                    fontSize: 14, color: IthakiTheme.softGraphite),
+                style: TextStyle(fontSize: 14, color: IthakiTheme.softGraphite),
               ),
             ),
-            const IthakiIcon('arrow-down',
-                size: 18, color: IthakiTheme.softGraphite),
+            const IthakiIcon('arrow-down', size: 18, color: IthakiTheme.softGraphite),
           ]),
         ),
       ),
@@ -144,6 +121,12 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final hardAsync = ref.watch(hardSkillsProvider);
+    final softAsync = ref.watch(softSkillsProvider);
+
+    final hardOptions = hardAsync.value?.map((s) => s.name).toList() ?? const [];
+    final softOptions = softAsync.value?.map((s) => s.name).toList() ?? const [];
+
     return PanelScaffold(
       title: 'Edit Skills',
       onSave: _save,
@@ -156,25 +139,28 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
         const SizedBox(height: 6),
         const Text(
           'Select the skills that best represent your qualifications and professional expertise.',
-          style: TextStyle(
-              fontSize: 13, color: IthakiTheme.textSecondary),
+          style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 24),
-        _section(
-          title: 'Hard Skills',
-          skills: _hardSkills,
-          allOptions: _kHardSkills,
-          onAdd: (s) => _hardSkills.add(s),
-          onRemove: (i) => _hardSkills.removeAt(i),
-        ),
-        const SizedBox(height: 24),
-        _section(
-          title: 'Soft Skills',
-          skills: _softSkills,
-          allOptions: _kSoftSkills,
-          onAdd: (s) => _softSkills.add(s),
-          onRemove: (i) => _softSkills.removeAt(i),
-        ),
+        if (hardAsync.isLoading || softAsync.isLoading)
+          const Center(child: CircularProgressIndicator())
+        else ...[
+          _section(
+            title: 'Hard Skills',
+            skills: _hardSkills,
+            allOptions: hardOptions,
+            onAdd: (s) => _hardSkills.add(s),
+            onRemove: (i) => _hardSkills.removeAt(i),
+          ),
+          const SizedBox(height: 24),
+          _section(
+            title: 'Soft Skills',
+            skills: _softSkills,
+            allOptions: softOptions,
+            onAdd: (s) => _softSkills.add(s),
+            onRemove: (i) => _softSkills.removeAt(i),
+          ),
+        ],
       ],
     );
   }
