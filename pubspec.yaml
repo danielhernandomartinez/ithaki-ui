@@ -22,6 +22,10 @@ dependencies:
       url: https://github.com/danielhernandomartinez/ithaki_design_system
       ref: v0.10.16
 
+dependency_overrides:
+  ithaki_design_system:
+    path: ../ithaki_design_system
+
 
 dev_dependencies:
   flutter_test:

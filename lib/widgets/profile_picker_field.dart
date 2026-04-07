@@ -25,49 +25,14 @@ class ProfilePickerField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasValue = value.isNotEmpty;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w600,
-            color: IthakiTheme.textPrimary,
-          ),
-        ),
-        const SizedBox(height: 6),
-        GestureDetector(
-          onTap: onTap,
-          child: Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 14, vertical: verticalPadding),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: IthakiTheme.borderLight),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    hasValue ? value : hint,
-                    style: TextStyle(
-                      fontSize: fontSize,
-                      fontWeight: hasValue ? FontWeight.w600 : FontWeight.w400,
-                      color: hasValue
-                          ? IthakiTheme.textPrimary
-                          : IthakiTheme.softGraphite,
-                    ),
-                  ),
-                ),
-                IthakiIcon('arrow-down',
-                    size: arrowSize, color: IthakiTheme.softGraphite),
-              ],
-            ),
-          ),
-        ),
-      ],
+    return IthakiSelectorField(
+      label: label,
+      hint: hint,
+      value: value.isEmpty ? null : value,
+      onTap: onTap,
+      fontSize: fontSize,
+      verticalPadding: verticalPadding,
+      arrowSize: arrowSize,
     );
   }
 }

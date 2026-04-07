@@ -24,23 +24,12 @@ class ProfileMetaCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconWidget = Icon(icon, size: 14, color: IthakiTheme.softGraphite);
-    final textWidget = Text(
+    return IthakiMetaCell(
+      icon,
       value,
-      style: TextStyle(fontSize: fontSize, color: IthakiTheme.textSecondary),
-      overflow: flexible ? TextOverflow.ellipsis : null,
-    );
-
-    return Row(
-      crossAxisAlignment:
-          alignIconTop ? CrossAxisAlignment.start : CrossAxisAlignment.center,
-      children: [
-        alignIconTop
-            ? Padding(padding: const EdgeInsets.only(top: 1), child: iconWidget)
-            : iconWidget,
-        const SizedBox(width: 4),
-        flexible ? Flexible(child: textWidget) : Expanded(child: textWidget),
-      ],
+      alignIconTop: alignIconTop,
+      flexible: flexible,
+      fontSize: fontSize,
     );
   }
 }

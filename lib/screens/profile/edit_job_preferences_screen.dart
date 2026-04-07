@@ -41,7 +41,6 @@ class _EditJobPreferencesScreenState
   ];
   static const _jobTypes = ['Full-Time', 'Part-time', 'Contract', 'Freelance'];
   static const _workplaceTypes = ['On-Site', 'Remote', 'Hybrid'];
-  static const _paymentTerms = ['Monthly', 'Yearly'];
 
   @override
   void initState() {
@@ -223,14 +222,8 @@ class _EditJobPreferencesScreenState
                 controller: _salaryCtrl,
                 preferNotToSpecify: _preferNotToSpecify,
                 paymentTerm: _paymentTerm,
-                onPaymentTermTap: () => SearchBottomSheet.show(
-                  context,
-                  'Payment Term',
-                  _paymentTerms
-                      .map((t) => SearchItem(id: t, label: t))
-                      .toList(),
-                  (item) => setState(() => _paymentTerm = item.id),
-                ),
+                onPaymentTermChanged: (value) =>
+                    setState(() => _paymentTerm = value),
                 onPreferNotToSpecifyChanged: (v) =>
                     setState(() => _preferNotToSpecify = v),
               ),
