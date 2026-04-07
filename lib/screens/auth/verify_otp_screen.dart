@@ -39,6 +39,7 @@ class VerifyOtpScreen extends ConsumerStatefulWidget {
 class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> with CountdownMixin {
   final _otpController = PinInputController();
   String _otp = '';
+  bool _isSending = false;
 
   bool get _otpComplete => _otp.length == 6;
 
@@ -120,13 +121,16 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> with Countdow
           ),
           const SizedBox(height: 20),
           IthakiResendTimer(
-            canResend: countdownCanResend,
+            canResend: countdownCanResend && !_isSending,
             secondsLeft: countdownSeconds,
             label: resendLabel,
             onResend: () async {
+              if (_isSending) return;
+              setState(() => _isSending = true);
               try {
                 await ref.read(authRepositoryProvider).sendOtp();
               } catch (_) {}
+              if (mounted) setState(() => _isSending = false);
               startCountdown(24);
             },
           ),
