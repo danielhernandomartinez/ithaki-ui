@@ -38,6 +38,28 @@ class CandidateProfile {
     required this.experienceLevel,
     required this.salaryExpectation,
   });
+
+  CandidateProfile copyWith({
+    String? name, String? title, String? photoUrl, String? availabilityLabel,
+    String? email, String? phone, String? gender, String? age,
+    String? citizenship, String? location, String? workplacePreference,
+    String? employmentPreference, String? experienceLevel, String? salaryExpectation,
+  }) => CandidateProfile(
+    name: name ?? this.name,
+    title: title ?? this.title,
+    photoUrl: photoUrl ?? this.photoUrl,
+    availabilityLabel: availabilityLabel ?? this.availabilityLabel,
+    email: email ?? this.email,
+    phone: phone ?? this.phone,
+    gender: gender ?? this.gender,
+    age: age ?? this.age,
+    citizenship: citizenship ?? this.citizenship,
+    location: location ?? this.location,
+    workplacePreference: workplacePreference ?? this.workplacePreference,
+    employmentPreference: employmentPreference ?? this.employmentPreference,
+    experienceLevel: experienceLevel ?? this.experienceLevel,
+    salaryExpectation: salaryExpectation ?? this.salaryExpectation,
+  );
 }
 
 class CompanyInfo {
@@ -112,4 +134,29 @@ class ApplicationDetail {
     required this.screeningQuestions,
     required this.company,
   });
+
+  ApplicationDetail copyWith({CandidateProfile? candidate}) => ApplicationDetail(
+    id: id,
+    appliedAt: appliedAt,
+    statusLabel: statusLabel,
+    appliedWithNote: appliedWithNote,
+    postedDate: postedDate,
+    jobTitle: jobTitle,
+    companyName: companyName,
+    companyLogoColor: companyLogoColor,
+    companyLogoInitials: companyLogoInitials,
+    matchPercentage: matchPercentage,
+    matchLabel: matchLabel,
+    location: location,
+    jobType: jobType,
+    industry: industry,
+    salaryRange: salaryRange,
+    workplace: workplace,
+    experienceLevel: experienceLevel,
+    languages: languages,
+    candidate: candidate ?? this.candidate,
+    coverLetter: coverLetter,
+    screeningQuestions: screeningQuestions,
+    company: company,
+  );
 }

@@ -56,3 +56,7 @@ app.*.map.json
 # Claude
 .claude/
 docs/context.md
+
+# API documentation
+API_ENDPOINTS.md
+POST_REQUEST_BODIES.md

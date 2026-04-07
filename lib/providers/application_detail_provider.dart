@@ -1,21 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/application_detail_models.dart';
+import 'profile_provider.dart';
 
 final applicationDetailProvider =
     Provider.family<ApplicationDetail?, String>((ref, id) {
-  return _mockDetails[id];
+  final detail = _mockDetails[id];
+  if (detail == null) return null;
+
+  final basics = ref.watch(profileBasicsProvider).value;
+  if (basics == null || basics.firstName.isEmpty) return detail;
+
+  final candidate = detail.candidate.copyWith(
+    name: '${basics.firstName} ${basics.lastName}'.trim(),
+    email: basics.email.isNotEmpty ? basics.email : null,
+    phone: basics.phone.isNotEmpty ? basics.phone : null,
+    gender: basics.gender.isNotEmpty ? basics.gender : null,
+    citizenship: basics.citizenship.isNotEmpty ? basics.citizenship : null,
+    photoUrl: basics.photoUrl,
+  );
+
+  return detail.copyWith(candidate: candidate);
 });
 
 const _mockCandidate = CandidateProfile(
-  name: 'Christos Ioannides',
+  name: '',
   title: 'Frontend Developer',
   availabilityLabel: 'Available for hire from Dec 2025',
-  email: 'd.popadopulos@gmail.com',
-  phone: '+30 123 456 78 90',
-  gender: 'Male',
+  email: '',
+  phone: '',
+  gender: '',
   age: '45',
-  citizenship: 'Greek',
+  citizenship: '',
   location: 'Thessaloniki, Greece',
   workplacePreference: 'On-site',
   employmentPreference: 'Full-Time',

@@ -42,7 +42,7 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
   @override
   Widget build(BuildContext context) {
     final homeData = ref.watch(homeProvider).value;
-    final applications = ref.watch(applicationsProvider);
+    final applications = ref.watch(applicationsProvider).value ?? [];
     final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
     return Scaffold(
