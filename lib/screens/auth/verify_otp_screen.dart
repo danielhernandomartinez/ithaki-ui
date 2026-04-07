@@ -131,8 +131,15 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> with Countdow
             isEnabled: _otpComplete,
             onPressed: _otpComplete
                 ? () async {
-                    await ref.read(authRepositoryProvider).verifyOtp(_otp);
-                    if (context.mounted) context.go(widget.successRoute);
+                    try {
+                      await ref.read(authRepositoryProvider).verifyOtp(_otp);
+                      if (context.mounted) context.go(widget.successRoute);
+                    } catch (e) {
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(e.toString())),
+                      );
+                    }
                   }
                 : null,
           ),

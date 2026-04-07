@@ -146,11 +146,18 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
               l.signInButton,
               onPressed: _canSignIn
                   ? () async {
-                      await ref.read(authRepositoryProvider).loginWithEmail(
-                            _emailController.text,
-                            _passwordController.text,
-                          );
-                      if (context.mounted) context.go(Routes.verifyEmail);
+                      try {
+                        await ref.read(authRepositoryProvider).loginWithEmail(
+                              _emailController.text,
+                              _passwordController.text,
+                            );
+                        if (context.mounted) context.go(Routes.verifyEmail);
+                      } catch (e) {
+                        if (!context.mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(e.toString())),
+                        );
+                      }
                     }
                   : null,
             ),

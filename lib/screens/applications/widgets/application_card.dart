@@ -197,6 +197,7 @@ class _JobInfo extends StatelessWidget {
         _DetailsGrid(application: application),
         const SizedBox(height: 12),
         _ActionButtons(
+          applicationId: application.id,
           onViewApplication: onViewApplication,
         ),
       ],
@@ -385,8 +386,12 @@ class _DetailItem extends StatelessWidget {
 }
 
 class _ActionButtons extends StatelessWidget {
+  final String applicationId;
   final VoidCallback? onViewApplication;
-  const _ActionButtons({this.onViewApplication});
+  const _ActionButtons({
+    required this.applicationId,
+    this.onViewApplication,
+  });
 
   static const _spacing = 8.0;
   // minimum width each button needs before we wrap to two rows
@@ -402,7 +407,7 @@ class _ActionButtons extends StatelessWidget {
         final outline = IthakiButton(
           'View Job Details',
           variant: IthakiButtonVariant.outline,
-          onPressed: () {},
+          onPressed: () => context.push(Routes.jobDetailFor(applicationId)),
         );
         final primary = IthakiButton(
           'View Application',

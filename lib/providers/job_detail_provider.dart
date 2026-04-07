@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../models/job_detail_models.dart';
 
 final jobDetailProvider =
@@ -21,7 +22,7 @@ const _mockRecommended = RecommendedJob(
   companyName: 'Nexora',
   companyInitials: 'NX',
   companyColor: Color(0xFF905CFF),
-  salary: '2,000 € / month',
+  salary: '2,000 EUR / month',
   matchPercentage: 100,
   matchLabel: 'STRONG MATCH',
   location: 'Athens',
@@ -43,7 +44,7 @@ final _mockDetails = <String, JobDetail>{
     matchLabel: 'STRONG MATCH',
     location: 'Thessaloniki',
     jobType: 'Full-Time',
-    salaryRange: '€1,000–€1,400',
+    salaryRange: 'EUR 1,000-EUR 1,400',
     workplace: 'Office',
     experienceLevel: 'Entry',
     languages: 'English, Greek',
@@ -75,7 +76,7 @@ final _mockDetails = <String, JobDetail>{
     reviews: [
       JobReview(
         authorName: 'Eva Karitsas',
-        authorRole: 'IT — Employee',
+        authorRole: 'IT - Employee',
         authorInitials: 'EK',
         authorColor: Color(0xFF905CFF),
         rating: 5.0,
@@ -83,7 +84,7 @@ final _mockDetails = <String, JobDetail>{
       ),
       JobReview(
         authorName: 'Nikos Papadakis',
-        authorRole: 'IT — Employee',
+        authorRole: 'IT - Employee',
         authorInitials: 'NP',
         authorColor: Color(0xFF1E88E5),
         rating: 4.0,
@@ -92,7 +93,7 @@ final _mockDetails = <String, JobDetail>{
     ],
     recommended: _mockRecommended,
     company: _mockCompany,
-    salary: '1,500 € / month',
+    salary: '1,500 EUR / month',
   ),
   '2': const JobDetail(
     id: '2',
@@ -108,7 +109,7 @@ final _mockDetails = <String, JobDetail>{
     matchLabel: 'STRONG MATCH',
     location: 'Thessaloniki',
     jobType: 'Full-Time',
-    salaryRange: '€1,000–€1,400',
+    salaryRange: 'EUR 1,000-EUR 1,400',
     workplace: 'Office',
     experienceLevel: 'Entry',
     languages: 'English, Greek',
@@ -129,7 +130,7 @@ final _mockDetails = <String, JobDetail>{
     reviews: [
       JobReview(
         authorName: 'Eva Karitsas',
-        authorRole: 'IT — Employee',
+        authorRole: 'IT - Employee',
         authorInitials: 'EK',
         authorColor: Color(0xFF905CFF),
         rating: 5.0,
@@ -138,6 +139,71 @@ final _mockDetails = <String, JobDetail>{
     ],
     recommended: _mockRecommended,
     company: _mockCompany,
-    salary: '1,500 € / month',
+    salary: '1,500 EUR / month',
+  ),
+  '3': const JobDetail(
+    id: '3',
+    appliedAt: 'You applied on 15 October, 11:30',
+    statusLabel: 'Submitted',
+    deadline: 'It has a deadline Application - 30 October 2025',
+    postedDate: 'Posted 14-10-2025',
+    jobTitle: 'Junior Front-End Developer',
+    companyName: 'Nexora',
+    companyLogoColor: Color(0xFF905CFF),
+    companyLogoInitials: 'NX',
+    matchPercentage: 40,
+    matchLabel: 'WEAK MATCH',
+    location: 'Chalkidiki',
+    jobType: 'Part-Time',
+    salaryRange: 'EUR 1,200-EUR 1,500',
+    workplace: 'On-site',
+    experienceLevel: 'Entry',
+    languages: 'English, Greek',
+    description:
+        'Nexora is looking for a junior front-end developer to support product and marketing teams on client-facing web experiences. You will help maintain reusable UI components, improve responsive layouts, and collaborate with designers on polished interfaces.',
+    requirements: [
+      'Basic understanding of HTML, CSS, and JavaScript',
+      'Ability to work with responsive layouts',
+      'Comfort collaborating with designers and product teams',
+      'Interest in learning component-based development',
+    ],
+    skills: ['HTML', 'CSS', 'JavaScript', 'Responsive Design', 'React'],
+    communication: 'Clear written communication and ownership mindset',
+    niceToHave:
+        'Exposure to TypeScript\nExperience with GitHub workflows\nAny portfolio or personal projects',
+    whatWeOffer:
+        'Flexible part-time schedule\nMentorship from senior engineers\nHands-on product experience',
+    reviews: [
+      JobReview(
+        authorName: 'Maria Kosta',
+        authorRole: 'Product - Employee',
+        authorInitials: 'MK',
+        authorColor: Color(0xFF905CFF),
+        rating: 4.0,
+        text: 'Good place to learn fast and get ownership early in your career.',
+      ),
+    ],
+    recommended: RecommendedJob(
+      jobTitle: 'UI Developer Intern',
+      companyName: 'Nexora',
+      companyInitials: 'NX',
+      companyColor: Color(0xFF905CFF),
+      salary: '1,000 EUR / month',
+      matchPercentage: 55,
+      matchLabel: 'GOOD MATCH',
+      location: 'Athens',
+      employmentType: 'Part-Time',
+    ),
+    company: JobDetailCompany(
+      name: 'Nexora',
+      industry: 'IT and Web Development',
+      logoColor: Color(0xFF905CFF),
+      logoInitials: 'NX',
+      totalReviews: '12 total reviews',
+      averageRating: 4.1,
+      description:
+          'Nexora builds modern digital products for startups and growing businesses, with a strong focus on usability, front-end quality, and collaborative delivery.',
+    ),
+    salary: '1,500 EUR / month',
   ),
 };

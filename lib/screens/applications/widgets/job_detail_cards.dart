@@ -667,17 +667,35 @@ class JobDetailStickyBar extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text(detail.salary,
-                style: const TextStyle(
-                  fontFamily: 'Noto Sans', fontSize: 16,
-                  fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
-                  letterSpacing: -0.32,
-                )),
+            child: Text(
+              detail.salary,
+              style: const TextStyle(
+                fontFamily: 'Noto Sans',
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: IthakiTheme.textPrimary,
+                letterSpacing: -0.32,
+              ),
+            ),
           ),
-          const Spacer(),
-          IthakiButton('Save Job', variant: IthakiButtonVariant.outline, onPressed: () {}),
-          const SizedBox(width: 8),
-          IthakiButton('Apply', onPressed: () {}),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: IthakiButton(
+                    'Save Job',
+                    variant: IthakiButtonVariant.outline,
+                    onPressed: () {},
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: IthakiButton('Apply', onPressed: () {}),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );

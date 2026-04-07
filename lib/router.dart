@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'screens/auth/select_language_screen.dart';
 import 'routes.dart';
 import 'screens/auth/tech_comfort_screen.dart';
 import 'screens/auth/register_screen.dart';
@@ -44,7 +45,7 @@ class IthakiRouter {
     routes: [
       GoRoute(
         path: Routes.root,
-        builder: (context, state) => const HomeScreen(),
+        builder: (context, state) => const SelectLanguageScreen(),
       ),
       GoRoute(
         path: Routes.techComfort,

@@ -65,19 +65,28 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
             isEnabled: _selectedMethod != null,
             onPressed: _selectedMethod != null
                 ? () async {
-                    final method = _selectedMethod!;
-                    ref.read(registrationProvider.notifier)
-                        .setVerifyMethod(method, remember: _rememberChoice);
-                    final state = ref.read(registrationProvider);
-                    await ref.read(authRepositoryProvider).register(
-                          email: state.email,
-                          password: state.password,
-                          name: state.name,
-                          lastName: state.lastName,
-                          phone: state.phone,
-                          verifyMethod: method,
-                        );
-                    if (context.mounted) context.push(Routes.verifyOtpWith(method: method));
+                    try {
+                      final method = _selectedMethod!;
+                      ref.read(registrationProvider.notifier)
+                          .setVerifyMethod(method, remember: _rememberChoice);
+                      final state = ref.read(registrationProvider);
+                      await ref.read(authRepositoryProvider).register(
+                            email: state.email,
+                            password: state.password,
+                            name: state.name,
+                            lastName: state.lastName,
+                            phone: state.phone,
+                            verifyMethod: method,
+                          );
+                      if (context.mounted) {
+                        context.push(Routes.verifyOtpWith(method: method));
+                      }
+                    } catch (e) {
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(e.toString())),
+                      );
+                    }
                   }
                 : null,
           ),

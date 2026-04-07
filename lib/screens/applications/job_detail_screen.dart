@@ -43,9 +43,32 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
     final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
     if (detail == null) {
-      return const Scaffold(
+      return Scaffold(
         backgroundColor: IthakiTheme.backgroundViolet,
-        body: Center(child: CircularProgressIndicator()),
+        appBar: IthakiAppBar(showBackButton: true, title: 'Job Details'),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'We could not find job details for this application yet.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: IthakiTheme.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                IthakiButton(
+                  'Back to Applications',
+                  onPressed: () => context.go(Routes.myApplications),
+                ),
+              ],
+            ),
+          ),
+        ),
       );
     }
 
