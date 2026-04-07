@@ -123,7 +123,12 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> with Countdow
             canResend: countdownCanResend,
             secondsLeft: countdownSeconds,
             label: resendLabel,
-            onResend: () => startCountdown(24),
+            onResend: () async {
+              try {
+                await ref.read(authRepositoryProvider).sendOtp();
+              } catch (_) {}
+              startCountdown(24);
+            },
           ),
           const SizedBox(height: 40),
           IthakiButton(

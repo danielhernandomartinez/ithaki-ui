@@ -151,7 +151,7 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
                               _emailController.text,
                               _passwordController.text,
                             );
-                        if (context.mounted) context.go(Routes.verifyEmail);
+                        if (context.mounted) context.go(Routes.home);
                       } catch (e) {
                         if (!context.mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(

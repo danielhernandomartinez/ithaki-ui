@@ -14,8 +14,11 @@ abstract class AuthRepository {
     required String lastName,
     required String phone,
     required String verifyMethod,
+    required String techComfort,
+    required String systemLanguage,
   });
   Future<void> verifyOtp(String otp);
+  Future<void> sendOtp();
   Future<void> resetPassword(String newPassword);
   Future<void> logout();
 }
@@ -32,11 +35,16 @@ class MockAuthRepository implements AuthRepository {
     required String lastName,
     required String phone,
     required String verifyMethod,
+    required String techComfort,
+    required String systemLanguage,
   }) =>
       Future.value();
 
   @override
   Future<void> verifyOtp(String otp) => Future.value();
+
+  @override
+  Future<void> sendOtp() => Future.value();
 
   @override
   Future<void> resetPassword(String newPassword) => Future.value();
@@ -84,9 +92,23 @@ class ApiAuthRepository implements AuthRepository {
     return null;
   }
 
-  Future<void> _saveToken(String token) async {
+  Future<void> _saveTokens(Map<String, dynamic> data) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('jwt_token', token);
+
+    final accessToken = _extractToken(data);
+    if (accessToken != null) await prefs.setString('jwt_token', accessToken);
+
+    final refreshToken = data['refreshToken'] ?? data['data']?['refreshToken'];
+    if (refreshToken is String && refreshToken.isNotEmpty) {
+      await prefs.setString('jwt_refresh_token', refreshToken);
+    }
+  }
+
+  Future<String> _requireToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt_token');
+    if (token == null || token.isEmpty) throw Exception('Missing auth token');
+    return token;
   }
 
   Future<void> _triggerOtpSms(String token) async {
@@ -140,7 +162,7 @@ class ApiAuthRepository implements AuthRepository {
     if (token == null) {
       throw Exception('Login failed: token not found in response');
     }
-    await _saveToken(token);
+    await _saveTokens(data);
   }
 
   @override
@@ -151,8 +173,10 @@ class ApiAuthRepository implements AuthRepository {
     required String lastName,
     required String phone,
     required String verifyMethod,
+    required String techComfort,
+    required String systemLanguage,
   }) async {
-    final response = await _client
+    final signupResponse = await _client
         .post(
           _uri('/auth/signup'),
           headers: _jsonHeaders(),
@@ -160,33 +184,49 @@ class ApiAuthRepository implements AuthRepository {
             'email': email.trim(),
             'password': password,
             'confirmPassword': password,
-            'systemLanguage': 'EN',
-            'techComfort': 'MEDIUM',
+            'systemLanguage': systemLanguage.toUpperCase(),
+            'techComfort': techComfort,
           }),
         )
         .timeout(const Duration(seconds: 20));
 
-    if (response.statusCode != 200 && response.statusCode != 201) {
-      throw Exception('Signup failed: ${_readErrorBody(response)}');
+    if (signupResponse.statusCode != 200 && signupResponse.statusCode != 201) {
+      throw Exception('Signup failed: ${_readErrorBody(signupResponse)}');
     }
 
     final Map<String, dynamic> data =
-        (jsonDecode(response.body) as Map).cast<String, dynamic>();
+        (jsonDecode(signupResponse.body) as Map).cast<String, dynamic>();
     final token = _extractToken(data);
     if (token == null) {
       throw Exception('Signup failed: token not found in response');
     }
-    await _saveToken(token);
+    await _saveTokens(data);
+
+    // Save personal details after signup
+    await _client
+        .post(
+          _uri('/user/me'),
+          headers: _jsonHeaders(token: token),
+          body: jsonEncode({
+            'firstName': name.trim(),
+            'lastName': lastName.trim(),
+            'phone': phone.trim(),
+          }),
+        )
+        .timeout(const Duration(seconds: 20));
+
+    await _triggerOtpSms(token);
+  }
+
+  @override
+  Future<void> sendOtp() async {
+    final token = await _requireToken();
     await _triggerOtpSms(token);
   }
 
   @override
   Future<void> verifyOtp(String otp) async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('jwt_token');
-    if (token == null || token.isEmpty) {
-      throw Exception('OTP verification failed: missing auth token');
-    }
+    final token = await _requireToken();
 
     final response = await _client
         .post(
@@ -196,7 +236,7 @@ class ApiAuthRepository implements AuthRepository {
             'Accept': 'application/json',
             'Authorization': 'Bearer $token',
           },
-          body: otp,
+          body: otp.trim(),
         )
         .timeout(const Duration(seconds: 20));
 

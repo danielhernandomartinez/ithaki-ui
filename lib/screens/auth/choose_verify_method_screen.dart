@@ -77,6 +77,8 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
                             lastName: state.lastName,
                             phone: state.phone,
                             verifyMethod: method,
+                            techComfort: state.techLevel,
+                            systemLanguage: state.language.isNotEmpty ? state.language : 'en',
                           );
                       if (context.mounted) {
                         context.push(Routes.verifyOtpWith(method: method));
