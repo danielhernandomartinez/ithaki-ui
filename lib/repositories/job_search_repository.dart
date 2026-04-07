@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../models/job_search_models.dart';
+import '../utils/api_mappers.dart' as mapper;
 
 class JobSearchResult {
   final List<JobListing> jobs;
@@ -202,6 +208,132 @@ class MockJobSearchRepository implements JobSearchRepository {
   Future<void> unsaveJob(String jobId) async => _savedIds.remove(jobId);
 }
 
+// ─── API implementation ───────────────────────────────────────────────────────
+
+class ApiJobSearchRepository implements JobSearchRepository {
+  ApiJobSearchRepository({http.Client? client, String? baseUrl})
+      : _client = client ?? http.Client(),
+        _baseUrl = baseUrl ??
+            const String.fromEnvironment(
+              'ITHAKI_API_BASE_URL',
+              defaultValue: 'https://api.odyssea.com/talent/staging',
+            );
+
+  final http.Client _client;
+  final String _baseUrl;
+  final Set<String> _savedIds = {};
+
+  String get _apiBase {
+    final trimmed =
+        _baseUrl.endsWith('/') ? _baseUrl.substring(0, _baseUrl.length - 1) : _baseUrl;
+    return trimmed.endsWith('/api') ? trimmed : '$trimmed/api';
+  }
+
+  Uri _uri(String path, [Map<String, String>? params]) {
+    final base = '$_apiBase$path';
+    if (params == null || params.isEmpty) return Uri.parse(base);
+    return Uri.parse(base).replace(queryParameters: params);
+  }
+
+  Future<Map<String, String>> _authHeaders() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt_token') ?? '';
+    return {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      if (token.isNotEmpty) 'Authorization': 'Bearer $token',
+    };
+  }
+
+  static JobListing _parseJob(Map<String, dynamic> j) {
+    final id = j['id']?.toString() ?? '';
+    final title = j['title'] as String? ?? '';
+    final companyRaw = j['company'];
+    final companyName = companyRaw is Map
+        ? (companyRaw['name'] as String? ?? '')
+        : (j['companyName'] as String? ?? '');
+    final salary = mapper.formatSalary(j['salaryMin'], j['salaryMax'], j['paymentTerm']);
+    final location = j['location'] as String?;
+    final workMode = mapper.enumTitle(j['workArrangement']);
+    final employmentType = mapper.enumTitle(j['employmentType']);
+    final level = mapper.enumTitle(j['experienceLevel']);
+    final category = mapper.enumTitle(j['industry']);
+    final posted = mapper.postedAgo(j['postedAt'] ?? j['createdAt']);
+    final matchPct = (j['matchPercentage'] as num?)?.toInt() ?? 0;
+    final matchLabel = j['matchLabel'] as String? ?? '';
+
+    return JobListing(
+      id: id,
+      jobTitle: title,
+      companyName: companyName,
+      companyInitials: mapper.initials(companyName),
+      companyColor: mapper.colorFromString(companyName),
+      salary: salary,
+      matchPercentage: matchPct,
+      matchLabel: matchLabel,
+      category: category,
+      location: location,
+      workMode: workMode.isNotEmpty ? workMode : null,
+      employmentType: employmentType.isNotEmpty ? employmentType : null,
+      level: level.isNotEmpty ? level : null,
+      postedAgo: posted,
+    );
+  }
+
+  @override
+  Future<JobSearchResult> search({
+    Map<String, Set<String>> filters = const {},
+    String sort = 'Date: Recent',
+    int page = 1,
+  }) async {
+    final headers = await _authHeaders();
+    final params = <String, String>{'page': (page - 1).toString(), 'size': '10'};
+
+    final location = filters['Location'];
+    if (location != null && location.isNotEmpty) params['location'] = location.first;
+    final industry = filters['Industry'];
+    if (industry != null && industry.isNotEmpty) params['industry'] = industry.first;
+    final jobType = filters['Job Type'];
+    if (jobType != null && jobType.isNotEmpty) params['employmentType'] = jobType.first;
+    final workplace = filters['Workplace'];
+    if (workplace != null && workplace.isNotEmpty) params['workArrangement'] = workplace.first;
+    final experience = filters['Experience Level'];
+    if (experience != null && experience.isNotEmpty) params['experienceLevel'] = experience.first;
+
+    final response = await _client
+        .get(_uri('/jobs', params), headers: headers)
+        .timeout(const Duration(seconds: 20));
+
+    if (response.statusCode != 200) {
+      throw Exception('Job search failed: ${response.statusCode}');
+    }
+
+    final body = jsonDecode(response.body);
+    final items = mapper.extractList(body);
+    final totalElements =
+        body is Map ? (body['totalElements'] as num?)?.toInt() ?? items.length : items.length;
+    final totalPages =
+        body is Map ? (body['totalPages'] as num?)?.toInt() ?? 1 : 1;
+
+    final jobs = items.whereType<Map<String, dynamic>>().map(_parseJob).toList();
+
+    return JobSearchResult(jobs: jobs, totalJobs: totalElements, totalPages: totalPages);
+  }
+
+  @override
+  Future<Set<String>> getSavedJobIds() async => Set.from(_savedIds);
+
+  @override
+  Future<void> saveJob(String jobId) async => _savedIds.add(jobId);
+
+  @override
+  Future<void> unsaveJob(String jobId) async => _savedIds.remove(jobId);
+}
+
+// ─── Provider ─────────────────────────────────────────────────────────────────
+
+const bool _useMockJobSearch = bool.fromEnvironment('ITHAKI_USE_MOCK_JOB_SEARCH');
+
 final jobSearchRepositoryProvider = Provider<JobSearchRepository>(
-  (_) => MockJobSearchRepository(),
+  (_) => _useMockJobSearch ? MockJobSearchRepository() : ApiJobSearchRepository(),
 );
