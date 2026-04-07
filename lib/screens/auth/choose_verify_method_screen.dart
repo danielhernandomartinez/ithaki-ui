@@ -69,17 +69,32 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
                       final method = _selectedMethod!;
                       ref.read(registrationProvider.notifier)
                           .setVerifyMethod(method, remember: _rememberChoice);
-                      final state = ref.read(registrationProvider);
-                      await ref.read(authRepositoryProvider).register(
-                            email: state.email,
-                            password: state.password,
-                            name: state.name,
-                            lastName: state.lastName,
-                            phone: state.phone,
-                            verifyMethod: method,
-                            techComfort: state.techLevel,
-                            systemLanguage: state.language.isNotEmpty ? state.language : 'en',
-                          );
+                      final regState = ref.read(registrationProvider);
+                      final repo = ref.read(authRepositoryProvider);
+
+                      try {
+                        await repo.register(
+                          email: regState.email,
+                          password: regState.password,
+                          name: regState.name,
+                          lastName: regState.lastName,
+                          phone: regState.phone,
+                          verifyMethod: method,
+                          techComfort: regState.techLevel,
+                          systemLanguage: regState.language.isNotEmpty ? regState.language : 'en',
+                        );
+                      } catch (signupError) {
+                        // Account already created in a previous attempt — the JWT is
+                        // still in SharedPreferences. Just resend the OTP and proceed.
+                        final msg = signupError.toString().toLowerCase();
+                        if (msg.contains('already') || msg.contains('exists') || msg.contains('duplicate')) {
+                          try { await repo.updatePhone(regState.phone); } catch (_) {}
+                          try { await repo.sendOtp(); } catch (_) {}
+                        } else {
+                          rethrow;
+                        }
+                      }
+
                       if (context.mounted) {
                         context.push(Routes.verifyOtpWith(method: method));
                       }

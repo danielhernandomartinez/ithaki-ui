@@ -41,13 +41,13 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> with CountdownMix
           const SizedBox(height: 24),
           IthakiButton(
             l.verifiedEmailButton,
-            onPressed: () => context.pop(),
+            onPressed: () => context.go(Routes.home),
           ),
           const SizedBox(height: 12),
           IthakiButton(
             l.backButton,
             variant: IthakiButtonVariant.outline,
-            onPressed: () => context.pop(),
+            onPressed: () => context.go(Routes.loginEmail),
           ),
           const SizedBox(height: 16),
           IthakiResendTimer(

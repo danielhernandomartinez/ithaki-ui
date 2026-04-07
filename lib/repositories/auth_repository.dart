@@ -19,6 +19,7 @@ abstract class AuthRepository {
   });
   Future<void> verifyOtp(String otp);
   Future<void> sendOtp();
+  Future<void> updatePhone(String phone);
   Future<void> resetPassword(String newPassword);
   Future<void> logout();
 }
@@ -45,6 +46,9 @@ class MockAuthRepository implements AuthRepository {
 
   @override
   Future<void> sendOtp() => Future.value();
+
+  @override
+  Future<void> updatePhone(String phone) => Future.value();
 
   @override
   Future<void> resetPassword(String newPassword) => Future.value();
@@ -202,26 +206,45 @@ class ApiAuthRepository implements AuthRepository {
     }
     await _saveTokens(data);
 
-    // Save personal details after signup
-    await _client
+    // Save personal details after signup so Twilio has a phone number to target.
+    final profileResponse = await _client
         .post(
           _uri('/user/me'),
           headers: _jsonHeaders(token: token),
           body: jsonEncode({
             'firstName': name.trim(),
             'lastName': lastName.trim(),
-            'phone': phone.trim(),
+            'phone': phone.replaceAll(RegExp(r'\s+'), ''),
           }),
         )
         .timeout(const Duration(seconds: 20));
 
-    await _triggerOtpSms(token);
+    if (profileResponse.statusCode != 200 && profileResponse.statusCode != 201) {
+      throw Exception('Profile save failed: ${_readErrorBody(profileResponse)}');
+    }
+
+    // OTP send is best-effort — if Twilio fails the user can retry from the OTP screen.
+    try {
+      await _triggerOtpSms(token);
+    } catch (_) {}
   }
 
   @override
   Future<void> sendOtp() async {
     final token = await _requireToken();
     await _triggerOtpSms(token);
+  }
+
+  @override
+  Future<void> updatePhone(String phone) async {
+    final token = await _requireToken();
+    await _client
+        .post(
+          _uri('/user/me'),
+          headers: _jsonHeaders(token: token),
+          body: jsonEncode({'phone': phone.replaceAll(RegExp(r'\s+'), '')}),
+        )
+        .timeout(const Duration(seconds: 20));
   }
 
   @override
