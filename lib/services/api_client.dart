@@ -51,6 +51,40 @@ class ApiClient {
     return (token == null || token.isEmpty) ? null : token;
   }
 
+  /// Exchanges the stored refresh token for a new access token.
+  /// Throws if no refresh token is available or the server rejects it.
+  Future<void> refreshAccessToken() async {
+    final refreshToken = await _storage.read(key: 'jwt_refresh_token');
+    if (refreshToken == null || refreshToken.isEmpty) {
+      throw Exception('Session expired — please log in again');
+    }
+
+    final res = await _client
+        .post(
+          uri('/auth/refresh'),
+          headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+          body: jsonEncode({'refreshToken': refreshToken}),
+        )
+        .timeout(timeout);
+
+    if (!_okStatuses.contains(res.statusCode)) {
+      throw Exception('Session expired — please log in again');
+    }
+
+    final data = (jsonDecode(res.body) as Map).cast<String, dynamic>();
+    final nested = data['data'];
+    final newAccess = data['accessToken'] ?? data['token'] ??
+        (nested is Map ? nested['accessToken'] ?? nested['token'] : null);
+    if (newAccess is String && newAccess.isNotEmpty) {
+      await _storage.write(key: 'jwt_token', value: newAccess);
+    }
+    final newRefresh = data['refreshToken'] ??
+        (nested is Map ? nested['refreshToken'] : null);
+    if (newRefresh is String && newRefresh.isNotEmpty) {
+      await _storage.write(key: 'jwt_refresh_token', value: newRefresh);
+    }
+  }
+
   /// JSON + optional Bearer auth headers.
   Map<String, String> jsonHeaders({String? token}) => {
         'Content-Type': 'application/json',
@@ -70,37 +104,57 @@ class ApiClient {
   }
 
   /// Authenticated GET. Throws if no token is stored.
+  /// Automatically refreshes the access token once on 401 and retries.
   Future<http.Response> get(String path, {Map<String, String>? params}) async {
-    final token = await requireToken();
-    return _client
+    var token = await requireToken();
+    var res = await _client
         .get(uri(path, params), headers: jsonHeaders(token: token))
         .timeout(timeout);
+    if (res.statusCode == 401) {
+      await refreshAccessToken();
+      token = await requireToken();
+      res = await _client
+          .get(uri(path, params), headers: jsonHeaders(token: token))
+          .timeout(timeout);
+    }
+    return res;
   }
 
   /// GET with optional auth — uses Bearer token when available, falls back to
   /// Accept-only headers (for public or partially-public endpoints).
+  /// Refreshes and retries once on 401 when a token is present.
   Future<http.Response> getOptionalAuth(String path, {Map<String, String>? params}) async {
-    final token = await readTokenOrNull();
-    final headers = token != null
-        ? jsonHeaders(token: token)
-        : {'Accept': 'application/json'};
-    return _client.get(uri(path, params), headers: headers).timeout(timeout);
+    var token = await readTokenOrNull();
+    final headers = token != null ? jsonHeaders(token: token) : {'Accept': 'application/json'};
+    var res = await _client.get(uri(path, params), headers: headers).timeout(timeout);
+    if (res.statusCode == 401 && token != null) {
+      await refreshAccessToken();
+      token = await requireToken();
+      res = await _client
+          .get(uri(path, params), headers: jsonHeaders(token: token))
+          .timeout(timeout);
+    }
+    return res;
   }
 
   /// Authenticated JSON POST. Throws [Exception] on non-2xx responses.
+  /// Automatically refreshes the access token once on 401 and retries.
   Future<void> postJson(
     String path,
     Object body, {
     Map<String, String>? params,
   }) async {
-    final token = await requireToken();
-    final res = await _client
-        .post(
-          uri(path, params),
-          headers: jsonHeaders(token: token),
-          body: jsonEncode(body),
-        )
+    Future<http.Response> doPost(String t) => _client
+        .post(uri(path, params), headers: jsonHeaders(token: t), body: jsonEncode(body))
         .timeout(timeout);
+
+    var token = await requireToken();
+    var res = await doPost(token);
+    if (res.statusCode == 401) {
+      await refreshAccessToken();
+      token = await requireToken();
+      res = await doPost(token);
+    }
     if (!_okStatuses.contains(res.statusCode)) {
       throw Exception('API error ${res.statusCode} on POST $path');
     }
