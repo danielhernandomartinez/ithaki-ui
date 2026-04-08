@@ -33,6 +33,7 @@ abstract class ProfileRepository {
   Future<void> saveBasics(ProfileBasics basics);
   Future<void> saveAboutMe(ProfileAboutMe aboutMe);
   Future<void> saveSkills(ProfileSkills skills);
+  Future<void> saveLanguages(List<Language> languages);
   Future<void> saveWorkExperiences(List<WorkExperience> experiences);
   Future<void> saveEducations(List<Education> educations);
   Future<void> saveFiles(List<UploadedFile> files);
@@ -163,6 +164,13 @@ class MockProfileRepository implements ProfileRepository {
   }
 
   @override
+  Future<void> saveLanguages(List<Language> languages) async {
+    await _ensureLoaded();
+    _skills = _skills.copyWith(languages: languages);
+    await ProfileLocalStore.saveSkills(_skills);
+  }
+
+  @override
   Future<void> saveWorkExperiences(List<WorkExperience> experiences) async {
     await _ensureLoaded();
     _workExperiences = experiences;
@@ -261,6 +269,15 @@ class ApiProfileRepository implements ProfileRepository {
 
   String _normalize(String value) => value.trim().toLowerCase();
 
+  String _normalizeLoose(String value) => value
+      .trim()
+      .toLowerCase()
+      .replaceAll(RegExp(r'\(.*?\)'), '')
+      .replaceAll(RegExp(r'[^a-z0-9,\s-]'), ' ')
+      .replaceAll('-', ' ')
+      .replaceAll(RegExp(r'\s+'), ' ')
+      .trim();
+
   Future<Map<String, int>> _getLanguageIdByName() async {
     if (_languageIdByName != null) return _languageIdByName!;
     final res = await _api.get('/list/languages');
@@ -281,6 +298,7 @@ class ApiProfileRepository implements ProfileRepository {
       final id = idRaw is num ? idRaw.toInt() : int.tryParse(idRaw.toString());
       if (name.isEmpty || id == null) continue;
       map[_normalize(name)] = id;
+      map[_normalizeLoose(name)] = id;
     }
     _languageIdByName = map;
     return map;
@@ -306,17 +324,33 @@ class ApiProfileRepository implements ProfileRepository {
 
   Future<void> _saveLanguagesReplace(List<Language> languages) async {
     final languageMap = await _getLanguageIdByName();
-    final payloadEnumDto = languages
-        .map((lang) {
-          final id = languageMap[_normalize(lang.language)];
-          if (id == null) return null;
-          return {
-            'languageId': id,
-            'level': _proficiencyEnum(lang.proficiency),
-          };
-        })
-        .whereType<Map<String, dynamic>>()
-        .toList();
+    final payloadEnumDto = <Map<String, dynamic>>[];
+    final payloadStringLevel = <Map<String, dynamic>>[];
+    final payloadLanguageObject = <Map<String, dynamic>>[];
+
+    for (final lang in languages) {
+      final id = languageMap[_normalize(lang.language)] ??
+          languageMap[_normalizeLoose(lang.language)];
+      if (id == null) continue;
+      final level = _proficiencyEnum(lang.proficiency);
+      payloadEnumDto.add({
+        'languageId': id,
+        'level': level,
+      });
+      payloadStringLevel.add({
+        'languageId': id,
+        'level': level['value'],
+      });
+      payloadLanguageObject.add({
+        'language': {'value': id, 'title': lang.language},
+        'level': level,
+      });
+    }
+
+    if (languages.isNotEmpty && payloadEnumDto.isEmpty) {
+      throw Exception('No se pudieron mapear idiomas a IDs del backend');
+    }
+
     final payloadValueOnly = payloadEnumDto
         .map(
           (item) => {
@@ -330,8 +364,14 @@ class ApiProfileRepository implements ProfileRepository {
     final attempts = <({String path, Object body})>[
       (path: '/job-seeker/me/languages/replace', body: payloadEnumDto),
       (path: '/job-seeker/me/lenguages/replace', body: payloadEnumDto),
+      (path: '/job-seeker/me/languages/replace', body: {'languages': payloadEnumDto}),
+      (path: '/job-seeker/me/lenguages/replace', body: {'languages': payloadEnumDto}),
       (path: '/job-seeker/me/languages/replace', body: payloadValueOnly),
       (path: '/job-seeker/me/lenguages/replace', body: payloadValueOnly),
+      (path: '/job-seeker/me/languages/replace', body: payloadStringLevel),
+      (path: '/job-seeker/me/lenguages/replace', body: payloadStringLevel),
+      (path: '/job-seeker/me/languages/replace', body: payloadLanguageObject),
+      (path: '/job-seeker/me/lenguages/replace', body: payloadLanguageObject),
     ];
 
     for (final attempt in attempts) {
@@ -652,6 +692,15 @@ class ApiProfileRepository implements ProfileRepository {
     });
     await _saveLanguagesReplace(skills.languages);
     _skills = skills;
+    await ProfileLocalStore.saveSkills(_skills);
+  }
+
+  @override
+  Future<void> saveLanguages(List<Language> languages) async {
+    await _syncSession();
+    await _ensureLoaded();
+    await _saveLanguagesReplace(languages);
+    _skills = _skills.copyWith(languages: languages);
     await ProfileLocalStore.saveSkills(_skills);
   }
 

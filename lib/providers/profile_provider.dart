@@ -96,7 +96,7 @@ class ProfileSkillsNotifier extends AsyncNotifier<ProfileSkills> {
 
   Future<void> updateLanguages(List<Language> langs) async {
     final updated = state.requireValue.copyWith(languages: langs);
-    await ref.read(profileRepositoryProvider).saveSkills(updated);
+    await ref.read(profileRepositoryProvider).saveLanguages(langs);
     state = AsyncData(updated);
   }
 

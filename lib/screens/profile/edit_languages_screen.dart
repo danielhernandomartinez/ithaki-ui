@@ -177,17 +177,15 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
         }
         _showLanguagePicker(index, availableLanguages);
       },
-      suffixIcon: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (_langs[index].isNotEmpty) _buildLanguageIcon(_langs[index], size: 14),
-          if (_langs[index].isNotEmpty) const SizedBox(width: 4),
-          const IthakiIcon(
+      suffixIcon: const SizedBox(
+        width: 28,
+        child: Center(
+          child: IthakiIcon(
             'arrow-down',
             size: 18,
             color: IthakiTheme.textSecondary,
           ),
-        ],
+        ),
       ),
     );
   }
