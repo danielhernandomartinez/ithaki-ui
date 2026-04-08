@@ -29,9 +29,10 @@ class _ChangeEmailSheetState extends ConsumerState<ChangeEmailSheet> {
     return BottomSheetBase(
       title: 'Change Email',
       onClose: () => Navigator.pop(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           Text(
             'Update your email address',
             style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
@@ -73,6 +74,7 @@ class _ChangeEmailSheetState extends ConsumerState<ChangeEmailSheet> {
           ),
           const SizedBox(height: 8),
         ],
+        ),
       ),
     );
   }

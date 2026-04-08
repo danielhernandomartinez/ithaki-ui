@@ -32,9 +32,10 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
     return BottomSheetBase(
       title: 'Change Password',
       onClose: () => Navigator.pop(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           Text(
             'Change your password to keep your account secure',
             style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
@@ -85,6 +86,7 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
           ),
           const SizedBox(height: 8),
         ],
+        ),
       ),
     );
   }

@@ -30,9 +30,10 @@ class _ChangePhoneSheetState extends ConsumerState<ChangePhoneSheet> {
     return BottomSheetBase(
       title: 'Change Phone Number',
       onClose: () => Navigator.pop(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
           const Text(
             'Current Phone Number',
             style: TextStyle(
@@ -68,6 +69,7 @@ class _ChangePhoneSheetState extends ConsumerState<ChangePhoneSheet> {
           ),
           const SizedBox(height: 8),
         ],
+        ),
       ),
     );
   }
