@@ -60,47 +60,57 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
   void _showLanguagePicker(int index, List<String> availableLanguages) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       backgroundColor: IthakiTheme.backgroundWhite,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (ctx) {
-        final mq = MediaQuery.of(ctx);
-        return SafeArea(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: mq.size.height * 0.6),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(height: 16),
-                const Text(
-                  'Select Language',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+      builder: (ctx) => DraggableScrollableSheet(
+        expand: false,
+        initialChildSize: 0.65,
+        minChildSize: 0.4,
+        maxChildSize: 0.9,
+        builder: (context, scrollController) => SafeArea(
+          top: false,
+          child: Column(
+            children: [
+              const SizedBox(height: 10),
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: IthakiTheme.borderLight,
+                  borderRadius: BorderRadius.circular(999),
                 ),
-                const SizedBox(height: 8),
-                Flexible(
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: availableLanguages
-                        .map(
-                          (lang) => ListTile(
-                            leading: _buildLanguageIcon(lang, size: 22),
-                            title: Text(lang),
-                            onTap: () {
-                              setState(() => _langs[index] = lang);
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        )
-                        .toList(),
-                  ),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'Select Language',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 8),
+              Expanded(
+                child: ListView.builder(
+                  controller: scrollController,
+                  itemCount: availableLanguages.length,
+                  itemBuilder: (context, itemIndex) {
+                    final lang = availableLanguages[itemIndex];
+                    return ListTile(
+                      leading: _buildLanguageIcon(lang, size: 22),
+                      title: Text(lang),
+                      onTap: () {
+                        setState(() => _langs[index] = lang);
+                        Navigator.of(context).pop();
+                      },
+                    );
+                  },
                 ),
-                const SizedBox(height: 8),
-              ],
-            ),
+              ),
+              const SizedBox(height: 8),
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
