@@ -241,23 +241,21 @@ class ApiProfileRepository implements ProfileRepository {
         'Authorization': 'Bearer $token',
       };
 
-  Future<bool> _postJson(
+  Future<void> _postJson(
     String path,
     Object body, {
     Map<String, String>? queryParameters,
   }) async {
-    try {
-      final token = await _requireToken();
-      final res = await _client
-          .post(
-            _uri(path).replace(queryParameters: queryParameters),
-            headers: _headers(token),
-            body: jsonEncode(body),
-          )
-          .timeout(const Duration(seconds: 20));
-      return _okStatuses.contains(res.statusCode);
-    } catch (_) {
-      return false;
+    final token = await _requireToken();
+    final res = await _client
+        .post(
+          _uri(path).replace(queryParameters: queryParameters),
+          headers: _headers(token),
+          body: jsonEncode(body),
+        )
+        .timeout(const Duration(seconds: 20));
+    if (!_okStatuses.contains(res.statusCode)) {
+      throw Exception('API error ${res.statusCode} on POST $path');
     }
   }
 
