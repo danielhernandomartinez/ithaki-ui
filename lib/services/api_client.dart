@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,6 +24,9 @@ class ApiClient {
   static const _storage = FlutterSecureStorage();
   static const timeout = Duration(seconds: 20);
   static const _okStatuses = {200, 201, 202, 204};
+
+  // Mutex: only one refresh in flight at a time; concurrent callers await the same Future.
+  Future<void>? _refreshInFlight;
 
   /// Exposed for repositories that need to make non-standard requests
   /// (e.g. auth flows with no token, text/plain bodies).
@@ -53,7 +57,13 @@ class ApiClient {
 
   /// Exchanges the stored refresh token for a new access token.
   /// Throws if no refresh token is available or the server rejects it.
-  Future<void> refreshAccessToken() async {
+  /// Concurrent callers share a single in-flight refresh to avoid token rotation races.
+  Future<void> refreshAccessToken() {
+    _refreshInFlight ??= _doRefresh().whenComplete(() => _refreshInFlight = null);
+    return _refreshInFlight!;
+  }
+
+  Future<void> _doRefresh() async {
     final refreshToken = await _storage.read(key: 'jwt_refresh_token');
     if (refreshToken == null || refreshToken.isEmpty) {
       throw Exception('Session expired — please log in again');
@@ -71,7 +81,13 @@ class ApiClient {
       throw Exception('Session expired — please log in again');
     }
 
-    final data = (jsonDecode(res.body) as Map).cast<String, dynamic>();
+    final Map<String, dynamic> data;
+    try {
+      data = (jsonDecode(res.body) as Map).cast<String, dynamic>();
+    } catch (_) {
+      throw Exception('Unexpected refresh response — please log in again');
+    }
+
     final nested = data['data'];
     final newAccess = data['accessToken'] ?? data['token'] ??
         (nested is Map ? nested['accessToken'] ?? nested['token'] : null);
