@@ -41,15 +41,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     super.dispose();
   }
 
+  Widget _buildLoading() => const Scaffold(
+        backgroundColor: IthakiTheme.backgroundViolet,
+        body: Center(child: CircularProgressIndicator()),
+      );
+
+  Widget _buildError(Object error) => Scaffold(
+        backgroundColor: IthakiTheme.backgroundViolet,
+        body: Center(
+          child: Text(error.toString(), style: const TextStyle(color: IthakiTheme.textPrimary)),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
-    final homeData = ref.watch(homeProvider).value;
     final profileCompletion = ref.watch(profileCompletionProvider);
-    if (homeData == null) return const Scaffold(backgroundColor: IthakiTheme.backgroundViolet, body: Center(child: CircularProgressIndicator()));
-    final topOffset =
-        MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
+    final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
-    return Scaffold(
+    return ref.watch(homeProvider).when(
+      loading: _buildLoading,
+      error: (e, _) => _buildError(e),
+      data: (homeData) => Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
       extendBodyBehindAppBar: true,
       appBar: IthakiAppBar(
@@ -203,6 +215,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               ),
             ),
         ],
+      ),
       ),
     );
   }
