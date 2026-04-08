@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../models/job_search_models.dart';
 import '../utils/api_mappers.dart' as mapper;
@@ -235,9 +235,10 @@ class ApiJobSearchRepository implements JobSearchRepository {
     return Uri.parse(base).replace(queryParameters: params);
   }
 
+  static const _storage = FlutterSecureStorage();
+
   Future<Map<String, String>> _authHeaders() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('jwt_token') ?? '';
+    final token = await _storage.read(key: 'jwt_token') ?? '';
     return {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
