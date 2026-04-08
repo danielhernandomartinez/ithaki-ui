@@ -5,6 +5,16 @@ import '../repositories/profile_repository.dart';
 
 export '../models/profile_models.dart';
 
+class ProfileCompletionItem {
+  final String label;
+  final bool completed;
+
+  const ProfileCompletionItem({
+    required this.label,
+    required this.completed,
+  });
+}
+
 // ─── Profile Basics ──────────────────────────────────────────────────────────
 
 class ProfileBasicsNotifier extends AsyncNotifier<ProfileBasics> {
@@ -240,7 +250,7 @@ final profileVisibleProvider =
 
 // ─── Profile Completion (derived) ─────────────────────────────────────────────
 
-final profileCompletionProvider = Provider<double>((ref) {
+final profileCompletionItemsProvider = Provider<List<ProfileCompletionItem>>((ref) {
   final photoUrl = ref.watch(profileBasicsProvider).value?.photoUrl;
   final bio = ref.watch(profileAboutMeProvider).value?.bio ?? '';
   final experiences = ref.watch(profileWorkExperiencesProvider).value ?? [];
@@ -248,13 +258,26 @@ final profileCompletionProvider = Provider<double>((ref) {
   final skills = ref.watch(profileSkillsProvider).value;
   final files = ref.watch(profileFilesProvider).value ?? [];
 
-  int filled = 0;
-  if (bio.isNotEmpty) { filled++; }
-  if (photoUrl != null) { filled++; }
-  if (experiences.isNotEmpty) { filled++; }
-  if (educations.isNotEmpty) { filled++; }
-  if (skills != null &&
-      (skills.hardSkills.isNotEmpty || skills.softSkills.isNotEmpty)) { filled++; }
-  if (files.isNotEmpty) { filled++; }
-  return filled / 6;
+  final hasAboutMe = bio.trim().isNotEmpty;
+  final hasPhoto = photoUrl != null && photoUrl.trim().isNotEmpty;
+  final hasExperience = experiences.isNotEmpty;
+  final hasEducation = educations.isNotEmpty;
+  final hasSkills = skills != null &&
+      (skills.hardSkills.isNotEmpty || skills.softSkills.isNotEmpty);
+  final hasDocuments = files.isNotEmpty;
+
+  return [
+    ProfileCompletionItem(label: 'About Me', completed: hasAboutMe),
+    ProfileCompletionItem(label: 'Photo', completed: hasPhoto),
+    ProfileCompletionItem(label: 'My Experience', completed: hasExperience),
+    ProfileCompletionItem(label: 'My Education', completed: hasEducation),
+    ProfileCompletionItem(label: 'My Skills', completed: hasSkills),
+    ProfileCompletionItem(label: 'Documents', completed: hasDocuments),
+  ];
+});
+
+final profileCompletionProvider = Provider<double>((ref) {
+  final items = ref.watch(profileCompletionItemsProvider);
+  final completed = items.where((item) => item.completed).length;
+  return items.isEmpty ? 0 : completed / items.length;
 });

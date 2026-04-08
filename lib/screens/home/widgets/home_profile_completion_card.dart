@@ -15,6 +15,7 @@ class HomeProfileCompletionCard extends ConsumerWidget {
     final homeData = ref.watch(homeProvider).value;
     if (homeData == null) return const SizedBox.shrink();
     final progress = ref.watch(profileCompletionProvider);
+    final completionItems = ref.watch(profileCompletionItemsProvider);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -49,7 +50,7 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                       const SizedBox(height: 10),
                       IthakiHatchProgressBar(progress: progress),
                       const SizedBox(height: 12),
-                      ...homeData.profileItems.map((item) => Padding(
+                      ...completionItems.map((item) => Padding(
                             padding: const EdgeInsets.only(bottom: 8),
                             child: Row(
                               children: [
@@ -148,7 +149,7 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                     const SizedBox(height: 14),
                     HomePurpleButton(
                       label: 'Fill Profile',
-                      onPressed: () => context.push(Routes.setupLocation),
+                      onPressed: () => context.push(Routes.profile),
                     ),
                   ],
                 ),

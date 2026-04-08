@@ -44,6 +44,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   Widget build(BuildContext context) {
     final homeData = ref.watch(homeProvider).value;
+    final profileCompletion = ref.watch(profileCompletionProvider);
     if (homeData == null) return const Scaffold(backgroundColor: IthakiTheme.backgroundViolet, body: Center(child: CircularProgressIndicator()));
     final topOffset =
         MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
@@ -69,7 +70,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 HomeGreetingHeader(topOffset: topOffset),
                 const SizedBox(height: 12),
 
-                if (homeData.isNewUser) ...[
+                if (profileCompletion < 1.0) ...[
                   const HomeProfileCompletionCard(),
                   const SizedBox(height: 12),
                 ],
