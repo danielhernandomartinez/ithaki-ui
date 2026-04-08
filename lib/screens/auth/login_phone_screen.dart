@@ -159,6 +159,11 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
               ],
 
               // Send Code button
+              // TODO(backend): Call a login-by-phone endpoint (e.g. POST /auth/login-phone)
+              // before navigating. The endpoint should authenticate the user, return a JWT,
+              // and trigger the OTP send (SMS or WhatsApp). Add loginWithPhone(String phone)
+              // to AuthRepository and wire it here. Until then, VerifyOtpScreen is reached
+              // without a valid session and no OTP is ever dispatched.
               SizedBox(
                 width: double.infinity,
                 child: IthakiButton(
