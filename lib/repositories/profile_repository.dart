@@ -517,8 +517,6 @@ class ApiProfileRepository implements ProfileRepository {
   Future<void> saveBasics(ProfileBasics basics) async {
     await _syncSession();
     await _ensureLoaded();
-    _basics = basics;
-    await ProfileLocalStore.saveBasics(_basics);
     await _api.postJson('/user/me', {
       'firstName': basics.firstName,
       'lastName': basics.lastName,
@@ -551,6 +549,8 @@ class ApiProfileRepository implements ProfileRepository {
         'relocationReadiness': ProfileApiMapper.enumDto(basics.relocationReadiness),
       },
     });
+    _basics = basics;
+    await ProfileLocalStore.saveBasics(_basics);
   }
 
   @override
@@ -613,8 +613,6 @@ class ApiProfileRepository implements ProfileRepository {
   Future<void> saveAboutMe(ProfileAboutMe aboutMe) async {
     await _syncSession();
     await _ensureLoaded();
-    _aboutMe = aboutMe;
-    await ProfileLocalStore.saveAboutMe(_aboutMe);
     await _api.postJson('/job-seeker/me', {
       'aboutMe': {
         'bio': aboutMe.bio,
@@ -622,14 +620,14 @@ class ApiProfileRepository implements ProfileRepository {
         'video': aboutMe.videoUrl,
       },
     });
+    _aboutMe = aboutMe;
+    await ProfileLocalStore.saveAboutMe(_aboutMe);
   }
 
   @override
   Future<void> saveSkills(ProfileSkills skills) async {
     await _syncSession();
     await _ensureLoaded();
-    _skills = skills;
-    await ProfileLocalStore.saveSkills(_skills);
     await _api.postJson('/job-seeker/me', {
       'skills': {
         'hardSkills': skills.hardSkills,
@@ -638,73 +636,75 @@ class ApiProfileRepository implements ProfileRepository {
       'competencies': skills.competencies,
     });
     await _saveLanguagesReplace(skills.languages);
+    _skills = skills;
+    await ProfileLocalStore.saveSkills(_skills);
   }
 
   @override
   Future<void> saveWorkExperiences(List<WorkExperience> experiences) async {
     await _syncSession();
     await _ensureLoaded();
+    await _api.postJson('/job-seeker/me/work-experiences/replace', ProfileApiMapper.workReplaceBody(experiences));
     _workExperiences = experiences;
     await ProfileLocalStore.saveWork(_workExperiences);
-    await _api.postJson('/job-seeker/me/work-experiences/replace', ProfileApiMapper.workReplaceBody(experiences));
   }
 
   @override
   Future<void> saveEducations(List<Education> educations) async {
     await _syncSession();
     await _ensureLoaded();
+    await _api.postJson('/job-seeker/me/education/replace', ProfileApiMapper.educationReplaceBody(educations));
     _educations = educations;
     await ProfileLocalStore.saveEducation(_educations);
-    await _api.postJson('/job-seeker/me/education/replace', ProfileApiMapper.educationReplaceBody(educations));
   }
 
   @override
   Future<void> saveFiles(List<UploadedFile> files) async {
     await _syncSession();
     await _ensureLoaded();
-    _files = files;
-    await ProfileLocalStore.saveFiles(_files);
     // Metadata only. Real file upload must use multipart /files endpoints.
     await _api.postJson('/job-seeker/me', {
       'documents': files
           .map((f) => {'name': f.name, 'size': f.size, 'url': f.url})
           .toList(),
     });
+    _files = files;
+    await ProfileLocalStore.saveFiles(_files);
   }
 
   @override
   Future<void> saveValues(List<String> values) async {
     await _syncSession();
     await _ensureLoaded();
-    _values = values;
-    await ProfileLocalStore.saveValues(_values);
     await _api.postJson(
       '/job-seeker/me/onboarding',
       {'values': ProfileApiMapper.listItemDtos(values)},
       params: const {'step': 'values'},
     );
+    _values = values;
+    await ProfileLocalStore.saveValues(_values);
   }
 
   @override
   Future<void> saveJobPreferences(ProfileJobPreferences prefs) async {
     await _syncSession();
     await _ensureLoaded();
-    _jobPreferences = prefs;
-    await ProfileLocalStore.savePrefs(_jobPreferences);
     await _api.postJson(
       '/job-seeker/me/onboarding',
       ProfileApiMapper.onboardingPreferencesBody(prefs),
       params: const {'step': 'preferences'},
     );
+    _jobPreferences = prefs;
+    await ProfileLocalStore.savePrefs(_jobPreferences);
   }
 
   @override
   Future<void> saveProfileVisible(bool visible) async {
     await _syncSession();
     await _ensureLoaded();
+    await _api.postJson('/job-seeker/me', {'profileVisible': visible});
     _profileVisible = visible;
     await ProfileLocalStore.saveVisible(_profileVisible);
-    await _api.postJson('/job-seeker/me', {'profileVisible': visible});
   }
 }
 
