@@ -585,16 +585,19 @@ class ApiProfileRepository implements ProfileRepository {
         'email': basics.email,
         'phone': basics.phone,
         'gender': ProfileApiMapper.enumDto(basics.gender),
-        'citizenship': {
-          'name': basics.citizenship,
-          'code': basics.citizenshipCode.toUpperCase(),
-        },
-        'residence': {
-          'name': basics.residence,
-          'code': basics.residenceCode.toUpperCase(),
-        },
+        if (basics.citizenship.isNotEmpty)
+          'citizenship': {
+            'name': basics.citizenship,
+            'code': basics.citizenshipCode.toUpperCase(),
+          },
+        if (basics.residence.isNotEmpty)
+          'residence': {
+            'name': basics.residence,
+            'code': basics.residenceCode.toUpperCase(),
+          },
         'photo': basics.photoUrl,
-        'dateOfBirth': basics.dateOfBirth,
+        if (basics.dateOfBirth.isNotEmpty)
+          'dateOfBirth': ProfileApiMapper.dobToIsoDate(basics.dateOfBirth),
       },
       'location': {
         'status': ProfileApiMapper.enumDto(basics.status),

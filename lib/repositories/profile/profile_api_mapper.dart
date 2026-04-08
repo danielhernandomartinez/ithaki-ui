@@ -34,6 +34,30 @@ class ProfileApiMapper {
     return {'value': slug(t), 'title': t};
   }
 
+  /// Converts DD-MM-YYYY or MM-YYYY display formats to YYYY-MM-DD for the API.
+  static String? dobToIsoDate(String value) {
+    final raw = value.trim();
+    if (raw.isEmpty) return null;
+    final parts = raw.split('-');
+    if (parts.length == 3) {
+      // DD-MM-YYYY
+      final dd = int.tryParse(parts[0]);
+      final mm = int.tryParse(parts[1]);
+      final yyyy = int.tryParse(parts[2]);
+      if (dd != null && mm != null && yyyy != null) {
+        return '${yyyy.toString().padLeft(4, '0')}-${mm.toString().padLeft(2, '0')}-${dd.toString().padLeft(2, '0')}';
+      }
+    } else if (parts.length == 2) {
+      // MM-YYYY
+      final mm = int.tryParse(parts[0]);
+      final yyyy = int.tryParse(parts[1]);
+      if (mm != null && yyyy != null) {
+        return '${yyyy.toString().padLeft(4, '0')}-${mm.toString().padLeft(2, '0')}-01';
+      }
+    }
+    return raw;
+  }
+
   static String? mmYyyyToIsoDate(String value) {
     final raw = value.trim();
     if (raw.isEmpty) return null;
