@@ -12,6 +12,8 @@ class HomeGreetingHeader extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final homeData = ref.watch(homeProvider).value;
     if (homeData == null) return const SizedBox.shrink();
+    final name = homeData.userName.trim();
+    final greeting = name.isEmpty ? 'Hi!' : 'Hi, $name!';
     return Container(
       margin: EdgeInsets.only(
         top: topOffset + 12,
@@ -28,7 +30,7 @@ class HomeGreetingHeader extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Hi, ${homeData.userName}!',
+            greeting,
             style: IthakiTheme.headingLarge,
           ),
           const SizedBox(height: 8),

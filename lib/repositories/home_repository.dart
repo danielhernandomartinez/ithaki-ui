@@ -35,8 +35,8 @@ abstract class HomeRepository {
 class MockHomeRepository implements HomeRepository {
   @override
   Future<HomeData> getData() async => const HomeData(
-    userName: 'Christos',
-    userInitials: 'CI',
+    userName: '',
+    userInitials: '',
     cvStats: CvStats(
       views: 150,
       viewsChange: 2,

@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../routes.dart';
-import '../../../utils/language_utils.dart';
 
 class _CompRow {
   final String label;
@@ -181,7 +180,7 @@ class ProfileSkillsTab extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(children: [
-                      IthakiFlag(langCode(l.language), width: 20, height: 20),
+                      IthakiLanguageFlag(l.language, size: 20),
                       const SizedBox(width: 8),
                       Text(l.language,
                           style: const TextStyle(
