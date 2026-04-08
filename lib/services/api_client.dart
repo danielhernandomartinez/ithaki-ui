@@ -172,7 +172,7 @@ class ApiClient {
       res = await doPost(token);
     }
     if (!_okStatuses.contains(res.statusCode)) {
-      throw Exception('API error ${res.statusCode} on POST $path');
+      throw Exception(readErrorBody(res));
     }
   }
 }
