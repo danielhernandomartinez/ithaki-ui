@@ -2,8 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import '../services/api_client.dart';
 
 abstract class AuthRepository {
   Future<void> loginWithEmail(String email, String password);
@@ -58,31 +59,12 @@ class MockAuthRepository implements AuthRepository {
 }
 
 class ApiAuthRepository implements AuthRepository {
-  ApiAuthRepository({
-    http.Client? client,
-    String? baseUrl,
-  })  : _client = client ?? http.Client(),
-        _baseUrl = baseUrl ?? const String.fromEnvironment(
-          'ITHAKI_API_BASE_URL',
-          defaultValue: 'https://api.odyssea.com/talent/staging',
-        );
+  ApiAuthRepository({ApiClient? apiClient}) : _api = apiClient ?? ApiClient();
 
-  final http.Client _client;
-  final String _baseUrl;
+  final ApiClient _api;
 
-  String get _apiBase {
-    final trimmed =
-        _baseUrl.endsWith('/') ? _baseUrl.substring(0, _baseUrl.length - 1) : _baseUrl;
-    return trimmed.endsWith('/api') ? trimmed : '$trimmed/api';
-  }
-
-  Uri _uri(String path) => Uri.parse('$_apiBase$path');
-
-  Map<String, String> _jsonHeaders({String? token}) => {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        if (token != null && token.isNotEmpty) 'Authorization': 'Bearer $token',
-      };
+  // Storage is kept here because auth is the only place that *writes* tokens.
+  static const _storage = FlutterSecureStorage();
 
   String? _extractToken(Map<String, dynamic> data) {
     final direct = data['accessToken'] ?? data['token'];
@@ -96,8 +78,6 @@ class ApiAuthRepository implements AuthRepository {
     return null;
   }
 
-  static const _storage = FlutterSecureStorage();
-
   Future<void> _saveTokens(Map<String, dynamic> data) async {
     final accessToken = _extractToken(data);
     if (accessToken != null) await _storage.write(key: 'jwt_token', value: accessToken);
@@ -108,55 +88,34 @@ class ApiAuthRepository implements AuthRepository {
     }
   }
 
-  Future<String> _requireToken() async {
-    final token = await _storage.read(key: 'jwt_token');
-    if (token == null || token.isEmpty) throw Exception('Missing auth token');
-    return token;
-  }
-
   Future<void> _triggerOtpSms(String token) async {
-    final response = await _client
+    final response = await _api.client
         .post(
-          _uri('/user/sendSMS/twilio'),
-          headers: _jsonHeaders(token: token),
+          _api.uri('/user/sendSMS/twilio'),
+          headers: _api.jsonHeaders(token: token),
         )
-        .timeout(const Duration(seconds: 20));
+        .timeout(ApiClient.timeout);
 
     if (response.statusCode != 200 && response.statusCode != 201) {
-      throw Exception('OTP send failed: ${_readErrorBody(response)}');
+      throw Exception('OTP send failed: ${_api.readErrorBody(response)}');
     }
-  }
-
-  String _readErrorBody(http.Response response) {
-    try {
-      final decoded = jsonDecode(response.body);
-      if (decoded is Map<String, dynamic>) {
-        final message = decoded['message'] ?? decoded['error'];
-        if (message is String && message.isNotEmpty) {
-          return message;
-        }
-      }
-    } catch (_) {
-      // Fallback to raw body when response isn't JSON.
-    }
-    return response.body.isEmpty ? 'Unknown server error' : response.body;
   }
 
   @override
   Future<void> loginWithEmail(String email, String password) async {
-    final response = await _client
+    final response = await _api.client
         .post(
-          _uri('/auth/login'),
-          headers: _jsonHeaders(),
+          _api.uri('/auth/login'),
+          headers: _api.jsonHeaders(),
           body: jsonEncode({
             'email': email.trim(),
             'password': password,
           }),
         )
-        .timeout(const Duration(seconds: 20));
+        .timeout(ApiClient.timeout);
 
     if (response.statusCode != 200 && response.statusCode != 201) {
-      throw Exception('Login failed: ${_readErrorBody(response)}');
+      throw Exception('Login failed: ${_api.readErrorBody(response)}');
     }
 
     final Map<String, dynamic> data =
@@ -179,10 +138,10 @@ class ApiAuthRepository implements AuthRepository {
     required String techComfort,
     required String systemLanguage,
   }) async {
-    final signupResponse = await _client
+    final signupResponse = await _api.client
         .post(
-          _uri('/auth/signup'),
-          headers: _jsonHeaders(),
+          _api.uri('/auth/signup'),
+          headers: _api.jsonHeaders(),
           body: jsonEncode({
             'email': email.trim(),
             'password': password,
@@ -191,10 +150,10 @@ class ApiAuthRepository implements AuthRepository {
             'techComfort': techComfort,
           }),
         )
-        .timeout(const Duration(seconds: 20));
+        .timeout(ApiClient.timeout);
 
     if (signupResponse.statusCode != 200 && signupResponse.statusCode != 201) {
-      throw Exception('Signup failed: ${_readErrorBody(signupResponse)}');
+      throw Exception('Signup failed: ${_api.readErrorBody(signupResponse)}');
     }
 
     final Map<String, dynamic> data =
@@ -206,20 +165,20 @@ class ApiAuthRepository implements AuthRepository {
     await _saveTokens(data);
 
     // Save personal details after signup so Twilio has a phone number to target.
-    final profileResponse = await _client
+    final profileResponse = await _api.client
         .post(
-          _uri('/user/me'),
-          headers: _jsonHeaders(token: token),
+          _api.uri('/user/me'),
+          headers: _api.jsonHeaders(token: token),
           body: jsonEncode({
             'firstName': name.trim(),
             'lastName': lastName.trim(),
             'phone': phone.replaceAll(RegExp(r'\s+'), ''),
           }),
         )
-        .timeout(const Duration(seconds: 20));
+        .timeout(ApiClient.timeout);
 
     if (profileResponse.statusCode != 200 && profileResponse.statusCode != 201) {
-      throw Exception('Profile save failed: ${_readErrorBody(profileResponse)}');
+      throw Exception('Profile save failed: ${_api.readErrorBody(profileResponse)}');
     }
 
     // OTP send is best-effort — if Twilio fails the user can retry from the OTP screen.
@@ -230,29 +189,29 @@ class ApiAuthRepository implements AuthRepository {
 
   @override
   Future<void> sendOtp() async {
-    final token = await _requireToken();
+    final token = await _api.requireToken();
     await _triggerOtpSms(token);
   }
 
   @override
   Future<void> updatePhone(String phone) async {
-    final token = await _requireToken();
-    await _client
+    final token = await _api.requireToken();
+    await _api.client
         .post(
-          _uri('/user/me'),
-          headers: _jsonHeaders(token: token),
+          _api.uri('/user/me'),
+          headers: _api.jsonHeaders(token: token),
           body: jsonEncode({'phone': phone.replaceAll(RegExp(r'\s+'), '')}),
         )
-        .timeout(const Duration(seconds: 20));
+        .timeout(ApiClient.timeout);
   }
 
   @override
   Future<void> verifyOtp(String otp) async {
-    final token = await _requireToken();
+    final token = await _api.requireToken();
 
-    final response = await _client
+    final response = await _api.client
         .post(
-          _uri('/user/sendSMS/verify'),
+          _api.uri('/user/sendSMS/verify'),
           headers: {
             'Content-Type': 'text/plain',
             'Accept': 'application/json',
@@ -260,10 +219,10 @@ class ApiAuthRepository implements AuthRepository {
           },
           body: otp.trim(),
         )
-        .timeout(const Duration(seconds: 20));
+        .timeout(ApiClient.timeout);
 
     if (response.statusCode != 200 && response.statusCode != 201) {
-      throw Exception('OTP verification failed: ${_readErrorBody(response)}');
+      throw Exception('OTP verification failed: ${_api.readErrorBody(response)}');
     }
 
     final raw = response.body.trim().toLowerCase();
@@ -286,5 +245,7 @@ class ApiAuthRepository implements AuthRepository {
 const bool _useMockAuth = bool.fromEnvironment('ITHAKI_USE_MOCK_AUTH');
 
 final authRepositoryProvider = Provider<AuthRepository>(
-  (_) => _useMockAuth ? MockAuthRepository() : ApiAuthRepository(),
+  (ref) => _useMockAuth
+      ? MockAuthRepository()
+      : ApiAuthRepository(apiClient: ref.watch(apiClientProvider)),
 );

@@ -63,22 +63,29 @@ class _EditJobPreferencesScreenState
     super.dispose();
   }
 
-  void _save() {
+  Future<void> _save() async {
     final salary = double.tryParse(_salaryCtrl.text.trim());
-    ref.read(profileJobPreferencesProvider.notifier).save(
-          interests: _interests,
-          positionLevel: _positionLevel,
-          jobType:
-              _jobTypeSelected.isEmpty ? '' : _jobTypeSelected.join(', '),
-          workplace: _workplaceSelected.isEmpty
-              ? ''
-              : _workplaceSelected.join(', '),
-          expectedSalary: _preferNotToSpecify ? null : salary,
-          preferNotToSpecifySalary: _preferNotToSpecify,
-        );
-    if (!mounted) return;
-    SuccessBanner.show(context, 'Your Job Preferences has been updated.');
-    context.pop();
+    try {
+      await ref.read(profileJobPreferencesProvider.notifier).save(
+            interests: _interests,
+            positionLevel: _positionLevel,
+            jobType:
+                _jobTypeSelected.isEmpty ? '' : _jobTypeSelected.join(', '),
+            workplace: _workplaceSelected.isEmpty
+                ? ''
+                : _workplaceSelected.join(', '),
+            expectedSalary: _preferNotToSpecify ? null : salary,
+            preferNotToSpecifySalary: _preferNotToSpecify,
+          );
+      if (!mounted) return;
+      SuccessBanner.show(context, 'Your Job Preferences has been updated.');
+      context.pop();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
   }
 
   @override

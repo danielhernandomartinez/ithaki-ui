@@ -38,11 +38,19 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
     super.dispose();
   }
 
-  void _save() {
-    ref
-        .read(profileAboutMeProvider.notifier)
-        .save(_bioCtrl.text.trim(), videoUrl: _videoUrl);
-    context.pop();
+  Future<void> _save() async {
+    try {
+      await ref
+          .read(profileAboutMeProvider.notifier)
+          .save(_bioCtrl.text.trim(), videoUrl: _videoUrl);
+      if (!mounted) return;
+      context.pop();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
   }
 
   Widget _tab(String label, int index) {

@@ -27,9 +27,17 @@ class _EditValuesScreenState extends ConsumerState<EditValuesScreen> {
     );
   }
 
-  void _save() {
-    ref.read(profileValuesProvider.notifier).save(_selected.toList());
-    context.pop();
+  Future<void> _save() async {
+    try {
+      await ref.read(profileValuesProvider.notifier).save(_selected.toList());
+      if (!mounted) return;
+      context.pop();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
   }
 
   @override

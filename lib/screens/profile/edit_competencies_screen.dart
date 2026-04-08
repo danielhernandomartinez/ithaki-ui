@@ -33,14 +33,22 @@ class _EditCompetenciesScreenState
     _greekLicense = comp['greekLicense'] == 'true';
   }
 
-  void _save() {
-    ref.read(profileSkillsProvider.notifier).updateCompetencies({
-      'computerSkills': _computerSkill,
-      'drivingLicense': _drivingLicense,
-      'licenseCategory': _licenseCategory,
-      'greekLicense': _greekLicense.toString(),
-    });
-    context.pop();
+  Future<void> _save() async {
+    try {
+      await ref.read(profileSkillsProvider.notifier).updateCompetencies({
+        'computerSkills': _computerSkill,
+        'drivingLicense': _drivingLicense,
+        'licenseCategory': _licenseCategory,
+        'greekLicense': _greekLicense.toString(),
+      });
+      if (!mounted) return;
+      context.pop();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
   }
 
   Widget _optionTile(String label, bool isSelected, VoidCallback onTap) {

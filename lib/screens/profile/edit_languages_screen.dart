@@ -107,12 +107,20 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
     );
   }
 
-  void _save() {
+  Future<void> _save() async {
     final langs = List.generate(_langs.length, (i) {
       return Language(language: _langs[i], proficiency: _levels[i]);
     }).where((l) => l.language.isNotEmpty && l.proficiency.isNotEmpty).toList();
-    ref.read(profileSkillsProvider.notifier).updateLanguages(langs);
-    context.pop();
+    try {
+      await ref.read(profileSkillsProvider.notifier).updateLanguages(langs);
+      if (!mounted) return;
+      context.pop();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
   }
 
   @override

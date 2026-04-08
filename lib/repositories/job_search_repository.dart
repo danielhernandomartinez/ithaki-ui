@@ -2,10 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../models/job_search_models.dart';
+import '../services/api_client.dart';
 import '../utils/api_mappers.dart' as mapper;
 
 class JobSearchResult {
@@ -211,40 +210,10 @@ class MockJobSearchRepository implements JobSearchRepository {
 // ─── API implementation ───────────────────────────────────────────────────────
 
 class ApiJobSearchRepository implements JobSearchRepository {
-  ApiJobSearchRepository({http.Client? client, String? baseUrl})
-      : _client = client ?? http.Client(),
-        _baseUrl = baseUrl ??
-            const String.fromEnvironment(
-              'ITHAKI_API_BASE_URL',
-              defaultValue: 'https://api.odyssea.com/talent/staging',
-            );
+  ApiJobSearchRepository({ApiClient? apiClient}) : _api = apiClient ?? ApiClient();
 
-  final http.Client _client;
-  final String _baseUrl;
+  final ApiClient _api;
   final Set<String> _savedIds = {};
-
-  String get _apiBase {
-    final trimmed =
-        _baseUrl.endsWith('/') ? _baseUrl.substring(0, _baseUrl.length - 1) : _baseUrl;
-    return trimmed.endsWith('/api') ? trimmed : '$trimmed/api';
-  }
-
-  Uri _uri(String path, [Map<String, String>? params]) {
-    final base = '$_apiBase$path';
-    if (params == null || params.isEmpty) return Uri.parse(base);
-    return Uri.parse(base).replace(queryParameters: params);
-  }
-
-  static const _storage = FlutterSecureStorage();
-
-  Future<Map<String, String>> _authHeaders() async {
-    final token = await _storage.read(key: 'jwt_token') ?? '';
-    return {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      if (token.isNotEmpty) 'Authorization': 'Bearer $token',
-    };
-  }
 
   static JobListing _parseJob(Map<String, dynamic> j) {
     final id = j['id']?.toString() ?? '';
@@ -287,7 +256,6 @@ class ApiJobSearchRepository implements JobSearchRepository {
     String sort = 'Date: Recent',
     int page = 1,
   }) async {
-    final headers = await _authHeaders();
     final params = <String, String>{'page': (page - 1).toString(), 'size': '10'};
 
     final location = filters['Location'];
@@ -301,9 +269,7 @@ class ApiJobSearchRepository implements JobSearchRepository {
     final experience = filters['Experience Level'];
     if (experience != null && experience.isNotEmpty) params['experienceLevel'] = experience.first;
 
-    final response = await _client
-        .get(_uri('/jobs', params), headers: headers)
-        .timeout(const Duration(seconds: 20));
+    final response = await _api.get('/jobs', params: params);
 
     if (response.statusCode != 200) {
       throw Exception('Job search failed: ${response.statusCode}');
@@ -336,5 +302,7 @@ class ApiJobSearchRepository implements JobSearchRepository {
 const bool _useMockJobSearch = bool.fromEnvironment('ITHAKI_USE_MOCK_JOB_SEARCH');
 
 final jobSearchRepositoryProvider = Provider<JobSearchRepository>(
-  (_) => _useMockJobSearch ? MockJobSearchRepository() : ApiJobSearchRepository(),
+  (ref) => _useMockJobSearch
+      ? MockJobSearchRepository()
+      : ApiJobSearchRepository(apiClient: ref.watch(apiClientProvider)),
 );

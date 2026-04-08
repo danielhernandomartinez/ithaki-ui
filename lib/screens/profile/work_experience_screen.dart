@@ -139,7 +139,7 @@ class _WorkExperienceFormScreenState
   }
 
 
-  void _save() {
+  Future<void> _save() async {
     final notifier = ref.read(profileWorkExperiencesProvider.notifier);
     final exp = WorkExperience(
       jobTitle: _jobTitleCtrl.text.trim(),
@@ -153,12 +153,20 @@ class _WorkExperienceFormScreenState
       currentlyWorkHere: _currentlyWorkHere,
       summary: _summaryCtrl.text.trim().isEmpty ? null : _summaryCtrl.text.trim(),
     );
-    if (widget.editIndex != null) {
-      notifier.save(widget.editIndex!, exp);
-    } else {
-      notifier.add(exp);
+    try {
+      if (widget.editIndex != null) {
+        await notifier.save(widget.editIndex!, exp);
+      } else {
+        await notifier.add(exp);
+      }
+      if (!mounted) return;
+      context.pop();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
     }
-    context.pop();
   }
 
   @override

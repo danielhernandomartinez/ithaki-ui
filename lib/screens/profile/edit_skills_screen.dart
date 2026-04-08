@@ -25,9 +25,17 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
     _softSkills = List<String>.from(skills.softSkills);
   }
 
-  void _save() {
-    ref.read(profileSkillsProvider.notifier).updateSkills(_hardSkills, _softSkills);
-    context.pop();
+  Future<void> _save() async {
+    try {
+      await ref.read(profileSkillsProvider.notifier).updateSkills(_hardSkills, _softSkills);
+      if (!mounted) return;
+      context.pop();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
   }
 
   void _openPicker({

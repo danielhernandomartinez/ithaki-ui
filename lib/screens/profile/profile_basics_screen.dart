@@ -75,21 +75,29 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
     }
   }
 
-  void _save() {
-    ref.read(profileBasicsProvider.notifier).save(
-      firstName: _nameCtrl.text.trim(),
-      lastName: _lastNameCtrl.text.trim(),
-      dateOfBirth: _dobCtrl.text.trim(),
-      gender: _gender,
-      citizenship: _citizenshipCtrl.text.trim(),
-      citizenshipCode: _citizenshipCode.isNotEmpty ? _citizenshipCode : null,
-      residence: _residenceCtrl.text.trim(),
-      residenceCode: _residenceCode.isNotEmpty ? _residenceCode : null,
-      status: _status,
-      relocationReadiness: _relocation,
-      photoUrl: _photoPath,
-    );
-    context.pop();
+  Future<void> _save() async {
+    try {
+      await ref.read(profileBasicsProvider.notifier).save(
+        firstName: _nameCtrl.text.trim(),
+        lastName: _lastNameCtrl.text.trim(),
+        dateOfBirth: _dobCtrl.text.trim(),
+        gender: _gender,
+        citizenship: _citizenshipCtrl.text.trim(),
+        citizenshipCode: _citizenshipCode.isNotEmpty ? _citizenshipCode : null,
+        residence: _residenceCtrl.text.trim(),
+        residenceCode: _residenceCode.isNotEmpty ? _residenceCode : null,
+        status: _status,
+        relocationReadiness: _relocation,
+        photoUrl: _photoPath,
+      );
+      if (!mounted) return;
+      context.pop();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
   }
 
   Future<void> _pickPhoto() async {

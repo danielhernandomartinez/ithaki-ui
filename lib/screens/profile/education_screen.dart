@@ -192,7 +192,7 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
     }
   }
 
-  void _save() {
+  Future<void> _save() async {
     final notifier = ref.read(profileEducationsProvider.notifier);
     final edu = Education(
       institutionName: _institutionCtrl.text.trim(),
@@ -200,16 +200,23 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
       location: _locationCtrl.text.trim(),
       degreeType: _degreeType,
       startDate: _startDateCtrl.text.trim(),
-      endDate:
-          _currentlyStudyHere ? null : _endDateCtrl.text.trim(),
+      endDate: _currentlyStudyHere ? null : _endDateCtrl.text.trim(),
       currentlyStudyHere: _currentlyStudyHere,
     );
-    if (widget.editIndex != null) {
-      notifier.save(widget.editIndex!, edu);
-    } else {
-      notifier.add(edu);
+    try {
+      if (widget.editIndex != null) {
+        await notifier.save(widget.editIndex!, edu);
+      } else {
+        await notifier.add(edu);
+      }
+      if (!mounted) return;
+      context.pop();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
     }
-    context.pop();
   }
 
   @override
