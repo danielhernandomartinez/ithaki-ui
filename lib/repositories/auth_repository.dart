@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 abstract class AuthRepository {
   Future<void> loginWithEmail(String email, String password);
@@ -96,21 +96,20 @@ class ApiAuthRepository implements AuthRepository {
     return null;
   }
 
-  Future<void> _saveTokens(Map<String, dynamic> data) async {
-    final prefs = await SharedPreferences.getInstance();
+  static const _storage = FlutterSecureStorage();
 
+  Future<void> _saveTokens(Map<String, dynamic> data) async {
     final accessToken = _extractToken(data);
-    if (accessToken != null) await prefs.setString('jwt_token', accessToken);
+    if (accessToken != null) await _storage.write(key: 'jwt_token', value: accessToken);
 
     final refreshToken = data['refreshToken'] ?? data['data']?['refreshToken'];
     if (refreshToken is String && refreshToken.isNotEmpty) {
-      await prefs.setString('jwt_refresh_token', refreshToken);
+      await _storage.write(key: 'jwt_refresh_token', value: refreshToken);
     }
   }
 
   Future<String> _requireToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('jwt_token');
+    final token = await _storage.read(key: 'jwt_token');
     if (token == null || token.isEmpty) throw Exception('Missing auth token');
     return token;
   }
@@ -280,8 +279,7 @@ class ApiAuthRepository implements AuthRepository {
 
   @override
   Future<void> logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('jwt_token');
+    await _storage.delete(key: 'jwt_token');
   }
 }
 
