@@ -31,18 +31,18 @@ abstract class ProfileRepository {
 
 class MockProfileRepository implements ProfileRepository {
   ProfileBasics _basics = const ProfileBasics(
-    firstName: 'Christos',
-    lastName: 'Ioannides',
-    email: 'c.ioannidis@gmail.com',
-    phone: '+30 123 456 78 90',
-    dateOfBirth: '01-01-1997',
-    gender: 'Male',
-    citizenship: 'Greece',
-    citizenshipCode: 'gr',
-    residence: 'Greece',
-    residenceCode: 'gr',
-    status: 'Citizen',
-    relocationReadiness: 'Yes',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    dateOfBirth: '',
+    gender: '',
+    citizenship: '',
+    citizenshipCode: '',
+    residence: '',
+    residenceCode: '',
+    status: '',
+    relocationReadiness: '',
   );
   ProfileAboutMe _aboutMe = const ProfileAboutMe();
   ProfileSkills _skills = const ProfileSkills();
@@ -210,6 +210,8 @@ class ApiProfileRepository implements ProfileRepository {
   ProfileJobPreferences _jobPreferences = const ProfileJobPreferences();
   bool _profileVisible = true;
 
+  Map<String, int>? _languageIdByName;
+
   void _resetInMemory() {
     _basics = const ProfileBasics();
     _aboutMe = const ProfileAboutMe();
@@ -227,6 +229,7 @@ class ApiProfileRepository implements ProfileRepository {
     if (_sessionToken == token) return;
     _sessionToken = token;
     _initFuture = null;
+    _languageIdByName = null;
     _resetInMemory();
   }
 
@@ -242,6 +245,93 @@ class ApiProfileRepository implements ProfileRepository {
     _values = await ProfileLocalStore.loadValues() ?? _values;
     _jobPreferences = await ProfileLocalStore.loadPrefs() ?? _jobPreferences;
     _profileVisible = await ProfileLocalStore.loadVisible() ?? _profileVisible;
+  }
+
+  String _normalize(String value) => value.trim().toLowerCase();
+
+  Future<Map<String, int>> _getLanguageIdByName() async {
+    if (_languageIdByName != null) return _languageIdByName!;
+    final res = await _api.get('/list/languages');
+    if (res.statusCode != 200) {
+      _languageIdByName = <String, int>{};
+      return _languageIdByName!;
+    }
+    final body = jsonDecode(res.body);
+    final List raw = body is List
+        ? body
+        : (body as Map<String, dynamic>)['content'] ?? body['data'] ?? const [];
+
+    final map = <String, int>{};
+    for (final item in raw.whereType<Map>()) {
+      final j = item.cast<String, dynamic>();
+      final name = (j['title'] as String? ?? j['name'] as String? ?? '').trim();
+      final idRaw = j['value'] ?? j['id'];
+      final id = idRaw is num ? idRaw.toInt() : int.tryParse(idRaw.toString());
+      if (name.isEmpty || id == null) continue;
+      map[_normalize(name)] = id;
+    }
+    _languageIdByName = map;
+    return map;
+  }
+
+  Map<String, String> _proficiencyEnum(String proficiency) {
+    final normalized = _normalize(proficiency);
+    switch (normalized) {
+      case 'native':
+        return const {'value': 'C2', 'title': 'Native/Proficiency'};
+      case 'fluent':
+        return const {'value': 'C1', 'title': 'Fluent'};
+      case 'advanced':
+        return const {'value': 'B2', 'title': 'Advanced'};
+      case 'conversational':
+        return const {'value': 'B1', 'title': 'Conversational'};
+      case 'basic':
+        return const {'value': 'A1', 'title': 'Basic'};
+      default:
+        return {'value': ProfileApiMapper.slug(proficiency), 'title': proficiency};
+    }
+  }
+
+  Future<void> _saveLanguagesReplace(List<Language> languages) async {
+    final languageMap = await _getLanguageIdByName();
+    final payloadEnumDto = languages
+        .map((lang) {
+          final id = languageMap[_normalize(lang.language)];
+          if (id == null) return null;
+          return {
+            'languageId': id,
+            'level': _proficiencyEnum(lang.proficiency),
+          };
+        })
+        .whereType<Map<String, dynamic>>()
+        .toList();
+    final payloadValueOnly = payloadEnumDto
+        .map(
+          (item) => {
+            'languageId': item['languageId'],
+            'level': (item['level'] as Map<String, dynamic>)['value'],
+          },
+        )
+        .toList();
+
+    Object? lastError;
+    final attempts = <({String path, Object body})>[
+      (path: '/job-seeker/me/languages/replace', body: payloadEnumDto),
+      (path: '/job-seeker/me/lenguages/replace', body: payloadEnumDto),
+      (path: '/job-seeker/me/languages/replace', body: payloadValueOnly),
+      (path: '/job-seeker/me/lenguages/replace', body: payloadValueOnly),
+    ];
+
+    for (final attempt in attempts) {
+      try {
+        await _api.postJson(attempt.path, attempt.body);
+        return;
+      } catch (e) {
+        lastError = e;
+      }
+    }
+
+    throw Exception('Failed saving languages: $lastError');
   }
 
 
@@ -546,16 +636,8 @@ class ApiProfileRepository implements ProfileRepository {
         'softSkills': skills.softSkills,
       },
       'competencies': skills.competencies,
-      'languages': skills.languages
-          .map(
-            (lang) => {
-              'language': lang.language,
-              'proficiency': lang.proficiency,
-              'level': ProfileApiMapper.enumDto(lang.proficiency),
-            },
-          )
-          .toList(),
     });
+    await _saveLanguagesReplace(skills.languages);
   }
 
   @override
