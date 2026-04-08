@@ -69,14 +69,45 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
-    final basics = ref.watch(profileBasicsProvider).value;
-    if (basics == null) {
+    final basicsAsync = ref.watch(profileBasicsProvider);
+    if (basicsAsync.isLoading) {
       return const Scaffold(
         backgroundColor: IthakiTheme.backgroundViolet,
         body: Center(child: CircularProgressIndicator()),
       );
     }
+    if (basicsAsync.hasError) {
+      return Scaffold(
+        backgroundColor: IthakiTheme.backgroundViolet,
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.cloud_off_rounded,
+                    size: 48, color: IthakiTheme.textSecondary),
+                const SizedBox(height: 16),
+                Text(
+                  'Couldn\'t load your profile.\nCheck your connection and try again.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: IthakiTheme.textSecondary),
+                ),
+                const SizedBox(height: 24),
+                IthakiButton(
+                  'Retry',
+                  onPressed: () => ref.invalidate(profileBasicsProvider),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+    final basics = basicsAsync.requireValue;
     final topOffset = MediaQuery.of(context).padding.top + kToolbarHeight + 16;
+
+    final isPartial = ref.watch(profilePartialLoadProvider);
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
@@ -93,6 +124,32 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         SingleChildScrollView(
           child: Column(children: [
             SizedBox(height: topOffset - 14),
+            if (isPartial)
+              Container(
+                margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                decoration: BoxDecoration(
+                  color: Colors.amber.shade50,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.amber.shade200),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.warning_amber_rounded,
+                        color: Colors.amber.shade800, size: 20),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        'Some profile data couldn\'t be loaded. Showing cached data.',
+                        style: TextStyle(
+                          color: Colors.amber.shade900,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ProfileHeaderCard(basics: basics),
             const SizedBox(height: 12),
             ProfileTabBar(

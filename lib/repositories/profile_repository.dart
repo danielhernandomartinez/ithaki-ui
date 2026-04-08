@@ -7,8 +7,20 @@ import '../services/api_client.dart';
 import 'profile/profile_api_mapper.dart';
 import 'profile/profile_local_store.dart';
 
+class ProfileLoadResult {
+  final ProfileBasics basics;
+  final bool isPartial;
+  final Object? partialError;
+
+  const ProfileLoadResult({
+    required this.basics,
+    this.isPartial = false,
+    this.partialError,
+  });
+}
+
 abstract class ProfileRepository {
-  Future<ProfileBasics> getBasics();
+  Future<ProfileLoadResult> getBasics();
   Future<ProfileAboutMe> getAboutMe();
   Future<ProfileSkills> getSkills();
   Future<List<WorkExperience>> getWorkExperiences();
@@ -76,9 +88,9 @@ class MockProfileRepository implements ProfileRepository {
   }
 
   @override
-  Future<ProfileBasics> getBasics() async {
+  Future<ProfileLoadResult> getBasics() async {
     await _ensureLoaded();
-    return _basics;
+    return ProfileLoadResult(basics: _basics);
   }
 
   @override
@@ -336,7 +348,7 @@ class ApiProfileRepository implements ProfileRepository {
 
 
   @override
-  Future<ProfileBasics> getBasics() async {
+  Future<ProfileLoadResult> getBasics() async {
     await _syncSession();
     await _ensureLoaded();
     try {
@@ -501,13 +513,16 @@ class ApiProfileRepository implements ProfileRepository {
             await ProfileLocalStore.saveValues(_values);
           }
         }
-      } catch (_) {
-        // Keep basics from /user/me
+      } catch (e) {
+        // /job-seeker/me failed; keep basics from /user/me but signal partial load
+        _basics = basics;
+        await ProfileLocalStore.saveBasics(_basics);
+        return ProfileLoadResult(basics: _basics, isPartial: true, partialError: e);
       }
 
       _basics = basics;
       await ProfileLocalStore.saveBasics(_basics);
-      return _basics;
+      return ProfileLoadResult(basics: _basics);
     } catch (e, st) {
       Error.throwWithStackTrace(e, st);
     }
