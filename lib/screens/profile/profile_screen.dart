@@ -172,6 +172,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   onLogOut: () {
                     _panels.closeProfile();
                     ref.read(authRepositoryProvider).logout().whenComplete(() {
+                      resetProfileProviders(ref);
                       if (context.mounted) context.go(Routes.root);
                     });
                   },

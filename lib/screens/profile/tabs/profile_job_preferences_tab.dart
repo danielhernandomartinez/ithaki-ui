@@ -145,15 +145,28 @@ class ProfileJobPreferencesTab extends ConsumerWidget {
       Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
         IthakiIcon(iconName, size: 20, color: IthakiTheme.softGraphite),
         const SizedBox(width: 8),
-        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(label,
+        Expanded(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
-                  fontSize: 11, color: IthakiTheme.textSecondary)),
-          Text(value,
+                fontSize: 11,
+                color: IthakiTheme.textSecondary,
+              ),
+            ),
+            Text(
+              value,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: IthakiTheme.textPrimary)),
-        ]),
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: IthakiTheme.textPrimary,
+              ),
+            ),
+          ]),
+        ),
       ]);
 }

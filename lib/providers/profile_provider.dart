@@ -281,3 +281,17 @@ final profileCompletionProvider = Provider<double>((ref) {
   final completed = items.where((item) => item.completed).length;
   return items.isEmpty ? 0 : completed / items.length;
 });
+
+void resetProfileProviders(Ref ref) {
+  ref.invalidate(profileBasicsProvider);
+  ref.invalidate(profileAboutMeProvider);
+  ref.invalidate(profileSkillsProvider);
+  ref.invalidate(profileWorkExperiencesProvider);
+  ref.invalidate(profileEducationsProvider);
+  ref.invalidate(profileFilesProvider);
+  ref.invalidate(profileValuesProvider);
+  ref.invalidate(profileJobPreferencesProvider);
+  ref.invalidate(profileVisibleProvider);
+  ref.invalidate(profileCompletionItemsProvider);
+  ref.invalidate(profileCompletionProvider);
+}

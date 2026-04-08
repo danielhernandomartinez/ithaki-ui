@@ -206,6 +206,7 @@ class ApiProfileRepository implements ProfileRepository {
   final http.Client _client;
   final String _baseUrl;
   Future<void>? _initFuture;
+  String? _sessionToken;
 
   ProfileBasics _basics = const ProfileBasics();
   ProfileAboutMe _aboutMe = const ProfileAboutMe();
@@ -228,6 +229,32 @@ class ApiProfileRepository implements ProfileRepository {
   static const _okStatuses = {200, 201, 202, 204};
 
   static const _storage = FlutterSecureStorage();
+
+  Future<String?> _readTokenOrNull() async {
+    final token = await _storage.read(key: 'jwt_token');
+    if (token == null || token.isEmpty) return null;
+    return token;
+  }
+
+  void _resetInMemory() {
+    _basics = const ProfileBasics();
+    _aboutMe = const ProfileAboutMe();
+    _skills = const ProfileSkills();
+    _workExperiences = const [];
+    _educations = const [];
+    _files = const [];
+    _values = const [];
+    _jobPreferences = const ProfileJobPreferences();
+    _profileVisible = true;
+  }
+
+  Future<void> _syncSession() async {
+    final token = await _readTokenOrNull();
+    if (_sessionToken == token) return;
+    _sessionToken = token;
+    _initFuture = null;
+    _resetInMemory();
+  }
 
   Future<String> _requireToken() async {
     final token = await _storage.read(key: 'jwt_token');
@@ -276,6 +303,7 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<ProfileBasics> getBasics() async {
+    await _syncSession();
     await _ensureLoaded();
     try {
       final token = await _requireToken();
@@ -459,6 +487,7 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<void> saveBasics(ProfileBasics basics) async {
+    await _syncSession();
     await _ensureLoaded();
     _basics = basics;
     await ProfileLocalStore.saveBasics(_basics);
@@ -495,54 +524,63 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<ProfileAboutMe> getAboutMe() async {
+    await _syncSession();
     await _ensureLoaded();
     return _aboutMe;
   }
 
   @override
   Future<ProfileSkills> getSkills() async {
+    await _syncSession();
     await _ensureLoaded();
     return _skills;
   }
 
   @override
   Future<List<WorkExperience>> getWorkExperiences() async {
+    await _syncSession();
     await _ensureLoaded();
     return _workExperiences;
   }
 
   @override
   Future<List<Education>> getEducations() async {
+    await _syncSession();
     await _ensureLoaded();
     return _educations;
   }
 
   @override
   Future<List<UploadedFile>> getFiles() async {
+    await _syncSession();
     await _ensureLoaded();
     return _files;
   }
 
   @override
   Future<List<String>> getValues() async {
+    await _syncSession();
     await _ensureLoaded();
     return _values;
   }
 
   @override
   Future<ProfileJobPreferences> getJobPreferences() async {
+    await _syncSession();
     await _ensureLoaded();
     return _jobPreferences;
   }
 
   @override
   Future<bool> getProfileVisible() async {
+    await _syncSession();
     await _ensureLoaded();
     return _profileVisible;
   }
 
   @override
   Future<void> saveAboutMe(ProfileAboutMe aboutMe) async {
+    await _syncSession();
     await _ensureLoaded();
     _aboutMe = aboutMe;
     await ProfileLocalStore.saveAboutMe(_aboutMe);
@@ -557,6 +595,7 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<void> saveSkills(ProfileSkills skills) async {
+    await _syncSession();
     await _ensureLoaded();
     _skills = skills;
     await ProfileLocalStore.saveSkills(_skills);
@@ -580,6 +619,7 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<void> saveWorkExperiences(List<WorkExperience> experiences) async {
+    await _syncSession();
     await _ensureLoaded();
     _workExperiences = experiences;
     await ProfileLocalStore.saveWork(_workExperiences);
@@ -588,6 +628,7 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<void> saveEducations(List<Education> educations) async {
+    await _syncSession();
     await _ensureLoaded();
     _educations = educations;
     await ProfileLocalStore.saveEducation(_educations);
@@ -596,6 +637,7 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<void> saveFiles(List<UploadedFile> files) async {
+    await _syncSession();
     await _ensureLoaded();
     _files = files;
     await ProfileLocalStore.saveFiles(_files);
@@ -609,6 +651,7 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<void> saveValues(List<String> values) async {
+    await _syncSession();
     await _ensureLoaded();
     _values = values;
     await ProfileLocalStore.saveValues(_values);
@@ -621,6 +664,7 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<void> saveJobPreferences(ProfileJobPreferences prefs) async {
+    await _syncSession();
     await _ensureLoaded();
     _jobPreferences = prefs;
     await ProfileLocalStore.savePrefs(_jobPreferences);
@@ -633,6 +677,7 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<void> saveProfileVisible(bool visible) async {
+    await _syncSession();
     await _ensureLoaded();
     _profileVisible = visible;
     await ProfileLocalStore.saveVisible(_profileVisible);

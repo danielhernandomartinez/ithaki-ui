@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import 'profile/profile_local_store.dart';
+
 abstract class AuthRepository {
   Future<void> loginWithEmail(String email, String password);
   Future<void> register({
@@ -99,6 +101,9 @@ class ApiAuthRepository implements AuthRepository {
   static const _storage = FlutterSecureStorage();
 
   Future<void> _saveTokens(Map<String, dynamic> data) async {
+    // New session: clear previous user's cached profile data.
+    await ProfileLocalStore.clearAll();
+
     final accessToken = _extractToken(data);
     if (accessToken != null) await _storage.write(key: 'jwt_token', value: accessToken);
 
@@ -280,6 +285,8 @@ class ApiAuthRepository implements AuthRepository {
   @override
   Future<void> logout() async {
     await _storage.delete(key: 'jwt_token');
+    await _storage.delete(key: 'jwt_refresh_token');
+    await ProfileLocalStore.clearAll();
   }
 }
 
