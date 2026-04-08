@@ -282,7 +282,7 @@ final profileCompletionProvider = Provider<double>((ref) {
   return items.isEmpty ? 0 : completed / items.length;
 });
 
-void resetProfileProviders(Ref ref) {
+void resetProfileProviders(WidgetRef ref) {
   ref.invalidate(profileBasicsProvider);
   ref.invalidate(profileAboutMeProvider);
   ref.invalidate(profileSkillsProvider);
