@@ -26,19 +26,11 @@ class _ValuesScreenState extends ConsumerState<ValuesScreen> {
     final valuesAsync = ref.watch(personalityValuesListProvider);
     final hasLoadError = valuesAsync.hasError;
     final loadErrorText = valuesAsync.error?.toString();
-
-    final localFallback = [
-      l.valueIntegrity, l.valueResponsibility, l.valueTeamwork, l.valueRespect,
-      l.valueGrowth, l.valueInnovation, l.valueCreativity, l.valueTransparency,
-      l.valueEmpathy, l.valueAccountability, l.valueWorkLifeBalance, l.valueOpenCommunication,
-      l.valueReliability, l.valueAdaptability, l.valueProblemSolving, l.valueOwnership,
-      l.valueCustomerFocus, l.valueAmbition, l.valueInitiative, l.valueCollaboration,
-    ];
     final valueOptions = valuesAsync.value
             ?.map((v) => v.title)
             .where((v) => v.trim().isNotEmpty)
             .toList() ??
-        localFallback;
+        const <String>[];
 
     return IthakiScreenLayout(
       appBar: const IthakiAppBar(showMenuAndAvatar: true),
