@@ -41,8 +41,8 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final homeData = ref.watch(homeProvider).value;
-    final applications = ref.watch(applicationsProvider).value ?? [];
+    final homeAsync = ref.watch(homeProvider);
+    final applicationsAsync = ref.watch(applicationsProvider);
     final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
     return Scaffold(
@@ -52,7 +52,7 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
         showMenuAndAvatar: true,
         menuOpen: _panels.menuOpen,
         profileOpen: _panels.profileOpen,
-        avatarInitials: homeData?.userInitials ?? 'CI',
+        avatarInitials: homeAsync.value?.userInitials ?? '',
         onMenuPressed: _panels.toggleMenu,
         onAvatarPressed: _panels.toggleProfile,
       ),
@@ -95,13 +95,26 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
                         ),
                       ),
                       // Application cards list
-                      ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: applications.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 8),
-                        itemBuilder: (context, index) =>
-                            ApplicationCard(application: applications[index]),
+                      applicationsAsync.when(
+                        loading: () => const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 24),
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
+                        error: (e, _) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 24),
+                          child: Text(
+                            'Failed to load applications.',
+                            style: TextStyle(color: IthakiTheme.textSecondary),
+                          ),
+                        ),
+                        data: (applications) => ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: applications.length,
+                          separatorBuilder: (_, __) => const SizedBox(height: 8),
+                          itemBuilder: (context, index) =>
+                              ApplicationCard(application: applications[index]),
+                        ),
                       ),
                     ],
                   ),
