@@ -312,9 +312,9 @@ class ApiProfileRepository implements ProfileRepository {
       case 'fluent':
         return const {'value': 'C1', 'title': 'Fluent'};
       case 'advanced':
-        return const {'value': 'B2', 'title': 'Advanced'};
+        return const {'value': 'B2', 'title': 'Upper Intermediate'};
       case 'conversational':
-        return const {'value': 'B1', 'title': 'Conversational'};
+        return const {'value': 'B1', 'title': 'Intermediate'};
       case 'basic':
         return const {'value': 'A1', 'title': 'Basic'};
       default:
@@ -360,7 +360,7 @@ class ApiProfileRepository implements ProfileRepository {
         )
         .toList();
 
-    Object? lastError;
+    final errorLog = <String>[];
     final attempts = <({String path, Object body})>[
       (path: '/job-seeker/me/languages/replace', body: payloadEnumDto),
       (path: '/job-seeker/me/lenguages/replace', body: payloadEnumDto),
@@ -372,6 +372,8 @@ class ApiProfileRepository implements ProfileRepository {
       (path: '/job-seeker/me/lenguages/replace', body: payloadStringLevel),
       (path: '/job-seeker/me/languages/replace', body: payloadLanguageObject),
       (path: '/job-seeker/me/lenguages/replace', body: payloadLanguageObject),
+      (path: '/job-seeker/me', body: {'languages': payloadEnumDto}),
+      (path: '/job-seeker/me', body: {'lenguages': payloadEnumDto}),
     ];
 
     for (final attempt in attempts) {
@@ -379,11 +381,11 @@ class ApiProfileRepository implements ProfileRepository {
         await _api.postJson(attempt.path, attempt.body);
         return;
       } catch (e) {
-        lastError = e;
+        errorLog.add('${attempt.path}: $e');
       }
     }
 
-    throw Exception('Failed saving languages: $lastError');
+    throw Exception('Failed saving languages. Attempts: ${errorLog.join(' | ')}');
   }
 
 
