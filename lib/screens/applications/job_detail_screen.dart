@@ -7,6 +7,7 @@ import '../../mixins/panel_menu_mixin.dart';
 import '../../providers/home_provider.dart';
 import '../../providers/job_detail_provider.dart';
 import '../../providers/profile_provider.dart';
+import '../../repositories/auth_repository.dart';
 import '../../routes.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
@@ -125,7 +126,13 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
                   _panels.closeProfile();
                   if (item.route.isNotEmpty) context.push(item.route);
                 },
-                onLogOut: _panels.closeProfile,
+                onLogOut: () {
+                  _panels.closeProfile();
+                  ref.read(authRepositoryProvider).logout().whenComplete(() {
+                    resetProfileProviders(ref);
+                    if (context.mounted) context.go(Routes.root);
+                  });
+                },
               ),
             )),
         ],
