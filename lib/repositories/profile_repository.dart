@@ -579,11 +579,6 @@ class ApiProfileRepository implements ProfileRepository {
       'lastName': basics.lastName,
       'phone': basics.phone,
     });
-    await _api.postJson(
-      '/job-seeker/me/onboarding',
-      ProfileApiMapper.onboardingLocationBody(basics),
-      params: const {'step': 'location'},
-    );
     await _api.postJson('/job-seeker/me', {
       'basics': {
         'name': '${basics.firstName} ${basics.lastName}'.trim(),
