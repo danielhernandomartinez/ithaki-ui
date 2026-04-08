@@ -21,7 +21,19 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
 
   void _openJobSearch(AppLocalizations l, List<SearchItem> allItems) {
     if (_selected.length >= 5) return;
+    if (allItems.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Job interests are still loading. Try again in a moment.')),
+      );
+      return;
+    }
     final available = allItems.where((j) => !_selected.any((s) => s.id == j.id)).toList();
+    if (available.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No more job interests available to add.')),
+      );
+      return;
+    }
     SearchBottomSheet.show(
       context,
       l.selectJobInterest,
@@ -36,6 +48,8 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     final jobInterestsAsync = ref.watch(jobInterestsListProvider);
+    final hasLoadError = jobInterestsAsync.hasError;
+    final loadErrorText = jobInterestsAsync.error?.toString();
     final allItems = jobInterestsAsync.value
             ?.map((j) => SearchItem(
                   id: j.id.toString(),
@@ -68,6 +82,22 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
                       l.jobInterestsDescription,
                       style: IthakiTheme.bodyRegular,
                     ),
+                    if (hasLoadError) ...[
+                      const SizedBox(height: 12),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: IthakiTheme.softGray,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: IthakiTheme.borderLight),
+                        ),
+                        child: Text(
+                          loadErrorText ?? 'Failed to load job interests.',
+                          style: IthakiTheme.captionRegular,
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 24),
                     ..._selected.map((job) => Padding(
                       padding: const EdgeInsets.only(bottom: 10),

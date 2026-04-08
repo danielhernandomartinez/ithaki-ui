@@ -144,6 +144,18 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
         const SizedBox(height: 24),
         if (hardAsync.isLoading || softAsync.isLoading)
           const Center(child: CircularProgressIndicator())
+        else if (hardAsync.hasError || softAsync.hasError)
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFFEEEE),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              'Error loading skills: ${hardAsync.error ?? softAsync.error}',
+              style: const TextStyle(fontSize: 13, color: Colors.red),
+            ),
+          )
         else ...[
           _section(
             title: 'Hard Skills',

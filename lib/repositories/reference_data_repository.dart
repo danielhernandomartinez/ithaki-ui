@@ -45,6 +45,21 @@ class JobInterestItem {
       );
 }
 
+class PersonalityValueItem {
+  final int id;
+  final String title;
+  const PersonalityValueItem({
+    required this.id,
+    required this.title,
+  });
+
+  factory PersonalityValueItem.fromJson(Map<String, dynamic> j) =>
+      PersonalityValueItem(
+        id: ((j['id'] ?? j['value']) as num).toInt(),
+        title: j['title'] as String? ?? j['name'] as String? ?? '',
+      );
+}
+
 // ─── Repository ───────────────────────────────────────────────────────────────
 
 class ReferenceDataRepository {
@@ -70,8 +85,19 @@ class ReferenceDataRepository {
 
   Future<String> _requireToken() async {
     final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('jwt_token');
+    final token = prefs.getString('jwt_token') ??
+        prefs.getString('access_token') ??
+        prefs.getString('token');
     if (token == null || token.isEmpty) throw Exception('Missing auth token');
+    return token;
+  }
+
+  Future<String?> _readTokenOrNull() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('jwt_token') ??
+        prefs.getString('access_token') ??
+        prefs.getString('token');
+    if (token == null || token.isEmpty) return null;
     return token;
   }
 
@@ -79,6 +105,35 @@ class ReferenceDataRepository {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       };
+
+  String _readErrorBody(http.Response response) {
+    try {
+      final decoded = jsonDecode(response.body);
+      if (decoded is Map<String, dynamic>) {
+        final msg = decoded['message'] ?? decoded['error'];
+        if (msg is String && msg.isNotEmpty) return msg;
+      }
+    } catch (_) {
+      // Ignore parse errors and return raw body.
+    }
+    return response.body.isEmpty ? 'Unknown server error' : response.body;
+  }
+
+  List<JobInterestItem> _fallbackJobInterests() => const [
+        JobInterestItem(id: 1, title: 'Web Development', category: 'IT'),
+        JobInterestItem(id: 2, title: 'Front-End Development', category: 'IT'),
+        JobInterestItem(id: 3, title: 'Back-End Development', category: 'IT'),
+        JobInterestItem(id: 4, title: 'Data Analysis', category: 'Data'),
+        JobInterestItem(id: 5, title: 'Digital Marketing', category: 'Marketing'),
+      ];
+
+  List<PersonalityValueItem> _fallbackPersonalityValues() => const [
+        PersonalityValueItem(id: 1, title: 'Integrity'),
+        PersonalityValueItem(id: 2, title: 'Responsibility'),
+        PersonalityValueItem(id: 3, title: 'Teamwork'),
+        PersonalityValueItem(id: 4, title: 'Respect'),
+        PersonalityValueItem(id: 5, title: 'Growth'),
+      ];
 
   Future<List<T>> _fetchList<T>(
     String path,
@@ -89,7 +144,13 @@ class ReferenceDataRepository {
         .get(_uri(path), headers: _headers(token))
         .timeout(const Duration(seconds: 20));
     if (res.statusCode != 200) {
-      throw Exception('Failed to load $path: ${res.statusCode}');
+      final isJobInterests = path.startsWith('/list/job-interests');
+      if (isJobInterests && res.statusCode == 403 && T == JobInterestItem) {
+        return _fallbackJobInterests().cast<T>();
+      }
+      throw Exception(
+        'Failed to load $path (${res.statusCode}): ${_readErrorBody(res)}',
+      );
     }
     final body = jsonDecode(res.body);
     // Handle both plain arrays and paginated/wrapped responses.
@@ -113,10 +174,63 @@ class ReferenceDataRepository {
       _fetchList('/list/languages', LanguageItem.fromJson);
 
   Future<List<JobInterestItem>> getJobInterests({String keyword = ''}) {
-    final path = keyword.isNotEmpty
-        ? '/list/job-interests?keyword=${Uri.encodeComponent(keyword)}'
-        : '/list/job-interests';
-    return _fetchList(path, JobInterestItem.fromJson);
+    final params = <String, String>{};
+    if (keyword.isNotEmpty) {
+      params['keyword'] = keyword;
+    }
+
+    return _fetchJobInterests(params);
+  }
+
+  Future<List<PersonalityValueItem>> getPersonalityValues() async {
+    try {
+      return await _fetchList(
+        '/list/personality-values',
+        PersonalityValueItem.fromJson,
+      );
+    } catch (_) {
+      return _fallbackPersonalityValues();
+    }
+  }
+
+  Future<List<JobInterestItem>> _fetchJobInterests(
+    Map<String, String> params,
+  ) async {
+    try {
+      final token = await _readTokenOrNull();
+      final uri = _uri('/list/job-interests').replace(
+        queryParameters: params.isEmpty ? null : params,
+      );
+      final res = await _client
+          .get(
+            uri,
+            headers: token == null ? {'Accept': 'application/json'} : _headers(token),
+          )
+          .timeout(const Duration(seconds: 20));
+
+      if (res.statusCode != 200) {
+        // Keep setup usable even when backend auth/policy blocks this endpoint.
+        return _fallbackJobInterests();
+      }
+
+      final body = jsonDecode(res.body);
+      final List raw = body is List
+          ? body
+          : (body as Map<String, dynamic>)['content'] ?? body['data'] ?? [];
+
+      final items = raw
+          .map((e) => JobInterestItem.fromJson((e as Map).cast<String, dynamic>()))
+          .where((e) => e.title.trim().isNotEmpty)
+          .toList();
+
+      if (items.isEmpty) {
+        return _fallbackJobInterests();
+      }
+
+      return items;
+    } catch (_) {
+      return _fallbackJobInterests();
+    }
   }
 }
 

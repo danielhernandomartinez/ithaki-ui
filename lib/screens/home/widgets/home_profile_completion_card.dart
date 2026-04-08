@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../routes.dart';
 import '../../../providers/home_provider.dart';
 import '../../../providers/profile_provider.dart';
 import 'home_purple_button.dart';
@@ -144,7 +146,10 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                           ),
                         )),
                     const SizedBox(height: 14),
-                    const HomePurpleButton(label: 'Fill Profile'),
+                    HomePurpleButton(
+                      label: 'Fill Profile',
+                      onPressed: () => context.push(Routes.setupLocation),
+                    ),
                   ],
                 ),
               ),

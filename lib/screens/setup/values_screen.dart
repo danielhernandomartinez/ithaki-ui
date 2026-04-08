@@ -5,6 +5,7 @@ import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../providers/reference_data_provider.dart';
 import '../../providers/setup_provider.dart';
 
 const _maxValues = 5;
@@ -22,14 +23,22 @@ class _ValuesScreenState extends ConsumerState<ValuesScreen> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
+    final valuesAsync = ref.watch(personalityValuesListProvider);
+    final hasLoadError = valuesAsync.hasError;
+    final loadErrorText = valuesAsync.error?.toString();
 
-    final valueOptions = [
+    final localFallback = [
       l.valueIntegrity, l.valueResponsibility, l.valueTeamwork, l.valueRespect,
       l.valueGrowth, l.valueInnovation, l.valueCreativity, l.valueTransparency,
       l.valueEmpathy, l.valueAccountability, l.valueWorkLifeBalance, l.valueOpenCommunication,
       l.valueReliability, l.valueAdaptability, l.valueProblemSolving, l.valueOwnership,
       l.valueCustomerFocus, l.valueAmbition, l.valueInitiative, l.valueCollaboration,
     ];
+    final valueOptions = valuesAsync.value
+            ?.map((v) => v.title)
+            .where((v) => v.trim().isNotEmpty)
+            .toList() ??
+        localFallback;
 
     return IthakiScreenLayout(
       appBar: const IthakiAppBar(showMenuAndAvatar: true),
@@ -54,6 +63,22 @@ class _ValuesScreenState extends ConsumerState<ValuesScreen> {
                       l.valuesDescription(_maxValues),
                       style: IthakiTheme.bodyRegular,
                     ),
+                    if (hasLoadError) ...[
+                      const SizedBox(height: 12),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: IthakiTheme.softGray,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: IthakiTheme.borderLight),
+                        ),
+                        child: Text(
+                          loadErrorText ?? 'Failed to load values from server.',
+                          style: IthakiTheme.captionRegular,
+                        ),
+                      ),
+                    ],
                     const SizedBox(height: 20),
                     IthakiChipGroup(
                       options: valueOptions,
