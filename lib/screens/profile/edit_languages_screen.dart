@@ -50,20 +50,6 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
     });
   }
 
-  String _langCode(String language) {
-    const map = {
-      'English': 'gb',
-      'Greek': 'gr',
-      'Spanish': 'es',
-      'French': 'fr',
-      'German': 'de',
-      'Italian': 'it',
-      'Arabic': 'sa',
-      'Chinese': 'cn',
-    };
-    return map[language] ?? 'gr';
-  }
-
   void _showLanguagePicker(int i, List<String> availableLanguages) {
     showModalBottomSheet(
       context: context,
@@ -88,7 +74,11 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
                     shrinkWrap: true,
                     children: availableLanguages
                         .map((lang) => ListTile(
-                              leading: IthakiFlag(_langCode(lang), width: 24, height: 24),
+                              leading: const IthakiIcon(
+                                'language',
+                                size: 20,
+                                color: IthakiTheme.softGraphite,
+                              ),
                               title: Text(lang),
                               onTap: () {
                                 setState(() => _langs[i] = lang);
@@ -127,11 +117,32 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
   Widget build(BuildContext context) {
     final langsAsync = ref.watch(languagesListProvider);
     final availableLanguages = langsAsync.value?.map((l) => l.name).toList() ?? const [];
+    final isLoadingLanguages = langsAsync.isLoading;
+    final hasLanguagesError = langsAsync.hasError;
 
     return PanelScaffold(
       title: 'Edit Languages',
       onSave: _save,
       children: [
+              if (isLoadingLanguages) ...[
+                const LinearProgressIndicator(minHeight: 2),
+                const SizedBox(height: 10),
+              ] else if (hasLanguagesError) ...[
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: IthakiTheme.softGray,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: IthakiTheme.borderLight),
+                  ),
+                  child: Text(
+                    langsAsync.error.toString(),
+                    style: IthakiTheme.captionRegular,
+                  ),
+                ),
+                const SizedBox(height: 10),
+              ],
               for (int i = 0; i < _langs.length; i++) ...[
                 if (i > 0) const Divider(height: 28),
                 Row(
@@ -143,14 +154,30 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
                         hint: 'Select language',
                         controller: TextEditingController(text: _langs[i]),
                         readOnly: true,
-                        onTap: availableLanguages.isEmpty
-                            ? null
-                            : () => _showLanguagePicker(i, availableLanguages),
-                        suffixIcon: _langs[i].isNotEmpty
-                            ? IthakiFlag(_langCode(_langs[i]),
-                                width: 22, height: 22)
-                            : const IthakiIcon('arrow-down',
-                                size: 20, color: IthakiTheme.textSecondary),
+                        onTap: () {
+                          if (isLoadingLanguages) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Loading languages...'),
+                              ),
+                            );
+                            return;
+                          }
+                          if (availableLanguages.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('No languages available right now.'),
+                              ),
+                            );
+                            return;
+                          }
+                          _showLanguagePicker(i, availableLanguages);
+                        },
+                        suffixIcon: const IthakiIcon(
+                          'arrow-down',
+                          size: 20,
+                          color: IthakiTheme.textSecondary,
+                        ),
                       ),
                     ),
                     if (_langs.length > 1) ...[

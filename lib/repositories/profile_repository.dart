@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../models/profile_models.dart';
-import '../services/api_client.dart';
 import 'profile/profile_api_mapper.dart';
 import 'profile/profile_local_store.dart';
 
@@ -194,10 +195,18 @@ class MockProfileRepository implements ProfileRepository {
 }
 
 class ApiProfileRepository implements ProfileRepository {
-  ApiProfileRepository({ApiClient? apiClient}) : _api = apiClient ?? ApiClient();
+  ApiProfileRepository({http.Client? client, String? baseUrl})
+      : _client = client ?? http.Client(),
+        _baseUrl = baseUrl ??
+            const String.fromEnvironment(
+              'ITHAKI_API_BASE_URL',
+              defaultValue: 'https://api.odyssea.com/talent/staging',
+            );
 
-  final ApiClient _api;
+  final http.Client _client;
+  final String _baseUrl;
   Future<void>? _initFuture;
+  String? _sessionToken;
 
   ProfileBasics _basics = const ProfileBasics();
   ProfileAboutMe _aboutMe = const ProfileAboutMe();
@@ -208,6 +217,74 @@ class ApiProfileRepository implements ProfileRepository {
   List<String> _values = const [];
   ProfileJobPreferences _jobPreferences = const ProfileJobPreferences();
   bool _profileVisible = true;
+
+  String get _apiBase {
+    final trimmed =
+        _baseUrl.endsWith('/') ? _baseUrl.substring(0, _baseUrl.length - 1) : _baseUrl;
+    return trimmed.endsWith('/api') ? trimmed : '$trimmed/api';
+  }
+
+  Uri _uri(String path) => Uri.parse('$_apiBase$path');
+
+  static const _okStatuses = {200, 201, 202, 204};
+
+  static const _storage = FlutterSecureStorage();
+
+  Future<String?> _readTokenOrNull() async {
+    final token = await _storage.read(key: 'jwt_token');
+    if (token == null || token.isEmpty) return null;
+    return token;
+  }
+
+  void _resetInMemory() {
+    _basics = const ProfileBasics();
+    _aboutMe = const ProfileAboutMe();
+    _skills = const ProfileSkills();
+    _workExperiences = const [];
+    _educations = const [];
+    _files = const [];
+    _values = const [];
+    _jobPreferences = const ProfileJobPreferences();
+    _profileVisible = true;
+  }
+
+  Future<void> _syncSession() async {
+    final token = await _readTokenOrNull();
+    if (_sessionToken == token) return;
+    _sessionToken = token;
+    _initFuture = null;
+    _resetInMemory();
+  }
+
+  Future<String> _requireToken() async {
+    final token = await _storage.read(key: 'jwt_token');
+    if (token == null || token.isEmpty) throw Exception('Missing auth token');
+    return token;
+  }
+
+  Map<String, String> _headers(String token) => {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+
+  Future<void> _postJson(
+    String path,
+    Object body, {
+    Map<String, String>? queryParameters,
+  }) async {
+    final token = await _requireToken();
+    final res = await _client
+        .post(
+          _uri(path).replace(queryParameters: queryParameters),
+          headers: _headers(token),
+          body: jsonEncode(body),
+        )
+        .timeout(const Duration(seconds: 20));
+    if (!_okStatuses.contains(res.statusCode)) {
+      throw Exception('API error ${res.statusCode} on POST $path');
+    }
+  }
 
   Future<void> _ensureLoaded() => _initFuture ??= _loadFromLocal();
 
@@ -223,11 +300,17 @@ class ApiProfileRepository implements ProfileRepository {
     _profileVisible = await ProfileLocalStore.loadVisible() ?? _profileVisible;
   }
 
+
   @override
   Future<ProfileBasics> getBasics() async {
+    await _syncSession();
     await _ensureLoaded();
     try {
-      final userRes = await _api.get('/user/me');
+      final token = await _requireToken();
+
+      final userRes = await _client
+          .get(_uri('/user/me'), headers: _headers(token))
+          .timeout(const Duration(seconds: 20));
 
       if (userRes.statusCode != 200) {
         throw Exception('Failed to load user: ${userRes.statusCode}');
@@ -242,7 +325,9 @@ class ApiProfileRepository implements ProfileRepository {
       );
 
       try {
-        final profileRes = await _api.get('/job-seeker/me');
+        final profileRes = await _client
+            .get(_uri('/job-seeker/me'), headers: _headers(token))
+            .timeout(const Duration(seconds: 20));
 
         if (profileRes.statusCode == 200) {
           final profileData =
@@ -402,20 +487,18 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<void> saveBasics(ProfileBasics basics) async {
+    await _syncSession();
     await _ensureLoaded();
     _basics = basics;
     await ProfileLocalStore.saveBasics(_basics);
-    await _api.postJson('/user/me', {
+    await _postJson('/user/me', {
       'firstName': basics.firstName,
       'lastName': basics.lastName,
       'phone': basics.phone,
     });
-    await _api.postJson(
-      '/job-seeker/me/onboarding',
-      ProfileApiMapper.onboardingLocationBody(basics),
-      params: const {'step': 'location'},
-    );
-    await _api.postJson('/job-seeker/me', {
+    await _postJson('/job-seeker/me/onboarding', ProfileApiMapper.onboardingLocationBody(basics),
+        queryParameters: const {'step': 'location'});
+    await _postJson('/job-seeker/me', {
       'basics': {
         'name': '${basics.firstName} ${basics.lastName}'.trim(),
         'email': basics.email,
@@ -441,58 +524,67 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<ProfileAboutMe> getAboutMe() async {
+    await _syncSession();
     await _ensureLoaded();
     return _aboutMe;
   }
 
   @override
   Future<ProfileSkills> getSkills() async {
+    await _syncSession();
     await _ensureLoaded();
     return _skills;
   }
 
   @override
   Future<List<WorkExperience>> getWorkExperiences() async {
+    await _syncSession();
     await _ensureLoaded();
     return _workExperiences;
   }
 
   @override
   Future<List<Education>> getEducations() async {
+    await _syncSession();
     await _ensureLoaded();
     return _educations;
   }
 
   @override
   Future<List<UploadedFile>> getFiles() async {
+    await _syncSession();
     await _ensureLoaded();
     return _files;
   }
 
   @override
   Future<List<String>> getValues() async {
+    await _syncSession();
     await _ensureLoaded();
     return _values;
   }
 
   @override
   Future<ProfileJobPreferences> getJobPreferences() async {
+    await _syncSession();
     await _ensureLoaded();
     return _jobPreferences;
   }
 
   @override
   Future<bool> getProfileVisible() async {
+    await _syncSession();
     await _ensureLoaded();
     return _profileVisible;
   }
 
   @override
   Future<void> saveAboutMe(ProfileAboutMe aboutMe) async {
+    await _syncSession();
     await _ensureLoaded();
     _aboutMe = aboutMe;
     await ProfileLocalStore.saveAboutMe(_aboutMe);
-    await _api.postJson('/job-seeker/me', {
+    await _postJson('/job-seeker/me', {
       'aboutMe': {
         'bio': aboutMe.bio,
         'text': aboutMe.bio,
@@ -503,10 +595,11 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<void> saveSkills(ProfileSkills skills) async {
+    await _syncSession();
     await _ensureLoaded();
     _skills = skills;
     await ProfileLocalStore.saveSkills(_skills);
-    await _api.postJson('/job-seeker/me', {
+    await _postJson('/job-seeker/me', {
       'skills': {
         'hardSkills': skills.hardSkills,
         'softSkills': skills.softSkills,
@@ -526,33 +619,30 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<void> saveWorkExperiences(List<WorkExperience> experiences) async {
+    await _syncSession();
     await _ensureLoaded();
     _workExperiences = experiences;
     await ProfileLocalStore.saveWork(_workExperiences);
-    await _api.postJson(
-      '/job-seeker/me/work-experiences/replace',
-      ProfileApiMapper.workReplaceBody(experiences),
-    );
+    await _postJson('/job-seeker/me/work-experiences/replace', ProfileApiMapper.workReplaceBody(experiences));
   }
 
   @override
   Future<void> saveEducations(List<Education> educations) async {
+    await _syncSession();
     await _ensureLoaded();
     _educations = educations;
     await ProfileLocalStore.saveEducation(_educations);
-    await _api.postJson(
-      '/job-seeker/me/education/replace',
-      ProfileApiMapper.educationReplaceBody(educations),
-    );
+    await _postJson('/job-seeker/me/education/replace', ProfileApiMapper.educationReplaceBody(educations));
   }
 
   @override
   Future<void> saveFiles(List<UploadedFile> files) async {
+    await _syncSession();
     await _ensureLoaded();
     _files = files;
     await ProfileLocalStore.saveFiles(_files);
     // Metadata only. Real file upload must use multipart /files endpoints.
-    await _api.postJson('/job-seeker/me', {
+    await _postJson('/job-seeker/me', {
       'documents': files
           .map((f) => {'name': f.name, 'size': f.size, 'url': f.url})
           .toList(),
@@ -561,41 +651,42 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<void> saveValues(List<String> values) async {
+    await _syncSession();
     await _ensureLoaded();
     _values = values;
     await ProfileLocalStore.saveValues(_values);
-    await _api.postJson(
+    await _postJson(
       '/job-seeker/me/onboarding',
       {'values': ProfileApiMapper.listItemDtos(values)},
-      params: const {'step': 'values'},
+      queryParameters: const {'step': 'values'},
     );
   }
 
   @override
   Future<void> saveJobPreferences(ProfileJobPreferences prefs) async {
+    await _syncSession();
     await _ensureLoaded();
     _jobPreferences = prefs;
     await ProfileLocalStore.savePrefs(_jobPreferences);
-    await _api.postJson(
+    await _postJson(
       '/job-seeker/me/onboarding',
       ProfileApiMapper.onboardingPreferencesBody(prefs),
-      params: const {'step': 'preferences'},
+      queryParameters: const {'step': 'preferences'},
     );
   }
 
   @override
   Future<void> saveProfileVisible(bool visible) async {
+    await _syncSession();
     await _ensureLoaded();
     _profileVisible = visible;
     await ProfileLocalStore.saveVisible(_profileVisible);
-    await _api.postJson('/job-seeker/me', {'profileVisible': visible});
+    await _postJson('/job-seeker/me', {'profileVisible': visible});
   }
 }
 
 const bool _useMockProfile = bool.fromEnvironment('ITHAKI_USE_MOCK_PROFILE');
 
 final profileRepositoryProvider = Provider<ProfileRepository>(
-  (ref) => _useMockProfile
-      ? MockProfileRepository()
-      : ApiProfileRepository(apiClient: ref.watch(apiClientProvider)),
+  (_) => _useMockProfile ? MockProfileRepository() : ApiProfileRepository(),
 );

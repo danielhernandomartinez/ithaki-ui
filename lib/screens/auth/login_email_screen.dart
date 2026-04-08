@@ -5,6 +5,7 @@ import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../providers/profile_provider.dart';
 import '../../repositories/auth_repository.dart';
 import '../../widgets/login_method_footer.dart';
 
@@ -151,6 +152,7 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
                               _emailController.text,
                               _passwordController.text,
                             );
+                        resetProfileProviders(ref);
                         if (context.mounted) context.go(Routes.home);
                       } catch (e) {
                         if (!context.mounted) return;

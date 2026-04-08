@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import 'profile/profile_local_store.dart';
+
 import '../services/api_client.dart';
 
 abstract class AuthRepository {
@@ -79,6 +81,9 @@ class ApiAuthRepository implements AuthRepository {
   }
 
   Future<void> _saveTokens(Map<String, dynamic> data) async {
+    // New session: clear previous user's cached profile data.
+    await ProfileLocalStore.clearAll();
+
     final accessToken = _extractToken(data);
     if (accessToken != null) await _storage.write(key: 'jwt_token', value: accessToken);
 
@@ -239,6 +244,8 @@ class ApiAuthRepository implements AuthRepository {
   @override
   Future<void> logout() async {
     await _storage.delete(key: 'jwt_token');
+    await _storage.delete(key: 'jwt_refresh_token');
+    await ProfileLocalStore.clearAll();
   }
 }
 

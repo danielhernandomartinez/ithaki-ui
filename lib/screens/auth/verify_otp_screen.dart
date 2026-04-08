@@ -6,6 +6,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../providers/profile_provider.dart';
 import '../../repositories/auth_repository.dart';
 
 class VerifyOtpScreen extends ConsumerStatefulWidget {
@@ -142,6 +143,7 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> with Countdow
                 ? () async {
                     try {
                       await ref.read(authRepositoryProvider).verifyOtp(_otp);
+                      resetProfileProviders(ref);
                       if (context.mounted) context.go(widget.successRoute);
                     } catch (e) {
                       if (!context.mounted) return;

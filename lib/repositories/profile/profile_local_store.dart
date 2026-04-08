@@ -318,4 +318,17 @@ class ProfileLocalStore {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(_kVisible);
   }
+
+  static Future<void> clearAll() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_kBasics);
+    await prefs.remove(_kAboutMe);
+    await prefs.remove(_kSkills);
+    await prefs.remove(_kWork);
+    await prefs.remove(_kEducation);
+    await prefs.remove(_kFiles);
+    await prefs.remove(_kValues);
+    await prefs.remove(_kPrefs);
+    await prefs.remove(_kVisible);
+  }
 }

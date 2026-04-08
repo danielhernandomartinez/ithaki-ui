@@ -22,10 +22,16 @@ class LanguageItem {
   final String name;
   const LanguageItem({required this.id, required this.name});
 
-  factory LanguageItem.fromJson(Map<String, dynamic> j) => LanguageItem(
-        id: ((j['id'] ?? j['value']) as num).toInt(),
-        name: j['name'] as String? ?? j['title'] as String? ?? '',
-      );
+  factory LanguageItem.fromJson(Map<String, dynamic> j) {
+    final rawId = j['id'] ?? j['value'] ?? j['languageId'] ?? 0;
+    final id = rawId is num ? rawId.toInt() : int.tryParse(rawId.toString()) ?? 0;
+    final name = (j['name'] as String?) ??
+        (j['title'] as String?) ??
+        (j['language'] as String?) ??
+        (j['label'] as String?) ??
+        '';
+    return LanguageItem(id: id, name: name);
+  }
 }
 
 class JobInterestItem {
@@ -75,14 +81,6 @@ class ReferenceDataRepository {
         JobInterestItem(id: 5, title: 'Digital Marketing', category: 'Marketing'),
       ];
 
-  List<PersonalityValueItem> _fallbackPersonalityValues() => const [
-        PersonalityValueItem(id: 1, title: 'Integrity'),
-        PersonalityValueItem(id: 2, title: 'Responsibility'),
-        PersonalityValueItem(id: 3, title: 'Teamwork'),
-        PersonalityValueItem(id: 4, title: 'Respect'),
-        PersonalityValueItem(id: 5, title: 'Growth'),
-      ];
-
   Future<List<T>> _fetchList<T>(
     String path,
     T Function(Map<String, dynamic>) fromJson,
@@ -123,16 +121,11 @@ class ReferenceDataRepository {
     return _fetchJobInterests(params);
   }
 
-  Future<List<PersonalityValueItem>> getPersonalityValues() async {
-    try {
-      return await _fetchList(
+  Future<List<PersonalityValueItem>> getPersonalityValues() =>
+      _fetchList(
         '/list/personality-values',
         PersonalityValueItem.fromJson,
       );
-    } catch (_) {
-      return _fallbackPersonalityValues();
-    }
-  }
 
   Future<List<JobInterestItem>> _fetchJobInterests(
     Map<String, String>? params,
