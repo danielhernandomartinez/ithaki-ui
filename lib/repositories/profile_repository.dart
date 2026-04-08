@@ -540,6 +540,8 @@ class ApiProfileRepository implements ProfileRepository {
 
   Uri _uri(String path) => Uri.parse('$_apiBase$path');
 
+  static const _okStatuses = {200, 201, 202, 204};
+
   static const _storage = FlutterSecureStorage();
 
   Future<String> _requireToken() async {
@@ -553,6 +555,26 @@ class ApiProfileRepository implements ProfileRepository {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       };
+
+  Future<bool> _postJson(
+    String path,
+    Object body, {
+    Map<String, String>? queryParameters,
+  }) async {
+    try {
+      final token = await _requireToken();
+      final res = await _client
+          .post(
+            _uri(path).replace(queryParameters: queryParameters),
+            headers: _headers(token),
+            body: jsonEncode(body),
+          )
+          .timeout(const Duration(seconds: 20));
+      return _okStatuses.contains(res.statusCode);
+    } catch (_) {
+      return false;
+    }
+  }
 
   Future<void> _ensureLoaded() => _initFuture ??= _loadFromLocal();
 
@@ -576,6 +598,133 @@ class ApiProfileRepository implements ProfileRepository {
 
   static String _countryCode(dynamic field) =>
       field is Map ? ((field['code'] as String? ?? '')).toLowerCase() : '';
+
+  static String _titleOrText(dynamic field) {
+    if (field is Map) {
+      final title = field['title'];
+      if (title is String && title.trim().isNotEmpty) return title.trim();
+      final name = field['name'];
+      if (name is String && name.trim().isNotEmpty) return name.trim();
+      final value = field['value'];
+      if (value is String && value.trim().isNotEmpty) return value.trim();
+    }
+    return (field as String? ?? '').trim();
+  }
+
+  static String _slug(String value) {
+    final cleaned = value.trim().toUpperCase().replaceAll(RegExp(r'[^A-Z0-9]+'), '_');
+    final normalized = cleaned.replaceAll(RegExp(r'_+'), '_').replaceAll(RegExp(r'^_|_$'), '');
+    return normalized;
+  }
+
+  static Map<String, dynamic>? _enumDto(String title) {
+    final t = title.trim();
+    if (t.isEmpty) return null;
+    return {'value': _slug(t), 'title': t};
+  }
+
+  static String? _mmYyyyToIsoDate(String value) {
+    final raw = value.trim();
+    if (raw.isEmpty) return null;
+    final parts = raw.split('-');
+    if (parts.length != 2) return raw;
+    final mm = int.tryParse(parts[0]);
+    final yyyy = int.tryParse(parts[1]);
+    if (mm == null || yyyy == null || mm < 1 || mm > 12) return raw;
+    return '${yyyy.toString().padLeft(4, '0')}-${mm.toString().padLeft(2, '0')}-01';
+  }
+
+  static String? _isoDateToMmYyyy(dynamic raw) {
+    if (raw == null) return null;
+    final text = raw.toString().trim();
+    if (text.isEmpty) return null;
+    final parsed = DateTime.tryParse(text);
+    if (parsed == null) return text;
+    return '${parsed.month.toString().padLeft(2, '0')}-${parsed.year.toString().padLeft(4, '0')}';
+  }
+
+  static List<String> _stringList(dynamic field) =>
+      (field as List? ?? []).map((e) => _titleOrText(e)).where((e) => e.isNotEmpty).toList();
+
+  static List<Map<String, dynamic>> _listItemDtos(List<String> values) => values
+      .asMap()
+      .entries
+      .map((e) => {'value': e.key + 1, 'title': e.value})
+      .toList();
+
+  Map<String, dynamic> _onboardingLocationBody(ProfileBasics basics) {
+    return {
+      'location': {
+        'status': _enumDto(basics.status),
+        'relocationReadiness': _enumDto(basics.relocationReadiness),
+      },
+    };
+  }
+
+  Map<String, dynamic> _onboardingPreferencesBody(ProfileJobPreferences prefs) {
+    return {
+      'jobInterests': prefs.jobInterests
+          .asMap()
+          .entries
+          .map((entry) {
+            final id = int.tryParse(entry.value.id);
+            return {
+              'value': id ?? (entry.key + 1),
+              'title': entry.value.title,
+            };
+          })
+          .toList(),
+      'preferences': {
+        'positionLevel': _enumDto(prefs.positionLevel),
+        'jobTypes': prefs.jobType.trim().isEmpty
+            ? []
+            : [
+                {'value': _slug(prefs.jobType), 'title': prefs.jobType}
+              ],
+        'workplaceFormats': prefs.workplace.trim().isEmpty
+            ? []
+            : [
+                {'value': _slug(prefs.workplace), 'title': prefs.workplace}
+              ],
+        'expectedPayment': prefs.expectedSalary?.toString(),
+        'paymentTerm': const {'value': 'MONTHLY', 'title': 'Monthly'},
+        'preferNotToSpecify': prefs.preferNotToSpecifySalary,
+      },
+    };
+  }
+
+  List<Map<String, dynamic>> _workReplaceBody(List<WorkExperience> experiences) {
+    return experiences
+        .map(
+          (exp) => {
+            'title': exp.jobTitle,
+            'companyName': exp.companyName,
+            'description': exp.summary ?? '',
+            'startDate': _mmYyyyToIsoDate(exp.startDate),
+            'endDate': exp.currentlyWorkHere ? null : _mmYyyyToIsoDate(exp.endDate ?? ''),
+            'current': exp.currentlyWorkHere,
+            'level': _enumDto(exp.experienceLevel),
+            'workType': _enumDto(exp.jobType),
+            'employmentType': _enumDto(exp.workplace),
+          },
+        )
+        .toList();
+  }
+
+  List<Map<String, dynamic>> _educationReplaceBody(List<Education> educations) {
+    return educations
+        .map(
+          (edu) => {
+            'fieldOfStudy': edu.fieldOfStudy,
+            'institution': edu.institutionName,
+            'degree': edu.degreeType,
+            'startDate': _mmYyyyToIsoDate(edu.startDate),
+            'endDate': edu.currentlyStudyHere ? null : _mmYyyyToIsoDate(edu.endDate ?? ''),
+            'currentlyStudying': edu.currentlyStudyHere,
+          },
+        )
+        .toList();
+  }
 
   @override
   Future<ProfileBasics> getBasics() async {
@@ -627,6 +776,126 @@ class ApiProfileRepository implements ProfileRepository {
               relocationReadiness: _enumTitle(loc['relocationReadiness']),
             );
           }
+
+          final about = profileData['aboutMe'];
+          if (about is Map<String, dynamic>) {
+            _aboutMe = ProfileAboutMe(
+              bio: (about['bio'] as String? ?? about['text'] as String? ?? '').trim(),
+              videoUrl: (about['video'] as String? ?? about['videoUrl'] as String?)?.trim(),
+            );
+            await _ProfileLocalStore.saveAboutMe(_aboutMe);
+          }
+
+          final skillsMap = profileData['skills'];
+          final competencies = profileData['competencies'];
+          final languageList = profileData['languages'];
+          _skills = ProfileSkills(
+            hardSkills: skillsMap is Map<String, dynamic>
+                ? _stringList(skillsMap['hardSkills'])
+                : _skills.hardSkills,
+            softSkills: skillsMap is Map<String, dynamic>
+                ? _stringList(skillsMap['softSkills'])
+                : _skills.softSkills,
+            languages: (languageList as List? ?? [])
+                .whereType<Map>()
+                .map((e) => e.cast<String, dynamic>())
+                .map(
+                  (l) => Language(
+                    language: _titleOrText(l['language']).isNotEmpty
+                        ? _titleOrText(l['language'])
+                        : _titleOrText(l['languageName']),
+                    proficiency: _titleOrText(l['level']).isNotEmpty
+                        ? _titleOrText(l['level'])
+                        : _titleOrText(l['proficiency']),
+                  ),
+                )
+                .where((l) => l.language.isNotEmpty)
+                .toList(),
+            competencies: competencies is Map<String, dynamic>
+                ? competencies.map(
+                    (key, value) => MapEntry(key, _titleOrText(value)),
+                  )
+                : _skills.competencies,
+          );
+          await _ProfileLocalStore.saveSkills(_skills);
+
+          _workExperiences = ((profileData['workExperience'] ?? profileData['workExperiences'])
+                      as List? ??
+                  [])
+              .whereType<Map>()
+              .map((e) => e.cast<String, dynamic>())
+              .map(
+                (item) => WorkExperience(
+                  jobTitle: (item['title'] as String? ?? '').trim(),
+                  companyName: (item['companyName'] as String? ?? '').trim(),
+                  location: _titleOrText(item['city']),
+                  experienceLevel: _titleOrText(item['level']),
+                  workplace: _titleOrText(item['employmentType']),
+                  jobType: _titleOrText(item['workType']),
+                  startDate: _isoDateToMmYyyy(item['startDate']) ?? '',
+                  endDate: _isoDateToMmYyyy(item['endDate']),
+                  currentlyWorkHere: item['current'] as bool? ?? false,
+                  summary: (item['description'] as String?)?.trim(),
+                ),
+              )
+              .where((e) => e.jobTitle.isNotEmpty || e.companyName.isNotEmpty)
+              .toList();
+          await _ProfileLocalStore.saveWork(_workExperiences);
+
+          _educations = ((profileData['education'] ?? profileData['educations']) as List? ?? [])
+              .whereType<Map>()
+              .map((e) => e.cast<String, dynamic>())
+              .map(
+                (item) => Education(
+                  institutionName:
+                      (item['institution'] as String? ?? item['institutionName'] as String? ?? '')
+                          .trim(),
+                  fieldOfStudy: (item['fieldOfStudy'] as String? ?? '').trim(),
+                  location: _titleOrText(item['city']),
+                  degreeType: (item['degree'] as String? ?? item['degreeType'] as String? ?? '')
+                      .trim(),
+                  startDate: _isoDateToMmYyyy(item['startDate']) ?? '',
+                  endDate: _isoDateToMmYyyy(item['endDate']),
+                  currentlyStudyHere: item['currentlyStudying'] as bool? ?? false,
+                ),
+              )
+              .where((e) => e.institutionName.isNotEmpty || e.fieldOfStudy.isNotEmpty)
+              .toList();
+          await _ProfileLocalStore.saveEducation(_educations);
+
+          final prefs = profileData['jobPreferences'];
+          if (prefs is Map<String, dynamic>) {
+            _jobPreferences = ProfileJobPreferences(
+              jobInterests: (profileData['jobInterests'] as List? ?? [])
+                  .whereType<Map>()
+                  .map((e) => e.cast<String, dynamic>())
+                  .map(
+                    (j) => JobInterest(
+                      id: (j['value'] ?? j['id'] ?? '').toString(),
+                      title: _titleOrText(j['title']),
+                      category: _titleOrText(j['category']),
+                    ),
+                  )
+                  .where((j) => j.title.isNotEmpty)
+                  .toList(),
+              positionLevel: _titleOrText(prefs['experienceLevel']),
+              jobType: _titleOrText((prefs['employmentType'] as List?)?.first),
+              workplace: _titleOrText((prefs['workLocation'] as List?)?.first),
+              expectedSalary: double.tryParse(
+                (prefs['salaryExpected'] ?? prefs['expectedPayment'] ?? '').toString(),
+              ),
+              preferNotToSpecifySalary: prefs['preferNotToSpecify'] as bool? ?? false,
+            );
+            await _ProfileLocalStore.savePrefs(_jobPreferences);
+          }
+
+          _values = ((profileData['values'] as List?) ?? [])
+              .map((e) => _titleOrText(e))
+              .where((e) => e.isNotEmpty)
+              .toList();
+          if (_values.isNotEmpty) {
+            await _ProfileLocalStore.saveValues(_values);
+          }
         }
       } catch (_) {
         // Keep basics from /user/me
@@ -645,18 +914,35 @@ class ApiProfileRepository implements ProfileRepository {
     await _ensureLoaded();
     _basics = basics;
     await _ProfileLocalStore.saveBasics(_basics);
-    final token = await _requireToken();
-    await _client
-        .post(
-          _uri('/user/me'),
-          headers: _headers(token),
-          body: jsonEncode({
-            'firstName': basics.firstName,
-            'lastName': basics.lastName,
-            'phone': basics.phone,
-          }),
-        )
-        .timeout(const Duration(seconds: 20));
+    await _postJson('/user/me', {
+      'firstName': basics.firstName,
+      'lastName': basics.lastName,
+      'phone': basics.phone,
+    });
+    await _postJson('/job-seeker/me/onboarding', _onboardingLocationBody(basics),
+        queryParameters: const {'step': 'location'});
+    await _postJson('/job-seeker/me', {
+      'basics': {
+        'name': '${basics.firstName} ${basics.lastName}'.trim(),
+        'email': basics.email,
+        'phone': basics.phone,
+        'gender': _enumDto(basics.gender),
+        'citizenship': {
+          'name': basics.citizenship,
+          'code': basics.citizenshipCode.toUpperCase(),
+        },
+        'residence': {
+          'name': basics.residence,
+          'code': basics.residenceCode.toUpperCase(),
+        },
+        'photo': basics.photoUrl,
+        'dateOfBirth': basics.dateOfBirth,
+      },
+      'location': {
+        'status': _enumDto(basics.status),
+        'relocationReadiness': _enumDto(basics.relocationReadiness),
+      },
+    });
   }
 
   @override
@@ -712,6 +998,13 @@ class ApiProfileRepository implements ProfileRepository {
     await _ensureLoaded();
     _aboutMe = aboutMe;
     await _ProfileLocalStore.saveAboutMe(_aboutMe);
+    await _postJson('/job-seeker/me', {
+      'aboutMe': {
+        'bio': aboutMe.bio,
+        'text': aboutMe.bio,
+        'video': aboutMe.videoUrl,
+      },
+    });
   }
 
   @override
@@ -719,6 +1012,22 @@ class ApiProfileRepository implements ProfileRepository {
     await _ensureLoaded();
     _skills = skills;
     await _ProfileLocalStore.saveSkills(_skills);
+    await _postJson('/job-seeker/me', {
+      'skills': {
+        'hardSkills': skills.hardSkills,
+        'softSkills': skills.softSkills,
+      },
+      'competencies': skills.competencies,
+      'languages': skills.languages
+          .map(
+            (lang) => {
+              'language': lang.language,
+              'proficiency': lang.proficiency,
+              'level': _enumDto(lang.proficiency),
+            },
+          )
+          .toList(),
+    });
   }
 
   @override
@@ -726,6 +1035,7 @@ class ApiProfileRepository implements ProfileRepository {
     await _ensureLoaded();
     _workExperiences = experiences;
     await _ProfileLocalStore.saveWork(_workExperiences);
+    await _postJson('/job-seeker/me/work-experiences/replace', _workReplaceBody(experiences));
   }
 
   @override
@@ -733,6 +1043,7 @@ class ApiProfileRepository implements ProfileRepository {
     await _ensureLoaded();
     _educations = educations;
     await _ProfileLocalStore.saveEducation(_educations);
+    await _postJson('/job-seeker/me/education/replace', _educationReplaceBody(educations));
   }
 
   @override
@@ -740,6 +1051,12 @@ class ApiProfileRepository implements ProfileRepository {
     await _ensureLoaded();
     _files = files;
     await _ProfileLocalStore.saveFiles(_files);
+    // Metadata only. Real file upload must use multipart /files endpoints.
+    await _postJson('/job-seeker/me', {
+      'documents': files
+          .map((f) => {'name': f.name, 'size': f.size, 'url': f.url})
+          .toList(),
+    });
   }
 
   @override
@@ -747,6 +1064,11 @@ class ApiProfileRepository implements ProfileRepository {
     await _ensureLoaded();
     _values = values;
     await _ProfileLocalStore.saveValues(_values);
+    await _postJson(
+      '/job-seeker/me/onboarding',
+      {'values': _listItemDtos(values)},
+      queryParameters: const {'step': 'values'},
+    );
   }
 
   @override
@@ -754,6 +1076,11 @@ class ApiProfileRepository implements ProfileRepository {
     await _ensureLoaded();
     _jobPreferences = prefs;
     await _ProfileLocalStore.savePrefs(_jobPreferences);
+    await _postJson(
+      '/job-seeker/me/onboarding',
+      _onboardingPreferencesBody(prefs),
+      queryParameters: const {'step': 'preferences'},
+    );
   }
 
   @override
@@ -761,6 +1088,7 @@ class ApiProfileRepository implements ProfileRepository {
     await _ensureLoaded();
     _profileVisible = visible;
     await _ProfileLocalStore.saveVisible(_profileVisible);
+    await _postJson('/job-seeker/me', {'profileVisible': visible});
   }
 }
 

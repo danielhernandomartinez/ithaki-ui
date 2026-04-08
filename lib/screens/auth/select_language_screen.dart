@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
@@ -24,14 +25,27 @@ class SelectLanguageScreen extends ConsumerStatefulWidget {
 }
 
 class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
+  static const _storage = FlutterSecureStorage();
   SearchItem? _selected;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(registrationProvider.notifier).reset();
+      _restoreSessionOrResetFlow();
     });
+  }
+
+  Future<void> _restoreSessionOrResetFlow() async {
+    final token = await _storage.read(key: 'jwt_token');
+    if (!mounted) return;
+
+    if (token != null && token.trim().isNotEmpty) {
+      context.go(Routes.home);
+      return;
+    }
+
+    ref.read(registrationProvider.notifier).reset();
   }
 
   void _openPicker() {

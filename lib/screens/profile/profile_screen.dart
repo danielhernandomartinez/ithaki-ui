@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../providers/profile_provider.dart';
+import '../../repositories/auth_repository.dart';
 import '../../constants/nav_items.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
@@ -170,7 +171,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   },
                   onLogOut: () {
                     _panels.closeProfile();
-                    context.go(Routes.root);
+                    ref.read(authRepositoryProvider).logout().whenComplete(() {
+                      if (context.mounted) context.go(Routes.root);
+                    });
                   },
                 ),
               ),
