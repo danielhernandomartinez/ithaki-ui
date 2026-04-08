@@ -508,8 +508,8 @@ class ApiProfileRepository implements ProfileRepository {
       _basics = basics;
       await ProfileLocalStore.saveBasics(_basics);
       return _basics;
-    } catch (_) {
-      return _basics;
+    } catch (e, st) {
+      Error.throwWithStackTrace(e, st);
     }
   }
 
