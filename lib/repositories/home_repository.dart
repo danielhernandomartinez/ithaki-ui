@@ -135,6 +135,9 @@ class MockHomeRepository implements HomeRepository {
   );
 }
 
+// TODO: homeRepositoryProvider always uses MockHomeRepository.
+// Add ApiHomeRepository and wire it with bool.fromEnvironment('ITHAKI_USE_MOCK_HOME')
+// to match the pattern used by auth, job_search, and profile repositories.
 final homeRepositoryProvider = Provider<HomeRepository>(
   (_) => MockHomeRepository(),
 );

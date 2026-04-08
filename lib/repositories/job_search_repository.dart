@@ -213,6 +213,10 @@ class ApiJobSearchRepository implements JobSearchRepository {
   ApiJobSearchRepository({ApiClient? apiClient}) : _api = apiClient ?? ApiClient();
 
   final ApiClient _api;
+  // TODO(backend): saved-jobs endpoint not yet implemented.
+  // Replace _savedIds with real API calls once the backend exposes
+  // GET/POST/DELETE /api/job-seeker/me/saved-jobs (or equivalent).
+  // State is currently in-memory only and lost on app restart.
   final Set<String> _savedIds = {};
 
   static JobListing _parseJob(Map<String, dynamic> j) {
