@@ -2,10 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../models/applications_models.dart';
+import '../services/api_client.dart';
 import '../utils/api_mappers.dart' as mapper;
 
 // ─── Repository ───────────────────────────────────────────────────────────────
@@ -15,35 +14,9 @@ abstract class ApplicationsRepository {
 }
 
 class ApiApplicationsRepository implements ApplicationsRepository {
-  ApiApplicationsRepository({http.Client? client, String? baseUrl})
-      : _client = client ?? http.Client(),
-        _baseUrl = baseUrl ??
-            const String.fromEnvironment(
-              'ITHAKI_API_BASE_URL',
-              defaultValue: 'https://api.odyssea.com/talent/staging',
-            );
+  ApiApplicationsRepository({ApiClient? apiClient}) : _api = apiClient ?? ApiClient();
 
-  final http.Client _client;
-  final String _baseUrl;
-
-  String get _apiBase {
-    final trimmed =
-        _baseUrl.endsWith('/') ? _baseUrl.substring(0, _baseUrl.length - 1) : _baseUrl;
-    return trimmed.endsWith('/api') ? trimmed : '$trimmed/api';
-  }
-
-  Uri _uri(String path) => Uri.parse('$_apiBase$path');
-
-  static const _storage = FlutterSecureStorage();
-
-  Future<Map<String, String>> _authHeaders() async {
-    final token = await _storage.read(key: 'jwt_token') ?? '';
-    return {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      if (token.isNotEmpty) 'Authorization': 'Bearer $token',
-    };
-  }
+  final ApiClient _api;
 
   static ApplicationStatus _parseStatus(dynamic status) {
     final value = mapper.enumValue(status).toUpperCase();
@@ -110,10 +83,7 @@ class ApiApplicationsRepository implements ApplicationsRepository {
 
   @override
   Future<List<Application>> getApplications() async {
-    final headers = await _authHeaders();
-    final response = await _client
-        .get(_uri('/job-seeker/me/applications'), headers: headers)
-        .timeout(const Duration(seconds: 20));
+    final response = await _api.get('/job-seeker/me/applications');
 
     if (response.statusCode != 200) {
       throw Exception('Failed to load applications: ${response.statusCode}');
@@ -133,7 +103,9 @@ class MockApplicationsRepository implements ApplicationsRepository {
 const bool _useMockApplications = bool.fromEnvironment('ITHAKI_USE_MOCK_APPLICATIONS');
 
 final applicationsRepositoryProvider = Provider<ApplicationsRepository>(
-  (_) => _useMockApplications ? MockApplicationsRepository() : ApiApplicationsRepository(),
+  (ref) => _useMockApplications
+      ? MockApplicationsRepository()
+      : ApiApplicationsRepository(apiClient: ref.watch(apiClientProvider)),
 );
 
 // ─── Notifier ─────────────────────────────────────────────────────────────────
