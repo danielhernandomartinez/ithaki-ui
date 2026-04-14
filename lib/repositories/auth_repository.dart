@@ -231,14 +231,14 @@ class ApiAuthRepository implements AuthRepository {
     }
 
     final raw = response.body.trim().toLowerCase();
-    if (raw == 'false') {
+    if (raw != 'true') {
       throw Exception('OTP verification failed: invalid code');
     }
   }
 
   @override
   Future<void> resetPassword(String newPassword) async {
-    await Future.delayed(const Duration(milliseconds: 300));
+    // TODO: implement reset password via API once endpoint is available
   }
 
   @override
