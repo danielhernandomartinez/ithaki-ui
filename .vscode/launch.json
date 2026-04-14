@@ -11,6 +11,17 @@
       ]
     },
     {
+      "name": "Ithaki – mock data (debug)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug",
+      "args": [
+        "--dart-define=ITHAKI_API_BASE_URL=https://api.odyssea.com/talent/staging",
+        "--dart-define=ITHAKI_USE_MOCK_HOME=true",
+        "--dart-define=ITHAKI_USE_MOCK_JOB_SEARCH=true"
+      ]
+    },
+    {
       "name": "Ithaki – staging (profile)",
       "request": "launch",
       "type": "dart",

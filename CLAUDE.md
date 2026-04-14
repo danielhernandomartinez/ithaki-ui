@@ -14,7 +14,7 @@
 
 - **Framework:** Flutter (Dart 3.x)
 - **State management:** Riverpod 3 (`AsyncNotifier`, `Notifier`, `Provider`)
-- **Routing:** GoRouter 17
+- **Routing:** GoRouter 17 (~37 named routes)
 - **Design system package:** `ithaki_design_system` v0.10.16 (git)
 - **Localization:** ARB-based (English `en`, Greek `el`, Arabic `ar`)
 
@@ -39,6 +39,18 @@ All tokens live in the external package `ithaki_design_system`. **Never hardcode
 | `IthakiTheme.softGraphite` | Dark grey icons |
 | `IthakiTheme.matchGreen` | Strong job-match indicator |
 | `IthakiTheme.matchBarBg` | Match bar background |
+| `IthakiTheme.accentPurpleLight` | Light purple accent surface |
+| `IthakiTheme.badgeLime` | Lime badge / pill |
+| `IthakiTheme.cardBackground` | Card fill (distinct from `backgroundWhite`) |
+| `IthakiTheme.chipActive` | Active/selected chip state |
+| `IthakiTheme.lightGraphite` | Lighter graphite shade |
+| `IthakiTheme.lightGray` | Lighter grey shade |
+| `IthakiTheme.matchBgGood` | Match background — good match |
+| `IthakiTheme.matchBgWeak` | Match background — weak match |
+| `IthakiTheme.matchGradientGoodStart/End` | Gradient stops — good match |
+| `IthakiTheme.matchGradientHighStart` | Gradient start — high match |
+| `IthakiTheme.matchGradientWeakStart/End` | Gradient stops — weak match |
+| `IthakiTheme.matchGradientNoneStart/End` | Gradient stops — no match |
 
 For job-match gradients use the utility in `lib/utils/match_colors.dart` — do not inline gradient colors.
 
@@ -85,6 +97,16 @@ Reuse before creating new widgets:
 - `CitySearchBottomSheet` — location search sheet
 - `SuccessBanner` — success notification
 - `SalaryFieldRow` — salary input row
+- `AddJobInterestSheet` — bottom sheet for adding job interests
+- `BottomSheetBase` — base class for all bottom sheets
+- `DottedBorderBox` — container with dotted border styling
+- `LoginMethodFooter` — footer shown on login screens
+- `PanelScaffold` — scaffold wrapper with slide-in panels
+- `ProfileEmptyStateCard` — empty state placeholder for profile sections
+- `ProfilePickerField` — field with picker/selector for profile forms
+- `ProfileTabBar` — tab bar used within the profile screen
+- `UploadFileTab` — file-upload tab inside upload sheet
+- `UploadUrlTab` — URL-upload tab inside upload sheet
 
 ---
 
@@ -108,7 +130,8 @@ IthakiIcon('edit-pencil', size: 20, color: IthakiTheme.primaryPurple)
 
 `home`, `jobs`, `applications`, `ai`, `assessment`, `learning-hub`, `blog`,
 `eye`, `envelope`, `phone`, `rocket`, `edit-pencil`, `google-social`,
-`tiktok`, `youtube`, `instagram`, `linkedin`, `facebook`, `x`
+`arrow-down`, `calendar`, `clock`, `delete`, `flag`, `help`, `location`,
+`plus`, `profile`, `resume`, `search`, `settings`, `team`, `upload-cloud`
 
 ---
 

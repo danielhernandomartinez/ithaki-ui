@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ithaki_design_system/ithaki_design_system.dart';
+
 import '../models/home_models.dart';
+import '../services/api_client.dart';
 
 class HomeData {
   final String userName;
@@ -49,7 +51,7 @@ class MockHomeRepository implements HomeRepository {
       JobRecommendation(
         companyName: 'TechWave',
         companyInitials: 'TW',
-        companyColor: Color(0xFF6B4EAA),
+        companyColor: IthakiTheme.primaryPurple,
         jobTitle: 'Junior Front-End Developer',
         salary: '1,500 \u20ac / month',
         matchPercentage: 100,
@@ -62,7 +64,7 @@ class MockHomeRepository implements HomeRepository {
       JobRecommendation(
         companyName: 'TechWave',
         companyInitials: 'DS',
-        companyColor: Color(0xFF2E7D32),
+        companyColor: IthakiTheme.matchGreen,
         jobTitle: 'Junior Front-End Developer',
         salary: '1,500 \u20ac / month',
         matchPercentage: 100,
@@ -75,7 +77,7 @@ class MockHomeRepository implements HomeRepository {
       JobRecommendation(
         companyName: 'TechWave',
         companyInitials: 'FT',
-        companyColor: Color(0xFF1A237E),
+        companyColor: IthakiTheme.softGraphite,
         jobTitle: 'Middle Front-End Developer',
         salary: '2,500 \u20ac / month',
         matchPercentage: 100,
@@ -135,9 +137,47 @@ class MockHomeRepository implements HomeRepository {
   );
 }
 
-// TODO: homeRepositoryProvider always uses MockHomeRepository.
-// Add ApiHomeRepository and wire it with bool.fromEnvironment('ITHAKI_USE_MOCK_HOME')
-// to match the pattern used by auth, job_search, and profile repositories.
+// ─── API implementation ────────────────────────────────────────────────────────
+// TODO: wire real endpoints when available:
+//   GET /api/job-seeker/me/applications → cvStats
+//   GET /api/jobs (recommended) → jobs
+//   courses and news endpoints TBD
+class ApiHomeRepository implements HomeRepository {
+  ApiHomeRepository({required ApiClient apiClient}) : _api = apiClient;
+
+  // ignore: unused_field — will be used once home endpoints are wired
+  final ApiClient _api;
+
+  @override
+  Future<HomeData> getData() async {
+    // userName / userInitials are overlaid by home_provider.dart via profileBasicsProvider.
+    // Return empty collections until dedicated home endpoints are available.
+    return const HomeData(
+      userName: '',
+      userInitials: '',
+      cvStats: CvStats(
+        views: 0,
+        invitations: 0,
+        applicationsSent: 0,
+        interviews: 0,
+      ),
+      jobs: [],
+      courses: [],
+      news: [],
+      isNewUser: false,
+      profileItems: [],
+      profileBenefits: [],
+      filterChips: [],
+    );
+  }
+}
+
+// ─── Provider ─────────────────────────────────────────────────────────────────
+
+const bool _useMockHome = bool.fromEnvironment('ITHAKI_USE_MOCK_HOME');
+
 final homeRepositoryProvider = Provider<HomeRepository>(
-  (_) => MockHomeRepository(),
+  (ref) => _useMockHome
+      ? MockHomeRepository()
+      : ApiHomeRepository(apiClient: ref.watch(apiClientProvider)),
 );
