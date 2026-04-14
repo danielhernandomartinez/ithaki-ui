@@ -20,7 +20,7 @@ class ProfileCompletionItem {
 class ProfileBasicsNotifier extends AsyncNotifier<ProfileBasics> {
   @override
   Future<ProfileBasics> build() async {
-    final result = await ref.read(profileRepositoryProvider).getBasics();
+    final result = await ref.read(profileRepositoryProvider).refreshAll();
     ref.read(profilePartialLoadProvider.notifier).set(result.isPartial);
     return result.basics;
   }
@@ -46,7 +46,7 @@ class ProfileBasicsNotifier extends AsyncNotifier<ProfileBasics> {
   }
 }
 
-/// True when /job-seeker/me failed during the last getBasics() call,
+/// True when /job-seeker/me failed during the last refreshAll() call,
 /// meaning the profile was loaded partially from /user/me + local cache.
 class _PartialLoadNotifier extends Notifier<bool> {
   @override
