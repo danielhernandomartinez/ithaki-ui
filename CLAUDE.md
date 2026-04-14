@@ -209,6 +209,24 @@ class _MyScreenState extends ConsumerState<MyScreen>
 
 ---
 
+## Build configuration
+
+`ApiClient` requires `ITHAKI_API_BASE_URL` at build time via `--dart-define`. A build without it throws a `StateError` immediately.
+
+`.vscode/launch.json` is committed with two pre-configured launch targets (staging / production) — use the VS Code Run & Debug selector to switch between them.
+
+For CLI builds:
+
+```bash
+# Run on device — staging
+flutter run --dart-define=ITHAKI_API_BASE_URL=https://api.odyssea.com/talent/staging
+
+# Release APK — production
+flutter build apk --release --dart-define=ITHAKI_API_BASE_URL=https://api.odyssea.com/talent
+```
+
+---
+
 ## Assets
 
 - Images: `assets/images/` — referenced with `AssetImage('assets/images/<file>')`.

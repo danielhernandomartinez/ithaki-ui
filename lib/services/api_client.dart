@@ -12,11 +12,18 @@ import 'package:http/http.dart' as http;
 class ApiClient {
   ApiClient({http.Client? client, String? baseUrl})
       : _client = client ?? http.Client(),
-        _baseUrl = baseUrl ??
-            const String.fromEnvironment(
-              'ITHAKI_API_BASE_URL',
-              defaultValue: 'https://api.odyssea.com/talent/staging',
-            );
+        _baseUrl = baseUrl ?? _resolveBaseUrl();
+
+  static String _resolveBaseUrl() {
+    const url = String.fromEnvironment('ITHAKI_API_BASE_URL');
+    if (url.isEmpty) {
+      throw StateError(
+        'ITHAKI_API_BASE_URL is not set. '
+        'Pass --dart-define=ITHAKI_API_BASE_URL=<url> at build time.',
+      );
+    }
+    return url;
+  }
 
   final http.Client _client;
   final String _baseUrl;
