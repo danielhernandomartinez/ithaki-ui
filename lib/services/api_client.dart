@@ -29,7 +29,16 @@ class ApiClient {
   final String _baseUrl;
 
   static const _storage = FlutterSecureStorage();
+
+  /// Default timeout for standard API calls.
   static const timeout = Duration(seconds: 20);
+
+  /// Shorter timeout for auth flows (login, token refresh).
+  static const authTimeout = Duration(seconds: 10);
+
+  /// Extended timeout for file upload endpoints.
+  static const uploadTimeout = Duration(seconds: 90);
+
   static const _okStatuses = {200, 201, 202, 204};
 
   // Mutex: only one refresh in flight at a time; concurrent callers await the same Future.
@@ -82,7 +91,7 @@ class ApiClient {
           headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
           body: jsonEncode({'refreshToken': refreshToken}),
         )
-        .timeout(timeout);
+        .timeout(authTimeout);
 
     if (!_okStatuses.contains(res.statusCode)) {
       throw Exception('Session expired — please log in again');
@@ -128,17 +137,22 @@ class ApiClient {
 
   /// Authenticated GET. Throws if no token is stored.
   /// Automatically refreshes the access token once on 401 and retries.
-  Future<http.Response> get(String path, {Map<String, String>? params}) async {
+  Future<http.Response> get(
+    String path, {
+    Map<String, String>? params,
+    Duration? timeout,
+  }) async {
+    final t = timeout ?? ApiClient.timeout;
     var token = await requireToken();
     var res = await _client
         .get(uri(path, params), headers: jsonHeaders(token: token))
-        .timeout(timeout);
+        .timeout(t);
     if (res.statusCode == 401) {
       await refreshAccessToken();
       token = await requireToken();
       res = await _client
           .get(uri(path, params), headers: jsonHeaders(token: token))
-          .timeout(timeout);
+          .timeout(t);
     }
     return res;
   }
@@ -146,16 +160,21 @@ class ApiClient {
   /// GET with optional auth — uses Bearer token when available, falls back to
   /// Accept-only headers (for public or partially-public endpoints).
   /// Refreshes and retries once on 401 when a token is present.
-  Future<http.Response> getOptionalAuth(String path, {Map<String, String>? params}) async {
+  Future<http.Response> getOptionalAuth(
+    String path, {
+    Map<String, String>? params,
+    Duration? timeout,
+  }) async {
+    final t = timeout ?? ApiClient.timeout;
     var token = await readTokenOrNull();
     final headers = token != null ? jsonHeaders(token: token) : {'Accept': 'application/json'};
-    var res = await _client.get(uri(path, params), headers: headers).timeout(timeout);
+    var res = await _client.get(uri(path, params), headers: headers).timeout(t);
     if (res.statusCode == 401 && token != null) {
       await refreshAccessToken();
       token = await requireToken();
       res = await _client
           .get(uri(path, params), headers: jsonHeaders(token: token))
-          .timeout(timeout);
+          .timeout(t);
     }
     return res;
   }
@@ -166,10 +185,12 @@ class ApiClient {
     String path,
     Object body, {
     Map<String, String>? params,
+    Duration? timeout,
   }) async {
-    Future<http.Response> doPost(String t) => _client
-        .post(uri(path, params), headers: jsonHeaders(token: t), body: jsonEncode(body))
-        .timeout(timeout);
+    final t = timeout ?? ApiClient.timeout;
+    Future<http.Response> doPost(String tok) => _client
+        .post(uri(path, params), headers: jsonHeaders(token: tok), body: jsonEncode(body))
+        .timeout(t);
 
     var token = await requireToken();
     var res = await doPost(token);
