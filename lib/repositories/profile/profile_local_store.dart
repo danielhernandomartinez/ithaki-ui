@@ -1,10 +1,12 @@
 import 'dart:convert';
 
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../models/profile_models.dart';
 
 class ProfileLocalStore {
+  static const _storage = FlutterSecureStorage();
+
   static const _kBasics = 'profile_basics_v1';
   static const _kAboutMe = 'profile_about_me_v1';
   static const _kSkills = 'profile_skills_v1';
@@ -16,10 +18,9 @@ class ProfileLocalStore {
   static const _kVisible = 'profile_visible_v1';
 
   static Future<void> saveBasics(ProfileBasics value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      _kBasics,
-      jsonEncode({
+    await _storage.write(
+      key: _kBasics,
+      value: jsonEncode({
         'firstName': value.firstName,
         'lastName': value.lastName,
         'email': value.email,
@@ -38,8 +39,7 @@ class ProfileLocalStore {
   }
 
   static Future<ProfileBasics?> loadBasics() async {
-    final prefs = await SharedPreferences.getInstance();
-    final raw = prefs.getString(_kBasics);
+    final raw = await _storage.read(key: _kBasics);
     if (raw == null || raw.isEmpty) return null;
     final map = (jsonDecode(raw) as Map).cast<String, dynamic>();
     return ProfileBasics(
@@ -60,16 +60,14 @@ class ProfileLocalStore {
   }
 
   static Future<void> saveAboutMe(ProfileAboutMe value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      _kAboutMe,
-      jsonEncode({'bio': value.bio, 'videoUrl': value.videoUrl}),
+    await _storage.write(
+      key: _kAboutMe,
+      value: jsonEncode({'bio': value.bio, 'videoUrl': value.videoUrl}),
     );
   }
 
   static Future<ProfileAboutMe?> loadAboutMe() async {
-    final prefs = await SharedPreferences.getInstance();
-    final raw = prefs.getString(_kAboutMe);
+    final raw = await _storage.read(key: _kAboutMe);
     if (raw == null || raw.isEmpty) return null;
     final map = (jsonDecode(raw) as Map).cast<String, dynamic>();
     return ProfileAboutMe(
@@ -79,10 +77,9 @@ class ProfileLocalStore {
   }
 
   static Future<void> saveSkills(ProfileSkills value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      _kSkills,
-      jsonEncode({
+    await _storage.write(
+      key: _kSkills,
+      value: jsonEncode({
         'hardSkills': value.hardSkills,
         'softSkills': value.softSkills,
         'languages': value.languages
@@ -94,8 +91,7 @@ class ProfileLocalStore {
   }
 
   static Future<ProfileSkills?> loadSkills() async {
-    final prefs = await SharedPreferences.getInstance();
-    final raw = prefs.getString(_kSkills);
+    final raw = await _storage.read(key: _kSkills);
     if (raw == null || raw.isEmpty) return null;
     final map = (jsonDecode(raw) as Map).cast<String, dynamic>();
     final langs = (map['languages'] as List? ?? [])
@@ -118,10 +114,9 @@ class ProfileLocalStore {
   }
 
   static Future<void> saveWork(List<WorkExperience> values) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      _kWork,
-      jsonEncode(
+    await _storage.write(
+      key: _kWork,
+      value: jsonEncode(
         values
             .map(
               (e) => {
@@ -143,8 +138,7 @@ class ProfileLocalStore {
   }
 
   static Future<List<WorkExperience>?> loadWork() async {
-    final prefs = await SharedPreferences.getInstance();
-    final raw = prefs.getString(_kWork);
+    final raw = await _storage.read(key: _kWork);
     if (raw == null || raw.isEmpty) return null;
     return (jsonDecode(raw) as List)
         .whereType<Map>()
@@ -167,10 +161,9 @@ class ProfileLocalStore {
   }
 
   static Future<void> saveEducation(List<Education> values) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      _kEducation,
-      jsonEncode(
+    await _storage.write(
+      key: _kEducation,
+      value: jsonEncode(
         values
             .map(
               (e) => {
@@ -189,8 +182,7 @@ class ProfileLocalStore {
   }
 
   static Future<List<Education>?> loadEducation() async {
-    final prefs = await SharedPreferences.getInstance();
-    final raw = prefs.getString(_kEducation);
+    final raw = await _storage.read(key: _kEducation);
     if (raw == null || raw.isEmpty) return null;
     return (jsonDecode(raw) as List)
         .whereType<Map>()
@@ -210,10 +202,9 @@ class ProfileLocalStore {
   }
 
   static Future<void> saveFiles(List<UploadedFile> values) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      _kFiles,
-      jsonEncode(
+    await _storage.write(
+      key: _kFiles,
+      value: jsonEncode(
         values
             .map(
               (e) => {
@@ -229,8 +220,7 @@ class ProfileLocalStore {
   }
 
   static Future<List<UploadedFile>?> loadFiles() async {
-    final prefs = await SharedPreferences.getInstance();
-    final raw = prefs.getString(_kFiles);
+    final raw = await _storage.read(key: _kFiles);
     if (raw == null || raw.isEmpty) return null;
     return (jsonDecode(raw) as List)
         .whereType<Map>()
@@ -247,21 +237,19 @@ class ProfileLocalStore {
   }
 
   static Future<void> saveValues(List<String> values) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList(_kValues, values);
+    await _storage.write(key: _kValues, value: jsonEncode(values));
   }
 
   static Future<List<String>?> loadValues() async {
-    final prefs = await SharedPreferences.getInstance();
-    final values = prefs.getStringList(_kValues);
-    return values == null ? null : List<String>.from(values);
+    final raw = await _storage.read(key: _kValues);
+    if (raw == null || raw.isEmpty) return null;
+    return (jsonDecode(raw) as List).whereType<String>().toList();
   }
 
   static Future<void> savePrefs(ProfileJobPreferences value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(
-      _kPrefs,
-      jsonEncode({
+    await _storage.write(
+      key: _kPrefs,
+      value: jsonEncode({
         'jobInterests': value.jobInterests
             .map(
               (e) => {
@@ -282,8 +270,7 @@ class ProfileLocalStore {
   }
 
   static Future<ProfileJobPreferences?> loadPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    final raw = prefs.getString(_kPrefs);
+    final raw = await _storage.read(key: _kPrefs);
     if (raw == null || raw.isEmpty) return null;
     final map = (jsonDecode(raw) as Map).cast<String, dynamic>();
     final interests = (map['jobInterests'] as List? ?? [])
@@ -310,25 +297,26 @@ class ProfileLocalStore {
   }
 
   static Future<void> saveVisible(bool visible) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_kVisible, visible);
+    await _storage.write(key: _kVisible, value: visible.toString());
   }
 
   static Future<bool?> loadVisible() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool(_kVisible);
+    final raw = await _storage.read(key: _kVisible);
+    if (raw == null) return null;
+    return raw == 'true';
   }
 
   static Future<void> clearAll() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_kBasics);
-    await prefs.remove(_kAboutMe);
-    await prefs.remove(_kSkills);
-    await prefs.remove(_kWork);
-    await prefs.remove(_kEducation);
-    await prefs.remove(_kFiles);
-    await prefs.remove(_kValues);
-    await prefs.remove(_kPrefs);
-    await prefs.remove(_kVisible);
+    await Future.wait([
+      _storage.delete(key: _kBasics),
+      _storage.delete(key: _kAboutMe),
+      _storage.delete(key: _kSkills),
+      _storage.delete(key: _kWork),
+      _storage.delete(key: _kEducation),
+      _storage.delete(key: _kFiles),
+      _storage.delete(key: _kValues),
+      _storage.delete(key: _kPrefs),
+      _storage.delete(key: _kVisible),
+    ]);
   }
 }
