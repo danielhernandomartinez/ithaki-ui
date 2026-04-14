@@ -329,67 +329,22 @@ class ApiProfileRepository implements ProfileRepository {
   Future<void> _saveLanguagesReplace(List<Language> languages) async {
     final languageMap = await _getLanguageIdByName();
     final payloadEnumDto = <Map<String, dynamic>>[];
-    final payloadStringLevel = <Map<String, dynamic>>[];
-    final payloadLanguageObject = <Map<String, dynamic>>[];
 
     for (final lang in languages) {
       final id = languageMap[_normalize(lang.language)] ??
           languageMap[_normalizeLoose(lang.language)];
       if (id == null) continue;
-      final level = _proficiencyEnum(lang.proficiency);
       payloadEnumDto.add({
         'languageId': id,
-        'level': level,
-      });
-      payloadStringLevel.add({
-        'languageId': id,
-        'level': level['value'],
-      });
-      payloadLanguageObject.add({
-        'language': {'value': id, 'title': lang.language},
-        'level': level,
+        'level': _proficiencyEnum(lang.proficiency),
       });
     }
 
     if (languages.isNotEmpty && payloadEnumDto.isEmpty) {
-      throw Exception('No se pudieron mapear idiomas a IDs del backend');
+      throw Exception('Could not map languages to backend IDs');
     }
 
-    final payloadValueOnly = payloadEnumDto
-        .map(
-          (item) => {
-            'languageId': item['languageId'],
-            'level': (item['level'] as Map<String, dynamic>)['value'],
-          },
-        )
-        .toList();
-
-    final errorLog = <String>[];
-    final attempts = <({String path, Object body})>[
-      (path: '/job-seeker/me/languages/replace', body: payloadEnumDto),
-      (path: '/job-seeker/me/lenguages/replace', body: payloadEnumDto),
-      (path: '/job-seeker/me/languages/replace', body: {'languages': payloadEnumDto}),
-      (path: '/job-seeker/me/lenguages/replace', body: {'languages': payloadEnumDto}),
-      (path: '/job-seeker/me/languages/replace', body: payloadValueOnly),
-      (path: '/job-seeker/me/lenguages/replace', body: payloadValueOnly),
-      (path: '/job-seeker/me/languages/replace', body: payloadStringLevel),
-      (path: '/job-seeker/me/lenguages/replace', body: payloadStringLevel),
-      (path: '/job-seeker/me/languages/replace', body: payloadLanguageObject),
-      (path: '/job-seeker/me/lenguages/replace', body: payloadLanguageObject),
-      (path: '/job-seeker/me', body: {'languages': payloadEnumDto}),
-      (path: '/job-seeker/me', body: {'lenguages': payloadEnumDto}),
-    ];
-
-    for (final attempt in attempts) {
-      try {
-        await _api.postJson(attempt.path, attempt.body);
-        return;
-      } catch (e) {
-        errorLog.add('${attempt.path}: $e');
-      }
-    }
-
-    throw Exception('Failed saving languages. Attempts: ${errorLog.join(' | ')}');
+    await _api.postJson('/job-seeker/me/languages/replace', payloadEnumDto);
   }
 
 
