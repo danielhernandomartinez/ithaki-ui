@@ -86,8 +86,10 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
                       } catch (signupError) {
                         // Account already created in a previous attempt — the JWT is
                         // still in SharedPreferences. Just resend the OTP and proceed.
-                        final msg = signupError.toString().toLowerCase();
-                        if (msg.contains('already') || msg.contains('exists') || msg.contains('duplicate')) {
+                        final detail = signupError is AuthException
+                            ? (signupError.internalDetail ?? '').toLowerCase()
+                            : signupError.toString().toLowerCase();
+                        if (detail.contains('already') || detail.contains('exists') || detail.contains('duplicate')) {
                           try { await repo.updatePhone(regState.phone); } catch (_) {}
                           try { await repo.sendOtp(); } catch (_) {}
                         } else {
@@ -100,8 +102,12 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
                       }
                     } catch (e) {
                       if (!context.mounted) return;
+                      final message = e is AuthException
+                          ? e.userMessage
+                          : 'Something went wrong. Please try again.';
+                      debugPrint('Registration error: $e');
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(e.toString())),
+                        SnackBar(content: Text(message)),
                       );
                     }
                   }

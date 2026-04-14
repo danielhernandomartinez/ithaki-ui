@@ -8,6 +8,16 @@ import 'profile/profile_local_store.dart';
 
 import '../services/api_client.dart';
 
+class AuthException implements Exception {
+  const AuthException(this.userMessage, {this.internalDetail});
+  final String userMessage;
+  final String? internalDetail;
+
+  @override
+  String toString() => 'AuthException: $userMessage'
+      '${internalDetail != null ? ' [$internalDetail]' : ''}';
+}
+
 abstract class AuthRepository {
   Future<void> loginWithEmail(String email, String password);
   Future<void> register({
@@ -102,7 +112,10 @@ class ApiAuthRepository implements AuthRepository {
         .timeout(ApiClient.timeout);
 
     if (response.statusCode != 200 && response.statusCode != 201) {
-      throw Exception('OTP send failed: ${_api.readErrorBody(response)}');
+      throw AuthException(
+        'Could not send verification code. Please try again.',
+        internalDetail: _api.readErrorBody(response),
+      );
     }
   }
 
@@ -120,14 +133,22 @@ class ApiAuthRepository implements AuthRepository {
         .timeout(ApiClient.timeout);
 
     if (response.statusCode != 200 && response.statusCode != 201) {
-      throw Exception('Login failed: ${_api.readErrorBody(response)}');
+      throw AuthException(
+        response.statusCode == 401
+            ? 'Invalid email or password.'
+            : 'Login failed. Please try again.',
+        internalDetail: _api.readErrorBody(response),
+      );
     }
 
     final Map<String, dynamic> data =
         (jsonDecode(response.body) as Map).cast<String, dynamic>();
     final token = _extractToken(data);
     if (token == null) {
-      throw Exception('Login failed: token not found in response');
+      throw AuthException(
+        'Login failed. Please try again.',
+        internalDetail: 'token not found in response',
+      );
     }
     await _saveTokens(data);
   }
@@ -158,14 +179,20 @@ class ApiAuthRepository implements AuthRepository {
         .timeout(ApiClient.timeout);
 
     if (signupResponse.statusCode != 200 && signupResponse.statusCode != 201) {
-      throw Exception('Signup failed: ${_api.readErrorBody(signupResponse)}');
+      throw AuthException(
+        'Registration failed. Please try again.',
+        internalDetail: _api.readErrorBody(signupResponse),
+      );
     }
 
     final Map<String, dynamic> data =
         (jsonDecode(signupResponse.body) as Map).cast<String, dynamic>();
     final token = _extractToken(data);
     if (token == null) {
-      throw Exception('Signup failed: token not found in response');
+      throw AuthException(
+        'Registration failed. Please try again.',
+        internalDetail: 'token not found in response',
+      );
     }
     await _saveTokens(data);
 
@@ -183,7 +210,10 @@ class ApiAuthRepository implements AuthRepository {
         .timeout(ApiClient.timeout);
 
     if (profileResponse.statusCode != 200 && profileResponse.statusCode != 201) {
-      throw Exception('Profile save failed: ${_api.readErrorBody(profileResponse)}');
+      throw AuthException(
+        'Could not save profile. Please try again.',
+        internalDetail: _api.readErrorBody(profileResponse),
+      );
     }
 
     // OTP send is best-effort — if Twilio fails the user can retry from the OTP screen.
@@ -227,12 +257,18 @@ class ApiAuthRepository implements AuthRepository {
         .timeout(ApiClient.timeout);
 
     if (response.statusCode != 200 && response.statusCode != 201) {
-      throw Exception('OTP verification failed: ${_api.readErrorBody(response)}');
+      throw AuthException(
+        'Verification failed. Please try again.',
+        internalDetail: _api.readErrorBody(response),
+      );
     }
 
     final raw = response.body.trim().toLowerCase();
     if (raw != 'true') {
-      throw Exception('OTP verification failed: invalid code');
+      throw AuthException(
+        'Invalid verification code.',
+        internalDetail: 'OTP response body was not "true"',
+      );
     }
   }
 

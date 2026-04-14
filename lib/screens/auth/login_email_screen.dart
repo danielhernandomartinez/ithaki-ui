@@ -156,8 +156,12 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
                         if (context.mounted) context.go(Routes.home);
                       } catch (e) {
                         if (!context.mounted) return;
+                        final message = e is AuthException
+                            ? e.userMessage
+                            : 'Something went wrong. Please try again.';
+                        debugPrint('Login error: $e');
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(e.toString())),
+                          SnackBar(content: Text(message)),
                         );
                       }
                     }

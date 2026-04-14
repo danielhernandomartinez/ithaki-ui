@@ -147,8 +147,12 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> with Countdow
                       if (context.mounted) context.go(widget.successRoute);
                     } catch (e) {
                       if (!context.mounted) return;
+                      final message = e is AuthException
+                          ? e.userMessage
+                          : 'Something went wrong. Please try again.';
+                      debugPrint('OTP error: $e');
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(e.toString())),
+                        SnackBar(content: Text(message)),
                       );
                     }
                   }
