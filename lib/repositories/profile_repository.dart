@@ -549,8 +549,13 @@ class ApiProfileRepository implements ProfileRepository {
           }
         }
       } catch (e) {
-        // /job-seeker/me failed; keep basics from /user/me but signal partial load
-        _basics = basics;
+        // /job-seeker/me failed; update only /user/me fields, preserve the rest from cache
+        _basics = _basics.copyWith(
+          firstName: basics.firstName,
+          lastName: basics.lastName,
+          email: basics.email,
+          phone: basics.phone,
+        );
         await ProfileLocalStore.saveBasics(_basics);
         return ProfileLoadResult(basics: _basics, isPartial: true, partialError: e);
       }
