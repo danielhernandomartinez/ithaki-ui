@@ -107,9 +107,11 @@ class ApiClient {
     final nested = data['data'];
     final newAccess = data['accessToken'] ?? data['token'] ??
         (nested is Map ? nested['accessToken'] ?? nested['token'] : null);
-    if (newAccess is String && newAccess.isNotEmpty) {
-      await _storage.write(key: 'jwt_token', value: newAccess);
+    if (newAccess is! String || newAccess.isEmpty) {
+      throw Exception('Refresh response missing access token — please log in again');
     }
+    await _storage.write(key: 'jwt_token', value: newAccess);
+
     final newRefresh = data['refreshToken'] ??
         (nested is Map ? nested['refreshToken'] : null);
     if (newRefresh is String && newRefresh.isNotEmpty) {
