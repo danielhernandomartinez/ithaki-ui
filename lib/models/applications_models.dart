@@ -44,6 +44,7 @@ extension ApplicationStatusX on ApplicationStatus {
 
 class Application {
   final String id;
+  final String jobId;
   final String appliedAt;
   final ApplicationStatus status;
   final String postedAgo;
@@ -62,6 +63,7 @@ class Application {
 
   const Application({
     required this.id,
+    required this.jobId,
     required this.appliedAt,
     required this.status,
     required this.postedAgo,
@@ -84,6 +86,7 @@ class Application {
 
 class Invitation {
   final String id;
+  final String jobId;
   final String senderName;
   final String senderRole;
   final String senderInitials;
@@ -108,6 +111,7 @@ class Invitation {
 
   const Invitation({
     required this.id,
+    required this.jobId,
     required this.senderName,
     required this.senderRole,
     required this.senderInitials,
@@ -132,6 +136,7 @@ class Invitation {
 
   Invitation copyWith({bool? isDismissed, String? dismissedAt}) => Invitation(
         id: id,
+        jobId: jobId,
         senderName: senderName,
         senderRole: senderRole,
         senderInitials: senderInitials,

@@ -14,7 +14,8 @@ abstract class ApplicationsRepository {
 }
 
 class ApiApplicationsRepository implements ApplicationsRepository {
-  ApiApplicationsRepository({ApiClient? apiClient}) : _api = apiClient ?? ApiClient();
+  ApiApplicationsRepository({ApiClient? apiClient})
+      : _api = apiClient ?? ApiClient();
 
   final ApiClient _api;
 
@@ -51,13 +52,15 @@ class ApiApplicationsRepository implements ApplicationsRepository {
     // Job can be nested under 'job' or flat
     final jobRaw = a['job'];
     final j = jobRaw is Map<String, dynamic> ? jobRaw : a;
+    final jobId = (j['id'] ?? a['jobId'])?.toString() ?? '';
 
     final jobTitle = j['title'] as String? ?? '';
     final companyRaw = j['company'];
     final companyName = companyRaw is Map
         ? (companyRaw['name'] as String? ?? '')
         : (j['companyName'] as String? ?? '');
-    final salary = mapper.formatSalary(j['salaryMin'], j['salaryMax'], j['paymentTerm']);
+    final salary =
+        mapper.formatSalary(j['salaryMin'], j['salaryMax'], j['paymentTerm']);
     final location = j['location'] as String? ?? '';
     final workplaceType = mapper.enumTitle(j['workArrangement']);
     final employmentType = mapper.enumTitle(j['employmentType']);
@@ -70,6 +73,7 @@ class ApiApplicationsRepository implements ApplicationsRepository {
 
     return Application(
       id: id,
+      jobId: jobId,
       appliedAt: applied,
       status: status,
       postedAgo: posted,
@@ -98,7 +102,10 @@ class ApiApplicationsRepository implements ApplicationsRepository {
 
     final body = jsonDecode(response.body);
     final items = mapper.extractList(body);
-    return items.whereType<Map<String, dynamic>>().map(_parseApplication).toList();
+    return items
+        .whereType<Map<String, dynamic>>()
+        .map(_parseApplication)
+        .toList();
   }
 }
 
@@ -107,7 +114,8 @@ class MockApplicationsRepository implements ApplicationsRepository {
   Future<List<Application>> getApplications() async => _mockApplications;
 }
 
-const bool _useMockApplications = bool.fromEnvironment('ITHAKI_USE_MOCK_APPLICATIONS');
+const bool _useMockApplications =
+    bool.fromEnvironment('ITHAKI_USE_MOCK_APPLICATIONS');
 
 final applicationsRepositoryProvider = Provider<ApplicationsRepository>(
   (ref) => _useMockApplications
@@ -136,7 +144,8 @@ abstract class InvitationsRepository {
 }
 
 class ApiInvitationsRepository implements InvitationsRepository {
-  ApiInvitationsRepository({ApiClient? apiClient}) : _api = apiClient ?? ApiClient();
+  ApiInvitationsRepository({ApiClient? apiClient})
+      : _api = apiClient ?? ApiClient();
 
   final ApiClient _api;
 
@@ -144,21 +153,30 @@ class ApiInvitationsRepository implements InvitationsRepository {
     final id = inv['id']?.toString() ?? '';
 
     // Sender (HR person)
-    final senderRaw = inv['sender'] is Map<String, dynamic> ? inv['sender'] as Map<String, dynamic> : <String, dynamic>{};
-    final senderName = senderRaw['name'] as String? ?? inv['senderName'] as String? ?? '';
-    final senderRole = senderRaw['role'] as String? ?? inv['senderRole'] as String? ?? '';
+    final senderRaw = inv['sender'] is Map<String, dynamic>
+        ? inv['sender'] as Map<String, dynamic>
+        : <String, dynamic>{};
+    final senderName =
+        senderRaw['name'] as String? ?? inv['senderName'] as String? ?? '';
+    final senderRole =
+        senderRaw['role'] as String? ?? inv['senderRole'] as String? ?? '';
 
     // Company
     final companyRaw = inv['company'] is Map ? inv['company'] as Map : null;
-    final companyName = companyRaw?['name'] as String? ?? inv['companyName'] as String? ?? '';
+    final companyName =
+        companyRaw?['name'] as String? ?? inv['companyName'] as String? ?? '';
 
     final message = inv['message'] as String? ?? '';
     final posted = mapper.postedAgo(inv['createdAt'] ?? inv['postedAt']);
 
     // Job
-    final jobRaw = inv['job'] is Map<String, dynamic> ? inv['job'] as Map<String, dynamic> : inv;
+    final jobRaw = inv['job'] is Map<String, dynamic>
+        ? inv['job'] as Map<String, dynamic>
+        : inv;
+    final jobId = (jobRaw['id'] ?? inv['jobId'])?.toString() ?? '';
     final jobTitle = jobRaw['title'] as String? ?? '';
-    final salary = mapper.formatSalary(jobRaw['salaryMin'], jobRaw['salaryMax'], jobRaw['paymentTerm']);
+    final salary = mapper.formatSalary(
+        jobRaw['salaryMin'], jobRaw['salaryMax'], jobRaw['paymentTerm']);
     final location = jobRaw['location'] as String? ?? '';
     final workplaceType = mapper.enumTitle(jobRaw['workArrangement']);
     final employmentType = mapper.enumTitle(jobRaw['employmentType']);
@@ -170,6 +188,7 @@ class ApiInvitationsRepository implements InvitationsRepository {
 
     return Invitation(
       id: id,
+      jobId: jobId,
       senderName: senderName,
       senderRole: senderRole,
       senderInitials: mapper.initials(senderName),
@@ -199,7 +218,10 @@ class ApiInvitationsRepository implements InvitationsRepository {
     }
     final body = jsonDecode(response.body);
     final items = mapper.extractList(body);
-    return items.whereType<Map<String, dynamic>>().map(_parseInvitation).toList();
+    return items
+        .whereType<Map<String, dynamic>>()
+        .map(_parseInvitation)
+        .toList();
   }
 
   @override
@@ -229,7 +251,8 @@ class MockInvitationsRepository implements InvitationsRepository {
   }
 }
 
-const bool _useMockInvitations = bool.fromEnvironment('ITHAKI_USE_MOCK_INVITATIONS');
+const bool _useMockInvitations =
+    bool.fromEnvironment('ITHAKI_USE_MOCK_INVITATIONS');
 
 final invitationsRepositoryProvider = Provider<InvitationsRepository>(
   (ref) => _useMockInvitations
@@ -250,13 +273,16 @@ class InvitationsNotifier extends AsyncNotifier<List<Invitation>> {
       ref.read(invitationsRepositoryProvider).getInvitations();
 
   Future<void> dismiss(String invitationId) async {
-    await ref.read(invitationsRepositoryProvider).dismissInvitation(invitationId);
+    await ref
+        .read(invitationsRepositoryProvider)
+        .dismissInvitation(invitationId);
     // Mark as dismissed (keep in list for Archive tab)
     state = AsyncData(
       state.value?.map((i) {
-        if (i.id != invitationId) return i;
-        return i.copyWith(isDismissed: true, dismissedAt: _nowLabel());
-      }).toList() ?? [],
+            if (i.id != invitationId) return i;
+            return i.copyWith(isDismissed: true, dismissedAt: _nowLabel());
+          }).toList() ??
+          [],
     );
   }
 
@@ -283,13 +309,13 @@ final invitationDeclinedProvider =
   InvitationDeclinedNotifier.new,
 );
 
-
 // ─── Mock data (used when ITHAKI_USE_MOCK_APPLICATIONS=true) ──────────────────
 
 const _mockApplications = [
   // ── Active applications ───────────────────────────────────────────────────
   Application(
     id: '1',
+    jobId: 'job-1',
     appliedAt: 'Applied today 09:30',
     status: ApplicationStatus.submitted,
     postedAgo: 'Posted 1 day ago',
@@ -308,6 +334,7 @@ const _mockApplications = [
   ),
   Application(
     id: '2',
+    jobId: 'job-2',
     appliedAt: 'Applied on 16 November, 11:30',
     status: ApplicationStatus.viewed,
     postedAgo: 'Posted 1 day ago',
@@ -327,6 +354,7 @@ const _mockApplications = [
   // ── Drafts ────────────────────────────────────────────────────────────────
   Application(
     id: '3',
+    jobId: 'job-3',
     appliedAt: 'You started your application on 15 Nov 2025',
     status: ApplicationStatus.draft,
     postedAgo: 'Posted 1 day ago',
@@ -345,6 +373,7 @@ const _mockApplications = [
   ),
   Application(
     id: '4',
+    jobId: 'job-4',
     appliedAt: 'You started your application on 15 Nov 2025',
     status: ApplicationStatus.draft,
     postedAgo: 'Posted 1 day ago',
@@ -364,6 +393,7 @@ const _mockApplications = [
   // ── Archived / Closed ─────────────────────────────────────────────────────
   Application(
     id: '5',
+    jobId: 'job-5',
     appliedAt: 'Applied on 15 October 2025',
     status: ApplicationStatus.closed,
     postedAgo: 'Posted 1 day ago',
@@ -387,6 +417,7 @@ const _mockApplications = [
 final _mockInvitations = [
   Invitation(
     id: 'inv-1',
+    jobId: 'job-6',
     senderName: 'Eleni Papadopoulou',
     senderRole: 'HR Manager',
     senderInitials: 'EP',
@@ -409,6 +440,7 @@ final _mockInvitations = [
   ),
   Invitation(
     id: 'inv-2',
+    jobId: 'job-7',
     senderName: 'Irini Katsaros',
     senderRole: 'HR',
     senderInitials: 'IK',
@@ -432,6 +464,7 @@ final _mockInvitations = [
   // Pre-declined — shows in Archive tab
   Invitation(
     id: 'inv-3',
+    jobId: 'job-8',
     senderName: 'Irini Katsaros',
     senderRole: 'HR',
     senderInitials: 'IK',
