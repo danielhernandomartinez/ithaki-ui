@@ -260,5 +260,10 @@
 
   "careerAssistantBannerTitle": "Don't know what to do next?",
   "careerAssistantBannerSubtitle": "On average, employers review applications within the first week. You can always ask me for help with your next steps.",
-  "askCareerAssistant": "Ask Career Assistant"
+  "askCareerAssistant": "Ask Career Assistant",
+
+  "blogNewsTitle": "Blog & News",
+  "blogNewsSubtitle": "Discover career tips, interview guides, and platform updates.",
+  "blogSearchHint": "Search for articles and topics",
+  "blogAllCategories": "All"
 }

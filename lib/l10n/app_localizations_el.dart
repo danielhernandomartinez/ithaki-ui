@@ -706,4 +706,17 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get askCareerAssistant => 'Ρώτα τον Career Assistant';
+
+  @override
+  String get blogNewsTitle => 'Blog & Νέα';
+
+  @override
+  String get blogNewsSubtitle =>
+      'Ανακαλύψτε συμβουλές καριέρας, οδηγούς συνεντεύξεων και νέα της πλατφόρμας.';
+
+  @override
+  String get blogSearchHint => 'Αναζήτηση άρθρων και θεμάτων';
+
+  @override
+  String get blogAllCategories => 'Όλα';
 }

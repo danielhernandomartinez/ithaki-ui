@@ -703,4 +703,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get askCareerAssistant => 'Ask Career Assistant';
+
+  @override
+  String get blogNewsTitle => 'Blog & News';
+
+  @override
+  String get blogNewsSubtitle =>
+      'Discover career tips, interview guides, and platform updates.';
+
+  @override
+  String get blogSearchHint => 'Search for articles and topics';
+
+  @override
+  String get blogAllCategories => 'All';
 }

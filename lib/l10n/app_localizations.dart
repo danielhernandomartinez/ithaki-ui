@@ -1407,6 +1407,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ask Career Assistant'**
   String get askCareerAssistant;
+
+  /// No description provided for @blogNewsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Blog & News'**
+  String get blogNewsTitle;
+
+  /// No description provided for @blogNewsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover career tips, interview guides, and platform updates.'**
+  String get blogNewsSubtitle;
+
+  /// No description provided for @blogSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for articles and topics'**
+  String get blogSearchHint;
+
+  /// No description provided for @blogAllCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get blogAllCategories;
 }
 
 class _AppLocalizationsDelegate

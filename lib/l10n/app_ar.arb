@@ -250,5 +250,10 @@
 
   "careerAssistantBannerTitle": "لا تعرف ما يجب فعله بعد ذلك؟",
   "careerAssistantBannerSubtitle": "في المتوسط، يراجع أصحاب العمل الطلبات خلال الأسبوع الأول. يمكنك دائمًا أن تطلب مني المساعدة في خطواتك التالية.",
-  "askCareerAssistant": "اسأل مساعد المهنة"
+  "askCareerAssistant": "اسأل مساعد المهنة",
+
+  "blogNewsTitle": "المدونة والأخبار",
+  "blogNewsSubtitle": "اكتشف نصائح مهنية وأدلة مقابلات وتحديثات المنصة.",
+  "blogSearchHint": "ابحث في المقالات والمواضيع",
+  "blogAllCategories": "الكل"
 }

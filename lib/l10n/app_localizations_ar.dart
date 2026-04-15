@@ -697,4 +697,17 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get askCareerAssistant => 'اسأل مساعد المهنة';
+
+  @override
+  String get blogNewsTitle => 'المدونة والأخبار';
+
+  @override
+  String get blogNewsSubtitle =>
+      'اكتشف نصائح مهنية وأدلة مقابلات وتحديثات المنصة.';
+
+  @override
+  String get blogSearchHint => 'ابحث في المقالات والمواضيع';
+
+  @override
+  String get blogAllCategories => 'الكل';
 }

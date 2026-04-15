@@ -250,5 +250,10 @@
 
   "careerAssistantBannerTitle": "Δεν ξέρεις τι να κάνεις στη συνέχεια;",
   "careerAssistantBannerSubtitle": "Κατά μέσο όρο, οι εργοδότες εξετάζουν αιτήσεις μέσα στην πρώτη εβδομάδα. Μπορείς πάντα να με ρωτήσεις για βοήθεια.",
-  "askCareerAssistant": "Ρώτα τον Career Assistant"
+  "askCareerAssistant": "Ρώτα τον Career Assistant",
+
+  "blogNewsTitle": "Blog & Νέα",
+  "blogNewsSubtitle": "Ανακαλύψτε συμβουλές καριέρας, οδηγούς συνεντεύξεων και νέα της πλατφόρμας.",
+  "blogSearchHint": "Αναζήτηση άρθρων και θεμάτων",
+  "blogAllCategories": "Όλα"
 }
