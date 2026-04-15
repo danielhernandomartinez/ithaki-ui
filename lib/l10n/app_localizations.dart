@@ -1407,6 +1407,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ask Career Assistant'**
   String get askCareerAssistant;
+
+  /// No description provided for @blogNewsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Blog & News'**
+  String get blogNewsTitle;
+
+  /// No description provided for @blogNewsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover career tips, interview guides, and platform updates.'**
+  String get blogNewsSubtitle;
+
+  /// No description provided for @blogSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for articles and topics'**
+  String get blogSearchHint;
+
+  /// No description provided for @blogAllCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get blogAllCategories;
+
+  /// No description provided for @blogRelatedArticles.
+  ///
+  /// In en, this message translates to:
+  /// **'Related Articles'**
+  String get blogRelatedArticles;
+
+  /// No description provided for @blogDiscoverAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover All News'**
+  String get blogDiscoverAll;
+
+  /// No description provided for @blogArticleNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Article not found.'**
+  String get blogArticleNotFound;
+
+  /// No description provided for @blogArticleBy.
+  ///
+  /// In en, this message translates to:
+  /// **'By {author}'**
+  String blogArticleBy(String author);
+
+  /// No description provided for @cardAppliedWithCv.
+  ///
+  /// In en, this message translates to:
+  /// **'You applied with your Ithaki CV'**
+  String get cardAppliedWithCv;
+
+  /// No description provided for @cardJobClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Job is closed.'**
+  String get cardJobClosed;
+
+  /// No description provided for @continueApplication.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueApplication;
+
+  /// No description provided for @viewApplication.
+  ///
+  /// In en, this message translates to:
+  /// **'View Application'**
+  String get viewApplication;
+
+  /// No description provided for @applySheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to apply for this role?'**
+  String get applySheetTitle;
+
+  /// No description provided for @applySheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure your talent profile details are up to date before submitting your application. You can also upload your CV.'**
+  String get applySheetSubtitle;
+
+  /// No description provided for @applyOptionIthakiCvTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use Ithaki CV'**
+  String get applyOptionIthakiCvTitle;
+
+  /// No description provided for @applyOptionIthakiCvSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Use your saved CV and profile details to apply.'**
+  String get applyOptionIthakiCvSubtitle;
+
+  /// No description provided for @applyOptionUploadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload your CV'**
+  String get applyOptionUploadTitle;
+
+  /// No description provided for @applyOptionUploadSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload a new file (PDF or DOC) to apply.'**
+  String get applyOptionUploadSubtitle;
+
+  /// No description provided for @applyNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply Now'**
+  String get applyNow;
+
+  /// No description provided for @declineSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline Invitation'**
+  String get declineSheetTitle;
+
+  /// No description provided for @declineSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to decline this invitation?'**
+  String get declineSheetSubtitle;
+
+  /// No description provided for @declineReasonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a reason'**
+  String get declineReasonLabel;
+
+  /// No description provided for @declineReasonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select reason'**
+  String get declineReasonHint;
+
+  /// No description provided for @declineReasonNotInterested.
+  ///
+  /// In en, this message translates to:
+  /// **'Not interested in this position'**
+  String get declineReasonNotInterested;
+
+  /// No description provided for @declineReasonFoundJob.
+  ///
+  /// In en, this message translates to:
+  /// **'Already found a job'**
+  String get declineReasonFoundJob;
+
+  /// No description provided for @declineReasonSalary.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary doesn\'t match my expectations'**
+  String get declineReasonSalary;
+
+  /// No description provided for @declineReasonLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Location doesn\'t work for me'**
+  String get declineReasonLocation;
+
+  /// No description provided for @declineReasonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get declineReasonOther;
+
+  /// No description provided for @declineButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline Invite'**
+  String get declineButton;
+
+  /// No description provided for @declinedButton.
+  ///
+  /// In en, this message translates to:
+  /// **'✓  Declined'**
+  String get declinedButton;
+
+  /// No description provided for @jobDetailNotFoundMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not find job details for this application yet.'**
+  String get jobDetailNotFoundMessage;
+
+  /// No description provided for @backToApplications.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Applications'**
+  String get backToApplications;
+
+  /// No description provided for @acceptInviteAndApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept Invite and Apply'**
+  String get acceptInviteAndApply;
+
+  /// No description provided for @jobDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Details'**
+  String get jobDetailsTitle;
 }
 
 class _AppLocalizationsDelegate

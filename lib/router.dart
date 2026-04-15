@@ -37,6 +37,8 @@ import 'screens/settings/account_settings_screen.dart';
 import 'screens/applications/my_applications_screen.dart';
 import 'screens/applications/application_details_screen.dart';
 import 'screens/applications/job_detail_screen.dart';
+import 'screens/blog/blog_news_screen.dart';
+import 'screens/blog/blog_article_screen.dart';
 
 class IthakiRouter {
   static final navigatorKey = GlobalKey<NavigatorState>();
@@ -278,6 +280,19 @@ class IthakiRouter {
       GoRoute(
         path: Routes.settingsNotifications,
         builder: (context, state) => const SettingsScreen(initialTab: 1),
+      ),
+      GoRoute(
+        path: Routes.blogNews,
+        builder: (context, state) => const BlogNewsScreen(),
+        routes: [
+          GoRoute(
+            path: ':id',
+            builder: (context, state) {
+              final id = state.pathParameters['id'] ?? '';
+              return BlogArticleScreen(articleId: id);
+            },
+          ),
+        ],
       ),
     ],
   );

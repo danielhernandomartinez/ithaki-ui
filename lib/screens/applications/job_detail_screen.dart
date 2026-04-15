@@ -1,11 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../constants/nav_items.dart';
+import '../../l10n/app_localizations.dart';
 import '../../mixins/panel_menu_mixin.dart';
 import '../../models/applications_models.dart';
 import '../../models/job_detail_models.dart';
@@ -52,6 +51,7 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final applications = ref.watch(applicationsProvider);
     final invitations = ref.watch(invitationsProvider);
     final homeData = ref.watch(homeProvider).value;
@@ -77,23 +77,63 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
       );
     }
 
-    if (jobId == null || jobId.isEmpty) {
+    if ((widget.isInvitation && invitations.hasError) ||
+        (!widget.isInvitation && applications.hasError)) {
       return _simpleStateScaffold(
         context,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'We could not resolve the job for this application yet.',
+              'We could not load this job right now.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: IthakiTheme.textPrimary),
+              style: TextStyle(
+                fontSize: 16,
+                color: IthakiTheme.textPrimary,
+              ),
             ),
             const SizedBox(height: 16),
             IthakiButton(
-              'Back to Applications',
-              onPressed: () => context.go(Routes.myApplications),
+              'Try Again',
+              onPressed: () {
+                if (widget.isInvitation) {
+                  ref.invalidate(invitationsProvider);
+                } else {
+                  ref.invalidate(applicationsProvider);
+                }
+              },
             ),
           ],
+        ),
+      );
+    }
+
+    if (jobId == null || jobId.isEmpty) {
+      return Scaffold(
+        backgroundColor: IthakiTheme.backgroundViolet,
+        appBar: IthakiAppBar(showBackButton: true, title: l.jobDetailsTitle),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  l.jobDetailNotFoundMessage,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: IthakiTheme.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                IthakiButton(
+                  l.backToApplications,
+                  onPressed: () => context.go(Routes.myApplications),
+                ),
+              ],
+            ),
+          ),
         ),
       );
     }
@@ -113,7 +153,10 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
             const Text(
               'We could not load this job right now.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: IthakiTheme.textPrimary),
+              style: TextStyle(
+                fontSize: 16,
+                color: IthakiTheme.textPrimary,
+              ),
             ),
             const SizedBox(height: 16),
             IthakiButton(
@@ -144,7 +187,7 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
           bottomNavigationBar: widget.isInvitation
               ? InvitationStickyBar(
                   onAccept: () => _showApplySheet(context),
-                  onMore: (v) => _handleInvitationMenu(context, v),
+                  onMore: (value) => _handleInvitationMenu(context, value),
                 )
               : JobDetailStickyBar(detail: detail),
           body: Stack(
@@ -155,48 +198,48 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
                   children: [
                     SizedBox(height: topOffset),
                     if (widget.isInvitation)
-                      _pad(InvitationTopCard(
-                        senderInitials: invitation?.senderInitials ?? '',
-                        senderName: invitation?.senderName ?? '',
-                        senderAvatarColor: invitation?.senderAvatarColor ??
-                            IthakiTheme.primaryPurple,
-                        companyName: invitation?.companyName ?? '',
-                        message: invitation?.message ?? '',
-                        deadline: detail.deadline,
-                      ))
+                      _pad(
+                        InvitationTopCard(
+                          senderInitials: invitation?.senderInitials ?? '',
+                          senderName: invitation?.senderName ?? '',
+                          senderAvatarColor: invitation?.senderAvatarColor ??
+                              IthakiTheme.primaryPurple,
+                          companyName: invitation?.companyName ?? '',
+                          message: invitation?.message ?? '',
+                          deadline: detail.deadline,
+                        ),
+                      )
                     else
                       _pad(JobStatusCard(detail: detail)),
-                    _pad(JobMainCard(
-                      detail: detail,
-                      trailingAction: widget.isInvitation
-                          ? PopupMenuButton<String>(
-                              icon: const IthakiIcon(
-                                'help',
-                                size: 20,
-                                color: IthakiTheme.softGraphite,
-                              ),
-                              onSelected: (v) =>
-                                  _handleInvitationMenu(context, v),
-                              itemBuilder: (_) => const [
-                                PopupMenuItem(
-                                  value: 'decline',
-                                  child: Text('Decline Invite'),
+                    _pad(
+                      JobMainCard(
+                        detail: detail,
+                        trailingAction: widget.isInvitation
+                            ? PopupMenuButton<String>(
+                                icon: const IthakiIcon(
+                                  'help',
+                                  size: 20,
+                                  color: IthakiTheme.softGraphite,
                                 ),
-                                PopupMenuItem(
-                                  value: 'save',
-                                  child: Text('Save Job'),
-                                ),
-                              ],
-                            )
-                          : null,
-                    )),
-                    if (detail.reviews.isNotEmpty)
-                      _pad(ReviewsCard(detail: detail)),
-                    if (detail.recommended.jobTitle.isNotEmpty)
-                      _pad(RecommendedCard(job: detail.recommended)),
-                    if (detail.company.description.isNotEmpty ||
-                        detail.company.industry.isNotEmpty)
-                      _pad(JobDetailCompanyCard(company: detail.company)),
+                                onSelected: (value) =>
+                                    _handleInvitationMenu(context, value),
+                                itemBuilder: (_) => [
+                                  PopupMenuItem(
+                                    value: 'decline',
+                                    child: Text(l.declineButton),
+                                  ),
+                                  PopupMenuItem(
+                                    value: 'save',
+                                    child: Text(l.viewJob),
+                                  ),
+                                ],
+                              )
+                            : null,
+                      ),
+                    ),
+                    _pad(ReviewsCard(detail: detail)),
+                    _pad(RecommendedCard(job: detail.recommended)),
+                    _pad(JobDetailCompanyCard(company: detail.company)),
                     SizedBox(height: MediaQuery.paddingOf(context).bottom + 16),
                   ],
                 ),
@@ -237,7 +280,9 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
                     child: ProfileMenuPanel(
                       onItemTap: (item) {
                         _panels.closeProfile();
-                        if (item.route.isNotEmpty) context.push(item.route);
+                        if (item.route.isNotEmpty) {
+                          context.push(item.route);
+                        }
                       },
                       onLogOut: () {
                         _panels.closeProfile();
@@ -246,7 +291,9 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
                             .logout()
                             .whenComplete(() {
                           resetProfileProviders(ref);
-                          if (context.mounted) context.go(Routes.root);
+                          if (context.mounted) {
+                            context.go(Routes.root);
+                          }
                         });
                       },
                     ),
@@ -260,52 +307,131 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
   }
 
   JobDetail _enrichDetail(
-    JobDetail detail, {
+    JobDetail apiDetail, {
     Application? application,
     Invitation? invitation,
   }) {
+    final companyName = _pickString(
+      apiDetail.companyName,
+      application?.companyName,
+      invitation?.companyName,
+    );
+    final companyInitials = _pickString(
+      apiDetail.companyLogoInitials,
+      application?.companyInitials,
+      invitation?.companyInitials,
+    );
+    final companyColor = apiDetail.companyName.isNotEmpty
+        ? apiDetail.companyLogoColor
+        : application?.companyLogoColor ??
+            invitation?.companyLogoColor ??
+            apiDetail.companyLogoColor;
+    final postedDate = _pickString(
+      apiDetail.postedDate,
+      application?.postedAgo,
+      invitation?.postedAgo,
+    );
+    final salary = _pickString(
+      apiDetail.salary,
+      application?.salary,
+      invitation?.salary,
+      apiDetail.salaryRange,
+    );
+
     return JobDetail(
-      id: detail.id,
-      appliedAt: application?.appliedAt ?? detail.appliedAt,
-      statusLabel: application?.status.label ?? detail.statusLabel,
-      deadline: detail.deadline,
-      postedDate: detail.postedDate,
-      jobTitle: detail.jobTitle,
-      companyName: detail.companyName,
-      companyLogoColor: detail.companyLogoColor,
-      companyLogoInitials: detail.companyLogoInitials,
-      matchPercentage: invitation?.matchPercentage ??
-          application?.matchPercentage ??
-          detail.matchPercentage,
-      matchLabel: invitation?.matchLabel ??
-          application?.matchLabel ??
-          detail.matchLabel,
-      location: detail.location,
-      jobType: detail.jobType,
-      salaryRange: detail.salaryRange,
-      workplace: detail.workplace,
-      experienceLevel: detail.experienceLevel,
-      languages: detail.languages,
-      description: detail.description,
-      requirements: detail.requirements,
-      skills: detail.skills,
-      communication: detail.communication,
-      niceToHave: detail.niceToHave,
-      whatWeOffer: detail.whatWeOffer,
-      reviews: detail.reviews,
-      recommended: detail.recommended,
-      company: detail.company,
-      salary: detail.salary,
+      id: apiDetail.id,
+      appliedAt: _pickString(
+        apiDetail.appliedAt,
+        application?.appliedAt,
+        invitation?.postedAgo,
+      ),
+      statusLabel: _pickString(
+        apiDetail.statusLabel,
+        application?.status.label,
+      ),
+      deadline: apiDetail.deadline,
+      postedDate: postedDate,
+      jobTitle: _pickString(
+        apiDetail.jobTitle,
+        application?.jobTitle,
+        invitation?.jobTitle,
+      ),
+      companyName: companyName,
+      companyLogoColor: companyColor,
+      companyLogoInitials: companyInitials,
+      matchPercentage: _pickInt(
+        apiDetail.matchPercentage,
+        application?.matchPercentage,
+        invitation?.matchPercentage,
+      ),
+      matchLabel: _pickString(
+        apiDetail.matchLabel,
+        application?.matchLabel,
+        invitation?.matchLabel,
+      ),
+      location: _pickString(
+        apiDetail.location,
+        application?.location,
+        invitation?.location,
+      ),
+      jobType: _pickString(
+        apiDetail.jobType,
+        application?.employmentType,
+        invitation?.employmentType,
+      ),
+      salaryRange: _pickString(
+        apiDetail.salaryRange,
+        application?.salary,
+        invitation?.salary,
+      ),
+      workplace: _pickString(
+        apiDetail.workplace,
+        application?.workplaceType,
+        invitation?.workplaceType,
+      ),
+      experienceLevel: _pickString(
+        apiDetail.experienceLevel,
+        application?.experienceLevel,
+        invitation?.experienceLevel,
+      ),
+      languages: apiDetail.languages,
+      description: apiDetail.description,
+      requirements: apiDetail.requirements,
+      skills: apiDetail.skills,
+      communication: apiDetail.communication,
+      niceToHave: apiDetail.niceToHave,
+      whatWeOffer: apiDetail.whatWeOffer,
+      reviews: apiDetail.reviews,
+      recommended: apiDetail.recommended,
+      company: JobDetailCompany(
+        name: _pickString(
+          apiDetail.company.name,
+          companyName,
+        ),
+        industry: apiDetail.company.industry,
+        logoColor: apiDetail.company.name.isNotEmpty
+            ? apiDetail.company.logoColor
+            : companyColor,
+        logoInitials: _pickString(
+          apiDetail.company.logoInitials,
+          companyInitials,
+        ),
+        totalReviews: apiDetail.company.totalReviews,
+        averageRating: apiDetail.company.averageRating,
+        description: apiDetail.company.description,
+      ),
+      salary: salary,
     );
   }
 
-  Scaffold _simpleStateScaffold(
+  Widget _simpleStateScaffold(
     BuildContext context, {
     required Widget child,
   }) {
+    final l = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: IthakiAppBar(showBackButton: true, title: 'Job Details'),
+      appBar: IthakiAppBar(showBackButton: true, title: l.jobDetailsTitle),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -325,7 +451,9 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
   }
 
   void _handleInvitationMenu(BuildContext context, String value) {
-    if (value == 'decline') _showDeclineInviteSheet(context);
+    if (value == 'decline') {
+      _showDeclineInviteSheet(context);
+    }
   }
 
   Future<void> _showDeclineInviteSheet(BuildContext outerContext) async {
@@ -355,4 +483,22 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
           child: child,
         ),
       );
+
+  String _pickString(String? first, [String? second, String? third, String? fourth]) {
+    for (final value in [first, second, third, fourth]) {
+      if (value != null && value.trim().isNotEmpty) {
+        return value.trim();
+      }
+    }
+    return '';
+  }
+
+  int _pickInt(int first, [int? second, int? third]) {
+    for (final value in [first, second, third]) {
+      if (value != null && value > 0) {
+        return value;
+      }
+    }
+    return 0;
+  }
 }

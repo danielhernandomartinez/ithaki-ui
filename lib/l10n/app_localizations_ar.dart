@@ -697,4 +697,114 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get askCareerAssistant => 'اسأل مساعد المهنة';
+
+  @override
+  String get blogNewsTitle => 'المدونة والأخبار';
+
+  @override
+  String get blogNewsSubtitle =>
+      'اكتشف نصائح مهنية وأدلة مقابلات وتحديثات المنصة.';
+
+  @override
+  String get blogSearchHint => 'ابحث في المقالات والمواضيع';
+
+  @override
+  String get blogAllCategories => 'الكل';
+
+  @override
+  String get blogRelatedArticles => 'مقالات ذات صلة';
+
+  @override
+  String get blogDiscoverAll => 'اكتشف جميع الأخبار';
+
+  @override
+  String get blogArticleNotFound => 'لم يتم العثور على المقال.';
+
+  @override
+  String blogArticleBy(String author) {
+    return 'بقلم $author';
+  }
+
+  @override
+  String get cardAppliedWithCv =>
+      'تقدمت بطلبك باستخدام سيرتك الذاتية في Ithaki';
+
+  @override
+  String get cardJobClosed => 'الوظيفة مغلقة.';
+
+  @override
+  String get continueApplication => 'متابعة';
+
+  @override
+  String get viewApplication => 'عرض الطلب';
+
+  @override
+  String get applySheetTitle => 'هل أنت مستعد للتقدم لهذا الدور؟';
+
+  @override
+  String get applySheetSubtitle =>
+      'تأكد من تحديث تفاصيل ملفك الشخصي قبل تقديم طلبك. يمكنك أيضًا رفع سيرتك الذاتية.';
+
+  @override
+  String get applyOptionIthakiCvTitle => 'استخدام Ithaki CV';
+
+  @override
+  String get applyOptionIthakiCvSubtitle =>
+      'استخدم سيرتك الذاتية المحفوظة وتفاصيل ملفك الشخصي للتقدم.';
+
+  @override
+  String get applyOptionUploadTitle => 'رفع سيرتك الذاتية';
+
+  @override
+  String get applyOptionUploadSubtitle =>
+      'ارفع ملفًا جديدًا (PDF أو DOC) للتقدم.';
+
+  @override
+  String get applyNow => 'تقدم الآن';
+
+  @override
+  String get declineSheetTitle => 'رفض الدعوة';
+
+  @override
+  String get declineSheetSubtitle => 'هل أنت متأكد أنك تريد رفض هذه الدعوة؟';
+
+  @override
+  String get declineReasonLabel => 'يرجى اختيار سبب';
+
+  @override
+  String get declineReasonHint => 'اختر سببًا';
+
+  @override
+  String get declineReasonNotInterested => 'غير مهتم بهذه الوظيفة';
+
+  @override
+  String get declineReasonFoundJob => 'وجدت وظيفة بالفعل';
+
+  @override
+  String get declineReasonSalary => 'الراتب لا يتوافق مع توقعاتي';
+
+  @override
+  String get declineReasonLocation => 'الموقع لا يناسبني';
+
+  @override
+  String get declineReasonOther => 'أخرى';
+
+  @override
+  String get declineButton => 'رفض الدعوة';
+
+  @override
+  String get declinedButton => '✓  مرفوضة';
+
+  @override
+  String get jobDetailNotFoundMessage =>
+      'لم نتمكن من العثور على تفاصيل الوظيفة لهذا الطلب بعد.';
+
+  @override
+  String get backToApplications => 'العودة إلى الطلبات';
+
+  @override
+  String get acceptInviteAndApply => 'قبول الدعوة والتقديم';
+
+  @override
+  String get jobDetailsTitle => 'تفاصيل الوظيفة';
 }

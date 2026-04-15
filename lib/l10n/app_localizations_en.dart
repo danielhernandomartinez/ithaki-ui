@@ -703,4 +703,114 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get askCareerAssistant => 'Ask Career Assistant';
+
+  @override
+  String get blogNewsTitle => 'Blog & News';
+
+  @override
+  String get blogNewsSubtitle =>
+      'Discover career tips, interview guides, and platform updates.';
+
+  @override
+  String get blogSearchHint => 'Search for articles and topics';
+
+  @override
+  String get blogAllCategories => 'All';
+
+  @override
+  String get blogRelatedArticles => 'Related Articles';
+
+  @override
+  String get blogDiscoverAll => 'Discover All News';
+
+  @override
+  String get blogArticleNotFound => 'Article not found.';
+
+  @override
+  String blogArticleBy(String author) {
+    return 'By $author';
+  }
+
+  @override
+  String get cardAppliedWithCv => 'You applied with your Ithaki CV';
+
+  @override
+  String get cardJobClosed => 'Job is closed.';
+
+  @override
+  String get continueApplication => 'Continue';
+
+  @override
+  String get viewApplication => 'View Application';
+
+  @override
+  String get applySheetTitle => 'Ready to apply for this role?';
+
+  @override
+  String get applySheetSubtitle =>
+      'Make sure your talent profile details are up to date before submitting your application. You can also upload your CV.';
+
+  @override
+  String get applyOptionIthakiCvTitle => 'Use Ithaki CV';
+
+  @override
+  String get applyOptionIthakiCvSubtitle =>
+      'Use your saved CV and profile details to apply.';
+
+  @override
+  String get applyOptionUploadTitle => 'Upload your CV';
+
+  @override
+  String get applyOptionUploadSubtitle =>
+      'Upload a new file (PDF or DOC) to apply.';
+
+  @override
+  String get applyNow => 'Apply Now';
+
+  @override
+  String get declineSheetTitle => 'Decline Invitation';
+
+  @override
+  String get declineSheetSubtitle =>
+      'Are you sure you want to decline this invitation?';
+
+  @override
+  String get declineReasonLabel => 'Please select a reason';
+
+  @override
+  String get declineReasonHint => 'Select reason';
+
+  @override
+  String get declineReasonNotInterested => 'Not interested in this position';
+
+  @override
+  String get declineReasonFoundJob => 'Already found a job';
+
+  @override
+  String get declineReasonSalary => 'Salary doesn\'t match my expectations';
+
+  @override
+  String get declineReasonLocation => 'Location doesn\'t work for me';
+
+  @override
+  String get declineReasonOther => 'Other';
+
+  @override
+  String get declineButton => 'Decline Invite';
+
+  @override
+  String get declinedButton => '✓  Declined';
+
+  @override
+  String get jobDetailNotFoundMessage =>
+      'We could not find job details for this application yet.';
+
+  @override
+  String get backToApplications => 'Back to Applications';
+
+  @override
+  String get acceptInviteAndApply => 'Accept Invite and Apply';
+
+  @override
+  String get jobDetailsTitle => 'Job Details';
 }

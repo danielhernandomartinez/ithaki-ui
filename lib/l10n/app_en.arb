@@ -260,5 +260,49 @@
 
   "careerAssistantBannerTitle": "Don't know what to do next?",
   "careerAssistantBannerSubtitle": "On average, employers review applications within the first week. You can always ask me for help with your next steps.",
-  "askCareerAssistant": "Ask Career Assistant"
+  "askCareerAssistant": "Ask Career Assistant",
+
+  "blogNewsTitle": "Blog & News",
+  "blogNewsSubtitle": "Discover career tips, interview guides, and platform updates.",
+  "blogSearchHint": "Search for articles and topics",
+  "blogAllCategories": "All",
+  "blogRelatedArticles": "Related Articles",
+  "blogDiscoverAll": "Discover All News",
+  "blogArticleNotFound": "Article not found.",
+  "blogArticleBy": "By {author}",
+  "@blogArticleBy": {
+    "placeholders": {
+      "author": { "type": "String" }
+    }
+  },
+
+  "cardAppliedWithCv": "You applied with your Ithaki CV",
+  "cardJobClosed": "Job is closed.",
+  "continueApplication": "Continue",
+  "viewApplication": "View Application",
+
+  "applySheetTitle": "Ready to apply for this role?",
+  "applySheetSubtitle": "Make sure your talent profile details are up to date before submitting your application. You can also upload your CV.",
+  "applyOptionIthakiCvTitle": "Use Ithaki CV",
+  "applyOptionIthakiCvSubtitle": "Use your saved CV and profile details to apply.",
+  "applyOptionUploadTitle": "Upload your CV",
+  "applyOptionUploadSubtitle": "Upload a new file (PDF or DOC) to apply.",
+  "applyNow": "Apply Now",
+
+  "declineSheetTitle": "Decline Invitation",
+  "declineSheetSubtitle": "Are you sure you want to decline this invitation?",
+  "declineReasonLabel": "Please select a reason",
+  "declineReasonHint": "Select reason",
+  "declineReasonNotInterested": "Not interested in this position",
+  "declineReasonFoundJob": "Already found a job",
+  "declineReasonSalary": "Salary doesn't match my expectations",
+  "declineReasonLocation": "Location doesn't work for me",
+  "declineReasonOther": "Other",
+  "declineButton": "Decline Invite",
+  "declinedButton": "✓  Declined",
+
+  "jobDetailNotFoundMessage": "We could not find job details for this application yet.",
+  "backToApplications": "Back to Applications",
+  "acceptInviteAndApply": "Accept Invite and Apply",
+  "jobDetailsTitle": "Job Details"
 }

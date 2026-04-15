@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../models/applications_models.dart';
 import '../../../routes.dart';
 import '../../../utils/match_colors.dart';
@@ -27,7 +28,7 @@ class ApplicationCard extends StatelessWidget {
         children: [
           _AppliedHeader(application: application),
           const SizedBox(height: 10),
-          const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
+          const Divider(height: 1, thickness: 1, color: IthakiTheme.borderLight),
           const SizedBox(height: 12),
           _JobInfo(
             application: application,
@@ -50,13 +51,14 @@ class _AppliedHeader extends StatelessWidget {
     final isDraft = application.status.isDraft;
     final isArchived = application.status.isArchived;
 
+    final l = AppLocalizations.of(context)!;
     String subtitle;
     if (isDraft) {
       subtitle = '';
     } else if (application.status == ApplicationStatus.closed) {
-      subtitle = 'Job is closed.';
+      subtitle = l.cardJobClosed;
     } else {
-      subtitle = 'You applied with your Ithaki CV';
+      subtitle = l.cardAppliedWithCv;
     }
 
     return Column(
@@ -114,7 +116,7 @@ class _StatusBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: isArchived ? const Color(0xFFEEEEEE) : const Color(0xFFE9DEFF),
+        color: isArchived ? IthakiTheme.lightGray : IthakiTheme.accentPurpleLight,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Text(
@@ -194,7 +196,7 @@ class _JobInfo extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
-        const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
+        const Divider(height: 1, thickness: 1, color: IthakiTheme.borderLight),
         const SizedBox(height: 8),
         Text(
           application.salary,
@@ -210,7 +212,7 @@ class _JobInfo extends StatelessWidget {
         const SizedBox(height: 8),
         _MatchBadge(application: application),
         const SizedBox(height: 8),
-        const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
+        const Divider(height: 1, thickness: 1, color: IthakiTheme.borderLight),
         const SizedBox(height: 12),
         _CategoryTag(category: application.category),
         const SizedBox(height: 12),
@@ -429,8 +431,9 @@ class _ActionButtons extends StatelessWidget {
         final fitsInOneRow =
             constraints.maxWidth >= _minBtnWidth * 2 + _spacing;
 
+        final l = AppLocalizations.of(context)!;
         final outline = IthakiButton(
-          'View Job Details',
+          l.viewJobDetails,
           variant: IthakiButtonVariant.outline,
           onPressed: () => context.push(Routes.jobDetailFor(applicationId)),
         );
@@ -444,11 +447,11 @@ class _ActionButtons extends StatelessWidget {
         // Active: "View Job Details" + "View Application"
         final primary = isDraft
             ? IthakiButton(
-                'Continue',
+                l.continueApplication,
                 onPressed: () => context.push(Routes.jobDetailFor(applicationId)),
               )
             : IthakiButton(
-                'View Application',
+                l.viewApplication,
                 onPressed: onViewApplication ?? () {},
               );
 
