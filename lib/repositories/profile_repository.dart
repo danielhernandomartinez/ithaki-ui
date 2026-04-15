@@ -514,8 +514,8 @@ class ApiProfileRepository implements ProfileRepository {
                   .where((j) => j.title.isNotEmpty)
                   .toList(),
               positionLevel: ProfileApiMapper.titleOrText(prefs['experienceLevel']),
-              jobType: ProfileApiMapper.titleOrText((prefs['employmentType'] as List?)?.first),
-              workplace: ProfileApiMapper.titleOrText((prefs['workLocation'] as List?)?.first),
+              jobType: ProfileApiMapper.titleOrText((prefs['employmentType'] as List?)?.firstOrNull),
+              workplace: ProfileApiMapper.titleOrText((prefs['workLocation'] as List?)?.firstOrNull),
               expectedSalary: double.tryParse(
                 (prefs['salaryExpected'] ?? prefs['expectedPayment'] ?? '').toString(),
               ),
