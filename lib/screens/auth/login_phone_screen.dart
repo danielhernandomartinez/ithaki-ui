@@ -127,32 +127,36 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
                 const SizedBox(height: 24),
 
                 // Remember me checkbox
-                Row(
-                  children: [
-                    SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: Checkbox(
-                        value: _rememberMe,
-                        activeColor: IthakiTheme.primaryPurple,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4),
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => setState(() => _rememberMe = !_rememberMe),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: Checkbox(
+                          value: _rememberMe,
+                          activeColor: IthakiTheme.primaryPurple,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          onChanged: (bool? newValue) {
+                            setState(() {
+                              _rememberMe = newValue ?? false;
+                            });
+                          },
                         ),
-                        onChanged: (bool? newValue) {
-                          setState(() {
-                            _rememberMe = newValue ?? false;
-                          });
-                        },
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Text(
-                      l.rememberMe,
-                      style: IthakiTheme.bodyRegular.copyWith(
-                        color: IthakiTheme.textPrimary,
+                      const SizedBox(width: 12),
+                      Text(
+                        l.rememberMe,
+                        style: IthakiTheme.bodyRegular.copyWith(
+                          color: IthakiTheme.textPrimary,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
 
                 const SizedBox(height: 24),

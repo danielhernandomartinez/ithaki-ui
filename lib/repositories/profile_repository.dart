@@ -364,7 +364,12 @@ class ApiProfileRepository implements ProfileRepository {
         throw Exception('Failed to load user: ${userRes.statusCode}');
       }
 
-      final userData = (jsonDecode(userRes.body) as Map).cast<String, dynamic>();
+      final Map<String, dynamic> userData;
+      try {
+        userData = (jsonDecode(userRes.body) as Map).cast<String, dynamic>();
+      } on FormatException {
+        throw Exception('Failed to load user: server returned non-JSON response');
+      }
       ProfileBasics basics = ProfileBasics(
         firstName: userData['firstName'] as String? ?? '',
         lastName: userData['lastName'] as String? ?? '',
@@ -376,8 +381,12 @@ class ApiProfileRepository implements ProfileRepository {
         final profileRes = await _api.get('/job-seeker/me');
 
         if (profileRes.statusCode == 200) {
-          final profileData =
-              (jsonDecode(profileRes.body) as Map).cast<String, dynamic>();
+          final Map<String, dynamic> profileData;
+          try {
+            profileData = (jsonDecode(profileRes.body) as Map).cast<String, dynamic>();
+          } on FormatException {
+            throw Exception('Failed to load profile: server returned non-JSON response');
+          }
 
           // ── 1. Parse basics fields ────────────────────────────────────────
           final b = profileData['basics'];
@@ -505,8 +514,8 @@ class ApiProfileRepository implements ProfileRepository {
                   .where((j) => j.title.isNotEmpty)
                   .toList(),
               positionLevel: ProfileApiMapper.titleOrText(prefs['experienceLevel']),
-              jobType: ProfileApiMapper.titleOrText((prefs['employmentType'] as List?)?.first),
-              workplace: ProfileApiMapper.titleOrText((prefs['workLocation'] as List?)?.first),
+              jobType: ProfileApiMapper.titleOrText((prefs['employmentType'] as List?)?.firstOrNull),
+              workplace: ProfileApiMapper.titleOrText((prefs['workLocation'] as List?)?.firstOrNull),
               expectedSalary: double.tryParse(
                 (prefs['salaryExpected'] ?? prefs['expectedPayment'] ?? '').toString(),
               ),
@@ -540,8 +549,13 @@ class ApiProfileRepository implements ProfileRepository {
           }
         }
       } catch (e) {
-        // /job-seeker/me failed; keep basics from /user/me but signal partial load
-        _basics = basics;
+        // /job-seeker/me failed; update only /user/me fields, preserve the rest from cache
+        _basics = _basics.copyWith(
+          firstName: basics.firstName,
+          lastName: basics.lastName,
+          email: basics.email,
+          phone: basics.phone,
+        );
         await ProfileLocalStore.saveBasics(_basics);
         return ProfileLoadResult(basics: _basics, isPartial: true, partialError: e);
       }

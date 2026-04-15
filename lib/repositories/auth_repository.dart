@@ -141,8 +141,15 @@ class ApiAuthRepository implements AuthRepository {
       );
     }
 
-    final Map<String, dynamic> data =
-        (jsonDecode(response.body) as Map).cast<String, dynamic>();
+    final Map<String, dynamic> data;
+    try {
+      data = (jsonDecode(response.body) as Map).cast<String, dynamic>();
+    } on FormatException {
+      throw AuthException(
+        'Login failed. Please try again.',
+        internalDetail: 'server returned non-JSON response',
+      );
+    }
     final token = _extractToken(data);
     if (token == null) {
       throw AuthException(
@@ -185,8 +192,15 @@ class ApiAuthRepository implements AuthRepository {
       );
     }
 
-    final Map<String, dynamic> data =
-        (jsonDecode(signupResponse.body) as Map).cast<String, dynamic>();
+    final Map<String, dynamic> data;
+    try {
+      data = (jsonDecode(signupResponse.body) as Map).cast<String, dynamic>();
+    } on FormatException {
+      throw AuthException(
+        'Registration failed. Please try again.',
+        internalDetail: 'server returned non-JSON response',
+      );
+    }
     final token = _extractToken(data);
     if (token == null) {
       throw AuthException(

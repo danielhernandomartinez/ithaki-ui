@@ -54,10 +54,14 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
             axis: Axis.vertical,
           ),
           const SizedBox(height: 20),
-          IthakiCheckbox(
-            value: _rememberChoice,
-            onChanged: (val) => setState(() => _rememberChoice = val),
-            child: Text(l.rememberChoice, style: IthakiTheme.bodyRegular),
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => setState(() => _rememberChoice = !_rememberChoice),
+            child: IthakiCheckbox(
+              value: _rememberChoice,
+              onChanged: (val) => setState(() => _rememberChoice = val),
+              child: Text(l.rememberChoice, style: IthakiTheme.bodyRegular),
+            ),
           ),
           const SizedBox(height: 24),
           IthakiButton(
