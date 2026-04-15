@@ -594,4 +594,96 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get phoneNumberLabel => 'Phone Number';
+
+  @override
+  String myInvitationsTabLabel(int count) {
+    return 'My Invitations ($count)';
+  }
+
+  @override
+  String get draftsTabLabel => 'Drafts';
+
+  @override
+  String get archiveTabLabel => 'Archive';
+
+  @override
+  String get invitationsTabDescription =>
+      'Here you can find job opportunities you\'ve been invited to explore. Review job invitations from employers or organizations who found your profile interesting.';
+
+  @override
+  String get invitationsLoadError => 'Failed to load invitations.';
+
+  @override
+  String get invitationsEmptyTitle => 'No invitations yet';
+
+  @override
+  String get invitationsEmptySubtitle =>
+      'When employers find your profile interesting\nthey will invite you here.';
+
+  @override
+  String get draftsTabDescription =>
+      'Here you can find applications you started but haven\'t submitted yet. Continue where you left off or discard them.';
+
+  @override
+  String get draftsLoadError => 'Failed to load drafts.';
+
+  @override
+  String get draftsEmptyTitle => 'No drafts yet';
+
+  @override
+  String get draftsEmptySubtitle =>
+      'Applications you start but don\'t submit\nwill appear here.';
+
+  @override
+  String get archiveTabDescription =>
+      'Here you can find all declined invitations and closed applications. They\'re stored for your reference and can be viewed anytime.';
+
+  @override
+  String get archiveEmptyTitle => 'Nothing in your archive';
+
+  @override
+  String get archiveEmptySubtitle =>
+      'Declined invitations and closed applications\nwill be stored here.';
+
+  @override
+  String get invitationDeclinedLabel => 'Invitation declined';
+
+  @override
+  String get viewJobDetails => 'View Job Details';
+
+  @override
+  String get dismissInvite => 'Dismiss Invite';
+
+  @override
+  String get declinedConfirmed => 'Declined';
+
+  @override
+  String get viewJob => 'View Job';
+
+  @override
+  String get dismissBannerTitle => 'This invitation will be moved to Archive';
+
+  @override
+  String get dismissBannerCountdown => 'Auto-confirms in 5 seconds';
+
+  @override
+  String get undo => 'Undo';
+
+  @override
+  String get invitationDismissedToast =>
+      'Invitation dismissed and moved to Archive';
+
+  @override
+  String get invitationDeclinedToast =>
+      'Invitation declined and moved to Archive';
+
+  @override
+  String get careerAssistantBannerTitle => 'Don\'t know what to do next?';
+
+  @override
+  String get careerAssistantBannerSubtitle =>
+      'On average, employers review applications within the first week. You can always ask me for help with your next steps.';
+
+  @override
+  String get askCareerAssistant => 'Ask Career Assistant';
 }

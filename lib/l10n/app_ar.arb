@@ -205,5 +205,44 @@
   "preferNotToSpecify": "أفضل عدم التحديد",
   "selectCountryTitle": "اختر الدولة",
   "phoneValidationError": "يرجى إدخال رقم هاتف صحيح",
-  "phoneNumberLabel": "رقم الهاتف"
+  "phoneNumberLabel": "رقم الهاتف",
+
+  "myInvitationsTabLabel": "دعواتي ({count})",
+  "@myInvitationsTabLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "draftsTabLabel": "المسودات",
+  "archiveTabLabel": "الأرشيف",
+
+  "invitationsTabDescription": "هنا يمكنك العثور على فرص العمل التي تمت دعوتك لاستكشافها. راجع دعوات العمل من أصحاب العمل الذين وجدوا ملفك الشخصي مثيرًا للاهتمام.",
+  "invitationsLoadError": "فشل تحميل الدعوات.",
+  "invitationsEmptyTitle": "لا توجد دعوات بعد",
+  "invitationsEmptySubtitle": "عندما يجد أصحاب العمل ملفك الشخصي مثيرًا للاهتمام\nسيدعونك هنا.",
+
+  "draftsTabDescription": "هنا يمكنك العثور على الطلبات التي بدأتها ولم تُرسلها بعد. أكمل من حيث توقفت أو احذفها.",
+  "draftsLoadError": "فشل تحميل المسودات.",
+  "draftsEmptyTitle": "لا توجد مسودات بعد",
+  "draftsEmptySubtitle": "الطلبات التي تبدأها ولا ترسلها\nستظهر هنا.",
+
+  "archiveTabDescription": "هنا يمكنك العثور على جميع الدعوات المرفوضة والطلبات المغلقة. يتم تخزينها للرجوع إليها.",
+  "archiveEmptyTitle": "لا يوجد شيء في أرشيفك",
+  "archiveEmptySubtitle": "الدعوات المرفوضة والطلبات المغلقة\nستُخزَّن هنا.",
+
+  "invitationDeclinedLabel": "تم رفض الدعوة",
+  "viewJobDetails": "عرض تفاصيل الوظيفة",
+  "dismissInvite": "رفض الدعوة",
+  "declinedConfirmed": "مرفوضة",
+  "viewJob": "عرض الوظيفة",
+
+  "dismissBannerTitle": "سيتم نقل هذه الدعوة إلى الأرشيف",
+  "dismissBannerCountdown": "سيتم التأكيد تلقائيًا في 5 ثوانٍ",
+  "undo": "تراجع",
+  "invitationDismissedToast": "تم رفض الدعوة ونقلها إلى الأرشيف",
+  "invitationDeclinedToast": "تم رفض الدعوة ونقلها إلى الأرشيف",
+
+  "careerAssistantBannerTitle": "لا تعرف ما يجب فعله بعد ذلك؟",
+  "careerAssistantBannerSubtitle": "في المتوسط، يراجع أصحاب العمل الطلبات خلال الأسبوع الأول. يمكنك دائمًا أن تطلب مني المساعدة في خطواتك التالية.",
+  "askCareerAssistant": "اسأل مساعد المهنة"
 }

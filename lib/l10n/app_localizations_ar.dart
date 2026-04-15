@@ -590,4 +590,94 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get phoneNumberLabel => 'رقم الهاتف';
+
+  @override
+  String myInvitationsTabLabel(int count) {
+    return 'دعواتي ($count)';
+  }
+
+  @override
+  String get draftsTabLabel => 'المسودات';
+
+  @override
+  String get archiveTabLabel => 'الأرشيف';
+
+  @override
+  String get invitationsTabDescription =>
+      'هنا يمكنك العثور على فرص العمل التي تمت دعوتك لاستكشافها. راجع دعوات العمل من أصحاب العمل الذين وجدوا ملفك الشخصي مثيرًا للاهتمام.';
+
+  @override
+  String get invitationsLoadError => 'فشل تحميل الدعوات.';
+
+  @override
+  String get invitationsEmptyTitle => 'لا توجد دعوات بعد';
+
+  @override
+  String get invitationsEmptySubtitle =>
+      'عندما يجد أصحاب العمل ملفك الشخصي مثيرًا للاهتمام\nسيدعونك هنا.';
+
+  @override
+  String get draftsTabDescription =>
+      'هنا يمكنك العثور على الطلبات التي بدأتها ولم تُرسلها بعد. أكمل من حيث توقفت أو احذفها.';
+
+  @override
+  String get draftsLoadError => 'فشل تحميل المسودات.';
+
+  @override
+  String get draftsEmptyTitle => 'لا توجد مسودات بعد';
+
+  @override
+  String get draftsEmptySubtitle =>
+      'الطلبات التي تبدأها ولا ترسلها\nستظهر هنا.';
+
+  @override
+  String get archiveTabDescription =>
+      'هنا يمكنك العثور على جميع الدعوات المرفوضة والطلبات المغلقة. يتم تخزينها للرجوع إليها.';
+
+  @override
+  String get archiveEmptyTitle => 'لا يوجد شيء في أرشيفك';
+
+  @override
+  String get archiveEmptySubtitle =>
+      'الدعوات المرفوضة والطلبات المغلقة\nستُخزَّن هنا.';
+
+  @override
+  String get invitationDeclinedLabel => 'تم رفض الدعوة';
+
+  @override
+  String get viewJobDetails => 'عرض تفاصيل الوظيفة';
+
+  @override
+  String get dismissInvite => 'رفض الدعوة';
+
+  @override
+  String get declinedConfirmed => 'مرفوضة';
+
+  @override
+  String get viewJob => 'عرض الوظيفة';
+
+  @override
+  String get dismissBannerTitle => 'سيتم نقل هذه الدعوة إلى الأرشيف';
+
+  @override
+  String get dismissBannerCountdown => 'سيتم التأكيد تلقائيًا في 5 ثوانٍ';
+
+  @override
+  String get undo => 'تراجع';
+
+  @override
+  String get invitationDismissedToast => 'تم رفض الدعوة ونقلها إلى الأرشيف';
+
+  @override
+  String get invitationDeclinedToast => 'تم رفض الدعوة ونقلها إلى الأرشيف';
+
+  @override
+  String get careerAssistantBannerTitle => 'لا تعرف ما يجب فعله بعد ذلك؟';
+
+  @override
+  String get careerAssistantBannerSubtitle =>
+      'في المتوسط، يراجع أصحاب العمل الطلبات خلال الأسبوع الأول. يمكنك دائمًا أن تطلب مني المساعدة في خطواتك التالية.';
+
+  @override
+  String get askCareerAssistant => 'اسأل مساعد المهنة';
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
@@ -51,7 +52,7 @@ class InvitationCard extends ConsumerWidget {
             ),
           ],
           const SizedBox(height: 12),
-          const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
+          const Divider(height: 1, thickness: 1, color: IthakiTheme.borderLight),
           const SizedBox(height: 12),
           _JobSection(invitation: invitation),
           if (!isArchived) ...[
@@ -66,7 +67,7 @@ class InvitationCard extends ConsumerWidget {
             SizedBox(
               width: double.infinity,
               child: IthakiButton(
-                'View Job Details',
+                AppLocalizations.of(context)!.viewJobDetails,
                 variant: IthakiButtonVariant.outline,
                 onPressed: () => context.push(Routes.jobDetailFor(invitation.id)),
               ),
@@ -89,9 +90,9 @@ class _ArchivedHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Invitation declined',
-          style: TextStyle(
+        Text(
+          AppLocalizations.of(context)!.invitationDeclinedLabel,
+          style: const TextStyle(
             fontFamily: 'Noto Sans',
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -235,7 +236,7 @@ class _JobSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
-        const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
+        const Divider(height: 1, thickness: 1, color: IthakiTheme.borderLight),
         const SizedBox(height: 8),
         Text(
           invitation.salary,
@@ -251,7 +252,7 @@ class _JobSection extends StatelessWidget {
         const SizedBox(height: 8),
         _MatchBadge(invitation: invitation),
         const SizedBox(height: 8),
-        const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
+        const Divider(height: 1, thickness: 1, color: IthakiTheme.borderLight),
         const SizedBox(height: 12),
         _CategoryTag(category: invitation.category),
         const SizedBox(height: 12),
@@ -329,7 +330,7 @@ class _MatchBadge extends StatelessWidget {
                     width: 28,
                     height: 28,
                     decoration: const BoxDecoration(
-                      color: Colors.white,
+                      color: IthakiTheme.backgroundWhite,
                       shape: BoxShape.circle,
                     ),
                     alignment: Alignment.center,
@@ -465,6 +466,7 @@ class _ActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return LayoutBuilder(
       builder: (context, constraints) {
         final fitsInOneRow =
@@ -472,18 +474,18 @@ class _ActionButtons extends StatelessWidget {
 
         final leftButton = isDismissing
             ? IthakiButton(
-                '✓  Declined',
+                l.declinedConfirmed,
                 variant: IthakiButtonVariant.outline,
                 onPressed: null,
               )
             : IthakiButton(
-                'Dismiss Invite',
+                l.dismissInvite,
                 variant: IthakiButtonVariant.outline,
                 onPressed: onDismiss,
               );
 
         final primary = IthakiButton(
-          'View Job',
+          l.viewJob,
           onPressed: onViewJob,
         );
 

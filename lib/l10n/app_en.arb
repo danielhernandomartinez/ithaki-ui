@@ -215,5 +215,44 @@
   "preferNotToSpecify": "Prefer not to specify",
   "selectCountryTitle": "Select Country",
   "phoneValidationError": "Please enter correct phone number",
-  "phoneNumberLabel": "Phone Number"
+  "phoneNumberLabel": "Phone Number",
+
+  "myInvitationsTabLabel": "My Invitations ({count})",
+  "@myInvitationsTabLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "draftsTabLabel": "Drafts",
+  "archiveTabLabel": "Archive",
+
+  "invitationsTabDescription": "Here you can find job opportunities you've been invited to explore. Review job invitations from employers or organizations who found your profile interesting.",
+  "invitationsLoadError": "Failed to load invitations.",
+  "invitationsEmptyTitle": "No invitations yet",
+  "invitationsEmptySubtitle": "When employers find your profile interesting\nthey will invite you here.",
+
+  "draftsTabDescription": "Here you can find applications you started but haven't submitted yet. Continue where you left off or discard them.",
+  "draftsLoadError": "Failed to load drafts.",
+  "draftsEmptyTitle": "No drafts yet",
+  "draftsEmptySubtitle": "Applications you start but don't submit\nwill appear here.",
+
+  "archiveTabDescription": "Here you can find all declined invitations and closed applications. They're stored for your reference and can be viewed anytime.",
+  "archiveEmptyTitle": "Nothing in your archive",
+  "archiveEmptySubtitle": "Declined invitations and closed applications\nwill be stored here.",
+
+  "invitationDeclinedLabel": "Invitation declined",
+  "viewJobDetails": "View Job Details",
+  "dismissInvite": "Dismiss Invite",
+  "declinedConfirmed": "Declined",
+  "viewJob": "View Job",
+
+  "dismissBannerTitle": "This invitation will be moved to Archive",
+  "dismissBannerCountdown": "Auto-confirms in 5 seconds",
+  "undo": "Undo",
+  "invitationDismissedToast": "Invitation dismissed and moved to Archive",
+  "invitationDeclinedToast": "Invitation declined and moved to Archive",
+
+  "careerAssistantBannerTitle": "Don't know what to do next?",
+  "careerAssistantBannerSubtitle": "On average, employers review applications within the first week. You can always ask me for help with your next steps.",
+  "askCareerAssistant": "Ask Career Assistant"
 }

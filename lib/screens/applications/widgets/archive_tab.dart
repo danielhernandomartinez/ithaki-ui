@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../l10n/app_localizations.dart';
+
 import '../../../models/applications_models.dart';
 import '../../../providers/applications_provider.dart';
 import 'application_card.dart';
@@ -13,16 +15,16 @@ class ArchiveTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final applicationsAsync = ref.watch(applicationsProvider);
     final invitationsAsync = ref.watch(invitationsProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Here you can find all declined invitations and closed applications. "
-          "They're stored for your reference and can be viewed anytime.",
-          style: TextStyle(
+        Text(
+          l.archiveTabDescription,
+          style: const TextStyle(
             fontFamily: 'Noto Sans',
             fontSize: 16,
             fontWeight: FontWeight.w400,
@@ -68,11 +70,10 @@ class ArchiveTab extends ConsumerWidget {
               final hasDeclined =
                   invitationsAsync.value?.any((i) => i.isDismissed) == true;
               if (hasDeclined) return const SizedBox.shrink();
-              return const TabEmptyState(
+              return TabEmptyState(
                 iconName: 'applications',
-                title: 'Nothing in your archive',
-                subtitle:
-                    'Declined invitations and closed applications\nwill be stored here.',
+                title: l.archiveEmptyTitle,
+                subtitle: l.archiveEmptySubtitle,
               );
             }
             return ListView.separated(

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../l10n/app_localizations.dart';
+
 import '../../../providers/applications_provider.dart';
 import 'invitation_card.dart';
 import 'tab_empty_state.dart';
@@ -18,15 +20,15 @@ class InvitationsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final invitationsAsync = ref.watch(invitationsProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Here you can find job opportunities you've been invited to explore. "
-          'Review job invitations from employers or organizations who found your profile interesting.',
-          style: TextStyle(
+        Text(
+          l.invitationsTabDescription,
+          style: const TextStyle(
             fontFamily: 'Noto Sans',
             fontSize: 16,
             fontWeight: FontWeight.w400,
@@ -39,21 +41,20 @@ class InvitationsTab extends ConsumerWidget {
             padding: EdgeInsets.symmetric(vertical: 24),
             child: Center(child: CircularProgressIndicator()),
           ),
-          error: (_, __) => const Padding(
-            padding: EdgeInsets.symmetric(vertical: 24),
+          error: (_, __) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24),
             child: Text(
-              'Failed to load invitations.',
-              style: TextStyle(color: IthakiTheme.textSecondary),
+              l.invitationsLoadError,
+              style: const TextStyle(color: IthakiTheme.textSecondary),
             ),
           ),
           data: (invitations) {
             final active = invitations.where((i) => !i.isDismissed).toList();
             if (active.isEmpty) {
-              return const TabEmptyState(
+              return TabEmptyState(
                 iconName: 'envelope',
-                title: 'No invitations yet',
-                subtitle:
-                    'When employers find your profile interesting\nthey will invite you here.',
+                title: l.invitationsEmptyTitle,
+                subtitle: l.invitationsEmptySubtitle,
               );
             }
             return ListView.separated(

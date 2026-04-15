@@ -1215,6 +1215,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Phone Number'**
   String get phoneNumberLabel;
+
+  /// No description provided for @myInvitationsTabLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'My Invitations ({count})'**
+  String myInvitationsTabLabel(int count);
+
+  /// No description provided for @draftsTabLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Drafts'**
+  String get draftsTabLabel;
+
+  /// No description provided for @archiveTabLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get archiveTabLabel;
+
+  /// No description provided for @invitationsTabDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can find job opportunities you\'ve been invited to explore. Review job invitations from employers or organizations who found your profile interesting.'**
+  String get invitationsTabDescription;
+
+  /// No description provided for @invitationsLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load invitations.'**
+  String get invitationsLoadError;
+
+  /// No description provided for @invitationsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No invitations yet'**
+  String get invitationsEmptyTitle;
+
+  /// No description provided for @invitationsEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When employers find your profile interesting\nthey will invite you here.'**
+  String get invitationsEmptySubtitle;
+
+  /// No description provided for @draftsTabDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can find applications you started but haven\'t submitted yet. Continue where you left off or discard them.'**
+  String get draftsTabDescription;
+
+  /// No description provided for @draftsLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load drafts.'**
+  String get draftsLoadError;
+
+  /// No description provided for @draftsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No drafts yet'**
+  String get draftsEmptyTitle;
+
+  /// No description provided for @draftsEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Applications you start but don\'t submit\nwill appear here.'**
+  String get draftsEmptySubtitle;
+
+  /// No description provided for @archiveTabDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can find all declined invitations and closed applications. They\'re stored for your reference and can be viewed anytime.'**
+  String get archiveTabDescription;
+
+  /// No description provided for @archiveEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing in your archive'**
+  String get archiveEmptyTitle;
+
+  /// No description provided for @archiveEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Declined invitations and closed applications\nwill be stored here.'**
+  String get archiveEmptySubtitle;
+
+  /// No description provided for @invitationDeclinedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitation declined'**
+  String get invitationDeclinedLabel;
+
+  /// No description provided for @viewJobDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'View Job Details'**
+  String get viewJobDetails;
+
+  /// No description provided for @dismissInvite.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss Invite'**
+  String get dismissInvite;
+
+  /// No description provided for @declinedConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Declined'**
+  String get declinedConfirmed;
+
+  /// No description provided for @viewJob.
+  ///
+  /// In en, this message translates to:
+  /// **'View Job'**
+  String get viewJob;
+
+  /// No description provided for @dismissBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This invitation will be moved to Archive'**
+  String get dismissBannerTitle;
+
+  /// No description provided for @dismissBannerCountdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto-confirms in 5 seconds'**
+  String get dismissBannerCountdown;
+
+  /// No description provided for @undo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undo;
+
+  /// No description provided for @invitationDismissedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitation dismissed and moved to Archive'**
+  String get invitationDismissedToast;
+
+  /// No description provided for @invitationDeclinedToast.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitation declined and moved to Archive'**
+  String get invitationDeclinedToast;
+
+  /// No description provided for @careerAssistantBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t know what to do next?'**
+  String get careerAssistantBannerTitle;
+
+  /// No description provided for @careerAssistantBannerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'On average, employers review applications within the first week. You can always ask me for help with your next steps.'**
+  String get careerAssistantBannerSubtitle;
+
+  /// No description provided for @askCareerAssistant.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask Career Assistant'**
+  String get askCareerAssistant;
 }
 
 class _AppLocalizationsDelegate

@@ -205,5 +205,44 @@
   "preferNotToSpecify": "Προτιμώ να μην προσδιορίσω",
   "selectCountryTitle": "Επιλογή Χώρας",
   "phoneValidationError": "Παρακαλώ εισάγετε σωστό αριθμό τηλεφώνου",
-  "phoneNumberLabel": "Αριθμός Τηλεφώνου"
+  "phoneNumberLabel": "Αριθμός Τηλεφώνου",
+
+  "myInvitationsTabLabel": "Οι Προσκλήσεις μου ({count})",
+  "@myInvitationsTabLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "draftsTabLabel": "Πρόχειρα",
+  "archiveTabLabel": "Αρχείο",
+
+  "invitationsTabDescription": "Εδώ θα βρεις ευκαιρίες εργασίας στις οποίες έχεις προσκληθεί. Εξέτασε προσκλήσεις από εργοδότες που βρήκαν το προφίλ σου ενδιαφέρον.",
+  "invitationsLoadError": "Αποτυχία φόρτωσης προσκλήσεων.",
+  "invitationsEmptyTitle": "Δεν υπάρχουν ακόμη προσκλήσεις",
+  "invitationsEmptySubtitle": "Όταν εργοδότες βρουν το προφίλ σου ενδιαφέρον\nθα σε προσκαλέσουν εδώ.",
+
+  "draftsTabDescription": "Εδώ θα βρεις αιτήσεις που ξεκίνησες αλλά δεν υπέβαλες. Συνέχισε από εκεί που σταμάτησες ή διέγραψέ τις.",
+  "draftsLoadError": "Αποτυχία φόρτωσης πρόχειρων.",
+  "draftsEmptyTitle": "Δεν υπάρχουν πρόχειρα",
+  "draftsEmptySubtitle": "Αιτήσεις που ξεκινάς αλλά δεν υποβάλλεις\nθα εμφανιστούν εδώ.",
+
+  "archiveTabDescription": "Εδώ θα βρεις όλες τις απορριφθείσες προσκλήσεις και τις κλειστές αιτήσεις. Αποθηκεύονται για αναφορά.",
+  "archiveEmptyTitle": "Το αρχείο σου είναι άδειο",
+  "archiveEmptySubtitle": "Απορριφθείσες προσκλήσεις και κλειστές αιτήσεις\nθα αποθηκευτούν εδώ.",
+
+  "invitationDeclinedLabel": "Η πρόσκληση απορρίφθηκε",
+  "viewJobDetails": "Δες Λεπτομέρειες Θέσης",
+  "dismissInvite": "Απόρριψη Πρόσκλησης",
+  "declinedConfirmed": "Απορρίφθηκε",
+  "viewJob": "Δες Θέση",
+
+  "dismissBannerTitle": "Η πρόσκληση θα μεταφερθεί στο Αρχείο",
+  "dismissBannerCountdown": "Επιβεβαιώνεται σε 5 δευτερόλεπτα",
+  "undo": "Αναίρεση",
+  "invitationDismissedToast": "Η πρόσκληση απορρίφθηκε και μεταφέρθηκε στο Αρχείο",
+  "invitationDeclinedToast": "Η πρόσκληση απορρίφθηκε και μεταφέρθηκε στο Αρχείο",
+
+  "careerAssistantBannerTitle": "Δεν ξέρεις τι να κάνεις στη συνέχεια;",
+  "careerAssistantBannerSubtitle": "Κατά μέσο όρο, οι εργοδότες εξετάζουν αιτήσεις μέσα στην πρώτη εβδομάδα. Μπορείς πάντα να με ρωτήσεις για βοήθεια.",
+  "askCareerAssistant": "Ρώτα τον Career Assistant"
 }

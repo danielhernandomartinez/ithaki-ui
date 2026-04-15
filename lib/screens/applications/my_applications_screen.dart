@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
@@ -89,6 +91,7 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final homeAsync = ref.watch(homeProvider);
     final invitationsAsync = ref.watch(invitationsProvider);
     final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
@@ -153,11 +156,9 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: IthakiGradientBanner(
-                    title: "Don't know what to do next?",
-                    subtitle:
-                        'On average, employers review applications within the first week. '
-                        'You can always ask me for help with your next steps.',
-                    buttonLabel: 'Ask Career Assistant',
+                    title: l.careerAssistantBannerTitle,
+                    subtitle: l.careerAssistantBannerSubtitle,
+                    buttonLabel: l.askCareerAssistant,
                     buttonIcon: const IthakiIcon(
                         'ai', size: 18, color: IthakiTheme.backgroundWhite),
                     onButtonPressed: () {},
@@ -179,7 +180,7 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
             _banner(
               topOffset,
               _ToastBanner(
-                message: 'Invitation dismissed and moved to Archive',
+                message: l.invitationDismissedToast,
                 onClose: () => setState(() => _showSuccessBanner = false),
               ),
             ),
@@ -187,7 +188,7 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
             _banner(
               topOffset,
               _ToastBanner(
-                message: 'Invitation declined and moved to Archive',
+                message: l.invitationDeclinedToast,
                 onClose: () {
                   _declinedTimer?.cancel();
                   setState(() => _showDeclinedBanner = false);
@@ -318,10 +319,11 @@ class _ApplicationsTabBarState extends State<_ApplicationsTabBar> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final tabs = [
-      'My Invitations (${widget.invitationsCount})',
-      'Drafts',
-      'Archive',
+      l.myInvitationsTabLabel(widget.invitationsCount),
+      l.draftsTabLabel,
+      l.archiveTabLabel,
     ];
 
     return Container(
@@ -384,36 +386,37 @@ class _DismissBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E1E1E),
+        color: IthakiTheme.textPrimary,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'This invitation will be moved to Archive',
-                  style: TextStyle(
+                  l.dismissBannerTitle,
+                  style: const TextStyle(
                     fontFamily: 'Noto Sans',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: Colors.white,
+                    color: IthakiTheme.backgroundWhite,
                     height: 1.4,
                   ),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
-                  'Auto-confirms in 5 seconds',
-                  style: TextStyle(
+                  l.dismissBannerCountdown,
+                  style: const TextStyle(
                     fontFamily: 'Noto Sans',
                     fontSize: 12,
-                    color: Color(0xFFAAAAAA),
+                    color: IthakiTheme.lightGraphite,
                   ),
                 ),
               ],
@@ -429,13 +432,13 @@ class _DismissBanner extends StatelessWidget {
                 color: IthakiTheme.primaryPurple,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: const Text(
-                'Undo',
-                style: TextStyle(
+              child: Text(
+                l.undo,
+                style: const TextStyle(
                   fontFamily: 'Noto Sans',
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: IthakiTheme.backgroundWhite,
                 ),
               ),
             ),
@@ -458,7 +461,7 @@ class _ToastBanner extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E1E1E),
+        color: IthakiTheme.textPrimary,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -470,14 +473,14 @@ class _ToastBanner extends StatelessWidget {
                 fontFamily: 'Noto Sans',
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: Colors.white,
+                color: IthakiTheme.backgroundWhite,
               ),
             ),
           ),
           GestureDetector(
             onTap: onClose,
             child: const IthakiIcon('close', size: 20,
-                color: Color(0xFFAAAAAA)),
+                color: IthakiTheme.lightGraphite),
           ),
         ],
       ),

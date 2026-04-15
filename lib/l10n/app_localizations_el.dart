@@ -596,4 +596,97 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get phoneNumberLabel => 'Αριθμός Τηλεφώνου';
+
+  @override
+  String myInvitationsTabLabel(int count) {
+    return 'Οι Προσκλήσεις μου ($count)';
+  }
+
+  @override
+  String get draftsTabLabel => 'Πρόχειρα';
+
+  @override
+  String get archiveTabLabel => 'Αρχείο';
+
+  @override
+  String get invitationsTabDescription =>
+      'Εδώ θα βρεις ευκαιρίες εργασίας στις οποίες έχεις προσκληθεί. Εξέτασε προσκλήσεις από εργοδότες που βρήκαν το προφίλ σου ενδιαφέρον.';
+
+  @override
+  String get invitationsLoadError => 'Αποτυχία φόρτωσης προσκλήσεων.';
+
+  @override
+  String get invitationsEmptyTitle => 'Δεν υπάρχουν ακόμη προσκλήσεις';
+
+  @override
+  String get invitationsEmptySubtitle =>
+      'Όταν εργοδότες βρουν το προφίλ σου ενδιαφέρον\nθα σε προσκαλέσουν εδώ.';
+
+  @override
+  String get draftsTabDescription =>
+      'Εδώ θα βρεις αιτήσεις που ξεκίνησες αλλά δεν υπέβαλες. Συνέχισε από εκεί που σταμάτησες ή διέγραψέ τις.';
+
+  @override
+  String get draftsLoadError => 'Αποτυχία φόρτωσης πρόχειρων.';
+
+  @override
+  String get draftsEmptyTitle => 'Δεν υπάρχουν πρόχειρα';
+
+  @override
+  String get draftsEmptySubtitle =>
+      'Αιτήσεις που ξεκινάς αλλά δεν υποβάλλεις\nθα εμφανιστούν εδώ.';
+
+  @override
+  String get archiveTabDescription =>
+      'Εδώ θα βρεις όλες τις απορριφθείσες προσκλήσεις και τις κλειστές αιτήσεις. Αποθηκεύονται για αναφορά.';
+
+  @override
+  String get archiveEmptyTitle => 'Το αρχείο σου είναι άδειο';
+
+  @override
+  String get archiveEmptySubtitle =>
+      'Απορριφθείσες προσκλήσεις και κλειστές αιτήσεις\nθα αποθηκευτούν εδώ.';
+
+  @override
+  String get invitationDeclinedLabel => 'Η πρόσκληση απορρίφθηκε';
+
+  @override
+  String get viewJobDetails => 'Δες Λεπτομέρειες Θέσης';
+
+  @override
+  String get dismissInvite => 'Απόρριψη Πρόσκλησης';
+
+  @override
+  String get declinedConfirmed => 'Απορρίφθηκε';
+
+  @override
+  String get viewJob => 'Δες Θέση';
+
+  @override
+  String get dismissBannerTitle => 'Η πρόσκληση θα μεταφερθεί στο Αρχείο';
+
+  @override
+  String get dismissBannerCountdown => 'Επιβεβαιώνεται σε 5 δευτερόλεπτα';
+
+  @override
+  String get undo => 'Αναίρεση';
+
+  @override
+  String get invitationDismissedToast =>
+      'Η πρόσκληση απορρίφθηκε και μεταφέρθηκε στο Αρχείο';
+
+  @override
+  String get invitationDeclinedToast =>
+      'Η πρόσκληση απορρίφθηκε και μεταφέρθηκε στο Αρχείο';
+
+  @override
+  String get careerAssistantBannerTitle =>
+      'Δεν ξέρεις τι να κάνεις στη συνέχεια;';
+
+  @override
+  String get careerAssistantBannerSubtitle =>
+      'Κατά μέσο όρο, οι εργοδότες εξετάζουν αιτήσεις μέσα στην πρώτη εβδομάδα. Μπορείς πάντα να με ρωτήσεις για βοήθεια.';
+
+  @override
+  String get askCareerAssistant => 'Ρώτα τον Career Assistant';
 }

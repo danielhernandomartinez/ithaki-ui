@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../l10n/app_localizations.dart';
+
 import '../../../models/applications_models.dart';
 import '../../../providers/applications_provider.dart';
 import 'application_card.dart';
@@ -12,15 +14,15 @@ class DraftsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final applicationsAsync = ref.watch(applicationsProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Here you can find applications you started but haven't submitted yet. "
-          'Continue where you left off or discard them.',
-          style: TextStyle(
+        Text(
+          l.draftsTabDescription,
+          style: const TextStyle(
             fontFamily: 'Noto Sans',
             fontSize: 16,
             fontWeight: FontWeight.w400,
@@ -33,22 +35,21 @@ class DraftsTab extends ConsumerWidget {
             padding: EdgeInsets.symmetric(vertical: 24),
             child: Center(child: CircularProgressIndicator()),
           ),
-          error: (_, __) => const Padding(
-            padding: EdgeInsets.symmetric(vertical: 24),
+          error: (_, __) => Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24),
             child: Text(
-              'Failed to load drafts.',
-              style: TextStyle(color: IthakiTheme.textSecondary),
+              l.draftsLoadError,
+              style: const TextStyle(color: IthakiTheme.textSecondary),
             ),
           ),
           data: (apps) {
             final drafts =
                 apps.where((a) => a.status == ApplicationStatus.draft).toList();
             if (drafts.isEmpty) {
-              return const TabEmptyState(
+              return TabEmptyState(
                 iconName: 'edit-pencil',
-                title: 'No drafts yet',
-                subtitle:
-                    'Applications you start but don\'t submit\nwill appear here.',
+                title: l.draftsEmptyTitle,
+                subtitle: l.draftsEmptySubtitle,
               );
             }
             return ListView.separated(
