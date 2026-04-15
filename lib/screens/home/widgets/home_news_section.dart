@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/home_provider.dart';
+import '../../../routes.dart';
 
 class HomeNewsSection extends ConsumerWidget {
   const HomeNewsSection({super.key});
@@ -28,7 +30,7 @@ class HomeNewsSection extends ConsumerWidget {
           width: double.infinity,
           height: 48,
           child: OutlinedButton(
-            onPressed: () {},
+            onPressed: () => context.go(Routes.blogNews),
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: IthakiTheme.borderLight),
               shape: RoundedRectangleBorder(
