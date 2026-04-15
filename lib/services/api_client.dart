@@ -5,12 +5,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
+import '../router.dart';
+import '../routes.dart';
+
 /// Shared HTTP layer for all Ithaki API repositories.
 ///
 /// Centralises base-URL resolution, auth-token reads, header building,
 /// timeout, and error-body parsing so individual repositories stay thin.
+///
+/// [onSessionExpired] is called (after tokens are cleared) whenever a token
+/// refresh fails, allowing the caller to redirect the user to the login flow.
 class ApiClient {
-  ApiClient({http.Client? client, String? baseUrl})
+  ApiClient({http.Client? client, String? baseUrl, this.onSessionExpired})
       : _client = client ?? http.Client(),
         _baseUrl = baseUrl ?? _resolveBaseUrl();
 
@@ -33,6 +39,7 @@ class ApiClient {
 
   final http.Client _client;
   final String _baseUrl;
+  final void Function()? onSessionExpired;
 
   static const _storage = FlutterSecureStorage();
 
@@ -66,6 +73,11 @@ class ApiClient {
     return (params != null && params.isNotEmpty) ? u.replace(queryParameters: params) : u;
   }
 
+  Future<void> _clearTokens() async {
+    await _storage.delete(key: 'jwt_token');
+    await _storage.delete(key: 'jwt_refresh_token');
+  }
+
   Future<String> requireToken() async {
     final token = await _storage.read(key: 'jwt_token');
     if (token == null || token.isEmpty) throw Exception('Missing auth token');
@@ -88,6 +100,8 @@ class ApiClient {
   Future<void> _doRefresh() async {
     final refreshToken = await _storage.read(key: 'jwt_refresh_token');
     if (refreshToken == null || refreshToken.isEmpty) {
+      await _clearTokens();
+      onSessionExpired?.call();
       throw Exception('Session expired — please log in again');
     }
 
@@ -100,6 +114,8 @@ class ApiClient {
         .timeout(authTimeout);
 
     if (!_okStatuses.contains(res.statusCode)) {
+      await _clearTokens();
+      onSessionExpired?.call();
       throw Exception('Session expired — please log in again');
     }
 
@@ -107,6 +123,8 @@ class ApiClient {
     try {
       data = (jsonDecode(res.body) as Map).cast<String, dynamic>();
     } catch (_) {
+      await _clearTokens();
+      onSessionExpired?.call();
       throw Exception('Unexpected refresh response — please log in again');
     }
 
@@ -213,4 +231,11 @@ class ApiClient {
   }
 }
 
-final apiClientProvider = Provider<ApiClient>((_) => ApiClient());
+final apiClientProvider = Provider<ApiClient>((_) => ApiClient(
+  onSessionExpired: () {
+    // Tokens already cleared by _clearTokens(). Navigate to root so the user
+    // can log in again. This fires outside the widget tree, so we use the
+    // router directly rather than context.go().
+    IthakiRouter.router.go(Routes.root);
+  },
+));
