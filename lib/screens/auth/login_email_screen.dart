@@ -30,13 +30,15 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
+  bool _isLoading = false;
 
   bool get _emailValid {
     final email = _emailController.text;
     return email.contains('@') && email.contains('.');
   }
 
-  bool get _canSignIn => _emailValid && _passwordController.text.isNotEmpty;
+  bool get _canSignIn =>
+      !_isLoading && _emailValid && _passwordController.text.isNotEmpty;
 
   @override
   void dispose() {
@@ -155,6 +157,8 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
               l.signInButton,
               onPressed: _canSignIn
                   ? () async {
+                      if (_isLoading) return;
+                      setState(() => _isLoading = true);
                       try {
                         await ref.read(authRepositoryProvider).loginWithEmail(
                               _emailController.text,
@@ -171,6 +175,10 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(message)),
                         );
+                      } finally {
+                        if (mounted) {
+                          setState(() => _isLoading = false);
+                        }
                       }
                     }
                   : null,

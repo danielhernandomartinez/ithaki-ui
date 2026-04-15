@@ -246,13 +246,20 @@ class ApiAuthRepository implements AuthRepository {
   @override
   Future<void> updatePhone(String phone) async {
     final token = await _api.requireToken();
-    await _api.client
+    final response = await _api.client
         .post(
           _api.uri('/user/me'),
           headers: _api.jsonHeaders(token: token),
           body: jsonEncode({'phone': phone.replaceAll(RegExp(r'\s+'), '')}),
         )
         .timeout(ApiClient.timeout);
+
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw AuthException(
+        'Could not update phone number. Please try again.',
+        internalDetail: _api.readErrorBody(response),
+      );
+    }
   }
 
   @override
