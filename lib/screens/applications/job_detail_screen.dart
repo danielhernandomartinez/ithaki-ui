@@ -464,7 +464,7 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
       builder: (_) => DeclineInviteSheet(invitationId: widget.applicationId),
     );
     if (declined == true && mounted) {
-      outerContext.go(Routes.myApplications);
+      context.go(Routes.myApplications);
     }
   }
 

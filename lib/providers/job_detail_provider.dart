@@ -67,10 +67,10 @@ class ApiJobDetailRepository implements JobDetailRepository {
       languages: _languageLabel(job),
       description: job['description'] as String? ?? '',
       requirements: _stringList(job['requirements']),
-      skills: [
+      skills: {
         ..._stringList(job['hardSkills']),
         ..._stringList(job['softSkills']),
-      ].toSet().toList(),
+      }.toList(),
       communication: job['responsibilities'] as String? ?? '',
       niceToHave: job['niceToHave'] as String? ?? '',
       whatWeOffer: job['benefits'] as String? ?? '',
