@@ -209,6 +209,7 @@ class ApiAuthRepository implements AuthRepository {
       );
     }
     await _saveTokens(data);
+    await ProfileLocalStore.savePhoneVerified(false);
 
     // Save personal details after signup so Twilio has a phone number to target.
     final profileResponse = await _api.client
@@ -284,6 +285,8 @@ class ApiAuthRepository implements AuthRepository {
         internalDetail: 'OTP response body was not "true"',
       );
     }
+
+    await ProfileLocalStore.savePhoneVerified(true);
   }
 
   @override

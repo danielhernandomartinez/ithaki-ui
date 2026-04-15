@@ -171,6 +171,7 @@ class ProfileBasics {
   final String residenceCode;
   final String status;
   final String relocationReadiness;
+  final bool phoneVerified;
 
   const ProfileBasics({
     this.firstName = '',
@@ -186,6 +187,7 @@ class ProfileBasics {
     this.residenceCode = '',
     this.status = '',
     this.relocationReadiness = '',
+    this.phoneVerified = false,
   });
 
   String get initials =>
@@ -197,6 +199,7 @@ class ProfileBasics {
     String? citizenship, String? citizenshipCode,
     String? residence, String? residenceCode,
     String? status, String? relocationReadiness,
+    bool? phoneVerified,
   }) => ProfileBasics(
     firstName: firstName ?? this.firstName,
     lastName: lastName ?? this.lastName,
@@ -211,6 +214,7 @@ class ProfileBasics {
     residenceCode: residenceCode ?? this.residenceCode,
     status: status ?? this.status,
     relocationReadiness: relocationReadiness ?? this.relocationReadiness,
+    phoneVerified: phoneVerified ?? this.phoneVerified,
   );
 }
 
