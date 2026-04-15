@@ -19,6 +19,7 @@ import '../../widgets/profile_menu_panel.dart';
 import 'widgets/archive_tab.dart';
 import 'widgets/drafts_tab.dart';
 import 'widgets/invitations_tab.dart';
+import 'widgets/my_applications_tab.dart';
 
 class MyApplicationsScreen extends ConsumerStatefulWidget {
   const MyApplicationsScreen({super.key});
@@ -44,7 +45,7 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
   void initState() {
     super.initState();
     _panels = PanelMenuController(setState)..init(this);
-    _tabController = TabController(length: 3, vsync: this)
+    _tabController = TabController(length: 4, vsync: this)
       ..addListener(() {
         if (mounted) setState(() {});
       });
@@ -107,7 +108,7 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
         _declinedTimer?.cancel();
         setState(() {
           _showDeclinedBanner = true;
-          _tabController.animateTo(2); // Archive tab
+          _tabController.animateTo(3); // Archive tab
         });
         _declinedTimer = Timer(const Duration(seconds: 5), () {
           if (mounted) setState(() => _showDeclinedBanner = false);
@@ -261,13 +262,15 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
   Widget _tabBody() {
     switch (_tabController.index) {
       case 0:
+        return const MyApplicationsTab();
+      case 1:
         return InvitationsTab(
           pendingDismissId: _pendingDismissId,
           onDismissRequested: _onDismissRequested,
         );
-      case 1:
-        return const DraftsTab();
       case 2:
+        return const DraftsTab();
+      case 3:
         return const ArchiveTab();
       default:
         return const SizedBox.shrink();
@@ -321,6 +324,7 @@ class _ApplicationsTabBarState extends State<_ApplicationsTabBar> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     final tabs = [
+      l.myApplicationsTabLabel,
       l.myInvitationsTabLabel(widget.invitationsCount),
       l.draftsTabLabel,
       l.archiveTabLabel,

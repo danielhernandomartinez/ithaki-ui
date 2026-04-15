@@ -598,6 +598,23 @@ class AppLocalizationsEl extends AppLocalizations {
   String get phoneNumberLabel => 'Αριθμός Τηλεφώνου';
 
   @override
+  String get myApplicationsTabLabel => 'My Applications';
+
+  @override
+  String get myApplicationsTabDescription =>
+      'Track all the jobs you\'ve applied for and see their current status. You can also review invitations you\'ve accepted or find past applications in your archive.';
+
+  @override
+  String get myApplicationsLoadError => 'Failed to load applications.';
+
+  @override
+  String get myApplicationsEmptyTitle => 'No applications yet';
+
+  @override
+  String get myApplicationsEmptySubtitle =>
+      'Jobs you apply for will appear here\nso you can track their status.';
+
+  @override
   String myInvitationsTabLabel(int count) {
     return 'Οι Προσκλήσεις μου ($count)';
   }

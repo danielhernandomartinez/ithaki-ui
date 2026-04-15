@@ -1216,6 +1216,36 @@ abstract class AppLocalizations {
   /// **'Phone Number'**
   String get phoneNumberLabel;
 
+  /// No description provided for @myApplicationsTabLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'My Applications'**
+  String get myApplicationsTabLabel;
+
+  /// No description provided for @myApplicationsTabDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Track all the jobs you\'ve applied for and see their current status. You can also review invitations you\'ve accepted or find past applications in your archive.'**
+  String get myApplicationsTabDescription;
+
+  /// No description provided for @myApplicationsLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load applications.'**
+  String get myApplicationsLoadError;
+
+  /// No description provided for @myApplicationsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No applications yet'**
+  String get myApplicationsEmptyTitle;
+
+  /// No description provided for @myApplicationsEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Jobs you apply for will appear here\nso you can track their status.'**
+  String get myApplicationsEmptySubtitle;
+
   /// No description provided for @myInvitationsTabLabel.
   ///
   /// In en, this message translates to:

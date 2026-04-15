@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../../l10n/app_localizations.dart';
-
 import '../../../models/applications_models.dart';
 import '../../../providers/applications_provider.dart';
 import 'application_card.dart';
@@ -24,8 +23,7 @@ class ArchiveTab extends ConsumerWidget {
       children: [
         Text(
           l.archiveTabDescription,
-          style: const TextStyle(
-            fontFamily: 'Noto Sans',
+          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w400,
             color: IthakiTheme.textPrimary,
@@ -33,13 +31,12 @@ class ArchiveTab extends ConsumerWidget {
           ),
         ),
 
-        // ── Declined invitations ────────────────────────────────────────────
+        // ── Declined invitations ───────────────────────────────────────────
         invitationsAsync.when(
           loading: () => const SizedBox.shrink(),
           error: (_, __) => const SizedBox.shrink(),
           data: (invitations) {
-            final declined =
-                invitations.where((i) => i.isDismissed).toList();
+            final declined = invitations.where((i) => i.isDismissed).toList();
             if (declined.isEmpty) return const SizedBox.shrink();
             return ListView.separated(
               shrinkWrap: true,
@@ -64,8 +61,7 @@ class ArchiveTab extends ConsumerWidget {
           ),
           error: (_, __) => const SizedBox.shrink(),
           data: (apps) {
-            final archived =
-                apps.where((a) => a.status.isArchived).toList();
+            final archived = apps.where((a) => a.status.isArchived).toList();
             if (archived.isEmpty) {
               final hasDeclined =
                   invitationsAsync.value?.any((i) => i.isDismissed) == true;

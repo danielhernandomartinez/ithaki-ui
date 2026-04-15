@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../../l10n/app_localizations.dart';
-
 import '../../../models/applications_models.dart';
 import '../../../providers/applications_provider.dart';
 import 'application_card.dart';
@@ -22,8 +21,7 @@ class DraftsTab extends ConsumerWidget {
       children: [
         Text(
           l.draftsTabDescription,
-          style: const TextStyle(
-            fontFamily: 'Noto Sans',
+          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w400,
             color: IthakiTheme.textPrimary,
@@ -39,7 +37,7 @@ class DraftsTab extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: 24),
             child: Text(
               l.draftsLoadError,
-              style: const TextStyle(color: IthakiTheme.textSecondary),
+              style: TextStyle(color: IthakiTheme.textSecondary),
             ),
           ),
           data: (apps) {
