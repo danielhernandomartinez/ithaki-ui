@@ -364,7 +364,12 @@ class ApiProfileRepository implements ProfileRepository {
         throw Exception('Failed to load user: ${userRes.statusCode}');
       }
 
-      final userData = (jsonDecode(userRes.body) as Map).cast<String, dynamic>();
+      final Map<String, dynamic> userData;
+      try {
+        userData = (jsonDecode(userRes.body) as Map).cast<String, dynamic>();
+      } on FormatException {
+        throw Exception('Failed to load user: server returned non-JSON response');
+      }
       ProfileBasics basics = ProfileBasics(
         firstName: userData['firstName'] as String? ?? '',
         lastName: userData['lastName'] as String? ?? '',
@@ -376,8 +381,12 @@ class ApiProfileRepository implements ProfileRepository {
         final profileRes = await _api.get('/job-seeker/me');
 
         if (profileRes.statusCode == 200) {
-          final profileData =
-              (jsonDecode(profileRes.body) as Map).cast<String, dynamic>();
+          final Map<String, dynamic> profileData;
+          try {
+            profileData = (jsonDecode(profileRes.body) as Map).cast<String, dynamic>();
+          } on FormatException {
+            throw Exception('Failed to load profile: server returned non-JSON response');
+          }
 
           // ── 1. Parse basics fields ────────────────────────────────────────
           final b = profileData['basics'];
