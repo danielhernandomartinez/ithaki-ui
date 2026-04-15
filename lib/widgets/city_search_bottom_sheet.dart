@@ -38,20 +38,23 @@ class _CitySearchBottomSheetState extends ConsumerState<CitySearchBottomSheet> {
 
   void _onChanged(String value) {
     _debounce?.cancel();
-    if (value.trim() == _lastQuery) return;
-    if (value.trim().length < 2) {
+    final trimmed = value.trim();
+    if (trimmed == _lastQuery) return;
+    if (trimmed.length < 2) {
+      _lastQuery = '';
       setState(() => _results = []);
       return;
     }
-    _debounce = Timer(const Duration(milliseconds: 400), () => _search(value.trim()));
+    _lastQuery = trimmed;
+    _debounce = Timer(const Duration(milliseconds: 400), () => _search(trimmed));
   }
 
   Future<void> _search(String query) async {
     setState(() => _loading = true);
     final repo = ref.read(citySearchRepositoryProvider);
     final results = await repo.search(query);
-    _lastQuery = query;
-    if (mounted) setState(() { _results = results; _loading = false; });
+    if (!mounted || _lastQuery != query) return;
+    setState(() { _results = results; _loading = false; });
   }
 
   @override
