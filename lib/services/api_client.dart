@@ -22,6 +22,12 @@ class ApiClient {
         'Pass --dart-define=ITHAKI_API_BASE_URL=<url> at build time.',
       );
     }
+    if (!url.startsWith('https://') && !url.startsWith('http://localhost')) {
+      throw StateError(
+        'ITHAKI_API_BASE_URL must use HTTPS (got: $url). '
+        'Only http://localhost is permitted without TLS.',
+      );
+    }
     return url;
   }
 
