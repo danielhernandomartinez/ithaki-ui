@@ -73,7 +73,8 @@ class JobStatusCard extends StatelessWidget {
 
 class JobMainCard extends StatelessWidget {
   final JobDetail detail;
-  const JobMainCard({super.key, required this.detail});
+  final Widget? trailingAction;
+  const JobMainCard({super.key, required this.detail, this.trailingAction});
 
   @override
   Widget build(BuildContext context) {
@@ -86,11 +87,17 @@ class JobMainCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(detail.postedDate,
-              style: const TextStyle(
-                fontFamily: 'Noto Sans', fontSize: 14,
-                color: Color(0xFF4B4B4B), letterSpacing: -0.28,
-              )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(detail.postedDate,
+                  style: const TextStyle(
+                    fontFamily: 'Noto Sans', fontSize: 14,
+                    color: Color(0xFF4B4B4B), letterSpacing: -0.28,
+                  )),
+              if (trailingAction != null) trailingAction!,
+            ],
+          ),
           const SizedBox(height: 12),
           _JobHeader(detail: detail),
           const SizedBox(height: 12),

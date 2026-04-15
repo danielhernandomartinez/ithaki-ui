@@ -33,6 +33,9 @@ abstract final class Routes {
   static const jobDetail = '/applications/:id/job';
   static String jobDetailFor(String applicationId) => '/applications/$applicationId/job';
 
+  static const invitationJobDetail = '/invitations/:id/job';
+  static String invitationJobDetailFor(String invitationId) => '/invitations/$invitationId/job';
+
   // Profile
   static const profile = '/profile';
   static const profileBasics = '/profile/basics';

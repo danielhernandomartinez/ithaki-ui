@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import '../../models/applications_models.dart';
+
+import '../../constants/nav_items.dart';
 import '../../mixins/panel_menu_mixin.dart';
 import '../../providers/applications_provider.dart';
 import '../../providers/home_provider.dart';
@@ -11,8 +14,9 @@ import '../../repositories/auth_repository.dart';
 import '../../routes.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
-import '../../constants/nav_items.dart';
-import 'widgets/application_card.dart';
+import 'widgets/archive_tab.dart';
+import 'widgets/drafts_tab.dart';
+import 'widgets/invitations_tab.dart';
 
 class MyApplicationsScreen extends ConsumerStatefulWidget {
   const MyApplicationsScreen({super.key});
@@ -27,31 +31,86 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
   late final PanelMenuController _panels;
   late final TabController _tabController;
 
+  String? _pendingDismissId;
+  Timer? _dismissTimer;
+  bool _showSuccessBanner = false;
+  Timer? _successTimer;
+  bool _showDeclinedBanner = false;
+  Timer? _declinedTimer;
+
   @override
   void initState() {
     super.initState();
     _panels = PanelMenuController(setState)..init(this);
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 3, vsync: this)
+      ..addListener(() {
+        if (mounted) setState(() {});
+      });
   }
 
   @override
   void dispose() {
     _panels.dispose();
     _tabController.dispose();
+    _dismissTimer?.cancel();
+    _successTimer?.cancel();
+    _declinedTimer?.cancel();
     super.dispose();
   }
+
+  // ── Dismiss (swipe-away with undo) ─────────────────────────────────────────
+
+  void _onDismissRequested(String invitationId) {
+    _dismissTimer?.cancel();
+    setState(() {
+      _pendingDismissId = invitationId;
+      _showSuccessBanner = false;
+    });
+    _dismissTimer = Timer(const Duration(seconds: 5), () async {
+      if (!mounted) return;
+      await ref.read(invitationsProvider.notifier).dismiss(invitationId);
+      if (!mounted) return;
+      setState(() {
+        _pendingDismissId = null;
+        _showSuccessBanner = true;
+      });
+      _successTimer = Timer(const Duration(seconds: 3), () {
+        if (mounted) setState(() => _showSuccessBanner = false);
+      });
+    });
+  }
+
+  void _onUndo() {
+    _dismissTimer?.cancel();
+    setState(() => _pendingDismissId = null);
+  }
+
+  // ── Build ──────────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
     final homeAsync = ref.watch(homeProvider);
-    final applicationsAsync = ref.watch(applicationsProvider);
-    final invitationsCount = applicationsAsync.when(
-      data: (applications) =>
-          applications.where((a) => a.status == ApplicationStatus.offer).length,
-      loading: () => 0,
-      error: (_, __) => 0,
-    );
+    final invitationsAsync = ref.watch(invitationsProvider);
     final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
+
+    final invitationsCount =
+        invitationsAsync.value?.where((i) => !i.isDismissed).length ?? 0;
+
+    // One-shot: navigate to Archive and show banner when an invite is declined
+    // from the detail screen.
+    ref.listen<bool>(invitationDeclinedProvider, (_, next) {
+      if (next && mounted) {
+        ref.read(invitationDeclinedProvider.notifier).set(false);
+        _declinedTimer?.cancel();
+        setState(() {
+          _showDeclinedBanner = true;
+          _tabController.animateTo(2); // Archive tab
+        });
+        _declinedTimer = Timer(const Duration(seconds: 5), () {
+          if (mounted) setState(() => _showDeclinedBanner = false);
+        });
+      }
+    });
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
@@ -66,15 +125,13 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
       ),
       body: Stack(
         children: [
-          // ─── Main content ──────────────────────────────────────
+          // ── Main content ──────────────────────────────────────────────────
           SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: topOffset),
                 const SizedBox(height: 16),
-
-                // Tab bar
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: _ApplicationsTabBar(
@@ -83,8 +140,6 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
                   ),
                 ),
                 const SizedBox(height: 16),
-
-                // Content card
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
@@ -92,57 +147,19 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
                     borderRadius: BorderRadius.circular(30),
                   ),
                   padding: const EdgeInsets.all(12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Track all the jobs you've applied for and see their current status. You can also review invitations you've accepted or find past applications in your archive.",
-                        style: TextStyle(
-                          fontFamily: 'Noto Sans',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: IthakiTheme.textPrimary,
-                          letterSpacing: -0.32,
-                        ),
-                      ),
-                      // Application cards list
-                      applicationsAsync.when(
-                        loading: () => const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 24),
-                          child: Center(child: CircularProgressIndicator()),
-                        ),
-                        error: (e, _) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 24),
-                          child: Text(
-                            'Failed to load applications.',
-                            style: TextStyle(color: IthakiTheme.textSecondary),
-                          ),
-                        ),
-                        data: (applications) => ListView.separated(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: applications.length,
-                          separatorBuilder: (_, __) =>
-                              const SizedBox(height: 8),
-                          itemBuilder: (context, index) =>
-                              ApplicationCard(application: applications[index]),
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: _tabBody(),
                 ),
                 const SizedBox(height: 16),
-
-                // AI Assistant banner
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: IthakiGradientBanner(
                     title: "Don't know what to do next?",
                     subtitle:
-                        'On average, employers review applications within the first week. You can always ask me for help with your next steps.',
+                        'On average, employers review applications within the first week. '
+                        'You can always ask me for help with your next steps.',
                     buttonLabel: 'Ask Career Assistant',
-                    buttonIcon: const IthakiIcon('ai',
-                        size: 18, color: IthakiTheme.backgroundWhite),
+                    buttonIcon: const IthakiIcon(
+                        'ai', size: 18, color: IthakiTheme.backgroundWhite),
                     onButtonPressed: () {},
                     backgroundImage: const DecorationImage(
                       image: AssetImage('assets/images/ai_banner_bg.png'),
@@ -155,7 +172,30 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
             ),
           ),
 
-          // ─── Dim overlay ───────────────────────────────────────
+          // ── Banners ───────────────────────────────────────────────────────
+          if (_pendingDismissId != null)
+            _banner(topOffset, _DismissBanner(onUndo: _onUndo)),
+          if (_showSuccessBanner)
+            _banner(
+              topOffset,
+              _ToastBanner(
+                message: 'Invitation dismissed and moved to Archive',
+                onClose: () => setState(() => _showSuccessBanner = false),
+              ),
+            ),
+          if (_showDeclinedBanner)
+            _banner(
+              topOffset,
+              _ToastBanner(
+                message: 'Invitation declined and moved to Archive',
+                onClose: () {
+                  _declinedTimer?.cancel();
+                  setState(() => _showDeclinedBanner = false);
+                },
+              ),
+            ),
+
+          // ── Dim overlay ───────────────────────────────────────────────────
           if (_panels.menuOpen || _panels.profileOpen)
             Positioned.fill(
               child: GestureDetector(
@@ -167,58 +207,46 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
               ),
             ),
 
-          // ─── Nav menu panel ────────────────────────────────────
+          // ── Nav drawer ────────────────────────────────────────────────────
           if (_panels.menuOpen ||
               _panels.menuCtrl.status != AnimationStatus.dismissed)
-            Positioned(
-              top: topOffset - 14,
-              left: 16,
-              right: 16,
-              bottom: 40,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: SlideTransition(
-                  position: _panels.slideAnim,
-                  child: AppNavDrawer(
-                    currentRoute: Routes.myApplications,
-                    profileProgress: ref.watch(profileCompletionProvider),
-                    items: kAppNavItems,
-                    onItemTap: (item) {
-                      _panels.closeMenu();
-                      if (item.route != Routes.myApplications) {
-                        context.go(item.route);
-                      }
-                    },
-                  ),
+            _panel(
+              topOffset,
+              SlideTransition(
+                position: _panels.slideAnim,
+                child: AppNavDrawer(
+                  currentRoute: Routes.myApplications,
+                  profileProgress: ref.watch(profileCompletionProvider),
+                  items: kAppNavItems,
+                  onItemTap: (item) {
+                    _panels.closeMenu();
+                    if (item.route != Routes.myApplications) {
+                      context.go(item.route);
+                    }
+                  },
                 ),
               ),
             ),
 
-          // ─── Profile menu panel ────────────────────────────────
+          // ── Profile panel ─────────────────────────────────────────────────
           if (_panels.profileOpen ||
               _panels.profileCtrl.status != AnimationStatus.dismissed)
-            Positioned(
-              top: topOffset - 14,
-              left: 16,
-              right: 16,
-              bottom: 40,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: SlideTransition(
-                  position: _panels.profileSlideAnim,
-                  child: ProfileMenuPanel(
-                    onItemTap: (item) {
-                      _panels.closeProfile();
-                      if (item.route.isNotEmpty) context.push(item.route);
-                    },
-                    onLogOut: () {
-                      _panels.closeProfile();
-                      ref.read(authRepositoryProvider).logout().whenComplete(() {
-                        resetProfileProviders(ref);
-                        if (context.mounted) context.go(Routes.root);
-                      });
-                    },
-                  ),
+            _panel(
+              topOffset,
+              SlideTransition(
+                position: _panels.profileSlideAnim,
+                child: ProfileMenuPanel(
+                  onItemTap: (item) {
+                    _panels.closeProfile();
+                    if (item.route.isNotEmpty) context.push(item.route);
+                  },
+                  onLogOut: () {
+                    _panels.closeProfile();
+                    ref.read(authRepositoryProvider).logout().whenComplete(() {
+                      resetProfileProviders(ref);
+                      if (context.mounted) context.go(Routes.root);
+                    });
+                  },
                 ),
               ),
             ),
@@ -226,6 +254,42 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
       ),
     );
   }
+
+  // ── Helpers ────────────────────────────────────────────────────────────────
+
+  Widget _tabBody() {
+    switch (_tabController.index) {
+      case 0:
+        return InvitationsTab(
+          pendingDismissId: _pendingDismissId,
+          onDismissRequested: _onDismissRequested,
+        );
+      case 1:
+        return const DraftsTab();
+      case 2:
+        return const ArchiveTab();
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+
+  Positioned _banner(double topOffset, Widget child) => Positioned(
+        top: topOffset - 8,
+        left: 16,
+        right: 16,
+        child: child,
+      );
+
+  Positioned _panel(double topOffset, Widget child) => Positioned(
+        top: topOffset - 14,
+        left: 16,
+        right: 16,
+        bottom: 40,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(30),
+          child: child,
+        ),
+      );
 }
 
 // ─── Tab bar ──────────────────────────────────────────────────────────────────
@@ -255,9 +319,9 @@ class _ApplicationsTabBarState extends State<_ApplicationsTabBar> {
   @override
   Widget build(BuildContext context) {
     final tabs = [
-      'My Applications',
       'My Invitations (${widget.invitationsCount})',
       'Drafts',
+      'Archive',
     ];
 
     return Container(
@@ -280,8 +344,8 @@ class _ApplicationsTabBarState extends State<_ApplicationsTabBar> {
                   onTap: () => widget.controller.animateTo(i),
                   child: Container(
                     height: 40,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 6),
                     decoration: BoxDecoration(
                       color: isActive
                           ? IthakiTheme.backgroundWhite
@@ -307,6 +371,115 @@ class _ApplicationsTabBarState extends State<_ApplicationsTabBar> {
             }),
           ),
         ),
+      ),
+    );
+  }
+}
+
+// ─── Dismiss banner (with undo) ───────────────────────────────────────────────
+
+class _DismissBanner extends StatelessWidget {
+  final VoidCallback onUndo;
+  const _DismissBanner({required this.onUndo});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1E1E1E),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'This invitation will be moved to Archive',
+                  style: TextStyle(
+                    fontFamily: 'Noto Sans',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    height: 1.4,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'Auto-confirms in 5 seconds',
+                  style: TextStyle(
+                    fontFamily: 'Noto Sans',
+                    fontSize: 12,
+                    color: Color(0xFFAAAAAA),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          GestureDetector(
+            onTap: onUndo,
+            child: Container(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: IthakiTheme.primaryPurple,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Text(
+                'Undo',
+                style: TextStyle(
+                  fontFamily: 'Noto Sans',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Toast banner ─────────────────────────────────────────────────────────────
+
+class _ToastBanner extends StatelessWidget {
+  final String message;
+  final VoidCallback onClose;
+  const _ToastBanner({required this.message, required this.onClose});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1E1E1E),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              message,
+              style: const TextStyle(
+                fontFamily: 'Noto Sans',
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: onClose,
+            child: const IthakiIcon('close', size: 20,
+                color: Color(0xFFAAAAAA)),
+          ),
+        ],
       ),
     );
   }

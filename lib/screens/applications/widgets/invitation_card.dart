@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../models/applications_models.dart';
 import '../../../routes.dart';
 import '../../../utils/match_colors.dart';
 
-class ApplicationCard extends StatelessWidget {
-  final Application application;
+class InvitationCard extends ConsumerWidget {
+  final Invitation invitation;
+  final bool isDismissing;
+  final bool isArchived;
+  final VoidCallback onDismissRequested;
 
-  const ApplicationCard({
+  const InvitationCard({
     super.key,
-    required this.application,
+    required this.invitation,
+    this.isDismissing = false,
+    this.isArchived = false,
+    required this.onDismissRequested,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       decoration: BoxDecoration(
         color: IthakiTheme.backgroundWhite,
@@ -25,127 +32,161 @@ class ApplicationCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _AppliedHeader(application: application),
-          const SizedBox(height: 10),
+          if (isArchived)
+            _ArchivedHeader(dismissedAt: invitation.dismissedAt)
+          else
+            _SenderHeader(invitation: invitation),
+          if (!isArchived) ...[
+            const SizedBox(height: 10),
+            Text(
+              invitation.message,
+              style: const TextStyle(
+                fontFamily: 'Noto Sans',
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: IthakiTheme.textPrimary,
+                height: 1.5,
+                letterSpacing: -0.28,
+              ),
+            ),
+          ],
+          const SizedBox(height: 12),
           const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
           const SizedBox(height: 12),
-          _JobInfo(
-            application: application,
-            onViewApplication: () => context.push(
-              Routes.applicationDetailFor(application.id),
+          _JobSection(invitation: invitation),
+          if (!isArchived) ...[
+            const SizedBox(height: 12),
+            _ActionButtons(
+              isDismissing: isDismissing,
+              onDismiss: onDismissRequested,
+              onViewJob: () => context.push(Routes.jobDetailFor(invitation.id)),
             ),
-          ),
+          ] else ...[
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: IthakiButton(
+                'View Job Details',
+                variant: IthakiButtonVariant.outline,
+                onPressed: () => context.push(Routes.jobDetailFor(invitation.id)),
+              ),
+            ),
+          ],
         ],
       ),
     );
   }
 }
 
-class _AppliedHeader extends StatelessWidget {
-  final Application application;
-  const _AppliedHeader({required this.application});
+// ─── Archived header ────────────────────────────────────────────────────
+
+class _ArchivedHeader extends StatelessWidget {
+  final String dismissedAt;
+  const _ArchivedHeader({required this.dismissedAt});
 
   @override
   Widget build(BuildContext context) {
-    final isDraft = application.status.isDraft;
-    final isArchived = application.status.isArchived;
-
-    String subtitle;
-    if (isDraft) {
-      subtitle = '';
-    } else if (application.status == ApplicationStatus.closed) {
-      subtitle = 'Job is closed.';
-    } else {
-      subtitle = 'You applied with your Ithaki CV';
-    }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                application.appliedAt,
-                style: const TextStyle(
-                  fontFamily: 'Noto Sans',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: IthakiTheme.textPrimary,
-                  height: 1.5,
-                  letterSpacing: -0.32,
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            _StatusBadge(
-              label: application.status.label,
-              isArchived: isArchived,
-            ),
-          ],
+        const Text(
+          'Invitation declined',
+          style: TextStyle(
+            fontFamily: 'Noto Sans',
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: IthakiTheme.textPrimary,
+            height: 1.5,
+            letterSpacing: -0.32,
+          ),
         ),
-        if (subtitle.isNotEmpty) ...[
-          const SizedBox(height: 4),
+        if (dismissedAt.isNotEmpty)
           Text(
-            subtitle,
+            dismissedAt,
             style: const TextStyle(
               fontFamily: 'Noto Sans',
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: IthakiTheme.textPrimary,
-              height: 1.5,
-              letterSpacing: -0.32,
+              fontSize: 14,
+              color: IthakiTheme.textSecondary,
             ),
           ),
-        ],
       ],
     );
   }
 }
 
-class _StatusBadge extends StatelessWidget {
-  final String label;
-  final bool isArchived;
-  const _StatusBadge({required this.label, this.isArchived = false});
+// ─── Sender header ──────────────────────────────────────────────────────
+
+class _SenderHeader extends StatelessWidget {
+  final Invitation invitation;
+  const _SenderHeader({required this.invitation});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: isArchived ? const Color(0xFFEEEEEE) : const Color(0xFFE9DEFF),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          fontFamily: 'Noto Sans',
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
-          color: isArchived ? IthakiTheme.textSecondary : IthakiTheme.textPrimary,
-          height: 1.5,
-          letterSpacing: -0.32,
+    return Row(
+      children: [
+        Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: invitation.senderAvatarColor.withValues(alpha: 0.15),
+            shape: BoxShape.circle,
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            invitation.senderInitials,
+            style: TextStyle(
+              fontFamily: 'Noto Sans',
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: invitation.senderAvatarColor,
+            ),
+          ),
         ),
-      ),
+        const SizedBox(width: 10),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              invitation.senderName,
+              style: const TextStyle(
+                fontFamily: 'Noto Sans',
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: IthakiTheme.textPrimary,
+                height: 1.4,
+                letterSpacing: -0.3,
+              ),
+            ),
+            Text(
+              invitation.companyName,
+              style: const TextStyle(
+                fontFamily: 'Noto Sans',
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+                color: IthakiTheme.textSecondary,
+                height: 1.4,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
 
-class _JobInfo extends StatelessWidget {
-  final Application application;
-  final VoidCallback? onViewApplication;
-  const _JobInfo({required this.application, this.onViewApplication});
+// ─── Job section ──────────────────────────────────────────────────────────────
+
+class _JobSection extends StatelessWidget {
+  final Invitation invitation;
+  const _JobSection({required this.invitation});
 
   @override
   Widget build(BuildContext context) {
-    final isDraft = application.status.isDraft;
-    final isArchived = application.status.isArchived;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          application.postedAgo,
+          invitation.postedAgo,
           style: const TextStyle(
             fontFamily: 'Noto Sans',
             fontSize: 12,
@@ -159,14 +200,14 @@ class _JobInfo extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _CompanyLogo(application: application),
+            _CompanyLogo(invitation: invitation),
             const SizedBox(width: 8),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    application.jobTitle,
+                    invitation.jobTitle,
                     style: const TextStyle(
                       fontFamily: 'Noto Sans',
                       fontSize: 18,
@@ -178,7 +219,7 @@ class _JobInfo extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    application.companyName,
+                    invitation.companyName,
                     style: const TextStyle(
                       fontFamily: 'Noto Sans',
                       fontSize: 14,
@@ -197,7 +238,7 @@ class _JobInfo extends StatelessWidget {
         const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
         const SizedBox(height: 8),
         Text(
-          application.salary,
+          invitation.salary,
           style: const TextStyle(
             fontFamily: 'Noto Sans',
             fontSize: 20,
@@ -208,29 +249,21 @@ class _JobInfo extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        _MatchBadge(application: application),
+        _MatchBadge(invitation: invitation),
         const SizedBox(height: 8),
         const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
         const SizedBox(height: 12),
-        _CategoryTag(category: application.category),
+        _CategoryTag(category: invitation.category),
         const SizedBox(height: 12),
-        _DetailsGrid(application: application),
-        const SizedBox(height: 12),
-        _ActionButtons(
-          applicationId: application.id,
-          isDraft: isDraft,
-          isArchived: isArchived,
-          onViewApplication: onViewApplication,
-        ),
+        _DetailsGrid(invitation: invitation),
       ],
     );
   }
 }
 
-
 class _CompanyLogo extends StatelessWidget {
-  final Application application;
-  const _CompanyLogo({required this.application});
+  final Invitation invitation;
+  const _CompanyLogo({required this.invitation});
 
   @override
   Widget build(BuildContext context) {
@@ -238,18 +271,18 @@ class _CompanyLogo extends StatelessWidget {
       width: 72,
       height: 72,
       decoration: BoxDecoration(
-        color: application.companyLogoColor.withValues(alpha:0.15),
+        color: invitation.companyLogoColor.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: IthakiTheme.borderLight),
       ),
       alignment: Alignment.center,
       child: Text(
-        application.companyInitials,
+        invitation.companyInitials,
         style: TextStyle(
           fontFamily: 'Noto Sans',
           fontSize: 20,
           fontWeight: FontWeight.w600,
-          color: application.companyLogoColor,
+          color: invitation.companyLogoColor,
           letterSpacing: -0.4,
         ),
       ),
@@ -258,14 +291,14 @@ class _CompanyLogo extends StatelessWidget {
 }
 
 class _MatchBadge extends StatelessWidget {
-  final Application application;
-  const _MatchBadge({required this.application});
+  final Invitation invitation;
+  const _MatchBadge({required this.invitation});
 
   @override
   Widget build(BuildContext context) {
-    final bgColor = getMatchBgColor(application.matchLabel);
-    final gradientColors = getMatchGradientColors(application.matchLabel);
-    final pct = application.matchPercentage;
+    final bgColor = getMatchBgColor(invitation.matchLabel);
+    final gradientColors = getMatchGradientColors(invitation.matchLabel);
+    final pct = invitation.matchPercentage;
 
     return Container(
       width: double.infinity,
@@ -312,7 +345,7 @@ class _MatchBadge extends StatelessWidget {
                   const SizedBox(width: 6),
                   Flexible(
                     child: Text(
-                      application.matchLabel,
+                      invitation.matchLabel,
                       style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
@@ -358,8 +391,8 @@ class _CategoryTag extends StatelessWidget {
 }
 
 class _DetailsGrid extends StatelessWidget {
-  final Application application;
-  const _DetailsGrid({required this.application});
+  final Invitation invitation;
+  const _DetailsGrid({required this.invitation});
 
   @override
   Widget build(BuildContext context) {
@@ -367,10 +400,14 @@ class _DetailsGrid extends StatelessWidget {
       spacing: 5,
       runSpacing: 12,
       children: [
-        _DetailItem(icon: 'location', label: application.location),
-        _DetailItem(icon: 'company-profile', label: application.workplaceType),
-        _DetailItem(icon: 'clock', label: application.employmentType),
-        _DetailItem(icon: 'level', label: application.experienceLevel),
+        if (invitation.location.isNotEmpty)
+          _DetailItem(icon: 'location', label: invitation.location),
+        if (invitation.workplaceType.isNotEmpty)
+          _DetailItem(icon: 'company-profile', label: invitation.workplaceType),
+        if (invitation.employmentType.isNotEmpty)
+          _DetailItem(icon: 'clock', label: invitation.employmentType),
+        if (invitation.experienceLevel.isNotEmpty)
+          _DetailItem(icon: 'level', label: invitation.experienceLevel),
       ],
     );
   }
@@ -390,15 +427,18 @@ class _DetailItem extends StatelessWidget {
         children: [
           IthakiIcon(icon, size: 20, color: IthakiTheme.textPrimary),
           const SizedBox(width: 4),
-          Text(
-            label,
-            style: const TextStyle(
-              fontFamily: 'Noto Sans',
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-              color: IthakiTheme.textPrimary,
-              height: 1.5,
-              letterSpacing: -0.32,
+          Flexible(
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontFamily: 'Noto Sans',
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: IthakiTheme.textPrimary,
+                height: 1.5,
+                letterSpacing: -0.32,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],
@@ -407,16 +447,17 @@ class _DetailItem extends StatelessWidget {
   }
 }
 
+// ─── Action buttons ───────────────────────────────────────────────────────────
+
 class _ActionButtons extends StatelessWidget {
-  final String applicationId;
-  final bool isDraft;
-  final bool isArchived;
-  final VoidCallback? onViewApplication;
+  final bool isDismissing;
+  final VoidCallback onDismiss;
+  final VoidCallback onViewJob;
+
   const _ActionButtons({
-    required this.applicationId,
-    this.isDraft = false,
-    this.isArchived = false,
-    this.onViewApplication,
+    required this.isDismissing,
+    required this.onDismiss,
+    required this.onViewJob,
   });
 
   static const _spacing = 8.0;
@@ -429,33 +470,27 @@ class _ActionButtons extends StatelessWidget {
         final fitsInOneRow =
             constraints.maxWidth >= _minBtnWidth * 2 + _spacing;
 
-        final outline = IthakiButton(
-          'View Job Details',
-          variant: IthakiButtonVariant.outline,
-          onPressed: () => context.push(Routes.jobDetailFor(applicationId)),
-        );
-
-        // Archived: only "View Job Details"
-        if (isArchived) {
-          return SizedBox(width: double.infinity, child: outline);
-        }
-
-        // Draft: "View Job Details" + "Continue"
-        // Active: "View Job Details" + "View Application"
-        final primary = isDraft
+        final leftButton = isDismissing
             ? IthakiButton(
-                'Continue',
-                onPressed: () => context.push(Routes.jobDetailFor(applicationId)),
+                '✓  Declined',
+                variant: IthakiButtonVariant.outline,
+                onPressed: null,
               )
             : IthakiButton(
-                'View Application',
-                onPressed: onViewApplication ?? () {},
+                'Dismiss Invite',
+                variant: IthakiButtonVariant.outline,
+                onPressed: onDismiss,
               );
+
+        final primary = IthakiButton(
+          'View Job',
+          onPressed: onViewJob,
+        );
 
         if (fitsInOneRow) {
           return Row(
             children: [
-              Expanded(child: outline),
+              Expanded(child: leftButton),
               const SizedBox(width: _spacing),
               Expanded(child: primary),
             ],
@@ -465,7 +500,7 @@ class _ActionButtons extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            outline,
+            leftButton,
             const SizedBox(height: _spacing),
             primary,
           ],

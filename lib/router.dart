@@ -230,6 +230,13 @@ class IthakiRouter {
         ],
       ),
       GoRoute(
+        path: Routes.invitationJobDetail,
+        builder: (context, state) {
+          final id = state.pathParameters['id'] ?? '';
+          return JobDetailScreen(applicationId: id, isInvitation: true);
+        },
+      ),
+      GoRoute(
         path: Routes.settings,
         builder: (context, state) => const SettingsScreen(),
       ),
