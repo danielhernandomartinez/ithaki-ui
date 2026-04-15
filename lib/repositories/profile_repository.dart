@@ -222,6 +222,7 @@ class ApiProfileRepository implements ProfileRepository {
 
   final ApiClient _api;
   Future<void>? _initFuture;
+  Future<void>? _syncFuture;
   String? _sessionToken;
 
   ProfileBasics _basics = const ProfileBasics();
@@ -248,7 +249,11 @@ class ApiProfileRepository implements ProfileRepository {
     _profileVisible = true;
   }
 
-  Future<void> _syncSession() async {
+  Future<void> _syncSession() {
+    return _syncFuture ??= _doSync().whenComplete(() => _syncFuture = null);
+  }
+
+  Future<void> _doSync() async {
     final token = await _api.readTokenOrNull();
     if (_sessionToken == token) return;
     _sessionToken = token;
