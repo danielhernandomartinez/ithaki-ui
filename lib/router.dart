@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'repositories/profile/profile_local_store.dart';
 import 'screens/auth/select_language_screen.dart';
 import 'routes.dart';
 import 'screens/auth/tech_comfort_screen.dart';
@@ -39,9 +41,42 @@ import 'screens/applications/job_detail_screen.dart';
 class IthakiRouter {
   static final navigatorKey = GlobalKey<NavigatorState>();
 
+  static const _storage = FlutterSecureStorage();
+
+  // Routes that are accessible without phone verification.
+  static const _unguardedRoutes = {
+    Routes.root,
+    Routes.techComfort,
+    Routes.register,
+    Routes.personalDetails,
+    Routes.verifyEmail,
+    Routes.chooseVerifyMethod,
+    Routes.verifyOtp,
+    Routes.verifyPhone,
+    Routes.loginEmail,
+    Routes.loginPhone,
+    Routes.forgotPassword,
+    Routes.resetLinkSent,
+    Routes.resetPassword,
+  };
+
+  static Future<String?> _redirect(BuildContext context, GoRouterState state) async {
+    final token = await _storage.read(key: 'jwt_token');
+    if (token == null || token.isEmpty) return null;
+
+    if (_unguardedRoutes.contains(state.matchedLocation)) return null;
+
+    final phoneVerified = await ProfileLocalStore.loadPhoneVerified();
+    // null = pre-existing session before this feature — don't block.
+    if (phoneVerified != false) return null;
+
+    return Routes.verifyOtp;
+  }
+
   static final router = GoRouter(
     navigatorKey: navigatorKey,
     initialLocation: Routes.root,
+    redirect: _redirect,
     routes: [
       GoRoute(
         path: Routes.root,

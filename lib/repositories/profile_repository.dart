@@ -370,11 +370,15 @@ class ApiProfileRepository implements ProfileRepository {
       } on FormatException {
         throw Exception('Failed to load user: server returned non-JSON response');
       }
+      final phoneVerified = userData['phoneVerified'] as bool? ?? false;
+      await ProfileLocalStore.savePhoneVerified(phoneVerified);
+
       ProfileBasics basics = ProfileBasics(
         firstName: userData['firstName'] as String? ?? '',
         lastName: userData['lastName'] as String? ?? '',
         email: userData['email'] as String? ?? '',
         phone: userData['phone'] as String? ?? '',
+        phoneVerified: phoneVerified,
       );
 
       try {

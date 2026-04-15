@@ -8,6 +8,7 @@ class ProfileLocalStore {
   static const _storage = FlutterSecureStorage();
 
   static const _kBasics = 'profile_basics_v1';
+  static const _kPhoneVerified = 'phone_verified';
   static const _kAboutMe = 'profile_about_me_v1';
   static const _kSkills = 'profile_skills_v1';
   static const _kWork = 'profile_work_v1';
@@ -17,29 +18,48 @@ class ProfileLocalStore {
   static const _kPrefs = 'profile_job_prefs_v1';
   static const _kVisible = 'profile_visible_v1';
 
+  static Future<void> savePhoneVerified(bool value) async {
+    await _storage.write(key: _kPhoneVerified, value: value.toString());
+  }
+
+  /// Returns null when the key has never been written (e.g. pre-existing session
+  /// before this feature was added). Callers should treat null as "unknown / don't block".
+  static Future<bool?> loadPhoneVerified() async {
+    final raw = await _storage.read(key: _kPhoneVerified);
+    if (raw == null) return null;
+    return raw == 'true';
+  }
+
   static Future<void> saveBasics(ProfileBasics value) async {
-    await _storage.write(
-      key: _kBasics,
-      value: jsonEncode({
-        'firstName': value.firstName,
-        'lastName': value.lastName,
-        'email': value.email,
-        'phone': value.phone,
-        'photoUrl': value.photoUrl,
-        'dateOfBirth': value.dateOfBirth,
-        'gender': value.gender,
-        'citizenship': value.citizenship,
-        'citizenshipCode': value.citizenshipCode,
-        'residence': value.residence,
-        'residenceCode': value.residenceCode,
-        'status': value.status,
-        'relocationReadiness': value.relocationReadiness,
-      }),
-    );
+    await Future.wait([
+      _storage.write(
+        key: _kBasics,
+        value: jsonEncode({
+          'firstName': value.firstName,
+          'lastName': value.lastName,
+          'email': value.email,
+          'phone': value.phone,
+          'photoUrl': value.photoUrl,
+          'dateOfBirth': value.dateOfBirth,
+          'gender': value.gender,
+          'citizenship': value.citizenship,
+          'citizenshipCode': value.citizenshipCode,
+          'residence': value.residence,
+          'residenceCode': value.residenceCode,
+          'status': value.status,
+          'relocationReadiness': value.relocationReadiness,
+        }),
+      ),
+      savePhoneVerified(value.phoneVerified),
+    ]);
   }
 
   static Future<ProfileBasics?> loadBasics() async {
-    final raw = await _storage.read(key: _kBasics);
+    final results = await Future.wait([
+      _storage.read(key: _kBasics),
+      _storage.read(key: _kPhoneVerified),
+    ]);
+    final raw = results[0];
     if (raw == null || raw.isEmpty) return null;
     final map = (jsonDecode(raw) as Map).cast<String, dynamic>();
     return ProfileBasics(
@@ -56,6 +76,7 @@ class ProfileLocalStore {
       residenceCode: map['residenceCode'] as String? ?? '',
       status: map['status'] as String? ?? '',
       relocationReadiness: map['relocationReadiness'] as String? ?? '',
+      phoneVerified: results[1] == 'true',
     );
   }
 
@@ -317,6 +338,7 @@ class ProfileLocalStore {
       _storage.delete(key: _kValues),
       _storage.delete(key: _kPrefs),
       _storage.delete(key: _kVisible),
+      _storage.delete(key: _kPhoneVerified),
     ]);
   }
 }
