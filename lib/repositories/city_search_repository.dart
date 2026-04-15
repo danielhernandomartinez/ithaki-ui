@@ -1,13 +1,17 @@
 import 'dart:convert';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
+
+import '../services/api_client.dart';
 
 class CityResult {
+  final int id;
   final String city;
   final String country;
   final String display;
 
   const CityResult({
+    required this.id,
     required this.city,
     required this.country,
     required this.display,
@@ -18,70 +22,54 @@ abstract class CitySearchRepository {
   Future<List<CityResult>> search(String query, {String? countryCode});
 }
 
-class NominatimCitySearch implements CitySearchRepository {
-  final http.Client _client;
-  static const _baseUrl = 'https://nominatim.openstreetmap.org/search';
+// ─── API implementation ───────────────────────────────────────────────────────
+// Uses GET /api/city?name={name}&country={code}&page=0&size=20
 
-  NominatimCitySearch(this._client);
+class ApiCitySearchRepository implements CitySearchRepository {
+  ApiCitySearchRepository(this._api);
+
+  final ApiClient _api;
 
   @override
   Future<List<CityResult>> search(String query, {String? countryCode}) async {
     if (query.trim().length < 2) return [];
 
-    final params = {
-      'q': query,
-      'format': 'json',
-      'addressdetails': '1',
-      'featuretype': 'city',
-      'limit': '15',
-      'accept-language': 'en',
-      if (countryCode != null) 'countrycodes': countryCode.toLowerCase(),
+    final params = <String, String>{
+      'name': query.trim(),
+      'page': '0',
+      'size': '20',
+      if (countryCode != null && countryCode.isNotEmpty)
+        'country': countryCode.toUpperCase(),
     };
 
-    final uri = Uri.parse(_baseUrl).replace(queryParameters: params);
+    final res = await _api.get('/city', params: params);
 
-    final response = await _client.get(uri, headers: {
-      'User-Agent': 'IthakiApp/1.0',
-    });
+    if (res.statusCode != 200) return [];
 
-    if (response.statusCode != 200) return [];
+    final body = jsonDecode(res.body);
+    final List raw = body is Map
+        ? (body['content'] as List? ?? [])
+        : (body is List ? body : []);
 
-    final List<dynamic> data = json.decode(response.body);
-
-    final results = <CityResult>[];
-    final seen = <String>{};
-
-    for (final item in data) {
-      final address = item['address'] as Map<String, dynamic>?;
-      if (address == null) continue;
-
-      final city = (address['city'] ??
-              address['town'] ??
-              address['village'] ??
-              address['municipality'] ??
-              '')
-          .toString();
-      final country = (address['country'] ?? '').toString();
-
-      if (city.isEmpty) continue;
-
-      final key = '$city,$country';
-      if (seen.contains(key)) continue;
-      seen.add(key);
-
-      results.add(CityResult(
-        city: city,
-        country: country,
-        display: country.isNotEmpty ? '$city, $country' : city,
-      ));
-    }
-
-    return results;
+    return raw
+        .whereType<Map>()
+        .map((e) => e.cast<String, dynamic>())
+        .map((j) {
+          final id = (j['id'] as num?)?.toInt() ?? 0;
+          final city = j['name'] as String? ?? '';
+          final country = j['country'] as String? ?? '';
+          return CityResult(
+            id: id,
+            city: city,
+            country: country,
+            display: country.isNotEmpty ? '$city, $country' : city,
+          );
+        })
+        .where((r) => r.city.isNotEmpty)
+        .toList();
   }
 }
 
-final httpClientProvider = Provider<http.Client>((ref) => http.Client());
-
 final citySearchRepositoryProvider = Provider<CitySearchRepository>(
-  (ref) => NominatimCitySearch(ref.watch(httpClientProvider)),
+  (ref) => ApiCitySearchRepository(ref.watch(apiClientProvider)),
 );

@@ -60,6 +60,9 @@ class IthakiRouter {
     Routes.forgotPassword,
     Routes.resetLinkSent,
     Routes.resetPassword,
+    // Blog is public content — no phone verification required.
+    Routes.blogNews,
+    Routes.blogArticle,
   };
 
   static Future<String?> _redirect(BuildContext context, GoRouterState state) async {
