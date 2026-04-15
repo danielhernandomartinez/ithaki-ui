@@ -592,21 +592,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get phoneNumberLabel => 'رقم الهاتف';
 
   @override
-  String get myApplicationsTabLabel => 'My Applications';
+  String get myApplicationsTabLabel => 'طلباتي';
 
   @override
   String get myApplicationsTabDescription =>
-      'Track all the jobs you\'ve applied for and see their current status. You can also review invitations you\'ve accepted or find past applications in your archive.';
+      'تتبع جميع الوظائف التي تقدمت إليها وشاهد حالتها الحالية. يمكنك أيضًا العثور على الطلبات القديمة في أرشيفك.';
 
   @override
-  String get myApplicationsLoadError => 'Failed to load applications.';
+  String get myApplicationsLoadError => 'فشل تحميل الطلبات.';
 
   @override
-  String get myApplicationsEmptyTitle => 'No applications yet';
+  String get myApplicationsEmptyTitle => 'لا توجد طلبات بعد';
 
   @override
   String get myApplicationsEmptySubtitle =>
-      'Jobs you apply for will appear here\nso you can track their status.';
+      'الوظائف التي تتقدم إليها ستظهر هنا\nحتى تتمكن من تتبع حالتها.';
 
   @override
   String myInvitationsTabLabel(int count) {

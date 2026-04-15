@@ -598,21 +598,21 @@ class AppLocalizationsEl extends AppLocalizations {
   String get phoneNumberLabel => 'Αριθμός Τηλεφώνου';
 
   @override
-  String get myApplicationsTabLabel => 'My Applications';
+  String get myApplicationsTabLabel => 'Οι Αιτήσεις μου';
 
   @override
   String get myApplicationsTabDescription =>
-      'Track all the jobs you\'ve applied for and see their current status. You can also review invitations you\'ve accepted or find past applications in your archive.';
+      'Παρακολούθησε όλες τις θέσεις για τις οποίες έχεις κάνει αίτηση και δες την τρέχουσα κατάστασή τους. Μπορείς επίσης να βρεις παλιές αιτήσεις στο αρχείο σου.';
 
   @override
-  String get myApplicationsLoadError => 'Failed to load applications.';
+  String get myApplicationsLoadError => 'Αποτυχία φόρτωσης αιτήσεων.';
 
   @override
-  String get myApplicationsEmptyTitle => 'No applications yet';
+  String get myApplicationsEmptyTitle => 'Δεν υπάρχουν αιτήσεις ακόμη';
 
   @override
   String get myApplicationsEmptySubtitle =>
-      'Jobs you apply for will appear here\nso you can track their status.';
+      'Θέσεις που κάνεις αίτηση θα εμφανιστούν εδώ\nώστε να παρακολουθείς την πορεία τους.';
 
   @override
   String myInvitationsTabLabel(int count) {

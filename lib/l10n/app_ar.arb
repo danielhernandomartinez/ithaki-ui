@@ -207,6 +207,12 @@
   "phoneValidationError": "يرجى إدخال رقم هاتف صحيح",
   "phoneNumberLabel": "رقم الهاتف",
 
+  "myApplicationsTabLabel": "طلباتي",
+  "myApplicationsTabDescription": "تتبع جميع الوظائف التي تقدمت إليها وشاهد حالتها الحالية. يمكنك أيضًا العثور على الطلبات القديمة في أرشيفك.",
+  "myApplicationsLoadError": "فشل تحميل الطلبات.",
+  "myApplicationsEmptyTitle": "لا توجد طلبات بعد",
+  "myApplicationsEmptySubtitle": "الوظائف التي تتقدم إليها ستظهر هنا\nحتى تتمكن من تتبع حالتها.",
+
   "myInvitationsTabLabel": "دعواتي ({count})",
   "@myInvitationsTabLabel": {
     "placeholders": {

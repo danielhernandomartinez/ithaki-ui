@@ -207,6 +207,12 @@
   "phoneValidationError": "Παρακαλώ εισάγετε σωστό αριθμό τηλεφώνου",
   "phoneNumberLabel": "Αριθμός Τηλεφώνου",
 
+  "myApplicationsTabLabel": "Οι Αιτήσεις μου",
+  "myApplicationsTabDescription": "Παρακολούθησε όλες τις θέσεις για τις οποίες έχεις κάνει αίτηση και δες την τρέχουσα κατάστασή τους. Μπορείς επίσης να βρεις παλιές αιτήσεις στο αρχείο σου.",
+  "myApplicationsLoadError": "Αποτυχία φόρτωσης αιτήσεων.",
+  "myApplicationsEmptyTitle": "Δεν υπάρχουν αιτήσεις ακόμη",
+  "myApplicationsEmptySubtitle": "Θέσεις που κάνεις αίτηση θα εμφανιστούν εδώ\nώστε να παρακολουθείς την πορεία τους.",
+
   "myInvitationsTabLabel": "Οι Προσκλήσεις μου ({count})",
   "@myInvitationsTabLabel": {
     "placeholders": {
