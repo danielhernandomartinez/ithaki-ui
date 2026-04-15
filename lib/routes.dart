@@ -54,6 +54,9 @@ abstract final class Routes {
   static const settings = '/settings';
   static const settingsNotifications = '/settings/notifications';
 
+  // Blog
+  static const blogNews = '/blog';
+
   // -- Query-parameter helpers --
 
   static String applicationDetailFor(String id) => '/applications/$id';
