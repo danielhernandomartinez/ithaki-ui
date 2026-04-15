@@ -18,6 +18,7 @@ class ChooseVerifyMethodScreen extends ConsumerStatefulWidget {
 class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScreen> {
   String? _selectedMethod;
   bool _rememberChoice = false;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -66,9 +67,11 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
           const SizedBox(height: 24),
           IthakiButton(
             l.continueButton,
-            isEnabled: _selectedMethod != null,
-            onPressed: _selectedMethod != null
+            isEnabled: _selectedMethod != null && !_isLoading,
+            onPressed: _selectedMethod != null && !_isLoading
                 ? () async {
+                    if (_isLoading) return;
+                    setState(() => _isLoading = true);
                     try {
                       final method = _selectedMethod!;
                       ref.read(registrationProvider.notifier)
@@ -88,14 +91,14 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
                           systemLanguage: regState.language.isNotEmpty ? regState.language : 'en',
                         );
                       } catch (signupError) {
-                        // Account already created in a previous attempt — the JWT is
-                        // still in SharedPreferences. Just resend the OTP and proceed.
+                        // Account already created in a previous attempt.
+                        // Resend the OTP and proceed.
                         final detail = signupError is AuthException
                             ? (signupError.internalDetail ?? '').toLowerCase()
                             : signupError.toString().toLowerCase();
                         if (detail.contains('already') || detail.contains('exists') || detail.contains('duplicate')) {
-                          try { await repo.updatePhone(regState.phone); } catch (_) {}
-                          try { await repo.sendOtp(); } catch (_) {}
+                          await repo.updatePhone(regState.phone);
+                          await repo.sendOtp();
                         } else {
                           rethrow;
                         }
@@ -113,6 +116,10 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(message)),
                       );
+                    } finally {
+                      if (mounted) {
+                        setState(() => _isLoading = false);
+                      }
                     }
                   }
                 : null,
