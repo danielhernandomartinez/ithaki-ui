@@ -719,4 +719,102 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get blogAllCategories => 'Όλα';
+
+  @override
+  String get blogRelatedArticles => 'Σχετικά Άρθρα';
+
+  @override
+  String get blogDiscoverAll => 'Ανακαλύψτε Όλα τα Νέα';
+
+  @override
+  String get blogArticleNotFound => 'Το άρθρο δεν βρέθηκε.';
+
+  @override
+  String blogArticleBy(String author) {
+    return 'Από $author';
+  }
+
+  @override
+  String get cardAppliedWithCv => 'Υπέβαλες αίτηση με το Ithaki CV σου';
+
+  @override
+  String get cardJobClosed => 'Η θέση έχει κλείσει.';
+
+  @override
+  String get continueApplication => 'Συνέχεια';
+
+  @override
+  String get viewApplication => 'Δες Αίτηση';
+
+  @override
+  String get applySheetTitle => 'Έτοιμος/η να κάνεις αίτηση για αυτή τη θέση;';
+
+  @override
+  String get applySheetSubtitle =>
+      'Βεβαιώσου ότι τα στοιχεία του προφίλ σου είναι ενημερωμένα πριν υποβάλεις την αίτησή σου. Μπορείς επίσης να ανεβάσεις το βιογραφικό σου.';
+
+  @override
+  String get applyOptionIthakiCvTitle => 'Χρήση Ithaki CV';
+
+  @override
+  String get applyOptionIthakiCvSubtitle =>
+      'Χρησιμοποίησε το αποθηκευμένο CV και τα στοιχεία προφίλ σου για να υποβάλεις αίτηση.';
+
+  @override
+  String get applyOptionUploadTitle => 'Ανέβασε το CV σου';
+
+  @override
+  String get applyOptionUploadSubtitle =>
+      'Ανέβασε νέο αρχείο (PDF ή DOC) για να υποβάλεις αίτηση.';
+
+  @override
+  String get applyNow => 'Υποβολή Αίτησης';
+
+  @override
+  String get declineSheetTitle => 'Απόρριψη Πρόσκλησης';
+
+  @override
+  String get declineSheetSubtitle =>
+      'Είσαι σίγουρος/η ότι θέλεις να απορρίψεις αυτή την πρόσκληση;';
+
+  @override
+  String get declineReasonLabel => 'Παρακαλώ επίλεξε έναν λόγο';
+
+  @override
+  String get declineReasonHint => 'Επίλεξε λόγο';
+
+  @override
+  String get declineReasonNotInterested => 'Δεν ενδιαφέρομαι για αυτή τη θέση';
+
+  @override
+  String get declineReasonFoundJob => 'Βρήκα ήδη δουλειά';
+
+  @override
+  String get declineReasonSalary =>
+      'Ο μισθός δεν αντιστοιχεί στις προσδοκίες μου';
+
+  @override
+  String get declineReasonLocation => 'Η τοποθεσία δεν με εξυπηρετεί';
+
+  @override
+  String get declineReasonOther => 'Άλλο';
+
+  @override
+  String get declineButton => 'Απόρριψη Πρόσκλησης';
+
+  @override
+  String get declinedButton => '✓  Απορρίφθηκε';
+
+  @override
+  String get jobDetailNotFoundMessage =>
+      'Δεν βρέθηκαν λεπτομέρειες για αυτή την αίτηση ακόμα.';
+
+  @override
+  String get backToApplications => 'Επιστροφή στις Αιτήσεις';
+
+  @override
+  String get acceptInviteAndApply => 'Αποδοχή Πρόσκλησης & Υποβολή';
+
+  @override
+  String get jobDetailsTitle => 'Λεπτομέρειες Θέσης';
 }

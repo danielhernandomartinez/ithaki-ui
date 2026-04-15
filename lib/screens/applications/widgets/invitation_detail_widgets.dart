@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../models/applications_models.dart';
 import '../../../providers/applications_provider.dart';
 
@@ -128,6 +129,7 @@ class InvitationStickyBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Container(
       margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
       padding: const EdgeInsets.all(10),
@@ -146,16 +148,16 @@ class InvitationStickyBar extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: IthakiButton('Accept Invite and Apply', onPressed: onAccept),
+            child: IthakiButton(l.acceptInviteAndApply, onPressed: onAccept),
           ),
           const SizedBox(width: 8),
           PopupMenuButton<String>(
             onSelected: onMore,
             icon: const IthakiIcon('help', size: 20,
                 color: IthakiTheme.softGraphite),
-            itemBuilder: (_) => const [
-              PopupMenuItem(value: 'decline', child: Text('Decline Invite')),
-              PopupMenuItem(value: 'save', child: Text('Save Job')),
+            itemBuilder: (_) => [
+              PopupMenuItem(value: 'decline', child: Text(l.declineButton)),
+              PopupMenuItem(value: 'save', child: Text(l.viewJob)),
             ],
           ),
         ],
@@ -171,6 +173,7 @@ class ApplyBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Container(
       decoration: const BoxDecoration(
         color: IthakiTheme.backgroundWhite,
@@ -197,13 +200,15 @@ class ApplyBottomSheet extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Ready to apply for this role?',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: IthakiTheme.textPrimary,
-                  letterSpacing: -0.36,
+              Expanded(
+                child: Text(
+                  l.applySheetTitle,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: IthakiTheme.textPrimary,
+                    letterSpacing: -0.36,
+                  ),
                 ),
               ),
               GestureDetector(
@@ -214,9 +219,9 @@ class ApplyBottomSheet extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Make sure your talent profile details are up to date before submitting your application. You can also upload your CV.',
-            style: TextStyle(
+          Text(
+            l.applySheetSubtitle,
+            style: const TextStyle(
               fontSize: 14,
               color: IthakiTheme.textSecondary,
               height: 1.5,
@@ -224,18 +229,18 @@ class ApplyBottomSheet extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           _ApplyOption(
-            title: 'Use Ithaki CV',
-            subtitle: 'Use your saved CV and profile details to apply.',
+            title: l.applyOptionIthakiCvTitle,
+            subtitle: l.applyOptionIthakiCvSubtitle,
             onTap: () {},
           ),
           const SizedBox(height: 12),
           _ApplyOption(
-            title: 'Upload your CV',
-            subtitle: 'Upload a new file (PDF or DOC) to apply.',
+            title: l.applyOptionUploadTitle,
+            subtitle: l.applyOptionUploadSubtitle,
             onTap: () {},
           ),
           const SizedBox(height: 20),
-          IthakiButton('Apply Now', onPressed: () {}),
+          IthakiButton(l.applyNow, onPressed: () {}),
         ],
       ),
     );
@@ -306,14 +311,6 @@ class _DeclineInviteSheetState extends ConsumerState<DeclineInviteSheet> {
   String? _selectedReason;
   bool _declining = false;
 
-  static const _reasons = [
-    'Not interested in this position',
-    'Already found a job',
-    "Salary doesn't match my expectations",
-    "Location doesn't work for me",
-    'Other',
-  ];
-
   Future<void> _onDecline() async {
     if (_selectedReason == null || _declining) return;
     setState(() => _declining = true);
@@ -324,6 +321,15 @@ class _DeclineInviteSheetState extends ConsumerState<DeclineInviteSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+    final reasons = [
+      l.declineReasonNotInterested,
+      l.declineReasonFoundJob,
+      l.declineReasonSalary,
+      l.declineReasonLocation,
+      l.declineReasonOther,
+    ];
+
     final invitation = ref
         .watch(invitationsProvider)
         .value
@@ -345,9 +351,9 @@ class _DeclineInviteSheetState extends ConsumerState<DeclineInviteSheet> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Decline Invitation',
-                style: TextStyle(
+              Text(
+                l.declineSheetTitle,
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                   color: IthakiTheme.textPrimary,
@@ -362,9 +368,9 @@ class _DeclineInviteSheetState extends ConsumerState<DeclineInviteSheet> {
             ],
           ),
           const SizedBox(height: 6),
-          const Text(
-            'Are you sure you want to decline this invitation?',
-            style: TextStyle(
+          Text(
+            l.declineSheetSubtitle,
+            style: const TextStyle(
               fontSize: 14,
               color: IthakiTheme.textSecondary,
               height: 1.5,
@@ -373,9 +379,9 @@ class _DeclineInviteSheetState extends ConsumerState<DeclineInviteSheet> {
           const SizedBox(height: 16),
           if (invitation != null) _InvitationPreview(invitation: invitation),
           const SizedBox(height: 16),
-          const Text(
-            'Please select a reason',
-            style: TextStyle(
+          Text(
+            l.declineReasonLabel,
+            style: const TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w500,
               color: IthakiTheme.textSecondary,
@@ -384,7 +390,8 @@ class _DeclineInviteSheetState extends ConsumerState<DeclineInviteSheet> {
           const SizedBox(height: 8),
           _ReasonDropdown(
             value: _selectedReason,
-            reasons: _reasons,
+            reasons: reasons,
+            hint: l.declineReasonHint,
             enabled: !_declining,
             onChanged: (v) => setState(() => _selectedReason = v),
           ),
@@ -392,7 +399,7 @@ class _DeclineInviteSheetState extends ConsumerState<DeclineInviteSheet> {
           SizedBox(
             width: double.infinity,
             child: IthakiButton(
-              _declining ? '✓  Declined' : 'Decline Invite',
+              _declining ? l.declinedButton : l.declineButton,
               onPressed:
                   (_selectedReason == null || _declining) ? null : _onDecline,
             ),
@@ -564,10 +571,7 @@ class _InvitationPreview extends StatelessWidget {
           ),
           child: Text(
             invitation.category,
-            style: const TextStyle(
-              fontSize: 13,
-              color: IthakiTheme.textPrimary,
-            ),
+            style: const TextStyle(fontSize: 13, color: IthakiTheme.textPrimary),
           ),
         ),
       ],
@@ -578,12 +582,14 @@ class _InvitationPreview extends StatelessWidget {
 class _ReasonDropdown extends StatelessWidget {
   final String? value;
   final List<String> reasons;
+  final String hint;
   final bool enabled;
   final ValueChanged<String?> onChanged;
 
   const _ReasonDropdown({
     required this.value,
     required this.reasons,
+    required this.hint,
     required this.enabled,
     required this.onChanged,
   });
@@ -602,9 +608,9 @@ class _ReasonDropdown extends StatelessWidget {
         child: DropdownButton<String>(
           value: value,
           isExpanded: true,
-          hint: const Text(
-            'Select reason',
-            style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
+          hint: Text(
+            hint,
+            style: const TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
           ),
           items: reasons
               .map((r) => DropdownMenuItem(

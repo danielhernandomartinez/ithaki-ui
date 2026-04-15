@@ -56,6 +56,8 @@ abstract final class Routes {
 
   // Blog
   static const blogNews = '/blog';
+  static const blogArticle = '/blog/:id';
+  static String blogArticleFor(String id) => '/blog/$id';
 
   // -- Query-parameter helpers --
 

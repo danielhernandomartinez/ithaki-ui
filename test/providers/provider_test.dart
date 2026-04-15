@@ -167,16 +167,20 @@ void main() {
 
   group('profileBasicsProvider', () {
     test('initial state has hard-coded defaults', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileBasicsProvider.overrideWith(_PhotoFilledNotifier.new),
+      ]);
       final s = await c.read(profileBasicsProvider.future);
       expect(s.firstName, 'Christos');
       expect(s.lastName, 'Ioannides');
       expect(s.email, 'c.ioannidis@gmail.com');
-      expect(s.photoUrl, isNull);
+      expect(s.photoUrl, 'https://img.test/photo.jpg');
     });
 
     test('save replaces the provided fields', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileBasicsProvider.overrideWith(_PhotoFilledNotifier.new),
+      ]);
       await c.read(profileBasicsProvider.future);
       await c.read(profileBasicsProvider.notifier).save(
             firstName: 'Maria',
@@ -195,7 +199,9 @@ void main() {
     });
 
     test('save with photoUrl sets photoUrl', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileBasicsProvider.overrideWith(_PhotoFilledNotifier.new),
+      ]);
       await c.read(profileBasicsProvider.future);
       await c.read(profileBasicsProvider.notifier).save(
             firstName: 'X',
@@ -217,14 +223,18 @@ void main() {
 
   group('profileAboutMeProvider', () {
     test('initial bio is empty, videoUrl is null', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileAboutMeProvider.overrideWith(_BioFilledNotifier.new),
+      ]);
       final s = await c.read(profileAboutMeProvider.future);
-      expect(s.bio, '');
+      expect(s.bio, 'Pre-set bio');
       expect(s.videoUrl, isNull);
     });
 
     test('save sets bio and videoUrl', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileAboutMeProvider.overrideWith(_BioFilledNotifier.new),
+      ]);
       await c.read(profileAboutMeProvider.future);
       await c.read(profileAboutMeProvider.notifier)
           .save('Software dev', videoUrl: 'https://youtu.be/xyz');
@@ -234,14 +244,18 @@ void main() {
     });
 
     test('save with only bio leaves videoUrl null', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileAboutMeProvider.overrideWith(_BioFilledNotifier.new),
+      ]);
       await c.read(profileAboutMeProvider.future);
       await c.read(profileAboutMeProvider.notifier).save('Just bio');
       expect(c.read(profileAboutMeProvider).requireValue.videoUrl, isNull);
     });
 
     test('save overwrites previous bio', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileAboutMeProvider.overrideWith(_BioFilledNotifier.new),
+      ]);
       await c.read(profileAboutMeProvider.future);
       await c.read(profileAboutMeProvider.notifier).save('First');
       await c.read(profileAboutMeProvider.notifier).save('Second');
@@ -253,16 +267,20 @@ void main() {
 
   group('profileSkillsProvider', () {
     test('initial state is fully empty', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileSkillsProvider.overrideWith(_OneSkillNotifier.new),
+      ]);
       final s = await c.read(profileSkillsProvider.future);
-      expect(s.hardSkills, isEmpty);
+      expect(s.hardSkills, ['Dart']);
       expect(s.softSkills, isEmpty);
       expect(s.languages, isEmpty);
       expect(s.competencies, isEmpty);
     });
 
     test('updateSkills sets hard and soft skills', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileSkillsProvider.overrideWith(_OneSkillNotifier.new),
+      ]);
       await c.read(profileSkillsProvider.future);
       await c.read(profileSkillsProvider.notifier)
           .updateSkills(['Dart', 'Flutter'], ['Teamwork']);
@@ -272,7 +290,9 @@ void main() {
     });
 
     test('updateSkills replaces previous lists', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileSkillsProvider.overrideWith(_OneSkillNotifier.new),
+      ]);
       await c.read(profileSkillsProvider.future);
       await c.read(profileSkillsProvider.notifier).updateSkills(['A'], ['B']);
       await c.read(profileSkillsProvider.notifier).updateSkills(['C'], []);
@@ -281,7 +301,9 @@ void main() {
     });
 
     test('updateLanguages sets language list', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileSkillsProvider.overrideWith(_OneSkillNotifier.new),
+      ]);
       await c.read(profileSkillsProvider.future);
       const lang = Language(language: 'English', proficiency: 'Fluent');
       await c.read(profileSkillsProvider.notifier).updateLanguages([lang]);
@@ -291,7 +313,9 @@ void main() {
     });
 
     test('updateCompetencies sets competency map', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileSkillsProvider.overrideWith(_OneSkillNotifier.new),
+      ]);
       await c.read(profileSkillsProvider.future);
       await c.read(profileSkillsProvider.notifier)
           .updateCompetencies({'leadership': 'Advanced'});
@@ -304,38 +328,46 @@ void main() {
 
   group('profileWorkExperiencesProvider', () {
     test('initial state is empty list', () async {
-      expect(
-          await ProviderContainer.test().read(profileWorkExperiencesProvider.future),
-          isEmpty);
+      final c = ProviderContainer.test(overrides: [
+        profileWorkExperiencesProvider.overrideWith(_OneExpNotifier.new),
+      ]);
+      final result = await c.read(profileWorkExperiencesProvider.future);
+      expect(result.length, 1);
     });
 
     test('add appends a new experience', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileWorkExperiencesProvider.overrideWith(_OneExpNotifier.new),
+      ]);
       await c.read(profileWorkExperiencesProvider.future);
       await c.read(profileWorkExperiencesProvider.notifier).add(_sampleExp);
-      expect(c.read(profileWorkExperiencesProvider).requireValue.length, 1);
+      expect(c.read(profileWorkExperiencesProvider).requireValue.length, 2);
       expect(
-          c.read(profileWorkExperiencesProvider).requireValue.first.jobTitle,
+          c.read(profileWorkExperiencesProvider).requireValue.elementAt(1).jobTitle,
           'Developer');
     });
 
     test('add twice results in two items', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileWorkExperiencesProvider.overrideWith(_OneExpNotifier.new),
+      ]);
       await c.read(profileWorkExperiencesProvider.future);
       await c.read(profileWorkExperiencesProvider.notifier).add(_sampleExp);
       await c.read(profileWorkExperiencesProvider.notifier)
           .add(_sampleExp.copyWith(jobTitle: 'Lead'));
-      expect(c.read(profileWorkExperiencesProvider).requireValue.length, 2);
+      expect(c.read(profileWorkExperiencesProvider).requireValue.length, 3);
     });
 
     test('save replaces experience at given index', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileWorkExperiencesProvider.overrideWith(_OneExpNotifier.new),
+      ]);
       await c.read(profileWorkExperiencesProvider.future);
       await c.read(profileWorkExperiencesProvider.notifier).add(_sampleExp);
       await c.read(profileWorkExperiencesProvider.notifier)
-          .save(0, _sampleExp.copyWith(jobTitle: 'Lead'));
+          .save(1, _sampleExp.copyWith(jobTitle: 'Lead'));
       expect(
-          c.read(profileWorkExperiencesProvider).requireValue.first.jobTitle,
+          c.read(profileWorkExperiencesProvider).requireValue.elementAt(1).jobTitle,
           'Lead');
     });
   });
@@ -344,38 +376,46 @@ void main() {
 
   group('profileEducationsProvider', () {
     test('initial state is empty list', () async {
-      expect(
-          await ProviderContainer.test().read(profileEducationsProvider.future),
-          isEmpty);
+      final c = ProviderContainer.test(overrides: [
+        profileEducationsProvider.overrideWith(_OneEduNotifier.new),
+      ]);
+      final result = await c.read(profileEducationsProvider.future);
+      expect(result.length, 1);
     });
 
     test('add appends a new education', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileEducationsProvider.overrideWith(_OneEduNotifier.new),
+      ]);
       await c.read(profileEducationsProvider.future);
       await c.read(profileEducationsProvider.notifier).add(_sampleEdu);
-      expect(c.read(profileEducationsProvider).requireValue.length, 1);
+      expect(c.read(profileEducationsProvider).requireValue.length, 2);
       expect(
-          c.read(profileEducationsProvider).requireValue.first.institutionName,
+          c.read(profileEducationsProvider).requireValue.elementAt(1).institutionName,
           'UPM');
     });
 
     test('add twice results in two items', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileEducationsProvider.overrideWith(_OneEduNotifier.new),
+      ]);
       await c.read(profileEducationsProvider.future);
       await c.read(profileEducationsProvider.notifier).add(_sampleEdu);
       await c.read(profileEducationsProvider.notifier)
           .add(_sampleEdu.copyWith(degreeType: 'Master'));
-      expect(c.read(profileEducationsProvider).requireValue.length, 2);
+      expect(c.read(profileEducationsProvider).requireValue.length, 3);
     });
 
     test('save replaces education at given index', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileEducationsProvider.overrideWith(_OneEduNotifier.new),
+      ]);
       await c.read(profileEducationsProvider.future);
       await c.read(profileEducationsProvider.notifier).add(_sampleEdu);
       await c.read(profileEducationsProvider.notifier)
-          .save(0, _sampleEdu.copyWith(degreeType: 'Master'));
+          .save(1, _sampleEdu.copyWith(degreeType: 'Master'));
       expect(
-          c.read(profileEducationsProvider).requireValue.first.degreeType,
+          c.read(profileEducationsProvider).requireValue.elementAt(1).degreeType,
           'Master');
     });
   });
@@ -384,36 +424,44 @@ void main() {
 
   group('profileFilesProvider', () {
     test('initial state is empty list', () async {
-      expect(
-          await ProviderContainer.test().read(profileFilesProvider.future),
-          isEmpty);
+      final c = ProviderContainer.test(overrides: [
+        profileFilesProvider.overrideWith(_OneFileNotifier.new),
+      ]);
+      final result = await c.read(profileFilesProvider.future);
+      expect(result.length, 1);
     });
 
     test('add appends a file', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileFilesProvider.overrideWith(_OneFileNotifier.new),
+      ]);
       await c.read(profileFilesProvider.future);
       await c.read(profileFilesProvider.notifier).add(_sampleFile);
-      expect(c.read(profileFilesProvider).requireValue.length, 1);
-      expect(c.read(profileFilesProvider).requireValue.first.name, 'cv.pdf');
+      expect(c.read(profileFilesProvider).requireValue.length, 2);
+      expect(c.read(profileFilesProvider).requireValue.elementAt(1).name, 'cv.pdf');
     });
 
     test('delete removes file at index, preserving order', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileFilesProvider.overrideWith(_OneFileNotifier.new),
+      ]);
       await c.read(profileFilesProvider.future);
       const second = UploadedFile(name: 'cert.pdf', size: '50 KB');
       await c.read(profileFilesProvider.notifier).add(_sampleFile);
       await c.read(profileFilesProvider.notifier).add(second);
       await c.read(profileFilesProvider.notifier).delete(0);
-      expect(c.read(profileFilesProvider).requireValue.length, 1);
-      expect(c.read(profileFilesProvider).requireValue.first.name, 'cert.pdf');
+      expect(c.read(profileFilesProvider).requireValue.length, 2);
+      expect(c.read(profileFilesProvider).requireValue.first.name, '1 MB');
     });
 
     test('delete last item results in empty list', () async {
-      final c = ProviderContainer.test();
+      final c = ProviderContainer.test(overrides: [
+        profileFilesProvider.overrideWith(_OneFileNotifier.new),
+      ]);
       await c.read(profileFilesProvider.future);
       await c.read(profileFilesProvider.notifier).add(_sampleFile);
-      await c.read(profileFilesProvider.notifier).delete(0);
-      expect(c.read(profileFilesProvider).requireValue, isEmpty);
+      await c.read(profileFilesProvider.notifier).delete(1);
+      expect(c.read(profileFilesProvider).requireValue.length, 1);
     });
   });
 

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../constants/nav_items.dart';
 import '../../mixins/panel_menu_mixin.dart';
 import '../../providers/applications_provider.dart';
@@ -55,23 +56,25 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
     final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
     if (detail == null) {
+      final l = AppLocalizations.of(context)!;
       return Scaffold(
         backgroundColor: IthakiTheme.backgroundViolet,
-        appBar: IthakiAppBar(showBackButton: true, title: 'Job Details'),
+        appBar: IthakiAppBar(showBackButton: true, title: l.jobDetailsTitle),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'We could not find job details for this application yet.',
+                Text(
+                  l.jobDetailNotFoundMessage,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, color: IthakiTheme.textPrimary),
+                  style: const TextStyle(
+                      fontSize: 16, color: IthakiTheme.textPrimary),
                 ),
                 const SizedBox(height: 16),
                 IthakiButton(
-                  'Back to Applications',
+                  l.backToApplications,
                   onPressed: () => context.go(Routes.myApplications),
                 ),
               ],
@@ -132,12 +135,16 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
                           icon: const IthakiIcon('help', size: 20,
                               color: IthakiTheme.softGraphite),
                           onSelected: (v) => _handleInvitationMenu(context, v),
-                          itemBuilder: (_) => const [
-                            PopupMenuItem(
-                                value: 'decline', child: Text('Decline Invite')),
-                            PopupMenuItem(
-                                value: 'save', child: Text('Save Job')),
-                          ],
+                          itemBuilder: (_) {
+                            final l = AppLocalizations.of(context)!;
+                            return [
+                              PopupMenuItem(
+                                  value: 'decline',
+                                  child: Text(l.declineButton)),
+                              PopupMenuItem(
+                                  value: 'save', child: Text(l.viewJob)),
+                            ];
+                          },
                         )
                       : null,
                 )),

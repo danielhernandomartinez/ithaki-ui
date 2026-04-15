@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../models/blog_models.dart';
+import '../../../routes.dart';
 
 class BlogArticleCard extends StatelessWidget {
   final BlogArticle article;
@@ -9,9 +11,11 @@ class BlogArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: IthakiCard(
+    return GestureDetector(
+      onTap: () => context.push(Routes.blogArticleFor(article.id)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: IthakiCard(
         padding: EdgeInsets.zero,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,6 +91,7 @@ class BlogArticleCard extends StatelessWidget {
               ),
             ),
           ],
+        ),
         ),
       ),
     );

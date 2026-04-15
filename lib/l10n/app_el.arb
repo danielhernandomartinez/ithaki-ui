@@ -255,5 +255,44 @@
   "blogNewsTitle": "Blog & Νέα",
   "blogNewsSubtitle": "Ανακαλύψτε συμβουλές καριέρας, οδηγούς συνεντεύξεων και νέα της πλατφόρμας.",
   "blogSearchHint": "Αναζήτηση άρθρων και θεμάτων",
-  "blogAllCategories": "Όλα"
+  "blogAllCategories": "Όλα",
+  "blogRelatedArticles": "Σχετικά Άρθρα",
+  "blogDiscoverAll": "Ανακαλύψτε Όλα τα Νέα",
+  "blogArticleNotFound": "Το άρθρο δεν βρέθηκε.",
+  "blogArticleBy": "Από {author}",
+  "@blogArticleBy": {
+    "placeholders": {
+      "author": { "type": "String" }
+    }
+  },
+
+  "cardAppliedWithCv": "Υπέβαλες αίτηση με το Ithaki CV σου",
+  "cardJobClosed": "Η θέση έχει κλείσει.",
+  "continueApplication": "Συνέχεια",
+  "viewApplication": "Δες Αίτηση",
+
+  "applySheetTitle": "Έτοιμος/η να κάνεις αίτηση για αυτή τη θέση;",
+  "applySheetSubtitle": "Βεβαιώσου ότι τα στοιχεία του προφίλ σου είναι ενημερωμένα πριν υποβάλεις την αίτησή σου. Μπορείς επίσης να ανεβάσεις το βιογραφικό σου.",
+  "applyOptionIthakiCvTitle": "Χρήση Ithaki CV",
+  "applyOptionIthakiCvSubtitle": "Χρησιμοποίησε το αποθηκευμένο CV και τα στοιχεία προφίλ σου για να υποβάλεις αίτηση.",
+  "applyOptionUploadTitle": "Ανέβασε το CV σου",
+  "applyOptionUploadSubtitle": "Ανέβασε νέο αρχείο (PDF ή DOC) για να υποβάλεις αίτηση.",
+  "applyNow": "Υποβολή Αίτησης",
+
+  "declineSheetTitle": "Απόρριψη Πρόσκλησης",
+  "declineSheetSubtitle": "Είσαι σίγουρος/η ότι θέλεις να απορρίψεις αυτή την πρόσκληση;",
+  "declineReasonLabel": "Παρακαλώ επίλεξε έναν λόγο",
+  "declineReasonHint": "Επίλεξε λόγο",
+  "declineReasonNotInterested": "Δεν ενδιαφέρομαι για αυτή τη θέση",
+  "declineReasonFoundJob": "Βρήκα ήδη δουλειά",
+  "declineReasonSalary": "Ο μισθός δεν αντιστοιχεί στις προσδοκίες μου",
+  "declineReasonLocation": "Η τοποθεσία δεν με εξυπηρετεί",
+  "declineReasonOther": "Άλλο",
+  "declineButton": "Απόρριψη Πρόσκλησης",
+  "declinedButton": "✓  Απορρίφθηκε",
+
+  "jobDetailNotFoundMessage": "Δεν βρέθηκαν λεπτομέρειες για αυτή την αίτηση ακόμα.",
+  "backToApplications": "Επιστροφή στις Αιτήσεις",
+  "acceptInviteAndApply": "Αποδοχή Πρόσκλησης & Υποβολή",
+  "jobDetailsTitle": "Λεπτομέρειες Θέσης"
 }

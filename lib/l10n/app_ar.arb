@@ -255,5 +255,44 @@
   "blogNewsTitle": "المدونة والأخبار",
   "blogNewsSubtitle": "اكتشف نصائح مهنية وأدلة مقابلات وتحديثات المنصة.",
   "blogSearchHint": "ابحث في المقالات والمواضيع",
-  "blogAllCategories": "الكل"
+  "blogAllCategories": "الكل",
+  "blogRelatedArticles": "مقالات ذات صلة",
+  "blogDiscoverAll": "اكتشف جميع الأخبار",
+  "blogArticleNotFound": "لم يتم العثور على المقال.",
+  "blogArticleBy": "بقلم {author}",
+  "@blogArticleBy": {
+    "placeholders": {
+      "author": { "type": "String" }
+    }
+  },
+
+  "cardAppliedWithCv": "تقدمت بطلبك باستخدام سيرتك الذاتية في Ithaki",
+  "cardJobClosed": "الوظيفة مغلقة.",
+  "continueApplication": "متابعة",
+  "viewApplication": "عرض الطلب",
+
+  "applySheetTitle": "هل أنت مستعد للتقدم لهذا الدور؟",
+  "applySheetSubtitle": "تأكد من تحديث تفاصيل ملفك الشخصي قبل تقديم طلبك. يمكنك أيضًا رفع سيرتك الذاتية.",
+  "applyOptionIthakiCvTitle": "استخدام Ithaki CV",
+  "applyOptionIthakiCvSubtitle": "استخدم سيرتك الذاتية المحفوظة وتفاصيل ملفك الشخصي للتقدم.",
+  "applyOptionUploadTitle": "رفع سيرتك الذاتية",
+  "applyOptionUploadSubtitle": "ارفع ملفًا جديدًا (PDF أو DOC) للتقدم.",
+  "applyNow": "تقدم الآن",
+
+  "declineSheetTitle": "رفض الدعوة",
+  "declineSheetSubtitle": "هل أنت متأكد أنك تريد رفض هذه الدعوة؟",
+  "declineReasonLabel": "يرجى اختيار سبب",
+  "declineReasonHint": "اختر سببًا",
+  "declineReasonNotInterested": "غير مهتم بهذه الوظيفة",
+  "declineReasonFoundJob": "وجدت وظيفة بالفعل",
+  "declineReasonSalary": "الراتب لا يتوافق مع توقعاتي",
+  "declineReasonLocation": "الموقع لا يناسبني",
+  "declineReasonOther": "أخرى",
+  "declineButton": "رفض الدعوة",
+  "declinedButton": "✓  مرفوضة",
+
+  "jobDetailNotFoundMessage": "لم نتمكن من العثور على تفاصيل الوظيفة لهذا الطلب بعد.",
+  "backToApplications": "العودة إلى الطلبات",
+  "acceptInviteAndApply": "قبول الدعوة والتقديم",
+  "jobDetailsTitle": "تفاصيل الوظيفة"
 }

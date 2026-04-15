@@ -2,6 +2,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/blog_models.dart';
 
+
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
 const _kCategories = [
@@ -63,6 +64,7 @@ List<BlogArticle> _buildMockArticles() {
   ];
 
   return List.generate(20, (i) {
+    final isNetworking = i == 1; // article_1 = Networking 101
     return BlogArticle(
       id: 'article_$i',
       imageAsset: 'assets/images/ai_banner_bg.png',
@@ -71,6 +73,44 @@ List<BlogArticle> _buildMockArticles() {
       description: descriptions[i],
       author: 'Ithaki Team',
       date: i == 0 ? 'Today, 19:55' : 'Yesterday, 19:00',
+      readTime: '${3 + (i % 5)} min read',
+      tags: isNetworking
+          ? ['#interview', '#networking']
+          : ['#career', '#${_kCategories[i % _kCategories.length].replaceAll('#', '').toLowerCase().replaceAll(' ', '-').replaceAll('&', 'and')}'],
+      body: isNetworking
+          ? [
+              BlogSection(paragraphs: [
+                'Many job offers never reach public listings. '
+                'They\'re shared within communities, through recommendations, or among colleagues. '
+                'That\'s why staying connected with professionals in your industry can lead you to roles you might never see online.',
+                'Networking also helps you learn from others\' experiences, discover brands, and gain insights that no online course can teach.',
+              ]),
+              BlogSection(heading: 'Why Networking Matters', paragraphs: [
+                '1. Begin with people you already know. Former classmates, teachers, colleagues, or even online friends can be your first network.',
+                '2. Use professional platforms. LinkedIn or similar networks are perfect for connecting with people in your field — but remember to personalise your messages.',
+                '3. Attend online events or meetups. Even a short online chat can lead to something meaningful.',
+                '4. Give before you ask. Share knowledge, recommend someone, or comment thoughtfully on others\' work. Genuine interest builds trust.',
+                'Networking also helps you learn from others\' experiences, discover brands, and gain insights that no online course can teach.',
+              ]),
+              BlogSection(heading: 'Keep It Natural', paragraphs: [
+                'Networking isn\'t about collecting contacts — it\'s about building relationships. Approach people with curiosity, not transactional pressure. Ask questions, show interest in their work, and follow up occasionally.',
+                'Just remember: one warm, genuine connection can have more impact than a hundred quick "add all friends" clicks.',
+              ]),
+              BlogSection(heading: 'Final Thought', paragraphs: [
+                'Don\'t wait for the "perfect moment" to start networking. Begin today — reach out to one person, comment on one post, or join one event. Small, consistent steps create a strong foundation for future success.',
+              ]),
+            ]
+          : [
+              BlogSection(paragraphs: [
+                descriptions[i],
+                'Use every resource available to you and stay consistent. Success comes from showing up, learning continuously, and putting your best self forward.',
+              ]),
+              BlogSection(heading: 'Key Takeaways', paragraphs: [
+                '• Stay consistent in your approach.',
+                '• Keep learning from every experience.',
+                '• Don\'t compare your journey to others — focus on your own progress.',
+              ]),
+            ],
     );
   });
 }
