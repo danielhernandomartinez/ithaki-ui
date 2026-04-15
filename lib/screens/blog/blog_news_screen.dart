@@ -75,10 +75,7 @@ class _BlogNewsScreenState extends ConsumerState<BlogNewsScreen>
                       const SizedBox(height: 4),
                       Text(
                         l10n.blogNewsSubtitle,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: IthakiTheme.textSecondary,
-                        ),
+                        style: IthakiTheme.captionRegular,
                       ),
                     ],
                   ),
