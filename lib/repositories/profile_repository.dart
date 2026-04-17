@@ -371,7 +371,13 @@ class ApiProfileRepository implements ProfileRepository {
         throw Exception('Failed to load user: server returned non-JSON response');
       }
       final phoneVerified = userData['phoneVerified'] as bool? ?? false;
-      await ProfileLocalStore.savePhoneVerified(phoneVerified);
+      // Only persist `true` from the API — the `false` value is written
+      // exclusively during signup to gate the OTP verification screen.
+      // Overwriting with `false` here would block users who logged in
+      // (login clears the store to null, which the router treats as "allowed").
+      if (phoneVerified) {
+        await ProfileLocalStore.savePhoneVerified(true);
+      }
 
       ProfileBasics basics = ProfileBasics(
         firstName: userData['firstName'] as String? ?? '',
