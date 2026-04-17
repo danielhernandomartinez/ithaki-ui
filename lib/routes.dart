@@ -28,6 +28,11 @@ abstract final class Routes {
   // Core
   static const home = '/home';
   static const jobSearch = '/job-search';
+  static const jobSearchDetail = '/job-search/:id';
+  static String jobSearchDetailFor(String id) => '/job-search/$id';
+
+  static const companyProfile = '/company/:id';
+  static String companyProfileFor(String id) => '/company/$id';
   static const myApplications = '/applications';
   static const applicationDetail = '/applications/:id';
   static const jobDetail = '/applications/:id/job';

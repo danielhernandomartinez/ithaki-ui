@@ -581,7 +581,10 @@ class ApplicationDetailCompanyCard extends StatelessWidget {
                 height: 1.5, letterSpacing: -0.32,
               )),
           const SizedBox(height: 12),
-          IthakiButton('Company Profile', variant: IthakiButtonVariant.outline, onPressed: () {}),
+          IthakiButton('Company Profile', variant: IthakiButtonVariant.outline,
+              onPressed: company.id.isNotEmpty
+                  ? () => context.push(Routes.companyProfileFor(company.id))
+                  : null),
         ],
       ),
     );

@@ -43,6 +43,7 @@ class RecommendedJob {
 }
 
 class JobDetailCompany {
+  final String id;
   final String name;
   final String industry;
   final Color logoColor;
@@ -52,6 +53,7 @@ class JobDetailCompany {
   final String description;
 
   const JobDetailCompany({
+    this.id = '',
     required this.name,
     required this.industry,
     required this.logoColor,
@@ -99,6 +101,10 @@ class JobDetail {
   final JobDetailCompany company;
   // Sticky bar
   final String salary;
+  // Job search detail extras
+  final bool isClosed;
+  final String odysseaRating;
+  final List<String> odysseaPoints;
 
   const JobDetail({
     required this.id,
@@ -128,5 +134,8 @@ class JobDetail {
     required this.recommended,
     required this.company,
     required this.salary,
+    this.isClosed = false,
+    this.odysseaRating = '',
+    this.odysseaPoints = const [],
   });
 }

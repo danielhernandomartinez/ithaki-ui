@@ -63,6 +63,7 @@ class CandidateProfile {
 }
 
 class CompanyInfo {
+  final String id;
   final String name;
   final String industry;
   final Color logoColor;
@@ -72,6 +73,7 @@ class CompanyInfo {
   final String description;
 
   const CompanyInfo({
+    this.id = '',
     required this.name,
     required this.industry,
     required this.logoColor,

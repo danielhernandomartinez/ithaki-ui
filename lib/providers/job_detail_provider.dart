@@ -74,6 +74,9 @@ class ApiJobDetailRepository implements JobDetailRepository {
       communication: job['responsibilities'] as String? ?? '',
       niceToHave: job['niceToHave'] as String? ?? '',
       whatWeOffer: job['benefits'] as String? ?? '',
+      isClosed: job['status'] == 'closed' || job['isClosed'] == true,
+      odysseaRating: job['odysseaRating'] as String? ?? '',
+      odysseaPoints: _stringList(job['odysseaPoints']),
       reviews: const [],
       recommended: RecommendedJob(
         jobTitle: '',
@@ -87,6 +90,7 @@ class ApiJobDetailRepository implements JobDetailRepository {
         employmentType: '',
       ),
       company: JobDetailCompany(
+        id: company['id']?.toString() ?? job['companyId']?.toString() ?? '',
         name: companyName,
         industry: industry,
         logoColor: mapper.colorFromString(companyName),
