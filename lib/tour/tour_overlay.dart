@@ -1,4 +1,3 @@
-// lib/tour/tour_overlay.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
@@ -9,15 +8,13 @@ import 'tour_skip_modal.dart';
 import 'tour_complete_modal.dart';
 import 'tour_welcome_modal.dart';
 
-/// Returns the screen-space [Rect] of any widget via its [GlobalKey].
-/// Returns [Rect.zero] if the key has no context yet.
+/// Returns the screen-space [Rect] of a widget via its [GlobalKey].
 Rect _getWidgetRect(GlobalKey key) {
   final ctx = key.currentContext;
   if (ctx == null) return Rect.zero;
   final box = ctx.findRenderObject() as RenderBox?;
   if (box == null || !box.hasSize) return Rect.zero;
-  final pos = box.localToGlobal(Offset.zero);
-  return pos & box.size;
+  return box.localToGlobal(Offset.zero) & box.size;
 }
 
 // ── Spotlight painter ─────────────────────────────────────────────────────────
@@ -28,12 +25,16 @@ class _SpotlightPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final scrim = Paint()..color = Colors.black.withValues(alpha: 0.6);
+    final scrim = Paint()..color = Colors.black.withValues(alpha: 0.55);
+    if (spotlight == Rect.zero) {
+      canvas.drawRect(Rect.fromLTWH(0, 0, size.width, size.height), scrim);
+      return;
+    }
     final path = Path()
       ..fillType = PathFillType.evenOdd
       ..addRect(Rect.fromLTWH(0, 0, size.width, size.height))
       ..addRRect(RRect.fromRectAndRadius(
-          spotlight.inflate(8), const Radius.circular(12)));
+          spotlight.inflate(6), const Radius.circular(14)));
     canvas.drawPath(path, scrim);
   }
 
@@ -41,82 +42,70 @@ class _SpotlightPainter extends CustomPainter {
   bool shouldRepaint(_SpotlightPainter old) => old.spotlight != spotlight;
 }
 
-// ── Tooltip bubble ────────────────────────────────────────────────────────────
+// ── Dark tooltip ──────────────────────────────────────────────────────────────
 
 class _TourTooltip extends StatelessWidget {
   final TourStep step;
-  final int totalSteps;
   final VoidCallback onNext;
   final VoidCallback onSkip;
 
   const _TourTooltip({
     required this.step,
-    required this.totalSteps,
     required this.onNext,
     required this.onSkip,
   });
 
   @override
   Widget build(BuildContext context) {
-    final isLast = step.stepNumber == totalSteps;
+    final isLast = step.stepNumber == kTourTotalSteps;
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
       decoration: BoxDecoration(
-        color: IthakiTheme.backgroundWhite,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.15),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        color: const Color(0xFF2E2E2E),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                step.title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: IthakiTheme.textPrimary,
-                ),
-              ),
-              Text(
-                '${step.stepNumber}/$totalSteps',
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: IthakiTheme.softGraphite,
-                ),
-              ),
-            ],
+          Text(
+            '${step.stepNumber} Step / $kTourTotalSteps',
+            style: const TextStyle(
+              fontFamily: 'Noto Sans',
+              fontSize: 13,
+              color: Color(0xFF9E9E9E),
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            step.title,
+            style: const TextStyle(
+              fontFamily: 'Noto Sans',
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: Colors.white,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             step.body,
-            style: IthakiTheme.bodyRegular.copyWith(
-              color: IthakiTheme.textSecondary,
+            style: const TextStyle(
+              fontFamily: 'Noto Sans',
+              fontSize: 14,
+              color: Color(0xFFCCCCCC),
+              height: 1.5,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(
-                onTap: onSkip,
-                child: Text(
-                  'Skip',
-                  style: IthakiTheme.bodyRegular.copyWith(
-                    color: IthakiTheme.textSecondary,
-                    decoration: TextDecoration.underline,
-                  ),
+              Expanded(
+                child: _OutlineButton(
+                  label: 'Skip and Close',
+                  onTap: onSkip,
                 ),
               ),
+              const SizedBox(width: 10),
               Expanded(
                 child: IthakiButton(
                   isLast ? 'Finish' : 'Next',
@@ -131,14 +120,39 @@ class _TourTooltip extends StatelessWidget {
   }
 }
 
+class _OutlineButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+  const _OutlineButton({required this.label, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 48,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.white.withValues(alpha: 0.5)),
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: Text(
+          label,
+          style: const TextStyle(
+            fontFamily: 'Noto Sans',
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 // ── Main overlay widget ───────────────────────────────────────────────────────
 
 /// Wraps [child] and renders the tour overlay on top when the tour is active.
-///
-/// Usage — in `main.dart` MaterialApp.router builder:
-/// ```dart
-/// builder: (context, child) => TourOverlay(keys: tourKeys, child: child!),
-/// ```
 class TourOverlay extends ConsumerStatefulWidget {
   final Widget child;
   final Map<int, GlobalKey> keys; // step number → GlobalKey
@@ -152,9 +166,6 @@ class TourOverlay extends ConsumerStatefulWidget {
 class _TourOverlayState extends ConsumerState<TourOverlay> {
   @override
   Widget build(BuildContext context) {
-    // Drive modals from state changes.
-    // Use the navigator's context (below the Navigator) instead of the
-    // overlay's context (above the Navigator in the widget tree).
     final navContext = IthakiRouter.navigatorKey.currentContext;
     ref.listen<AsyncValue<TourState>>(tourProvider, (prev, next) {
       if (navContext == null) return;
@@ -181,51 +192,45 @@ class _TourOverlayState extends ConsumerState<TourOverlay> {
       data: (tourState) {
         final notifier = ref.read(tourProvider.notifier);
         final step = tourState.currentStep;
-        final isActive = !tourState.tourCompleted && step >= 1 && step <= 13;
+        final isActive = !tourState.tourCompleted && step >= 1 && step <= kTourTotalSteps;
 
         if (!isActive) return widget.child;
 
         final stepDef = tourSteps[step - 1];
         final targetKey = widget.keys[step];
         final targetRect = targetKey != null ? _getWidgetRect(targetKey) : Rect.zero;
-        final screenH = MediaQuery.of(context).size.height;
-        const bubbleHeight = 160.0;
-        const sidePadding = 24.0;
 
-        // Decide tooltip placement
-        final placeBelow = stepDef.placement == TooltipPlacement.below ||
-            targetRect.top < screenH / 2;
-        final tooltipTop = placeBelow
-            ? targetRect.bottom + 16
-            : targetRect.top - bubbleHeight - 16;
+        final bottomPad = MediaQuery.of(context).padding.bottom;
+        // Tooltip always anchored to the bottom
+        const tooltipBottomMargin = 16.0;
+        final tooltipBottom = bottomPad + tooltipBottomMargin;
 
         return Stack(
           children: [
             widget.child,
 
-            // Scrim + spotlight cutout
+            // Scrim + spotlight
             Positioned.fill(
               child: GestureDetector(
-                onTap: () {}, // absorb taps on scrim
+                onTap: () {}, // absorb taps
                 child: CustomPaint(
                   painter: _SpotlightPainter(spotlight: targetRect),
                 ),
               ),
             ),
 
-            // Tooltip bubble
+            // Tooltip — always at bottom
             Positioned(
-              top: tooltipTop.clamp(
-                MediaQuery.of(context).padding.top + 8,
-                screenH - bubbleHeight - MediaQuery.of(context).padding.bottom - 8,
-              ),
-              left: sidePadding,
-              right: sidePadding,
-              child: _TourTooltip(
-                step: stepDef,
-                totalSteps: 13,
-                onNext: () => notifier.nextStep(),
-                onSkip: () => notifier.showSkipConfirm(),
+              left: 16,
+              right: 16,
+              bottom: tooltipBottom,
+              child: Material(
+                color: Colors.transparent,
+                child: _TourTooltip(
+                  step: stepDef,
+                  onNext: () => notifier.nextStep(),
+                  onSkip: () => notifier.showSkipConfirm(),
+                ),
               ),
             ),
           ],

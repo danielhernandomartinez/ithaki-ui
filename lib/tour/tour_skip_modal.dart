@@ -1,4 +1,3 @@
-// lib/tour/tour_skip_modal.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
@@ -21,47 +20,50 @@ class TourSkipModal extends ConsumerWidget {
     final notifier = ref.read(tourProvider.notifier);
     return Container(
       margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.fromLTRB(24, 28, 24, 24),
       decoration: BoxDecoration(
         color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.circular(24),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Skip the tour?', style: IthakiTheme.headingMedium),
-          const SizedBox(height: 8),
-          Text(
-            "You can always restart the tour from the Home screen.",
-            style: IthakiTheme.bodyRegular.copyWith(color: IthakiTheme.textSecondary),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 24),
-          SizedBox(
-            width: double.infinity,
-            child: IthakiButton(
-              'Continue Tour',
-              onPressed: () {
-                Navigator.of(context).pop();
-                notifier.cancelSkip();
-              },
+          const Text('Skip for now?',
+              style: TextStyle(
+                fontFamily: 'Noto Sans',
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: IthakiTheme.textPrimary,
+              )),
+          const SizedBox(height: 10),
+          const Text(
+            'You can always take the product tour later using the banner on the Home page.',
+            style: TextStyle(
+              fontFamily: 'Noto Sans',
+              fontSize: 15,
+              color: IthakiTheme.softGraphite,
+              height: 1.5,
             ),
           ),
-          const SizedBox(height: 12),
-          GestureDetector(
-            onTap: () {
+          const SizedBox(height: 28),
+          IthakiButton(
+            'Skip for Now',
+            variant: IthakiButtonVariant.outline,
+            onPressed: () {
               Navigator.of(context).pop();
               notifier.confirmSkip();
             },
-            child: Text(
-              'Skip',
-              style: IthakiTheme.bodyRegular.copyWith(
-                color: IthakiTheme.textSecondary,
-                decoration: TextDecoration.underline,
-              ),
-            ),
           ),
-          SizedBox(height: MediaQuery.of(context).padding.bottom + 8),
+          const SizedBox(height: 10),
+          IthakiButton(
+            'Continue Product Tour',
+            onPressed: () {
+              Navigator.of(context).pop();
+              notifier.cancelSkip();
+            },
+          ),
+          SizedBox(height: MediaQuery.of(context).padding.bottom + 4),
         ],
       ),
     );

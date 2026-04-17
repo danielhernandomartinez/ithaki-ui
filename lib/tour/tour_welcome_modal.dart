@@ -1,10 +1,9 @@
-// lib/tour/tour_welcome_modal.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../providers/tour_provider.dart';
 
-/// Shows once on first launch. Offers "Start Tour" or "Skip".
+/// Shows once on first launch. "Skip for Now" / "Start Product Tour".
 class TourWelcomeModal extends ConsumerWidget {
   const TourWelcomeModal({super.key});
 
@@ -12,6 +11,7 @@ class TourWelcomeModal extends ConsumerWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      isDismissible: false,
       backgroundColor: Colors.transparent,
       builder: (_) => const TourWelcomeModal(),
     );
@@ -22,49 +22,60 @@ class TourWelcomeModal extends ConsumerWidget {
     final notifier = ref.read(tourProvider.notifier);
     return Container(
       margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.fromLTRB(24, 28, 24, 24),
       decoration: BoxDecoration(
         color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.circular(24),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const IthakiIcon('rocket', size: 48, color: IthakiTheme.primaryPurple),
-          const SizedBox(height: 16),
-          Text('Welcome to Ithaki!', style: IthakiTheme.headingLarge),
-          const SizedBox(height: 8),
-          Text(
-            "Let's take a quick tour so you know where everything is. It only takes a minute.",
-            style: IthakiTheme.bodyRegular.copyWith(color: IthakiTheme.textSecondary),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 24),
-          SizedBox(
-            width: double.infinity,
-            child: IthakiButton(
-              'Start Tour',
-              onPressed: () {
-                Navigator.of(context).pop();
-                notifier.startTour();
-              },
+          // Logo placeholder — replace with actual IthakiLogo widget if available
+          const Text('Ithaki',
+              style: TextStyle(
+                fontFamily: 'Noto Sans',
+                fontSize: 22,
+                fontWeight: FontWeight.w800,
+                color: IthakiTheme.primaryPurple,
+                letterSpacing: -0.5,
+              )),
+          const SizedBox(height: 20),
+          const Text("Let's Get You Started!",
+              style: TextStyle(
+                fontFamily: 'Noto Sans',
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: IthakiTheme.textPrimary,
+              )),
+          const SizedBox(height: 10),
+          const Text(
+            'Here you can find a job that fits your skills and experience. Let\'s go step by step.',
+            style: TextStyle(
+              fontFamily: 'Noto Sans',
+              fontSize: 15,
+              color: IthakiTheme.softGraphite,
+              height: 1.5,
             ),
           ),
-          const SizedBox(height: 12),
-          GestureDetector(
-            onTap: () {
+          const SizedBox(height: 28),
+          IthakiButton(
+            'Skip for Now',
+            variant: IthakiButtonVariant.outline,
+            onPressed: () {
               Navigator.of(context).pop();
               notifier.confirmSkip();
             },
-            child: Text(
-              'Skip for now',
-              style: IthakiTheme.bodyRegular.copyWith(
-                color: IthakiTheme.textSecondary,
-                decoration: TextDecoration.underline,
-              ),
-            ),
           ),
-          SizedBox(height: MediaQuery.of(context).padding.bottom + 8),
+          const SizedBox(height: 10),
+          IthakiButton(
+            'Start Product Tour',
+            onPressed: () {
+              Navigator.of(context).pop();
+              notifier.startTour();
+            },
+          ),
+          SizedBox(height: MediaQuery.of(context).padding.bottom + 4),
         ],
       ),
     );

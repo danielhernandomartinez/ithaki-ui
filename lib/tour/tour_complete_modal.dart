@@ -1,8 +1,9 @@
-// lib/tour/tour_complete_modal.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../providers/tour_provider.dart';
+import '../routes.dart';
 
 class TourCompleteModal extends ConsumerWidget {
   const TourCompleteModal({super.key});
@@ -11,6 +12,7 @@ class TourCompleteModal extends ConsumerWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      isDismissible: false,
       backgroundColor: Colors.transparent,
       builder: (_) => const TourCompleteModal(),
     );
@@ -21,35 +23,51 @@ class TourCompleteModal extends ConsumerWidget {
     final notifier = ref.read(tourProvider.notifier);
     return Container(
       margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.fromLTRB(24, 28, 24, 24),
       decoration: BoxDecoration(
         color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.circular(24),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const IthakiIcon('rocket', size: 48, color: IthakiTheme.primaryPurple),
-          const SizedBox(height: 16),
-          Text('Tour Complete!', style: IthakiTheme.headingLarge),
-          const SizedBox(height: 8),
-          Text(
-            "You're ready to go! Start exploring Ithaki and take the next step in your career.",
-            style: IthakiTheme.bodyRegular.copyWith(color: IthakiTheme.textSecondary),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 24),
-          SizedBox(
-            width: double.infinity,
-            child: IthakiButton(
-              "Let's Go!",
-              onPressed: () {
-                Navigator.of(context).pop();
-                notifier.completeTour();
-              },
+          const Text('Ithaki',
+              style: TextStyle(
+                fontFamily: 'Noto Sans',
+                fontSize: 22,
+                fontWeight: FontWeight.w800,
+                color: IthakiTheme.primaryPurple,
+                letterSpacing: -0.5,
+              )),
+          const SizedBox(height: 20),
+          const Text("You're Ready!",
+              style: TextStyle(
+                fontFamily: 'Noto Sans',
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: IthakiTheme.textPrimary,
+              )),
+          const SizedBox(height: 10),
+          const Text(
+            'Now you know the main platform features. Complete your profile, take assessments, and apply for jobs that match you.',
+            style: TextStyle(
+              fontFamily: 'Noto Sans',
+              fontSize: 15,
+              color: IthakiTheme.softGraphite,
+              height: 1.5,
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).padding.bottom + 8),
+          const SizedBox(height: 28),
+          IthakiButton(
+            'Go to Job Search',
+            onPressed: () {
+              notifier.completeTour();
+              Navigator.of(context).pop();
+              context.go(Routes.jobSearch);
+            },
+          ),
+          SizedBox(height: MediaQuery.of(context).padding.bottom + 4),
         ],
       ),
     );

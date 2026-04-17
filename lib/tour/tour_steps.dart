@@ -1,99 +1,82 @@
-// lib/tour/tour_steps.dart
-
-/// Describes one tooltip in the product tour.
+/// Describes one step in the product tour.
 class TourStep {
-  final int stepNumber; // 1–13
+  final int stepNumber;
   final String title;
   final String body;
-  final TooltipPlacement placement;
 
   const TourStep({
     required this.stepNumber,
     required this.title,
     required this.body,
-    required this.placement,
   });
 }
 
-enum TooltipPlacement { above, below, left, right }
+const int kTourTotalSteps = 13;
 
 const tourSteps = <TourStep>[
   TourStep(
     stepNumber: 1,
-    title: 'Menu',
-    body: 'Tap the menu icon to navigate between all sections of the app.',
-    placement: TooltipPlacement.below,
+    title: 'Get on Track!',
+    body: "Here you'll see jobs and courses selected for you, CV insights, and tools to help you start your job search.",
   ),
   TourStep(
     stepNumber: 2,
-    title: 'Your Profile',
-    body: 'Tap your avatar to access your profile, CV, settings, and log out.',
-    placement: TooltipPlacement.below,
+    title: 'Find a Job',
+    body: 'Search for jobs by name or choose from categories below. You can find work near your city, or set other parameters to find the job you need.',
   ),
   TourStep(
     stepNumber: 3,
-    title: 'Start the Tour',
-    body: 'This card lets you restart the product tour anytime you need a refresher.',
-    placement: TooltipPlacement.below,
+    title: 'Job Post',
+    body: 'Each job card shows the main information — position, location, and salary. Tap the card to open full details and apply.',
   ),
   TourStep(
     stepNumber: 4,
-    title: 'Welcome Message',
-    body: 'Your personalised greeting — here you can see your daily summary.',
-    placement: TooltipPlacement.below,
+    title: 'See how well this job fits for you',
+    body: 'This part shows how well your experience and skills match the job. The higher the match — the better your chances to get hired.',
   ),
   TourStep(
     stepNumber: 5,
-    title: 'Complete Your Profile',
-    body: 'Finish these steps to unlock full job-matching and employer visibility.',
-    placement: TooltipPlacement.below,
+    title: 'Job Details',
+    body: 'Read the full job description, requirements, and what the company offers before you apply.',
   ),
   TourStep(
     stepNumber: 6,
-    title: 'Job Search',
-    body: 'Search for jobs by title or keyword and filter by preference.',
-    placement: TooltipPlacement.below,
+    title: 'Easy to Apply',
+    body: 'Application is easy! Select your CV format and add a few words about yourself in the Cover Letter to increase your chances.',
   ),
   TourStep(
     stepNumber: 7,
-    title: 'Smart Recommendations',
-    body: 'AI-powered job cards matched to your profile, skills, and location.',
-    placement: TooltipPlacement.above,
+    title: 'Track the Progress',
+    body: "Once you apply for a job, you can find your response in 'My Applications'.",
   ),
   TourStep(
     stepNumber: 8,
-    title: 'Career Assistant',
-    body: 'Not sure where to start? Ask the AI career assistant for guidance.',
-    placement: TooltipPlacement.above,
+    title: 'My Invitations',
+    body: 'Employers can invite you directly. You have been invited to explore relevant job invitations from employers who found your profile interesting.',
   ),
   TourStep(
     stepNumber: 9,
-    title: 'CV Success Stats',
-    body: 'Track how many employers viewed your CV, sent invitations, and more.',
-    placement: TooltipPlacement.above,
+    title: 'Get on Track!',
+    body: 'You can open the invitation to read job details and accept the offer.',
   ),
   TourStep(
     stepNumber: 10,
-    title: 'Recommended Courses',
-    body: 'Level up your skills with curated courses matched to your career goals.',
-    placement: TooltipPlacement.above,
+    title: 'Build your Profile',
+    body: 'Your profile shows your experience, skills, and contact info. A complete profile helps you get better job matches. You can edit or update it anytime.',
   ),
   TourStep(
     stepNumber: 11,
-    title: 'Latest News',
-    body: 'Stay up to date with industry news, hiring trends, and career tips.',
-    placement: TooltipPlacement.above,
+    title: 'Meet your Career Assistant',
+    body: 'Pathfinder can help you improve your profile, find the right jobs, and answer your questions about work.',
   ),
   TourStep(
     stepNumber: 12,
-    title: 'Have Questions?',
-    body: "Reach out to our support team — we're here to help you succeed.",
-    placement: TooltipPlacement.above,
+    title: 'Learning Hub',
+    body: 'Access courses and resources tailored to your career goals and the skills employers are looking for.',
   ),
   TourStep(
     stepNumber: 13,
-    title: "You're all set!",
-    body: "That's the full tour. Start exploring and take the next step in your career.",
-    placement: TooltipPlacement.above,
+    title: 'Get to know yourself better',
+    body: 'Here you can take different assessments. Your results help employers better understand your strengths and working style.',
   ),
 ];
