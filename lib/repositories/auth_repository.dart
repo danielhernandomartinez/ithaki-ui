@@ -158,6 +158,8 @@ class ApiAuthRepository implements AuthRepository {
       );
     }
     await _saveTokens(data);
+    // Login users are exempt from phone verification — only registration enforces it.
+    await ProfileLocalStore.savePhoneVerified(true);
   }
 
   @override

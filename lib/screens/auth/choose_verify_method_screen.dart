@@ -98,7 +98,10 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
                             : signupError.toString().toLowerCase();
                         if (detail.contains('already') || detail.contains('exists') || detail.contains('duplicate')) {
                           await repo.updatePhone(regState.phone);
-                          await repo.sendOtp();
+                          // Best-effort — user can resend from the OTP screen.
+                          try {
+                            await repo.sendOtp();
+                          } catch (_) {}
                         } else {
                           rethrow;
                         }
