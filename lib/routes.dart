@@ -59,6 +59,9 @@ abstract final class Routes {
   static const settings = '/settings';
   static const settingsNotifications = '/settings/notifications';
 
+  // Career Assistant
+  static const careerAssistant = '/career-assistant';
+
   // Blog
   static const blogNews = '/blog';
   static const blogArticle = '/blog/:id';
