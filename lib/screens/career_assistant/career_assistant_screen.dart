@@ -21,7 +21,7 @@ import 'widgets/chat_history_sheet.dart';
 import 'widgets/chat_input_bar.dart';
 import 'widgets/chat_menu_item.dart';
 import 'widgets/chat_message_bubble.dart';
-import 'widgets/odyssea_footer.dart';
+
 import 'widgets/search_in_chats_sheet.dart';
 
 class CareerAssistantScreen extends ConsumerStatefulWidget {
@@ -229,7 +229,7 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
                 focusNode: _inputFocus,
                 onSend: _sendMessage,
               ),
-              const OdysseaFooter(),
+
             ],
           ),
           // Nav drawer
