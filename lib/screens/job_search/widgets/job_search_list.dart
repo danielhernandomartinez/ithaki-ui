@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/job_search_data_provider.dart';
 import '../../../providers/job_search_provider.dart';
+import '../../../routes.dart';
 import '../../../utils/match_colors.dart';
 import '../../../utils/number_utils.dart';
 import '../sort_sheet.dart';
@@ -81,7 +83,7 @@ class JobSearchList extends ConsumerWidget {
               postedAgo: jobs[i].postedAgo,
               isSaved: searchState.isSaved(jobs[i].id),
               onSave: () => notifier.toggleSaved(jobs[i].id),
-              onView: () {},
+              onView: () => context.push(Routes.jobSearchDetailFor(jobs[i].id)),
             ),
             if (i < jobs.length - 1) const SizedBox(height: 12),
           ],

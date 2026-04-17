@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../models/job_detail_models.dart';
+import '../../../routes.dart';
 import 'match_bar.dart';
 
 // ─── Status card ──────────────────────────────────────────────────────────────
@@ -640,7 +642,10 @@ class JobDetailCompanyCard extends StatelessWidget {
                 height: 1.5, letterSpacing: -0.3,
               )),
           const SizedBox(height: 12),
-          IthakiButton('Company Profile', variant: IthakiButtonVariant.outline, onPressed: () {}),
+          IthakiButton('Company Profile', variant: IthakiButtonVariant.outline,
+              onPressed: company.id.isNotEmpty
+                  ? () => context.push(Routes.companyProfileFor(company.id))
+                  : null),
         ],
       ),
     );

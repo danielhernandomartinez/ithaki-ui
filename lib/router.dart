@@ -23,6 +23,8 @@ import 'screens/setup/values_screen.dart';
 import 'screens/setup/communication_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/job_search/job_search_screen.dart';
+import 'screens/job_search/job_search_detail_screen.dart';
+import 'screens/company/company_profile_screen.dart';
 import 'screens/profile/profile_screen.dart';
 import 'screens/profile/profile_basics_screen.dart';
 import 'screens/profile/edit_skills_screen.dart';
@@ -188,6 +190,18 @@ class IthakiRouter {
       GoRoute(
         path: Routes.jobSearch,
         builder: (context, state) => const JobSearchScreen(),
+      ),
+      GoRoute(
+        path: Routes.jobSearchDetail,
+        builder: (context, state) => JobSearchDetailScreen(
+          jobId: state.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: Routes.companyProfile,
+        builder: (context, state) => CompanyProfileScreen(
+          companyId: state.pathParameters['id']!,
+        ),
       ),
       GoRoute(
         path: Routes.profile,
