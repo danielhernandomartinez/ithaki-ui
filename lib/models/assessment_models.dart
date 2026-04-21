@@ -34,20 +34,33 @@ class Assessment {
     this.beforeYouStart = const [],
   });
 
-  Assessment copyWith({AssessmentStatus? status, AssessmentResult? lastResult}) {
+  Assessment copyWith({
+    String? id,
+    String? title,
+    String? category,
+    String? description,
+    String? iconName,
+    int? questionCount,
+    int? durationMinutes,
+    String? language,
+    AssessmentStatus? status,
+    AssessmentResult? lastResult,
+    List<String>? usedFor,
+    List<String>? beforeYouStart,
+  }) {
     return Assessment(
-      id: id,
-      title: title,
-      category: category,
-      description: description,
-      iconName: iconName,
-      questionCount: questionCount,
-      durationMinutes: durationMinutes,
-      language: language,
+      id: id ?? this.id,
+      title: title ?? this.title,
+      category: category ?? this.category,
+      description: description ?? this.description,
+      iconName: iconName ?? this.iconName,
+      questionCount: questionCount ?? this.questionCount,
+      durationMinutes: durationMinutes ?? this.durationMinutes,
+      language: language ?? this.language,
       status: status ?? this.status,
       lastResult: lastResult ?? this.lastResult,
-      usedFor: usedFor,
-      beforeYouStart: beforeYouStart,
+      usedFor: usedFor ?? this.usedFor,
+      beforeYouStart: beforeYouStart ?? this.beforeYouStart,
     );
   }
 }
@@ -133,9 +146,13 @@ class AssessmentProgress {
     required this.answers,
   });
 
-  AssessmentProgress copyWith({int? currentQuestionIndex, Map<String, dynamic>? answers}) {
+  AssessmentProgress copyWith({
+    String? assessmentId,
+    int? currentQuestionIndex,
+    Map<String, dynamic>? answers,
+  }) {
     return AssessmentProgress(
-      assessmentId: assessmentId,
+      assessmentId: assessmentId ?? this.assessmentId,
       currentQuestionIndex: currentQuestionIndex ?? this.currentQuestionIndex,
       answers: answers ?? this.answers,
     );
@@ -172,16 +189,26 @@ class AssessmentResult {
     this.shownInCV = false,
   });
 
-  AssessmentResult copyWith({bool? shownInCV}) {
+  AssessmentResult copyWith({
+    String? assessmentId,
+    int? score,
+    int? maxScore,
+    String? level,
+    DateTime? takenAt,
+    List<SkillBreakdown>? skillBreakdowns,
+    List<String>? keyInsights,
+    List<AssessmentResult>? previousResults,
+    bool? shownInCV,
+  }) {
     return AssessmentResult(
-      assessmentId: assessmentId,
-      score: score,
-      maxScore: maxScore,
-      level: level,
-      takenAt: takenAt,
-      skillBreakdowns: skillBreakdowns,
-      keyInsights: keyInsights,
-      previousResults: previousResults,
+      assessmentId: assessmentId ?? this.assessmentId,
+      score: score ?? this.score,
+      maxScore: maxScore ?? this.maxScore,
+      level: level ?? this.level,
+      takenAt: takenAt ?? this.takenAt,
+      skillBreakdowns: skillBreakdowns ?? this.skillBreakdowns,
+      keyInsights: keyInsights ?? this.keyInsights,
+      previousResults: previousResults ?? this.previousResults,
       shownInCV: shownInCV ?? this.shownInCV,
     );
   }
