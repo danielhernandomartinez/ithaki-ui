@@ -34,10 +34,10 @@ AssessmentResult _mockResultFor(String assessmentId) {
     level: 'Strong problem-solving skills',
     takenAt: DateTime(2026, 3, 3),
     skillBreakdowns: const [
-      SkillBreakdown(name: 'Critical Thinking', score: 82, maxScore: 100),
-      SkillBreakdown(name: 'Pattern Recognition', score: 75, maxScore: 100),
-      SkillBreakdown(name: 'Logical Reasoning', score: 79, maxScore: 100),
-      SkillBreakdown(name: 'Decision Speed', score: 70, maxScore: 100),
+      SkillBreakdown(name: 'Critical Thinking', score: 82.0, maxScore: 100.0),
+      SkillBreakdown(name: 'Pattern Recognition', score: 75.0, maxScore: 100.0),
+      SkillBreakdown(name: 'Logical Reasoning', score: 79.0, maxScore: 100.0),
+      SkillBreakdown(name: 'Decision Speed', score: 70.0, maxScore: 100.0),
     ],
     keyInsights: const [
       'You excel at identifying patterns under pressure.',
@@ -331,7 +331,7 @@ class MockAssessmentRepository implements AssessmentRepository {
     await Future<void>.delayed(const Duration(seconds: 2));
     final result = _mockResultFor(assessmentId);
     _results[assessmentId] = result;
-    _progress.remove(assessmentId);
+    await clearProgress(assessmentId);
     final idx = _assessments.indexWhere((a) => a.id == assessmentId);
     if (idx != -1) {
       _assessments[idx] =
