@@ -62,6 +62,15 @@ abstract final class Routes {
   // Career Assistant
   static const careerAssistant = '/career-assistant';
 
+  // Assessments
+  static const assessments = '/assessments';
+  static const assessmentDetail = '/assessments/:id';
+  static String assessmentDetailFor(String id) => '/assessments/$id';
+  static const assessmentQuiz = '/assessments/:id/quiz';
+  static String assessmentQuizFor(String id) => '/assessments/$id/quiz';
+  static const assessmentResults = '/assessments/:id/results';
+  static String assessmentResultsFor(String id) => '/assessments/$id/results';
+
   // Blog
   static const blogNews = '/blog';
   static const blogArticle = '/blog/:id';

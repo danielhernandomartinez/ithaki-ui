@@ -42,6 +42,10 @@ import 'screens/applications/job_detail_screen.dart';
 import 'screens/blog/blog_news_screen.dart';
 import 'screens/blog/blog_article_screen.dart';
 import 'screens/career_assistant/career_assistant_screen.dart';
+import 'screens/assessments/my_assessments_screen.dart';
+import 'screens/assessments/assessment_detail_screen.dart';
+import 'screens/assessments/assessment_quiz_screen.dart';
+import 'screens/assessments/assessment_results_screen.dart';
 
 class IthakiRouter {
   static final navigatorKey = GlobalKey<NavigatorState>();
@@ -302,6 +306,28 @@ class IthakiRouter {
       GoRoute(
         path: Routes.careerAssistant,
         builder: (context, state) => const CareerAssistantScreen(),
+      ),
+      GoRoute(
+        path: Routes.assessments,
+        builder: (context, state) => const MyAssessmentsScreen(),
+      ),
+      GoRoute(
+        path: Routes.assessmentDetail,
+        builder: (context, state) => AssessmentDetailScreen(
+          assessmentId: state.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: Routes.assessmentQuiz,
+        builder: (context, state) => AssessmentQuizScreen(
+          assessmentId: state.pathParameters['id']!,
+        ),
+      ),
+      GoRoute(
+        path: Routes.assessmentResults,
+        builder: (context, state) => AssessmentResultsScreen(
+          assessmentId: state.pathParameters['id']!,
+        ),
       ),
       GoRoute(
         path: Routes.blogNews,
