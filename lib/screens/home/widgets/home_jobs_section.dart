@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/home_provider.dart';
+import '../../../routes.dart';
 import 'home_purple_button.dart';
 
 class HomeJobsSection extends ConsumerWidget {
@@ -35,7 +37,10 @@ class HomeJobsSection extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 4),
-        const HomePurpleButton(label: 'View All'),
+        HomePurpleButton(
+          label: 'View All',
+          onPressed: () => context.go(Routes.jobSearch),
+        ),
       ],
     );
   }

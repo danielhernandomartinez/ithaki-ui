@@ -105,7 +105,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     subtitle: "Career Assistant can help if you're not sure where to start!",
                     buttonLabel: 'Ask Career Assistant',
                     buttonIcon: const IthakiIcon('ai', size: 18, color: IthakiTheme.backgroundWhite),
-                    onButtonPressed: () {},
+                    onButtonPressed: () => context.go(Routes.careerAssistant),
                     backgroundImage: const DecorationImage(
                       image: AssetImage('assets/images/ai_banner_bg.png'),
                       fit: BoxFit.cover,

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+
+import '../../../routes.dart';
 
 class HomeQuestionsSection extends StatelessWidget {
   const HomeQuestionsSection({super.key});
@@ -37,7 +40,7 @@ class HomeQuestionsSection extends StatelessWidget {
           width: double.infinity,
           height: 48,
           child: OutlinedButton(
-            onPressed: () {},
+            onPressed: () => context.go(Routes.careerAssistant),
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: IthakiTheme.borderLight),
               shape: RoundedRectangleBorder(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../routes.dart';
 import '../models/chat_message.dart';
 
 class ArticleCard extends StatelessWidget {
@@ -73,7 +75,10 @@ class ArticleCard extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(14, 10, 14, 14),
             child: SizedBox(
               width: double.infinity,
-              child: IthakiButton('Read Article', onPressed: () {}),
+              child: IthakiButton(
+                'Read Article',
+                onPressed: () => context.push(Routes.blogArticleFor('article_1')),
+              ),
             ),
           ),
         ],

@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../config/app_config.dart';
 import '../models/job_detail_models.dart';
 import '../services/api_client.dart';
 import '../utils/api_mappers.dart' as mapper;
@@ -187,8 +189,86 @@ class ApiJobDetailRepository implements JobDetailRepository {
   }
 }
 
+class MockJobDetailRepository implements JobDetailRepository {
+  @override
+  Future<JobDetail> getJobDetail(String jobId) async {
+    return JobDetail(
+      id: jobId,
+      appliedAt: 'Applied today 09:30',
+      statusLabel: 'Application submitted',
+      deadline: 'Application deadline: 30 April 2026',
+      postedDate: 'Posted 1 day ago',
+      jobTitle: 'Junior Front-End Developer',
+      companyName: 'TechWave',
+      companyLogoColor: IthakiTheme.primaryPurple,
+      companyLogoInitials: 'TW',
+      matchPercentage: 82,
+      matchLabel: 'GREAT MATCH',
+      location: 'Athens',
+      jobType: 'Full-Time',
+      salaryRange: '1,500 euro / month',
+      workplace: 'On-site',
+      experienceLevel: 'Entry',
+      languages: 'English, Greek',
+      description:
+          'TechWave is looking for a motivated Junior Front-End Developer to join our growing product team. You will help build modern, responsive web interfaces and collaborate closely with designers and backend developers to bring digital products to life.',
+      requirements: const [
+        '0-2 years of experience or relevant coursework/projects',
+        'Solid understanding of HTML5, CSS3, JavaScript (ES6+)',
+        'Basic knowledge of React or another front-end framework',
+      ],
+      skills: const ['JavaScript', 'HTML', 'CSS', 'Communication'],
+      communication:
+          'Develop clean, reusable front-end components\nWork with HTML, CSS, JavaScript, and React\nCollaborate with UI/UX designers on implementation details\nOptimize performance and maintain code quality\nAssist in testing and debugging features before release',
+      niceToHave: 'Portfolio, GitHub projects, or bootcamp experience.',
+      whatWeOffer: 'Mentorship, training budget, and clear growth path.',
+      reviews: const [
+        JobReview(
+          authorName: 'Eleni Papadopoulou',
+          authorRole: 'Frontend Mentor',
+          authorInitials: 'EP',
+          authorColor: IthakiTheme.primaryPurple,
+          rating: 4.8,
+          text: 'A friendly team with strong support for junior developers.',
+        ),
+      ],
+      recommended: const RecommendedJob(
+        jobTitle: 'Office Assistant',
+        companyName: 'HelioForce Studio',
+        companyInitials: 'HS',
+        companyColor: IthakiTheme.matchGreen,
+        salary: '1,400 euro / month',
+        matchPercentage: 76,
+        matchLabel: 'GOOD MATCH',
+        location: 'Athens',
+        employmentType: 'Full-Time',
+      ),
+      company: const JobDetailCompany(
+        id: 'company-1',
+        name: 'TechWave',
+        industry: 'IT and Web Development',
+        logoColor: IthakiTheme.primaryPurple,
+        logoInitials: 'TW',
+        totalReviews: '18 reviews',
+        averageRating: 4.7,
+        description:
+            'TechWave builds accessible web products for growing European teams.',
+      ),
+      salary: '1,500 euro / month',
+      odysseaRating: '4.7',
+      odysseaPoints: const [
+        'Inclusive hiring process',
+        'Entry-level friendly',
+        'Training included',
+      ],
+    );
+  }
+}
+
 final jobDetailRepositoryProvider = Provider<JobDetailRepository>(
-  (ref) => ApiJobDetailRepository(apiClient: ref.watch(apiClientProvider)),
+  (ref) => AppConfig.useMockData
+      ? MockJobDetailRepository()
+      : ApiJobDetailRepository(apiClient: ref.watch(apiClientProvider)),
 );
 
 final jobDetailProvider = FutureProvider.family<JobDetail, String>(

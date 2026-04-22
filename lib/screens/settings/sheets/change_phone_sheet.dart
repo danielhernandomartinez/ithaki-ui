@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../config/app_config.dart';
 import '../../../providers/profile_provider.dart';
 import 'verification_sheet.dart';
 
@@ -16,6 +17,10 @@ class ChangePhoneSheet extends ConsumerStatefulWidget {
 class _ChangePhoneSheetState extends ConsumerState<ChangePhoneSheet> {
   final _phoneCtrl = TextEditingController();
   bool _valid = false;
+
+  bool get _canUpdate =>
+      _valid ||
+      (AppConfig.bypassPhoneValidation && _phoneCtrl.text.trim().isNotEmpty);
 
   @override
   void dispose() {
@@ -51,12 +56,13 @@ class _ChangePhoneSheetState extends ConsumerState<ChangePhoneSheet> {
           IthakiPhoneField(
             controller: _phoneCtrl,
             label: 'New Phone Number',
+            onChanged: (_) => setState(() {}),
             onValidationChanged: (v) => setState(() => _valid = v),
           ),
           const SizedBox(height: 20),
           IthakiButton(
             'Update',
-            onPressed: _valid
+            onPressed: _canUpdate
                 ? () {
                     Navigator.pop(context);
                     showVerificationSheet(

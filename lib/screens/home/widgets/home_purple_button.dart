@@ -11,22 +11,28 @@ class HomePurpleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 48,
-      child: ElevatedButton(
-        onPressed: onPressed ?? () {},
-        style: ElevatedButton.styleFrom(
-          backgroundColor: IthakiTheme.primaryPurple,
-          foregroundColor: IthakiTheme.backgroundWhite,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 48),
+        child: ElevatedButton(
+          onPressed: onPressed ?? () {},
+          style: ElevatedButton.styleFrom(
+            backgroundColor: IthakiTheme.primaryPurple,
+            foregroundColor: IthakiTheme.backgroundWhite,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+            ),
+            elevation: 0,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           ),
-          elevation: 0,
-        ),
-        child: Text(
-          label,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),

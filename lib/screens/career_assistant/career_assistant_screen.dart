@@ -82,6 +82,7 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
   Future<void> _sendMessage(String text) async {
     final trimmed = text.trim();
     if (trimmed.isEmpty || _thinking) return;
+    _inputFocus.unfocus();
     _inputController.clear();
     setState(() {
       _showInitialChips = false;
@@ -96,6 +97,29 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
       _messages.add(buildAiResponse(trimmed));
     });
     _scrollToBottom();
+  }
+
+  void _toggleMenu() {
+    _inputFocus.unfocus();
+    _panels.toggleMenu();
+  }
+
+  void _toggleProfile() {
+    _inputFocus.unfocus();
+    _panels.toggleProfile();
+  }
+
+  void _goFromMenu(String route) {
+    _inputFocus.unfocus();
+    _panels.closeMenu();
+    _panels.closeProfile();
+    if (route != Routes.careerAssistant) context.go(route);
+  }
+
+  void _pushFromProfile(String route) {
+    _inputFocus.unfocus();
+    _panels.closeProfile();
+    if (route.isNotEmpty) context.push(route);
   }
 
   void _newChat() {
@@ -123,6 +147,7 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
       );
 
   Future<void> _showMenu(BuildContext ctx) async {
+    _inputFocus.unfocus();
     final overlay =
         Navigator.of(ctx).overlay!.context.findRenderObject() as RenderBox;
     final position = RelativeRect.fromRect(
@@ -215,8 +240,8 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
         menuOpen: _panels.menuOpen,
         profileOpen: _panels.profileOpen,
         avatarInitials: homeData?.userInitials ?? 'CI',
-        onMenuPressed: _panels.toggleMenu,
-        onAvatarPressed: _panels.toggleProfile,
+        onMenuPressed: _toggleMenu,
+        onAvatarPressed: _toggleProfile,
       ),
       body: Stack(
         children: [
@@ -232,6 +257,18 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
 
             ],
           ),
+          // Dismiss overlay sits behind the panels so menu items remain tappable.
+          if (_panels.menuOpen || _panels.profileOpen)
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: () {
+                  _panels.closeMenu();
+                  _panels.closeProfile();
+                },
+                behavior: HitTestBehavior.translucent,
+                child: const ColoredBox(color: Colors.transparent),
+              ),
+            ),
           // Nav drawer
           if (_panels.menuOpen ||
               _panels.menuCtrl.status != AnimationStatus.dismissed)
@@ -243,10 +280,7 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
                   currentRoute: Routes.careerAssistant,
                   profileProgress: ref.watch(profileCompletionProvider),
                   items: kAppNavItems,
-                  onItemTap: (item) {
-                    _panels.closeMenu();
-                    context.go(item.route);
-                  },
+                  onItemTap: (item) => _goFromMenu(item.route),
                 ),
               ),
             ),
@@ -258,11 +292,9 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
               SlideTransition(
                 position: _panels.profileSlideAnim,
                 child: ProfileMenuPanel(
-                  onItemTap: (item) {
-                    _panels.closeProfile();
-                    if (item.route.isNotEmpty) context.push(item.route);
-                  },
+                  onItemTap: (item) => _pushFromProfile(item.route),
                   onLogOut: () {
+                    _inputFocus.unfocus();
                     _panels.closeProfile();
                     ref.read(authRepositoryProvider).logout().whenComplete(() {
                       resetProfileProviders(ref);
@@ -270,17 +302,6 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
                     });
                   },
                 ),
-              ),
-            ),
-          // Dismiss overlay
-          if (_panels.menuOpen || _panels.profileOpen)
-            Positioned.fill(
-              child: GestureDetector(
-                onTap: () {
-                  _panels.closeMenu();
-                  _panels.closeProfile();
-                },
-                behavior: HitTestBehavior.translucent,
               ),
             ),
         ],

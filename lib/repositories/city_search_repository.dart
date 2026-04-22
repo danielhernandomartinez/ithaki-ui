@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../config/app_config.dart';
 import '../services/api_client.dart';
 
 class CityResult {
@@ -70,6 +71,26 @@ class ApiCitySearchRepository implements CitySearchRepository {
   }
 }
 
+class MockCitySearchRepository implements CitySearchRepository {
+  static const _cities = [
+    CityResult(id: 1, city: 'Athens', country: 'Greece', display: 'Athens, Greece'),
+    CityResult(id: 2, city: 'Thessaloniki', country: 'Greece', display: 'Thessaloniki, Greece'),
+    CityResult(id: 3, city: 'Patras', country: 'Greece', display: 'Patras, Greece'),
+    CityResult(id: 4, city: 'Heraklion', country: 'Greece', display: 'Heraklion, Greece'),
+  ];
+
+  @override
+  Future<List<CityResult>> search(String query, {String? countryCode}) async {
+    final normalized = query.trim().toLowerCase();
+    if (normalized.length < 2) return const [];
+    return _cities
+        .where((city) => city.display.toLowerCase().contains(normalized))
+        .toList();
+  }
+}
+
 final citySearchRepositoryProvider = Provider<CitySearchRepository>(
-  (ref) => ApiCitySearchRepository(ref.watch(apiClientProvider)),
+  (ref) => AppConfig.useMockData
+      ? MockCitySearchRepository()
+      : ApiCitySearchRepository(ref.watch(apiClientProvider)),
 );

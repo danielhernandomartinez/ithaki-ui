@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../config/app_config.dart';
 import '../models/applications_models.dart';
 import '../services/api_client.dart';
 import '../utils/api_mappers.dart' as mapper;
@@ -115,6 +116,7 @@ class MockApplicationsRepository implements ApplicationsRepository {
 }
 
 const bool _useMockApplications =
+    AppConfig.useMockData ||
     bool.fromEnvironment('ITHAKI_USE_MOCK_APPLICATIONS');
 
 final applicationsRepositoryProvider = Provider<ApplicationsRepository>(
@@ -252,6 +254,7 @@ class MockInvitationsRepository implements InvitationsRepository {
 }
 
 const bool _useMockInvitations =
+    AppConfig.useMockData ||
     bool.fromEnvironment('ITHAKI_USE_MOCK_INVITATIONS');
 
 final invitationsRepositoryProvider = Provider<InvitationsRepository>(

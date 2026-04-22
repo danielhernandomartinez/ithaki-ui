@@ -291,7 +291,7 @@ class TalentProfileCard extends StatelessWidget {
           ]),
           const SizedBox(height: 16),
           GestureDetector(
-            onTap: () {},
+            onTap: () => context.push(Routes.profile),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

@@ -16,19 +16,19 @@ class BlogPagination extends ConsumerWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
+      child: Center(
+        child: Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 8,
+          runSpacing: 8,
           children: List.generate(total, (i) {
             final page = i + 1;
             final isActive = page == current;
             return GestureDetector(
-              onTap: () =>
-                  ref.read(blogProvider.notifier).setPage(page),
+              onTap: () => ref.read(blogProvider.notifier).setPage(page),
               child: Container(
                 width: 36,
                 height: 36,
-                margin: const EdgeInsets.symmetric(horizontal: 4),
                 decoration: BoxDecoration(
                   color: isActive
                       ? IthakiTheme.primaryPurple
@@ -40,8 +40,7 @@ class BlogPagination extends ConsumerWidget {
                   '$page',
                   style: TextStyle(
                     fontSize: 14,
-                    fontWeight:
-                        isActive ? FontWeight.w700 : FontWeight.w400,
+                    fontWeight: isActive ? FontWeight.w700 : FontWeight.w400,
                     color: isActive
                         ? IthakiTheme.backgroundWhite
                         : IthakiTheme.textSecondary,

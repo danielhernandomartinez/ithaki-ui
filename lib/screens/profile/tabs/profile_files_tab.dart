@@ -81,7 +81,11 @@ class ProfileFilesTab extends ConsumerWidget {
                     ]),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Opening ${f.name}')),
+                  );
+                },
                 child: const Text('Open',
                     style: TextStyle(color: IthakiTheme.primaryPurple)),
               ),

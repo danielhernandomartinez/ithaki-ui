@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../models/job_detail_models.dart';
 import '../../../routes.dart';
+import 'invitation_detail_widgets.dart';
 import 'match_bar.dart';
 
 // ─── Status card ──────────────────────────────────────────────────────────────
@@ -126,7 +127,8 @@ class JobMainCard extends StatelessWidget {
               )),
           const SizedBox(height: 8),
           IthakiButton('Ask Career Assistant',
-              variant: IthakiButtonVariant.outline, onPressed: () {}),
+              variant: IthakiButtonVariant.outline,
+              onPressed: () => context.go(Routes.careerAssistant)),
           const _Divider(),
           _SectionContent(title: 'About the role', body: detail.description),
           const _Divider(),
@@ -559,10 +561,16 @@ class RecommendedCard extends StatelessWidget {
             children: [
               Expanded(
                 child: IthakiButton('Save Job',
-                    variant: IthakiButtonVariant.outline, onPressed: () {}),
+                    variant: IthakiButtonVariant.outline,
+                    onPressed: () => context.go(Routes.jobSearch)),
               ),
               const SizedBox(width: 8),
-              Expanded(child: IthakiButton('View Job', onPressed: () {})),
+              Expanded(
+                child: IthakiButton(
+                  'View Job',
+                  onPressed: () => context.go(Routes.jobSearch),
+                ),
+              ),
             ],
           ),
         ],
@@ -698,12 +706,22 @@ class JobDetailStickyBar extends StatelessWidget {
                   child: IthakiButton(
                     'Save Job',
                     variant: IthakiButtonVariant.outline,
-                    onPressed: () {},
+                    onPressed: () => context.go(Routes.jobSearch),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                  child: IthakiButton('Apply', onPressed: () {}),
+                  child: IthakiButton(
+                    'Apply',
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        builder: (_) => const ApplyBottomSheet(),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../config/app_config.dart';
 import '../../l10n/app_localizations.dart';
 import '../../widgets/login_method_footer.dart';
 
@@ -19,6 +20,11 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
   String _fullPhoneNumber = '';
   String _selectedMethod = '';
   bool _rememberMe = false;
+
+  bool get _canUsePhone =>
+      _isPhoneValid ||
+      (AppConfig.bypassPhoneValidation &&
+          _phoneController.text.trim().isNotEmpty);
 
   @override
   void dispose() {
@@ -85,7 +91,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
               const SizedBox(height: 24),
 
               // Delivery method selection
-              if (_isPhoneValid) ...[
+              if (_canUsePhone) ...[
                 Text(
                   l.selectMethodTitle,
                   style: IthakiTheme.sectionTitle.copyWith(
@@ -172,7 +178,7 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
                 width: double.infinity,
                 child: IthakiButton(
                   l.sendCodeButton,
-                  onPressed: (_isPhoneValid && _selectedMethod.isNotEmpty)
+                  onPressed: (_canUsePhone && _selectedMethod.isNotEmpty)
                       ? () {
                           context.push(
                             Routes.verifyPhoneWith(phone: _fullPhoneNumber, method: _selectedMethod),

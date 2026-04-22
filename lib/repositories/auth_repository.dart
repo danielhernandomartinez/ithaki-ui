@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'profile/profile_local_store.dart';
 
+import '../config/app_config.dart';
 import '../services/api_client.dart';
 
 class AuthException implements Exception {
@@ -39,7 +40,13 @@ abstract class AuthRepository {
 
 class MockAuthRepository implements AuthRepository {
   @override
-  Future<void> loginWithEmail(String email, String password) => Future.value();
+  Future<void> loginWithEmail(String email, String password) async {
+    await ApiAuthRepository._storage.write(
+      key: 'jwt_token',
+      value: 'mock-token',
+    );
+    await ProfileLocalStore.savePhoneVerified(true);
+  }
 
   @override
   Future<void> register({
@@ -51,11 +58,22 @@ class MockAuthRepository implements AuthRepository {
     required String verifyMethod,
     required String techComfort,
     required String systemLanguage,
-  }) =>
-      Future.value();
+  }) async {
+    await ApiAuthRepository._storage.write(
+      key: 'jwt_token',
+      value: 'mock-token',
+    );
+    await ProfileLocalStore.savePhoneVerified(true);
+  }
 
   @override
-  Future<void> verifyOtp(String otp) => Future.value();
+  Future<void> verifyOtp(String otp) async {
+    await ApiAuthRepository._storage.write(
+      key: 'jwt_token',
+      value: 'mock-token',
+    );
+    await ProfileLocalStore.savePhoneVerified(true);
+  }
 
   @override
   Future<void> sendOtp() => Future.value();
@@ -67,7 +85,11 @@ class MockAuthRepository implements AuthRepository {
   Future<void> resetPassword(String newPassword) => Future.value();
 
   @override
-  Future<void> logout() => Future.value();
+  Future<void> logout() async {
+    await ApiAuthRepository._storage.delete(key: 'jwt_token');
+    await ApiAuthRepository._storage.delete(key: 'jwt_refresh_token');
+    await ProfileLocalStore.clearAll();
+  }
 }
 
 class ApiAuthRepository implements AuthRepository {
@@ -311,7 +333,8 @@ class ApiAuthRepository implements AuthRepository {
   }
 }
 
-const bool _useMockAuth = bool.fromEnvironment('ITHAKI_USE_MOCK_AUTH');
+const bool _useMockAuth =
+    AppConfig.useMockData || bool.fromEnvironment('ITHAKI_USE_MOCK_AUTH');
 
 final authRepositoryProvider = Provider<AuthRepository>(
   (ref) => _useMockAuth

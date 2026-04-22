@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../config/app_config.dart';
 import '../models/job_search_models.dart';
 import '../services/api_client.dart';
 import '../utils/api_mappers.dart' as mapper;
@@ -31,9 +33,22 @@ abstract class JobSearchRepository {
   Future<void> unsaveJob(String jobId);
 }
 
-class MockJobSearchRepository implements JobSearchRepository {
-  final Set<String> _savedIds = {};
+class _SavedJobsStore {
+  static const _key = 'ithaki_saved_job_ids';
 
+  static Future<Set<String>> load() async {
+    final prefs = await SharedPreferences.getInstance();
+    return (prefs.getStringList(_key) ?? const <String>[]).toSet();
+  }
+
+  static Future<void> save(Set<String> ids) async {
+    final prefs = await SharedPreferences.getInstance();
+    final sorted = ids.toList()..sort();
+    await prefs.setStringList(_key, sorted);
+  }
+}
+
+class MockJobSearchRepository implements JobSearchRepository {
   static const _allJobs = [
     JobListing(
       id: 'job-1',
@@ -198,13 +213,21 @@ class MockJobSearchRepository implements JobSearchRepository {
   }
 
   @override
-  Future<Set<String>> getSavedJobIds() async => Set.from(_savedIds);
+  Future<Set<String>> getSavedJobIds() => _SavedJobsStore.load();
 
   @override
-  Future<void> saveJob(String jobId) async => _savedIds.add(jobId);
+  Future<void> saveJob(String jobId) async {
+    final savedIds = await _SavedJobsStore.load();
+    savedIds.add(jobId);
+    await _SavedJobsStore.save(savedIds);
+  }
 
   @override
-  Future<void> unsaveJob(String jobId) async => _savedIds.remove(jobId);
+  Future<void> unsaveJob(String jobId) async {
+    final savedIds = await _SavedJobsStore.load();
+    savedIds.remove(jobId);
+    await _SavedJobsStore.save(savedIds);
+  }
 }
 
 // ─── API implementation ───────────────────────────────────────────────────────
@@ -213,11 +236,8 @@ class ApiJobSearchRepository implements JobSearchRepository {
   ApiJobSearchRepository({ApiClient? apiClient}) : _api = apiClient ?? ApiClient();
 
   final ApiClient _api;
-  // TODO(backend): saved-jobs endpoint not yet implemented.
-  // Replace _savedIds with real API calls once the backend exposes
-  // GET/POST/DELETE /api/job-seeker/me/saved-jobs (or equivalent).
-  // State is currently in-memory only and lost on app restart.
-  final Set<String> _savedIds = {};
+  // TODO(backend): replace local persistence with real API calls once the
+  // backend exposes GET/POST/DELETE saved-jobs endpoints.
 
   static JobListing _parseJob(Map<String, dynamic> j) {
     final id = j['id']?.toString() ?? '';
@@ -292,18 +312,27 @@ class ApiJobSearchRepository implements JobSearchRepository {
   }
 
   @override
-  Future<Set<String>> getSavedJobIds() async => Set.from(_savedIds);
+  Future<Set<String>> getSavedJobIds() => _SavedJobsStore.load();
 
   @override
-  Future<void> saveJob(String jobId) async => _savedIds.add(jobId);
+  Future<void> saveJob(String jobId) async {
+    final savedIds = await _SavedJobsStore.load();
+    savedIds.add(jobId);
+    await _SavedJobsStore.save(savedIds);
+  }
 
   @override
-  Future<void> unsaveJob(String jobId) async => _savedIds.remove(jobId);
+  Future<void> unsaveJob(String jobId) async {
+    final savedIds = await _SavedJobsStore.load();
+    savedIds.remove(jobId);
+    await _SavedJobsStore.save(savedIds);
+  }
 }
 
 // ─── Provider ─────────────────────────────────────────────────────────────────
 
-const bool _useMockJobSearch = bool.fromEnvironment('ITHAKI_USE_MOCK_JOB_SEARCH');
+const bool _useMockJobSearch =
+    AppConfig.useMockData || bool.fromEnvironment('ITHAKI_USE_MOCK_JOB_SEARCH');
 
 final jobSearchRepositoryProvider = Provider<JobSearchRepository>(
   (ref) => _useMockJobSearch

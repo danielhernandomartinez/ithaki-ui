@@ -15,6 +15,7 @@ import '../../routes.dart';
 import '../../utils/match_colors.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
+import '../applications/widgets/invitation_detail_widgets.dart';
 import 'widgets/report_job_sheet.dart';
 import 'widgets/set_reminder_sheet.dart';
 
@@ -77,13 +78,14 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
             announcementDismissed: _announcementDismissed,
             onDismissAnnouncement: () => setState(() => _announcementDismissed = true),
             onSave: () => _toggleSave(context, isSaved),
-            onApply: () {},
+            onApply: () => _showApplySheet(context),
             onNotInterested: () => _onNotInterested(context),
             onUndoNotInterested: () => setState(() => _isNotInterested = false),
             onDeadlineReminder: () => _showReminderSheet(context, detail),
             onDeleteReminder: () => setState(() => _hasReminder = false),
             onReport: () => _showReportSheet(context),
             onShare: () => _showShareMenu(context),
+            onAskCareerAssistant: () => context.push(Routes.careerAssistant),
           )),
     );
   }
@@ -112,12 +114,22 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
           ? _StickyBar(
               isSaved: isSaved,
               isClosed: detail.isClosed,
-              onApply: () {},
+              onApply: () => _showApplySheet(context),
               onSave: () => _toggleSave(context, isSaved),
             )
           : null,
       body: Stack(children: [
         child,
+        if (_panels.menuOpen || _panels.profileOpen)
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: () {
+                _panels.closeMenu();
+                _panels.closeProfile();
+              },
+              child: const ColoredBox(color: Colors.transparent),
+            ),
+          ),
         if (_panels.menuOpen || _panels.menuCtrl.status != AnimationStatus.dismissed)
           _panel(topOffset,
               SlideTransition(
@@ -150,16 +162,6 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
                   },
                 ),
               )),
-        if (_panels.menuOpen || _panels.profileOpen)
-          Positioned.fill(
-            child: GestureDetector(
-              onTap: () {
-                _panels.closeMenu();
-                _panels.closeProfile();
-              },
-              child: const ColoredBox(color: Colors.transparent),
-            ),
-          ),
       ]),
     );
   }
@@ -179,6 +181,15 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
       content: Text(isSaved ? 'Removed from saved jobs.' : 'Job has been saved! Check your saved jobs.'),
       duration: const Duration(seconds: 3),
     ));
+  }
+
+  void _showApplySheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => const ApplyBottomSheet(),
+    );
   }
 
   void _onNotInterested(BuildContext context) {
@@ -333,6 +344,7 @@ class _Body extends StatelessWidget {
   final VoidCallback onDeleteReminder;
   final VoidCallback onReport;
   final VoidCallback onShare;
+  final VoidCallback onAskCareerAssistant;
 
   const _Body({
     required this.detail,
@@ -349,6 +361,7 @@ class _Body extends StatelessWidget {
     required this.onDeleteReminder,
     required this.onReport,
     required this.onShare,
+    required this.onAskCareerAssistant,
   });
 
   @override
@@ -373,6 +386,7 @@ class _Body extends StatelessWidget {
             child: _MatchBanner(
               percentage: detail.matchPercentage,
               matchLabel: detail.matchLabel,
+              onAskCareerAssistant: onAskCareerAssistant,
             ),
           ),
 
@@ -468,59 +482,151 @@ class _AnnouncementBanner extends StatelessWidget {
 class _MatchBanner extends StatelessWidget {
   final int percentage;
   final String matchLabel;
-  const _MatchBanner({required this.percentage, required this.matchLabel});
+  final VoidCallback onAskCareerAssistant;
+
+  const _MatchBanner({
+    required this.percentage,
+    required this.matchLabel,
+    required this.onAskCareerAssistant,
+  });
+
+  Color get _progressColor {
+    if (percentage >= 80) return IthakiTheme.matchGreen;
+    if (percentage >= 60) return const Color(0xFFFFC44D);
+    if (percentage >= 40) return const Color(0xFFFF8A4C);
+    return const Color(0xFFFF6B6B);
+  }
+
+  String get _matchCopy {
+    if (percentage >= 80) return "It's a Strong skills\nMatch!";
+    if (percentage >= 60) return "It's a Good skills\nMatch!";
+    if (percentage >= 40) return "It's a Partial skills\nMatch!";
+    return "It's a Starter skills\nMatch!";
+  }
 
   @override
   Widget build(BuildContext context) {
-    final gradientColors = getMatchGradientColors(matchLabel);
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(14, 18, 14, 18),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: gradientColors.isNotEmpty
-              ? gradientColors
-              : [const Color(0xFF2D1F5E), const Color(0xFF5B3FA0)],
+        gradient: const LinearGradient(
+          colors: [
+            Color(0xFF151515),
+            Color(0xFF1D1B28),
+            IthakiTheme.primaryPurple,
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(24),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(children: [
-          // Circular progress
-          SizedBox(
-            width: 64, height: 64,
-            child: Stack(alignment: Alignment.center, children: [
-              CircularProgressIndicator(
-                value: percentage / 100,
-                strokeWidth: 5,
-                backgroundColor: Colors.white.withValues(alpha: 0.3),
-                valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4ADE80)),
-              ),
-              Text('$percentage%',
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 112,
+              height: 112,
+              child: Stack(alignment: Alignment.center, children: [
+                SizedBox(
+                  width: 86,
+                  height: 86,
+                  child: CircularProgressIndicator(
+                    value: 1,
+                    strokeWidth: 10,
+                    strokeCap: StrokeCap.round,
+                    backgroundColor: Colors.transparent,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Colors.white.withValues(alpha: 0.14),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 86,
+                  height: 86,
+                  child: CircularProgressIndicator(
+                    value: percentage.clamp(0, 100).toDouble() / 100,
+                    strokeWidth: 10,
+                    strokeCap: StrokeCap.round,
+                    backgroundColor: Colors.transparent,
+                    valueColor: AlwaysStoppedAnimation<Color>(_progressColor),
+                  ),
+                ),
+                Text(
+                  '$percentage%',
                   style: const TextStyle(
-                    fontFamily: 'Noto Sans', fontSize: 13,
-                    fontWeight: FontWeight.w700, color: Colors.white,
-                  )),
-            ]),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              percentage >= 80
-                  ? "It's a Strong skills\nMatch!"
-                  : percentage >= 50
-                      ? "It's a Good skills\nMatch!"
-                      : "It's a Partial skills\nMatch!",
-              style: const TextStyle(
-                fontFamily: 'Noto Sans', fontSize: 22,
-                fontWeight: FontWeight.w700, color: Colors.white,
-                height: 1.2,
+                    fontFamily: 'Noto Sans',
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                ),
+              ]),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                _matchCopy,
+                style: const TextStyle(
+                  fontFamily: 'Noto Sans',
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                  height: 1.45,
+                  letterSpacing: -0.2,
+                ),
               ),
             ),
+          ],
+        ),
+        const SizedBox(height: 14),
+        Divider(color: Colors.white.withValues(alpha: 0.18), height: 1),
+        const SizedBox(height: 16),
+        const Text(
+          'Curious why you match this job?',
+          style: TextStyle(
+            fontFamily: 'Noto Sans',
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
           ),
-        ]),
+        ),
+        const SizedBox(height: 28),
+        GestureDetector(
+          onTap: onAskCareerAssistant,
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 18),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.08),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.82),
+                width: 1.2,
+              ),
+            ),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IthakiIcon('ai', size: 18, color: Colors.white),
+                SizedBox(width: 10),
+                Flexible(
+                  child: Text(
+                    'Ask Career Assistant',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Noto Sans',
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ]),
     );
   }
@@ -606,29 +712,68 @@ class _MainJobCard extends StatelessWidget {
         if (detail.deadline.isNotEmpty) ...[
           const SizedBox(height: 10),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
             decoration: BoxDecoration(
               color: IthakiTheme.accentPurpleLight,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(26),
             ),
-            child: Row(children: [
-              const IthakiIcon('calendar', size: 18, color: IthakiTheme.primaryPurple),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  const Text('This job has a Deadline!',
-                      style: TextStyle(
-                        fontFamily: 'Noto Sans', fontSize: 13,
-                        fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
-                      )),
-                  Text('Application open till: ${detail.deadline}',
-                      style: const TextStyle(
-                        fontFamily: 'Noto Sans', fontSize: 12,
-                        color: IthakiTheme.softGraphite,
-                      )),
-                ]),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 34,
+                  height: 34,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: IthakiTheme.backgroundWhite,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const IthakiIcon(
+                    'calendar',
+                    size: 18,
+                    color: IthakiTheme.primaryPurple,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'This job has a deadline! Application\nopen till:',
+                        style: TextStyle(
+                          fontFamily: 'Noto Sans',
+                          fontSize: 16,
+                          height: 1.25,
+                          fontWeight: FontWeight.w500,
+                          color: IthakiTheme.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(height: 14),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: IthakiTheme.backgroundWhite,
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: Text(
+                          detail.deadline,
+                          style: const TextStyle(
+                            fontFamily: 'Noto Sans',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: IthakiTheme.textPrimary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
               ),
-            ]),
           ),
         ],
 
@@ -669,51 +814,74 @@ class _MainJobCard extends StatelessWidget {
 
         // Details grid
         if (_hasAnyDetail(detail)) ...[
-          const SizedBox(height: 14),
+          const SizedBox(height: 12),
+          const Divider(height: 1, color: IthakiTheme.borderLight),
+          const SizedBox(height: 12),
           Wrap(spacing: 0, runSpacing: 10, children: [
-            if (detail.location.isNotEmpty) _Cell(icon: 'location', value: detail.location),
-            if (detail.jobType.isNotEmpty) _Cell(icon: 'clock', value: detail.jobType),
-            if (detail.salaryRange.isNotEmpty) _Cell(value: detail.salaryRange, bold: true),
-            if (detail.workplace.isNotEmpty) _Cell(icon: 'profile', value: detail.workplace),
-            if (detail.experienceLevel.isNotEmpty) _Cell(icon: 'flag', value: detail.experienceLevel),
-            if (detail.languages.isNotEmpty) _Cell(icon: 'globe', value: detail.languages, wide: true),
+            if (detail.location.isNotEmpty)
+              _Cell(label: 'Location', icon: 'location', value: detail.location),
+            if (detail.jobType.isNotEmpty)
+              _Cell(label: 'Job Type', icon: 'clock', value: detail.jobType),
+            if (detail.company.industry.isNotEmpty)
+              _Cell(label: 'Industry', value: detail.company.industry),
+            if (detail.salaryRange.isNotEmpty)
+              _Cell(label: 'Salary Range', value: detail.salaryRange, bold: true),
+            if (detail.workplace.isNotEmpty)
+              _Cell(label: 'Workplace', icon: 'profile', value: detail.workplace),
+            if (detail.experienceLevel.isNotEmpty)
+              _Cell(
+                label: 'Experience Level',
+                icon: 'assessment',
+                value: detail.experienceLevel,
+              ),
+            if (detail.languages.isNotEmpty)
+              _Cell(
+                label: 'Language',
+                icon: 'globe',
+                value: detail.languages,
+                wide: true,
+              ),
           ]),
         ],
 
         // Skills
         if (detail.skills.isNotEmpty) ...[
-          const SizedBox(height: 14),
-          Wrap(spacing: 6, runSpacing: 6,
-              children: detail.skills.map((s) => _SkillChip(s)).toList()),
+          const SizedBox(height: 12),
+          const Text(
+            'Skills required',
+            style: TextStyle(
+              fontFamily: 'Noto Sans',
+              fontSize: 14,
+              color: IthakiTheme.softGraphite,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Wrap(
+            spacing: 4,
+            runSpacing: 4,
+            children: detail.skills.map((s) => _SkillChip(s)).toList(),
+          ),
         ],
-
-        const SizedBox(height: 14),
-        const Divider(height: 1, color: Color(0xFFE8E8E8)),
 
         // About the role
         if (detail.description.isNotEmpty) ...[
-          const SizedBox(height: 14),
-          _Section(title: 'About the role', body: detail.description),
-          const SizedBox(height: 14),
-          const Divider(height: 1, color: Color(0xFFE8E8E8)),
+          const SizedBox(height: 24),
+          _JobTextSection(title: 'About the role', body: detail.description),
         ],
 
         // Responsibilities (communication field)
         if (detail.communication.isNotEmpty) ...[
-          const SizedBox(height: 14),
-          _Section(title: 'Responsibilities', body: detail.communication),
-          const SizedBox(height: 14),
-          const Divider(height: 1, color: Color(0xFFE8E8E8)),
+          const SizedBox(height: 26),
+          _JobBulletSection(
+            title: 'Responsibilities',
+            items: _splitJobBullets(detail.communication),
+          ),
         ],
 
         // Requirements
         if (detail.requirements.isNotEmpty) ...[
-          const SizedBox(height: 14),
-          _SectionTitle('Requirements'),
-          const SizedBox(height: 8),
-          ...detail.requirements.map((r) => _Bullet(r)),
-          const SizedBox(height: 14),
-          const Divider(height: 1, color: Color(0xFFE8E8E8)),
+          const SizedBox(height: 24),
+          _JobBulletSection(title: 'Requirements', items: detail.requirements),
         ],
 
         // Nice to have
@@ -794,7 +962,7 @@ class _MainJobCard extends StatelessWidget {
   }
 
   bool _hasAnyDetail(JobDetail d) =>
-      d.location.isNotEmpty || d.jobType.isNotEmpty || d.salaryRange.isNotEmpty ||
+      d.location.isNotEmpty || d.jobType.isNotEmpty || d.company.industry.isNotEmpty || d.salaryRange.isNotEmpty ||
       d.workplace.isNotEmpty || d.experienceLevel.isNotEmpty || d.languages.isNotEmpty;
 }
 
@@ -949,10 +1117,16 @@ class _RecommendedJobTile extends StatelessWidget {
       Row(children: [
         Expanded(
           child: IthakiButton('Save Job',
-              variant: IthakiButtonVariant.outline, onPressed: () {}),
+              variant: IthakiButtonVariant.outline,
+              onPressed: () => context.go(Routes.jobSearch)),
         ),
         const SizedBox(width: 8),
-        Expanded(child: IthakiButton('View Job', onPressed: () {})),
+        Expanded(
+          child: IthakiButton(
+            'View Job',
+            onPressed: () => context.go(Routes.jobSearch),
+          ),
+        ),
       ]),
     ]);
   }
@@ -1034,30 +1208,52 @@ class _CompanyCard extends StatelessWidget {
 // ─── Small reusable widgets ───────────────────────────────────────────────────
 
 class _Cell extends StatelessWidget {
+  final String label;
   final String? icon;
   final String value;
   final bool bold;
   final bool wide;
-  const _Cell({this.icon, required this.value, this.bold = false, this.wide = false});
+  const _Cell({
+    required this.label,
+    this.icon,
+    required this.value,
+    this.bold = false,
+    this.wide = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: wide ? double.infinity : 155,
-      child: Row(mainAxisSize: MainAxisSize.min, children: [
-        if (icon != null) ...[
-          IthakiIcon(icon!, size: 16, color: IthakiTheme.softGraphite),
-          const SizedBox(width: 4),
-        ],
-        Flexible(
-          child: Text(value,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontFamily: 'Noto Sans',
+            fontSize: 14,
+            color: IthakiTheme.softGraphite,
+            height: 1.15,
+          ),
+        ),
+        const SizedBox(height: 5),
+        Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          if (icon != null) ...[
+            IthakiIcon(icon!, size: 16, color: IthakiTheme.softGraphite),
+            const SizedBox(width: 4),
+          ],
+          Flexible(
+            child: Text(
+              value,
               style: TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: bold ? 17 : 14,
+                height: 1.35,
                 fontWeight: bold ? FontWeight.w600 : FontWeight.w400,
                 color: IthakiTheme.textPrimary,
-              )),
-        ),
+              ),
+            ),
+          ),
+        ]),
       ]),
     );
   }
@@ -1070,16 +1266,31 @@ class _SkillChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: IthakiTheme.chipActive,
-        borderRadius: BorderRadius.circular(20),
+        color: IthakiTheme.softGray,
+        borderRadius: BorderRadius.circular(14),
       ),
-      child: Text(label,
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        const Text(
+          '✓',
+          style: TextStyle(
+            fontSize: 11,
+            color: IthakiTheme.softGraphite,
+            height: 1,
+          ),
+        ),
+        const SizedBox(width: 4),
+        Text(
+          label,
           style: const TextStyle(
-            fontFamily: 'Noto Sans', fontSize: 13,
+            fontFamily: 'Noto Sans',
+            fontSize: 14,
+            height: 1.1,
             color: IthakiTheme.textPrimary,
-          )),
+          ),
+        ),
+      ]),
     );
   }
 }
@@ -1117,6 +1328,60 @@ class _Section extends StatelessWidget {
   }
 }
 
+class _JobTextSection extends StatelessWidget {
+  final String title;
+  final String body;
+  const _JobTextSection({required this.title, required this.body});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(title, style: _jobSectionTitleStyle),
+      const SizedBox(height: 7),
+      Text(body, style: _jobSectionBodyStyle),
+    ]);
+  }
+}
+
+class _JobBulletSection extends StatelessWidget {
+  final String title;
+  final List<String> items;
+  const _JobBulletSection({required this.title, required this.items});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(title, style: _jobSectionTitleStyle),
+      const SizedBox(height: 9),
+      ...items.where((item) => item.trim().isNotEmpty).map(_JobBullet.new),
+    ]);
+  }
+}
+
+class _JobBullet extends StatelessWidget {
+  final String text;
+  const _JobBullet(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Container(
+          width: 6,
+          height: 6,
+          margin: const EdgeInsets.only(top: 7, right: 8),
+          decoration: const BoxDecoration(
+            color: IthakiTheme.borderLight,
+            shape: BoxShape.circle,
+          ),
+        ),
+        Expanded(child: Text(text, style: _jobSectionBodyStyle)),
+      ]),
+    );
+  }
+}
+
 class _Bullet extends StatelessWidget {
   final String text;
   const _Bullet(this.text);
@@ -1138,3 +1403,27 @@ class _Bullet extends StatelessWidget {
     );
   }
 }
+
+List<String> _splitJobBullets(String value) {
+  final lines = value
+      .split(RegExp(r'\r?\n|•|- '))
+      .map((line) => line.trim())
+      .where((line) => line.isNotEmpty)
+      .toList();
+
+  return lines.length > 1 ? lines : [value.trim()];
+}
+
+const _jobSectionTitleStyle = TextStyle(
+  fontFamily: 'Noto Sans',
+  fontSize: 16,
+  fontWeight: FontWeight.w500,
+  color: IthakiTheme.textPrimary,
+);
+
+const _jobSectionBodyStyle = TextStyle(
+  fontFamily: 'Noto Sans',
+  fontSize: 14,
+  height: 1.48,
+  color: IthakiTheme.textPrimary,
+);

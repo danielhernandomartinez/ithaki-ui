@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../config/app_config.dart';
 import '../models/profile_models.dart';
 import '../services/api_client.dart';
 import 'profile/profile_api_mapper.dart';
@@ -780,7 +781,8 @@ class ApiProfileRepository implements ProfileRepository {
   }
 }
 
-const bool _useMockProfile = bool.fromEnvironment('ITHAKI_USE_MOCK_PROFILE');
+const bool _useMockProfile =
+    AppConfig.useMockData || bool.fromEnvironment('ITHAKI_USE_MOCK_PROFILE');
 
 final profileRepositoryProvider = Provider<ProfileRepository>(
   (ref) => _useMockProfile

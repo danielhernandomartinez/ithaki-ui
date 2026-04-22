@@ -32,7 +32,12 @@ class JobSearchList extends ConsumerWidget {
     if (searchState == null || searchResult == null) {
       return const Center(child: CircularProgressIndicator());
     }
-    final jobs = searchResult.jobs;
+    final jobs = searchState.selectedTab == 1
+        ? searchResult.jobs
+            .where((job) => searchState.savedJobIds.contains(job.id))
+            .toList()
+        : searchResult.jobs;
+    final isSavedTab = searchState.selectedTab == 1;
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -49,7 +54,9 @@ class JobSearchList extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${formatNumber(searchResult.totalJobs)} jobs found',
+                isSavedTab
+                    ? '${formatNumber(jobs.length)} saved jobs'
+                    : '${formatNumber(searchResult.totalJobs)} jobs found',
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -66,30 +73,44 @@ class JobSearchList extends ConsumerWidget {
           const SizedBox(height: 12),
 
           // ── Job cards ─────────────────────────────────────
-          for (int i = 0; i < jobs.length; i++) ...[
-            IthakiJobSearchCard(
-              jobTitle: jobs[i].jobTitle,
-              companyName: jobs[i].companyName,
-              salary: jobs[i].salary,
-              matchPercentage: jobs[i].matchPercentage,
-              matchLabel: jobs[i].matchLabel,
-              matchGradientColors: getMatchGradientColors(jobs[i].matchLabel),
-              matchBackgroundColor: getMatchBgColor(jobs[i].matchLabel),
-              category: jobs[i].category,
-              location: jobs[i].location,
-              workMode: jobs[i].workMode,
-              employmentType: jobs[i].employmentType,
-              level: jobs[i].level,
-              postedAgo: jobs[i].postedAgo,
-              isSaved: searchState.isSaved(jobs[i].id),
-              onSave: () => notifier.toggleSaved(jobs[i].id),
-              onView: () => context.push(Routes.jobSearchDetailFor(jobs[i].id)),
-            ),
-            if (i < jobs.length - 1) const SizedBox(height: 12),
-          ],
+          if (jobs.isEmpty && isSavedTab)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 28),
+              child: Center(
+                child: Text(
+                  'No saved jobs yet.',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: IthakiTheme.textSecondary,
+                  ),
+                ),
+              ),
+            )
+          else
+            for (int i = 0; i < jobs.length; i++) ...[
+              IthakiJobSearchCard(
+                jobTitle: jobs[i].jobTitle,
+                companyName: jobs[i].companyName,
+                salary: jobs[i].salary,
+                matchPercentage: jobs[i].matchPercentage,
+                matchLabel: jobs[i].matchLabel,
+                matchGradientColors: getMatchGradientColors(jobs[i].matchLabel),
+                matchBackgroundColor: getMatchBgColor(jobs[i].matchLabel),
+                category: jobs[i].category,
+                location: jobs[i].location,
+                workMode: jobs[i].workMode,
+                employmentType: jobs[i].employmentType,
+                level: jobs[i].level,
+                postedAgo: jobs[i].postedAgo,
+                isSaved: searchState.isSaved(jobs[i].id),
+                onSave: () => notifier.toggleSaved(jobs[i].id),
+                onView: () => context.push(Routes.jobSearchDetailFor(jobs[i].id)),
+              ),
+              if (i < jobs.length - 1) const SizedBox(height: 12),
+            ],
 
           const SizedBox(height: 16),
-          const JobSearchPagination(),
+          if (!isSavedTab) const JobSearchPagination(),
         ],
       ),
     );

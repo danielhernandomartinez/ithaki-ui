@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../config/app_config.dart';
 import '../models/home_models.dart';
 import '../services/api_client.dart';
 
@@ -174,7 +175,8 @@ class ApiHomeRepository implements HomeRepository {
 
 // ─── Provider ─────────────────────────────────────────────────────────────────
 
-const bool _useMockHome = bool.fromEnvironment('ITHAKI_USE_MOCK_HOME');
+const bool _useMockHome =
+    AppConfig.useMockData || bool.fromEnvironment('ITHAKI_USE_MOCK_HOME');
 
 final homeRepositoryProvider = Provider<HomeRepository>(
   (ref) => _useMockHome

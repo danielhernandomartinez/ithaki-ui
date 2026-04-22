@@ -162,7 +162,7 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
                     buttonLabel: l.askCareerAssistant,
                     buttonIcon: const IthakiIcon(
                         'ai', size: 18, color: IthakiTheme.backgroundWhite),
-                    onButtonPressed: () {},
+                    onButtonPressed: () => context.go(Routes.careerAssistant),
                     backgroundImage: const DecorationImage(
                       image: AssetImage('assets/images/ai_banner_bg.png'),
                       fit: BoxFit.cover,

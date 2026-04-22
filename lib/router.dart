@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'config/app_config.dart';
 import 'repositories/profile/profile_local_store.dart';
 import 'screens/auth/select_language_screen.dart';
 import 'routes.dart';
@@ -73,6 +74,8 @@ class IthakiRouter {
   };
 
   static Future<String?> _redirect(BuildContext context, GoRouterState state) async {
+    if (AppConfig.useMockData) return null;
+
     final token = await _storage.read(key: 'jwt_token');
     if (token == null || token.isEmpty) return null;
 

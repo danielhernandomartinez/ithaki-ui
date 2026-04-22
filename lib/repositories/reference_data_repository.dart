@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../config/app_config.dart';
 import '../services/api_client.dart';
 
 // ─── Models ───────────────────────────────────────────────────────────────────
@@ -161,6 +162,65 @@ class ReferenceDataRepository {
   }
 }
 
+class MockReferenceDataRepository extends ReferenceDataRepository {
+  MockReferenceDataRepository()
+      : super(apiClient: ApiClient(baseUrl: 'http://localhost'));
+
+  @override
+  Future<List<SkillItem>> getHardSkills() async => const [
+        SkillItem(id: 1, name: 'JavaScript'),
+        SkillItem(id: 2, name: 'Flutter'),
+        SkillItem(id: 3, name: 'Customer Support'),
+        SkillItem(id: 4, name: 'Data Entry'),
+        SkillItem(id: 5, name: 'Digital Marketing'),
+      ];
+
+  @override
+  Future<List<SkillItem>> getSoftSkills() async => const [
+        SkillItem(id: 1, name: 'Communication'),
+        SkillItem(id: 2, name: 'Teamwork'),
+        SkillItem(id: 3, name: 'Adaptability'),
+        SkillItem(id: 4, name: 'Problem Solving'),
+      ];
+
+  @override
+  Future<List<LanguageItem>> getLanguages() async => const [
+        LanguageItem(id: 1, name: 'English'),
+        LanguageItem(id: 2, name: 'Greek'),
+        LanguageItem(id: 3, name: 'Arabic'),
+        LanguageItem(id: 4, name: 'French'),
+      ];
+
+  @override
+  Future<List<JobInterestItem>> getJobInterests({String keyword = ''}) async {
+    const items = [
+      JobInterestItem(id: 1, title: 'Web Development', category: 'IT'),
+      JobInterestItem(id: 2, title: 'Front-End Development', category: 'IT'),
+      JobInterestItem(id: 3, title: 'Office Administration', category: 'Admin'),
+      JobInterestItem(id: 4, title: 'Customer Support', category: 'Service'),
+      JobInterestItem(id: 5, title: 'Digital Marketing', category: 'Marketing'),
+    ];
+    final normalized = keyword.trim().toLowerCase();
+    if (normalized.isEmpty) return items;
+    return items
+        .where((item) =>
+            item.title.toLowerCase().contains(normalized) ||
+            item.category.toLowerCase().contains(normalized))
+        .toList();
+  }
+
+  @override
+  Future<List<PersonalityValueItem>> getPersonalityValues() async => const [
+        PersonalityValueItem(id: 1, title: 'Learning'),
+        PersonalityValueItem(id: 2, title: 'Teamwork'),
+        PersonalityValueItem(id: 3, title: 'Stability'),
+        PersonalityValueItem(id: 4, title: 'Creativity'),
+        PersonalityValueItem(id: 5, title: 'Independence'),
+      ];
+}
+
 final referenceDataRepositoryProvider = Provider<ReferenceDataRepository>(
-  (ref) => ReferenceDataRepository(apiClient: ref.watch(apiClientProvider)),
+  (ref) => AppConfig.useMockData
+      ? MockReferenceDataRepository()
+      : ReferenceDataRepository(apiClient: ref.watch(apiClientProvider)),
 );
