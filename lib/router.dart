@@ -82,6 +82,7 @@ class IthakiRouter {
     if (_unguardedRoutes.contains(state.matchedLocation)) return null;
 
     final phoneVerified = await ProfileLocalStore.loadPhoneVerified();
+    debugPrint('[guard] phoneVerified=$phoneVerified route=${state.matchedLocation}');
     // null = pre-existing session before this feature — don't block.
     if (phoneVerified != false) return null;
 

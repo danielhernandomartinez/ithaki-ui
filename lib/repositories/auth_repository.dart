@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -301,6 +303,8 @@ class ApiAuthRepository implements AuthRepository {
           body: otp.trim(),
         )
         .timeout(ApiClient.timeout);
+
+    debugPrint('[verifyOtp] status=${response.statusCode} body=${response.body}');
 
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw AuthException(

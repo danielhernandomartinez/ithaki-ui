@@ -50,7 +50,7 @@ class ProfileLocalStore {
           'relocationReadiness': value.relocationReadiness,
         }),
       ),
-      savePhoneVerified(value.phoneVerified),
+      if (value.phoneVerified) savePhoneVerified(true),
     ]);
   }
 
