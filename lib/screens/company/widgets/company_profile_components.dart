@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../../models/company_models.dart';
+import 'company_cultural_fit_gauge.dart';
 
 class CompanySurfaceCard extends StatelessWidget {
   const CompanySurfaceCard({
@@ -423,7 +424,7 @@ class CulturalMatchCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
-            child: _CulturalMatchGauge(label: match.label),
+            child: CompanyCulturalFitGauge(label: match.label),
           ),
           const SizedBox(height: 12),
           const Text('Cultural Match Score', style: companyProfileSectionTitle),
@@ -599,80 +600,6 @@ class _CompanyGalleryPlaceholderGrid extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-}
-
-class _CulturalMatchGauge extends StatelessWidget {
-  const _CulturalMatchGauge({required this.label});
-
-  final String label;
-
-  double get _value {
-    switch (label.toLowerCase()) {
-      case 'high':
-        return 0.82;
-      case 'medium':
-        return 0.58;
-      default:
-        return 0.34;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 190,
-      height: 190,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          SizedBox(
-            width: 156,
-            height: 156,
-            child: CircularProgressIndicator(
-              value: 1,
-              strokeWidth: 14,
-              backgroundColor: IthakiTheme.softGray,
-              valueColor: const AlwaysStoppedAnimation<Color>(
-                IthakiTheme.softGray,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 156,
-            height: 156,
-            child: CircularProgressIndicator(
-              value: _value,
-              strokeWidth: 14,
-              valueColor: const AlwaysStoppedAnimation<Color>(
-                IthakiTheme.primaryPurple,
-              ),
-              backgroundColor: Colors.transparent,
-            ),
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const IthakiIcon(
-                'team',
-                size: 28,
-                color: IthakiTheme.primaryPurple,
-              ),
-              const SizedBox(height: 10),
-              Text(label, style: companyProfileTitleStyle),
-              const SizedBox(height: 4),
-              Text(
-                'Shared values alignment',
-                style: companyProfileBodyStyle.copyWith(
-                  color: IthakiTheme.textSecondary,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }

@@ -19,7 +19,7 @@ class ProfileTabBar extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       height: 48,
       decoration: BoxDecoration(
-        color: IthakiTheme.chipActive,
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(24),
       ),
       padding: const EdgeInsets.all(4),

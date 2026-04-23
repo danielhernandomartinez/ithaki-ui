@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
@@ -708,22 +710,25 @@ class ApplicationDetailStickyBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: IthakiTheme.backgroundWhite,
+      child: ClipRRect(
         borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: IthakiTheme.borderLight),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF1E1E1E).withValues(alpha: 0.15),
-            offset: const Offset(0, 4),
-            blurRadius: 14,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: IthakiTheme.backgroundWhite.withValues(alpha: 0.72),
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(
+                color: IthakiTheme.borderLight.withValues(alpha: 0.9),
+              ),
+            ),
+            child: IthakiButton(
+              'To Job Details',
+              onPressed: () => context.push(Routes.jobDetailFor(applicationId)),
+            ),
           ),
-        ],
-      ),
-      child: IthakiButton(
-        'To Job Details',
-        onPressed: () => context.push(Routes.jobDetailFor(applicationId)),
+        ),
       ),
     );
   }

@@ -48,6 +48,7 @@ abstract final class Routes {
 
   // Profile
   static const profile = '/profile';
+  static const cv = '/cv';
   static const profileBasics = '/profile/basics';
   static const profileSkills = '/profile/skills';
   static const profileCompetencies = '/profile/competencies';

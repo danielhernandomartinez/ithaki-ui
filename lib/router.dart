@@ -28,6 +28,7 @@ import 'screens/job_search/job_search_detail_screen.dart';
 import 'screens/company/company_event_detail_screen.dart';
 import 'screens/company/company_profile_screen.dart';
 import 'screens/profile/profile_screen.dart';
+import 'screens/profile/my_cv_screen.dart';
 import 'screens/profile/profile_basics_screen.dart';
 import 'screens/profile/edit_skills_screen.dart';
 import 'screens/profile/edit_competencies_screen.dart';
@@ -42,6 +43,7 @@ import 'screens/settings/notifications_screen.dart';
 import 'screens/applications/my_applications_screen.dart';
 import 'screens/applications/application_details_screen.dart';
 import 'screens/applications/job_detail_screen.dart';
+import 'models/applications_models.dart';
 import 'screens/blog/blog_news_screen.dart';
 import 'screens/blog/blog_article_screen.dart';
 import 'screens/career_assistant/career_assistant_screen.dart';
@@ -228,6 +230,10 @@ class IthakiRouter {
         builder: (context, state) => const ProfileScreen(),
       ),
       GoRoute(
+        path: Routes.cv,
+        builder: (context, state) => const MyCvScreen(),
+      ),
+      GoRoute(
         path: Routes.profileBasics,
         builder: (context, state) => const ProfileBasicsScreen(),
       ),
@@ -298,7 +304,12 @@ class IthakiRouter {
             path: ':id/job',
             builder: (context, state) {
               final id = state.pathParameters['id'] ?? '';
-              return JobDetailScreen(applicationId: id);
+              return JobDetailScreen(
+                applicationId: id,
+                initialApplication: state.extra is Application
+                    ? state.extra as Application
+                    : null,
+              );
             },
           ),
         ],
@@ -307,7 +318,12 @@ class IthakiRouter {
         path: Routes.invitationJobDetail,
         builder: (context, state) {
           final id = state.pathParameters['id'] ?? '';
-          return JobDetailScreen(applicationId: id, isInvitation: true);
+          return JobDetailScreen(
+            applicationId: id,
+            isInvitation: true,
+            initialInvitation:
+                state.extra is Invitation ? state.extra as Invitation : null,
+          );
         },
       ),
       GoRoute(

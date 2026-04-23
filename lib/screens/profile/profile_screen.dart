@@ -189,7 +189,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 children: [
                   Expanded(
                     child: OutlinedButton.icon(
-                      onPressed: () => setState(() => _tabIndex = 5),
+                      onPressed: () => context.push(Routes.cv),
                       icon: const IthakiIcon('resume', size: 16),
                       label: const Text('Open CV'),
                       style: OutlinedButton.styleFrom(

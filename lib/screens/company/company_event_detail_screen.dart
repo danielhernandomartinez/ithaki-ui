@@ -45,8 +45,6 @@ class CompanyEventDetailScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CompanyPlatformChip(label: company.platformDomain),
-                  const SizedBox(height: 16),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(32),
                     child: AspectRatio(

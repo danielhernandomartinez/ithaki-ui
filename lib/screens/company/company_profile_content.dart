@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../models/company_models.dart';
 import '../../providers/job_search_provider.dart';
@@ -81,7 +80,7 @@ class _CompanyProfileContentState extends ConsumerState<CompanyProfileContent> {
               width: double.infinity,
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: IthakiTheme.chipActive,
+                color: Colors.transparent,
                 borderRadius: BorderRadius.circular(999),
               ),
               child: SingleChildScrollView(

@@ -63,7 +63,6 @@ class _ApplicationDetailsScreenState
         onMenuPressed: _panels.toggleMenu,
         onAvatarPressed: _panels.toggleProfile,
       ),
-      bottomNavigationBar: ApplicationDetailStickyBar(applicationId: widget.applicationId),
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -77,8 +76,19 @@ class _ApplicationDetailsScreenState
                 _pad(CoverLetterCard(text: detail.coverLetter)),
                 _pad(ScreeningQuestionsCard(questions: detail.screeningQuestions)),
                 _pad(ApplicationDetailCompanyCard(company: detail.company)),
-                SizedBox(height: MediaQuery.paddingOf(context).bottom + 16),
+                SizedBox(height: MediaQuery.paddingOf(context).bottom + 112),
               ],
+            ),
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: SafeArea(
+              top: false,
+              child: ApplicationDetailStickyBar(
+                applicationId: widget.applicationId,
+              ),
             ),
           ),
           if (_panels.menuOpen || _panels.profileOpen)
