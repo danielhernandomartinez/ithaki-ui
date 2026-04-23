@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../models/job_detail_models.dart';
 import '../../../routes.dart';
+import '../../../utils/match_colors.dart';
 import 'invitation_detail_widgets.dart';
-import 'match_bar.dart';
 
 // ─── Status card ──────────────────────────────────────────────────────────────
 
@@ -14,12 +14,18 @@ class JobStatusCard extends StatelessWidget {
 
   static Color _badgeColor(String label) {
     switch (label) {
-      case 'Submitted':  return const Color(0xFFE9DEFF);
-      case 'Viewed':     return const Color(0xFFE9E9E9);
-      case 'Interview':  return const Color(0xFFD8E5F9);
-      case 'Offer':      return const Color(0xFFD6F5D0);
-      case 'Rejected':   return const Color(0xFFFFE0E0);
-      default:           return const Color(0xFFE9E9E9);
+      case 'Submitted':
+        return const Color(0xFFE9DEFF);
+      case 'Viewed':
+        return const Color(0xFFE9E9E9);
+      case 'Interview':
+        return const Color(0xFFD8E5F9);
+      case 'Offer':
+        return const Color(0xFFD6F5D0);
+      case 'Rejected':
+        return const Color(0xFFFFE0E0);
+      default:
+        return const Color(0xFFE9E9E9);
     }
   }
 
@@ -40,8 +46,10 @@ class JobStatusCard extends StatelessWidget {
               Expanded(
                 child: Text(detail.appliedAt,
                     style: const TextStyle(
-                      fontFamily: 'Noto Sans', fontSize: 16,
-                      fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+                      fontFamily: 'Noto Sans',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: IthakiTheme.textPrimary,
                       letterSpacing: -0.32,
                     )),
               ),
@@ -54,7 +62,8 @@ class JobStatusCard extends StatelessWidget {
                 ),
                 child: Text(detail.statusLabel,
                     style: const TextStyle(
-                      fontFamily: 'Noto Sans', fontSize: 14,
+                      fontFamily: 'Noto Sans',
+                      fontSize: 14,
                       color: IthakiTheme.textPrimary,
                     )),
               ),
@@ -63,8 +72,10 @@ class JobStatusCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(detail.deadline,
               style: const TextStyle(
-                fontFamily: 'Noto Sans', fontSize: 14,
-                color: IthakiTheme.softGraphite, letterSpacing: -0.28,
+                fontFamily: 'Noto Sans',
+                fontSize: 14,
+                color: IthakiTheme.softGraphite,
+                letterSpacing: -0.28,
               )),
         ],
       ),
@@ -95,8 +106,10 @@ class JobMainCard extends StatelessWidget {
             children: [
               Text(detail.postedDate,
                   style: const TextStyle(
-                    fontFamily: 'Noto Sans', fontSize: 14,
-                    color: Color(0xFF4B4B4B), letterSpacing: -0.28,
+                    fontFamily: 'Noto Sans',
+                    fontSize: 14,
+                    color: Color(0xFF4B4B4B),
+                    letterSpacing: -0.28,
                   )),
               if (trailingAction != null) trailingAction!,
             ],
@@ -115,14 +128,21 @@ class JobMainCard extends StatelessWidget {
           const SizedBox(height: 12),
           const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
           const SizedBox(height: 12),
-          MatchBar(percentage: detail.matchPercentage, label: detail.matchLabel),
+          IthakiMatchBar(
+            percentage: detail.matchPercentage,
+            label: detail.matchLabel,
+            gradientColors: getMatchGradientColors(detail.matchLabel),
+            backgroundColor: getMatchBgColor(detail.matchLabel),
+          ),
           const SizedBox(height: 12),
           const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
           const SizedBox(height: 12),
           const Text('Curious why you match this job?',
               style: TextStyle(
-                fontFamily: 'Noto Sans', fontSize: 16,
-                fontWeight: FontWeight.w500, color: IthakiTheme.textPrimary,
+                fontFamily: 'Noto Sans',
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: IthakiTheme.textPrimary,
                 letterSpacing: -0.32,
               )),
           const SizedBox(height: 8),
@@ -139,7 +159,8 @@ class JobMainCard extends StatelessWidget {
           _SectionTitle('Skills'),
           const SizedBox(height: 8),
           Wrap(
-            spacing: 6, runSpacing: 6,
+            spacing: 6,
+            runSpacing: 6,
             children: detail.skills.map((s) => _SkillChip(label: s)).toList(),
           ),
           const _Divider(),
@@ -163,7 +184,8 @@ class _JobHeader extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: 60, height: 60,
+          width: 60,
+          height: 60,
           decoration: BoxDecoration(
             color: detail.companyLogoColor.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(16),
@@ -172,8 +194,10 @@ class _JobHeader extends StatelessWidget {
           alignment: Alignment.center,
           child: Text(detail.companyLogoInitials,
               style: TextStyle(
-                fontFamily: 'Noto Sans', fontSize: 18,
-                fontWeight: FontWeight.w600, color: detail.companyLogoColor,
+                fontFamily: 'Noto Sans',
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: detail.companyLogoColor,
               )),
         ),
         const SizedBox(width: 12),
@@ -183,14 +207,18 @@ class _JobHeader extends StatelessWidget {
             children: [
               Text(detail.jobTitle,
                   style: const TextStyle(
-                    fontFamily: 'Noto Sans', fontSize: 22,
-                    fontWeight: FontWeight.w700, color: IthakiTheme.textPrimary,
+                    fontFamily: 'Noto Sans',
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                    color: IthakiTheme.textPrimary,
                     letterSpacing: -0.44,
                   )),
               Text(detail.companyName,
                   style: const TextStyle(
-                    fontFamily: 'Noto Sans', fontSize: 16,
-                    color: IthakiTheme.softGraphite, letterSpacing: -0.32,
+                    fontFamily: 'Noto Sans',
+                    fontSize: 16,
+                    color: IthakiTheme.softGraphite,
+                    letterSpacing: -0.32,
                   )),
             ],
           ),
@@ -206,7 +234,11 @@ class _DetailCell extends StatelessWidget {
   final bool semibold;
   final bool wide;
 
-  const _DetailCell({this.icon, required this.value, this.semibold = false, this.wide = false});
+  const _DetailCell(
+      {this.icon,
+      required this.value,
+      this.semibold = false,
+      this.wide = false});
 
   @override
   Widget build(BuildContext context) {
@@ -243,8 +275,10 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(text,
         style: const TextStyle(
-          fontFamily: 'Noto Sans', fontSize: 18,
-          fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+          fontFamily: 'Noto Sans',
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+          color: IthakiTheme.textPrimary,
           letterSpacing: -0.36,
         ));
   }
@@ -264,9 +298,11 @@ class _SectionContent extends StatelessWidget {
         const SizedBox(height: 8),
         Text(body,
             style: const TextStyle(
-              fontFamily: 'Noto Sans', fontSize: 15,
+              fontFamily: 'Noto Sans',
+              fontSize: 15,
               color: IthakiTheme.textPrimary,
-              height: 1.5, letterSpacing: -0.3,
+              height: 1.5,
+              letterSpacing: -0.3,
             )),
       ],
     );
@@ -284,13 +320,16 @@ class _BulletItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('• ', style: TextStyle(fontSize: 15, color: IthakiTheme.textPrimary)),
+          const Text('• ',
+              style: TextStyle(fontSize: 15, color: IthakiTheme.textPrimary)),
           Expanded(
             child: Text(text,
                 style: const TextStyle(
-                  fontFamily: 'Noto Sans', fontSize: 15,
+                  fontFamily: 'Noto Sans',
+                  fontSize: 15,
                   color: IthakiTheme.textPrimary,
-                  height: 1.5, letterSpacing: -0.3,
+                  height: 1.5,
+                  letterSpacing: -0.3,
                 )),
           ),
         ],
@@ -313,7 +352,8 @@ class _SkillChip extends StatelessWidget {
       ),
       child: Text(label,
           style: const TextStyle(
-            fontFamily: 'Noto Sans', fontSize: 14,
+            fontFamily: 'Noto Sans',
+            fontSize: 14,
             color: IthakiTheme.textPrimary,
           )),
     );
@@ -355,13 +395,16 @@ class ReviewsCard extends StatelessWidget {
             children: [
               const Text('Employee Reviews',
                   style: TextStyle(
-                    fontFamily: 'Noto Sans', fontSize: 18,
-                    fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+                    fontFamily: 'Noto Sans',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: IthakiTheme.textPrimary,
                     letterSpacing: -0.36,
                   )),
               Text(detail.company.totalReviews,
                   style: const TextStyle(
-                    fontFamily: 'Noto Sans', fontSize: 13,
+                    fontFamily: 'Noto Sans',
+                    fontSize: 13,
                     color: IthakiTheme.softGraphite,
                   )),
             ],
@@ -371,8 +414,10 @@ class ReviewsCard extends StatelessWidget {
             children: [
               Text(detail.company.averageRating.toStringAsFixed(1),
                   style: const TextStyle(
-                    fontFamily: 'Noto Sans', fontSize: 32,
-                    fontWeight: FontWeight.w700, color: IthakiTheme.textPrimary,
+                    fontFamily: 'Noto Sans',
+                    fontSize: 32,
+                    fontWeight: FontWeight.w700,
+                    color: IthakiTheme.textPrimary,
                   )),
               const SizedBox(width: 8),
               StarRow(rating: detail.company.averageRating),
@@ -427,7 +472,8 @@ class ReviewItem extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 36, height: 36,
+                width: 36,
+                height: 36,
                 decoration: BoxDecoration(
                   color: review.authorColor.withValues(alpha: 0.2),
                   shape: BoxShape.circle,
@@ -435,8 +481,10 @@ class ReviewItem extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(review.authorInitials,
                     style: TextStyle(
-                      fontFamily: 'Noto Sans', fontSize: 13,
-                      fontWeight: FontWeight.w600, color: review.authorColor,
+                      fontFamily: 'Noto Sans',
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: review.authorColor,
                     )),
               ),
               const SizedBox(width: 8),
@@ -446,12 +494,15 @@ class ReviewItem extends StatelessWidget {
                   children: [
                     Text(review.authorName,
                         style: const TextStyle(
-                          fontFamily: 'Noto Sans', fontSize: 14,
-                          fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+                          fontFamily: 'Noto Sans',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: IthakiTheme.textPrimary,
                         )),
                     Text(review.authorRole,
                         style: const TextStyle(
-                          fontFamily: 'Noto Sans', fontSize: 12,
+                          fontFamily: 'Noto Sans',
+                          fontSize: 12,
                           color: IthakiTheme.softGraphite,
                         )),
                   ],
@@ -463,8 +514,10 @@ class ReviewItem extends StatelessWidget {
           const SizedBox(height: 8),
           Text(review.text,
               style: const TextStyle(
-                fontFamily: 'Noto Sans', fontSize: 14,
-                color: IthakiTheme.textPrimary, height: 1.5,
+                fontFamily: 'Noto Sans',
+                fontSize: 14,
+                color: IthakiTheme.textPrimary,
+                height: 1.5,
               )),
         ],
       ),
@@ -491,15 +544,18 @@ class RecommendedCard extends StatelessWidget {
         children: [
           const Text('Recommended for you',
               style: TextStyle(
-                fontFamily: 'Noto Sans', fontSize: 18,
-                fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+                fontFamily: 'Noto Sans',
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: IthakiTheme.textPrimary,
                 letterSpacing: -0.36,
               )),
           const SizedBox(height: 12),
           Row(
             children: [
               Container(
-                width: 52, height: 52,
+                width: 52,
+                height: 52,
                 decoration: BoxDecoration(
                   color: job.companyColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(14),
@@ -508,8 +564,10 @@ class RecommendedCard extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(job.companyInitials,
                     style: TextStyle(
-                      fontFamily: 'Noto Sans', fontSize: 16,
-                      fontWeight: FontWeight.w600, color: job.companyColor,
+                      fontFamily: 'Noto Sans',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: job.companyColor,
                     )),
               ),
               const SizedBox(width: 10),
@@ -519,13 +577,16 @@ class RecommendedCard extends StatelessWidget {
                   children: [
                     Text(job.jobTitle,
                         style: const TextStyle(
-                          fontFamily: 'Noto Sans', fontSize: 16,
-                          fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+                          fontFamily: 'Noto Sans',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: IthakiTheme.textPrimary,
                           letterSpacing: -0.32,
                         )),
                     Text(job.companyName,
                         style: const TextStyle(
-                          fontFamily: 'Noto Sans', fontSize: 13,
+                          fontFamily: 'Noto Sans',
+                          fontSize: 13,
                           color: IthakiTheme.softGraphite,
                         )),
                   ],
@@ -536,24 +597,37 @@ class RecommendedCard extends StatelessWidget {
           const SizedBox(height: 10),
           Text(job.salary,
               style: const TextStyle(
-                fontFamily: 'Noto Sans', fontSize: 18,
-                fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+                fontFamily: 'Noto Sans',
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: IthakiTheme.textPrimary,
                 letterSpacing: -0.36,
               )),
           const SizedBox(height: 8),
-          MatchBar(percentage: job.matchPercentage, label: job.matchLabel),
+          IthakiMatchBar(
+            percentage: job.matchPercentage,
+            label: job.matchLabel,
+            gradientColors: getMatchGradientColors(job.matchLabel),
+            backgroundColor: getMatchBgColor(job.matchLabel),
+          ),
           const SizedBox(height: 8),
           Row(
             children: [
               IthakiIcon('location', size: 16, color: IthakiTheme.softGraphite),
               const SizedBox(width: 4),
               Text(job.location,
-                  style: const TextStyle(fontFamily: 'Noto Sans', fontSize: 14, color: IthakiTheme.softGraphite)),
+                  style: const TextStyle(
+                      fontFamily: 'Noto Sans',
+                      fontSize: 14,
+                      color: IthakiTheme.softGraphite)),
               const SizedBox(width: 12),
               IthakiIcon('clock', size: 16, color: IthakiTheme.softGraphite),
               const SizedBox(width: 4),
               Text(job.employmentType,
-                  style: const TextStyle(fontFamily: 'Noto Sans', fontSize: 14, color: IthakiTheme.softGraphite)),
+                  style: const TextStyle(
+                      fontFamily: 'Noto Sans',
+                      fontSize: 14,
+                      color: IthakiTheme.softGraphite)),
             ],
           ),
           const SizedBox(height: 12),
@@ -598,15 +672,18 @@ class JobDetailCompanyCard extends StatelessWidget {
         children: [
           const Text('About the Company',
               style: TextStyle(
-                fontFamily: 'Noto Sans', fontSize: 18,
-                fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+                fontFamily: 'Noto Sans',
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: IthakiTheme.textPrimary,
                 letterSpacing: -0.36,
               )),
           const SizedBox(height: 12),
           Row(
             children: [
               Container(
-                width: 52, height: 52,
+                width: 52,
+                height: 52,
                 decoration: BoxDecoration(
                   color: company.logoColor.withValues(alpha: 0.15),
                   borderRadius: BorderRadius.circular(14),
@@ -615,8 +692,10 @@ class JobDetailCompanyCard extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(company.logoInitials,
                     style: TextStyle(
-                      fontFamily: 'Noto Sans', fontSize: 16,
-                      fontWeight: FontWeight.w600, color: company.logoColor,
+                      fontFamily: 'Noto Sans',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: company.logoColor,
                     )),
               ),
               const SizedBox(width: 10),
@@ -626,13 +705,16 @@ class JobDetailCompanyCard extends StatelessWidget {
                   children: [
                     Text(company.name,
                         style: const TextStyle(
-                          fontFamily: 'Noto Sans', fontSize: 16,
-                          fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+                          fontFamily: 'Noto Sans',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: IthakiTheme.textPrimary,
                           letterSpacing: -0.32,
                         )),
                     Text(company.industry,
                         style: const TextStyle(
-                          fontFamily: 'Noto Sans', fontSize: 13,
+                          fontFamily: 'Noto Sans',
+                          fontSize: 13,
                           color: IthakiTheme.softGraphite,
                         )),
                   ],
@@ -645,12 +727,15 @@ class JobDetailCompanyCard extends StatelessWidget {
           const SizedBox(height: 12),
           Text(company.description,
               style: const TextStyle(
-                fontFamily: 'Noto Sans', fontSize: 15,
+                fontFamily: 'Noto Sans',
+                fontSize: 15,
                 color: IthakiTheme.textPrimary,
-                height: 1.5, letterSpacing: -0.3,
+                height: 1.5,
+                letterSpacing: -0.3,
               )),
           const SizedBox(height: 12),
-          IthakiButton('Company Profile', variant: IthakiButtonVariant.outline,
+          IthakiButton('Company Profile',
+              variant: IthakiButtonVariant.outline,
               onPressed: company.id.isNotEmpty
                   ? () => context.push(Routes.companyProfileFor(company.id))
                   : null),

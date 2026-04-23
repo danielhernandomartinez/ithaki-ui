@@ -6,38 +6,40 @@ import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/profile_picker_field.dart';
-import '../../widgets/profile_entry_list_shell.dart';
 import '../../widgets/work_experience_card.dart';
 import '../../widgets/city_search_bottom_sheet.dart';
-
 
 // ─── List screen ────────────────────────────────────────────────────────────
 
 class WorkExperienceScreen extends ConsumerWidget {
   const WorkExperienceScreen({super.key});
 
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final experiences = ref.watch(profileWorkExperiencesProvider).value ?? const [];
+    final experiences =
+        ref.watch(profileWorkExperiencesProvider).value ?? const [];
 
-    return ProfileEntryListShell(
+    return IthakiEntryListShell(
       appBarTitle: 'Work Experience',
       title: 'Work Experience',
       subtitle: 'Add details about your previous roles and companies',
       addButtonLabel: 'Add Work Experience',
       onAddPressed: () => context.push(Routes.profileWorkExperienceEdit),
       onSavePressed: () => context.pop(),
-      entries: experiences.asMap().entries.map((e) =>
-                WorkExperienceCard(
-                  exp: e.value,
-                  index: e.key,
-                  compact: true,
-                  onEditTap: () => context.push(
-                    Routes.profileWorkExperienceEdit,
-                    extra: WorkExperienceEditExtra(index: e.key, exp: e.value).toMap(),
-                  ),
-                )).toList(),
+      entries: experiences
+          .asMap()
+          .entries
+          .map((e) => WorkExperienceCard(
+                exp: e.value,
+                index: e.key,
+                compact: true,
+                onEditTap: () => context.push(
+                  Routes.profileWorkExperienceEdit,
+                  extra: WorkExperienceEditExtra(index: e.key, exp: e.value)
+                      .toMap(),
+                ),
+              ))
+          .toList(),
     );
   }
 }
@@ -138,7 +140,6 @@ class _WorkExperienceFormScreenState
     );
   }
 
-
   Future<void> _save() async {
     final notifier = ref.read(profileWorkExperiencesProvider.notifier);
     final exp = WorkExperience(
@@ -151,7 +152,8 @@ class _WorkExperienceFormScreenState
       startDate: _startDateCtrl.text.trim(),
       endDate: _currentlyWorkHere ? null : _endDateCtrl.text.trim(),
       currentlyWorkHere: _currentlyWorkHere,
-      summary: _summaryCtrl.text.trim().isEmpty ? null : _summaryCtrl.text.trim(),
+      summary:
+          _summaryCtrl.text.trim().isEmpty ? null : _summaryCtrl.text.trim(),
     );
     try {
       if (widget.editIndex != null) {
@@ -175,7 +177,11 @@ class _WorkExperienceFormScreenState
       backgroundColor: IthakiTheme.backgroundViolet,
       appBar: IthakiAppBar(showBackButton: true, title: 'Edit Work Experience'),
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: MediaQuery.viewPaddingOf(context).bottom + 16),
+        padding: EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: 16,
+            bottom: MediaQuery.viewPaddingOf(context).bottom + 16),
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -220,21 +226,33 @@ class _WorkExperienceFormScreenState
                 ),
               ),
               const SizedBox(height: 12),
-              ProfilePickerField(label: 'Experience Level', hint: 'Select level', value: _experienceLevel, onTap: () => _openPicker(
+              ProfilePickerField(
+                  label: 'Experience Level',
+                  hint: 'Select level',
+                  value: _experienceLevel,
+                  onTap: () => _openPicker(
                         title: 'Experience Level',
                         options: _experienceLevels,
                         current: _experienceLevel,
                         onSelect: (v) => _experienceLevel = v,
                       )),
               const SizedBox(height: 12),
-              ProfilePickerField(label: 'Workplace', hint: 'Select workplace', value: _workplaceType, onTap: () => _openPicker(
+              ProfilePickerField(
+                  label: 'Workplace',
+                  hint: 'Select workplace',
+                  value: _workplaceType,
+                  onTap: () => _openPicker(
                         title: 'Workplace',
                         options: _workplaces,
                         current: _workplaceType,
                         onSelect: (v) => _workplaceType = v,
                       )),
               const SizedBox(height: 12),
-              ProfilePickerField(label: 'Job Type', hint: 'Select job type', value: _jobType, onTap: () => _openPicker(
+              ProfilePickerField(
+                  label: 'Job Type',
+                  hint: 'Select job type',
+                  value: _jobType,
+                  onTap: () => _openPicker(
                         title: 'Job Type',
                         options: _jobTypes,
                         current: _jobType,
@@ -256,7 +274,8 @@ class _WorkExperienceFormScreenState
                 hint: 'MM-YYYY',
                 controller: _endDateCtrl,
                 readOnly: true,
-                onTap: _currentlyWorkHere ? null : () => _pickDate(_endDateCtrl),
+                onTap:
+                    _currentlyWorkHere ? null : () => _pickDate(_endDateCtrl),
                 suffixIcon: IthakiIcon('calendar',
                     size: 20,
                     color: _currentlyWorkHere
@@ -287,7 +306,10 @@ class _WorkExperienceFormScreenState
                 controller: _summaryCtrl,
                 maxLines: 5,
                 maxLength: 1000,
-                buildCounter: (_, {required currentLength, required isFocused, maxLength}) =>
+                buildCounter: (_,
+                        {required currentLength,
+                        required isFocused,
+                        maxLength}) =>
                     Text('$currentLength / $maxLength symbols',
                         style: const TextStyle(
                             fontSize: 11, color: IthakiTheme.textSecondary)),
@@ -310,8 +332,8 @@ class _WorkExperienceFormScreenState
                     borderSide: const BorderSide(
                         color: IthakiTheme.primaryPurple, width: 1.5),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 14, vertical: 12),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                 ),
               ),
               const SizedBox(height: 20),
