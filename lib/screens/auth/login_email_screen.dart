@@ -9,16 +9,6 @@ import '../../providers/profile_provider.dart';
 import '../../repositories/auth_repository.dart';
 import '../../widgets/login_method_footer.dart';
 
-class _GoogleLogo extends StatelessWidget {
-  final double size;
-  const _GoogleLogo({this.size = 24});
-
-  @override
-  Widget build(BuildContext context) {
-    return IthakiIcon('google-social', size: size);
-  }
-}
-
 class LoginEmailScreen extends ConsumerStatefulWidget {
   const LoginEmailScreen({super.key});
 
@@ -79,7 +69,8 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
             controller: _emailController,
             suffixIcon: const Padding(
               padding: EdgeInsets.all(12),
-              child: IthakiIcon('envelope', size: 18, color: IthakiTheme.softGraphite),
+              child: IthakiIcon('envelope',
+                  size: 18, color: IthakiTheme.softGraphite),
             ),
             keyboardType: TextInputType.emailAddress,
             onChanged: (_) => setState(() {}),
@@ -136,7 +127,8 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
                   padding: const EdgeInsets.only(bottom: 2),
                   decoration: const BoxDecoration(
                     border: Border(
-                      bottom: BorderSide(color: IthakiTheme.textPrimary, width: 1),
+                      bottom:
+                          BorderSide(color: IthakiTheme.textPrimary, width: 1),
                     ),
                   ),
                   child: Text(
@@ -188,32 +180,11 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
           const SizedBox(height: 16),
 
           // Sign in with Google button
-          SizedBox(
-            width: double.infinity,
-            height: 52,
-            child: OutlinedButton(
-              onPressed: () {
-                // TODO: Handle Google sign in
-              },
-              style: OutlinedButton.styleFrom(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                side: const BorderSide(color: IthakiTheme.borderLight),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const _GoogleLogo(size: 22),
-                  const SizedBox(width: 12),
-                  Text(
-                    l.signInWithGoogle,
-                    style: const TextStyle(
-                      color: IthakiTheme.textPrimary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          IthakiSocialAuthButton.google(
+            label: l.signInWithGoogle,
+            onPressed: () {
+              // TODO: Handle Google sign in
+            },
           ),
 
           const SizedBox(height: 24),

@@ -5,114 +5,39 @@ import 'package:go_router/go_router.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../providers/profile_provider.dart';
-import '../../widgets/profile_meta_cell.dart';
 import '../../widgets/profile_picker_field.dart';
-import '../../widgets/profile_entry_list_shell.dart';
 import '../../widgets/city_search_bottom_sheet.dart';
+import 'widgets/education_card.dart';
 
 // ─── List / hub screen ───────────────────────────────────────────────────────
 
 class EducationScreen extends ConsumerWidget {
   const EducationScreen({super.key});
 
-
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final educations = ref.watch(profileEducationsProvider).value ?? const [];
 
-    return ProfileEntryListShell(
+    return IthakiEntryListShell(
       appBarTitle: 'Education',
       title: 'Education',
-      subtitle: 'Add information about your educational background, degree, and field of study.',
+      subtitle:
+          'Add information about your educational background, degree, and field of study.',
       addButtonLabel: 'Add Education',
       onAddPressed: () => context.push(Routes.profileEducationEdit),
       onSavePressed: () => context.pop(),
       entries: educations.asMap().entries.map((e) {
-                final index = e.key;
-                final edu = e.value;
-                final duration = edu.duration;
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF5F5F8),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // ── Header row ───────────────────────────────
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: RichText(
-                              text: TextSpan(
-                                style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: IthakiTheme.textPrimary),
-                                children: [
-                                  TextSpan(text: edu.fieldOfStudy),
-                                  const TextSpan(
-                                      text: '  at  ',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          color: IthakiTheme.textSecondary)),
-                                  TextSpan(text: edu.institutionName),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          GestureDetector(
-                            onTap: () => context.push(
-                              Routes.profileEducationEdit,
-                              extra: EducationEditExtra(index: index, edu: edu).toMap(),
-                            ),
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: IthakiTheme.backgroundWhite,
-                                borderRadius: BorderRadius.circular(999),
-                                border: Border.all(
-                                    color: IthakiTheme.borderLight),
-                              ),
-                              child: const IthakiIcon('edit-pencil',
-                                  size: 16,
-                                  color: IthakiTheme.textSecondary),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 4),
-                      // ── Date + duration ──────────────────────────
-                      Text(
-                        [
-                          edu.currentlyStudyHere
-                              ? '${edu.startDate} – Present'
-                              : '${edu.startDate} – ${edu.endDate ?? ''}',
-                          if (duration.isNotEmpty) '($duration)',
-                        ].join(' '),
-                        style: const TextStyle(
-                            fontSize: 13,
-                            color: IthakiTheme.textSecondary),
-                      ),
-                      const SizedBox(height: 10),
-                      const Divider(height: 1, color: IthakiTheme.placeholderBg),
-                      const SizedBox(height: 10),
-                      // ── Metadata ─────────────────────────────────
-                      if (edu.location.isNotEmpty)
-                        ProfileMetaCell(Icons.location_on_outlined, edu.location, alignIconTop: true),
-                      if (edu.degreeType.isNotEmpty) ...[
-                        const SizedBox(height: 6),
-                        ProfileMetaCell(Icons.school_outlined, edu.degreeType, alignIconTop: true),
-                      ],
-                    ],
-                  ),
-                );
-              }).toList(),
+        final index = e.key;
+        final edu = e.value;
+
+        return EducationCard(
+          education: edu,
+          onEditTap: () => context.push(
+            Routes.profileEducationEdit,
+            extra: EducationEditExtra(index: index, edu: edu).toMap(),
+          ),
+        );
+      }).toList(),
     );
   }
 }
@@ -159,8 +84,7 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
   void initState() {
     super.initState();
     final edu = widget.initial;
-    _institutionCtrl =
-        TextEditingController(text: edu?.institutionName ?? '');
+    _institutionCtrl = TextEditingController(text: edu?.institutionName ?? '');
     _fieldCtrl = TextEditingController(text: edu?.fieldOfStudy ?? '');
     _locationCtrl = TextEditingController(text: edu?.location ?? '');
     _startDateCtrl = TextEditingController(text: edu?.startDate ?? '');
@@ -187,8 +111,7 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
       lastDate: DateTime(2100),
     );
     if (picked != null) {
-      ctrl.text =
-          '${picked.month.toString().padLeft(2, '0')}-${picked.year}';
+      ctrl.text = '${picked.month.toString().padLeft(2, '0')}-${picked.year}';
     }
   }
 
@@ -225,7 +148,11 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
       backgroundColor: IthakiTheme.backgroundViolet,
       appBar: IthakiAppBar(showBackButton: true, title: 'Edit Education'),
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: MediaQuery.viewPaddingOf(context).bottom + 16),
+        padding: EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: 16,
+            bottom: MediaQuery.viewPaddingOf(context).bottom + 16),
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
@@ -245,8 +172,8 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
               const Text(
                 'Add information about your educational background, '
                 'degree, and field of study.',
-                style: TextStyle(
-                    fontSize: 13, color: IthakiTheme.textSecondary),
+                style:
+                    TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
               ),
               const SizedBox(height: 24),
 
@@ -273,13 +200,14 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
                 ),
               ),
               const SizedBox(height: 12),
-              ProfilePickerField(label: 
-                'Degree Type', hint: 'Select degree', value: _degreeType, onTap: () => SearchBottomSheet.show(
+              ProfilePickerField(
+                label: 'Degree Type',
+                hint: 'Select degree',
+                value: _degreeType,
+                onTap: () => SearchBottomSheet.show(
                   context,
                   'Degree Type',
-                  _degreeTypes
-                      .map((d) => SearchItem(id: d, label: d))
-                      .toList(),
+                  _degreeTypes.map((d) => SearchItem(id: d, label: d)).toList(),
                   (item) => setState(() => _degreeType = item.id),
                 ),
               ),
@@ -299,9 +227,8 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
                 hint: 'MM-YYYY',
                 controller: _endDateCtrl,
                 readOnly: true,
-                onTap: _currentlyStudyHere
-                    ? null
-                    : () => _pickDate(_endDateCtrl),
+                onTap:
+                    _currentlyStudyHere ? null : () => _pickDate(_endDateCtrl),
                 suffixIcon: IthakiIcon('calendar',
                     size: 20,
                     color: _currentlyStudyHere

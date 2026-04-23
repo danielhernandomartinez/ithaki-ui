@@ -8,16 +8,6 @@ import '../../l10n/app_localizations.dart';
 import '../../providers/registration_provider.dart';
 import '../../utils/validators.dart';
 
-class _GoogleLogo extends StatelessWidget {
-  final double size;
-  const _GoogleLogo({this.size = 24});
-
-  @override
-  Widget build(BuildContext context) {
-    return IthakiIcon('google-social', size: size);
-  }
-}
-
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
@@ -55,7 +45,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       _confirmPasswordController.text == _passwordController.text &&
       _confirmPasswordController.text.isNotEmpty;
 
-  bool get _canContinue => _emailValid && _passwordValid && _passwordsMatch && _termsAccepted;
+  bool get _canContinue =>
+      _emailValid && _passwordValid && _passwordsMatch && _termsAccepted;
 
   void _onPasswordChanged(String value) {
     setState(() {
@@ -76,7 +67,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     return IthakiScreenLayout(
-      appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go(Routes.loginPhone)),
+      appBar: IthakiAppBar(
+          actionLabel: l.loginAction,
+          onActionPressed: () => context.go(Routes.loginPhone)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -84,24 +77,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           const SizedBox(height: 16),
           Text(l.welcomeHeading, style: IthakiTheme.headingLarge),
           const SizedBox(height: 24),
-          SizedBox(
-            width: double.infinity,
-            height: 52,
-            child: OutlinedButton(
-              onPressed: () {},
-              style: OutlinedButton.styleFrom(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                side: const BorderSide(color: IthakiTheme.borderLight),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const _GoogleLogo(size: 22),
-                  const SizedBox(width: 12),
-                  Text(l.signInWithGoogle, style: const TextStyle(color: IthakiTheme.textPrimary, fontWeight: FontWeight.w600)),
-                ],
-              ),
-            ),
+          IthakiSocialAuthButton.google(
+            label: l.signInWithGoogle,
+            onPressed: () {},
           ),
           const SizedBox(height: 20),
           const Divider(),
@@ -112,7 +90,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             controller: _emailController,
             suffixIcon: Padding(
               padding: const EdgeInsets.all(12),
-              child: IthakiIcon('envelope', size: 20, color: _emailController.text.isNotEmpty ? Colors.black : IthakiTheme.softGraphite),
+              child: IthakiIcon('envelope',
+                  size: 20,
+                  color: _emailController.text.isNotEmpty
+                      ? Colors.black
+                      : IthakiTheme.softGraphite),
             ),
             keyboardType: TextInputType.emailAddress,
             onChanged: (_) => setState(() {}),
@@ -127,10 +109,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           ),
           if (_passwordFocused || _passwordController.text.isNotEmpty) ...[
             const SizedBox(height: 12),
-            IthakiValidationRow(valid: _pwVal.hasUpperAndLower, text: l.passwordUpperLower),
-            IthakiValidationRow(valid: _pwVal.hasMinLength, text: l.passwordMinLength),
-            IthakiValidationRow(valid: _pwVal.hasNumber, text: l.passwordNumber),
-            IthakiValidationRow(valid: _pwVal.hasSpecial, text: l.passwordSpecial),
+            IthakiValidationRow(
+                valid: _pwVal.hasUpperAndLower, text: l.passwordUpperLower),
+            IthakiValidationRow(
+                valid: _pwVal.hasMinLength, text: l.passwordMinLength),
+            IthakiValidationRow(
+                valid: _pwVal.hasNumber, text: l.passwordNumber),
+            IthakiValidationRow(
+                valid: _pwVal.hasSpecial, text: l.passwordSpecial),
           ],
           const SizedBox(height: 16),
           IthakiPasswordField(
@@ -139,9 +125,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             controller: _confirmPasswordController,
             onChanged: (_) => setState(() {}),
           ),
-          if (_confirmPasswordController.text.isNotEmpty && !_passwordsMatch) ...[
+          if (_confirmPasswordController.text.isNotEmpty &&
+              !_passwordsMatch) ...[
             const SizedBox(height: 8),
-            Text(l.passwordsDoNotMatch, style: const TextStyle(fontSize: 13, color: Colors.red)),
+            Text(l.passwordsDoNotMatch,
+                style: const TextStyle(fontSize: 13, color: Colors.red)),
           ],
           const SizedBox(height: 16),
           Row(
@@ -150,24 +138,32 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               Checkbox(
                 value: _termsAccepted,
                 activeColor: IthakiTheme.primaryPurple,
-                onChanged: (val) => setState(() => _termsAccepted = val ?? false),
+                onChanged: (val) =>
+                    setState(() => _termsAccepted = val ?? false),
               ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 12),
                   child: RichText(
                     text: TextSpan(
-                      style: const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+                      style: const TextStyle(
+                          fontSize: 13, color: IthakiTheme.textSecondary),
                       children: [
                         TextSpan(text: l.termsText),
                         TextSpan(
                           text: l.privacyPolicy,
-                          style: const TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline, color: IthakiTheme.textPrimary),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                              color: IthakiTheme.textPrimary),
                         ),
                         TextSpan(text: l.andText),
                         TextSpan(
                           text: l.termsOfUse,
-                          style: const TextStyle(fontWeight: FontWeight.bold, decoration: TextDecoration.underline, color: IthakiTheme.textPrimary),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                              color: IthakiTheme.textPrimary),
                         ),
                         const TextSpan(text: '.'),
                       ],
@@ -183,8 +179,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             isEnabled: _canContinue,
             onPressed: _canContinue
                 ? () {
-                    ref.read(registrationProvider.notifier)
-                        .setCredentials(_emailController.text, _passwordController.text);
+                    ref.read(registrationProvider.notifier).setCredentials(
+                        _emailController.text, _passwordController.text);
                     context.push(Routes.personalDetails);
                   }
                 : null,

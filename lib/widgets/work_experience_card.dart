@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../models/profile_models.dart';
-import 'profile_meta_cell.dart';
 
 /// Renders a single WorkExperience entry.
 ///
@@ -69,8 +68,8 @@ class WorkExperienceCard extends StatelessWidget {
         // ── Date + duration ──────────────────────────────────
         Text(
           '${exp.startDate} – $endLabel${duration.isNotEmpty ? ' ($duration)' : ''}',
-          style: const TextStyle(
-              fontSize: 13, color: IthakiTheme.textSecondary),
+          style:
+              const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 10),
         const Divider(height: 1, color: IthakiTheme.placeholderBg),
@@ -79,11 +78,11 @@ class WorkExperienceCard extends StatelessWidget {
         Row(children: [
           if (exp.location.isNotEmpty)
             Expanded(
-                child: ProfileMetaCell(Icons.location_on_outlined, exp.location,
+                child: IthakiMetaCell(Icons.location_on_outlined, exp.location,
                     flexible: true, fontSize: 13)),
           if (exp.workplace.isNotEmpty)
             Expanded(
-                child: ProfileMetaCell(Icons.business_outlined, exp.workplace,
+                child: IthakiMetaCell(Icons.business_outlined, exp.workplace,
                     flexible: true, fontSize: 13)),
         ]),
         if (exp.jobType.isNotEmpty || exp.experienceLevel.isNotEmpty) ...[
@@ -91,11 +90,11 @@ class WorkExperienceCard extends StatelessWidget {
           Row(children: [
             if (exp.jobType.isNotEmpty)
               Expanded(
-                  child: ProfileMetaCell(Icons.access_time_outlined, exp.jobType,
+                  child: IthakiMetaCell(Icons.access_time_outlined, exp.jobType,
                       flexible: true, fontSize: 13)),
             if (exp.experienceLevel.isNotEmpty)
               Expanded(
-                  child: ProfileMetaCell(
+                  child: IthakiMetaCell(
                       Icons.bar_chart_outlined, exp.experienceLevel,
                       flexible: true, fontSize: 13)),
           ]),
@@ -107,9 +106,7 @@ class WorkExperienceCard extends StatelessWidget {
           const SizedBox(height: 10),
           Text(exp.summary!,
               style: const TextStyle(
-                  fontSize: 13,
-                  color: IthakiTheme.textPrimary,
-                  height: 1.5)),
+                  fontSize: 13, color: IthakiTheme.textPrimary, height: 1.5)),
         ],
       ],
     );
@@ -119,7 +116,7 @@ class WorkExperienceCard extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: const Color(0xFFF5F5F8),
+          color: IthakiTheme.softGray,
           borderRadius: BorderRadius.circular(16),
         ),
         child: content,
