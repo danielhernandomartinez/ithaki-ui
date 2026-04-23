@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 import '../config/app_config.dart';
 import '../data/countries.dart';
@@ -628,6 +630,72 @@ class ApiProfileRepository implements ProfileRepository {
       }
     }
 
+    bool isRemotePhoto(String value) {
+      final uri = Uri.tryParse(value);
+      return uri != null && (uri.isScheme('http') || uri.isScheme('https'));
+    }
+
+    String readUploadedPhoto(String body) {
+      final trimmed = body.trim();
+      if (trimmed.isEmpty) {
+        throw Exception('Photo upload response was empty');
+      }
+      try {
+        final decoded = jsonDecode(trimmed);
+        if (decoded is String && decoded.trim().isNotEmpty) {
+          return decoded.trim();
+        }
+        if (decoded is Map<String, dynamic>) {
+          final rawUrl =
+              decoded['url'] ?? decoded['signedUrl'] ?? decoded['photo'];
+          if (rawUrl is String && rawUrl.trim().isNotEmpty) {
+            return rawUrl.trim();
+          }
+        }
+      } catch (_) {}
+      return trimmed;
+    }
+
+    Future<String?> uploadPhotoIfNeeded(String? photoUrl) async {
+      final localPath = photoUrl?.trim();
+      if (localPath == null || localPath.isEmpty || isRemotePhoto(localPath)) {
+        return photoUrl;
+      }
+
+      final file = File(localPath);
+      if (!await file.exists()) {
+        debugPrint(
+            '[saveBasics] photo upload skipped; file does not exist → $localPath');
+        return photoUrl;
+      }
+
+      final token = await _api.requireToken();
+      final request =
+          http.MultipartRequest('POST', _api.uri('/files/me/upload/photo'))
+            ..headers.addAll({
+              'Accept': 'application/json',
+              'Authorization': 'Bearer $token',
+            })
+            ..files.add(await http.MultipartFile.fromPath('file', localPath));
+
+      debugPrint('[saveBasics] photo upload → ${request.url}');
+      debugPrint('[saveBasics] photo upload file → $localPath');
+
+      final streamed =
+          await _api.client.send(request).timeout(ApiClient.uploadTimeout);
+      final response = await http.Response.fromStream(streamed);
+      debugPrint(
+          '[saveBasics] photo upload response ${response.statusCode} →\n${prettyResponseBody(response.body)}');
+
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        throw Exception(_api.readErrorBody(response));
+      }
+
+      final uploadedPhoto = readUploadedPhoto(response.body);
+      debugPrint('[saveBasics] uploaded photo → $uploadedPhoto');
+      return uploadedPhoto;
+    }
+
     Map<String, dynamic>? countryPayload(String code, String name) {
       if (code.isEmpty || name.trim().isEmpty) return null;
       final countryId = countryIdByCode[code.toUpperCase()];
@@ -644,6 +712,7 @@ class ApiProfileRepository implements ProfileRepository {
     final citizenship =
         countryPayload(basics.citizenshipCode, basics.citizenship);
     final residence = countryPayload(basics.residenceCode, basics.residence);
+    final uploadedPhotoUrl = await uploadPhotoIfNeeded(basics.photoUrl);
 
     final jobSeekerPayload = {
       'basics': {
@@ -653,7 +722,7 @@ class ApiProfileRepository implements ProfileRepository {
         'gender': ProfileApiMapper.enumDto(basics.gender),
         if (citizenship != null) 'citizenship': citizenship,
         if (residence != null) 'residence': residence,
-        'photo': basics.photoUrl,
+        'photo': uploadedPhotoUrl,
         if (basics.dateOfBirth.isNotEmpty)
           'dateOfBirth': ProfileApiMapper.dobToIsoDate(basics.dateOfBirth),
       },
@@ -678,7 +747,7 @@ class ApiProfileRepository implements ProfileRepository {
       throw Exception(_api.readErrorBody(res));
     }
 
-    _basics = basics;
+    _basics = basics.copyWith(photoUrl: uploadedPhotoUrl);
     await ProfileLocalStore.saveBasics(_basics);
   }
 
