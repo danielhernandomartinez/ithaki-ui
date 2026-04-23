@@ -615,6 +615,19 @@ class ApiProfileRepository implements ProfileRepository {
     await _syncSession();
     await _ensureLoaded();
 
+    String prettyJson(Object value) {
+      const encoder = JsonEncoder.withIndent('  ');
+      return encoder.convert(value);
+    }
+
+    String prettyResponseBody(String body) {
+      try {
+        return prettyJson(jsonDecode(body));
+      } catch (_) {
+        return body;
+      }
+    }
+
     Map<String, dynamic>? countryPayload(String code, String name) {
       if (code.isEmpty || name.trim().isEmpty) return null;
       final countryId = countryIdByCode[code.toUpperCase()];
@@ -652,14 +665,15 @@ class ApiProfileRepository implements ProfileRepository {
               basics.relocationReadiness),
       },
     };
-    debugPrint('[saveBasics] payload → ${jsonEncode(jobSeekerPayload)}');
+    debugPrint('[saveBasics] payload →\n${prettyJson(jobSeekerPayload)}');
     final token = await _api.requireToken();
     final res = await _api.client
         .post(_api.uri('/job-seeker/me'),
             headers: _api.jsonHeaders(token: token),
             body: jsonEncode(jobSeekerPayload))
         .timeout(ApiClient.timeout);
-    debugPrint('[saveBasics] response ${res.statusCode} → ${res.body}');
+    debugPrint(
+        '[saveBasics] response ${res.statusCode} →\n${prettyResponseBody(res.body)}');
     if (res.statusCode < 200 || res.statusCode >= 300) {
       throw Exception(_api.readErrorBody(res));
     }

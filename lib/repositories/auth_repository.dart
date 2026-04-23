@@ -130,7 +130,7 @@ class ApiAuthRepository implements AuthRepository {
   Future<void> _triggerOtpSms(String token) async {
     final response = await _api.client
         .post(
-          _api.uri('/user/sendSMS/twilio'),
+          _api.uri('/user/send-sms/twilio'),
           headers: _api.jsonHeaders(token: token),
         )
         .timeout(ApiClient.timeout);
@@ -294,7 +294,7 @@ class ApiAuthRepository implements AuthRepository {
 
     final response = await _api.client
         .post(
-          _api.uri('/user/sendSMS/verify'),
+          _api.uri('/user/send-sms/verify'),
           headers: {
             'Content-Type': 'text/plain',
             'Accept': 'application/json',
