@@ -12,9 +12,19 @@ class ProfileHeaderCard extends ConsumerWidget {
 
   const ProfileHeaderCard({super.key, required this.basics});
 
+  ImageProvider? _photoImage(String? value) {
+    if (value == null || value.trim().isEmpty) return null;
+    final uri = Uri.tryParse(value);
+    if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
+      return NetworkImage(value);
+    }
+    return FileImage(File(value));
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final prefs = ref.watch(profileJobPreferencesProvider).value;
+    final photoImage = _photoImage(basics.photoUrl);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),
@@ -28,14 +38,13 @@ class ProfileHeaderCard extends ConsumerWidget {
           CircleAvatar(
             radius: 24,
             backgroundColor: IthakiTheme.primaryPurple,
-            backgroundImage: basics.photoUrl != null
-                ? FileImage(File(basics.photoUrl!))
-                : null,
-            child: basics.photoUrl == null
+            backgroundImage: photoImage,
+            child: photoImage == null
                 ? Text(
                     '${basics.firstName.isNotEmpty ? basics.firstName[0] : '?'}${basics.lastName.isNotEmpty ? basics.lastName[0] : '?'}',
                     style: const TextStyle(
-                        color: IthakiTheme.backgroundWhite, fontWeight: FontWeight.bold),
+                        color: IthakiTheme.backgroundWhite,
+                        fontWeight: FontWeight.bold),
                   )
                 : null,
           ),

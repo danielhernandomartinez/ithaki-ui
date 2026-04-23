@@ -13,8 +13,18 @@ class ProfilePhotoSection extends StatelessWidget {
     required this.onPick,
   });
 
+  ImageProvider? _photoImage(String? value) {
+    if (value == null || value.trim().isEmpty) return null;
+    final uri = Uri.tryParse(value);
+    if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
+      return NetworkImage(value);
+    }
+    return FileImage(File(value));
+  }
+
   @override
   Widget build(BuildContext context) {
+    final photoImage = _photoImage(photoPath);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -22,10 +32,10 @@ class ProfilePhotoSection extends StatelessWidget {
           CircleAvatar(
             radius: 32,
             backgroundColor: IthakiTheme.primaryPurple,
-            backgroundImage:
-                photoPath != null ? FileImage(File(photoPath!)) : null,
-            child: photoPath == null
-                ? const IthakiIcon('profile', size: 24, color: IthakiTheme.backgroundWhite)
+            backgroundImage: photoImage,
+            child: photoImage == null
+                ? const IthakiIcon('profile',
+                    size: 24, color: IthakiTheme.backgroundWhite)
                 : null,
           ),
           const SizedBox(width: 12),
@@ -35,14 +45,14 @@ class ProfilePhotoSection extends StatelessWidget {
               children: [
                 Text(
                   '5 MB max · PNG or JPG',
-                  style: TextStyle(
-                      fontSize: 12, color: IthakiTheme.textSecondary),
+                  style:
+                      TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
                 ),
                 SizedBox(height: 4),
                 Text(
                   'We recommend a professional photo that clearly shows your face.',
-                  style: TextStyle(
-                      fontSize: 12, color: IthakiTheme.textSecondary),
+                  style:
+                      TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
                 ),
               ],
             ),
@@ -53,8 +63,8 @@ class ProfilePhotoSection extends StatelessWidget {
           width: double.infinity,
           child: OutlinedButton.icon(
             onPressed: onPick,
-            icon: const IthakiIcon('upload-cloud', size: 16,
-                color: IthakiTheme.textPrimary),
+            icon: const IthakiIcon('upload-cloud',
+                size: 16, color: IthakiTheme.textPrimary),
             label: Text(photoPath == null ? 'Upload Photo' : 'Replace Photo'),
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: IthakiTheme.borderLight),
