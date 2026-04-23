@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../config/app_config.dart';
+import '../data/countries.dart';
 import '../models/profile_models.dart';
 import '../services/api_client.dart';
 import 'profile/profile_api_mapper.dart';
@@ -69,7 +72,9 @@ class MockProfileRepository implements ProfileRepository {
   List<UploadedFile> _files = const [];
   List<String> _values = const [];
   ProfileJobPreferences _jobPreferences = const ProfileJobPreferences(
-    jobInterests: [JobInterest(title: 'Web Developer', category: 'IT & Development')],
+    jobInterests: [
+      JobInterest(title: 'Web Developer', category: 'IT & Development')
+    ],
     positionLevel: 'Senior',
     jobType: 'Full time',
     workplace: 'On-site',
@@ -219,7 +224,8 @@ class MockProfileRepository implements ProfileRepository {
 }
 
 class ApiProfileRepository implements ProfileRepository {
-  ApiProfileRepository({ApiClient? apiClient}) : _api = apiClient ?? ApiClient();
+  ApiProfileRepository({ApiClient? apiClient})
+      : _api = apiClient ?? ApiClient();
 
   final ApiClient _api;
   Future<void>? _initFuture;
@@ -328,7 +334,10 @@ class ApiProfileRepository implements ProfileRepository {
       case 'basic':
         return const {'value': 'A1', 'title': 'Basic'};
       default:
-        return {'value': ProfileApiMapper.slug(proficiency), 'title': proficiency};
+        return {
+          'value': ProfileApiMapper.slug(proficiency),
+          'title': proficiency
+        };
     }
   }
 
@@ -353,7 +362,6 @@ class ApiProfileRepository implements ProfileRepository {
     await _api.postJson('/job-seeker/me/languages/replace', payloadEnumDto);
   }
 
-
   @override
   Future<ProfileLoadResult> refreshAll() async {
     await _syncSession();
@@ -369,7 +377,8 @@ class ApiProfileRepository implements ProfileRepository {
       try {
         userData = (jsonDecode(userRes.body) as Map).cast<String, dynamic>();
       } on FormatException {
-        throw Exception('Failed to load user: server returned non-JSON response');
+        throw Exception(
+            'Failed to load user: server returned non-JSON response');
       }
       final phoneVerified = userData['phoneVerified'] as bool? ?? false;
       // Only persist `true` from the API — the `false` value is written
@@ -394,9 +403,11 @@ class ApiProfileRepository implements ProfileRepository {
         if (profileRes.statusCode == 200) {
           final Map<String, dynamic> profileData;
           try {
-            profileData = (jsonDecode(profileRes.body) as Map).cast<String, dynamic>();
+            profileData =
+                (jsonDecode(profileRes.body) as Map).cast<String, dynamic>();
           } on FormatException {
-            throw Exception('Failed to load profile: server returned non-JSON response');
+            throw Exception(
+                'Failed to load profile: server returned non-JSON response');
           }
 
           // ── 1. Parse basics fields ────────────────────────────────────────
@@ -417,7 +428,8 @@ class ApiProfileRepository implements ProfileRepository {
           if (loc is Map<String, dynamic>) {
             basics = basics.copyWith(
               status: ProfileApiMapper.enumTitle(loc['status']),
-              relocationReadiness: ProfileApiMapper.enumTitle(loc['relocationReadiness']),
+              relocationReadiness:
+                  ProfileApiMapper.enumTitle(loc['relocationReadiness']),
             );
           }
 
@@ -426,8 +438,11 @@ class ApiProfileRepository implements ProfileRepository {
           final about = profileData['aboutMe'];
           if (about is Map<String, dynamic>) {
             parsedAboutMe = ProfileAboutMe(
-              bio: (about['bio'] as String? ?? about['text'] as String? ?? '').trim(),
-              videoUrl: (about['video'] as String? ?? about['videoUrl'] as String?)?.trim(),
+              bio: (about['bio'] as String? ?? about['text'] as String? ?? '')
+                  .trim(),
+              videoUrl:
+                  (about['video'] as String? ?? about['videoUrl'] as String?)
+                      ?.trim(),
             );
           }
 
@@ -446,25 +461,28 @@ class ApiProfileRepository implements ProfileRepository {
                 .map((e) => e.cast<String, dynamic>())
                 .map(
                   (l) => Language(
-                    language: ProfileApiMapper.titleOrText(l['language']).isNotEmpty
-                        ? ProfileApiMapper.titleOrText(l['language'])
-                        : ProfileApiMapper.titleOrText(l['languageName']),
-                    proficiency: ProfileApiMapper.titleOrText(l['level']).isNotEmpty
-                        ? ProfileApiMapper.titleOrText(l['level'])
-                        : ProfileApiMapper.titleOrText(l['proficiency']),
+                    language:
+                        ProfileApiMapper.titleOrText(l['language']).isNotEmpty
+                            ? ProfileApiMapper.titleOrText(l['language'])
+                            : ProfileApiMapper.titleOrText(l['languageName']),
+                    proficiency:
+                        ProfileApiMapper.titleOrText(l['level']).isNotEmpty
+                            ? ProfileApiMapper.titleOrText(l['level'])
+                            : ProfileApiMapper.titleOrText(l['proficiency']),
                   ),
                 )
                 .where((l) => l.language.isNotEmpty)
                 .toList(),
             competencies: competencies is Map<String, dynamic>
                 ? competencies.map(
-                    (key, value) => MapEntry(key, ProfileApiMapper.titleOrText(value)),
+                    (key, value) =>
+                        MapEntry(key, ProfileApiMapper.titleOrText(value)),
                   )
                 : _skills.competencies,
           );
 
-          final parsedWork = ((profileData['workExperience'] ?? profileData['workExperiences'])
-                      as List? ??
+          final parsedWork = ((profileData['workExperience'] ??
+                      profileData['workExperiences']) as List? ??
                   [])
               .whereType<Map>()
               .map((e) => e.cast<String, dynamic>())
@@ -474,9 +492,11 @@ class ApiProfileRepository implements ProfileRepository {
                   companyName: (item['companyName'] as String? ?? '').trim(),
                   location: ProfileApiMapper.titleOrText(item['city']),
                   experienceLevel: ProfileApiMapper.titleOrText(item['level']),
-                  workplace: ProfileApiMapper.titleOrText(item['employmentType']),
+                  workplace:
+                      ProfileApiMapper.titleOrText(item['employmentType']),
                   jobType: ProfileApiMapper.titleOrText(item['workType']),
-                  startDate: ProfileApiMapper.isoDateToMmYyyy(item['startDate']) ?? '',
+                  startDate:
+                      ProfileApiMapper.isoDateToMmYyyy(item['startDate']) ?? '',
                   endDate: ProfileApiMapper.isoDateToMmYyyy(item['endDate']),
                   currentlyWorkHere: item['current'] as bool? ?? false,
                   summary: (item['description'] as String?)?.trim(),
@@ -485,28 +505,33 @@ class ApiProfileRepository implements ProfileRepository {
               .where((e) => e.jobTitle.isNotEmpty || e.companyName.isNotEmpty)
               .toList();
 
-          final parsedEducations =
-              ((profileData['education'] ?? profileData['educations']) as List? ?? [])
-                  .whereType<Map>()
-                  .map((e) => e.cast<String, dynamic>())
-                  .map(
-                    (item) => Education(
-                      institutionName: (item['institution'] as String? ??
-                              item['institutionName'] as String? ??
-                              '')
-                          .trim(),
-                      fieldOfStudy: (item['fieldOfStudy'] as String? ?? '').trim(),
-                      location: ProfileApiMapper.titleOrText(item['city']),
-                      degreeType:
-                          (item['degree'] as String? ?? item['degreeType'] as String? ?? '')
-                              .trim(),
-                      startDate: ProfileApiMapper.isoDateToMmYyyy(item['startDate']) ?? '',
-                      endDate: ProfileApiMapper.isoDateToMmYyyy(item['endDate']),
-                      currentlyStudyHere: item['currentlyStudying'] as bool? ?? false,
-                    ),
-                  )
-                  .where((e) => e.institutionName.isNotEmpty || e.fieldOfStudy.isNotEmpty)
-                  .toList();
+          final parsedEducations = ((profileData['education'] ??
+                      profileData['educations']) as List? ??
+                  [])
+              .whereType<Map>()
+              .map((e) => e.cast<String, dynamic>())
+              .map(
+                (item) => Education(
+                  institutionName: (item['institution'] as String? ??
+                          item['institutionName'] as String? ??
+                          '')
+                      .trim(),
+                  fieldOfStudy: (item['fieldOfStudy'] as String? ?? '').trim(),
+                  location: ProfileApiMapper.titleOrText(item['city']),
+                  degreeType: (item['degree'] as String? ??
+                          item['degreeType'] as String? ??
+                          '')
+                      .trim(),
+                  startDate:
+                      ProfileApiMapper.isoDateToMmYyyy(item['startDate']) ?? '',
+                  endDate: ProfileApiMapper.isoDateToMmYyyy(item['endDate']),
+                  currentlyStudyHere:
+                      item['currentlyStudying'] as bool? ?? false,
+                ),
+              )
+              .where((e) =>
+                  e.institutionName.isNotEmpty || e.fieldOfStudy.isNotEmpty)
+              .toList();
 
           ProfileJobPreferences? parsedPrefs;
           final prefs = profileData['jobPreferences'];
@@ -524,13 +549,18 @@ class ApiProfileRepository implements ProfileRepository {
                   )
                   .where((j) => j.title.isNotEmpty)
                   .toList(),
-              positionLevel: ProfileApiMapper.titleOrText(prefs['experienceLevel']),
-              jobType: ProfileApiMapper.titleOrText((prefs['employmentType'] as List?)?.firstOrNull),
-              workplace: ProfileApiMapper.titleOrText((prefs['workLocation'] as List?)?.firstOrNull),
+              positionLevel:
+                  ProfileApiMapper.titleOrText(prefs['experienceLevel']),
+              jobType: ProfileApiMapper.titleOrText(
+                  (prefs['employmentType'] as List?)?.firstOrNull),
+              workplace: ProfileApiMapper.titleOrText(
+                  (prefs['workLocation'] as List?)?.firstOrNull),
               expectedSalary: double.tryParse(
-                (prefs['salaryExpected'] ?? prefs['expectedPayment'] ?? '').toString(),
+                (prefs['salaryExpected'] ?? prefs['expectedPayment'] ?? '')
+                    .toString(),
               ),
-              preferNotToSpecifySalary: prefs['preferNotToSpecify'] as bool? ?? false,
+              preferNotToSpecifySalary:
+                  prefs['preferNotToSpecify'] as bool? ?? false,
             );
           }
 
@@ -568,7 +598,8 @@ class ApiProfileRepository implements ProfileRepository {
           phone: basics.phone,
         );
         await ProfileLocalStore.saveBasics(_basics);
-        return ProfileLoadResult(basics: _basics, isPartial: true, partialError: e);
+        return ProfileLoadResult(
+            basics: _basics, isPartial: true, partialError: e);
       }
 
       _basics = basics;
@@ -583,36 +614,56 @@ class ApiProfileRepository implements ProfileRepository {
   Future<void> saveBasics(ProfileBasics basics) async {
     await _syncSession();
     await _ensureLoaded();
-    await _api.postJson('/user/me', {
-      'firstName': basics.firstName,
-      'lastName': basics.lastName,
-      'phone': basics.phone,
-    });
-    await _api.postJson('/job-seeker/me', {
+
+    Map<String, dynamic>? countryPayload(String code, String name) {
+      if (code.isEmpty || name.trim().isEmpty) return null;
+      final countryId = countryIdByCode[code.toUpperCase()];
+      if (countryId == null) return null;
+      final trimmedName = name.trim();
+      final capitalizedName =
+          trimmedName[0].toUpperCase() + trimmedName.substring(1);
+      return {
+        'id': countryId,
+        'name': capitalizedName,
+      };
+    }
+
+    final citizenship =
+        countryPayload(basics.citizenshipCode, basics.citizenship);
+    final residence = countryPayload(basics.residenceCode, basics.residence);
+
+    final jobSeekerPayload = {
       'basics': {
         'name': '${basics.firstName} ${basics.lastName}'.trim(),
         'email': basics.email,
         'phone': basics.phone,
         'gender': ProfileApiMapper.enumDto(basics.gender),
-        if (basics.citizenship.isNotEmpty)
-          'citizenship': {
-            'name': basics.citizenship,
-            'code': basics.citizenshipCode.toUpperCase(),
-          },
-        if (basics.residence.isNotEmpty)
-          'residence': {
-            'name': basics.residence,
-            'code': basics.residenceCode.toUpperCase(),
-          },
+        if (citizenship != null) 'citizenship': citizenship,
+        if (residence != null) 'residence': residence,
         'photo': basics.photoUrl,
         if (basics.dateOfBirth.isNotEmpty)
           'dateOfBirth': ProfileApiMapper.dobToIsoDate(basics.dateOfBirth),
       },
       'location': {
-        'status': ProfileApiMapper.enumDto(basics.status),
-        'relocationReadiness': ProfileApiMapper.enumDto(basics.relocationReadiness),
+        if (basics.status.isNotEmpty)
+          'status': ProfileApiMapper.enumDto(basics.status),
+        if (basics.relocationReadiness.isNotEmpty)
+          'relocationReadiness': ProfileApiMapper.relocationReadinessDto(
+              basics.relocationReadiness),
       },
-    });
+    };
+    debugPrint('[saveBasics] payload → ${jsonEncode(jobSeekerPayload)}');
+    final token = await _api.requireToken();
+    final res = await _api.client
+        .post(_api.uri('/job-seeker/me'),
+            headers: _api.jsonHeaders(token: token),
+            body: jsonEncode(jobSeekerPayload))
+        .timeout(ApiClient.timeout);
+    debugPrint('[saveBasics] response ${res.statusCode} → ${res.body}');
+    if (res.statusCode < 200 || res.statusCode >= 300) {
+      throw Exception(_api.readErrorBody(res));
+    }
+
     _basics = basics;
     await ProfileLocalStore.saveBasics(_basics);
   }
@@ -717,7 +768,8 @@ class ApiProfileRepository implements ProfileRepository {
   Future<void> saveWorkExperiences(List<WorkExperience> experiences) async {
     await _syncSession();
     await _ensureLoaded();
-    await _api.postJson('/job-seeker/me/work-experiences/replace', ProfileApiMapper.workReplaceBody(experiences));
+    await _api.postJson('/job-seeker/me/work-experiences/replace',
+        ProfileApiMapper.workReplaceBody(experiences));
     _workExperiences = experiences;
     await ProfileLocalStore.saveWork(_workExperiences);
   }
@@ -726,7 +778,8 @@ class ApiProfileRepository implements ProfileRepository {
   Future<void> saveEducations(List<Education> educations) async {
     await _syncSession();
     await _ensureLoaded();
-    await _api.postJson('/job-seeker/me/education/replace', ProfileApiMapper.educationReplaceBody(educations));
+    await _api.postJson('/job-seeker/me/education/replace',
+        ProfileApiMapper.educationReplaceBody(educations));
     _educations = educations;
     await ProfileLocalStore.saveEducation(_educations);
   }

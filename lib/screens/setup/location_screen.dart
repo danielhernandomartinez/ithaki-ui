@@ -37,7 +37,8 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
     super.dispose();
   }
 
-  void _openCountryPicker(TextEditingController controller, String title, ValueChanged<String> onCode, AppLocalizations l) {
+  void _openCountryPicker(TextEditingController controller, String title,
+      ValueChanged<String> onCode, AppLocalizations l) {
     SearchBottomSheet.show(
       context,
       title,
@@ -62,7 +63,8 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
     );
   }
 
-  void _openRelocationPicker(AppLocalizations l, List<SearchItem> relocationOptions) {
+  void _openRelocationPicker(
+      AppLocalizations l, List<SearchItem> relocationOptions) {
     SearchBottomSheet.show(
       context,
       l.relocationLabel,
@@ -72,7 +74,6 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
       selectLabel: l.selectAction,
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -89,11 +90,11 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
     ];
 
     final relocationOptions = [
-      SearchItem(id: 'yes', label: l.relocationYes),
-      SearchItem(id: 'no', label: l.relocationNo),
-      SearchItem(id: 'open', label: l.relocationOpen),
-      SearchItem(id: 'remote_only', label: l.relocationRemote),
-      SearchItem(id: 'within_country', label: l.relocationWithinCountry),
+      SearchItem(id: 'NEGATIVE', label: 'Not willing to relocate'),
+      SearchItem(id: 'LOCALLY', label: 'Willing to relocate locally'),
+      SearchItem(id: 'NATIONALLY', label: 'Willing to relocate nationally'),
+      SearchItem(
+          id: 'INTERNATIONALLY', label: 'Willing to relocate internationally'),
     ];
 
     return IthakiScreenLayout(
@@ -101,95 +102,113 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
       horizontalPadding: 0,
       verticalPadding: 8,
       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            IthakiStepTabs(
-              steps: [l.stepLocation, l.stepJobInterests, l.stepPreferences, l.stepValues, l.stepCommunication],
-              currentIndex: 0,
-              completedUpTo: -1,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          IthakiStepTabs(
+            steps: [
+              l.stepLocation,
+              l.stepJobInterests,
+              l.stepPreferences,
+              l.stepValues,
+              l.stepCommunication
+            ],
+            currentIndex: 0,
+            completedUpTo: -1,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l.locationHeading, style: IthakiTheme.headingLarge),
+                const SizedBox(height: 8),
+                Text(
+                  l.locationDescription,
+                  style: IthakiTheme.bodyRegular,
+                ),
+                const SizedBox(height: 24),
+                IthakiTextField(
+                  label: l.citizenshipLabel,
+                  hint: l.citizenshipHint,
+                  controller: _citizenshipController,
+                  suffixIcon: _citizenshipCode != null
+                      ? Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: IthakiFlag(_citizenshipCode!,
+                              width: 24, height: 18),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: IthakiIcon('flag',
+                              size: 20,
+                              color: _citizenshipController.text.isNotEmpty
+                                  ? Colors.black
+                                  : IthakiTheme.softGraphite),
+                        ),
+                  readOnly: true,
+                  onTap: () => _openCountryPicker(_citizenshipController,
+                      l.citizenshipLabel, (code) => _citizenshipCode = code, l),
+                ),
+                const SizedBox(height: 16),
+                IthakiTextField(
+                  label: l.residenceLabel,
+                  hint: l.residenceHint,
+                  controller: _residenceController,
+                  suffixIcon: _residenceCode != null
+                      ? Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: IthakiFlag(_residenceCode!,
+                              width: 24, height: 18),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: IthakiIcon('flag',
+                              size: 20,
+                              color: _residenceController.text.isNotEmpty
+                                  ? Colors.black
+                                  : IthakiTheme.softGraphite),
+                        ),
+                  readOnly: true,
+                  onTap: () => _openCountryPicker(_residenceController,
+                      l.residenceLabel, (code) => _residenceCode = code, l),
+                ),
+                const SizedBox(height: 16),
+                IthakiSelectorField(
+                  label: l.workAuthorizationLabel,
+                  value: _role,
+                  hint: l.workAuthorizationHint,
+                  onTap: () => _openRolePicker(l, roles),
+                ),
+                const SizedBox(height: 16),
+                IthakiSelectorField(
+                  label: l.relocationLabel,
+                  value: _relocation,
+                  hint: l.relocationHint,
+                  onTap: () => _openRelocationPicker(l, relocationOptions),
+                ),
+                const SizedBox(height: 40),
+                IthakiButton(
+                  l.continueButton,
+                  onPressed: _residenceCode != null
+                      ? () {
+                          ref.read(setupProvider.notifier).setLocation(
+                                citizenshipCode: _citizenshipCode ?? '',
+                                citizenshipLabel: _citizenshipController.text,
+                                residenceCode: _residenceCode ?? '',
+                                residenceLabel: _residenceController.text,
+                                role: _role,
+                                relocation: _relocation,
+                              );
+                          context.push(Routes.setupJobInterests);
+                        }
+                      : null,
+                ),
+                const SizedBox(height: 20),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(l.locationHeading, style: IthakiTheme.headingLarge),
-                  const SizedBox(height: 8),
-                  Text(
-                    l.locationDescription,
-                    style: IthakiTheme.bodyRegular,
-                  ),
-                  const SizedBox(height: 24),
-                  IthakiTextField(
-                    label: l.citizenshipLabel,
-                    hint: l.citizenshipHint,
-                    controller: _citizenshipController,
-                    suffixIcon: _citizenshipCode != null
-                        ? Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: IthakiFlag(_citizenshipCode!, width: 24, height: 18),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: IthakiIcon('flag', size: 20, color: _citizenshipController.text.isNotEmpty ? Colors.black : IthakiTheme.softGraphite),
-                          ),
-                    readOnly: true,
-                    onTap: () => _openCountryPicker(_citizenshipController, l.citizenshipLabel, (code) => _citizenshipCode = code, l),
-                  ),
-                  const SizedBox(height: 16),
-                  IthakiTextField(
-                    label: l.residenceLabel,
-                    hint: l.residenceHint,
-                    controller: _residenceController,
-                    suffixIcon: _residenceCode != null
-                        ? Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: IthakiFlag(_residenceCode!, width: 24, height: 18),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: IthakiIcon('flag', size: 20, color: _residenceController.text.isNotEmpty ? Colors.black : IthakiTheme.softGraphite),
-                          ),
-                    readOnly: true,
-                    onTap: () => _openCountryPicker(_residenceController, l.residenceLabel, (code) => _residenceCode = code, l),
-                  ),
-                  const SizedBox(height: 16),
-                  IthakiSelectorField(
-                    label: l.workAuthorizationLabel,
-                    value: _role,
-                    hint: l.workAuthorizationHint,
-                    onTap: () => _openRolePicker(l, roles),
-                  ),
-                  const SizedBox(height: 16),
-                  IthakiSelectorField(
-                    label: l.relocationLabel,
-                    value: _relocation,
-                    hint: l.relocationHint,
-                    onTap: () => _openRelocationPicker(l, relocationOptions),
-                  ),
-                  const SizedBox(height: 40),
-                  IthakiButton(
-                    l.continueButton,
-                    onPressed: _residenceCode != null
-                        ? () {
-                            ref.read(setupProvider.notifier).setLocation(
-                              citizenshipCode: _citizenshipCode ?? '',
-                              citizenshipLabel: _citizenshipController.text,
-                              residenceCode: _residenceCode ?? '',
-                              residenceLabel: _residenceController.text,
-                              role: _role,
-                              relocation: _relocation,
-                            );
-                            context.push(Routes.setupJobInterests);
-                          }
-                        : null,
-                  ),
-                  const SizedBox(height: 20),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
   }
 }

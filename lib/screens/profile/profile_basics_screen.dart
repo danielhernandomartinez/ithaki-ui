@@ -31,9 +31,24 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
   String? _photoPath;
   bool _isDirty = false;
 
-  static const _genderOptions = ['Male', 'Female', 'Other', 'Prefer not to say'];
-  static const _statusOptions = ['Citizen', 'Permanent Resident', 'Work Visa', 'Student'];
-  static const _relocationOptions = ['Yes', 'No', 'Open to discuss'];
+  static const _genderOptions = [
+    'Male',
+    'Female',
+    'Other',
+    'Prefer not to say'
+  ];
+  static const _statusOptions = [
+    'Citizen',
+    'Permanent Resident',
+    'Work Visa',
+    'Student'
+  ];
+  static const _relocationOptions = [
+    'Not willing to relocate',
+    'Willing to relocate locally',
+    'Willing to relocate nationally',
+    'Willing to relocate internationally',
+  ];
 
   @override
   void initState() {
@@ -78,18 +93,19 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
   Future<void> _save() async {
     try {
       await ref.read(profileBasicsProvider.notifier).save(
-        firstName: _nameCtrl.text.trim(),
-        lastName: _lastNameCtrl.text.trim(),
-        dateOfBirth: _dobCtrl.text.trim(),
-        gender: _gender,
-        citizenship: _citizenshipCtrl.text.trim(),
-        citizenshipCode: _citizenshipCode.isNotEmpty ? _citizenshipCode : null,
-        residence: _residenceCtrl.text.trim(),
-        residenceCode: _residenceCode.isNotEmpty ? _residenceCode : null,
-        status: _status,
-        relocationReadiness: _relocation,
-        photoUrl: _photoPath,
-      );
+            firstName: _nameCtrl.text.trim(),
+            lastName: _lastNameCtrl.text.trim(),
+            dateOfBirth: _dobCtrl.text.trim(),
+            gender: _gender,
+            citizenship: _citizenshipCtrl.text.trim(),
+            citizenshipCode:
+                _citizenshipCode.isNotEmpty ? _citizenshipCode : null,
+            residence: _residenceCtrl.text.trim(),
+            residenceCode: _residenceCode.isNotEmpty ? _residenceCode : null,
+            status: _status,
+            relocationReadiness: _relocation,
+            photoUrl: _photoPath,
+          );
       if (!mounted) return;
       context.pop();
     } catch (e) {
@@ -159,9 +175,7 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
     String? current,
     ValueChanged<String> onSelect,
   ) {
-    final items = options
-        .map((o) => SearchItem(id: o, label: o))
-        .toList();
+    final items = options.map((o) => SearchItem(id: o, label: o)).toList();
     SearchBottomSheet.show(
       context,
       title,
@@ -234,7 +248,11 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
           onMenuPressed: _onBack,
         ),
         body: SingleChildScrollView(
-          padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: MediaQuery.viewPaddingOf(context).bottom + 16),
+          padding: EdgeInsets.only(
+              left: 16,
+              right: 16,
+              top: 16,
+              bottom: MediaQuery.viewPaddingOf(context).bottom + 16),
           child: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -272,8 +290,8 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
                   controller: _dobCtrl,
                   readOnly: true,
                   onTap: _pickDate,
-                  suffixIcon: const IthakiIcon('calendar', size: 16,
-                      color: IthakiTheme.softGraphite),
+                  suffixIcon: const IthakiIcon('calendar',
+                      size: 16, color: IthakiTheme.softGraphite),
                 ),
                 const SizedBox(height: 12),
                 ProfilePickerField(
@@ -301,8 +319,8 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
                   ),
                   suffixIcon: _citizenshipCode.isNotEmpty
                       ? IthakiFlag(_citizenshipCode, width: 24, height: 18)
-                      : const IthakiIcon('flag', size: 16,
-                              color: IthakiTheme.softGraphite),
+                      : const IthakiIcon('flag',
+                          size: 16, color: IthakiTheme.softGraphite),
                 ),
                 const SizedBox(height: 12),
                 // Residence with flag
@@ -318,8 +336,8 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
                   ),
                   suffixIcon: _residenceCode.isNotEmpty
                       ? IthakiFlag(_residenceCode, width: 24, height: 18)
-                      : const IthakiIcon('flag', size: 16,
-                              color: IthakiTheme.softGraphite),
+                      : const IthakiIcon('flag',
+                          size: 16, color: IthakiTheme.softGraphite),
                 ),
                 const SizedBox(height: 12),
                 ProfilePickerField(
@@ -346,8 +364,7 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                IthakiButton('Save',
-                    onPressed: _isFormValid ? _save : null),
+                IthakiButton('Save', onPressed: _isFormValid ? _save : null),
               ],
             ),
           ),

@@ -1,11 +1,13 @@
 import '../../models/profile_models.dart';
 
 class ProfileApiMapper {
-  static String enumTitle(dynamic field) =>
-      field is Map ? (field['title'] as String? ?? '') : (field as String? ?? '');
+  static String enumTitle(dynamic field) => field is Map
+      ? (field['title'] as String? ?? '')
+      : (field as String? ?? '');
 
-  static String countryName(dynamic field) =>
-      field is Map ? (field['name'] as String? ?? '') : (field as String? ?? '');
+  static String countryName(dynamic field) => field is Map
+      ? (field['name'] as String? ?? '')
+      : (field as String? ?? '');
 
   static String countryCode(dynamic field) =>
       field is Map ? ((field['code'] as String? ?? '')).toLowerCase() : '';
@@ -23,8 +25,10 @@ class ProfileApiMapper {
   }
 
   static String slug(String value) {
-    final cleaned = value.trim().toUpperCase().replaceAll(RegExp(r'[^A-Z0-9]+'), '_');
-    final normalized = cleaned.replaceAll(RegExp(r'_+'), '_').replaceAll(RegExp(r'^_|_$'), '');
+    final cleaned =
+        value.trim().toUpperCase().replaceAll(RegExp(r'[^A-Z0-9]+'), '_');
+    final normalized =
+        cleaned.replaceAll(RegExp(r'_+'), '_').replaceAll(RegExp(r'^_|_$'), '');
     return normalized;
   }
 
@@ -32,6 +36,30 @@ class ProfileApiMapper {
     final t = title.trim();
     if (t.isEmpty) return null;
     return {'value': slug(t), 'title': t};
+  }
+
+  static Map<String, dynamic>? relocationReadinessDto(String title) {
+    final t = title.trim();
+    if (t.isEmpty) return null;
+    return switch (t.toUpperCase()) {
+      'NEGATIVE' || 'NOT WILLING TO RELOCATE' => const {
+          'value': 'NEGATIVE',
+          'title': 'Not willing to relocate',
+        },
+      'LOCALLY' || 'WILLING TO RELOCATE LOCALLY' => const {
+          'value': 'LOCALLY',
+          'title': 'Willing to relocate locally',
+        },
+      'NATIONALLY' || 'WILLING TO RELOCATE NATIONALLY' => const {
+          'value': 'NATIONALLY',
+          'title': 'Willing to relocate nationally',
+        },
+      'INTERNATIONALLY' || 'WILLING TO RELOCATE INTERNATIONALLY' => const {
+          'value': 'INTERNATIONALLY',
+          'title': 'Willing to relocate internationally',
+        },
+      _ => {'value': slug(t), 'title': t},
+    };
   }
 
   /// Converts DD-MM-YYYY or MM-YYYY display formats to YYYY-MM-DD for the API.
@@ -78,8 +106,10 @@ class ProfileApiMapper {
     return '${parsed.month.toString().padLeft(2, '0')}-${parsed.year.toString().padLeft(4, '0')}';
   }
 
-  static List<String> stringList(dynamic field) =>
-      (field as List? ?? []).map((e) => titleOrText(e)).where((e) => e.isNotEmpty).toList();
+  static List<String> stringList(dynamic field) => (field as List? ?? [])
+      .map((e) => titleOrText(e))
+      .where((e) => e.isNotEmpty)
+      .toList();
 
   static List<Map<String, dynamic>> listItemDtos(List<String> values) => values
       .asMap()
@@ -91,24 +121,22 @@ class ProfileApiMapper {
     return {
       'location': {
         'status': enumDto(basics.status),
-        'relocationReadiness': enumDto(basics.relocationReadiness),
+        'relocationReadiness':
+            relocationReadinessDto(basics.relocationReadiness),
       },
     };
   }
 
-  static Map<String, dynamic> onboardingPreferencesBody(ProfileJobPreferences prefs) {
+  static Map<String, dynamic> onboardingPreferencesBody(
+      ProfileJobPreferences prefs) {
     return {
-      'jobInterests': prefs.jobInterests
-          .asMap()
-          .entries
-          .map((entry) {
-            final id = int.tryParse(entry.value.id);
-            return {
-              'value': id ?? (entry.key + 1),
-              'title': entry.value.title,
-            };
-          })
-          .toList(),
+      'jobInterests': prefs.jobInterests.asMap().entries.map((entry) {
+        final id = int.tryParse(entry.value.id);
+        return {
+          'value': id ?? (entry.key + 1),
+          'title': entry.value.title,
+        };
+      }).toList(),
       'preferences': {
         'positionLevel': enumDto(prefs.positionLevel),
         'jobTypes': prefs.jobType.trim().isEmpty
@@ -128,7 +156,8 @@ class ProfileApiMapper {
     };
   }
 
-  static List<Map<String, dynamic>> workReplaceBody(List<WorkExperience> experiences) {
+  static List<Map<String, dynamic>> workReplaceBody(
+      List<WorkExperience> experiences) {
     return experiences
         .map(
           (exp) => {
@@ -136,7 +165,9 @@ class ProfileApiMapper {
             'companyName': exp.companyName,
             'description': exp.summary ?? '',
             'startDate': mmYyyyToIsoDate(exp.startDate),
-            'endDate': exp.currentlyWorkHere ? null : mmYyyyToIsoDate(exp.endDate ?? ''),
+            'endDate': exp.currentlyWorkHere
+                ? null
+                : mmYyyyToIsoDate(exp.endDate ?? ''),
             'current': exp.currentlyWorkHere,
             'level': enumDto(exp.experienceLevel),
             'workType': enumDto(exp.jobType),
@@ -146,7 +177,8 @@ class ProfileApiMapper {
         .toList();
   }
 
-  static List<Map<String, dynamic>> educationReplaceBody(List<Education> educations) {
+  static List<Map<String, dynamic>> educationReplaceBody(
+      List<Education> educations) {
     return educations
         .map(
           (edu) => {
@@ -154,7 +186,9 @@ class ProfileApiMapper {
             'institution': edu.institutionName,
             'degree': edu.degreeType,
             'startDate': mmYyyyToIsoDate(edu.startDate),
-            'endDate': edu.currentlyStudyHere ? null : mmYyyyToIsoDate(edu.endDate ?? ''),
+            'endDate': edu.currentlyStudyHere
+                ? null
+                : mmYyyyToIsoDate(edu.endDate ?? ''),
             'currentlyStudying': edu.currentlyStudyHere,
           },
         )
