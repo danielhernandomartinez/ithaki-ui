@@ -117,10 +117,6 @@ class _CompanyProfileContentState extends ConsumerState<CompanyProfileContent> {
             onOpenEvent: (eventId) =>
                 context.push(Routes.companyEventDetailFor(company.id, eventId)),
           ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
-            child: CompanyFooterSection(),
-          ),
           SizedBox(height: MediaQuery.paddingOf(context).bottom + 16),
         ],
       ),

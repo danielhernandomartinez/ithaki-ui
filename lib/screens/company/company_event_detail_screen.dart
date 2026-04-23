@@ -128,8 +128,6 @@ class CompanyEventDetailScreen extends ConsumerWidget {
                     const SizedBox(height: 12),
                     CulturalMatchCard(match: company.culturalMatch!),
                   ],
-                  const SizedBox(height: 12),
-                  const CompanyFooterSection(),
                 ],
               ),
             ),
