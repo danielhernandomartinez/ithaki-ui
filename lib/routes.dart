@@ -33,13 +33,18 @@ abstract final class Routes {
 
   static const companyProfile = '/company/:id';
   static String companyProfileFor(String id) => '/company/$id';
+  static const companyEventDetail = '/company/:id/events/:eventId';
+  static String companyEventDetailFor(String id, String eventId) =>
+      '/company/$id/events/$eventId';
   static const myApplications = '/applications';
   static const applicationDetail = '/applications/:id';
   static const jobDetail = '/applications/:id/job';
-  static String jobDetailFor(String applicationId) => '/applications/$applicationId/job';
+  static String jobDetailFor(String applicationId) =>
+      '/applications/$applicationId/job';
 
   static const invitationJobDetail = '/invitations/:id/job';
-  static String invitationJobDetailFor(String invitationId) => '/invitations/$invitationId/job';
+  static String invitationJobDetailFor(String invitationId) =>
+      '/invitations/$invitationId/job';
 
   // Profile
   static const profile = '/profile';

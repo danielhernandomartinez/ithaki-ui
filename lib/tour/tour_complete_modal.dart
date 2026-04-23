@@ -8,8 +8,8 @@ import '../routes.dart';
 class TourCompleteModal extends ConsumerWidget {
   const TourCompleteModal({super.key});
 
-  static void show(BuildContext context) {
-    showModalBottomSheet(
+  static Future<void> show(BuildContext context) async {
+    await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       isDismissible: false,
@@ -32,7 +32,7 @@ class TourCompleteModal extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Ithaki',
+          const Text('Ithaki-logo',
               style: TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: 22,

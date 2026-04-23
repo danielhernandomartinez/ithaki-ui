@@ -5,20 +5,24 @@ class CompanyEvent {
   final String title;
   final String date;
   final String time;
+  final String detailTime;
   final String location;
   final String description;
   final String address;
   final String registrationLink;
+  final List<String> imageAssets;
 
   const CompanyEvent({
     required this.id,
     required this.title,
     required this.date,
     this.time = '',
+    this.detailTime = '',
     this.location = '',
     this.description = '',
     this.address = '',
     this.registrationLink = '',
+    this.imageAssets = const [],
   });
 }
 
@@ -27,12 +31,14 @@ class CompanyPost {
   final String content;
   final String postedAgo;
   final int likes;
+  final String imageAsset;
 
   const CompanyPost({
     required this.id,
     required this.content,
     this.postedAgo = '',
     this.likes = 0,
+    this.imageAsset = '',
   });
 }
 
@@ -63,7 +69,7 @@ class CompanyVacancy {
 }
 
 class CulturalMatch {
-  final String label;   // 'High', 'Medium', 'Low'
+  final String label; // 'High', 'Medium', 'Low'
   final List<String> sharedValues;
   final String description;
 
@@ -85,6 +91,8 @@ class CompanyProfile {
   final String phone;
   final String email;
   final String website;
+  final String platformDomain;
+  final String otherLocations;
   final String aboutText;
   final List<String> perks;
   final String odysseaRating;
@@ -92,6 +100,8 @@ class CompanyProfile {
   final List<CompanyEvent> events;
   final List<CompanyPost> posts;
   final List<CompanyVacancy> vacancies;
+  final String heroImageAsset;
+  final List<String> galleryImageAssets;
 
   const CompanyProfile({
     required this.id,
@@ -104,6 +114,8 @@ class CompanyProfile {
     this.phone = '',
     this.email = '',
     this.website = '',
+    this.platformDomain = 'ithaki.com',
+    this.otherLocations = '',
     this.aboutText = '',
     this.perks = const [],
     this.odysseaRating = '',
@@ -111,5 +123,7 @@ class CompanyProfile {
     this.events = const [],
     this.posts = const [],
     this.vacancies = const [],
+    this.heroImageAsset = '',
+    this.galleryImageAssets = const [],
   });
 }

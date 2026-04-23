@@ -5,11 +5,13 @@ import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../providers/home_provider.dart';
 import '../../providers/profile_provider.dart';
+import '../../providers/tour_provider.dart';
 import '../../repositories/auth_repository.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
 import '../../constants/nav_items.dart';
 import '../../mixins/panel_menu_mixin.dart';
+import '../../tour/tour_welcome_modal.dart';
 import 'widgets/home_greeting_header.dart';
 import 'widgets/home_search_section.dart';
 import 'widgets/home_jobs_section.dart';
@@ -28,7 +30,10 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen>
     with TickerProviderStateMixin {
   late final PanelMenuController _panels;
+  final _scrollController = ScrollController();
   String _selectedRoute = '/home';
+  bool _welcomeModalScheduled = false;
+  int? _lastTourScrollStep;
 
   @override
   void initState() {
@@ -38,8 +43,63 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
   @override
   void dispose() {
+    _scrollController.dispose();
     _panels.dispose();
     super.dispose();
+  }
+
+  void _maybeShowWelcomeModal(TourState? tourState) {
+    final shouldShow = tourState != null &&
+        !tourState.tourCompleted &&
+        tourState.currentStep == 0 &&
+        tourState.welcomeVisible;
+    if (!shouldShow || _welcomeModalScheduled) {
+      return;
+    }
+    _welcomeModalScheduled = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) return;
+      await TourWelcomeModal.show(context);
+      if (mounted) {
+        setState(() => _welcomeModalScheduled = false);
+      } else {
+        _welcomeModalScheduled = false;
+      }
+    });
+  }
+
+  void _syncTourScroll(TourState? tourState, Map<int, GlobalKey> tourKeys) {
+    final step = tourState?.currentStep;
+    if (step != 1 && step != 12) {
+      _lastTourScrollStep = null;
+      return;
+    }
+    if (_lastTourScrollStep == step) {
+      return;
+    }
+    _lastTourScrollStep = step;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (step == 1) {
+        if (_scrollController.hasClients) {
+          _scrollController.animateTo(
+            0,
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeOut,
+          );
+        }
+        return;
+      }
+      final targetContext = tourKeys[12]?.currentContext;
+      if (targetContext != null) {
+        Scrollable.ensureVisible(
+          targetContext,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+          alignment: 0.12,
+        );
+      }
+    });
   }
 
   Widget _buildLoading() => const Scaffold(
@@ -50,180 +110,236 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   Widget _buildError(Object error) => Scaffold(
         backgroundColor: IthakiTheme.backgroundViolet,
         body: Center(
-          child: Text(error.toString(), style: const TextStyle(color: IthakiTheme.textPrimary)),
+          child: Text(error.toString(),
+              style: const TextStyle(color: IthakiTheme.textPrimary)),
         ),
       );
 
   @override
   Widget build(BuildContext context) {
     final profileCompletion = ref.watch(profileCompletionProvider);
+    final tourState = ref.watch(tourProvider).maybeWhen(
+          data: (value) => value,
+          orElse: () => null,
+        );
+    final tourKeys = ref.watch(tourKeysProvider);
     final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
+    _maybeShowWelcomeModal(tourState);
+    _syncTourScroll(tourState, tourKeys);
+
     return ref.watch(homeProvider).when(
-      loading: _buildLoading,
-      error: (e, _) => _buildError(e),
-      data: (homeData) => Scaffold(
-      backgroundColor: IthakiTheme.backgroundViolet,
-      extendBodyBehindAppBar: true,
-      appBar: IthakiAppBar(
-        showMenuAndAvatar: true,
-        menuOpen: _panels.menuOpen,
-        profileOpen: _panels.profileOpen,
-        avatarInitials: homeData.userInitials,
-        onMenuPressed: _panels.toggleMenu,
-        onAvatarPressed: _panels.toggleProfile,
-      ),
-      body: Stack(
-        children: [
-          // ─── Main content ─────────────────────────────────────
-          SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          loading: _buildLoading,
+          error: (e, _) => _buildError(e),
+          data: (homeData) => Scaffold(
+            backgroundColor: IthakiTheme.backgroundViolet,
+            extendBodyBehindAppBar: true,
+            appBar: IthakiAppBar(
+              showMenuAndAvatar: true,
+              menuOpen: _panels.menuOpen,
+              profileOpen: _panels.profileOpen,
+              avatarInitials: homeData.userInitials,
+              onMenuPressed: _panels.toggleMenu,
+              onAvatarPressed: _panels.toggleProfile,
+            ),
+            body: Stack(
               children: [
-                HomeGreetingHeader(topOffset: topOffset),
-                const SizedBox(height: 12),
-
-                if (profileCompletion < 1.0) ...[
-                  const HomeProfileCompletionCard(),
-                  const SizedBox(height: 12),
-                ],
-
-                IthakiCard(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const HomeSearchSection(),
-                ),
-                const SizedBox(height: 12),
-                IthakiCard(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const HomeJobsSection(),
-                ),
-                const SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: IthakiGradientBanner(
-                    title: 'Not sure how to find the right job?',
-                    subtitle: "Career Assistant can help if you're not sure where to start!",
-                    buttonLabel: 'Ask Career Assistant',
-                    buttonIcon: const IthakiIcon('ai', size: 18, color: IthakiTheme.backgroundWhite),
-                    onButtonPressed: () => context.go(Routes.careerAssistant),
-                    backgroundImage: const DecorationImage(
-                      image: AssetImage('assets/images/ai_banner_bg.png'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                IthakiCard(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: IthakiStatCard(
-                    title: 'Your CV Success',
-                    rows: [
-                      IthakiStatRowData(
-                        icon: const IthakiIcon('eye', size: 18, color: IthakiTheme.primaryPurple),
-                        label: 'Views',
-                        value: homeData.cvStats.views,
-                        change: homeData.cvStats.viewsChange,
+                // ─── Main content ─────────────────────────────────────
+                SingleChildScrollView(
+                  controller: _scrollController,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      HomeGreetingHeader(topOffset: topOffset),
+                      const SizedBox(height: 12),
+                      if (tourState?.tourCompleted ?? false) ...[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: IthakiGradientBanner(
+                            title: 'Need a quick refresher?',
+                            subtitle:
+                                'Restart the product tour whenever you want from Home.',
+                            buttonLabel: 'Restart Product Tour',
+                            buttonIcon: const IthakiIcon(
+                              'rocket',
+                              size: 18,
+                              color: IthakiTheme.backgroundWhite,
+                            ),
+                            onButtonPressed: () =>
+                                ref.read(tourProvider.notifier).startTour(),
+                            backgroundImage: const DecorationImage(
+                              image:
+                                  AssetImage('assets/images/ai_banner_bg.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                      if (profileCompletion < 1.0) ...[
+                        const HomeProfileCompletionCard(),
+                        const SizedBox(height: 12),
+                      ],
+                      IthakiCard(
+                        key: tourKeys[1],
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        child: const HomeSearchSection(),
                       ),
-                      IthakiStatRowData(
-                        icon: const IthakiIcon('envelope', size: 18, color: IthakiTheme.primaryPurple),
-                        label: 'Invitations',
-                        value: homeData.cvStats.invitations,
-                        change: homeData.cvStats.invitationsChange,
+                      const SizedBox(height: 12),
+                      IthakiCard(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        child: const HomeJobsSection(),
                       ),
-                      IthakiStatRowData(
-                        icon: const IthakiIcon('applications', size: 22, color: IthakiTheme.primaryPurple),
-                        label: 'Applications Sent',
-                        value: homeData.cvStats.applicationsSent,
+                      const SizedBox(height: 12),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: IthakiGradientBanner(
+                          title: 'Not sure how to find the right job?',
+                          subtitle:
+                              "Career Assistant can help if you're not sure where to start!",
+                          buttonLabel: 'Ask Career Assistant',
+                          buttonIcon: const IthakiIcon('ai',
+                              size: 18, color: IthakiTheme.backgroundWhite),
+                          onButtonPressed: () =>
+                              context.go(Routes.careerAssistant),
+                          backgroundImage: const DecorationImage(
+                            image: AssetImage('assets/images/ai_banner_bg.png'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
-                      IthakiStatRowData(
-                        icon: const IthakiIcon('rocket', size: 22, color: IthakiTheme.primaryPurple),
-                        label: 'Interviews',
-                        value: homeData.cvStats.interviews,
+                      const SizedBox(height: 12),
+                      IthakiCard(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        child: IthakiStatCard(
+                          title: 'Your CV Success',
+                          rows: [
+                            IthakiStatRowData(
+                              icon: const IthakiIcon('eye',
+                                  size: 18, color: IthakiTheme.primaryPurple),
+                              label: 'Views',
+                              value: homeData.cvStats.views,
+                              change: homeData.cvStats.viewsChange,
+                            ),
+                            IthakiStatRowData(
+                              icon: const IthakiIcon('envelope',
+                                  size: 18, color: IthakiTheme.primaryPurple),
+                              label: 'Invitations',
+                              value: homeData.cvStats.invitations,
+                              change: homeData.cvStats.invitationsChange,
+                            ),
+                            IthakiStatRowData(
+                              icon: const IthakiIcon('applications',
+                                  size: 22, color: IthakiTheme.primaryPurple),
+                              label: 'Applications Sent',
+                              value: homeData.cvStats.applicationsSent,
+                            ),
+                            IthakiStatRowData(
+                              icon: const IthakiIcon('rocket',
+                                  size: 22, color: IthakiTheme.primaryPurple),
+                              label: 'Interviews',
+                              value: homeData.cvStats.interviews,
+                            ),
+                          ],
+                        ),
                       ),
+                      const SizedBox(height: 12),
+                      IthakiCard(
+                        key: tourKeys[12],
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        child: const HomeCoursesSection(),
+                      ),
+                      const SizedBox(height: 12),
+                      IthakiCard(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        child: const HomeNewsSection(),
+                      ),
+                      const SizedBox(height: 12),
+                      IthakiCard(
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        child: const HomeQuestionsSection(),
+                      ),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                          height: MediaQuery.paddingOf(context).bottom + 16),
                     ],
                   ),
                 ),
-                const SizedBox(height: 12),
-                IthakiCard(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const HomeCoursesSection(),
-                ),
-                const SizedBox(height: 12),
-                IthakiCard(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const HomeNewsSection(),
-                ),
-                const SizedBox(height: 12),
-                IthakiCard(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  child: const HomeQuestionsSection(),
-                ),
-                const SizedBox(height: 12),
-                SizedBox(height: MediaQuery.paddingOf(context).bottom + 16),
+
+                // ─── Dim overlay ──────────────────────────────────────
+                if (_panels.menuOpen || _panels.profileOpen)
+                  Positioned.fill(
+                    child: GestureDetector(
+                      onTap: () {
+                        _panels.closeMenu();
+                        _panels.closeProfile();
+                      },
+                      child: const ColoredBox(color: Colors.transparent),
+                    ),
+                  ),
+
+                // ─── Nav menu panel ───────────────────────────────────
+                if (_panels.menuOpen ||
+                    _panels.menuCtrl.status != AnimationStatus.dismissed)
+                  Positioned(
+                    top: topOffset - 14,
+                    left: 16,
+                    right: 16,
+                    bottom: 40,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: SlideTransition(
+                        position: _panels.slideAnim,
+                        child: AppNavDrawer(
+                          currentRoute: _selectedRoute,
+                          profileProgress: ref.watch(profileCompletionProvider),
+                          items: kAppNavItems,
+                          onItemTap: (item) {
+                            setState(() => _selectedRoute = item.route);
+                            _panels.closeMenu();
+                            if (item.route != Routes.home) {
+                              context.go(item.route);
+                            }
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+
+                // ─── Profile menu panel ───────────────────────────────
+                if (_panels.profileOpen ||
+                    _panels.profileCtrl.status != AnimationStatus.dismissed)
+                  Positioned(
+                    top: topOffset - 14,
+                    left: 16,
+                    right: 16,
+                    bottom: 40,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: SlideTransition(
+                        position: _panels.profileSlideAnim,
+                        child: ProfileMenuPanel(
+                          onItemTap: (item) {
+                            _panels.closeProfile();
+                            if (item.route.isNotEmpty) context.push(item.route);
+                          },
+                          onLogOut: () {
+                            _panels.closeProfile();
+                            ref
+                                .read(authRepositoryProvider)
+                                .logout()
+                                .whenComplete(() {
+                              resetProfileProviders(ref);
+                              if (context.mounted) context.go(Routes.root);
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),
-
-          // ─── Dim overlay ──────────────────────────────────────
-          if (_panels.menuOpen || _panels.profileOpen)
-            Positioned.fill(
-              child: GestureDetector(
-                onTap: () { _panels.closeMenu(); _panels.closeProfile(); },
-                child: const ColoredBox(color: Colors.transparent),
-              ),
-            ),
-
-          // ─── Nav menu panel ───────────────────────────────────
-          if (_panels.menuOpen || _panels.menuCtrl.status != AnimationStatus.dismissed)
-            Positioned(
-              top: topOffset - 14,
-              left: 16, right: 16, bottom: 40,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: SlideTransition(
-                  position: _panels.slideAnim,
-                  child: AppNavDrawer(
-                    currentRoute: _selectedRoute,
-                    profileProgress: ref.watch(profileCompletionProvider),
-                    items: kAppNavItems,
-                    onItemTap: (item) {
-                      setState(() => _selectedRoute = item.route);
-                      _panels.closeMenu();
-                      if (item.route != Routes.home) context.go(item.route);
-                    },
-                  ),
-                ),
-              ),
-            ),
-
-          // ─── Profile menu panel ───────────────────────────────
-          if (_panels.profileOpen || _panels.profileCtrl.status != AnimationStatus.dismissed)
-            Positioned(
-              top: topOffset - 14,
-              left: 16, right: 16, bottom: 40,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: SlideTransition(
-                  position: _panels.profileSlideAnim,
-                  child: ProfileMenuPanel(
-                    onItemTap: (item) {
-                      _panels.closeProfile();
-                      if (item.route.isNotEmpty) context.push(item.route);
-                    },
-                    onLogOut: () {
-                      _panels.closeProfile();
-                      ref.read(authRepositoryProvider).logout().whenComplete(() {
-                        resetProfileProviders(ref);
-                        if (context.mounted) context.go(Routes.root);
-                      });
-                    },
-                  ),
-                ),
-              ),
-            ),
-        ],
-      ),
-      ),
-    );
+        );
   }
 }

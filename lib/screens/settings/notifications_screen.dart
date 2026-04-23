@@ -1,223 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
-import '../../providers/profile_provider.dart';
-import '../../providers/settings_provider.dart';
+import '../../providers/home_provider.dart';
+import '../../providers/notifications_provider.dart';
+import 'widgets/notification_inbox_card.dart';
 
 class NotificationsScreen extends ConsumerWidget {
   const NotificationsScreen({super.key});
 
-  static const _newsletterTopics = [
-    (
-      'Jobs Recommendations',
-      'Personalized job offers based on your skills and preferences',
-    ),
-    (
-      'Career Tips',
-      'Expert advice and resources to boost your professional growth',
-    ),
-    (
-      'Events & Webinars',
-      'Upcoming career events, workshops, and networking sessions',
-    ),
-    (
-      'Platform Updates',
-      'New features, tools, and product improvements',
-    ),
-    (
-      'Learning Opportunities',
-      'Online courses and certifications to enhance your skills',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.watch(settingsProvider);
-    final notifier = ref.read(settingsProvider.notifier);
-    final phone = ref.watch(profileBasicsProvider.select((b) => b.value?.phone ?? ''));
+    final notifications = ref.watch(notificationsProvider);
+    final unreadCount = ref.watch(unreadNotificationsCountProvider);
+    final notifier = ref.read(notificationsProvider.notifier);
+    final homeData = ref.watch(homeProvider).value;
+    final avatarInitials = homeData?.userInitials.isNotEmpty == true
+        ? homeData!.userInitials
+        : 'AA';
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: IthakiAppBar(showBackButton: true, title: 'Notifications'),
+      appBar: IthakiAppBar(
+        showMenuAndAvatar: true,
+        avatarInitials: avatarInitials,
+      ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 32),
+        padding: EdgeInsets.only(
+          left: 16,
+          right: 16,
+          top: 12,
+          bottom: MediaQuery.viewPaddingOf(context).bottom + 24,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildTabBar(context),
-
-            // ── Communication Channel ──────────────────────────────────────
-            _buildCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Communication Channel',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: IthakiTheme.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    'Choose a channel to get notifications about new relevant job openings and responses to submitted applications. You can select multiple options and change them anytime.',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: IthakiTheme.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  IthakiOptionCard(
-                    showLeadingCheckbox: true,
-                    label: 'WhatsApp',
-                    subtitle: phone.isNotEmpty ? phone : null,
-                    isSelected: settings.whatsappEnabled,
-                    onTap: () => notifier.toggleChannel('whatsapp'),
-                  ),
-                  const SizedBox(height: 8),
-                  IthakiOptionCard(
-                    showLeadingCheckbox: true,
-                    label: 'SMS',
-                    subtitle: phone.isNotEmpty ? phone : null,
-                    isSelected: settings.smsEnabled,
-                    onTap: () => notifier.toggleChannel('sms'),
-                  ),
-                  const SizedBox(height: 8),
-                  IthakiOptionCard(
-                    showLeadingCheckbox: true,
-                    label: 'Push Notifications',
-                    isSelected: settings.pushEnabled,
-                    onTap: () => notifier.toggleChannel('push'),
-                  ),
-                ],
+            const Center(child: _PlatformPill(label: 'ithaki.com')),
+            const SizedBox(height: 16),
+            _buildSummaryCard(
+              unreadCount: unreadCount,
+              onMarkAllAsRead: unreadCount == 0 ? null : notifier.markAllAsRead,
+            ),
+            const SizedBox(height: 14),
+            ...notifications.map(
+              (item) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: NotificationInboxCard(item: item),
               ),
             ),
-
-            // ── Email Newsletter ───────────────────────────────────────────
-            _buildCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Email Newsletter',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: IthakiTheme.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    'Stay informed and make the most of your experience! Choose which types of updates and insights you\'d like to receive directly to your inbox.',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: IthakiTheme.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Email badge
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 150),
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 14),
-                    decoration: BoxDecoration(
-                      color: settings.emailNewsletterActive
-                          ? IthakiTheme.backgroundViolet
-                          : IthakiTheme.softGray,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: settings.emailNewsletterActive
-                            ? IthakiTheme.primaryPurple
-                            : IthakiTheme.lightGray,
-                        width: 1,
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        IthakiIcon(
-                          'envelope',
-                          size: 20,
-                          color: settings.emailNewsletterActive
-                              ? IthakiTheme.primaryPurple
-                              : IthakiTheme.textSecondary,
-                        ),
-                        const SizedBox(width: 12),
-                        Text(
-                          'Email Newsletter',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            color: settings.emailNewsletterActive
-                                ? IthakiTheme.primaryPurple
-                                : IthakiTheme.textPrimary,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          settings.emailNewsletterActive
-                              ? '(active)'
-                              : '(inactive)',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: IthakiTheme.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  // Subscribe / Unsubscribe
-                  settings.emailNewsletterActive
-                      ? SizedBox(
-                          width: double.infinity,
-                          child: OutlinedButton(
-                            onPressed: () => notifier.unsubscribeNewsletter(),
-                            style: OutlinedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              side: const BorderSide(
-                                  color: IthakiTheme.softGraphite),
-                              foregroundColor: IthakiTheme.textPrimary,
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 14),
-                            ),
-                            child: const Text('Unsubscribe'),
-                          ),
-                        )
-                      : IthakiButton(
-                          'Subscribe',
-                          onPressed: () {
-                            notifier.subscribeNewsletter();
-                            SuccessBanner.show(
-                                context, 'Settings updated successfully.');
-                          },
-                        ),
-
-                  const SizedBox(height: 16),
-                  const Divider(height: 1),
-                  const SizedBox(height: 16),
-
-                  // Newsletter topics
-                  for (final (type, subtitle) in _newsletterTopics) ...[
-                    IthakiOptionCard(
-                      showLeadingCheckbox: true,
-                      label: type,
-                      subtitle: subtitle,
-                      isSelected: settings.newsletterTypes.contains(type),
-                      enabled: settings.emailNewsletterActive,
-                      onTap: () => notifier.toggleNewsletterType(type),
-                    ),
-                    const SizedBox(height: 8),
-                  ],
-                ],
-              ),
+            const SizedBox(height: 10),
+            const Divider(height: 1, color: IthakiTheme.borderLight),
+            IthakiFooter(
+              brandName: 'Odyssea',
+              copyright:
+                  'Copyright © Ithaki 2025. #1 Job-Seeker service in\nGreece',
+              privacyLabel: 'Privacy Policy',
+              termsLabel: 'Terms of Use',
+              socialIcons: const [
+                IthakiIcon('tiktok', size: 24, color: IthakiTheme.softGraphite),
+                IthakiIcon('youtube',
+                    size: 24, color: IthakiTheme.softGraphite),
+                IthakiIcon('instagram',
+                    size: 24, color: IthakiTheme.softGraphite),
+                IthakiIcon('linkedin',
+                    size: 24, color: IthakiTheme.softGraphite),
+                IthakiIcon('facebook',
+                    size: 24, color: IthakiTheme.softGraphite),
+                IthakiIcon('x', size: 24, color: IthakiTheme.softGraphite),
+              ],
             ),
           ],
         ),
@@ -225,51 +75,60 @@ class NotificationsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildTabBar(BuildContext context) {
+  Widget _buildSummaryCard({
+    required int unreadCount,
+    required VoidCallback? onMarkAllAsRead,
+  }) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      height: 48,
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: IthakiTheme.chipActive,
-        borderRadius: BorderRadius.circular(24),
+        color: IthakiTheme.backgroundWhite,
+        borderRadius: BorderRadius.circular(28),
       ),
-      padding: const EdgeInsets.all(4),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: GestureDetector(
-              onTap: () => context.pop(),
-              child: const SizedBox(
-                height: 40,
-                child: Center(
-                  child: Text(
-                    'Account Settings',
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      color: IthakiTheme.textSecondary,
-                    ),
-                  ),
-                ),
-              ),
+          Text(
+            'Notifications',
+            style: IthakiTheme.headingLarge.copyWith(
+              color: IthakiTheme.textPrimary,
+              height: 1.1,
             ),
           ),
-          const SizedBox(width: 6),
-          Expanded(
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                color: IthakiTheme.backgroundWhite,
-                borderRadius: BorderRadius.circular(20),
+          const SizedBox(height: 6),
+          Text(
+            'Here you can see all your news. Stay up to\ndate with important updates.',
+            style: IthakiTheme.bodyRegular.copyWith(
+              color: IthakiTheme.textPrimary,
+              height: 1.45,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'You have $unreadCount new notifications',
+            style: IthakiTheme.bodyRegular.copyWith(
+              color: IthakiTheme.textPrimary,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 16),
+          OutlinedButton(
+            onPressed: onMarkAllAsRead,
+            style: OutlinedButton.styleFrom(
+              foregroundColor: IthakiTheme.textPrimary,
+              minimumSize: const Size.fromHeight(40),
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              side: const BorderSide(color: IthakiTheme.softGraphite),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(999),
               ),
-              alignment: Alignment.center,
-              child: const Text(
-                'Notifications',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: IthakiTheme.textPrimary,
-                ),
+            ),
+            child: Text(
+              'Mark all as read',
+              style: IthakiTheme.bodyRegular.copyWith(
+                color: IthakiTheme.textPrimary,
+                fontWeight: FontWeight.w500,
               ),
             ),
           ),
@@ -277,16 +136,35 @@ class NotificationsScreen extends ConsumerWidget {
       ),
     );
   }
+}
 
-  Widget _buildCard({required Widget child}) {
+class _PlatformPill extends StatelessWidget {
+  const _PlatformPill({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
         color: IthakiTheme.backgroundWhite,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(999),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
-      child: child,
+      child: Text(
+        label,
+        style: IthakiTheme.bodySmall.copyWith(
+          color: IthakiTheme.textPrimary,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
     );
   }
 }

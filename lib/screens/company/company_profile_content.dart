@@ -6,6 +6,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../models/company_models.dart';
 import '../../providers/job_search_provider.dart';
 import '../../routes.dart';
+import 'widgets/company_profile_components.dart';
 import 'widgets/company_profile_header.dart';
 import 'widgets/company_profile_tabs.dart';
 
@@ -74,9 +75,37 @@ class _CompanyProfileContentState extends ConsumerState<CompanyProfileContent> {
             company: company,
             topOffset: widget.topOffset,
           ),
-          _CompanyTabsBar(
-            controller: widget.tabController,
-            onTap: (index) => setState(() => _selectedTab = index),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: IthakiTheme.chipActive,
+                borderRadius: BorderRadius.circular(999),
+              ),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: List.generate(
+                    companyProfileTabs.length,
+                    (index) => Padding(
+                      padding: EdgeInsets.only(
+                          right:
+                              index == companyProfileTabs.length - 1 ? 0 : 6),
+                      child: CompanyTabChip(
+                        label: companyProfileTabs[index],
+                        selected: _selectedTab == index,
+                        onTap: () {
+                          widget.tabController.animateTo(index);
+                          setState(() => _selectedTab = index);
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
           _CompanyTabBody(
             selectedTab: _selectedTab,
@@ -85,50 +114,15 @@ class _CompanyProfileContentState extends ConsumerState<CompanyProfileContent> {
             onToggleSave: (id) =>
                 ref.read(jobSearchProvider.notifier).toggleSaved(id),
             onViewJob: (id) => context.push(Routes.jobSearchDetailFor(id)),
+            onOpenEvent: (eventId) =>
+                context.push(Routes.companyEventDetailFor(company.id, eventId)),
           ),
-          SizedBox(height: MediaQuery.paddingOf(context).bottom + 24),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 12, 16, 0),
+            child: CompanyFooterSection(),
+          ),
+          SizedBox(height: MediaQuery.paddingOf(context).bottom + 16),
         ],
-      ),
-    );
-  }
-}
-
-class _CompanyTabsBar extends StatelessWidget {
-  const _CompanyTabsBar({required this.controller, required this.onTap});
-
-  final TabController controller;
-  final ValueChanged<int> onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: IthakiTheme.backgroundViolet,
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-      child: Container(
-        decoration: BoxDecoration(
-          color: IthakiTheme.backgroundWhite,
-          borderRadius: BorderRadius.circular(16),
-        ),
-          child: TabBar(
-            controller: controller,
-            onTap: onTap,
-            isScrollable: true,
-            labelColor: IthakiTheme.primaryPurple,
-          unselectedLabelColor: IthakiTheme.softGraphite,
-          indicatorColor: IthakiTheme.primaryPurple,
-          indicatorSize: TabBarIndicatorSize.label,
-          labelStyle: const TextStyle(
-            fontFamily: 'Noto Sans',
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
-          tabs: const [
-            Tab(text: 'Vacancies'),
-            Tab(text: 'About Company'),
-            Tab(text: 'Events'),
-            Tab(text: 'Posts'),
-          ],
-        ),
       ),
     );
   }
@@ -141,6 +135,7 @@ class _CompanyTabBody extends StatelessWidget {
     required this.savedIds,
     required this.onToggleSave,
     required this.onViewJob,
+    required this.onOpenEvent,
   });
 
   final int selectedTab;
@@ -148,6 +143,7 @@ class _CompanyTabBody extends StatelessWidget {
   final Set<String> savedIds;
   final void Function(String id) onToggleSave;
   final void Function(String id) onViewJob;
+  final void Function(String eventId) onOpenEvent;
 
   @override
   Widget build(BuildContext context) {
@@ -164,6 +160,7 @@ class _CompanyTabBody extends StatelessWidget {
           events: company.events,
           company: company,
           culturalMatch: company.culturalMatch,
+          onOpenEvent: onOpenEvent,
         ),
       _ => CompanyPostsTab(
           posts: company.posts,

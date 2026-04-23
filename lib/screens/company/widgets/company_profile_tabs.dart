@@ -24,45 +24,36 @@ class CompanyVacanciesTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        if (vacancies.isNotEmpty)
-          Text(
-            '${vacancies.length} job${vacancies.length == 1 ? '' : 's'} found',
-            style: companyProfileSectionHeaderStyle,
-          ),
-        const SizedBox(height: 12),
-        if (vacancies.isEmpty)
-          const CompanyEmptyState('No open vacancies at this time.')
-        else
-          ...vacancies.map(
-            (v) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: IthakiJobSearchCard(
-                jobTitle: v.jobTitle,
-                companyName: '',
-                salary: v.salary,
-                matchPercentage: v.matchPercentage,
-                matchLabel: v.matchLabel,
-                matchGradientColors: getMatchGradientColors(v.matchLabel),
-                matchBackgroundColor: getMatchBgColor(v.matchLabel),
-                category: v.category,
-                location: v.location,
-                workMode: v.workMode,
-                employmentType: v.employmentType,
-                postedAgo: v.postedAgo,
-                isSaved: savedIds.contains(v.id),
-                onSave: () => onToggleSave(v.id),
-                onView: () => onView(v.id),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (vacancies.isNotEmpty)
+            Text(
+              '${vacancies.length} jobs found',
+              style: companyProfileSectionHeaderStyle,
+            ),
+          const SizedBox(height: 12),
+          if (vacancies.isEmpty)
+            const CompanyEmptyState('No open vacancies at this time.')
+          else
+            ...vacancies.map(
+              (vacancy) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: _VacancyCard(
+                  vacancy: vacancy,
+                  saved: savedIds.contains(vacancy.id),
+                  onSave: () => onToggleSave(vacancy.id),
+                  onView: () => onView(vacancy.id),
+                ),
               ),
             ),
-          ),
-        if (culturalMatch != null) ...[
-          const SizedBox(height: 8),
-          CulturalMatchCard(match: culturalMatch!),
+          if (culturalMatch != null) ...[
+            const SizedBox(height: 8),
+            CulturalMatchCard(match: culturalMatch!),
+          ],
         ],
-        const SizedBox(height: 16),
-      ]),
+      ),
     );
   }
 }
@@ -75,39 +66,53 @@ class CompanyAboutTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        if (company.aboutText.isNotEmpty) ...[
-          CompanySurfaceCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CompanySectionTitle('About Company'),
-                const SizedBox(height: 10),
-                Text(company.aboutText, style: companyProfileBodyStyle),
-              ],
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (company.aboutText.isNotEmpty) ...[
+            CompanySurfaceCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const CompanySectionTitle('About Company'),
+                  const SizedBox(height: 14),
+                  Text(company.aboutText, style: companyProfileBodyStyle),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 12),
-        ],
-        if (company.perks.isNotEmpty) ...[
-          CompanySurfaceCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CompanySectionTitle('Perks & Benefits'),
-                const SizedBox(height: 10),
-                ...company.perks.map((p) => CompanyBullet(p)),
-              ],
+            const SizedBox(height: 12),
+          ],
+          if (company.perks.isNotEmpty) ...[
+            CompanySurfaceCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const CompanySectionTitle('Perks & Benefits'),
+                  const SizedBox(height: 14),
+                  ...company.perks.map(CompanyBullet.new),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 12),
+            const SizedBox(height: 12),
+          ],
+          if (company.galleryImageAssets.isNotEmpty) ...[
+            CompanySurfaceCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const CompanySectionTitle('Company Gallery'),
+                  const SizedBox(height: 14),
+                  CompanyGalleryGrid(imageAssets: company.galleryImageAssets),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+          ],
+          if (company.culturalMatch != null)
+            CulturalMatchCard(match: company.culturalMatch!),
         ],
-        if (company.culturalMatch != null) ...[
-          CulturalMatchCard(match: company.culturalMatch!),
-          const SizedBox(height: 12),
-        ],
-      ]),
+      ),
     );
   }
 }
@@ -118,48 +123,44 @@ class CompanyEventsTab extends StatelessWidget {
     required this.events,
     required this.company,
     required this.culturalMatch,
+    required this.onOpenEvent,
   });
 
   final List<CompanyEvent> events;
   final CompanyProfile company;
   final CulturalMatch? culturalMatch;
+  final void Function(String eventId) onOpenEvent;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        if (events.isEmpty)
-          const CompanyEmptyState('No upcoming events.')
-        else
-          ...events.map(
-            (event) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: GestureDetector(
-                onTap: () => _openEvent(context, event, company),
-                child: _EventCard(event: event, company: company),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (events.isEmpty)
+            const CompanyEmptyState('No upcoming events.')
+          else ...[
+            const CompanySurfaceCard(
+              child: CompanySectionTitle('Company Events'),
+            ),
+            const SizedBox(height: 12),
+            ...events.map(
+              (event) => Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: GestureDetector(
+                  onTap: () => onOpenEvent(event.id),
+                  child: _EventCard(event: event, company: company),
+                ),
               ),
             ),
-          ),
-        if (culturalMatch != null) ...[
-          const SizedBox(height: 4),
-          CulturalMatchCard(match: culturalMatch!),
+          ],
+          if (culturalMatch != null) ...[
+            const SizedBox(height: 8),
+            CulturalMatchCard(match: culturalMatch!),
+          ],
         ],
-        const SizedBox(height: 16),
-      ]),
-    );
-  }
-
-  void _openEvent(
-    BuildContext context,
-    CompanyEvent event,
-    CompanyProfile company,
-  ) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => _EventDetailSheet(event: event, company: company),
+      ),
     );
   }
 }
@@ -179,30 +180,159 @@ class CompanyPostsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('Company Posts', style: companyProfileTitleStyle),
-        const SizedBox(height: 18),
-        if (posts.isNotEmpty)
-          Text(
-            '${posts.length} posts found',
-            style: companyProfileSectionHeaderStyle,
-          ),
-        const SizedBox(height: 12),
-        if (posts.isEmpty)
-          const CompanyEmptyState('No company posts yet.')
-        else
-          ...posts.map(
-            (post) => Padding(
-              padding: const EdgeInsets.only(bottom: 14),
-              child: _PostCard(post: post, company: company),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CompanySurfaceCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const CompanySectionTitle('Company Posts'),
+                const SizedBox(height: 18),
+                Text(
+                  '${posts.length} posts found',
+                  style: companyProfileSectionHeaderStyle,
+                ),
+              ],
             ),
           ),
-        if (culturalMatch != null) ...[
-          const SizedBox(height: 4),
-          CulturalMatchCard(match: culturalMatch!),
+          const SizedBox(height: 12),
+          if (posts.isEmpty)
+            const CompanyEmptyState('No company posts yet.')
+          else
+            ...posts.map(
+              (post) => Padding(
+                padding: const EdgeInsets.only(bottom: 14),
+                child: _PostCard(post: post, company: company),
+              ),
+            ),
+          if (culturalMatch != null) CulturalMatchCard(match: culturalMatch!),
         ],
-      ]),
+      ),
+    );
+  }
+}
+
+class _VacancyCard extends StatelessWidget {
+  const _VacancyCard({
+    required this.vacancy,
+    required this.saved,
+    required this.onSave,
+    required this.onView,
+  });
+
+  final CompanyVacancy vacancy;
+  final bool saved;
+  final VoidCallback onSave;
+  final VoidCallback onView;
+
+  @override
+  Widget build(BuildContext context) {
+    return CompanySurfaceCard(
+      padding: const EdgeInsets.all(12),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          border: Border.all(color: IthakiTheme.borderLight),
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(vacancy.postedAgo, style: companyProfilePostMetaStyle),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                _StaticLogo(size: 72),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(vacancy.jobTitle, style: companyProfileTitleStyle),
+                      const SizedBox(height: 2),
+                      const Text('TechWave', style: companyProfileBodyStyle),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            const Divider(height: 1, color: IthakiTheme.borderLight),
+            const SizedBox(height: 12),
+            Text(
+              vacancy.salary.replaceAll('euro', '€'),
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: IthakiTheme.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 12),
+            IthakiMatchBar(
+              percentage: vacancy.matchPercentage,
+              label: vacancy.matchLabel,
+              gradientColors: getMatchGradientColors(vacancy.matchLabel),
+              backgroundColor: getMatchBgColor(vacancy.matchLabel),
+            ),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: IthakiTheme.matchBarBg,
+                borderRadius: BorderRadius.circular(999),
+              ),
+              child: Text(
+                vacancy.category,
+                style: companyProfileMetaValueStyle,
+              ),
+            ),
+            const SizedBox(height: 12),
+            Wrap(
+              spacing: 18,
+              runSpacing: 12,
+              children: [
+                CompanyInfoStat(icon: 'location', label: vacancy.location),
+                CompanyInfoStat(
+                    icon: 'company-profile', label: vacancy.workMode),
+                CompanyInfoStat(icon: 'clock', label: vacancy.employmentType),
+                CompanyInfoStat(icon: 'level', label: 'Entry'),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: onSave,
+                    icon: IthakiIcon(
+                      'bookmark',
+                      size: 18,
+                      color: saved
+                          ? IthakiTheme.primaryPurple
+                          : IthakiTheme.textPrimary,
+                    ),
+                    label: const Text('Save Job'),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: IthakiTheme.textPrimary,
+                      side: const BorderSide(color: IthakiTheme.softGraphite),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: IthakiButton('View Job', onPressed: onView),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -216,38 +346,79 @@ class _EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CompanySurfaceCard(
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CompanyProfileLogo(company: company, size: 48),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(event.title, style: companyProfileCardTitleStyle),
-                const SizedBox(height: 10),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    CompanyInfoChip(icon: 'calendar', label: event.date),
-                    if (event.time.isNotEmpty)
-                      CompanyInfoChip(icon: 'clock', label: event.time),
-                    if (event.location.isNotEmpty)
-                      CompanyInfoChip(
-                        icon: 'location',
-                        label: event.location,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CompanyProfileLogo(company: company, size: 72),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(event.title, style: companyProfileTitleStyle),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 18,
+            runSpacing: 12,
+            children: [
+              CompanyInfoStat(icon: 'calendar', label: event.date),
+              if (event.time.isNotEmpty)
+                CompanyInfoStat(icon: 'clock', label: event.time),
+              if (event.location.isNotEmpty)
+                CompanyInfoStat(icon: 'location', label: event.location),
+            ],
+          ),
+          const SizedBox(height: 16),
+          const Divider(height: 1, color: IthakiTheme.borderLight),
+          const SizedBox(height: 14),
+          Text(event.description, style: companyProfileBodyStyle),
+          const SizedBox(height: 12),
+          if (event.imageAssets.isNotEmpty)
+            Row(
+              children: event.imageAssets
+                  .map(
+                    (asset) => Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(18),
+                        child: Image.asset(
+                          asset,
+                          width: 91,
+                          height: 82,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                  ],
+                    ),
+                  )
+                  .toList(),
+            )
+          else
+            const Row(
+              children: [
+                Expanded(
+                  child: CompanyVisualPlaceholder(
+                    title: 'Talks',
+                    subtitle: 'Event media placeholder',
+                    height: 82,
+                    iconName: 'calendar',
+                    borderRadius: 18,
+                  ),
                 ),
-                if (event.description.isNotEmpty) ...[
-                  const SizedBox(height: 12),
-                  Text(event.description, style: companyProfileBodyStyle),
-                ],
+                SizedBox(width: 8),
+                Expanded(
+                  child: CompanyVisualPlaceholder(
+                    title: 'Workshop',
+                    subtitle: 'Event media placeholder',
+                    height: 82,
+                    iconName: 'assessment',
+                    borderRadius: 18,
+                  ),
+                ),
               ],
             ),
-          ),
         ],
       ),
     );
@@ -267,36 +438,62 @@ class _PostCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CompanyProfileLogo(company: company, size: 56),
+              CompanyProfileLogo(company: company, size: 60),
               const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(company.name, style: companyProfileCardTitleStyle),
-                  Text(post.postedAgo, style: companyProfilePostMetaStyle),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(company.name, style: companyProfileCardTitleStyle),
+                    const SizedBox(height: 2),
+                    Text(post.postedAgo, style: companyProfilePostMetaStyle),
+                  ],
+                ),
               ),
             ],
           ),
           const SizedBox(height: 16),
           Text(post.content, style: companyProfileBodyStyle),
           const SizedBox(height: 16),
+          if (post.imageAsset.isNotEmpty)
+            ClipRRect(
+              borderRadius: BorderRadius.circular(24),
+              child: Image.asset(
+                post.imageAsset,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            )
+          else
+            const CompanyVisualPlaceholder(
+              title: 'Post media',
+              subtitle: 'Placeholder only',
+              height: 180,
+              iconName: 'blog',
+              borderRadius: 24,
+            ),
+          const SizedBox(height: 16),
           Align(
             alignment: Alignment.centerRight,
             child: OutlinedButton.icon(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Post shared.')),
-                );
-              },
-              icon: const IthakiIcon('rocket', size: 16),
+              onPressed: () {},
+              icon: const IthakiIcon(
+                'share',
+                size: 18,
+                color: IthakiTheme.softGraphite,
+              ),
               label: const Text('Share'),
               style: OutlinedButton.styleFrom(
                 foregroundColor: IthakiTheme.textPrimary,
                 side: const BorderSide(color: IthakiTheme.borderLight),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 22,
+                  vertical: 14,
+                ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(999),
                 ),
               ),
             ),
@@ -307,91 +504,34 @@ class _PostCard extends StatelessWidget {
   }
 }
 
-class _EventDetailSheet extends StatelessWidget {
-  const _EventDetailSheet({required this.event, required this.company});
+class _StaticLogo extends StatelessWidget {
+  const _StaticLogo({required this.size});
 
-  final CompanyEvent event;
-  final CompanyProfile company;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      initialChildSize: 0.85,
-      minChildSize: 0.5,
-      maxChildSize: 0.95,
-      builder: (_, scrollController) => Container(
-        decoration: const BoxDecoration(
-          color: IthakiTheme.backgroundWhite,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [IthakiTheme.primaryPurpleLight, IthakiTheme.primaryPurple],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-        child: ListView(
-          controller: scrollController,
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
-          children: [
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: IthakiTheme.borderLight,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CompanyProfileLogo(company: company, size: 48),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Text(event.title, style: companyProfileTitleStyle),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                CompanyInfoChip(icon: 'calendar', label: event.date),
-                if (event.time.isNotEmpty)
-                  CompanyInfoChip(icon: 'clock', label: event.time),
-                if (event.location.isNotEmpty)
-                  CompanyInfoChip(icon: 'location', label: event.location),
-              ],
-            ),
-            if (event.description.isNotEmpty) ...[
-              const SizedBox(height: 16),
-              const CompanySectionTitle('Event Details'),
-              const SizedBox(height: 8),
-              Text(event.description, style: companyProfileBodyStyle),
-            ],
-            if (event.address.isNotEmpty) ...[
-              const SizedBox(height: 16),
-              const CompanySectionTitle('Address'),
-              const SizedBox(height: 6),
-              Text(event.address, style: companyProfileBodyStyle),
-            ],
-            const SizedBox(height: 20),
-            IthakiButton(
-              'Register',
-              onPressed: () {
-                Navigator.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Registered for ${event.title}.')),
-                );
-              },
-            ),
-          ],
+        borderRadius: BorderRadius.circular(size * 0.25),
+      ),
+      alignment: Alignment.center,
+      child: Text(
+        'TW',
+        style: TextStyle(
+          fontFamily: 'Noto Sans',
+          fontSize: size * 0.32,
+          fontWeight: FontWeight.w700,
+          color: Colors.white,
         ),
       ),
     );
   }
 }
-
-const companyProfilePostMetaStyle = TextStyle(
-  fontFamily: 'Noto Sans',
-  fontSize: 13,
-  color: IthakiTheme.textSecondary,
-);

@@ -52,7 +52,8 @@ class InvitationCard extends ConsumerWidget {
             ),
           ],
           const SizedBox(height: 12),
-          const Divider(height: 1, thickness: 1, color: IthakiTheme.borderLight),
+          const Divider(
+              height: 1, thickness: 1, color: IthakiTheme.borderLight),
           const SizedBox(height: 12),
           _JobSection(invitation: invitation),
           if (!isArchived) ...[
@@ -60,7 +61,8 @@ class InvitationCard extends ConsumerWidget {
             _ActionButtons(
               isDismissing: isDismissing,
               onDismiss: onDismissRequested,
-              onViewJob: () => context.push(Routes.jobDetailFor(invitation.id)),
+              onViewJob: () =>
+                  context.push(Routes.invitationJobDetailFor(invitation.id)),
             ),
           ] else ...[
             const SizedBox(height: 12),
@@ -69,7 +71,8 @@ class InvitationCard extends ConsumerWidget {
               child: IthakiButton(
                 AppLocalizations.of(context)!.viewJobDetails,
                 variant: IthakiButtonVariant.outline,
-                onPressed: () => context.push(Routes.jobDetailFor(invitation.id)),
+                onPressed: () =>
+                    context.push(Routes.invitationJobDetailFor(invitation.id)),
               ),
             ),
           ],

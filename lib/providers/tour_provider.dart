@@ -46,14 +46,16 @@ class TourNotifier extends AsyncNotifier<TourState> {
     return TourState(
       tourCompleted: completed,
       currentStep: step,
-      welcomeVisible: !completed,
+      welcomeVisible: !completed && step == 0,
     );
   }
 
   Future<void> startTour() async {
     final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_kTourCompleted, false);
     await prefs.setInt(_kTourStep, 1);
     state = AsyncData(state.requireValue.copyWith(
+      tourCompleted: false,
       welcomeVisible: false,
       currentStep: 1,
     ));
@@ -110,6 +112,8 @@ final tourProvider = AsyncNotifierProvider<TourNotifier, TourState>(
 
 // Top-level constant map so GlobalKey instances are never recreated.
 // Must be declared outside any provider factory to survive hot restarts.
-final _tourKeys = {for (var i = 1; i <= 13; i++) i: GlobalKey(debugLabel: 'tourKey_$i')};
+final _tourKeys = {
+  for (var i = 1; i <= 13; i++) i: GlobalKey(debugLabel: 'tourKey_$i')
+};
 
 final tourKeysProvider = Provider<Map<int, GlobalKey>>((_) => _tourKeys);

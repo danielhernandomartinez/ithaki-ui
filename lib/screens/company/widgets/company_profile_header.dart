@@ -16,86 +16,97 @@ class CompanyProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: topOffset + 140,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                company.logoColor.withValues(alpha: 0.8),
-                const Color(0xFF1A1030),
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-              child: Row(
-                children: [
-                  CompanyProfileLogo(company: company, size: 64),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(company.name, style: companyProfileHeroTitleStyle),
-                        Text(
-                          company.industry,
-                          style: companyProfileHeroSubtitleStyle,
-                        ),
-                      ],
+    return Padding(
+      padding: EdgeInsets.fromLTRB(16, topOffset, 16, 0),
+      child: Column(
+        children: [
+          CompanyPlatformChip(label: company.platformDomain),
+          const SizedBox(height: 16),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(32),
+            child: AspectRatio(
+              aspectRatio: 361 / 168,
+              child: company.heroImageAsset.isNotEmpty
+                  ? Image.asset(company.heroImageAsset, fit: BoxFit.cover)
+                  : CompanyVisualPlaceholder(
+                      title: company.name,
+                      subtitle: 'Approved hero placeholder',
+                      height: double.infinity,
+                      iconName: 'company-profile',
+                      borderRadius: 32,
                     ),
-                  ),
-                ],
-              ),
             ),
           ),
-        ),
-        Container(
-          color: IthakiTheme.backgroundWhite,
-          padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
-          child: Column(
-            children: [
-              if (company.teamSize.isNotEmpty)
-                CompanyProfileMetaRow(
-                  icon: 'team',
-                  label: 'Team',
-                  value: '${company.teamSize} employees',
+          const SizedBox(height: 12),
+          CompanySurfaceCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CompanyProfileLogo(company: company, size: 82),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(company.name, style: companyProfileTitleStyle),
+                            const SizedBox(height: 4),
+                            Text(
+                              company.industry,
+                              style: companyProfileHeroSubtitleStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              if (company.location.isNotEmpty)
-                CompanyProfileMetaRow(
-                  icon: 'location',
-                  label: 'Main Office',
-                  value: company.location,
+                const SizedBox(height: 16),
+                const Divider(height: 1, color: IthakiTheme.borderLight),
+                const SizedBox(height: 14),
+                if (company.teamSize.isNotEmpty)
+                  CompanyMetaBlock(
+                    label: 'Team',
+                    value: '${company.teamSize} employees',
+                    iconName: 'team',
+                  ),
+                if (company.location.isNotEmpty)
+                  CompanyMetaBlock(
+                    label: 'Main Office Location',
+                    value: company.location,
+                    iconName: 'location',
+                  ),
+                CompanyMetaBlock(
+                  label: 'Other Locations',
+                  value: company.otherLocations.isEmpty
+                      ? 'n/a'
+                      : company.otherLocations,
                 ),
-              if (company.phone.isNotEmpty)
-                CompanyProfileMetaRow(
-                  icon: 'phone',
-                  label: 'Contact Phone',
-                  value: company.phone,
-                ),
-              if (company.email.isNotEmpty)
-                CompanyProfileMetaRow(
-                  icon: 'envelope',
-                  label: 'Email',
-                  value: company.email,
-                ),
-              if (company.website.isNotEmpty)
-                CompanyProfileMetaRow(
-                  icon: 'eye',
-                  label: 'Website',
-                  value: company.website,
-                  isLink: true,
-                ),
-            ],
+                if (company.phone.isNotEmpty)
+                  CompanyMetaBlock(
+                    label: 'Contact Phone',
+                    value: company.phone,
+                  ),
+                if (company.email.isNotEmpty)
+                  CompanyMetaBlock(
+                    label: 'Email',
+                    value: company.email,
+                  ),
+                if (company.website.isNotEmpty)
+                  CompanyMetaBlock(
+                    label: 'Website',
+                    value: company.website,
+                    isLink: true,
+                  ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

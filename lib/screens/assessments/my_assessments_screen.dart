@@ -9,6 +9,7 @@ import '../../mixins/panel_menu_mixin.dart';
 import '../../providers/assessment_provider.dart';
 import '../../providers/home_provider.dart';
 import '../../providers/profile_provider.dart';
+import '../../providers/tour_provider.dart';
 import '../../repositories/auth_repository.dart';
 import '../../routes.dart';
 import '../../widgets/app_nav_drawer.dart';
@@ -78,6 +79,11 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
   Widget build(BuildContext context) {
     final homeAsync = ref.watch(homeProvider);
     final assessmentsAsync = ref.watch(assessmentsListProvider);
+    final tourState = ref.watch(tourProvider).maybeWhen(
+          data: (value) => value,
+          orElse: () => null,
+        );
+    final tourKeys = ref.watch(tourKeysProvider);
     final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
     return Scaffold(
@@ -116,11 +122,14 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
                     const SizedBox(height: 8),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: IthakiButton(
-                        'Start New Assessment',
-                        onPressed: recommended.isNotEmpty
-                            ? () => _onStartTest(context, recommended.first)
-                            : null,
+                      child: KeyedSubtree(
+                        key: tourState?.currentStep == 13 ? tourKeys[13] : null,
+                        child: IthakiButton(
+                          'Start New Assessment',
+                          onPressed: recommended.isNotEmpty
+                              ? () => _onStartTest(context, recommended.first)
+                              : null,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 24),
@@ -148,8 +157,7 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
                                     assessment: a,
                                     onTestDetails: () => context
                                         .push(Routes.assessmentDetailFor(a.id)),
-                                    onContinue: () =>
-                                        _onContinue(context, a),
+                                    onContinue: () => _onContinue(context, a),
                                   ))
                               .toList(),
                         ),
@@ -159,8 +167,8 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
                       const SizedBox(height: 8),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child:
-                            const _SectionHeader('Assessments recommended for you'),
+                        child: const _SectionHeader(
+                            'Assessments recommended for you'),
                       ),
                       const SizedBox(height: 4),
                       Padding(
@@ -180,8 +188,7 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
                                     assessment: a,
                                     onTestDetails: () => context
                                         .push(Routes.assessmentDetailFor(a.id)),
-                                    onStartTest: () =>
-                                        _onStartTest(context, a),
+                                    onStartTest: () => _onStartTest(context, a),
                                   ))
                               .toList(),
                         ),
@@ -223,8 +230,7 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
                         ),
                       ),
                     ],
-                    SizedBox(
-                        height: MediaQuery.paddingOf(context).bottom + 32),
+                    SizedBox(height: MediaQuery.paddingOf(context).bottom + 32),
                   ],
                 ),
               );
@@ -397,8 +403,8 @@ class _StartAssessmentSheet extends StatelessWidget {
                           ),
                           Text(
                             assessment.category,
-                            style: IthakiTheme.bodySmall.copyWith(
-                                color: IthakiTheme.textSecondary),
+                            style: IthakiTheme.bodySmall
+                                .copyWith(color: IthakiTheme.textSecondary),
                           ),
                         ],
                       ),
@@ -486,8 +492,8 @@ class _MetaItem extends StatelessWidget {
       children: [
         Text(
           label,
-          style: IthakiTheme.bodySmall.copyWith(
-              color: IthakiTheme.textSecondary, fontSize: 11),
+          style: IthakiTheme.bodySmall
+              .copyWith(color: IthakiTheme.textSecondary, fontSize: 11),
         ),
         const SizedBox(height: 4),
         Row(
@@ -555,8 +561,8 @@ class _ContinueAssessmentSheet extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: IthakiOutlineButton('Start over',
-                    onPressed: onStartOver),
+                child:
+                    IthakiOutlineButton('Start over', onPressed: onStartOver),
               ),
               const SizedBox(width: 8),
               Expanded(

@@ -25,6 +25,7 @@ import 'screens/setup/communication_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/job_search/job_search_screen.dart';
 import 'screens/job_search/job_search_detail_screen.dart';
+import 'screens/company/company_event_detail_screen.dart';
 import 'screens/company/company_profile_screen.dart';
 import 'screens/profile/profile_screen.dart';
 import 'screens/profile/profile_basics_screen.dart';
@@ -37,6 +38,7 @@ import 'screens/profile/edit_values_screen.dart';
 import 'screens/profile/work_experience_screen.dart';
 import 'screens/profile/education_screen.dart';
 import 'screens/settings/account_settings_screen.dart';
+import 'screens/settings/notifications_screen.dart';
 import 'screens/applications/my_applications_screen.dart';
 import 'screens/applications/application_details_screen.dart';
 import 'screens/applications/job_detail_screen.dart';
@@ -73,7 +75,8 @@ class IthakiRouter {
     Routes.blogArticle,
   };
 
-  static Future<String?> _redirect(BuildContext context, GoRouterState state) async {
+  static Future<String?> _redirect(
+      BuildContext context, GoRouterState state) async {
     if (AppConfig.useMockData) return null;
 
     final token = await _storage.read(key: 'jwt_token');
@@ -82,7 +85,8 @@ class IthakiRouter {
     if (_unguardedRoutes.contains(state.matchedLocation)) return null;
 
     final phoneVerified = await ProfileLocalStore.loadPhoneVerified();
-    debugPrint('[guard] phoneVerified=$phoneVerified route=${state.matchedLocation}');
+    debugPrint(
+        '[guard] phoneVerified=$phoneVerified route=${state.matchedLocation}');
     // null = pre-existing session before this feature — don't block.
     if (phoneVerified != false) return null;
 
@@ -213,6 +217,13 @@ class IthakiRouter {
         ),
       ),
       GoRoute(
+        path: Routes.companyEventDetail,
+        builder: (context, state) => CompanyEventDetailScreen(
+          companyId: state.pathParameters['id']!,
+          eventId: state.pathParameters['eventId']!,
+        ),
+      ),
+      GoRoute(
         path: Routes.profile,
         builder: (context, state) => const ProfileScreen(),
       ),
@@ -305,7 +316,7 @@ class IthakiRouter {
       ),
       GoRoute(
         path: Routes.settingsNotifications,
-        builder: (context, state) => const SettingsScreen(initialTab: 1),
+        builder: (context, state) => const NotificationsScreen(),
       ),
       GoRoute(
         path: Routes.careerAssistant,

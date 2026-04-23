@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../providers/profile_provider.dart';
+import '../../providers/tour_provider.dart';
 import '../../repositories/auth_repository.dart';
 import '../../constants/nav_items.dart';
 import '../../widgets/app_nav_drawer.dart';
@@ -56,14 +57,22 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   Widget _buildTabContent() {
     switch (_tabIndex) {
-      case 0: return const ProfileJobPreferencesTab();
-      case 1: return const ProfileAboutMeTab();
-      case 2: return const ProfileSkillsTab();
-      case 3: return const ProfileWorkExperienceTab();
-      case 4: return const ProfileEducationTab();
-      case 5: return const ProfileFilesTab();
-      case 6: return const ProfileValuesTab();
-      default: return const SizedBox.shrink();
+      case 0:
+        return const ProfileJobPreferencesTab();
+      case 1:
+        return const ProfileAboutMeTab();
+      case 2:
+        return const ProfileSkillsTab();
+      case 3:
+        return const ProfileWorkExperienceTab();
+      case 4:
+        return const ProfileEducationTab();
+      case 5:
+        return const ProfileFilesTab();
+      case 6:
+        return const ProfileValuesTab();
+      default:
+        return const SizedBox.shrink();
     }
   }
 
@@ -105,6 +114,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       );
     }
     final basics = basicsAsync.requireValue;
+    final tourState = ref.watch(tourProvider).maybeWhen(
+          data: (value) => value,
+          orElse: () => null,
+        );
+    final tourKeys = ref.watch(tourKeysProvider);
     final topOffset = MediaQuery.of(context).padding.top + kToolbarHeight + 16;
 
     final isPartial = ref.watch(profilePartialLoadProvider);
@@ -127,7 +141,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             if (isPartial)
               Container(
                 margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
                   color: Colors.amber.shade50,
                   borderRadius: BorderRadius.circular(12),
@@ -150,7 +165,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   ],
                 ),
               ),
-            ProfileHeaderCard(basics: basics),
+            KeyedSubtree(
+              key: tourState?.currentStep == 10 ? tourKeys[10] : null,
+              child: ProfileHeaderCard(basics: basics),
+            ),
             const SizedBox(height: 12),
             ProfileTabBar(
               tabs: _tabs,
@@ -209,14 +227,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         if (_panels.menuOpen || _panels.profileOpen)
           Positioned.fill(
             child: GestureDetector(
-              onTap: () { _panels.closeMenu(); _panels.closeProfile(); },
+              onTap: () {
+                _panels.closeMenu();
+                _panels.closeProfile();
+              },
               child: Container(color: Colors.transparent),
             ),
           ),
-        if (_panels.profileOpen || _panels.profileCtrl.status != AnimationStatus.dismissed)
+        if (_panels.profileOpen ||
+            _panels.profileCtrl.status != AnimationStatus.dismissed)
           Positioned(
             top: topOffset - 14,
-            left: 16, right: 16, bottom: 40,
+            left: 16,
+            right: 16,
+            bottom: 40,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: SlideTransition(
@@ -237,10 +261,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               ),
             ),
           ),
-        if (_panels.menuOpen || _panels.menuCtrl.status != AnimationStatus.dismissed)
+        if (_panels.menuOpen ||
+            _panels.menuCtrl.status != AnimationStatus.dismissed)
           Positioned(
             top: topOffset - 14,
-            left: 16, right: 16, bottom: 40,
+            left: 16,
+            right: 16,
+            bottom: 40,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: SlideTransition(

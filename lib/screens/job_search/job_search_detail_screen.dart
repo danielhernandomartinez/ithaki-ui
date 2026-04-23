@@ -10,6 +10,7 @@ import '../../providers/home_provider.dart';
 import '../../providers/job_detail_provider.dart';
 import '../../providers/job_search_provider.dart';
 import '../../providers/profile_provider.dart';
+import '../../providers/tour_provider.dart';
 import '../../repositories/auth_repository.dart';
 import '../../routes.dart';
 import '../../utils/match_colors.dart';
@@ -24,7 +25,8 @@ class JobSearchDetailScreen extends ConsumerStatefulWidget {
   const JobSearchDetailScreen({super.key, required this.jobId});
 
   @override
-  ConsumerState<JobSearchDetailScreen> createState() => _JobSearchDetailScreenState();
+  ConsumerState<JobSearchDetailScreen> createState() =>
+      _JobSearchDetailScreenState();
 }
 
 class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
@@ -33,6 +35,7 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
   bool _announcementDismissed = false;
   bool _hasReminder = false;
   bool _isNotInterested = false;
+  int? _lastAutoOpenedTourStep;
   final _shareKey = GlobalKey();
 
   @override
@@ -52,8 +55,15 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
     final homeData = ref.watch(homeProvider).value;
     final detailAsync = ref.watch(jobDetailProvider(widget.jobId));
     final searchState = ref.watch(jobSearchProvider).value;
+    final tourState = ref.watch(tourProvider).maybeWhen(
+          data: (value) => value,
+          orElse: () => null,
+        );
+    final tourKeys = ref.watch(tourKeysProvider);
     final isSaved = searchState?.isSaved(widget.jobId) ?? false;
     final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
+
+    _syncTourApplySheet(tourState, tourKeys);
 
     return detailAsync.when(
       loading: () => _shell(context, homeData, topOffset, isSaved,
@@ -62,21 +72,26 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
           child: Center(
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               const Text('Could not load job.',
-                  style: TextStyle(color: IthakiTheme.textPrimary, fontSize: 16)),
+                  style:
+                      TextStyle(color: IthakiTheme.textPrimary, fontSize: 16)),
               const SizedBox(height: 16),
               IthakiButton('Try Again',
-                  onPressed: () => ref.invalidate(jobDetailProvider(widget.jobId))),
+                  onPressed: () =>
+                      ref.invalidate(jobDetailProvider(widget.jobId))),
             ]),
           )),
       data: (detail) => _shell(context, homeData, topOffset, isSaved,
           detail: detail,
           child: _Body(
             detail: detail,
+            tourState: tourState,
+            tourKeys: tourKeys,
             isSaved: isSaved,
             hasReminder: _hasReminder,
             isNotInterested: _isNotInterested,
             announcementDismissed: _announcementDismissed,
-            onDismissAnnouncement: () => setState(() => _announcementDismissed = true),
+            onDismissAnnouncement: () =>
+                setState(() => _announcementDismissed = true),
             onSave: () => _toggleSave(context, isSaved),
             onApply: () => _showApplySheet(context),
             onNotInterested: () => _onNotInterested(context),
@@ -130,8 +145,10 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
               child: const ColoredBox(color: Colors.transparent),
             ),
           ),
-        if (_panels.menuOpen || _panels.menuCtrl.status != AnimationStatus.dismissed)
-          _panel(topOffset,
+        if (_panels.menuOpen ||
+            _panels.menuCtrl.status != AnimationStatus.dismissed)
+          _panel(
+              topOffset,
               SlideTransition(
                 position: _panels.slideAnim,
                 child: AppNavDrawer(
@@ -144,8 +161,10 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
                   },
                 ),
               )),
-        if (_panels.profileOpen || _panels.profileCtrl.status != AnimationStatus.dismissed)
-          _panel(topOffset,
+        if (_panels.profileOpen ||
+            _panels.profileCtrl.status != AnimationStatus.dismissed)
+          _panel(
+              topOffset,
               SlideTransition(
                 position: _panels.profileSlideAnim,
                 child: ProfileMenuPanel(
@@ -168,7 +187,9 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
 
   Positioned _panel(double topOffset, Widget child) => Positioned(
         top: topOffset - 14,
-        left: 16, right: 16, bottom: 40,
+        left: 16,
+        right: 16,
+        bottom: 40,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(30),
           child: child,
@@ -178,17 +199,39 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
   void _toggleSave(BuildContext context, bool isSaved) {
     ref.read(jobSearchProvider.notifier).toggleSaved(widget.jobId);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(isSaved ? 'Removed from saved jobs.' : 'Job has been saved! Check your saved jobs.'),
+      content: Text(isSaved
+          ? 'Removed from saved jobs.'
+          : 'Job has been saved! Check your saved jobs.'),
       duration: const Duration(seconds: 3),
     ));
   }
 
-  void _showApplySheet(BuildContext context) {
-    showModalBottomSheet(
+  void _syncTourApplySheet(TourState? tourState, Map<int, GlobalKey> tourKeys) {
+    final step = tourState?.currentStep;
+    if (step != 6) {
+      _lastAutoOpenedTourStep = null;
+      return;
+    }
+    if (_lastAutoOpenedTourStep == step) {
+      return;
+    }
+    _lastAutoOpenedTourStep = step;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _showApplySheet(context, highlightKey: tourKeys[6]);
+    });
+  }
+
+  Future<void> _showApplySheet(BuildContext context,
+      {Key? highlightKey}) async {
+    await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => const ApplyBottomSheet(),
+      builder: (_) => KeyedSubtree(
+        key: highlightKey,
+        child: const ApplyBottomSheet(),
+      ),
     );
   }
 
@@ -204,7 +247,8 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
     ));
   }
 
-  Future<void> _showReminderSheet(BuildContext context, JobDetail detail) async {
+  Future<void> _showReminderSheet(
+      BuildContext context, JobDetail detail) async {
     final set = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
@@ -216,10 +260,11 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
         deadlineDate: detail.deadline,
       ),
     );
-    if (set == true && mounted) {
+    if (set == true && context.mounted) {
       setState(() => _hasReminder = true);
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Deadline Reminder has been set. We will notify you a week before the deadline'),
+        content: Text(
+            'Deadline Reminder has been set. We will notify you a week before the deadline'),
         duration: Duration(seconds: 4),
       ));
     }
@@ -232,7 +277,7 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
       backgroundColor: Colors.transparent,
       builder: (_) => const ReportJobSheet(),
     );
-    if (reported == true && mounted) {
+    if (reported == true && context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Job post has been reported'),
         duration: Duration(seconds: 3),
@@ -253,10 +298,18 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
       position: position,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       items: const [
-        PopupMenuItem(value: 'link', child: _ShareOption(icon: 'resume', label: 'Copy Link')),
-        PopupMenuItem(value: 'whatsapp', child: _ShareOption(icon: 'phone', label: 'Share WhatsApp/SMS')),
-        PopupMenuItem(value: 'email', child: _ShareOption(icon: 'envelope', label: 'Share in Email')),
-        PopupMenuItem(value: 'linkedin', child: _ShareOption(icon: 'team', label: 'Share on LinkedIn')),
+        PopupMenuItem(
+            value: 'link',
+            child: _ShareOption(icon: 'resume', label: 'Copy Link')),
+        PopupMenuItem(
+            value: 'whatsapp',
+            child: _ShareOption(icon: 'phone', label: 'Share WhatsApp/SMS')),
+        PopupMenuItem(
+            value: 'email',
+            child: _ShareOption(icon: 'envelope', label: 'Share in Email')),
+        PopupMenuItem(
+            value: 'linkedin',
+            child: _ShareOption(icon: 'team', label: 'Share on LinkedIn')),
       ],
     );
   }
@@ -274,7 +327,8 @@ class _ShareOption extends StatelessWidget {
     return Row(children: [
       IthakiIcon(icon, size: 18, color: IthakiTheme.softGraphite),
       const SizedBox(width: 12),
-      Text(label, style: const TextStyle(fontFamily: 'Noto Sans', fontSize: 15)),
+      Text(label,
+          style: const TextStyle(fontFamily: 'Noto Sans', fontSize: 15)),
     ]);
   }
 }
@@ -331,6 +385,8 @@ class _StickyBar extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   final JobDetail detail;
+  final TourState? tourState;
+  final Map<int, GlobalKey> tourKeys;
   final bool isSaved;
   final bool hasReminder;
   final bool isNotInterested;
@@ -348,6 +404,8 @@ class _Body extends StatelessWidget {
 
   const _Body({
     required this.detail,
+    required this.tourState,
+    required this.tourKeys,
     required this.isSaved,
     required this.hasReminder,
     required this.isNotInterested,
@@ -383,25 +441,31 @@ class _Body extends StatelessWidget {
         if (detail.matchPercentage > 0)
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-            child: _MatchBanner(
-              percentage: detail.matchPercentage,
-              matchLabel: detail.matchLabel,
-              onAskCareerAssistant: onAskCareerAssistant,
+            child: KeyedSubtree(
+              key: tourState?.currentStep == 4 ? tourKeys[4] : null,
+              child: _MatchBanner(
+                percentage: detail.matchPercentage,
+                matchLabel: detail.matchLabel,
+                onAskCareerAssistant: onAskCareerAssistant,
+              ),
             ),
           ),
 
         // Main job card
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-          child: _MainJobCard(
-            detail: detail,
-            hasReminder: hasReminder,
-            isNotInterested: isNotInterested,
-            onDeadlineReminder: onDeadlineReminder,
-            onDeleteReminder: onDeleteReminder,
-            onReport: onReport,
-            onShare: onShare,
-            onNotInterested: onNotInterested,
+          child: KeyedSubtree(
+            key: tourState?.currentStep == 5 ? tourKeys[5] : null,
+            child: _MainJobCard(
+              detail: detail,
+              hasReminder: hasReminder,
+              isNotInterested: isNotInterested,
+              onDeadlineReminder: onDeadlineReminder,
+              onDeleteReminder: onDeleteReminder,
+              onReport: onReport,
+              onShare: onShare,
+              onNotInterested: onNotInterested,
+            ),
           ),
         ),
 
@@ -453,16 +517,21 @@ class _AnnouncementBanner extends StatelessWidget {
         const IthakiIcon('rocket', size: 20, color: IthakiTheme.primaryPurple),
         const SizedBox(width: 10),
         Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text('New on Ithaki! We just released a new feature that makes job search easier.',
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            const Text(
+                'New on Ithaki! We just released a new feature that makes job search easier.',
                 style: TextStyle(
-                  fontFamily: 'Noto Sans', fontSize: 14,
-                  color: IthakiTheme.textPrimary, height: 1.4,
+                  fontFamily: 'Noto Sans',
+                  fontSize: 14,
+                  color: IthakiTheme.textPrimary,
+                  height: 1.4,
                 )),
             const SizedBox(height: 4),
             const Text('Read more',
                 style: TextStyle(
-                  fontFamily: 'Noto Sans', fontSize: 13,
+                  fontFamily: 'Noto Sans',
+                  fontSize: 13,
                   color: IthakiTheme.textSecondary,
                   decoration: TextDecoration.underline,
                 )),
@@ -470,7 +539,8 @@ class _AnnouncementBanner extends StatelessWidget {
         ),
         GestureDetector(
           onTap: onDismiss,
-          child: const IthakiIcon('delete', size: 18, color: IthakiTheme.softGraphite),
+          child: const IthakiIcon('delete',
+              size: 18, color: IthakiTheme.softGraphite),
         ),
       ]),
     );
@@ -669,7 +739,8 @@ class _MainJobCard extends StatelessWidget {
           Expanded(
             child: Text('Posted ${detail.postedDate}',
                 style: const TextStyle(
-                  fontFamily: 'Noto Sans', fontSize: 13,
+                  fontFamily: 'Noto Sans',
+                  fontSize: 13,
                   color: IthakiTheme.softGraphite,
                 )),
           ),
@@ -682,27 +753,32 @@ class _MainJobCard extends StatelessWidget {
               ),
               child: const Text('Closed',
                   style: TextStyle(
-                    fontFamily: 'Noto Sans', fontSize: 13,
+                    fontFamily: 'Noto Sans',
+                    fontSize: 13,
                     color: IthakiTheme.textPrimary,
                   )),
             )
           else
             PopupMenuButton<String>(
               icon: Container(
-                width: 36, height: 36,
+                width: 36,
+                height: 36,
                 decoration: BoxDecoration(
                   border: Border.all(color: IthakiTheme.borderLight),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 alignment: Alignment.center,
-                child: const Text('···', style: TextStyle(fontSize: 16, color: IthakiTheme.textPrimary)),
+                child: const Text('···',
+                    style: TextStyle(
+                        fontSize: 16, color: IthakiTheme.textPrimary)),
               ),
               onSelected: (v) {
                 if (v == 'reminder') onDeadlineReminder();
                 if (v == 'report') onReport();
               },
               itemBuilder: (_) => [
-                const PopupMenuItem(value: 'reminder', child: Text('Deadline Reminder')),
+                const PopupMenuItem(
+                    value: 'reminder', child: Text('Deadline Reminder')),
                 const PopupMenuItem(value: 'report', child: Text('Report')),
               ],
             ),
@@ -773,7 +849,7 @@ class _MainJobCard extends StatelessWidget {
                   ),
                 ),
               ],
-              ),
+            ),
           ),
         ],
 
@@ -781,7 +857,8 @@ class _MainJobCard extends StatelessWidget {
         const SizedBox(height: 14),
         Row(children: [
           Container(
-            width: 56, height: 56,
+            width: 56,
+            height: 56,
             decoration: BoxDecoration(
               color: detail.companyLogoColor.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(14),
@@ -790,22 +867,28 @@ class _MainJobCard extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(detail.companyLogoInitials,
                 style: TextStyle(
-                  fontFamily: 'Noto Sans', fontSize: 16,
-                  fontWeight: FontWeight.w700, color: detail.companyLogoColor,
+                  fontFamily: 'Noto Sans',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: detail.companyLogoColor,
                 )),
           ),
           const SizedBox(width: 12),
           Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(detail.jobTitle,
                   style: const TextStyle(
-                    fontFamily: 'Noto Sans', fontSize: 20,
-                    fontWeight: FontWeight.w700, color: IthakiTheme.textPrimary,
+                    fontFamily: 'Noto Sans',
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: IthakiTheme.textPrimary,
                     letterSpacing: -0.4,
                   )),
               Text(detail.companyName,
                   style: const TextStyle(
-                    fontFamily: 'Noto Sans', fontSize: 14,
+                    fontFamily: 'Noto Sans',
+                    fontSize: 14,
                     color: IthakiTheme.softGraphite,
                   )),
             ]),
@@ -819,15 +902,18 @@ class _MainJobCard extends StatelessWidget {
           const SizedBox(height: 12),
           Wrap(spacing: 0, runSpacing: 10, children: [
             if (detail.location.isNotEmpty)
-              _Cell(label: 'Location', icon: 'location', value: detail.location),
+              _Cell(
+                  label: 'Location', icon: 'location', value: detail.location),
             if (detail.jobType.isNotEmpty)
               _Cell(label: 'Job Type', icon: 'clock', value: detail.jobType),
             if (detail.company.industry.isNotEmpty)
               _Cell(label: 'Industry', value: detail.company.industry),
             if (detail.salaryRange.isNotEmpty)
-              _Cell(label: 'Salary Range', value: detail.salaryRange, bold: true),
+              _Cell(
+                  label: 'Salary Range', value: detail.salaryRange, bold: true),
             if (detail.workplace.isNotEmpty)
-              _Cell(label: 'Workplace', icon: 'profile', value: detail.workplace),
+              _Cell(
+                  label: 'Workplace', icon: 'profile', value: detail.workplace),
             if (detail.experienceLevel.isNotEmpty)
               _Cell(
                 label: 'Experience Level',
@@ -906,22 +992,19 @@ class _MainJobCard extends StatelessWidget {
           Row(children: [
             Expanded(
               child: IthakiButton('Share Job',
-                  variant: IthakiButtonVariant.outline,
-                  onPressed: onShare),
+                  variant: IthakiButtonVariant.outline, onPressed: onShare),
             ),
             const SizedBox(width: 8),
             Expanded(
               child: IthakiButton('Job Removed',
-                  variant: IthakiButtonVariant.outline,
-                  onPressed: null),
+                  variant: IthakiButtonVariant.outline, onPressed: null),
             ),
           ])
         else
           Row(children: [
             Expanded(
               child: IthakiButton('Share Job',
-                  variant: IthakiButtonVariant.outline,
-                  onPressed: onShare),
+                  variant: IthakiButtonVariant.outline, onPressed: onShare),
             ),
             const SizedBox(width: 8),
             Expanded(
@@ -941,12 +1024,14 @@ class _MainJobCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(children: [
-              const IthakiIcon('calendar', size: 18, color: IthakiTheme.primaryPurple),
+              const IthakiIcon('calendar',
+                  size: 18, color: IthakiTheme.primaryPurple),
               const SizedBox(width: 8),
               const Expanded(
                 child: Text('You have set a reminder for this job post',
                     style: TextStyle(
-                      fontFamily: 'Noto Sans', fontSize: 13,
+                      fontFamily: 'Noto Sans',
+                      fontSize: 13,
                       color: IthakiTheme.textPrimary,
                     )),
               ),
@@ -962,8 +1047,13 @@ class _MainJobCard extends StatelessWidget {
   }
 
   bool _hasAnyDetail(JobDetail d) =>
-      d.location.isNotEmpty || d.jobType.isNotEmpty || d.company.industry.isNotEmpty || d.salaryRange.isNotEmpty ||
-      d.workplace.isNotEmpty || d.experienceLevel.isNotEmpty || d.languages.isNotEmpty;
+      d.location.isNotEmpty ||
+      d.jobType.isNotEmpty ||
+      d.company.industry.isNotEmpty ||
+      d.salaryRange.isNotEmpty ||
+      d.workplace.isNotEmpty ||
+      d.experienceLevel.isNotEmpty ||
+      d.languages.isNotEmpty;
 }
 
 // ─── Odyssea review card ──────────────────────────────────────────────────────
@@ -985,8 +1075,10 @@ class _OdysseaReviewCard extends StatelessWidget {
         Row(children: [
           const Text('Odyssea Review: ',
               style: TextStyle(
-                fontFamily: 'Noto Sans', fontSize: 15,
-                fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+                fontFamily: 'Noto Sans',
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: IthakiTheme.textPrimary,
               )),
           if (rating.isNotEmpty)
             Container(
@@ -998,11 +1090,14 @@ class _OdysseaReviewCard extends StatelessWidget {
               child: Row(mainAxisSize: MainAxisSize.min, children: [
                 Text(rating,
                     style: const TextStyle(
-                      fontFamily: 'Noto Sans', fontSize: 13,
-                      fontWeight: FontWeight.w600, color: Color(0xFF6B6B00),
+                      fontFamily: 'Noto Sans',
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF6B6B00),
                     )),
                 const SizedBox(width: 4),
-                const Text('✦', style: TextStyle(fontSize: 12, color: Color(0xFF6B6B00))),
+                const Text('✦',
+                    style: TextStyle(fontSize: 12, color: Color(0xFF6B6B00))),
               ]),
             ),
         ]),
@@ -1032,8 +1127,10 @@ class _RecommendedSection extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Text('Recommended for you',
             style: TextStyle(
-              fontFamily: 'Noto Sans', fontSize: 16,
-              fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+              fontFamily: 'Noto Sans',
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: IthakiTheme.textPrimary,
             )),
         ...jobs.map((job) => Padding(
               padding: const EdgeInsets.only(top: 14),
@@ -1053,7 +1150,8 @@ class _RecommendedJobTile extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(children: [
         Container(
-          width: 48, height: 48,
+          width: 48,
+          height: 48,
           decoration: BoxDecoration(
             color: job.companyColor.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(12),
@@ -1062,21 +1160,27 @@ class _RecommendedJobTile extends StatelessWidget {
           alignment: Alignment.center,
           child: Text(job.companyInitials,
               style: TextStyle(
-                fontFamily: 'Noto Sans', fontSize: 14,
-                fontWeight: FontWeight.w700, color: job.companyColor,
+                fontFamily: 'Noto Sans',
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: job.companyColor,
               )),
         ),
         const SizedBox(width: 10),
         Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(job.jobTitle,
                 style: const TextStyle(
-                  fontFamily: 'Noto Sans', fontSize: 15,
-                  fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+                  fontFamily: 'Noto Sans',
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                  color: IthakiTheme.textPrimary,
                 )),
             Text(job.companyName,
                 style: const TextStyle(
-                  fontFamily: 'Noto Sans', fontSize: 13,
+                  fontFamily: 'Noto Sans',
+                  fontSize: 13,
                   color: IthakiTheme.softGraphite,
                 )),
           ]),
@@ -1085,8 +1189,10 @@ class _RecommendedJobTile extends StatelessWidget {
       const SizedBox(height: 10),
       Text(job.salary,
           style: const TextStyle(
-            fontFamily: 'Noto Sans', fontSize: 16,
-            fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+            fontFamily: 'Noto Sans',
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: IthakiTheme.textPrimary,
           )),
       const SizedBox(height: 6),
       Row(children: [
@@ -1098,20 +1204,24 @@ class _RecommendedJobTile extends StatelessWidget {
           ),
           child: Text(job.matchLabel,
               style: const TextStyle(
-                fontFamily: 'Noto Sans', fontSize: 12,
-                fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+                fontFamily: 'Noto Sans',
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: IthakiTheme.textPrimary,
               )),
         ),
         const SizedBox(width: 8),
         IthakiIcon('location', size: 15, color: IthakiTheme.softGraphite),
         const SizedBox(width: 4),
         Text(job.location,
-            style: const TextStyle(fontSize: 13, color: IthakiTheme.softGraphite)),
+            style:
+                const TextStyle(fontSize: 13, color: IthakiTheme.softGraphite)),
         const SizedBox(width: 8),
         IthakiIcon('clock', size: 15, color: IthakiTheme.softGraphite),
         const SizedBox(width: 4),
         Text(job.employmentType,
-            style: const TextStyle(fontSize: 13, color: IthakiTheme.softGraphite)),
+            style:
+                const TextStyle(fontSize: 13, color: IthakiTheme.softGraphite)),
       ]),
       const SizedBox(height: 10),
       Row(children: [
@@ -1149,13 +1259,16 @@ class _CompanyCard extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Text('About the Company',
             style: TextStyle(
-              fontFamily: 'Noto Sans', fontSize: 16,
-              fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+              fontFamily: 'Noto Sans',
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: IthakiTheme.textPrimary,
             )),
         const SizedBox(height: 12),
         Row(children: [
           Container(
-            width: 48, height: 48,
+            width: 48,
+            height: 48,
             decoration: BoxDecoration(
               color: company.logoColor.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(12),
@@ -1164,21 +1277,27 @@ class _CompanyCard extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(company.logoInitials,
                 style: TextStyle(
-                  fontFamily: 'Noto Sans', fontSize: 14,
-                  fontWeight: FontWeight.w700, color: company.logoColor,
+                  fontFamily: 'Noto Sans',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: company.logoColor,
                 )),
           ),
           const SizedBox(width: 10),
           Expanded(
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(company.name,
                   style: const TextStyle(
-                    fontFamily: 'Noto Sans', fontSize: 15,
-                    fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+                    fontFamily: 'Noto Sans',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: IthakiTheme.textPrimary,
                   )),
               Text(company.industry,
                   style: const TextStyle(
-                    fontFamily: 'Noto Sans', fontSize: 13,
+                    fontFamily: 'Noto Sans',
+                    fontSize: 13,
                     color: IthakiTheme.softGraphite,
                   )),
             ]),
@@ -1190,8 +1309,10 @@ class _CompanyCard extends StatelessWidget {
           const SizedBox(height: 12),
           Text(company.description,
               style: const TextStyle(
-                fontFamily: 'Noto Sans', fontSize: 14,
-                color: IthakiTheme.textPrimary, height: 1.5,
+                fontFamily: 'Noto Sans',
+                fontSize: 14,
+                color: IthakiTheme.textPrimary,
+                height: 1.5,
               )),
         ],
         const SizedBox(height: 12),
@@ -1303,8 +1424,10 @@ class _SectionTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(text,
         style: const TextStyle(
-          fontFamily: 'Noto Sans', fontSize: 16,
-          fontWeight: FontWeight.w600, color: IthakiTheme.textPrimary,
+          fontFamily: 'Noto Sans',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: IthakiTheme.textPrimary,
         ));
   }
 }
@@ -1321,8 +1444,10 @@ class _Section extends StatelessWidget {
       const SizedBox(height: 8),
       Text(body,
           style: const TextStyle(
-            fontFamily: 'Noto Sans', fontSize: 14,
-            color: IthakiTheme.textPrimary, height: 1.5,
+            fontFamily: 'Noto Sans',
+            fontSize: 14,
+            color: IthakiTheme.textPrimary,
+            height: 1.5,
           )),
     ]);
   }
@@ -1391,12 +1516,15 @@ class _Bullet extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('• ', style: TextStyle(fontSize: 14, color: IthakiTheme.textPrimary)),
+        const Text('• ',
+            style: TextStyle(fontSize: 14, color: IthakiTheme.textPrimary)),
         Expanded(
           child: Text(text,
               style: const TextStyle(
-                fontFamily: 'Noto Sans', fontSize: 14,
-                color: IthakiTheme.textPrimary, height: 1.5,
+                fontFamily: 'Noto Sans',
+                fontSize: 14,
+                color: IthakiTheme.textPrimary,
+                height: 1.5,
               )),
         ),
       ]),
