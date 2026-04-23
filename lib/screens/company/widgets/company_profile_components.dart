@@ -448,34 +448,6 @@ class CulturalMatchCard extends StatelessWidget {
   }
 }
 
-class CompanyFooterSection extends StatelessWidget {
-  const CompanyFooterSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Divider(height: 1, color: IthakiTheme.borderLight),
-        IthakiFooter(
-          brandName: 'Odyssea',
-          copyright:
-              'Copyright © Ithaki 2025. #1 Job-Seeker service in\nGreece',
-          privacyLabel: 'Privacy Policy',
-          termsLabel: 'Terms of Use',
-          socialIcons: const [
-            IthakiIcon('tiktok', size: 24, color: IthakiTheme.softGraphite),
-            IthakiIcon('youtube', size: 24, color: IthakiTheme.softGraphite),
-            IthakiIcon('instagram', size: 24, color: IthakiTheme.softGraphite),
-            IthakiIcon('linkedin', size: 24, color: IthakiTheme.softGraphite),
-            IthakiIcon('facebook', size: 24, color: IthakiTheme.softGraphite),
-            IthakiIcon('x', size: 24, color: IthakiTheme.softGraphite),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
 class CompanySectionTitle extends StatelessWidget {
   const CompanySectionTitle(this.text, {super.key});
 
