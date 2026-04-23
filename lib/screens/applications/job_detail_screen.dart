@@ -12,6 +12,7 @@ import '../../providers/applications_provider.dart';
 import '../../providers/home_provider.dart';
 import '../../providers/job_detail_provider.dart';
 import '../../providers/profile_provider.dart';
+import '../../providers/tour_provider.dart';
 import '../../repositories/auth_repository.dart';
 import '../../routes.dart';
 import '../../widgets/app_nav_drawer.dart';
@@ -55,6 +56,11 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
     final applications = ref.watch(applicationsProvider);
     final invitations = ref.watch(invitationsProvider);
     final homeData = ref.watch(homeProvider).value;
+    final tourState = ref.watch(tourProvider).maybeWhen(
+          data: (value) => value,
+          orElse: () => null,
+        );
+    final tourKeys = ref.watch(tourKeysProvider);
     final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
     final application = widget.isInvitation
@@ -199,14 +205,20 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
                     SizedBox(height: topOffset),
                     if (widget.isInvitation)
                       _pad(
-                        InvitationTopCard(
-                          senderInitials: invitation?.senderInitials ?? '',
-                          senderName: invitation?.senderName ?? '',
-                          senderAvatarColor: invitation?.senderAvatarColor ??
-                              IthakiTheme.primaryPurple,
-                          companyName: invitation?.companyName ?? '',
-                          message: invitation?.message ?? '',
-                          deadline: detail.deadline,
+                        KeyedSubtree(
+                          key:
+                              widget.isInvitation && tourState?.currentStep == 9
+                                  ? tourKeys[9]
+                                  : null,
+                          child: InvitationTopCard(
+                            senderInitials: invitation?.senderInitials ?? '',
+                            senderName: invitation?.senderName ?? '',
+                            senderAvatarColor: invitation?.senderAvatarColor ??
+                                IthakiTheme.primaryPurple,
+                            companyName: invitation?.companyName ?? '',
+                            message: invitation?.message ?? '',
+                            deadline: detail.deadline,
+                          ),
                         ),
                       )
                     else
@@ -484,7 +496,8 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
         ),
       );
 
-  String _pickString(String? first, [String? second, String? third, String? fourth]) {
+  String _pickString(String? first,
+      [String? second, String? third, String? fourth]) {
     for (final value in [first, second, third, fourth]) {
       if (value != null && value.trim().isNotEmpty) {
         return value.trim();

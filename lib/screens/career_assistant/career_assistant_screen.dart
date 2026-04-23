@@ -9,6 +9,7 @@ import '../../constants/nav_items.dart';
 import '../../mixins/panel_menu_mixin.dart';
 import '../../providers/home_provider.dart';
 import '../../providers/profile_provider.dart';
+import '../../providers/tour_provider.dart';
 import '../../repositories/auth_repository.dart';
 import '../../routes.dart';
 import '../../widgets/app_nav_drawer.dart';
@@ -151,7 +152,8 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
     final overlay =
         Navigator.of(ctx).overlay!.context.findRenderObject() as RenderBox;
     final position = RelativeRect.fromRect(
-      Rect.fromLTWH(MediaQuery.of(ctx).size.width - 60, kToolbarHeight + 80, 1, 1),
+      Rect.fromLTWH(
+          MediaQuery.of(ctx).size.width - 60, kToolbarHeight + 80, 1, 1),
       Offset.zero & overlay.size,
     );
     final result = await showMenu<String>(
@@ -223,7 +225,8 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
         }
 
         if (msgIndex >= _messages.length) return const SizedBox.shrink();
-        return ChatMessageBubble(msg: _messages[msgIndex], onChip: _sendMessage);
+        return ChatMessageBubble(
+            msg: _messages[msgIndex], onChip: _sendMessage);
       },
     );
   }
@@ -231,6 +234,11 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
   @override
   Widget build(BuildContext context) {
     final homeData = ref.watch(homeProvider).value;
+    final tourState = ref.watch(tourProvider).maybeWhen(
+          data: (value) => value,
+          orElse: () => null,
+        );
+    final tourKeys = ref.watch(tourKeysProvider);
     final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
     return Scaffold(
@@ -247,14 +255,16 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
         children: [
           Column(
             children: [
-              ChatHeaderCard(onMenu: () => _showMenu(context)),
+              KeyedSubtree(
+                key: tourState?.currentStep == 11 ? tourKeys[11] : null,
+                child: ChatHeaderCard(onMenu: () => _showMenu(context)),
+              ),
               Expanded(child: _buildChatList()),
               ChatInputBar(
                 controller: _inputController,
                 focusNode: _inputFocus,
                 onSend: _sendMessage,
               ),
-
             ],
           ),
           // Dismiss overlay sits behind the panels so menu items remain tappable.

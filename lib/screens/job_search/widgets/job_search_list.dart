@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/job_search_data_provider.dart';
 import '../../../providers/job_search_provider.dart';
+import '../../../providers/tour_provider.dart';
 import '../../../routes.dart';
 import '../../../utils/match_colors.dart';
 import '../../../utils/number_utils.dart';
@@ -13,7 +14,8 @@ class JobSearchList extends ConsumerWidget {
   const JobSearchList({super.key});
 
   void _openSort(BuildContext context, WidgetRef ref) {
-    final current = ref.read(jobSearchProvider).value?.sortOption ?? 'Date: Recent';
+    final current =
+        ref.read(jobSearchProvider).value?.sortOption ?? 'Date: Recent';
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -29,6 +31,7 @@ class JobSearchList extends ConsumerWidget {
     final notifier = ref.read(jobSearchProvider.notifier);
     final searchState = ref.watch(jobSearchProvider).value;
     final searchResult = ref.watch(jobSearchDataProvider).value;
+    final tourKeys = ref.watch(tourKeysProvider);
     if (searchState == null || searchResult == null) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -88,23 +91,28 @@ class JobSearchList extends ConsumerWidget {
             )
           else
             for (int i = 0; i < jobs.length; i++) ...[
-              IthakiJobSearchCard(
-                jobTitle: jobs[i].jobTitle,
-                companyName: jobs[i].companyName,
-                salary: jobs[i].salary,
-                matchPercentage: jobs[i].matchPercentage,
-                matchLabel: jobs[i].matchLabel,
-                matchGradientColors: getMatchGradientColors(jobs[i].matchLabel),
-                matchBackgroundColor: getMatchBgColor(jobs[i].matchLabel),
-                category: jobs[i].category,
-                location: jobs[i].location,
-                workMode: jobs[i].workMode,
-                employmentType: jobs[i].employmentType,
-                level: jobs[i].level,
-                postedAgo: jobs[i].postedAgo,
-                isSaved: searchState.isSaved(jobs[i].id),
-                onSave: () => notifier.toggleSaved(jobs[i].id),
-                onView: () => context.push(Routes.jobSearchDetailFor(jobs[i].id)),
+              KeyedSubtree(
+                key: i == 0 ? tourKeys[3] : null,
+                child: IthakiJobSearchCard(
+                  jobTitle: jobs[i].jobTitle,
+                  companyName: jobs[i].companyName,
+                  salary: jobs[i].salary,
+                  matchPercentage: jobs[i].matchPercentage,
+                  matchLabel: jobs[i].matchLabel,
+                  matchGradientColors:
+                      getMatchGradientColors(jobs[i].matchLabel),
+                  matchBackgroundColor: getMatchBgColor(jobs[i].matchLabel),
+                  category: jobs[i].category,
+                  location: jobs[i].location,
+                  workMode: jobs[i].workMode,
+                  employmentType: jobs[i].employmentType,
+                  level: jobs[i].level,
+                  postedAgo: jobs[i].postedAgo,
+                  isSaved: searchState.isSaved(jobs[i].id),
+                  onSave: () => notifier.toggleSaved(jobs[i].id),
+                  onView: () =>
+                      context.push(Routes.jobSearchDetailFor(jobs[i].id)),
+                ),
               ),
               if (i < jobs.length - 1) const SizedBox(height: 12),
             ],
@@ -115,7 +123,6 @@ class JobSearchList extends ConsumerWidget {
       ),
     );
   }
-
 }
 
 class JobSearchPagination extends ConsumerWidget {
@@ -147,8 +154,8 @@ class JobSearchPagination extends ConsumerWidget {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 4),
             child: Text('...',
-                style: TextStyle(
-                    fontSize: 15, color: IthakiTheme.textSecondary)),
+                style:
+                    TextStyle(fontSize: 15, color: IthakiTheme.textSecondary)),
           ),
           const SizedBox(width: 6),
           _PageButton(page: totalPages, currentPage: currentPage),
@@ -201,7 +208,9 @@ class _PageButton extends ConsumerWidget {
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w500,
-            color: isSelected ? IthakiTheme.backgroundWhite : IthakiTheme.textPrimary,
+            color: isSelected
+                ? IthakiTheme.backgroundWhite
+                : IthakiTheme.textPrimary,
           ),
         ),
       ),

@@ -7,8 +7,8 @@ import '../providers/tour_provider.dart';
 class TourWelcomeModal extends ConsumerWidget {
   const TourWelcomeModal({super.key});
 
-  static void show(BuildContext context) {
-    showModalBottomSheet(
+  static Future<void> show(BuildContext context) async {
+    await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       isDismissible: false,
@@ -32,7 +32,7 @@ class TourWelcomeModal extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Logo placeholder — replace with actual IthakiLogo widget if available
-          const Text('Ithaki',
+          const Text('Ithaki-logo',
               style: TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: 22,

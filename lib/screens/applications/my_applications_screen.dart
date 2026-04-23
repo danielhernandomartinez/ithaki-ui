@@ -12,6 +12,7 @@ import '../../mixins/panel_menu_mixin.dart';
 import '../../providers/applications_provider.dart';
 import '../../providers/home_provider.dart';
 import '../../providers/profile_provider.dart';
+import '../../providers/tour_provider.dart';
 import '../../repositories/auth_repository.dart';
 import '../../routes.dart';
 import '../../widgets/app_nav_drawer.dart';
@@ -95,7 +96,25 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
     final l = AppLocalizations.of(context)!;
     final homeAsync = ref.watch(homeProvider);
     final invitationsAsync = ref.watch(invitationsProvider);
+    final tourState = ref.watch(tourProvider).maybeWhen(
+          data: (value) => value,
+          orElse: () => null,
+        );
+    final tourKeys = ref.watch(tourKeysProvider);
     final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
+    final desiredTabIndex = switch (tourState?.currentStep) {
+      7 => 0,
+      8 => 1,
+      _ => null,
+    };
+
+    if (desiredTabIndex != null && _tabController.index != desiredTabIndex) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && _tabController.index != desiredTabIndex) {
+          _tabController.animateTo(desiredTabIndex);
+        }
+      });
+    }
 
     final invitationsCount =
         invitationsAsync.value?.where((i) => !i.isDismissed).length ?? 0;
@@ -145,6 +164,10 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
                 ),
                 const SizedBox(height: 16),
                 Container(
+                  key:
+                      tourState?.currentStep == 7 || tourState?.currentStep == 8
+                          ? tourKeys[tourState!.currentStep]
+                          : null,
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                     color: IthakiTheme.backgroundWhite,
@@ -160,8 +183,8 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
                     title: l.careerAssistantBannerTitle,
                     subtitle: l.careerAssistantBannerSubtitle,
                     buttonLabel: l.askCareerAssistant,
-                    buttonIcon: const IthakiIcon(
-                        'ai', size: 18, color: IthakiTheme.backgroundWhite),
+                    buttonIcon: const IthakiIcon('ai',
+                        size: 18, color: IthakiTheme.backgroundWhite),
                     onButtonPressed: () => context.go(Routes.careerAssistant),
                     backgroundImage: const DecorationImage(
                       image: AssetImage('assets/images/ai_banner_bg.png'),
@@ -350,8 +373,8 @@ class _ApplicationsTabBarState extends State<_ApplicationsTabBar> {
                   onTap: () => widget.controller.animateTo(i),
                   child: Container(
                     height: 40,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                     decoration: BoxDecoration(
                       color: isActive
                           ? IthakiTheme.backgroundWhite
@@ -430,8 +453,7 @@ class _DismissBanner extends StatelessWidget {
           GestureDetector(
             onTap: onUndo,
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: IthakiTheme.primaryPurple,
                 borderRadius: BorderRadius.circular(20),
@@ -483,8 +505,8 @@ class _ToastBanner extends StatelessWidget {
           ),
           GestureDetector(
             onTap: onClose,
-            child: const IthakiIcon('close', size: 20,
-                color: IthakiTheme.lightGraphite),
+            child: const IthakiIcon('close',
+                size: 20, color: IthakiTheme.lightGraphite),
           ),
         ],
       ),

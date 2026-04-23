@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../providers/applications_provider.dart';
+import '../providers/job_search_data_provider.dart';
 import '../providers/tour_provider.dart';
+import '../routes.dart';
 import '../router.dart';
 import 'tour_steps.dart';
 import 'tour_skip_modal.dart';
 import 'tour_complete_modal.dart';
-import 'tour_welcome_modal.dart';
 
 /// Returns the screen-space [Rect] of a widget via its [GlobalKey].
 Rect _getWidgetRect(GlobalKey key) {
@@ -164,6 +166,82 @@ class TourOverlay extends ConsumerStatefulWidget {
 }
 
 class _TourOverlayState extends ConsumerState<TourOverlay> {
+  String _jobSearchTourJobId() {
+    final jobs = ref.read(jobSearchDataProvider).maybeWhen(
+          data: (value) => value.jobs,
+          orElse: () => null,
+        );
+    if (jobs != null && jobs.isNotEmpty) {
+      return jobs.first.id;
+    }
+    return 'job-1';
+  }
+
+  String _tourInvitationId() {
+    final invitations = ref.read(invitationsProvider).maybeWhen(
+          data: (value) => value,
+          orElse: () => null,
+        );
+    if (invitations == null || invitations.isEmpty) {
+      return 'inv-1';
+    }
+    for (final invitation in invitations) {
+      if (!invitation.isDismissed) {
+        return invitation.id;
+      }
+    }
+    return invitations.first.id;
+  }
+
+  void _goToStep(int step) {
+    switch (step) {
+      case 1:
+      case 12:
+        IthakiRouter.router.go(Routes.home);
+        return;
+      case 2:
+      case 3:
+        IthakiRouter.router.go(Routes.jobSearch);
+        return;
+      case 4:
+      case 5:
+      case 6:
+        IthakiRouter.router
+            .go(Routes.jobSearchDetailFor(_jobSearchTourJobId()));
+        return;
+      case 7:
+      case 8:
+        IthakiRouter.router.go(Routes.myApplications);
+        return;
+      case 9:
+        IthakiRouter.router
+            .go(Routes.invitationJobDetailFor(_tourInvitationId()));
+        return;
+      case 10:
+        IthakiRouter.router.go(Routes.profile);
+        return;
+      case 11:
+        IthakiRouter.router.go(Routes.careerAssistant);
+        return;
+      case 13:
+        IthakiRouter.router.go(Routes.assessments);
+        return;
+    }
+  }
+
+  Future<void> _advanceTour() async {
+    final currentStep = ref.read(tourProvider).maybeWhen(
+          data: (value) => value.currentStep,
+          orElse: () => 0,
+        );
+    final nextStep = currentStep + 1;
+    await ref.read(tourProvider.notifier).nextStep();
+    if (!mounted || nextStep > kTourTotalSteps) {
+      return;
+    }
+    _goToStep(nextStep);
+  }
+
   @override
   Widget build(BuildContext context) {
     final navContext = IthakiRouter.navigatorKey.currentContext;
@@ -174,68 +252,70 @@ class _TourOverlayState extends ConsumerState<TourOverlay> {
           AsyncData(:final value) => value,
           _ => null,
         };
-        if (value.welcomeVisible && !(prevData?.welcomeVisible ?? false)) {
-          TourWelcomeModal.show(navContext);
-        }
-        if (value.skipConfirmVisible && !(prevData?.skipConfirmVisible ?? false)) {
+        if (value.skipConfirmVisible &&
+            !(prevData?.skipConfirmVisible ?? false)) {
           TourSkipModal.show(navContext);
         }
-        if (value.completionVisible && !(prevData?.completionVisible ?? false)) {
+        if (value.completionVisible &&
+            !(prevData?.completionVisible ?? false)) {
           TourCompleteModal.show(navContext);
         }
       }
     });
 
     return ref.watch(tourProvider).when(
-      loading: () => widget.child,
-      error: (_, __) => widget.child,
-      data: (tourState) {
-        final notifier = ref.read(tourProvider.notifier);
-        final step = tourState.currentStep;
-        final isActive = !tourState.tourCompleted && step >= 1 && step <= kTourTotalSteps;
+          loading: () => widget.child,
+          error: (_, __) => widget.child,
+          data: (tourState) {
+            final notifier = ref.read(tourProvider.notifier);
+            final step = tourState.currentStep;
+            final isActive = !tourState.tourCompleted &&
+                step >= 1 &&
+                step <= kTourTotalSteps;
 
-        if (!isActive) return widget.child;
+            if (!isActive) return widget.child;
 
-        final stepDef = tourSteps[step - 1];
-        final targetKey = widget.keys[step];
-        final targetRect = targetKey != null ? _getWidgetRect(targetKey) : Rect.zero;
+            final stepDef = tourSteps[step - 1];
+            final targetKey = widget.keys[step];
+            final targetRect =
+                targetKey != null ? _getWidgetRect(targetKey) : Rect.zero;
 
-        final bottomPad = MediaQuery.of(context).padding.bottom;
-        // Tooltip always anchored to the bottom
-        const tooltipBottomMargin = 16.0;
-        final tooltipBottom = bottomPad + tooltipBottomMargin;
+            final bottomPad = MediaQuery.of(context).padding.bottom;
+            // Tooltip always anchored to the bottom
+            const tooltipBottomMargin = 16.0;
+            final tooltipBottom = bottomPad + tooltipBottomMargin;
 
-        return Stack(
-          children: [
-            widget.child,
+            return Stack(
+              children: [
+                widget.child,
 
-            // Scrim + spotlight
-            Positioned.fill(
-              child: GestureDetector(
-                onTap: () {}, // absorb taps
-                child: CustomPaint(
-                  painter: _SpotlightPainter(spotlight: targetRect),
+                // Scrim + spotlight
+                Positioned.fill(
+                  child: GestureDetector(
+                    onTap: () {}, // absorb taps
+                    child: CustomPaint(
+                      painter: _SpotlightPainter(spotlight: targetRect),
+                    ),
+                  ),
                 ),
-              ),
-            ),
 
-            // Tooltip — always at bottom
-            Positioned(
-              left: 16,
-              right: 16,
-              bottom: tooltipBottom,
-              child: Material(
-                color: Colors.transparent,
-                child: _TourTooltip(
-                  step: stepDef,
-                  onNext: () => notifier.nextStep(),
-                  onSkip: () => notifier.showSkipConfirm(),
+                // Tooltip — always at bottom
+                Positioned(
+                  left: 16,
+                  right: 16,
+                  bottom: tooltipBottom,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: _TourTooltip(
+                      step: stepDef,
+                      onNext: _advanceTour,
+                      onSkip: () => notifier.showSkipConfirm(),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ],
+              ],
+            );
+          },
         );
-      },
-    );
   }
 }
