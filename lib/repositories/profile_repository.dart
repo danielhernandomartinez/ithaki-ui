@@ -246,6 +246,11 @@ class ApiProfileRepository implements ProfileRepository {
 
   Map<String, int>? _languageIdByName;
 
+  String _prettyJson(Object value) {
+    const encoder = JsonEncoder.withIndent('  ');
+    return encoder.convert(value);
+  }
+
   void _resetInMemory() {
     _basics = const ProfileBasics();
     _aboutMe = const ProfileAboutMe();
@@ -382,6 +387,7 @@ class ApiProfileRepository implements ProfileRepository {
         throw Exception(
             'Failed to load user: server returned non-JSON response');
       }
+      debugPrint('[refreshAll] userInfo →\n${_prettyJson(userData)}');
       final phoneVerified = userData['phoneVerified'] as bool? ?? false;
       // Only persist `true` from the API — the `false` value is written
       // exclusively during signup to gate the OTP verification screen.
