@@ -89,14 +89,14 @@ class EducationCard extends StatelessWidget {
           const SizedBox(height: 10),
           if (education.location.isNotEmpty)
             IthakiMetaCell(
-              Icons.location_on_outlined,
+              'location',
               education.location,
               alignIconTop: true,
             ),
           if (education.degreeType.isNotEmpty) ...[
             const SizedBox(height: 6),
             IthakiMetaCell(
-              Icons.school_outlined,
+              'book',
               education.degreeType,
               alignIconTop: true,
             ),

@@ -78,11 +78,11 @@ class WorkExperienceCard extends StatelessWidget {
         Row(children: [
           if (exp.location.isNotEmpty)
             Expanded(
-                child: IthakiMetaCell(Icons.location_on_outlined, exp.location,
+                child: IthakiMetaCell('location', exp.location,
                     flexible: true, fontSize: 13)),
           if (exp.workplace.isNotEmpty)
             Expanded(
-                child: IthakiMetaCell(Icons.business_outlined, exp.workplace,
+                child: IthakiMetaCell('company-profile', exp.workplace,
                     flexible: true, fontSize: 13)),
         ]),
         if (exp.jobType.isNotEmpty || exp.experienceLevel.isNotEmpty) ...[
@@ -90,12 +90,11 @@ class WorkExperienceCard extends StatelessWidget {
           Row(children: [
             if (exp.jobType.isNotEmpty)
               Expanded(
-                  child: IthakiMetaCell(Icons.access_time_outlined, exp.jobType,
+                  child: IthakiMetaCell('clock', exp.jobType,
                       flexible: true, fontSize: 13)),
             if (exp.experienceLevel.isNotEmpty)
               Expanded(
-                  child: IthakiMetaCell(
-                      Icons.bar_chart_outlined, exp.experienceLevel,
+                  child: IthakiMetaCell('level', exp.experienceLevel,
                       flexible: true, fontSize: 13)),
           ]),
         ],
