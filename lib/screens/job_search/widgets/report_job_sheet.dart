@@ -77,7 +77,7 @@ class _ReportJobSheetState extends State<ReportJobSheet> {
             ),
             const SizedBox(height: 20),
             DropdownButtonFormField<String>(
-              value: _reason,
+              initialValue: _reason,
               hint: const Text('Select Reason',
                   style: TextStyle(color: IthakiTheme.textSecondary)),
               decoration: InputDecoration(

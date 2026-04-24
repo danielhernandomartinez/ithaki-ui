@@ -215,7 +215,7 @@ class _SetReminderSheetState extends State<SetReminderSheet> {
                   )),
               const SizedBox(height: 6),
               DropdownButtonFormField<String>(
-                value: _time,
+                initialValue: _time,
                 decoration: InputDecoration(
                   prefixIcon: const Padding(
                     padding: EdgeInsets.only(left: 12, right: 8),
