@@ -9,13 +9,19 @@ import 'package:ithaki_ui/providers/registration_provider.dart';
 
 class _BioFilledNotifier extends ProfileAboutMeNotifier {
   @override
-  Future<ProfileAboutMe> build() async => const ProfileAboutMe(bio: 'Pre-set bio');
+  Future<ProfileAboutMe> build() async =>
+      const ProfileAboutMe(bio: 'Pre-set bio');
 }
 
 class _PhotoFilledNotifier extends ProfileBasicsNotifier {
   @override
-  Future<ProfileBasics> build() async =>
-      const ProfileBasics(photoUrl: 'https://img.test/photo.jpg');
+  Future<ProfileBasics> build() async => const ProfileBasics(
+        firstName: 'Christos',
+        lastName: 'Ioannides',
+        email: 'c.ioannidis@gmail.com',
+        phone: '+30 123 456 78 90',
+        photoUrl: 'https://img.test/photo.jpg',
+      );
 }
 
 class _OneExpNotifier extends ProfileWorkExperiencesNotifier {
@@ -48,7 +54,8 @@ class _OneEduNotifier extends ProfileEducationsNotifier {
 
 class _OneSkillNotifier extends ProfileSkillsNotifier {
   @override
-  Future<ProfileSkills> build() async => const ProfileSkills(hardSkills: ['Dart']);
+  Future<ProfileSkills> build() async =>
+      const ProfileSkills(hardSkills: ['Dart']);
 }
 
 class _OneFileNotifier extends ProfileFilesNotifier {
@@ -119,7 +126,9 @@ void main() {
 
     test('setCredentials updates email and password together', () {
       final c = ProviderContainer.test();
-      c.read(registrationProvider.notifier).setCredentials('a@b.com', 'pass123');
+      c
+          .read(registrationProvider.notifier)
+          .setCredentials('a@b.com', 'pass123');
       final s = c.read(registrationProvider);
       expect(s.email, 'a@b.com');
       expect(s.password, 'pass123');
@@ -127,7 +136,8 @@ void main() {
 
     test('setPersonalDetails updates name, lastName and phone', () {
       final c = ProviderContainer.test();
-      c.read(registrationProvider.notifier)
+      c
+          .read(registrationProvider.notifier)
           .setPersonalDetails('Ana', 'López', '+34 600 000 000');
       final s = c.read(registrationProvider);
       expect(s.name, 'Ana');
@@ -137,7 +147,8 @@ void main() {
 
     test('setVerifyMethod with remember=true', () {
       final c = ProviderContainer.test();
-      c.read(registrationProvider.notifier)
+      c
+          .read(registrationProvider.notifier)
           .setVerifyMethod('email', remember: true);
       final s = c.read(registrationProvider);
       expect(s.verifyMethod, 'email');
@@ -153,8 +164,7 @@ void main() {
     test('reset clears all fields back to initial', () {
       final c = ProviderContainer.test();
       c.read(registrationProvider.notifier).setLanguage('fr');
-      c.read(registrationProvider.notifier)
-          .setCredentials('x@y.com', 'secret');
+      c.read(registrationProvider.notifier).setCredentials('x@y.com', 'secret');
       c.read(registrationProvider.notifier).reset();
       final s = c.read(registrationProvider);
       expect(s.language, '');
@@ -236,7 +246,8 @@ void main() {
         profileAboutMeProvider.overrideWith(_BioFilledNotifier.new),
       ]);
       await c.read(profileAboutMeProvider.future);
-      await c.read(profileAboutMeProvider.notifier)
+      await c
+          .read(profileAboutMeProvider.notifier)
           .save('Software dev', videoUrl: 'https://youtu.be/xyz');
       final s = c.read(profileAboutMeProvider).requireValue;
       expect(s.bio, 'Software dev');
@@ -282,7 +293,8 @@ void main() {
         profileSkillsProvider.overrideWith(_OneSkillNotifier.new),
       ]);
       await c.read(profileSkillsProvider.future);
-      await c.read(profileSkillsProvider.notifier)
+      await c
+          .read(profileSkillsProvider.notifier)
           .updateSkills(['Dart', 'Flutter'], ['Teamwork']);
       final s = c.read(profileSkillsProvider).requireValue;
       expect(s.hardSkills, ['Dart', 'Flutter']);
@@ -317,7 +329,8 @@ void main() {
         profileSkillsProvider.overrideWith(_OneSkillNotifier.new),
       ]);
       await c.read(profileSkillsProvider.future);
-      await c.read(profileSkillsProvider.notifier)
+      await c
+          .read(profileSkillsProvider.notifier)
           .updateCompetencies({'leadership': 'Advanced'});
       expect(c.read(profileSkillsProvider).requireValue.competencies,
           {'leadership': 'Advanced'});
@@ -343,7 +356,11 @@ void main() {
       await c.read(profileWorkExperiencesProvider.notifier).add(_sampleExp);
       expect(c.read(profileWorkExperiencesProvider).requireValue.length, 2);
       expect(
-          c.read(profileWorkExperiencesProvider).requireValue.elementAt(1).jobTitle,
+          c
+              .read(profileWorkExperiencesProvider)
+              .requireValue
+              .elementAt(1)
+              .jobTitle,
           'Developer');
     });
 
@@ -353,7 +370,8 @@ void main() {
       ]);
       await c.read(profileWorkExperiencesProvider.future);
       await c.read(profileWorkExperiencesProvider.notifier).add(_sampleExp);
-      await c.read(profileWorkExperiencesProvider.notifier)
+      await c
+          .read(profileWorkExperiencesProvider.notifier)
           .add(_sampleExp.copyWith(jobTitle: 'Lead'));
       expect(c.read(profileWorkExperiencesProvider).requireValue.length, 3);
     });
@@ -364,10 +382,15 @@ void main() {
       ]);
       await c.read(profileWorkExperiencesProvider.future);
       await c.read(profileWorkExperiencesProvider.notifier).add(_sampleExp);
-      await c.read(profileWorkExperiencesProvider.notifier)
+      await c
+          .read(profileWorkExperiencesProvider.notifier)
           .save(1, _sampleExp.copyWith(jobTitle: 'Lead'));
       expect(
-          c.read(profileWorkExperiencesProvider).requireValue.elementAt(1).jobTitle,
+          c
+              .read(profileWorkExperiencesProvider)
+              .requireValue
+              .elementAt(1)
+              .jobTitle,
           'Lead');
     });
   });
@@ -391,7 +414,11 @@ void main() {
       await c.read(profileEducationsProvider.notifier).add(_sampleEdu);
       expect(c.read(profileEducationsProvider).requireValue.length, 2);
       expect(
-          c.read(profileEducationsProvider).requireValue.elementAt(1).institutionName,
+          c
+              .read(profileEducationsProvider)
+              .requireValue
+              .elementAt(1)
+              .institutionName,
           'UPM');
     });
 
@@ -401,7 +428,8 @@ void main() {
       ]);
       await c.read(profileEducationsProvider.future);
       await c.read(profileEducationsProvider.notifier).add(_sampleEdu);
-      await c.read(profileEducationsProvider.notifier)
+      await c
+          .read(profileEducationsProvider.notifier)
           .add(_sampleEdu.copyWith(degreeType: 'Master'));
       expect(c.read(profileEducationsProvider).requireValue.length, 3);
     });
@@ -412,10 +440,15 @@ void main() {
       ]);
       await c.read(profileEducationsProvider.future);
       await c.read(profileEducationsProvider.notifier).add(_sampleEdu);
-      await c.read(profileEducationsProvider.notifier)
+      await c
+          .read(profileEducationsProvider.notifier)
           .save(1, _sampleEdu.copyWith(degreeType: 'Master'));
       expect(
-          c.read(profileEducationsProvider).requireValue.elementAt(1).degreeType,
+          c
+              .read(profileEducationsProvider)
+              .requireValue
+              .elementAt(1)
+              .degreeType,
           'Master');
     });
   });
@@ -438,7 +471,8 @@ void main() {
       await c.read(profileFilesProvider.future);
       await c.read(profileFilesProvider.notifier).add(_sampleFile);
       expect(c.read(profileFilesProvider).requireValue.length, 2);
-      expect(c.read(profileFilesProvider).requireValue.elementAt(1).name, 'cv.pdf');
+      expect(c.read(profileFilesProvider).requireValue.elementAt(1).name,
+          'cv.pdf');
     });
 
     test('delete removes file at index, preserving order', () async {
@@ -451,7 +485,8 @@ void main() {
       await c.read(profileFilesProvider.notifier).add(second);
       await c.read(profileFilesProvider.notifier).delete(0);
       expect(c.read(profileFilesProvider).requireValue.length, 2);
-      expect(c.read(profileFilesProvider).requireValue.first.name, '1 MB');
+      expect(c.read(profileFilesProvider).requireValue.first.name, 'cv.pdf');
+      expect(c.read(profileFilesProvider).requireValue.last.name, 'cert.pdf');
     });
 
     test('delete last item results in empty list', () async {
@@ -469,15 +504,16 @@ void main() {
 
   group('profileValuesProvider', () {
     test('initial state is empty list', () async {
-      expect(
-          await ProviderContainer.test().read(profileValuesProvider.future),
+      expect(await ProviderContainer.test().read(profileValuesProvider.future),
           isEmpty);
     });
 
     test('save sets values list', () async {
       final c = ProviderContainer.test();
       await c.read(profileValuesProvider.future);
-      await c.read(profileValuesProvider.notifier).save(['Integrity', 'Innovation']);
+      await c
+          .read(profileValuesProvider.notifier)
+          .save(['Integrity', 'Innovation']);
       expect(c.read(profileValuesProvider).requireValue,
           ['Integrity', 'Innovation']);
     });
@@ -517,15 +553,13 @@ void main() {
       final c = ProviderContainer.test();
       await c.read(profileJobPreferencesProvider.future);
       await c.read(profileJobPreferencesProvider.notifier).save(
-            interests: [
-              const JobInterest(title: 'PM', category: 'Management')
-            ],
-            positionLevel: 'Junior',
-            jobType: 'Part time',
-            workplace: 'Remote',
-            expectedSalary: 1200,
-            preferNotToSpecifySalary: false,
-          );
+        interests: [const JobInterest(title: 'PM', category: 'Management')],
+        positionLevel: 'Junior',
+        jobType: 'Part time',
+        workplace: 'Remote',
+        expectedSalary: 1200,
+        preferNotToSpecifySalary: false,
+      );
       final s = c.read(profileJobPreferencesProvider).requireValue;
       expect(s.positionLevel, 'Junior');
       expect(s.jobType, 'Part time');
@@ -538,14 +572,17 @@ void main() {
       final c = ProviderContainer.test();
       await c.read(profileJobPreferencesProvider.future);
       await c.read(profileJobPreferencesProvider.notifier).save(
-            interests: [],
-            positionLevel: 'Mid',
-            jobType: 'Full time',
-            workplace: 'Hybrid',
-            preferNotToSpecifySalary: true,
-          );
+        interests: [],
+        positionLevel: 'Mid',
+        jobType: 'Full time',
+        workplace: 'Hybrid',
+        preferNotToSpecifySalary: true,
+      );
       expect(
-          c.read(profileJobPreferencesProvider).requireValue.preferNotToSpecifySalary,
+          c
+              .read(profileJobPreferencesProvider)
+              .requireValue
+              .preferNotToSpecifySalary,
           true);
     });
   });
@@ -554,8 +591,7 @@ void main() {
 
   group('profileVisibleProvider', () {
     test('initial state is true (visible)', () async {
-      expect(
-          await ProviderContainer.test().read(profileVisibleProvider.future),
+      expect(await ProviderContainer.test().read(profileVisibleProvider.future),
           true);
     });
 
@@ -681,7 +717,9 @@ void main() {
     test('softSkills alone count as skills section filled', () async {
       final c = ProviderContainer.test();
       await c.read(profileSkillsProvider.future);
-      await c.read(profileSkillsProvider.notifier).updateSkills([], ['Teamwork']);
+      await c
+          .read(profileSkillsProvider.notifier)
+          .updateSkills([], ['Teamwork']);
       expect(c.read(profileCompletionProvider), closeTo(1 / 6, 0.001));
     });
 
@@ -724,8 +762,7 @@ void main() {
     });
 
     test('exact years with no month remainder', () {
-      expect(
-          exp(startDate: '01-2020', endDate: '01-2021').duration, '1 year');
+      expect(exp(startDate: '01-2020', endDate: '01-2021').duration, '1 year');
     });
 
     test('multiple years', () {
@@ -734,8 +771,7 @@ void main() {
     });
 
     test('exactly 2 years plural', () {
-      expect(
-          exp(startDate: '01-2019', endDate: '01-2021').duration, '2 years');
+      expect(exp(startDate: '01-2019', endDate: '01-2021').duration, '2 years');
     });
 
     test('multiple months less than a year', () {
@@ -744,13 +780,12 @@ void main() {
     });
 
     test('exactly 1 month uses singular form', () {
-      expect(
-          exp(startDate: '01-2020', endDate: '02-2020').duration, '1 month');
+      expect(exp(startDate: '01-2020', endDate: '02-2020').duration, '1 month');
     });
 
     test('same month start and end → 0 months', () {
-      expect(exp(startDate: '01-2020', endDate: '01-2020').duration,
-          '0 months');
+      expect(
+          exp(startDate: '01-2020', endDate: '01-2020').duration, '0 months');
     });
 
     test('end before start → empty string', () {
@@ -764,9 +799,7 @@ void main() {
     test('currentlyWorkHere ignores endDate and returns non-empty string', () {
       // endDate is in the past but should be ignored
       final e = exp(
-          startDate: '01-2020',
-          endDate: '01-2018',
-          currentlyWorkHere: true);
+          startDate: '01-2020', endDate: '01-2018', currentlyWorkHere: true);
       expect(e.duration, isNotEmpty);
     });
   });
@@ -800,9 +833,7 @@ void main() {
 
     test('currentlyStudyHere ignores endDate', () {
       final e = edu(
-          startDate: '09-2022',
-          endDate: '01-2010',
-          currentlyStudyHere: true);
+          startDate: '09-2022', endDate: '01-2010', currentlyStudyHere: true);
       expect(e.duration, isNotEmpty);
     });
 
@@ -846,11 +877,13 @@ void main() {
     test('save without videoUrl preserves previously set videoUrl', () async {
       final c = ProviderContainer.test();
       await c.read(profileAboutMeProvider.future);
-      await c.read(profileAboutMeProvider.notifier)
+      await c
+          .read(profileAboutMeProvider.notifier)
           .save('Bio', videoUrl: 'https://v.url');
       // second call omits videoUrl
       await c.read(profileAboutMeProvider.notifier).save('Updated bio');
-      expect(c.read(profileAboutMeProvider).requireValue.videoUrl, 'https://v.url');
+      expect(c.read(profileAboutMeProvider).requireValue.videoUrl,
+          'https://v.url');
     });
   });
 
@@ -869,8 +902,10 @@ void main() {
             relocationReadiness: 'Yes',
           );
       // email and phone keep the hard-coded default values
-      expect(c.read(profileBasicsProvider).requireValue.email, 'c.ioannidis@gmail.com');
-      expect(c.read(profileBasicsProvider).requireValue.phone, '+30 123 456 78 90');
+      expect(c.read(profileBasicsProvider).requireValue.email,
+          'c.ioannidis@gmail.com');
+      expect(c.read(profileBasicsProvider).requireValue.phone,
+          '+30 123 456 78 90');
     });
 
     test('save without photoUrl preserves previously set photoUrl', () async {
@@ -907,12 +942,14 @@ void main() {
     test('updateLanguages does not reset existing skills', () async {
       final c = ProviderContainer.test();
       await c.read(profileSkillsProvider.future);
-      await c.read(profileSkillsProvider.notifier)
+      await c
+          .read(profileSkillsProvider.notifier)
           .updateSkills(['Dart'], ['Teamwork']);
       await c.read(profileSkillsProvider.notifier).updateLanguages(
           [const Language(language: 'English', proficiency: 'Fluent')]);
       expect(c.read(profileSkillsProvider).requireValue.hardSkills, ['Dart']);
-      expect(c.read(profileSkillsProvider).requireValue.softSkills, ['Teamwork']);
+      expect(
+          c.read(profileSkillsProvider).requireValue.softSkills, ['Teamwork']);
     });
 
     test('updateCompetencies does not reset skills or languages', () async {
@@ -921,11 +958,13 @@ void main() {
       await c.read(profileSkillsProvider.notifier).updateSkills(['Dart'], []);
       await c.read(profileSkillsProvider.notifier).updateLanguages(
           [const Language(language: 'Spanish', proficiency: 'Native')]);
-      await c.read(profileSkillsProvider.notifier)
+      await c
+          .read(profileSkillsProvider.notifier)
           .updateCompetencies({'leadership': 'Advanced'});
       expect(c.read(profileSkillsProvider).requireValue.hardSkills, ['Dart']);
       expect(
-          c.read(profileSkillsProvider).requireValue.languages.first.language, 'Spanish');
+          c.read(profileSkillsProvider).requireValue.languages.first.language,
+          'Spanish');
     });
   });
 
@@ -935,16 +974,20 @@ void main() {
       final c = ProviderContainer.test();
       await c.read(profileJobPreferencesProvider.future);
       await c.read(profileJobPreferencesProvider.notifier).save(
-            interests: [],
-            positionLevel: 'Mid',
-            jobType: 'Full time',
-            workplace: 'Remote',
-            preferNotToSpecifySalary: true,
-            // expectedSalary omitted → null
-          );
+        interests: [],
+        positionLevel: 'Mid',
+        jobType: 'Full time',
+        workplace: 'Remote',
+        preferNotToSpecifySalary: true,
+        // expectedSalary omitted → null
+      );
+      expect(c.read(profileJobPreferencesProvider).requireValue.expectedSalary,
+          isNull);
       expect(
-          c.read(profileJobPreferencesProvider).requireValue.expectedSalary, isNull);
-      expect(c.read(profileJobPreferencesProvider).requireValue.preferNotToSpecifySalary,
+          c
+              .read(profileJobPreferencesProvider)
+              .requireValue
+              .preferNotToSpecifySalary,
           true);
     });
   });

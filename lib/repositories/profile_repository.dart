@@ -53,19 +53,24 @@ abstract class ProfileRepository {
 }
 
 class MockProfileRepository implements ProfileRepository {
+  MockProfileRepository({bool persistLocal = false})
+      : _persistLocal = persistLocal;
+
+  final bool _persistLocal;
+
   ProfileBasics _basics = const ProfileBasics(
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    dateOfBirth: '',
-    gender: '',
-    citizenship: '',
-    citizenshipCode: '',
-    residence: '',
-    residenceCode: '',
-    status: '',
-    relocationReadiness: '',
+    firstName: 'Christos',
+    lastName: 'Ioannides',
+    email: 'c.ioannidis@gmail.com',
+    phone: '+30 123 456 78 90',
+    dateOfBirth: '15-06-1995',
+    gender: 'Male',
+    citizenship: 'Greek',
+    citizenshipCode: 'GR',
+    residence: 'Chalkidiki, Greece',
+    residenceCode: 'GR',
+    status: 'Citizen',
+    relocationReadiness: 'No',
   );
   ProfileAboutMe _aboutMe = const ProfileAboutMe();
   ProfileSkills _skills = const ProfileSkills();
@@ -89,15 +94,36 @@ class MockProfileRepository implements ProfileRepository {
   Future<void> _ensureLoaded() => _initFuture ??= _loadFromLocal();
 
   Future<void> _loadFromLocal() async {
-    _basics = await ProfileLocalStore.loadBasics() ?? _basics;
-    _aboutMe = await ProfileLocalStore.loadAboutMe() ?? _aboutMe;
-    _skills = await ProfileLocalStore.loadSkills() ?? _skills;
-    _workExperiences = await ProfileLocalStore.loadWork() ?? _workExperiences;
-    _educations = await ProfileLocalStore.loadEducation() ?? _educations;
-    _files = await ProfileLocalStore.loadFiles() ?? _files;
-    _values = await ProfileLocalStore.loadValues() ?? _values;
-    _jobPreferences = await ProfileLocalStore.loadPrefs() ?? _jobPreferences;
-    _profileVisible = await ProfileLocalStore.loadVisible() ?? _profileVisible;
+    if (!_persistLocal) {
+      return;
+    }
+
+    try {
+      _basics = await ProfileLocalStore.loadBasics() ?? _basics;
+      _aboutMe = await ProfileLocalStore.loadAboutMe() ?? _aboutMe;
+      _skills = await ProfileLocalStore.loadSkills() ?? _skills;
+      _workExperiences = await ProfileLocalStore.loadWork() ?? _workExperiences;
+      _educations = await ProfileLocalStore.loadEducation() ?? _educations;
+      _files = await ProfileLocalStore.loadFiles() ?? _files;
+      _values = await ProfileLocalStore.loadValues() ?? _values;
+      _jobPreferences = await ProfileLocalStore.loadPrefs() ?? _jobPreferences;
+      _profileVisible =
+          await ProfileLocalStore.loadVisible() ?? _profileVisible;
+    } catch (_) {
+      // Tests and non-Flutter contexts may not have platform channels for
+      // flutter_secure_storage. Keep the mock repository usable in memory.
+    }
+  }
+
+  Future<void> _persist(Future<void> Function() action) async {
+    if (!_persistLocal) {
+      return;
+    }
+    try {
+      await action();
+    } catch (_) {
+      // Best-effort cache only; in-memory state is the source of truth here.
+    }
   }
 
   @override
@@ -158,70 +184,70 @@ class MockProfileRepository implements ProfileRepository {
   Future<void> saveBasics(ProfileBasics basics) async {
     await _ensureLoaded();
     _basics = basics;
-    await ProfileLocalStore.saveBasics(_basics);
+    await _persist(() => ProfileLocalStore.saveBasics(_basics));
   }
 
   @override
   Future<void> saveAboutMe(ProfileAboutMe aboutMe) async {
     await _ensureLoaded();
     _aboutMe = aboutMe;
-    await ProfileLocalStore.saveAboutMe(_aboutMe);
+    await _persist(() => ProfileLocalStore.saveAboutMe(_aboutMe));
   }
 
   @override
   Future<void> saveSkills(ProfileSkills skills) async {
     await _ensureLoaded();
     _skills = skills;
-    await ProfileLocalStore.saveSkills(_skills);
+    await _persist(() => ProfileLocalStore.saveSkills(_skills));
   }
 
   @override
   Future<void> saveLanguages(List<Language> languages) async {
     await _ensureLoaded();
     _skills = _skills.copyWith(languages: languages);
-    await ProfileLocalStore.saveSkills(_skills);
+    await _persist(() => ProfileLocalStore.saveSkills(_skills));
   }
 
   @override
   Future<void> saveWorkExperiences(List<WorkExperience> experiences) async {
     await _ensureLoaded();
     _workExperiences = experiences;
-    await ProfileLocalStore.saveWork(_workExperiences);
+    await _persist(() => ProfileLocalStore.saveWork(_workExperiences));
   }
 
   @override
   Future<void> saveEducations(List<Education> educations) async {
     await _ensureLoaded();
     _educations = educations;
-    await ProfileLocalStore.saveEducation(_educations);
+    await _persist(() => ProfileLocalStore.saveEducation(_educations));
   }
 
   @override
   Future<void> saveFiles(List<UploadedFile> files) async {
     await _ensureLoaded();
     _files = files;
-    await ProfileLocalStore.saveFiles(_files);
+    await _persist(() => ProfileLocalStore.saveFiles(_files));
   }
 
   @override
   Future<void> saveValues(List<String> values) async {
     await _ensureLoaded();
     _values = values;
-    await ProfileLocalStore.saveValues(_values);
+    await _persist(() => ProfileLocalStore.saveValues(_values));
   }
 
   @override
   Future<void> saveJobPreferences(ProfileJobPreferences prefs) async {
     await _ensureLoaded();
     _jobPreferences = prefs;
-    await ProfileLocalStore.savePrefs(_jobPreferences);
+    await _persist(() => ProfileLocalStore.savePrefs(_jobPreferences));
   }
 
   @override
   Future<void> saveProfileVisible(bool visible) async {
     await _ensureLoaded();
     _profileVisible = visible;
-    await ProfileLocalStore.saveVisible(_profileVisible);
+    await _persist(() => ProfileLocalStore.saveVisible(_profileVisible));
   }
 }
 
@@ -929,6 +955,6 @@ const bool _useMockProfile = AppConfig.shouldUseMockData ||
 
 final profileRepositoryProvider = Provider<ProfileRepository>(
   (ref) => _useMockProfile
-      ? MockProfileRepository()
+      ? MockProfileRepository(persistLocal: true)
       : ApiProfileRepository(apiClient: ref.watch(apiClientProvider)),
 );
