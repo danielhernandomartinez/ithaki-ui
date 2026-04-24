@@ -265,8 +265,7 @@ class MockJobDetailRepository implements JobDetailRepository {
   }
 }
 
-const bool _useMockJobDetail =
-    AppConfig.shouldUseMockData ||
+const bool _useMockJobDetail = AppConfig.shouldUseMockData ||
     bool.fromEnvironment('ITHAKI_USE_MOCK_JOB_DETAIL') ||
     bool.fromEnvironment('ITHAKI_USE_MOCK_JOB_SEARCH') ||
     bool.fromEnvironment('ITHAKI_USE_MOCK_APPLICATIONS') ||
@@ -289,4 +288,54 @@ final jobDetailProvider = FutureProvider.family<JobDetail, String>(
       rethrow;
     }
   },
+);
+
+class JobDetailInteractionState {
+  const JobDetailInteractionState({
+    this.hasReminder = false,
+    this.isNotInterested = false,
+  });
+
+  final bool hasReminder;
+  final bool isNotInterested;
+
+  JobDetailInteractionState copyWith({
+    bool? hasReminder,
+    bool? isNotInterested,
+  }) {
+    return JobDetailInteractionState(
+      hasReminder: hasReminder ?? this.hasReminder,
+      isNotInterested: isNotInterested ?? this.isNotInterested,
+    );
+  }
+}
+
+class JobDetailInteractionNotifier extends Notifier<JobDetailInteractionState> {
+  JobDetailInteractionNotifier(this.jobId);
+
+  final String jobId;
+
+  @override
+  JobDetailInteractionState build() => const JobDetailInteractionState();
+
+  void setReminder() {
+    state = state.copyWith(hasReminder: true);
+  }
+
+  void deleteReminder() {
+    state = state.copyWith(hasReminder: false);
+  }
+
+  void markNotInterested() {
+    state = state.copyWith(isNotInterested: true);
+  }
+
+  void undoNotInterested() {
+    state = state.copyWith(isNotInterested: false);
+  }
+}
+
+final jobDetailInteractionProvider = NotifierProvider.family<
+    JobDetailInteractionNotifier, JobDetailInteractionState, String>(
+  JobDetailInteractionNotifier.new,
 );
