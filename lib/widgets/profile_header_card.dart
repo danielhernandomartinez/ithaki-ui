@@ -18,6 +18,7 @@ class ProfileHeaderCard extends ConsumerWidget {
     if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
       return NetworkImage(value);
     }
+    if (!File(value).existsSync()) return null;
     return FileImage(File(value));
   }
 

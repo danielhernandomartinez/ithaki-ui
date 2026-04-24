@@ -415,6 +415,7 @@ class ApiProfileRepository implements ProfileRepository {
           // ── 1. Parse basics fields ────────────────────────────────────────
           final b = profileData['basics'];
           if (b is Map<String, dynamic>) {
+            debugPrint('[refreshAll] basics.photo → ${b['photo']}');
             basics = basics.copyWith(
               phone: b['phone'] as String? ?? basics.phone,
               dateOfBirth: b['dateOfBirth'] as String? ?? '',
