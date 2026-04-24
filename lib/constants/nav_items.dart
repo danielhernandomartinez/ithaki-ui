@@ -7,6 +7,5 @@ const kAppNavItems = [
   NavItem(icon: 'applications', label: 'My Applications',  route: Routes.myApplications),
   NavItem(icon: 'ai',           label: 'Career Assistant', route: Routes.careerAssistant),
   NavItem(icon: 'assessment',   label: 'My Assessments',   route: Routes.assessments),
-  NavItem(icon: 'learning-hub', label: 'Learning Hub',     route: Routes.assessments),
   NavItem(icon: 'blog',         label: 'Blog & News',      route: Routes.blogNews),
 ];

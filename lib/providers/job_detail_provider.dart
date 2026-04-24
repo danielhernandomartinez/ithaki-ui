@@ -265,12 +265,28 @@ class MockJobDetailRepository implements JobDetailRepository {
   }
 }
 
+const bool _useMockJobDetail =
+    AppConfig.shouldUseMockData ||
+    bool.fromEnvironment('ITHAKI_USE_MOCK_JOB_DETAIL') ||
+    bool.fromEnvironment('ITHAKI_USE_MOCK_JOB_SEARCH') ||
+    bool.fromEnvironment('ITHAKI_USE_MOCK_APPLICATIONS') ||
+    bool.fromEnvironment('ITHAKI_USE_MOCK_INVITATIONS');
+
 final jobDetailRepositoryProvider = Provider<JobDetailRepository>(
-  (ref) => AppConfig.useMockData
+  (ref) => _useMockJobDetail
       ? MockJobDetailRepository()
       : ApiJobDetailRepository(apiClient: ref.watch(apiClientProvider)),
 );
 
 final jobDetailProvider = FutureProvider.family<JobDetail, String>(
-  (ref, jobId) => ref.watch(jobDetailRepositoryProvider).getJobDetail(jobId),
+  (ref, jobId) async {
+    try {
+      return await ref.watch(jobDetailRepositoryProvider).getJobDetail(jobId);
+    } catch (_) {
+      if (_useMockJobDetail) {
+        return MockJobDetailRepository().getJobDetail(jobId);
+      }
+      rethrow;
+    }
+  },
 );

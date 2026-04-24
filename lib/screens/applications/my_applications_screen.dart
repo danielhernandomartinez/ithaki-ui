@@ -357,7 +357,7 @@ class _ApplicationsTabBarState extends State<_ApplicationsTabBar> {
       height: 48,
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: IthakiTheme.chipActive,
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(24),
       ),
       child: ClipRRect(

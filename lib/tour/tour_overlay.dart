@@ -271,7 +271,9 @@ class _TourOverlayState extends ConsumerState<TourOverlay> {
             final step = tourState.currentStep;
             final isActive = !tourState.tourCompleted &&
                 step >= 1 &&
-                step <= kTourTotalSteps;
+                step <= kTourTotalSteps &&
+                !tourState.skipConfirmVisible &&
+                !tourState.completionVisible;
 
             if (!isActive) return widget.child;
 

@@ -62,7 +62,10 @@ class InvitationCard extends ConsumerWidget {
               isDismissing: isDismissing,
               onDismiss: onDismissRequested,
               onViewJob: () =>
-                  context.push(Routes.invitationJobDetailFor(invitation.id)),
+                  context.push(
+                    Routes.invitationJobDetailFor(invitation.id),
+                    extra: invitation,
+                  ),
             ),
           ] else ...[
             const SizedBox(height: 12),
@@ -71,8 +74,10 @@ class InvitationCard extends ConsumerWidget {
               child: IthakiButton(
                 AppLocalizations.of(context)!.viewJobDetails,
                 variant: IthakiButtonVariant.outline,
-                onPressed: () =>
-                    context.push(Routes.invitationJobDetailFor(invitation.id)),
+                onPressed: () => context.push(
+                  Routes.invitationJobDetailFor(invitation.id),
+                  extra: invitation,
+                ),
               ),
             ),
           ],

@@ -23,11 +23,15 @@ import 'widgets/job_detail_cards.dart';
 class JobDetailScreen extends ConsumerStatefulWidget {
   final String applicationId;
   final bool isInvitation;
+  final Application? initialApplication;
+  final Invitation? initialInvitation;
 
   const JobDetailScreen({
     super.key,
     required this.applicationId,
     this.isInvitation = false,
+    this.initialApplication,
+    this.initialInvitation,
   });
 
   @override
@@ -65,26 +69,36 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
 
     final application = widget.isInvitation
         ? null
-        : applications.value
-            ?.where((item) => item.id == widget.applicationId)
-            .firstOrNull;
+        : widget.initialApplication ??
+            applications.value
+                ?.where((item) => item.id == widget.applicationId)
+                .firstOrNull;
     final invitation = widget.isInvitation
-        ? invitations.value
-            ?.where((item) => item.id == widget.applicationId)
-            .firstOrNull
+        ? widget.initialInvitation ??
+            invitations.value
+                ?.where((item) => item.id == widget.applicationId)
+                .firstOrNull
         : null;
     final jobId = widget.isInvitation ? invitation?.jobId : application?.jobId;
 
-    if ((widget.isInvitation && invitations.isLoading) ||
-        (!widget.isInvitation && applications.isLoading)) {
+    if ((widget.isInvitation &&
+            invitations.isLoading &&
+            widget.initialInvitation == null) ||
+        (!widget.isInvitation &&
+            applications.isLoading &&
+            widget.initialApplication == null)) {
       return _simpleStateScaffold(
         context,
         child: const CircularProgressIndicator(),
       );
     }
 
-    if ((widget.isInvitation && invitations.hasError) ||
-        (!widget.isInvitation && applications.hasError)) {
+    if ((widget.isInvitation &&
+            invitations.hasError &&
+            widget.initialInvitation == null) ||
+        (!widget.isInvitation &&
+            applications.hasError &&
+            widget.initialApplication == null)) {
       return _simpleStateScaffold(
         context,
         child: Column(
@@ -190,12 +204,6 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
             onMenuPressed: _panels.toggleMenu,
             onAvatarPressed: _panels.toggleProfile,
           ),
-          bottomNavigationBar: widget.isInvitation
-              ? InvitationStickyBar(
-                  onAccept: () => _showApplySheet(context),
-                  onMore: (value) => _handleInvitationMenu(context, value),
-                )
-              : JobDetailStickyBar(detail: detail),
           body: Stack(
             children: [
               SingleChildScrollView(
@@ -252,8 +260,23 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
                     _pad(ReviewsCard(detail: detail)),
                     _pad(RecommendedCard(job: detail.recommended)),
                     _pad(JobDetailCompanyCard(company: detail.company)),
-                    SizedBox(height: MediaQuery.paddingOf(context).bottom + 16),
+                    SizedBox(height: MediaQuery.paddingOf(context).bottom + 140),
                   ],
+                ),
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: SafeArea(
+                  top: false,
+                  child: widget.isInvitation
+                      ? InvitationStickyBar(
+                          onAccept: () => _showApplySheet(context),
+                          onMore: (value) =>
+                              _handleInvitationMenu(context, value),
+                        )
+                      : JobDetailStickyBar(detail: detail),
                 ),
               ),
               if (_panels.menuOpen || _panels.profileOpen)

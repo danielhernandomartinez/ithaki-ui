@@ -219,6 +219,7 @@ class _JobInfo extends StatelessWidget {
         _DetailsGrid(application: application),
         const SizedBox(height: 12),
         _ActionButtons(
+          application: application,
           applicationId: application.id,
           isDraft: isDraft,
           isArchived: isArchived,
@@ -410,11 +411,13 @@ class _DetailItem extends StatelessWidget {
 }
 
 class _ActionButtons extends StatelessWidget {
+  final Application application;
   final String applicationId;
   final bool isDraft;
   final bool isArchived;
   final VoidCallback? onViewApplication;
   const _ActionButtons({
+    required this.application,
     required this.applicationId,
     this.isDraft = false,
     this.isArchived = false,
@@ -435,7 +438,10 @@ class _ActionButtons extends StatelessWidget {
         final outline = IthakiButton(
           l.viewJobDetails,
           variant: IthakiButtonVariant.outline,
-          onPressed: () => context.push(Routes.jobDetailFor(applicationId)),
+          onPressed: () => context.push(
+            Routes.jobDetailFor(applicationId),
+            extra: application,
+          ),
         );
 
         // Archived: only "View Job Details"
@@ -448,7 +454,10 @@ class _ActionButtons extends StatelessWidget {
         final primary = isDraft
             ? IthakiButton(
                 l.continueApplication,
-                onPressed: () => context.push(Routes.jobDetailFor(applicationId)),
+                onPressed: () => context.push(
+                  Routes.jobDetailFor(applicationId),
+                  extra: application,
+                ),
               )
             : IthakiButton(
                 l.viewApplication,

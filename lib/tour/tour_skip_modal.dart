@@ -6,10 +6,12 @@ import '../providers/tour_provider.dart';
 class TourSkipModal extends ConsumerWidget {
   const TourSkipModal({super.key});
 
-  static void show(BuildContext context) {
-    showModalBottomSheet(
+  static Future<void> show(BuildContext context) async {
+    await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
+      isDismissible: false,
+      enableDrag: false,
       backgroundColor: Colors.transparent,
       builder: (_) => const TourSkipModal(),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../routes.dart';
 
 class ProfileMenuItem {
   final String icon;
@@ -18,9 +19,10 @@ class ProfileMenuPanel extends StatelessWidget {
   final VoidCallback? onLogOut;
 
   static const _items = [
-    ProfileMenuItem(icon: 'profile',  label: 'My Profile',       route: '/profile'),
-    ProfileMenuItem(icon: 'resume',   label: 'My CV',            route: '/cv'),
-    ProfileMenuItem(icon: 'settings', label: 'Account Settings', route: '/settings'),
+    ProfileMenuItem(icon: 'profile', label: 'My Profile', route: '/profile'),
+    ProfileMenuItem(icon: 'resume', label: 'My CV', route: Routes.cv),
+    ProfileMenuItem(
+        icon: 'settings', label: 'Account Settings', route: '/settings'),
   ];
 
   const ProfileMenuPanel({super.key, this.onItemTap, this.onLogOut});
@@ -56,7 +58,8 @@ class ProfileMenuPanel extends StatelessWidget {
             child: Divider(height: 1, color: IthakiTheme.borderLight),
           ),
           _ProfileTile(
-            item: const ProfileMenuItem(icon: 'log-out', label: 'Log Out', route: ''),
+            item: const ProfileMenuItem(
+                icon: 'log-out', label: 'Log Out', route: ''),
             onTap: onLogOut ?? () {},
           ),
           SizedBox(height: bottomPadding + 16),

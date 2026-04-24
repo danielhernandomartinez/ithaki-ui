@@ -20,8 +20,6 @@ class CompanyProfileHeader extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(16, topOffset, 16, 0),
       child: Column(
         children: [
-          CompanyPlatformChip(label: company.platformDomain),
-          const SizedBox(height: 16),
           ClipRRect(
             borderRadius: BorderRadius.circular(32),
             child: AspectRatio(
