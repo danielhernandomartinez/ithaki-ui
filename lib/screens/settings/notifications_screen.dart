@@ -24,6 +24,7 @@ class NotificationsScreen extends ConsumerWidget {
       appBar: IthakiAppBar(
         showMenuAndAvatar: true,
         avatarInitials: avatarInitials,
+        avatarUrl: homeData?.userPhotoUrl,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(

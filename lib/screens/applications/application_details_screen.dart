@@ -60,6 +60,7 @@ class _ApplicationDetailsScreenState
         menuOpen: _panels.menuOpen,
         profileOpen: _panels.profileOpen,
         avatarInitials: homeData?.userInitials ?? 'CI',
+        avatarUrl: homeData?.userPhotoUrl,
         onMenuPressed: _panels.toggleMenu,
         onAvatarPressed: _panels.toggleProfile,
       ),

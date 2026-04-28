@@ -29,6 +29,7 @@ class CompanyEventDetailScreen extends ConsumerWidget {
         showMenuAndAvatar: true,
         showBackButton: true,
         avatarInitials: homeData?.userInitials ?? 'CI',
+        avatarUrl: homeData?.userPhotoUrl,
       ),
       body: companyAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),

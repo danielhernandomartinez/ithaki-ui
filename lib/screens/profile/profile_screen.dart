@@ -130,6 +130,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         showMenuAndAvatar: true,
         menuOpen: _panels.menuOpen,
         avatarInitials: basics.initials,
+        avatarUrl: basics.photoUrl,
         onMenuPressed: _panels.toggleMenu,
         profileOpen: _panels.profileOpen,
         onAvatarPressed: _panels.toggleProfile,
@@ -168,12 +169,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             KeyedSubtree(
               key: tourState?.currentStep == 10 ? tourKeys[10] : null,
               child: ProfileHeaderCard(basics: basics),
-            ),
-            const SizedBox(height: 12),
-            _ProfileCompletionCard(
-              items: ref.watch(profileCompletionItemsProvider),
-              completion: ref.watch(profileCompletionProvider),
-              onTap: () => context.push(Routes.fillProfileWizard),
             ),
             const SizedBox(height: 12),
             ProfileTabBar(
@@ -291,125 +286,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             ),
           ),
       ]),
-    );
-  }
-}
-
-// ─── Profile completion card ──────────────────────────────────────────────────
-
-class _ProfileCompletionCard extends StatelessWidget {
-  final List<ProfileCompletionItem> items;
-  final double completion;
-  final VoidCallback onTap;
-
-  const _ProfileCompletionCard({
-    required this.items,
-    required this.completion,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final pct = (completion * 100).round();
-    final done = items.where((i) => i.completed).length;
-    final isComplete = pct >= 100;
-
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: IthakiTheme.backgroundWhite,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  isComplete ? 'Profile complete!' : 'Complete your profile',
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: IthakiTheme.textPrimary,
-                  ),
-                ),
-              ),
-              Text(
-                '$pct%',
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: IthakiTheme.primaryPurple,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(4),
-            child: LinearProgressIndicator(
-              value: completion,
-              minHeight: 6,
-              backgroundColor: IthakiTheme.borderLight,
-              valueColor: const AlwaysStoppedAnimation<Color>(
-                  IthakiTheme.primaryPurple),
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            '$done of ${items.length} sections complete',
-            style: const TextStyle(
-              fontSize: 12,
-              color: IthakiTheme.textSecondary,
-            ),
-          ),
-          if (!isComplete) ...[
-            const SizedBox(height: 12),
-            Wrap(
-              spacing: 8,
-              runSpacing: 6,
-              children: items
-                  .map(
-                    (item) => Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          item.completed
-                              ? Icons.check_circle_rounded
-                              : Icons.radio_button_unchecked_rounded,
-                          size: 14,
-                          color: item.completed
-                              ? IthakiTheme.matchGreen
-                              : IthakiTheme.softGraphite,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          item.label,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: item.completed
-                                ? IthakiTheme.textSecondary
-                                : IthakiTheme.textPrimary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                  .toList(),
-            ),
-            const SizedBox(height: 14),
-            SizedBox(
-              width: double.infinity,
-              child: IthakiButton(
-                'Continue filling profile',
-                onPressed: onTap,
-              ),
-            ),
-          ],
-        ],
-      ),
     );
   }
 }

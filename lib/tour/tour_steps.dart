@@ -11,7 +11,7 @@ class TourStep {
   });
 }
 
-const int kTourTotalSteps = 14;
+const int kTourTotalSteps = 13;
 
 const tourSteps = <TourStep>[
   TourStep(
@@ -36,8 +36,8 @@ const tourSteps = <TourStep>[
   ),
   TourStep(
     stepNumber: 5,
-    title: 'Apply in one click',
-    body: 'Open a job you like and read the details. When ready, tap Apply Now.\n\nYou can also save a job to apply later or set a deadline reminder, so you don\'t miss your chance.',
+    title: 'Job Details',
+    body: 'Read the full job description, requirements, and what the company offers before you apply.',
   ),
   TourStep(
     stepNumber: 6,
@@ -51,8 +51,8 @@ const tourSteps = <TourStep>[
   ),
   TourStep(
     stepNumber: 8,
-    title: 'New Invitation',
-    body: "When an employer is interested in your profile, you'll receive an invitation here.\nIf you see a message in this section, it means the employer liked your profile and wants to contact you about a job.",
+    title: 'My Invitations',
+    body: 'Employers can invite you directly. You have been invited to explore relevant job invitations from employers who found your profile interesting.',
   ),
   TourStep(
     stepNumber: 9,
@@ -76,11 +76,6 @@ const tourSteps = <TourStep>[
   ),
   TourStep(
     stepNumber: 13,
-    title: 'Grow your Career',
-    body: 'Here you can see your profession, skills, and new job opportunities.\nThe Career Hub analyzes your experience and shows how to grow step by step.\n\nSee what jobs match your background and which skills to learn next.',
-  ),
-  TourStep(
-    stepNumber: 14,
     title: 'Get to know yourself better',
     body: 'Here you can take different assessments. Your results help employers better understand your strengths and working style.',
   ),

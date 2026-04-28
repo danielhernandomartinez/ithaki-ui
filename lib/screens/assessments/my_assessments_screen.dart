@@ -94,6 +94,7 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
         menuOpen: _panels.menuOpen,
         profileOpen: _panels.profileOpen,
         avatarInitials: homeAsync.value?.userInitials ?? '',
+        avatarUrl: homeAsync.value?.userPhotoUrl,
         onMenuPressed: _panels.toggleMenu,
         onAvatarPressed: _panels.toggleProfile,
       ),

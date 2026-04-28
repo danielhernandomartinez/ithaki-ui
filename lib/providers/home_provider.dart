@@ -15,6 +15,7 @@ class HomeNotifier extends AsyncNotifier<HomeData> {
     return HomeData(
       userName: basics.firstName,
       userInitials: basics.initials,
+      userPhotoUrl: basics.photoUrl,
       cvStats: data.cvStats,
       jobs: data.jobs,
       courses: data.courses,

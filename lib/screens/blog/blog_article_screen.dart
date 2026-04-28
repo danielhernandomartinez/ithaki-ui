@@ -73,6 +73,7 @@ class _BlogArticleScreenState extends ConsumerState<BlogArticleScreen>
         profileOpen: _panels.profileOpen,
         avatarInitials:
             ref.watch(profileBasicsProvider).value?.initials ?? '',
+        avatarUrl: ref.watch(profileBasicsProvider).value?.photoUrl,
         onMenuPressed: _panels.toggleMenu,
         onAvatarPressed: _panels.toggleProfile,
       ),

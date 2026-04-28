@@ -139,6 +139,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               menuOpen: _panels.menuOpen,
               profileOpen: _panels.profileOpen,
               avatarInitials: homeData.userInitials,
+              avatarUrl: homeData.userPhotoUrl,
               onMenuPressed: _panels.toggleMenu,
               onAvatarPressed: _panels.toggleProfile,
             ),

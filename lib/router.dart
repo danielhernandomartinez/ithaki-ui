@@ -22,10 +22,6 @@ import 'screens/setup/job_interests_screen.dart';
 import 'screens/setup/preferences_screen.dart';
 import 'screens/setup/values_screen.dart';
 import 'screens/setup/communication_screen.dart';
-import 'screens/fill_profile/fill_profile_start_screen.dart';
-import 'screens/fill_profile/fill_profile_select_screen.dart';
-import 'screens/fill_profile/fill_profile_upload_cv_screen.dart';
-import 'screens/fill_profile/fill_profile_wizard_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/job_search/job_search_screen.dart';
 import 'screens/job_search/job_search_detail_screen.dart';
@@ -201,22 +197,6 @@ class IthakiRouter {
       GoRoute(
         path: Routes.setupCommunication,
         builder: (context, state) => const CommunicationScreen(),
-      ),
-      GoRoute(
-        path: Routes.fillProfile,
-        builder: (context, state) => const FillProfileStartScreen(),
-      ),
-      GoRoute(
-        path: Routes.fillProfileSelect,
-        builder: (context, state) => const FillProfileSelectScreen(),
-      ),
-      GoRoute(
-        path: Routes.fillProfileUpload,
-        builder: (context, state) => const FillProfileUploadCvScreen(),
-      ),
-      GoRoute(
-        path: Routes.fillProfileWizard,
-        builder: (context, state) => const FillProfileWizardScreen(),
       ),
       GoRoute(
         path: Routes.home,

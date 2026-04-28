@@ -169,6 +169,7 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
           menuOpen: false,
           profileOpen: _panels.profileOpen,
           avatarInitials: cvData.avatarInitials,
+          avatarUrl: basicsAsync.value?.photoUrl,
           onMenuPressed: () async {
             final shouldPop = await _handleBack(isPublished);
             if (shouldPop && context.mounted) {

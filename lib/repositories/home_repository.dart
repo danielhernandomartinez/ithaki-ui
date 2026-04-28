@@ -8,6 +8,7 @@ import '../services/api_client.dart';
 class HomeData {
   final String userName;
   final String userInitials;
+  final String? userPhotoUrl;
   final CvStats cvStats;
   final List<JobRecommendation> jobs;
   final List<Course> courses;
@@ -20,6 +21,7 @@ class HomeData {
   const HomeData({
     required this.userName,
     required this.userInitials,
+    this.userPhotoUrl,
     required this.cvStats,
     required this.jobs,
     required this.courses,
