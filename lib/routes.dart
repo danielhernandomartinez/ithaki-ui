@@ -65,6 +65,12 @@ abstract final class Routes {
   static const settings = '/settings';
   static const settingsNotifications = '/settings/notifications';
 
+  // Fill Profile wizard
+  static const fillProfile = '/fill-profile';
+  static const fillProfileSelect = '/fill-profile/select';
+  static const fillProfileUpload = '/fill-profile/upload';
+  static const fillProfileWizard = '/fill-profile/wizard';
+
   // Career Assistant
   static const careerAssistant = '/career-assistant';
 

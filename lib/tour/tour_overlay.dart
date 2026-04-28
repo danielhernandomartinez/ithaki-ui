@@ -196,7 +196,6 @@ class _TourOverlayState extends ConsumerState<TourOverlay> {
   void _goToStep(int step) {
     switch (step) {
       case 1:
-      case 12:
         IthakiRouter.router.go(Routes.home);
         return;
       case 2:
@@ -223,7 +222,9 @@ class _TourOverlayState extends ConsumerState<TourOverlay> {
       case 11:
         IthakiRouter.router.go(Routes.careerAssistant);
         return;
-      case 13:
+      // Steps 12 (Learning Hub) and 13 (Career Hub) have no dedicated screen yet —
+      // the tour tooltip is shown on whatever screen is currently visible.
+      case 14:
         IthakiRouter.router.go(Routes.assessments);
         return;
     }

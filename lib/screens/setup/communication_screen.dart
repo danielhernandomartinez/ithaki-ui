@@ -81,7 +81,7 @@ class _CommunicationScreenState extends ConsumerState<CommunicationScreen> {
                       onPressed: _selected.isNotEmpty
                           ? () {
                               ref.read(setupProvider.notifier).setCommunication(Set.of(_selected), _receiveTips);
-                              context.go(Routes.home);
+                              context.go(Routes.fillProfile);
                             }
                           : null,
                     ),
