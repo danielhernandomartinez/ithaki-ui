@@ -1917,6 +1917,678 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Job Details'**
   String get jobDetailsTitle;
+
+  /// No description provided for @dashboardGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello, {name}!'**
+  String dashboardGreeting(String name);
+
+  /// No description provided for @dashboardSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can track your job posts, review candidates, and monitor overall hiring activity.'**
+  String get dashboardSubtitle;
+
+  /// No description provided for @dashboardStatPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Stat will be shown here.'**
+  String get dashboardStatPlaceholder;
+
+  /// No description provided for @dashboardActiveJobPosts.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Job Posts'**
+  String get dashboardActiveJobPosts;
+
+  /// No description provided for @dashboardArchivedJobPosts.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get dashboardArchivedJobPosts;
+
+  /// No description provided for @dashboardApplications.
+  ///
+  /// In en, this message translates to:
+  /// **'Applications'**
+  String get dashboardApplications;
+
+  /// No description provided for @dashboardInvitations.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitations'**
+  String get dashboardInvitations;
+
+  /// No description provided for @dashboardHideStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide Stats'**
+  String get dashboardHideStats;
+
+  /// No description provided for @dashboardShowStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Stats'**
+  String get dashboardShowStats;
+
+  /// No description provided for @jobPostsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Posts'**
+  String get jobPostsTitle;
+
+  /// No description provided for @jobPostsEmptyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage all your job posts in one place, where you can easily create new openings, update existing ones, track their performance, and keep your hiring process organized and efficient.'**
+  String get jobPostsEmptyDescription;
+
+  /// No description provided for @createJobPost.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Job Post'**
+  String get createJobPost;
+
+  /// No description provided for @searchByJobTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by job title'**
+  String get searchByJobTitle;
+
+  /// No description provided for @dashboardJobPostsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'You have {count} job posts'**
+  String dashboardJobPostsCount(int count);
+
+  /// No description provided for @dashboardNoJobPosts.
+  ///
+  /// In en, this message translates to:
+  /// **'No job posts yet — create one and find your perfect candidate faster!'**
+  String get dashboardNoJobPosts;
+
+  /// No description provided for @jobStatusPublished.
+  ///
+  /// In en, this message translates to:
+  /// **'Published'**
+  String get jobStatusPublished;
+
+  /// No description provided for @jobStatusBoosted.
+  ///
+  /// In en, this message translates to:
+  /// **'Boosted'**
+  String get jobStatusBoosted;
+
+  /// No description provided for @jobStatusPaused.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get jobStatusPaused;
+
+  /// No description provided for @jobStatusDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get jobStatusDraft;
+
+  /// No description provided for @jobStatusClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get jobStatusClosed;
+
+  /// No description provided for @jobStatusExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get jobStatusExpired;
+
+  /// No description provided for @jobStatusPendingApproval.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Approval'**
+  String get jobStatusPendingApproval;
+
+  /// No description provided for @jobActionDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get jobActionDetails;
+
+  /// No description provided for @jobActionAiMatcher.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Matcher'**
+  String get jobActionAiMatcher;
+
+  /// No description provided for @jobActionBoost.
+  ///
+  /// In en, this message translates to:
+  /// **'Boost'**
+  String get jobActionBoost;
+
+  /// No description provided for @jobActionPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get jobActionPause;
+
+  /// No description provided for @jobActionClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get jobActionClose;
+
+  /// No description provided for @jobActionDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get jobActionDelete;
+
+  /// No description provided for @jobActionPublish.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish'**
+  String get jobActionPublish;
+
+  /// No description provided for @jobActionPublishAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish Again'**
+  String get jobActionPublishAgain;
+
+  /// No description provided for @jobDetailPosted.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted {date}'**
+  String jobDetailPosted(String date);
+
+  /// No description provided for @jobDetailBoostedTill.
+  ///
+  /// In en, this message translates to:
+  /// **'Boosted till {date}'**
+  String jobDetailBoostedTill(String date);
+
+  /// No description provided for @jobDetailOpenFullInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Open full Information'**
+  String get jobDetailOpenFullInfo;
+
+  /// No description provided for @jobDetailHideFullInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide full Information'**
+  String get jobDetailHideFullInfo;
+
+  /// No description provided for @jobDetailLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get jobDetailLocation;
+
+  /// No description provided for @jobDetailJobType.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Type'**
+  String get jobDetailJobType;
+
+  /// No description provided for @jobDetailIndustry.
+  ///
+  /// In en, this message translates to:
+  /// **'Industry'**
+  String get jobDetailIndustry;
+
+  /// No description provided for @jobDetailSalaryRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary Range'**
+  String get jobDetailSalaryRange;
+
+  /// No description provided for @jobDetailWorkplace.
+  ///
+  /// In en, this message translates to:
+  /// **'Workplace'**
+  String get jobDetailWorkplace;
+
+  /// No description provided for @jobDetailExperienceLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Experience Level'**
+  String get jobDetailExperienceLevel;
+
+  /// No description provided for @jobDetailLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get jobDetailLanguage;
+
+  /// No description provided for @jobDetailViews.
+  ///
+  /// In en, this message translates to:
+  /// **'Views'**
+  String get jobDetailViews;
+
+  /// No description provided for @jobDetailCandidates.
+  ///
+  /// In en, this message translates to:
+  /// **'Candidates'**
+  String get jobDetailCandidates;
+
+  /// No description provided for @jobDetailApplications.
+  ///
+  /// In en, this message translates to:
+  /// **'Applications'**
+  String get jobDetailApplications;
+
+  /// No description provided for @jobDetailYouHaveCandidates.
+  ///
+  /// In en, this message translates to:
+  /// **'You have {count} Candidates'**
+  String jobDetailYouHaveCandidates(int count);
+
+  /// No description provided for @jobDetailCloseJob.
+  ///
+  /// In en, this message translates to:
+  /// **'Close Job'**
+  String get jobDetailCloseJob;
+
+  /// No description provided for @jobDetailEditJobPost.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Job Post'**
+  String get jobDetailEditJobPost;
+
+  /// No description provided for @jobDetailPausePublication.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause Publication'**
+  String get jobDetailPausePublication;
+
+  /// No description provided for @jobDetailDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get jobDetailDelete;
+
+  /// No description provided for @candidateStatusNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get candidateStatusNew;
+
+  /// No description provided for @candidateStatusViewed.
+  ///
+  /// In en, this message translates to:
+  /// **'Viewed'**
+  String get candidateStatusViewed;
+
+  /// No description provided for @candidateStatusShortlisted.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortlisted'**
+  String get candidateStatusShortlisted;
+
+  /// No description provided for @candidateStatusDeclined.
+  ///
+  /// In en, this message translates to:
+  /// **'Declined'**
+  String get candidateStatusDeclined;
+
+  /// No description provided for @matchStrengthStrong.
+  ///
+  /// In en, this message translates to:
+  /// **'STRONG MATCH'**
+  String get matchStrengthStrong;
+
+  /// No description provided for @matchStrengthGood.
+  ///
+  /// In en, this message translates to:
+  /// **'GOOD MATCH'**
+  String get matchStrengthGood;
+
+  /// No description provided for @matchStrengthWeak.
+  ///
+  /// In en, this message translates to:
+  /// **'WEAK MATCH'**
+  String get matchStrengthWeak;
+
+  /// No description provided for @aiMatcherTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Matcher'**
+  String get aiMatcherTitle;
+
+  /// No description provided for @aiMatcherSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyze your job post and instantly get the most relevant candidates based on skills, experience, and fit.'**
+  String get aiMatcherSubtitle;
+
+  /// No description provided for @aiMatcherFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get aiMatcherFilters;
+
+  /// No description provided for @aiMatcherCandidatesFound.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Candidates found'**
+  String aiMatcherCandidatesFound(int count);
+
+  /// No description provided for @aiMatcherAllSent.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve sent invites to all best-matching candidates. We recommend using the AI Matcher regularly so you don\'t miss top candidates.'**
+  String get aiMatcherAllSent;
+
+  /// No description provided for @aiMatcherSendInvitation.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Invitation'**
+  String get aiMatcherSendInvitation;
+
+  /// No description provided for @editJobPostTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Job Post'**
+  String get editJobPostTitle;
+
+  /// No description provided for @editJobPostSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You can edit any section if needed — and if everything looks correct, go ahead and publish it.'**
+  String get editJobPostSubtitle;
+
+  /// No description provided for @editJobStepBasics.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Basics'**
+  String get editJobStepBasics;
+
+  /// No description provided for @editJobStepSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'Skills Required'**
+  String get editJobStepSkills;
+
+  /// No description provided for @editJobStepDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Description'**
+  String get editJobStepDescription;
+
+  /// No description provided for @editJobStepPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get editJobStepPreferences;
+
+  /// No description provided for @editJobStepReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get editJobStepReview;
+
+  /// No description provided for @editJobBasicsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Basics'**
+  String get editJobBasicsTitle;
+
+  /// No description provided for @editJobBasicsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Provide the core details of the position to help candidates understand the role at a glance.'**
+  String get editJobBasicsSubtitle;
+
+  /// No description provided for @editJobPostNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Post Name'**
+  String get editJobPostNameLabel;
+
+  /// No description provided for @editJobIndustryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Industry'**
+  String get editJobIndustryLabel;
+
+  /// No description provided for @editJobLocationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get editJobLocationLabel;
+
+  /// No description provided for @editJobExperienceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Experience Level'**
+  String get editJobExperienceLabel;
+
+  /// No description provided for @editJobTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Type'**
+  String get editJobTypeLabel;
+
+  /// No description provided for @editJobWorkplaceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Workplace Type'**
+  String get editJobWorkplaceLabel;
+
+  /// No description provided for @editJobSalaryFromLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary From'**
+  String get editJobSalaryFromLabel;
+
+  /// No description provided for @editJobSalaryToLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary To'**
+  String get editJobSalaryToLabel;
+
+  /// No description provided for @editJobSetSalaryRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Salary Range'**
+  String get editJobSetSalaryRange;
+
+  /// No description provided for @editJobPaymentTermLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Term'**
+  String get editJobPaymentTermLabel;
+
+  /// No description provided for @editJobSetDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Set the deadline for applications'**
+  String get editJobSetDeadline;
+
+  /// No description provided for @editJobContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get editJobContinue;
+
+  /// No description provided for @editJobBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get editJobBack;
+
+  /// No description provided for @editJobPublish.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish Job post'**
+  String get editJobPublish;
+
+  /// No description provided for @editJobSkillsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Skills Required'**
+  String get editJobSkillsTitle;
+
+  /// No description provided for @editJobSkillsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the required skills for this role by typing them one by one and selecting from the dropdown, or enter multiple skills separated by commas.'**
+  String get editJobSkillsSubtitle;
+
+  /// No description provided for @editJobAiSkillsSuggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Skills Suggestions'**
+  String get editJobAiSkillsSuggestions;
+
+  /// No description provided for @editJobSkillInputHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Start typing to add a skill'**
+  String get editJobSkillInputHint;
+
+  /// No description provided for @editJobLanguagesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Languages skills Required'**
+  String get editJobLanguagesTitle;
+
+  /// No description provided for @editJobLanguagesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Specify the languages needed for this role and the expected proficiency level.'**
+  String get editJobLanguagesSubtitle;
+
+  /// No description provided for @editJobAddLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'+ Add Another Language'**
+  String get editJobAddLanguage;
+
+  /// No description provided for @editJobLanguageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get editJobLanguageLabel;
+
+  /// No description provided for @editJobProficiencyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Proficiency Level'**
+  String get editJobProficiencyLabel;
+
+  /// No description provided for @editJobCompetenciesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Competencies'**
+  String get editJobCompetenciesTitle;
+
+  /// No description provided for @editJobCompetenciesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Indicate any additional requirements to clarify expectations and help identify candidates who meet the practical needs of the role.'**
+  String get editJobCompetenciesSubtitle;
+
+  /// No description provided for @editJobDrivingLicence.
+  ///
+  /// In en, this message translates to:
+  /// **'Driving Licence Required'**
+  String get editJobDrivingLicence;
+
+  /// No description provided for @editJobDrivingLicenceCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Driving Licence Category'**
+  String get editJobDrivingLicenceCategory;
+
+  /// No description provided for @editJobDescriptionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Post Creation'**
+  String get editJobDescriptionTitle;
+
+  /// No description provided for @editJobPreferencesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get editJobPreferencesTitle;
+
+  /// No description provided for @editJobCoverLetterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover Letter'**
+  String get editJobCoverLetterTitle;
+
+  /// No description provided for @editJobCoverLetterSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cover letters help you better understand motivation and communication skills. Candidates will be asked to add it when applying.'**
+  String get editJobCoverLetterSubtitle;
+
+  /// No description provided for @editJobRequireCoverLetter.
+  ///
+  /// In en, this message translates to:
+  /// **'Require a cover letter from candidates'**
+  String get editJobRequireCoverLetter;
+
+  /// No description provided for @editJobAdditionalQuestionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional Questions'**
+  String get editJobAdditionalQuestionsTitle;
+
+  /// No description provided for @editJobAdditionalQuestionsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add additional questions to learn more about candidates before the interview. This step is optional. We recommend adding up to 5 questions.'**
+  String get editJobAdditionalQuestionsSubtitle;
+
+  /// No description provided for @editJobAddScreeningQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Screening Questions'**
+  String get editJobAddScreeningQuestions;
+
+  /// No description provided for @editJobReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get editJobReviewTitle;
+
+  /// No description provided for @editJobPublishedDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish Date'**
+  String get editJobPublishedDate;
+
+  /// No description provided for @editJobEditBasics.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Job Basics'**
+  String get editJobEditBasics;
+
+  /// No description provided for @editJobEditSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Skills'**
+  String get editJobEditSkills;
+
+  /// No description provided for @editJobEditDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Job Description'**
+  String get editJobEditDescription;
+
+  /// No description provided for @editJobEditPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Preferences'**
+  String get editJobEditPreferences;
 }
 
 class _AppLocalizationsDelegate

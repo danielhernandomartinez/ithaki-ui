@@ -67,173 +67,173 @@ class AppLocalizationsAr extends AppLocalizations {
       'لا أحب الأدوات المعقدة - أفضل عندما تعمل التكنولوجيا بسلاسة';
 
   @override
-  String get userTypeTitle => 'Select your account type';
+  String get userTypeTitle => 'اختر نوع حسابك';
 
   @override
   String get userTypeDescription =>
-      'Select the option that best describes you to continue with registration.';
+      'اختر الخيار الذي يصفك بشكل أفضل للمتابعة في التسجيل.';
 
   @override
-  String get userTypeJobSeekerLabel => 'I\'m a Job Seeker';
+  String get userTypeJobSeekerLabel => 'أنا باحث عن عمل';
 
   @override
   String get userTypeJobSeekerSubtitle =>
-      'You\'re looking for job opportunities. Create a talent profile to apply for jobs and connect with employers.';
+      'تبحث عن فرص عمل. أنشئ ملف موهبة للتقدم للوظائف والتواصل مع أصحاب العمل.';
 
   @override
-  String get userTypeEmployerLabel => 'We are an Employer or NGO';
+  String get userTypeEmployerLabel => 'نحن صاحب عمل أو منظمة غير حكومية';
 
   @override
   String get userTypeEmployerSubtitle =>
-      'You\'re looking for talent or coordinating candidates. Create an organization account to post jobs and manage applications.';
+      'تبحث عن مواهب أو تنسق مرشحين. أنشئ حساب مؤسسة لنشر الوظائف وإدارة الطلبات.';
 
   @override
-  String get employerTypeTitle => 'Select your account type';
+  String get employerTypeTitle => 'اختر نوع حسابك';
 
   @override
   String get employerTypeDescription =>
-      'Select the option that best describes your organization to continue with registration.';
+      'اختر الخيار الذي يصف مؤسستك بشكل أفضل للمتابعة في التسجيل.';
 
   @override
-  String get employerCompanyLabel => 'We are Employer Company';
+  String get employerCompanyLabel => 'نحن شركة توظيف';
 
   @override
   String get employerCompanySubtitle =>
-      'You\'re looking for skilled professionals to join your team. Create a company account to post jobs, manage applications, and connect with top talent.';
+      'تبحث عن متخصصين مهرة للانضمام إلى فريقك. أنشئ حساب شركة لنشر الوظائف وإدارة الطلبات والتواصل مع أفضل المواهب.';
 
   @override
-  String get employerNgoLabel => 'We are Non-Profit Organization';
+  String get employerNgoLabel => 'نحن منظمة غير ربحية';
 
   @override
   String get employerNgoSubtitle =>
-      'You\'re making social impact through meaningful projects. Create an organization account to coordinate your dedicated candidates and grow your community.';
+      'تحدث أثرًا اجتماعيًا من خلال مشاريع هادفة. أنشئ حساب مؤسسة لتنسيق مرشحيك المتفانين وتنمية مجتمعك.';
 
   @override
-  String get workEmailLabel => 'Work Email';
+  String get workEmailLabel => 'البريد الإلكتروني للعمل';
 
   @override
-  String get employerSetupAdminTab => 'Admin Details';
+  String get employerSetupAdminTab => 'بيانات المسؤول';
 
   @override
-  String get employerSetupCompanyTab => 'Company Details';
+  String get employerSetupCompanyTab => 'بيانات الشركة';
 
   @override
-  String get employerSetupContactsTab => 'Contacts';
+  String get employerSetupContactsTab => 'جهات الاتصال';
 
   @override
-  String get employerSetupBrandingTab => 'Profile & Branding';
+  String get employerSetupBrandingTab => 'الملف والعلامة التجارية';
 
   @override
-  String get employerAdminHeading => 'Account created';
+  String get employerAdminHeading => 'تم إنشاء الحساب';
 
   @override
   String get employerAdminDescription =>
-      'Great! Profile setup is next — let\'s make candidates search easier and faster.';
+      'رائع! الخطوة التالية إعداد الملف الشخصي — لنجعل البحث عن المرشحين أسهل وأسرع.';
 
   @override
-  String get adminRoleLabel => 'Role';
+  String get adminRoleLabel => 'الدور';
 
   @override
-  String get adminRoleHint => 'Select your Role';
+  String get adminRoleHint => 'اختر دورك';
 
   @override
-  String get employerCompanyHeading => 'Company Details';
+  String get employerCompanyHeading => 'بيانات الشركة';
 
   @override
   String get employerCompanyDescription =>
-      'Add core information about your business. Make sure these details match your company\'s legal documents.';
+      'أضف معلومات أساسية عن عملك. تأكد من تطابق هذه التفاصيل مع الوثائق القانونية لشركتك.';
 
   @override
-  String get legalCompanyNameLabel => 'Legal Company Name';
+  String get legalCompanyNameLabel => 'الاسم القانوني للشركة';
 
   @override
-  String get legalCompanyNameHint => 'Enter legal company Name';
+  String get legalCompanyNameHint => 'أدخل الاسم القانوني للشركة';
 
   @override
-  String get businessIndustryLabel => 'Business Industry';
+  String get businessIndustryLabel => 'قطاع الأعمال';
 
   @override
-  String get businessIndustryHint => 'Select your business industry';
+  String get businessIndustryHint => 'اختر قطاع عملك';
 
   @override
-  String get companySizeLabel => 'Company Size';
+  String get companySizeLabel => 'حجم الشركة';
 
   @override
-  String get companySizeHint => 'Select your company size';
+  String get companySizeHint => 'اختر حجم شركتك';
 
   @override
-  String get employerContactsHeading => 'Contact Details';
+  String get employerContactsHeading => 'بيانات التواصل';
 
   @override
   String get employerContactsDescription =>
-      'Share contact details for communication and verification purposes.';
+      'شارك بيانات التواصل لأغراض التحقق والتواصل.';
 
   @override
-  String get registeredAddressLabel => 'Registered Address';
+  String get registeredAddressLabel => 'العنوان المسجل';
 
   @override
-  String get registeredAddressHint => 'Enter registered Address';
+  String get registeredAddressHint => 'أدخل العنوان المسجل';
 
   @override
-  String get cityLabel => 'City';
+  String get cityLabel => 'المدينة';
 
   @override
-  String get cityHint => 'Select city or start typing';
+  String get cityHint => 'اختر المدينة أو ابدأ بالكتابة';
 
   @override
-  String get contactEmailLabel => 'Contact Email';
+  String get contactEmailLabel => 'بريد التواصل';
 
   @override
-  String get contactEmailHint => 'Enter your email';
+  String get contactEmailHint => 'أدخل بريدك الإلكتروني';
 
   @override
-  String get contactEmailHelper => 'Contact email for candidates';
+  String get contactEmailHelper => 'بريد التواصل للمرشحين';
 
   @override
-  String get contactPhoneLabel => 'Contact Phone Number';
+  String get contactPhoneLabel => 'رقم هاتف التواصل';
 
   @override
   String get contactPhoneHint => '+30 XXX XXX XX XX';
 
   @override
-  String get contactPhoneHelper => 'Contact phone for candidates';
+  String get contactPhoneHelper => 'هاتف التواصل للمرشحين';
 
   @override
-  String get companyWebsiteLabel => 'Company Website (optional)';
+  String get companyWebsiteLabel => 'موقع الشركة الإلكتروني (اختياري)';
 
   @override
-  String get companyWebsiteHint => 'Enter company website';
+  String get companyWebsiteHint => 'أدخل موقع الشركة';
 
   @override
-  String get employerBrandingHeading => 'Profile & Branding';
+  String get employerBrandingHeading => 'الملف والعلامة التجارية';
 
   @override
   String get employerBrandingDescription =>
-      'Add your logo and company details to complete your profile. You can update this anytime in Profile Settings.';
+      'أضف شعارك وبيانات الشركة لإكمال ملفك الشخصي. يمكنك تحديث هذا في أي وقت من إعدادات الملف الشخصي.';
 
   @override
   String get skipForNow => 'تخطي الآن';
 
   @override
-  String get uploadPhotoLabel => 'Upload Photo';
+  String get uploadPhotoLabel => 'رفع الصورة';
 
   @override
   String get uploadPhotoDescription =>
-      'Upload a square logo (PNG, JPG, JPEG, or SVG) up to 2 MB, at least 400x400 px, preferably with a transparent background.';
+      'ارفع شعارًا مربعًا (PNG أو JPG أو JPEG أو SVG) بحجم أقصى 2 ميجابايت، لا يقل عن 400×400 بكسل، ويُفضل أن يكون بخلفية شفافة.';
 
   @override
-  String get aboutCompanyLabel => 'About Company';
+  String get aboutCompanyLabel => 'نبذة عن الشركة';
 
   @override
   String get aboutCompanyDescription =>
-      'Describe your company\'s mission, values, and main activities in a few sentences.';
+      'صف مهمة شركتك وقيمها وأنشطتها الرئيسية في بضع جمل.';
 
   @override
-  String get aboutCompanyHint => 'Add company description';
+  String get aboutCompanyHint => 'أضف وصف الشركة';
 
   @override
   String get employerValuesDescription =>
-      'Select up to 5 values that best reflect your company culture. We use them to match you with like-minded talents. You can update this anytime in Profile Settings.';
+      'اختر ما يصل إلى 5 قيم تعكس ثقافة شركتك بشكل أفضل. نستخدمها لمطابقتك مع المواهب المتشابهة في التفكير. يمكنك تحديث هذا في أي وقت من إعدادات الملف الشخصي.';
 
   @override
   String get signInWithGoogle => 'تسجيل الدخول بواسطة Google';
@@ -973,4 +973,365 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get jobDetailsTitle => 'تفاصيل الوظيفة';
+
+  @override
+  String dashboardGreeting(String name) {
+    return 'مرحباً، $name!';
+  }
+
+  @override
+  String get dashboardSubtitle =>
+      'يمكنك هنا تتبع إعلانات وظائفك ومراجعة المرشحين ومتابعة نشاط التوظيف الإجمالي.';
+
+  @override
+  String get dashboardStatPlaceholder => 'ستظهر الإحصائيات هنا.';
+
+  @override
+  String get dashboardActiveJobPosts => 'الوظائف النشطة';
+
+  @override
+  String get dashboardArchivedJobPosts => 'المؤرشفة';
+
+  @override
+  String get dashboardApplications => 'الطلبات';
+
+  @override
+  String get dashboardInvitations => 'الدعوات';
+
+  @override
+  String get dashboardHideStats => 'إخفاء الإحصائيات';
+
+  @override
+  String get dashboardShowStats => 'إظهار الإحصائيات';
+
+  @override
+  String get jobPostsTitle => 'إعلانات الوظائف';
+
+  @override
+  String get jobPostsEmptyDescription =>
+      'أدِر جميع إعلانات وظائفك في مكان واحد، حيث يمكنك بسهولة إنشاء فرص جديدة وتحديث الموجودة وتتبع أدائها.';
+
+  @override
+  String get createJobPost => 'إنشاء إعلان وظيفة';
+
+  @override
+  String get searchByJobTitle => 'البحث بعنوان الوظيفة';
+
+  @override
+  String dashboardJobPostsCount(int count) {
+    return 'لديك $count إعلانات وظائف';
+  }
+
+  @override
+  String get dashboardNoJobPosts =>
+      'لا توجد إعلانات وظائف بعد — أنشئ واحداً وابحث عن مرشحك المثالي!';
+
+  @override
+  String get jobStatusPublished => 'منشور';
+
+  @override
+  String get jobStatusBoosted => 'معزز';
+
+  @override
+  String get jobStatusPaused => 'موقوف';
+
+  @override
+  String get jobStatusDraft => 'مسودة';
+
+  @override
+  String get jobStatusClosed => 'مغلق';
+
+  @override
+  String get jobStatusExpired => 'منتهي الصلاحية';
+
+  @override
+  String get jobStatusPendingApproval => 'في انتظار الموافقة';
+
+  @override
+  String get jobActionDetails => 'التفاصيل';
+
+  @override
+  String get jobActionAiMatcher => 'مطابق الذكاء الاصطناعي';
+
+  @override
+  String get jobActionBoost => 'تعزيز';
+
+  @override
+  String get jobActionPause => 'إيقاف مؤقت';
+
+  @override
+  String get jobActionClose => 'إغلاق';
+
+  @override
+  String get jobActionDelete => 'حذف';
+
+  @override
+  String get jobActionPublish => 'نشر';
+
+  @override
+  String get jobActionPublishAgain => 'إعادة النشر';
+
+  @override
+  String jobDetailPosted(String date) {
+    return 'نُشر في $date';
+  }
+
+  @override
+  String jobDetailBoostedTill(String date) {
+    return 'معزز حتى $date';
+  }
+
+  @override
+  String get jobDetailOpenFullInfo => 'فتح المعلومات الكاملة';
+
+  @override
+  String get jobDetailHideFullInfo => 'إخفاء المعلومات';
+
+  @override
+  String get jobDetailLocation => 'الموقع';
+
+  @override
+  String get jobDetailJobType => 'نوع الوظيفة';
+
+  @override
+  String get jobDetailIndustry => 'القطاع';
+
+  @override
+  String get jobDetailSalaryRange => 'نطاق الراتب';
+
+  @override
+  String get jobDetailWorkplace => 'مكان العمل';
+
+  @override
+  String get jobDetailExperienceLevel => 'مستوى الخبرة';
+
+  @override
+  String get jobDetailLanguage => 'اللغة';
+
+  @override
+  String get jobDetailViews => 'المشاهدات';
+
+  @override
+  String get jobDetailCandidates => 'المرشحون';
+
+  @override
+  String get jobDetailApplications => 'الطلبات';
+
+  @override
+  String jobDetailYouHaveCandidates(int count) {
+    return 'لديك $count مرشحين';
+  }
+
+  @override
+  String get jobDetailCloseJob => 'إغلاق الوظيفة';
+
+  @override
+  String get jobDetailEditJobPost => 'تعديل الإعلان';
+
+  @override
+  String get jobDetailPausePublication => 'إيقاف النشر';
+
+  @override
+  String get jobDetailDelete => 'حذف';
+
+  @override
+  String get candidateStatusNew => 'جديد';
+
+  @override
+  String get candidateStatusViewed => 'تمت المشاهدة';
+
+  @override
+  String get candidateStatusShortlisted => 'مدرج في القائمة';
+
+  @override
+  String get candidateStatusDeclined => 'مرفوض';
+
+  @override
+  String get matchStrengthStrong => 'تطابق قوي';
+
+  @override
+  String get matchStrengthGood => 'تطابق جيد';
+
+  @override
+  String get matchStrengthWeak => 'تطابق ضعيف';
+
+  @override
+  String get aiMatcherTitle => 'AI Matcher';
+
+  @override
+  String get aiMatcherSubtitle =>
+      'Analyze your job post and instantly get the most relevant candidates based on skills, experience, and fit.';
+
+  @override
+  String get aiMatcherFilters => 'Filters';
+
+  @override
+  String aiMatcherCandidatesFound(int count) {
+    return '$count Candidates found';
+  }
+
+  @override
+  String get aiMatcherAllSent =>
+      'You\'ve sent invites to all best-matching candidates. We recommend using the AI Matcher regularly so you don\'t miss top candidates.';
+
+  @override
+  String get aiMatcherSendInvitation => 'Send Invitation';
+
+  @override
+  String get editJobPostTitle => 'Edit Job Post';
+
+  @override
+  String get editJobPostSubtitle =>
+      'You can edit any section if needed — and if everything looks correct, go ahead and publish it.';
+
+  @override
+  String get editJobStepBasics => 'Job Basics';
+
+  @override
+  String get editJobStepSkills => 'Skills Required';
+
+  @override
+  String get editJobStepDescription => 'Job Description';
+
+  @override
+  String get editJobStepPreferences => 'Preferences';
+
+  @override
+  String get editJobStepReview => 'Review';
+
+  @override
+  String get editJobBasicsTitle => 'Job Basics';
+
+  @override
+  String get editJobBasicsSubtitle =>
+      'Provide the core details of the position to help candidates understand the role at a glance.';
+
+  @override
+  String get editJobPostNameLabel => 'Job Post Name';
+
+  @override
+  String get editJobIndustryLabel => 'Industry';
+
+  @override
+  String get editJobLocationLabel => 'Location';
+
+  @override
+  String get editJobExperienceLabel => 'Experience Level';
+
+  @override
+  String get editJobTypeLabel => 'Job Type';
+
+  @override
+  String get editJobWorkplaceLabel => 'Workplace Type';
+
+  @override
+  String get editJobSalaryFromLabel => 'Salary From';
+
+  @override
+  String get editJobSalaryToLabel => 'Salary To';
+
+  @override
+  String get editJobSetSalaryRange => 'Set Salary Range';
+
+  @override
+  String get editJobPaymentTermLabel => 'Payment Term';
+
+  @override
+  String get editJobSetDeadline => 'Set the deadline for applications';
+
+  @override
+  String get editJobContinue => 'Continue';
+
+  @override
+  String get editJobBack => 'Back';
+
+  @override
+  String get editJobPublish => 'Publish Job post';
+
+  @override
+  String get editJobSkillsTitle => 'Skills Required';
+
+  @override
+  String get editJobSkillsSubtitle =>
+      'Add the required skills for this role by typing them one by one and selecting from the dropdown, or enter multiple skills separated by commas.';
+
+  @override
+  String get editJobAiSkillsSuggestions => 'AI Skills Suggestions';
+
+  @override
+  String get editJobSkillInputHint => 'Start typing to add a skill';
+
+  @override
+  String get editJobLanguagesTitle => 'Languages skills Required';
+
+  @override
+  String get editJobLanguagesSubtitle =>
+      'Specify the languages needed for this role and the expected proficiency level.';
+
+  @override
+  String get editJobAddLanguage => '+ Add Another Language';
+
+  @override
+  String get editJobLanguageLabel => 'Language';
+
+  @override
+  String get editJobProficiencyLabel => 'Proficiency Level';
+
+  @override
+  String get editJobCompetenciesTitle => 'Competencies';
+
+  @override
+  String get editJobCompetenciesSubtitle =>
+      'Indicate any additional requirements to clarify expectations and help identify candidates who meet the practical needs of the role.';
+
+  @override
+  String get editJobDrivingLicence => 'Driving Licence Required';
+
+  @override
+  String get editJobDrivingLicenceCategory => 'Driving Licence Category';
+
+  @override
+  String get editJobDescriptionTitle => 'Job Post Creation';
+
+  @override
+  String get editJobPreferencesTitle => 'Preferences';
+
+  @override
+  String get editJobCoverLetterTitle => 'Cover Letter';
+
+  @override
+  String get editJobCoverLetterSubtitle =>
+      'Cover letters help you better understand motivation and communication skills. Candidates will be asked to add it when applying.';
+
+  @override
+  String get editJobRequireCoverLetter =>
+      'Require a cover letter from candidates';
+
+  @override
+  String get editJobAdditionalQuestionsTitle => 'Additional Questions';
+
+  @override
+  String get editJobAdditionalQuestionsSubtitle =>
+      'Add additional questions to learn more about candidates before the interview. This step is optional. We recommend adding up to 5 questions.';
+
+  @override
+  String get editJobAddScreeningQuestions => 'Add Screening Questions';
+
+  @override
+  String get editJobReviewTitle => 'Review';
+
+  @override
+  String get editJobPublishedDate => 'Publish Date';
+
+  @override
+  String get editJobEditBasics => 'Edit Job Basics';
+
+  @override
+  String get editJobEditSkills => 'Edit Skills';
+
+  @override
+  String get editJobEditDescription => 'Edit Job Description';
+
+  @override
+  String get editJobEditPreferences => 'Edit Preferences';
 }

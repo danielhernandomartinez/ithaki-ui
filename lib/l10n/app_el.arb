@@ -24,6 +24,66 @@
   "techNewLabel": "Είμαι ακόμα νέος/α σε αυτό",
   "techNewSubtitle": "Δεν μου αρέσουν τα πολύπλοκα εργαλεία - προτιμώ όταν η τεχνολογία απλά λειτουργεί ομαλά",
 
+  "userTypeTitle": "Επιλέξτε τον τύπο λογαριασμού σας",
+  "userTypeDescription": "Επιλέξτε την επιλογή που σας περιγράφει καλύτερα για να συνεχίσετε με την εγγραφή.",
+  "userTypeJobSeekerLabel": "Είμαι Αναζητών Εργασία",
+  "userTypeJobSeekerSubtitle": "Αναζητάτε ευκαιρίες εργασίας. Δημιουργήστε ένα προφίλ ταλέντου για να κάνετε αίτηση σε θέσεις και να συνδεθείτε με εργοδότες.",
+  "userTypeEmployerLabel": "Είμαστε Εργοδότης ή ΜΚΟ",
+  "userTypeEmployerSubtitle": "Αναζητάτε ταλέντα ή συντονίζετε υποψηφίους. Δημιουργήστε έναν εταιρικό λογαριασμό για να δημοσιεύσετε θέσεις και να διαχειριστείτε αιτήσεις.",
+
+  "employerTypeTitle": "Επιλέξτε τον τύπο λογαριασμού σας",
+  "employerTypeDescription": "Επιλέξτε την επιλογή που περιγράφει καλύτερα τον οργανισμό σας για να συνεχίσετε με την εγγραφή.",
+  "employerCompanyLabel": "Είμαστε Εταιρεία Εργοδότης",
+  "employerCompanySubtitle": "Αναζητάτε έμπειρους επαγγελματίες για την ομάδα σας. Δημιουργήστε εταιρικό λογαριασμό για να δημοσιεύσετε θέσεις, να διαχειριστείτε αιτήσεις και να συνδεθείτε με τα καλύτερα ταλέντα.",
+  "employerNgoLabel": "Είμαστε Μη Κερδοσκοπική Οργάνωση",
+  "employerNgoSubtitle": "Δημιουργείτε κοινωνικό αντίκτυπο μέσω ουσιαστικών έργων. Δημιουργήστε οργανωτικό λογαριασμό για να συντονίσετε τους αφοσιωμένους υποψηφίους σας και να αναπτύξετε την κοινότητά σας.",
+
+  "workEmailLabel": "Email Εργασίας",
+
+  "employerSetupAdminTab": "Στοιχεία Διαχειριστή",
+  "employerSetupCompanyTab": "Στοιχεία Εταιρείας",
+  "employerSetupContactsTab": "Επαφές",
+  "employerSetupBrandingTab": "Προφίλ & Branding",
+
+  "employerAdminHeading": "Ο λογαριασμός δημιουργήθηκε",
+  "employerAdminDescription": "Τέλεια! Η ρύθμιση προφίλ είναι η επόμενη — ας κάνουμε την αναζήτηση υποψηφίων πιο εύκολη και γρήγορη.",
+  "adminRoleLabel": "Ρόλος",
+  "adminRoleHint": "Επιλέξτε τον Ρόλο σας",
+
+  "employerCompanyHeading": "Στοιχεία Εταιρείας",
+  "employerCompanyDescription": "Προσθέστε βασικές πληροφορίες για την επιχείρησή σας. Βεβαιωθείτε ότι αυτές οι λεπτομέρειες αντιστοιχούν στα νομικά έγγραφα της εταιρείας σας.",
+  "legalCompanyNameLabel": "Νόμιμη Επωνυμία Εταιρείας",
+  "legalCompanyNameHint": "Εισάγετε τη νόμιμη επωνυμία εταιρείας",
+  "businessIndustryLabel": "Κλάδος Επιχείρησης",
+  "businessIndustryHint": "Επιλέξτε τον κλάδο επιχείρησής σας",
+  "companySizeLabel": "Μέγεθος Εταιρείας",
+  "companySizeHint": "Επιλέξτε το μέγεθος της εταιρείας σας",
+
+  "employerContactsHeading": "Στοιχεία Επικοινωνίας",
+  "employerContactsDescription": "Μοιραστείτε στοιχεία επικοινωνίας για σκοπούς επαλήθευσης και επικοινωνίας.",
+  "registeredAddressLabel": "Καταχωρισμένη Διεύθυνση",
+  "registeredAddressHint": "Εισάγετε καταχωρισμένη διεύθυνση",
+  "cityLabel": "Πόλη",
+  "cityHint": "Επιλέξτε πόλη ή αρχίστε να πληκτρολογείτε",
+  "contactEmailLabel": "Email Επικοινωνίας",
+  "contactEmailHint": "Εισάγετε το email σας",
+  "contactEmailHelper": "Email επικοινωνίας για υποψηφίους",
+  "contactPhoneLabel": "Αριθμός Τηλεφώνου Επικοινωνίας",
+  "contactPhoneHint": "+30 XXX XXX XX XX",
+  "contactPhoneHelper": "Τηλέφωνο επικοινωνίας για υποψηφίους",
+  "companyWebsiteLabel": "Ιστοσελίδα Εταιρείας (προαιρετικό)",
+  "companyWebsiteHint": "Εισάγετε ιστοσελίδα εταιρείας",
+
+  "employerBrandingHeading": "Προφίλ & Branding",
+  "employerBrandingDescription": "Προσθέστε το λογότυπο και τα στοιχεία εταιρείας για να ολοκληρώσετε το προφίλ σας. Μπορείτε να το ενημερώσετε ανά πάσα στιγμή στις Ρυθμίσεις Προφίλ.",
+  "uploadPhotoLabel": "Μεταφόρτωση Φωτογραφίας",
+  "uploadPhotoDescription": "Μεταφορτώστε τετράγωνο λογότυπο (PNG, JPG, JPEG ή SVG) έως 2 MB, τουλάχιστον 400x400 px, κατά προτίμηση με διαφανές φόντο.",
+  "aboutCompanyLabel": "Σχετικά με την Εταιρεία",
+  "aboutCompanyDescription": "Περιγράψτε την αποστολή, τις αξίες και τις κύριες δραστηριότητες της εταιρείας σας σε λίγες προτάσεις.",
+  "aboutCompanyHint": "Προσθέστε περιγραφή εταιρείας",
+
+  "employerValuesDescription": "Επιλέξτε έως 5 αξίες που αντικατοπτρίζουν καλύτερα την κουλτούρα της εταιρείας σας. Τις χρησιμοποιούμε για να σας ταιριάξουμε με ομοϊδεάτες. Μπορείτε να τις ενημερώσετε ανά πάσα στιγμή στις Ρυθμίσεις Προφίλ.",
+
   "signInWithGoogle": "Σύνδεση με Google",
   "emailLabel": "Email",
   "emailHint": "Εισάγετε το email σας",
@@ -294,5 +354,87 @@
   "jobDetailNotFoundMessage": "Δεν βρέθηκαν λεπτομέρειες για αυτή την αίτηση ακόμα.",
   "backToApplications": "Επιστροφή στις Αιτήσεις",
   "acceptInviteAndApply": "Αποδοχή Πρόσκλησης & Υποβολή",
-  "jobDetailsTitle": "Λεπτομέρειες Θέσης"
+  "jobDetailsTitle": "Λεπτομέρειες Θέσης",
+
+  "dashboardGreeting": "Γεια σου, {name}!",
+  "@dashboardGreeting": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "dashboardSubtitle": "Εδώ μπορείς να παρακολουθείς τις αγγελίες σου, να αξιολογείς υποψηφίους και να παρακολουθείς τη συνολική δραστηριότητα πρόσληψης.",
+  "dashboardStatPlaceholder": "Τα στατιστικά θα εμφανιστούν εδώ.",
+  "dashboardActiveJobPosts": "Ενεργές Αγγελίες",
+  "dashboardArchivedJobPosts": "Αρχείο",
+  "dashboardApplications": "Αιτήσεις",
+  "dashboardInvitations": "Προσκλήσεις",
+  "dashboardHideStats": "Απόκρυψη Στατιστικών",
+  "dashboardShowStats": "Εμφάνιση Στατιστικών",
+
+  "jobPostsTitle": "Αγγελίες Εργασίας",
+  "jobPostsEmptyDescription": "Διαχειρίσου όλες τις αγγελίες σου σε ένα μέρος, όπου μπορείς εύκολα να δημιουργείς νέες θέσεις, να ενημερώνεις υπάρχουσες και να παρακολουθείς την απόδοσή τους.",
+  "createJobPost": "Δημιουργία Αγγελίας",
+  "searchByJobTitle": "Αναζήτηση με τίτλο εργασίας",
+  "dashboardJobPostsCount": "Έχεις {count} αγγελίες",
+  "@dashboardJobPostsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "dashboardNoJobPosts": "Δεν υπάρχουν αγγελίες ακόμα — δημιούργησε μία και βρες τον ιδανικό υποψήφιο!",
+
+  "jobStatusPublished": "Δημοσιευμένη",
+  "jobStatusBoosted": "Ενισχυμένη",
+  "jobStatusPaused": "Σε Παύση",
+  "jobStatusDraft": "Πρόχειρο",
+  "jobStatusClosed": "Κλειστή",
+  "jobStatusExpired": "Ληγμένη",
+  "jobStatusPendingApproval": "Αναμονή Έγκρισης",
+
+  "jobActionDetails": "Λεπτομέρειες",
+  "jobActionAiMatcher": "AI Matcher",
+  "jobActionBoost": "Ενίσχυση",
+  "jobActionPause": "Παύση",
+  "jobActionClose": "Κλείσιμο",
+  "jobActionDelete": "Διαγραφή",
+  "jobActionPublish": "Δημοσίευση",
+  "jobActionPublishAgain": "Επαναδημοσίευση",
+
+  "jobDetailPosted": "Δημοσιεύτηκε {date}",
+  "@jobDetailPosted": {
+    "placeholders": { "date": { "type": "String" } }
+  },
+  "jobDetailBoostedTill": "Ενισχυμένη έως {date}",
+  "@jobDetailBoostedTill": {
+    "placeholders": { "date": { "type": "String" } }
+  },
+  "jobDetailOpenFullInfo": "Πλήρεις Πληροφορίες",
+  "jobDetailHideFullInfo": "Απόκρυψη Πληροφοριών",
+  "jobDetailLocation": "Τοποθεσία",
+  "jobDetailJobType": "Τύπος Εργασίας",
+  "jobDetailIndustry": "Κλάδος",
+  "jobDetailSalaryRange": "Εύρος Μισθού",
+  "jobDetailWorkplace": "Χώρος Εργασίας",
+  "jobDetailExperienceLevel": "Επίπεδο Εμπειρίας",
+  "jobDetailLanguage": "Γλώσσα",
+  "jobDetailViews": "Προβολές",
+  "jobDetailCandidates": "Υποψήφιοι",
+  "jobDetailApplications": "Αιτήσεις",
+  "jobDetailYouHaveCandidates": "Έχεις {count} Υποψηφίους",
+  "@jobDetailYouHaveCandidates": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "jobDetailCloseJob": "Κλείσιμο Θέσης",
+  "jobDetailEditJobPost": "Επεξεργασία",
+  "jobDetailPausePublication": "Παύση Δημοσίευσης",
+  "jobDetailDelete": "Διαγραφή",
+
+  "candidateStatusNew": "Νέος",
+  "candidateStatusViewed": "Προβλήθηκε",
+  "candidateStatusShortlisted": "Επιλεγμένος",
+  "candidateStatusDeclined": "Απορρίφθηκε",
+
+  "matchStrengthStrong": "ΙΣΧΥΡΗ ΑΝΤΙΣΤΟΙΧΙΑ",
+  "matchStrengthGood": "ΚΑΛΗ ΑΝΤΙΣΤΟΙΧΙΑ",
+  "matchStrengthWeak": "ΑΣΘΕΝΗΣ ΑΝΤΙΣΤΟΙΧΙΑ"
 }

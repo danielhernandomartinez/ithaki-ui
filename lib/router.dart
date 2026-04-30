@@ -7,6 +7,9 @@ import 'screens/auth/select_language_screen.dart';
 import 'screens/auth/user_type_selection_screen.dart';
 import 'screens/auth/employer_type_selection_screen.dart';
 import 'screens/employer/employer_setup_screen.dart';
+import 'models/employer_dashboard_models.dart';
+import 'screens/employer/dashboard/employer_dashboard_screen.dart';
+import 'screens/employer/dashboard/employer_job_detail_screen.dart';
 import 'routes.dart';
 import 'screens/auth/tech_comfort_screen.dart';
 import 'screens/auth/register_screen.dart';
@@ -191,6 +194,17 @@ class IthakiRouter {
       GoRoute(
         path: Routes.employerSetup,
         builder: (context, state) => const EmployerSetupScreen(),
+      ),
+      GoRoute(
+        path: Routes.employerDashboard,
+        builder: (context, state) => const EmployerDashboardScreen(),
+      ),
+      GoRoute(
+        path: Routes.employerJobDetail,
+        builder: (context, state) {
+          final extra = state.extra as JobPost;
+          return EmployerJobDetailScreen(jobPost: extra);
+        },
       ),
       GoRoute(
         path: Routes.employerSetupValues,

@@ -68,173 +68,173 @@ class AppLocalizationsEl extends AppLocalizations {
       'Δεν μου αρέσουν τα πολύπλοκα εργαλεία - προτιμώ όταν η τεχνολογία απλά λειτουργεί ομαλά';
 
   @override
-  String get userTypeTitle => 'Select your account type';
+  String get userTypeTitle => 'Επιλέξτε τον τύπο λογαριασμού σας';
 
   @override
   String get userTypeDescription =>
-      'Select the option that best describes you to continue with registration.';
+      'Επιλέξτε την επιλογή που σας περιγράφει καλύτερα για να συνεχίσετε με την εγγραφή.';
 
   @override
-  String get userTypeJobSeekerLabel => 'I\'m a Job Seeker';
+  String get userTypeJobSeekerLabel => 'Είμαι Αναζητών Εργασία';
 
   @override
   String get userTypeJobSeekerSubtitle =>
-      'You\'re looking for job opportunities. Create a talent profile to apply for jobs and connect with employers.';
+      'Αναζητάτε ευκαιρίες εργασίας. Δημιουργήστε ένα προφίλ ταλέντου για να κάνετε αίτηση σε θέσεις και να συνδεθείτε με εργοδότες.';
 
   @override
-  String get userTypeEmployerLabel => 'We are an Employer or NGO';
+  String get userTypeEmployerLabel => 'Είμαστε Εργοδότης ή ΜΚΟ';
 
   @override
   String get userTypeEmployerSubtitle =>
-      'You\'re looking for talent or coordinating candidates. Create an organization account to post jobs and manage applications.';
+      'Αναζητάτε ταλέντα ή συντονίζετε υποψηφίους. Δημιουργήστε έναν εταιρικό λογαριασμό για να δημοσιεύσετε θέσεις και να διαχειριστείτε αιτήσεις.';
 
   @override
-  String get employerTypeTitle => 'Select your account type';
+  String get employerTypeTitle => 'Επιλέξτε τον τύπο λογαριασμού σας';
 
   @override
   String get employerTypeDescription =>
-      'Select the option that best describes your organization to continue with registration.';
+      'Επιλέξτε την επιλογή που περιγράφει καλύτερα τον οργανισμό σας για να συνεχίσετε με την εγγραφή.';
 
   @override
-  String get employerCompanyLabel => 'We are Employer Company';
+  String get employerCompanyLabel => 'Είμαστε Εταιρεία Εργοδότης';
 
   @override
   String get employerCompanySubtitle =>
-      'You\'re looking for skilled professionals to join your team. Create a company account to post jobs, manage applications, and connect with top talent.';
+      'Αναζητάτε έμπειρους επαγγελματίες για την ομάδα σας. Δημιουργήστε εταιρικό λογαριασμό για να δημοσιεύσετε θέσεις, να διαχειριστείτε αιτήσεις και να συνδεθείτε με τα καλύτερα ταλέντα.';
 
   @override
-  String get employerNgoLabel => 'We are Non-Profit Organization';
+  String get employerNgoLabel => 'Είμαστε Μη Κερδοσκοπική Οργάνωση';
 
   @override
   String get employerNgoSubtitle =>
-      'You\'re making social impact through meaningful projects. Create an organization account to coordinate your dedicated candidates and grow your community.';
+      'Δημιουργείτε κοινωνικό αντίκτυπο μέσω ουσιαστικών έργων. Δημιουργήστε οργανωτικό λογαριασμό για να συντονίσετε τους αφοσιωμένους υποψηφίους σας και να αναπτύξετε την κοινότητά σας.';
 
   @override
-  String get workEmailLabel => 'Work Email';
+  String get workEmailLabel => 'Email Εργασίας';
 
   @override
-  String get employerSetupAdminTab => 'Admin Details';
+  String get employerSetupAdminTab => 'Στοιχεία Διαχειριστή';
 
   @override
-  String get employerSetupCompanyTab => 'Company Details';
+  String get employerSetupCompanyTab => 'Στοιχεία Εταιρείας';
 
   @override
-  String get employerSetupContactsTab => 'Contacts';
+  String get employerSetupContactsTab => 'Επαφές';
 
   @override
-  String get employerSetupBrandingTab => 'Profile & Branding';
+  String get employerSetupBrandingTab => 'Προφίλ & Branding';
 
   @override
-  String get employerAdminHeading => 'Account created';
+  String get employerAdminHeading => 'Ο λογαριασμός δημιουργήθηκε';
 
   @override
   String get employerAdminDescription =>
-      'Great! Profile setup is next — let\'s make candidates search easier and faster.';
+      'Τέλεια! Η ρύθμιση προφίλ είναι η επόμενη — ας κάνουμε την αναζήτηση υποψηφίων πιο εύκολη και γρήγορη.';
 
   @override
-  String get adminRoleLabel => 'Role';
+  String get adminRoleLabel => 'Ρόλος';
 
   @override
-  String get adminRoleHint => 'Select your Role';
+  String get adminRoleHint => 'Επιλέξτε τον Ρόλο σας';
 
   @override
-  String get employerCompanyHeading => 'Company Details';
+  String get employerCompanyHeading => 'Στοιχεία Εταιρείας';
 
   @override
   String get employerCompanyDescription =>
-      'Add core information about your business. Make sure these details match your company\'s legal documents.';
+      'Προσθέστε βασικές πληροφορίες για την επιχείρησή σας. Βεβαιωθείτε ότι αυτές οι λεπτομέρειες αντιστοιχούν στα νομικά έγγραφα της εταιρείας σας.';
 
   @override
-  String get legalCompanyNameLabel => 'Legal Company Name';
+  String get legalCompanyNameLabel => 'Νόμιμη Επωνυμία Εταιρείας';
 
   @override
-  String get legalCompanyNameHint => 'Enter legal company Name';
+  String get legalCompanyNameHint => 'Εισάγετε τη νόμιμη επωνυμία εταιρείας';
 
   @override
-  String get businessIndustryLabel => 'Business Industry';
+  String get businessIndustryLabel => 'Κλάδος Επιχείρησης';
 
   @override
-  String get businessIndustryHint => 'Select your business industry';
+  String get businessIndustryHint => 'Επιλέξτε τον κλάδο επιχείρησής σας';
 
   @override
-  String get companySizeLabel => 'Company Size';
+  String get companySizeLabel => 'Μέγεθος Εταιρείας';
 
   @override
-  String get companySizeHint => 'Select your company size';
+  String get companySizeHint => 'Επιλέξτε το μέγεθος της εταιρείας σας';
 
   @override
-  String get employerContactsHeading => 'Contact Details';
+  String get employerContactsHeading => 'Στοιχεία Επικοινωνίας';
 
   @override
   String get employerContactsDescription =>
-      'Share contact details for communication and verification purposes.';
+      'Μοιραστείτε στοιχεία επικοινωνίας για σκοπούς επαλήθευσης και επικοινωνίας.';
 
   @override
-  String get registeredAddressLabel => 'Registered Address';
+  String get registeredAddressLabel => 'Καταχωρισμένη Διεύθυνση';
 
   @override
-  String get registeredAddressHint => 'Enter registered Address';
+  String get registeredAddressHint => 'Εισάγετε καταχωρισμένη διεύθυνση';
 
   @override
-  String get cityLabel => 'City';
+  String get cityLabel => 'Πόλη';
 
   @override
-  String get cityHint => 'Select city or start typing';
+  String get cityHint => 'Επιλέξτε πόλη ή αρχίστε να πληκτρολογείτε';
 
   @override
-  String get contactEmailLabel => 'Contact Email';
+  String get contactEmailLabel => 'Email Επικοινωνίας';
 
   @override
-  String get contactEmailHint => 'Enter your email';
+  String get contactEmailHint => 'Εισάγετε το email σας';
 
   @override
-  String get contactEmailHelper => 'Contact email for candidates';
+  String get contactEmailHelper => 'Email επικοινωνίας για υποψηφίους';
 
   @override
-  String get contactPhoneLabel => 'Contact Phone Number';
+  String get contactPhoneLabel => 'Αριθμός Τηλεφώνου Επικοινωνίας';
 
   @override
   String get contactPhoneHint => '+30 XXX XXX XX XX';
 
   @override
-  String get contactPhoneHelper => 'Contact phone for candidates';
+  String get contactPhoneHelper => 'Τηλέφωνο επικοινωνίας για υποψηφίους';
 
   @override
-  String get companyWebsiteLabel => 'Company Website (optional)';
+  String get companyWebsiteLabel => 'Ιστοσελίδα Εταιρείας (προαιρετικό)';
 
   @override
-  String get companyWebsiteHint => 'Enter company website';
+  String get companyWebsiteHint => 'Εισάγετε ιστοσελίδα εταιρείας';
 
   @override
-  String get employerBrandingHeading => 'Profile & Branding';
+  String get employerBrandingHeading => 'Προφίλ & Branding';
 
   @override
   String get employerBrandingDescription =>
-      'Add your logo and company details to complete your profile. You can update this anytime in Profile Settings.';
+      'Προσθέστε το λογότυπο και τα στοιχεία εταιρείας για να ολοκληρώσετε το προφίλ σας. Μπορείτε να το ενημερώσετε ανά πάσα στιγμή στις Ρυθμίσεις Προφίλ.';
 
   @override
   String get skipForNow => 'Παράλειψη Προς Τώρα';
 
   @override
-  String get uploadPhotoLabel => 'Upload Photo';
+  String get uploadPhotoLabel => 'Μεταφόρτωση Φωτογραφίας';
 
   @override
   String get uploadPhotoDescription =>
-      'Upload a square logo (PNG, JPG, JPEG, or SVG) up to 2 MB, at least 400x400 px, preferably with a transparent background.';
+      'Μεταφορτώστε τετράγωνο λογότυπο (PNG, JPG, JPEG ή SVG) έως 2 MB, τουλάχιστον 400x400 px, κατά προτίμηση με διαφανές φόντο.';
 
   @override
-  String get aboutCompanyLabel => 'About Company';
+  String get aboutCompanyLabel => 'Σχετικά με την Εταιρεία';
 
   @override
   String get aboutCompanyDescription =>
-      'Describe your company\'s mission, values, and main activities in a few sentences.';
+      'Περιγράψτε την αποστολή, τις αξίες και τις κύριες δραστηριότητες της εταιρείας σας σε λίγες προτάσεις.';
 
   @override
-  String get aboutCompanyHint => 'Add company description';
+  String get aboutCompanyHint => 'Προσθέστε περιγραφή εταιρείας';
 
   @override
   String get employerValuesDescription =>
-      'Select up to 5 values that best reflect your company culture. We use them to match you with like-minded talents. You can update this anytime in Profile Settings.';
+      'Επιλέξτε έως 5 αξίες που αντικατοπτρίζουν καλύτερα την κουλτούρα της εταιρείας σας. Τις χρησιμοποιούμε για να σας ταιριάξουμε με ομοϊδεάτες. Μπορείτε να τις ενημερώσετε ανά πάσα στιγμή στις Ρυθμίσεις Προφίλ.';
 
   @override
   String get signInWithGoogle => 'Σύνδεση με Google';
@@ -983,4 +983,365 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get jobDetailsTitle => 'Λεπτομέρειες Θέσης';
+
+  @override
+  String dashboardGreeting(String name) {
+    return 'Γεια σου, $name!';
+  }
+
+  @override
+  String get dashboardSubtitle =>
+      'Εδώ μπορείς να παρακολουθείς τις αγγελίες σου, να αξιολογείς υποψηφίους και να παρακολουθείς τη συνολική δραστηριότητα πρόσληψης.';
+
+  @override
+  String get dashboardStatPlaceholder => 'Τα στατιστικά θα εμφανιστούν εδώ.';
+
+  @override
+  String get dashboardActiveJobPosts => 'Ενεργές Αγγελίες';
+
+  @override
+  String get dashboardArchivedJobPosts => 'Αρχείο';
+
+  @override
+  String get dashboardApplications => 'Αιτήσεις';
+
+  @override
+  String get dashboardInvitations => 'Προσκλήσεις';
+
+  @override
+  String get dashboardHideStats => 'Απόκρυψη Στατιστικών';
+
+  @override
+  String get dashboardShowStats => 'Εμφάνιση Στατιστικών';
+
+  @override
+  String get jobPostsTitle => 'Αγγελίες Εργασίας';
+
+  @override
+  String get jobPostsEmptyDescription =>
+      'Διαχειρίσου όλες τις αγγελίες σου σε ένα μέρος, όπου μπορείς εύκολα να δημιουργείς νέες θέσεις, να ενημερώνεις υπάρχουσες και να παρακολουθείς την απόδοσή τους.';
+
+  @override
+  String get createJobPost => 'Δημιουργία Αγγελίας';
+
+  @override
+  String get searchByJobTitle => 'Αναζήτηση με τίτλο εργασίας';
+
+  @override
+  String dashboardJobPostsCount(int count) {
+    return 'Έχεις $count αγγελίες';
+  }
+
+  @override
+  String get dashboardNoJobPosts =>
+      'Δεν υπάρχουν αγγελίες ακόμα — δημιούργησε μία και βρες τον ιδανικό υποψήφιο!';
+
+  @override
+  String get jobStatusPublished => 'Δημοσιευμένη';
+
+  @override
+  String get jobStatusBoosted => 'Ενισχυμένη';
+
+  @override
+  String get jobStatusPaused => 'Σε Παύση';
+
+  @override
+  String get jobStatusDraft => 'Πρόχειρο';
+
+  @override
+  String get jobStatusClosed => 'Κλειστή';
+
+  @override
+  String get jobStatusExpired => 'Ληγμένη';
+
+  @override
+  String get jobStatusPendingApproval => 'Αναμονή Έγκρισης';
+
+  @override
+  String get jobActionDetails => 'Λεπτομέρειες';
+
+  @override
+  String get jobActionAiMatcher => 'AI Matcher';
+
+  @override
+  String get jobActionBoost => 'Ενίσχυση';
+
+  @override
+  String get jobActionPause => 'Παύση';
+
+  @override
+  String get jobActionClose => 'Κλείσιμο';
+
+  @override
+  String get jobActionDelete => 'Διαγραφή';
+
+  @override
+  String get jobActionPublish => 'Δημοσίευση';
+
+  @override
+  String get jobActionPublishAgain => 'Επαναδημοσίευση';
+
+  @override
+  String jobDetailPosted(String date) {
+    return 'Δημοσιεύτηκε $date';
+  }
+
+  @override
+  String jobDetailBoostedTill(String date) {
+    return 'Ενισχυμένη έως $date';
+  }
+
+  @override
+  String get jobDetailOpenFullInfo => 'Πλήρεις Πληροφορίες';
+
+  @override
+  String get jobDetailHideFullInfo => 'Απόκρυψη Πληροφοριών';
+
+  @override
+  String get jobDetailLocation => 'Τοποθεσία';
+
+  @override
+  String get jobDetailJobType => 'Τύπος Εργασίας';
+
+  @override
+  String get jobDetailIndustry => 'Κλάδος';
+
+  @override
+  String get jobDetailSalaryRange => 'Εύρος Μισθού';
+
+  @override
+  String get jobDetailWorkplace => 'Χώρος Εργασίας';
+
+  @override
+  String get jobDetailExperienceLevel => 'Επίπεδο Εμπειρίας';
+
+  @override
+  String get jobDetailLanguage => 'Γλώσσα';
+
+  @override
+  String get jobDetailViews => 'Προβολές';
+
+  @override
+  String get jobDetailCandidates => 'Υποψήφιοι';
+
+  @override
+  String get jobDetailApplications => 'Αιτήσεις';
+
+  @override
+  String jobDetailYouHaveCandidates(int count) {
+    return 'Έχεις $count Υποψηφίους';
+  }
+
+  @override
+  String get jobDetailCloseJob => 'Κλείσιμο Θέσης';
+
+  @override
+  String get jobDetailEditJobPost => 'Επεξεργασία';
+
+  @override
+  String get jobDetailPausePublication => 'Παύση Δημοσίευσης';
+
+  @override
+  String get jobDetailDelete => 'Διαγραφή';
+
+  @override
+  String get candidateStatusNew => 'Νέος';
+
+  @override
+  String get candidateStatusViewed => 'Προβλήθηκε';
+
+  @override
+  String get candidateStatusShortlisted => 'Επιλεγμένος';
+
+  @override
+  String get candidateStatusDeclined => 'Απορρίφθηκε';
+
+  @override
+  String get matchStrengthStrong => 'ΙΣΧΥΡΗ ΑΝΤΙΣΤΟΙΧΙΑ';
+
+  @override
+  String get matchStrengthGood => 'ΚΑΛΗ ΑΝΤΙΣΤΟΙΧΙΑ';
+
+  @override
+  String get matchStrengthWeak => 'ΑΣΘΕΝΗΣ ΑΝΤΙΣΤΟΙΧΙΑ';
+
+  @override
+  String get aiMatcherTitle => 'AI Matcher';
+
+  @override
+  String get aiMatcherSubtitle =>
+      'Analyze your job post and instantly get the most relevant candidates based on skills, experience, and fit.';
+
+  @override
+  String get aiMatcherFilters => 'Filters';
+
+  @override
+  String aiMatcherCandidatesFound(int count) {
+    return '$count Candidates found';
+  }
+
+  @override
+  String get aiMatcherAllSent =>
+      'You\'ve sent invites to all best-matching candidates. We recommend using the AI Matcher regularly so you don\'t miss top candidates.';
+
+  @override
+  String get aiMatcherSendInvitation => 'Send Invitation';
+
+  @override
+  String get editJobPostTitle => 'Edit Job Post';
+
+  @override
+  String get editJobPostSubtitle =>
+      'You can edit any section if needed — and if everything looks correct, go ahead and publish it.';
+
+  @override
+  String get editJobStepBasics => 'Job Basics';
+
+  @override
+  String get editJobStepSkills => 'Skills Required';
+
+  @override
+  String get editJobStepDescription => 'Job Description';
+
+  @override
+  String get editJobStepPreferences => 'Preferences';
+
+  @override
+  String get editJobStepReview => 'Review';
+
+  @override
+  String get editJobBasicsTitle => 'Job Basics';
+
+  @override
+  String get editJobBasicsSubtitle =>
+      'Provide the core details of the position to help candidates understand the role at a glance.';
+
+  @override
+  String get editJobPostNameLabel => 'Job Post Name';
+
+  @override
+  String get editJobIndustryLabel => 'Industry';
+
+  @override
+  String get editJobLocationLabel => 'Location';
+
+  @override
+  String get editJobExperienceLabel => 'Experience Level';
+
+  @override
+  String get editJobTypeLabel => 'Job Type';
+
+  @override
+  String get editJobWorkplaceLabel => 'Workplace Type';
+
+  @override
+  String get editJobSalaryFromLabel => 'Salary From';
+
+  @override
+  String get editJobSalaryToLabel => 'Salary To';
+
+  @override
+  String get editJobSetSalaryRange => 'Set Salary Range';
+
+  @override
+  String get editJobPaymentTermLabel => 'Payment Term';
+
+  @override
+  String get editJobSetDeadline => 'Set the deadline for applications';
+
+  @override
+  String get editJobContinue => 'Continue';
+
+  @override
+  String get editJobBack => 'Back';
+
+  @override
+  String get editJobPublish => 'Publish Job post';
+
+  @override
+  String get editJobSkillsTitle => 'Skills Required';
+
+  @override
+  String get editJobSkillsSubtitle =>
+      'Add the required skills for this role by typing them one by one and selecting from the dropdown, or enter multiple skills separated by commas.';
+
+  @override
+  String get editJobAiSkillsSuggestions => 'AI Skills Suggestions';
+
+  @override
+  String get editJobSkillInputHint => 'Start typing to add a skill';
+
+  @override
+  String get editJobLanguagesTitle => 'Languages skills Required';
+
+  @override
+  String get editJobLanguagesSubtitle =>
+      'Specify the languages needed for this role and the expected proficiency level.';
+
+  @override
+  String get editJobAddLanguage => '+ Add Another Language';
+
+  @override
+  String get editJobLanguageLabel => 'Language';
+
+  @override
+  String get editJobProficiencyLabel => 'Proficiency Level';
+
+  @override
+  String get editJobCompetenciesTitle => 'Competencies';
+
+  @override
+  String get editJobCompetenciesSubtitle =>
+      'Indicate any additional requirements to clarify expectations and help identify candidates who meet the practical needs of the role.';
+
+  @override
+  String get editJobDrivingLicence => 'Driving Licence Required';
+
+  @override
+  String get editJobDrivingLicenceCategory => 'Driving Licence Category';
+
+  @override
+  String get editJobDescriptionTitle => 'Job Post Creation';
+
+  @override
+  String get editJobPreferencesTitle => 'Preferences';
+
+  @override
+  String get editJobCoverLetterTitle => 'Cover Letter';
+
+  @override
+  String get editJobCoverLetterSubtitle =>
+      'Cover letters help you better understand motivation and communication skills. Candidates will be asked to add it when applying.';
+
+  @override
+  String get editJobRequireCoverLetter =>
+      'Require a cover letter from candidates';
+
+  @override
+  String get editJobAdditionalQuestionsTitle => 'Additional Questions';
+
+  @override
+  String get editJobAdditionalQuestionsSubtitle =>
+      'Add additional questions to learn more about candidates before the interview. This step is optional. We recommend adding up to 5 questions.';
+
+  @override
+  String get editJobAddScreeningQuestions => 'Add Screening Questions';
+
+  @override
+  String get editJobReviewTitle => 'Review';
+
+  @override
+  String get editJobPublishedDate => 'Publish Date';
+
+  @override
+  String get editJobEditBasics => 'Edit Job Basics';
+
+  @override
+  String get editJobEditSkills => 'Edit Skills';
+
+  @override
+  String get editJobEditDescription => 'Edit Job Description';
+
+  @override
+  String get editJobEditPreferences => 'Edit Preferences';
 }

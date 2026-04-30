@@ -24,6 +24,66 @@
   "techNewLabel": "ما زلت جديدًا على هذا",
   "techNewSubtitle": "لا أحب الأدوات المعقدة - أفضل عندما تعمل التكنولوجيا بسلاسة",
 
+  "userTypeTitle": "اختر نوع حسابك",
+  "userTypeDescription": "اختر الخيار الذي يصفك بشكل أفضل للمتابعة في التسجيل.",
+  "userTypeJobSeekerLabel": "أنا باحث عن عمل",
+  "userTypeJobSeekerSubtitle": "تبحث عن فرص عمل. أنشئ ملف موهبة للتقدم للوظائف والتواصل مع أصحاب العمل.",
+  "userTypeEmployerLabel": "نحن صاحب عمل أو منظمة غير حكومية",
+  "userTypeEmployerSubtitle": "تبحث عن مواهب أو تنسق مرشحين. أنشئ حساب مؤسسة لنشر الوظائف وإدارة الطلبات.",
+
+  "employerTypeTitle": "اختر نوع حسابك",
+  "employerTypeDescription": "اختر الخيار الذي يصف مؤسستك بشكل أفضل للمتابعة في التسجيل.",
+  "employerCompanyLabel": "نحن شركة توظيف",
+  "employerCompanySubtitle": "تبحث عن متخصصين مهرة للانضمام إلى فريقك. أنشئ حساب شركة لنشر الوظائف وإدارة الطلبات والتواصل مع أفضل المواهب.",
+  "employerNgoLabel": "نحن منظمة غير ربحية",
+  "employerNgoSubtitle": "تحدث أثرًا اجتماعيًا من خلال مشاريع هادفة. أنشئ حساب مؤسسة لتنسيق مرشحيك المتفانين وتنمية مجتمعك.",
+
+  "workEmailLabel": "البريد الإلكتروني للعمل",
+
+  "employerSetupAdminTab": "بيانات المسؤول",
+  "employerSetupCompanyTab": "بيانات الشركة",
+  "employerSetupContactsTab": "جهات الاتصال",
+  "employerSetupBrandingTab": "الملف والعلامة التجارية",
+
+  "employerAdminHeading": "تم إنشاء الحساب",
+  "employerAdminDescription": "رائع! الخطوة التالية إعداد الملف الشخصي — لنجعل البحث عن المرشحين أسهل وأسرع.",
+  "adminRoleLabel": "الدور",
+  "adminRoleHint": "اختر دورك",
+
+  "employerCompanyHeading": "بيانات الشركة",
+  "employerCompanyDescription": "أضف معلومات أساسية عن عملك. تأكد من تطابق هذه التفاصيل مع الوثائق القانونية لشركتك.",
+  "legalCompanyNameLabel": "الاسم القانوني للشركة",
+  "legalCompanyNameHint": "أدخل الاسم القانوني للشركة",
+  "businessIndustryLabel": "قطاع الأعمال",
+  "businessIndustryHint": "اختر قطاع عملك",
+  "companySizeLabel": "حجم الشركة",
+  "companySizeHint": "اختر حجم شركتك",
+
+  "employerContactsHeading": "بيانات التواصل",
+  "employerContactsDescription": "شارك بيانات التواصل لأغراض التحقق والتواصل.",
+  "registeredAddressLabel": "العنوان المسجل",
+  "registeredAddressHint": "أدخل العنوان المسجل",
+  "cityLabel": "المدينة",
+  "cityHint": "اختر المدينة أو ابدأ بالكتابة",
+  "contactEmailLabel": "بريد التواصل",
+  "contactEmailHint": "أدخل بريدك الإلكتروني",
+  "contactEmailHelper": "بريد التواصل للمرشحين",
+  "contactPhoneLabel": "رقم هاتف التواصل",
+  "contactPhoneHint": "+30 XXX XXX XX XX",
+  "contactPhoneHelper": "هاتف التواصل للمرشحين",
+  "companyWebsiteLabel": "موقع الشركة الإلكتروني (اختياري)",
+  "companyWebsiteHint": "أدخل موقع الشركة",
+
+  "employerBrandingHeading": "الملف والعلامة التجارية",
+  "employerBrandingDescription": "أضف شعارك وبيانات الشركة لإكمال ملفك الشخصي. يمكنك تحديث هذا في أي وقت من إعدادات الملف الشخصي.",
+  "uploadPhotoLabel": "رفع الصورة",
+  "uploadPhotoDescription": "ارفع شعارًا مربعًا (PNG أو JPG أو JPEG أو SVG) بحجم أقصى 2 ميجابايت، لا يقل عن 400×400 بكسل، ويُفضل أن يكون بخلفية شفافة.",
+  "aboutCompanyLabel": "نبذة عن الشركة",
+  "aboutCompanyDescription": "صف مهمة شركتك وقيمها وأنشطتها الرئيسية في بضع جمل.",
+  "aboutCompanyHint": "أضف وصف الشركة",
+
+  "employerValuesDescription": "اختر ما يصل إلى 5 قيم تعكس ثقافة شركتك بشكل أفضل. نستخدمها لمطابقتك مع المواهب المتشابهة في التفكير. يمكنك تحديث هذا في أي وقت من إعدادات الملف الشخصي.",
+
   "signInWithGoogle": "تسجيل الدخول بواسطة Google",
   "emailLabel": "البريد الإلكتروني",
   "emailHint": "أدخل بريدك الإلكتروني",
@@ -294,5 +354,87 @@
   "jobDetailNotFoundMessage": "لم نتمكن من العثور على تفاصيل الوظيفة لهذا الطلب بعد.",
   "backToApplications": "العودة إلى الطلبات",
   "acceptInviteAndApply": "قبول الدعوة والتقديم",
-  "jobDetailsTitle": "تفاصيل الوظيفة"
+  "jobDetailsTitle": "تفاصيل الوظيفة",
+
+  "dashboardGreeting": "مرحباً، {name}!",
+  "@dashboardGreeting": {
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "dashboardSubtitle": "يمكنك هنا تتبع إعلانات وظائفك ومراجعة المرشحين ومتابعة نشاط التوظيف الإجمالي.",
+  "dashboardStatPlaceholder": "ستظهر الإحصائيات هنا.",
+  "dashboardActiveJobPosts": "الوظائف النشطة",
+  "dashboardArchivedJobPosts": "المؤرشفة",
+  "dashboardApplications": "الطلبات",
+  "dashboardInvitations": "الدعوات",
+  "dashboardHideStats": "إخفاء الإحصائيات",
+  "dashboardShowStats": "إظهار الإحصائيات",
+
+  "jobPostsTitle": "إعلانات الوظائف",
+  "jobPostsEmptyDescription": "أدِر جميع إعلانات وظائفك في مكان واحد، حيث يمكنك بسهولة إنشاء فرص جديدة وتحديث الموجودة وتتبع أدائها.",
+  "createJobPost": "إنشاء إعلان وظيفة",
+  "searchByJobTitle": "البحث بعنوان الوظيفة",
+  "dashboardJobPostsCount": "لديك {count} إعلانات وظائف",
+  "@dashboardJobPostsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "dashboardNoJobPosts": "لا توجد إعلانات وظائف بعد — أنشئ واحداً وابحث عن مرشحك المثالي!",
+
+  "jobStatusPublished": "منشور",
+  "jobStatusBoosted": "معزز",
+  "jobStatusPaused": "موقوف",
+  "jobStatusDraft": "مسودة",
+  "jobStatusClosed": "مغلق",
+  "jobStatusExpired": "منتهي الصلاحية",
+  "jobStatusPendingApproval": "في انتظار الموافقة",
+
+  "jobActionDetails": "التفاصيل",
+  "jobActionAiMatcher": "مطابق الذكاء الاصطناعي",
+  "jobActionBoost": "تعزيز",
+  "jobActionPause": "إيقاف مؤقت",
+  "jobActionClose": "إغلاق",
+  "jobActionDelete": "حذف",
+  "jobActionPublish": "نشر",
+  "jobActionPublishAgain": "إعادة النشر",
+
+  "jobDetailPosted": "نُشر في {date}",
+  "@jobDetailPosted": {
+    "placeholders": { "date": { "type": "String" } }
+  },
+  "jobDetailBoostedTill": "معزز حتى {date}",
+  "@jobDetailBoostedTill": {
+    "placeholders": { "date": { "type": "String" } }
+  },
+  "jobDetailOpenFullInfo": "فتح المعلومات الكاملة",
+  "jobDetailHideFullInfo": "إخفاء المعلومات",
+  "jobDetailLocation": "الموقع",
+  "jobDetailJobType": "نوع الوظيفة",
+  "jobDetailIndustry": "القطاع",
+  "jobDetailSalaryRange": "نطاق الراتب",
+  "jobDetailWorkplace": "مكان العمل",
+  "jobDetailExperienceLevel": "مستوى الخبرة",
+  "jobDetailLanguage": "اللغة",
+  "jobDetailViews": "المشاهدات",
+  "jobDetailCandidates": "المرشحون",
+  "jobDetailApplications": "الطلبات",
+  "jobDetailYouHaveCandidates": "لديك {count} مرشحين",
+  "@jobDetailYouHaveCandidates": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "jobDetailCloseJob": "إغلاق الوظيفة",
+  "jobDetailEditJobPost": "تعديل الإعلان",
+  "jobDetailPausePublication": "إيقاف النشر",
+  "jobDetailDelete": "حذف",
+
+  "candidateStatusNew": "جديد",
+  "candidateStatusViewed": "تمت المشاهدة",
+  "candidateStatusShortlisted": "مدرج في القائمة",
+  "candidateStatusDeclined": "مرفوض",
+
+  "matchStrengthStrong": "تطابق قوي",
+  "matchStrengthGood": "تطابق جيد",
+  "matchStrengthWeak": "تطابق ضعيف"
 }

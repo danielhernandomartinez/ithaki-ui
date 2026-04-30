@@ -979,4 +979,365 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get jobDetailsTitle => 'Job Details';
+
+  @override
+  String dashboardGreeting(String name) {
+    return 'Hello, $name!';
+  }
+
+  @override
+  String get dashboardSubtitle =>
+      'Here you can track your job posts, review candidates, and monitor overall hiring activity.';
+
+  @override
+  String get dashboardStatPlaceholder => 'Stat will be shown here.';
+
+  @override
+  String get dashboardActiveJobPosts => 'Active Job Posts';
+
+  @override
+  String get dashboardArchivedJobPosts => 'Archived';
+
+  @override
+  String get dashboardApplications => 'Applications';
+
+  @override
+  String get dashboardInvitations => 'Invitations';
+
+  @override
+  String get dashboardHideStats => 'Hide Stats';
+
+  @override
+  String get dashboardShowStats => 'Show Stats';
+
+  @override
+  String get jobPostsTitle => 'Job Posts';
+
+  @override
+  String get jobPostsEmptyDescription =>
+      'Manage all your job posts in one place, where you can easily create new openings, update existing ones, track their performance, and keep your hiring process organized and efficient.';
+
+  @override
+  String get createJobPost => 'Create Job Post';
+
+  @override
+  String get searchByJobTitle => 'Search by job title';
+
+  @override
+  String dashboardJobPostsCount(int count) {
+    return 'You have $count job posts';
+  }
+
+  @override
+  String get dashboardNoJobPosts =>
+      'No job posts yet — create one and find your perfect candidate faster!';
+
+  @override
+  String get jobStatusPublished => 'Published';
+
+  @override
+  String get jobStatusBoosted => 'Boosted';
+
+  @override
+  String get jobStatusPaused => 'Paused';
+
+  @override
+  String get jobStatusDraft => 'Draft';
+
+  @override
+  String get jobStatusClosed => 'Closed';
+
+  @override
+  String get jobStatusExpired => 'Expired';
+
+  @override
+  String get jobStatusPendingApproval => 'Pending Approval';
+
+  @override
+  String get jobActionDetails => 'Details';
+
+  @override
+  String get jobActionAiMatcher => 'AI Matcher';
+
+  @override
+  String get jobActionBoost => 'Boost';
+
+  @override
+  String get jobActionPause => 'Pause';
+
+  @override
+  String get jobActionClose => 'Close';
+
+  @override
+  String get jobActionDelete => 'Delete';
+
+  @override
+  String get jobActionPublish => 'Publish';
+
+  @override
+  String get jobActionPublishAgain => 'Publish Again';
+
+  @override
+  String jobDetailPosted(String date) {
+    return 'Posted $date';
+  }
+
+  @override
+  String jobDetailBoostedTill(String date) {
+    return 'Boosted till $date';
+  }
+
+  @override
+  String get jobDetailOpenFullInfo => 'Open full Information';
+
+  @override
+  String get jobDetailHideFullInfo => 'Hide full Information';
+
+  @override
+  String get jobDetailLocation => 'Location';
+
+  @override
+  String get jobDetailJobType => 'Job Type';
+
+  @override
+  String get jobDetailIndustry => 'Industry';
+
+  @override
+  String get jobDetailSalaryRange => 'Salary Range';
+
+  @override
+  String get jobDetailWorkplace => 'Workplace';
+
+  @override
+  String get jobDetailExperienceLevel => 'Experience Level';
+
+  @override
+  String get jobDetailLanguage => 'Language';
+
+  @override
+  String get jobDetailViews => 'Views';
+
+  @override
+  String get jobDetailCandidates => 'Candidates';
+
+  @override
+  String get jobDetailApplications => 'Applications';
+
+  @override
+  String jobDetailYouHaveCandidates(int count) {
+    return 'You have $count Candidates';
+  }
+
+  @override
+  String get jobDetailCloseJob => 'Close Job';
+
+  @override
+  String get jobDetailEditJobPost => 'Edit Job Post';
+
+  @override
+  String get jobDetailPausePublication => 'Pause Publication';
+
+  @override
+  String get jobDetailDelete => 'Delete';
+
+  @override
+  String get candidateStatusNew => 'New';
+
+  @override
+  String get candidateStatusViewed => 'Viewed';
+
+  @override
+  String get candidateStatusShortlisted => 'Shortlisted';
+
+  @override
+  String get candidateStatusDeclined => 'Declined';
+
+  @override
+  String get matchStrengthStrong => 'STRONG MATCH';
+
+  @override
+  String get matchStrengthGood => 'GOOD MATCH';
+
+  @override
+  String get matchStrengthWeak => 'WEAK MATCH';
+
+  @override
+  String get aiMatcherTitle => 'AI Matcher';
+
+  @override
+  String get aiMatcherSubtitle =>
+      'Analyze your job post and instantly get the most relevant candidates based on skills, experience, and fit.';
+
+  @override
+  String get aiMatcherFilters => 'Filters';
+
+  @override
+  String aiMatcherCandidatesFound(int count) {
+    return '$count Candidates found';
+  }
+
+  @override
+  String get aiMatcherAllSent =>
+      'You\'ve sent invites to all best-matching candidates. We recommend using the AI Matcher regularly so you don\'t miss top candidates.';
+
+  @override
+  String get aiMatcherSendInvitation => 'Send Invitation';
+
+  @override
+  String get editJobPostTitle => 'Edit Job Post';
+
+  @override
+  String get editJobPostSubtitle =>
+      'You can edit any section if needed — and if everything looks correct, go ahead and publish it.';
+
+  @override
+  String get editJobStepBasics => 'Job Basics';
+
+  @override
+  String get editJobStepSkills => 'Skills Required';
+
+  @override
+  String get editJobStepDescription => 'Job Description';
+
+  @override
+  String get editJobStepPreferences => 'Preferences';
+
+  @override
+  String get editJobStepReview => 'Review';
+
+  @override
+  String get editJobBasicsTitle => 'Job Basics';
+
+  @override
+  String get editJobBasicsSubtitle =>
+      'Provide the core details of the position to help candidates understand the role at a glance.';
+
+  @override
+  String get editJobPostNameLabel => 'Job Post Name';
+
+  @override
+  String get editJobIndustryLabel => 'Industry';
+
+  @override
+  String get editJobLocationLabel => 'Location';
+
+  @override
+  String get editJobExperienceLabel => 'Experience Level';
+
+  @override
+  String get editJobTypeLabel => 'Job Type';
+
+  @override
+  String get editJobWorkplaceLabel => 'Workplace Type';
+
+  @override
+  String get editJobSalaryFromLabel => 'Salary From';
+
+  @override
+  String get editJobSalaryToLabel => 'Salary To';
+
+  @override
+  String get editJobSetSalaryRange => 'Set Salary Range';
+
+  @override
+  String get editJobPaymentTermLabel => 'Payment Term';
+
+  @override
+  String get editJobSetDeadline => 'Set the deadline for applications';
+
+  @override
+  String get editJobContinue => 'Continue';
+
+  @override
+  String get editJobBack => 'Back';
+
+  @override
+  String get editJobPublish => 'Publish Job post';
+
+  @override
+  String get editJobSkillsTitle => 'Skills Required';
+
+  @override
+  String get editJobSkillsSubtitle =>
+      'Add the required skills for this role by typing them one by one and selecting from the dropdown, or enter multiple skills separated by commas.';
+
+  @override
+  String get editJobAiSkillsSuggestions => 'AI Skills Suggestions';
+
+  @override
+  String get editJobSkillInputHint => 'Start typing to add a skill';
+
+  @override
+  String get editJobLanguagesTitle => 'Languages skills Required';
+
+  @override
+  String get editJobLanguagesSubtitle =>
+      'Specify the languages needed for this role and the expected proficiency level.';
+
+  @override
+  String get editJobAddLanguage => '+ Add Another Language';
+
+  @override
+  String get editJobLanguageLabel => 'Language';
+
+  @override
+  String get editJobProficiencyLabel => 'Proficiency Level';
+
+  @override
+  String get editJobCompetenciesTitle => 'Competencies';
+
+  @override
+  String get editJobCompetenciesSubtitle =>
+      'Indicate any additional requirements to clarify expectations and help identify candidates who meet the practical needs of the role.';
+
+  @override
+  String get editJobDrivingLicence => 'Driving Licence Required';
+
+  @override
+  String get editJobDrivingLicenceCategory => 'Driving Licence Category';
+
+  @override
+  String get editJobDescriptionTitle => 'Job Post Creation';
+
+  @override
+  String get editJobPreferencesTitle => 'Preferences';
+
+  @override
+  String get editJobCoverLetterTitle => 'Cover Letter';
+
+  @override
+  String get editJobCoverLetterSubtitle =>
+      'Cover letters help you better understand motivation and communication skills. Candidates will be asked to add it when applying.';
+
+  @override
+  String get editJobRequireCoverLetter =>
+      'Require a cover letter from candidates';
+
+  @override
+  String get editJobAdditionalQuestionsTitle => 'Additional Questions';
+
+  @override
+  String get editJobAdditionalQuestionsSubtitle =>
+      'Add additional questions to learn more about candidates before the interview. This step is optional. We recommend adding up to 5 questions.';
+
+  @override
+  String get editJobAddScreeningQuestions => 'Add Screening Questions';
+
+  @override
+  String get editJobReviewTitle => 'Review';
+
+  @override
+  String get editJobPublishedDate => 'Publish Date';
+
+  @override
+  String get editJobEditBasics => 'Edit Job Basics';
+
+  @override
+  String get editJobEditSkills => 'Edit Skills';
+
+  @override
+  String get editJobEditDescription => 'Edit Job Description';
+
+  @override
+  String get editJobEditPreferences => 'Edit Preferences';
 }
