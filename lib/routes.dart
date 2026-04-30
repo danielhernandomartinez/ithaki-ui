@@ -23,6 +23,14 @@ abstract final class Routes {
   static const employerJobDetail = '/employer/jobs/:jobId';
   static String employerJobDetailFor(String jobId) => '/employer/jobs/$jobId';
 
+  static const employerAiMatcher = '/employer/jobs/:jobId/ai-matcher';
+  static String employerAiMatcherFor(String jobId) =>
+      '/employer/jobs/$jobId/ai-matcher';
+
+  static const employerEditJob = '/employer/jobs/:jobId/edit';
+  static String employerEditJobFor(String jobId) =>
+      '/employer/jobs/$jobId/edit';
+
   // Employer sign-up
   static const userTypeSelection = '/user-type';
   static const employerTypeSelection = '/employer-type';

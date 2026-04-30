@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../../../models/employer_dashboard_models.dart';
 
 enum _InviteStatus { pending, sent }
 
@@ -13,7 +14,7 @@ class _AiCandidate {
   final String salary;
   final int matchPercent;
   final String initials;
-  _InviteStatus status;
+  _InviteStatus status = _InviteStatus.pending;
 
   _AiCandidate({
     required this.name,
@@ -22,14 +23,13 @@ class _AiCandidate {
     required this.salary,
     required this.matchPercent,
     required this.initials,
-    this.status = _InviteStatus.pending,
   });
 }
 
 class EmployerAiMatcherScreen extends ConsumerStatefulWidget {
-  final String jobTitle;
+  final JobPost jobPost;
 
-  const EmployerAiMatcherScreen({super.key, required this.jobTitle});
+  const EmployerAiMatcherScreen({super.key, required this.jobPost});
 
   @override
   ConsumerState<EmployerAiMatcherScreen> createState() =>
@@ -110,7 +110,7 @@ class _EmployerAiMatcherScreenState
                                   size: 16, color: Colors.white),
                               const SizedBox(width: 8),
                               Text(
-                                widget.jobTitle,
+                                widget.jobPost.title,
                                 style: IthakiTheme.buttonLabel.copyWith(
                                   color: Colors.white,
                                 ),

@@ -10,6 +10,8 @@ import 'screens/employer/employer_setup_screen.dart';
 import 'models/employer_dashboard_models.dart';
 import 'screens/employer/dashboard/employer_dashboard_screen.dart';
 import 'screens/employer/dashboard/employer_job_detail_screen.dart';
+import 'screens/employer/dashboard/employer_ai_matcher_screen.dart';
+import 'screens/employer/dashboard/employer_edit_job_post_screen.dart';
 import 'routes.dart';
 import 'screens/auth/tech_comfort_screen.dart';
 import 'screens/auth/register_screen.dart';
@@ -204,6 +206,20 @@ class IthakiRouter {
         builder: (context, state) {
           final extra = state.extra as JobPost;
           return EmployerJobDetailScreen(jobPost: extra);
+        },
+      ),
+      GoRoute(
+        path: Routes.employerAiMatcher,
+        builder: (context, state) {
+          final jobPost = state.extra as JobPost;
+          return EmployerAiMatcherScreen(jobPost: jobPost);
+        },
+      ),
+      GoRoute(
+        path: Routes.employerEditJob,
+        builder: (context, state) {
+          final jobPost = state.extra as JobPost;
+          return EmployerEditJobPostScreen(jobPost: jobPost);
         },
       ),
       GoRoute(

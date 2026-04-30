@@ -8,12 +8,16 @@ class JobPostCard extends StatelessWidget {
   final JobPost jobPost;
   final VoidCallback? onDetails;
   final VoidCallback? onAiMatcher;
+  final void Function(String action, JobPost post)? onStatusAction;
+  final bool isArchived;
 
   const JobPostCard({
     super.key,
     required this.jobPost,
     this.onDetails,
     this.onAiMatcher,
+    this.onStatusAction,
+    this.isArchived = false,
   });
 
   @override
@@ -76,7 +80,14 @@ class JobPostCard extends StatelessWidget {
         // ── Status chip + optional boost expiry ───────────────
         Row(
           children: [
-            _StatusChip(status: jobPost.status, l10n: l10n),
+            _StatusChip(
+              status: jobPost.status,
+              l10n: l10n,
+              isArchived: isArchived,
+              onSelected: onStatusAction != null
+                  ? (action) => onStatusAction!(action, jobPost)
+                  : null,
+            ),
             if (jobPost.boostedUntil != null) ...[
               const Spacer(),
               Text(jobPost.boostedUntil!, style: IthakiTheme.captionRegular),
@@ -108,32 +119,34 @@ class JobPostCard extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: SizedBox(
-                height: 44,
-                child: ElevatedButton(
-                  onPressed: onAiMatcher,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: IthakiTheme.primaryPurple,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+            if (!isArchived) ...[
+              const SizedBox(width: 10),
+              Expanded(
+                child: SizedBox(
+                  height: 44,
+                  child: ElevatedButton(
+                    onPressed: onAiMatcher,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: IthakiTheme.primaryPurple,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      elevation: 0,
                     ),
-                    elevation: 0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const IthakiIcon('ai', size: 16, color: Colors.white),
-                      const SizedBox(width: 6),
-                      Text(l10n.jobActionAiMatcher,
-                          style: IthakiTheme.buttonLabel),
-                    ],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const IthakiIcon('ai', size: 16, color: Colors.white),
+                        const SizedBox(width: 6),
+                        Text(l10n.jobActionAiMatcher,
+                            style: IthakiTheme.buttonLabel),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
+            ],
           ],
         ),
       ],
@@ -168,8 +181,15 @@ class _Badge extends StatelessWidget {
 class _StatusChip extends StatelessWidget {
   final JobPostStatus status;
   final AppLocalizations l10n;
+  final void Function(String action)? onSelected;
+  final bool isArchived;
 
-  const _StatusChip({required this.status, required this.l10n});
+  const _StatusChip({
+    required this.status,
+    required this.l10n,
+    this.onSelected,
+    this.isArchived = false,
+  });
 
   ({Color bg, Color text}) get _style => switch (status) {
         JobPostStatus.published =>
@@ -198,8 +218,7 @@ class _StatusChip extends StatelessWidget {
           children: [
             const IthakiIcon('check', size: 16, color: IthakiTheme.textPrimary),
             const SizedBox(width: 8),
-            Text(label,
-                style: IthakiTheme.bodySmallBold),
+            Text(label, style: IthakiTheme.bodySmallBold),
           ],
         ),
       );
@@ -223,7 +242,8 @@ class _StatusChip extends StatelessWidget {
         JobPostStatus.closed =>
           [
             PopupMenuItem(
-                value: 'publish', child: Text(l10n.jobActionPublishAgain)),
+                value: 'publish_again',
+                child: Text(l10n.jobActionPublishAgain)),
             PopupMenuItem(value: 'delete', child: Text(l10n.jobActionDelete)),
           ],
         JobPostStatus.draft => [
@@ -239,8 +259,26 @@ class _StatusChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = _style;
 
+    if (isArchived) {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: style.bg,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Text(
+          _label,
+          style: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: style.text,
+          ),
+        ),
+      );
+    }
+
     return PopupMenuButton<String>(
-      onSelected: (_) {},
+      onSelected: onSelected,
       offset: const Offset(0, 36),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       itemBuilder: (_) => _menuItems(),

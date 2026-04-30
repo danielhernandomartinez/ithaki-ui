@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -11,8 +13,13 @@ import '../../../providers/employer_dashboard_provider.dart';
 import '../../../widgets/app_nav_drawer.dart';
 import '../../../widgets/profile_menu_panel.dart';
 import '../../../constants/nav_items.dart';
+import 'widgets/boost_job_post_sheet.dart';
+import 'widgets/close_job_sheet.dart';
 import 'widgets/dashboard_stats_section.dart';
+import 'widgets/delete_job_post_sheet.dart';
+import 'widgets/job_action_banner.dart';
 import 'widgets/job_post_card.dart';
+import 'widgets/publish_again_sheet.dart';
 
 class EmployerDashboardScreen extends ConsumerStatefulWidget {
   const EmployerDashboardScreen({super.key});
@@ -31,6 +38,8 @@ class _EmployerDashboardScreenState
   String _selectedRoute = '/employer/dashboard';
   int _selectedTab = 0; // 0 = Active, 1 = Archived
   String _searchQuery = '';
+  JobActionBannerType? _activeBanner;
+  Timer? _bannerTimer;
 
   @override
   void initState() {
@@ -45,6 +54,7 @@ class _EmployerDashboardScreenState
   void dispose() {
     _scrollController.dispose();
     _searchController.dispose();
+    _bannerTimer?.cancel();
     _panels.dispose();
     super.dispose();
   }
@@ -53,6 +63,82 @@ class _EmployerDashboardScreenState
     if (_searchQuery.isEmpty) return posts;
     final q = _searchQuery.toLowerCase();
     return posts.where((p) => p.title.toLowerCase().contains(q)).toList();
+  }
+
+  void _showBanner(JobActionBannerType type) {
+    _bannerTimer?.cancel();
+    setState(() => _activeBanner = type);
+    _bannerTimer = Timer(const Duration(seconds: 4), () {
+      if (mounted) setState(() => _activeBanner = null);
+    });
+  }
+
+  void _handleStatusAction(String action, JobPost post) {
+    switch (action) {
+      case 'boost':
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          builder: (_) => BoostJobPostSheet(
+            jobPost: post,
+            onConfirm: () {
+              Navigator.pop(context);
+              _showBanner(JobActionBannerType.statusChanged);
+            },
+          ),
+        );
+      case 'close':
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          builder: (_) => CloseJobSheet(
+            jobPost: post,
+            onConfirm: (_) {
+              Navigator.pop(context);
+              _showBanner(JobActionBannerType.statusChanged);
+            },
+          ),
+        );
+      case 'delete':
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          builder: (_) => DeleteJobPostSheet(
+            jobPost: post,
+            onConfirm: () {
+              Navigator.pop(context);
+              _showBanner(JobActionBannerType.statusChanged);
+            },
+          ),
+        );
+      case 'publish':
+      case 'publish_again':
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          builder: (_) => PublishAgainSheet(
+            jobPost: post,
+            onConfirm: () {
+              Navigator.pop(context);
+              _showBanner(JobActionBannerType.statusChanged);
+            },
+          ),
+        );
+      case 'pause':
+        _showBanner(JobActionBannerType.statusChanged);
+    }
   }
 
   @override
@@ -108,6 +194,8 @@ class _EmployerDashboardScreenState
                             const SizedBox(height: 16),
                             DashboardStatsSection(
                               data: data,
+                              isEmpty: data.activeJobPostsCount == 0 &&
+                                  data.archivedJobPostsCount == 0,
                               onToggleStats: () => ref
                                   .read(employerDashboardProvider.notifier)
                                   .toggleStats(),
@@ -162,6 +250,22 @@ class _EmployerDashboardScreenState
                                   ),
                                   prefixIconConstraints:
                                       const BoxConstraints(minWidth: 0),
+                                  suffixIcon: _searchQuery.isNotEmpty
+                                      ? GestureDetector(
+                                          onTap: () =>
+                                              _searchController.clear(),
+                                          child: const Padding(
+                                            padding:
+                                                EdgeInsets.only(right: 12),
+                                            child: IthakiIcon('x-close',
+                                                size: 16,
+                                                color: IthakiTheme
+                                                    .lightGraphite),
+                                          ),
+                                        )
+                                      : null,
+                                  suffixIconConstraints:
+                                      const BoxConstraints(minWidth: 0),
                                   contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 16, vertical: 0),
                                   border: OutlineInputBorder(
@@ -201,6 +305,21 @@ class _EmployerDashboardScreenState
                     ],
                   ),
                 ),
+
+                // ── Banner overlay ───────────────────────────
+                if (_activeBanner != null)
+                  Positioned(
+                    top: topOffset,
+                    left: 16,
+                    right: 16,
+                    child: JobActionBanner(
+                      type: _activeBanner!,
+                      onDismiss: () {
+                        _bannerTimer?.cancel();
+                        setState(() => _activeBanner = null);
+                      },
+                    ),
+                  ),
 
                 // ── Panels ───────────────────────────────────
                 if (_panels.menuOpen ||
@@ -303,11 +422,16 @@ class _EmployerDashboardScreenState
       ),
       itemBuilder: (_, i) => JobPostCard(
         jobPost: filtered[i],
+        isArchived: _selectedTab == 1,
         onDetails: () => context.push(
           Routes.employerJobDetailFor(filtered[i].id),
           extra: filtered[i],
         ),
-        onAiMatcher: () {},
+        onAiMatcher: () => context.push(
+          Routes.employerAiMatcherFor(filtered[i].id),
+          extra: filtered[i],
+        ),
+        onStatusAction: _handleStatusAction,
       ),
     );
   }

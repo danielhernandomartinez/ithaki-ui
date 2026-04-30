@@ -19,6 +19,7 @@ class JobPost {
   final int newCandidates;
   final DateTime createdAt;
   final String? boostedUntil;
+  final String? closedReason;
 
   const JobPost({
     required this.id,
@@ -31,7 +32,35 @@ class JobPost {
     this.newCandidates = 0,
     required this.createdAt,
     this.boostedUntil,
+    this.closedReason,
   });
+
+  JobPost copyWith({
+    String? id,
+    String? title,
+    String? category,
+    String? salary,
+    JobPostStatus? status,
+    int? views,
+    int? candidates,
+    int? newCandidates,
+    DateTime? createdAt,
+    String? boostedUntil,
+    String? closedReason,
+  }) =>
+      JobPost(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        category: category ?? this.category,
+        salary: salary ?? this.salary,
+        status: status ?? this.status,
+        views: views ?? this.views,
+        candidates: candidates ?? this.candidates,
+        newCandidates: newCandidates ?? this.newCandidates,
+        createdAt: createdAt ?? this.createdAt,
+        boostedUntil: boostedUntil ?? this.boostedUntil,
+        closedReason: closedReason ?? this.closedReason,
+      );
 }
 
 class EmployerDashboardData {

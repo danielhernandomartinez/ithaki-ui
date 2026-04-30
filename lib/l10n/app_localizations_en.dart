@@ -1340,4 +1340,179 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editJobEditPreferences => 'Edit Preferences';
+
+  @override
+  String get boostJobPostTitle => 'Boost Job Post';
+
+  @override
+  String get availableCredits => 'Available Credits';
+
+  @override
+  String get weeklyBoostLabel => 'Weekly Boost';
+
+  @override
+  String get fullTermBoostLabel => 'Full-term Boost';
+
+  @override
+  String get changeStatusButton => 'Change Status';
+
+  @override
+  String get closeJobTitle => 'Close this job?';
+
+  @override
+  String get closeJobReasonHint => 'Select the reason';
+
+  @override
+  String get deleteJobPostTitle => 'Delete Job Post';
+
+  @override
+  String get publishAgainTitle => 'Publish Again';
+
+  @override
+  String get publishAgainOptionLabel => 'Publish Again';
+
+  @override
+  String get publishAndWeeklyBoostLabel => 'Publish and Weekly Boost';
+
+  @override
+  String get changesPublishedMessage =>
+      'The changes to this job post have been successfully saved.';
+
+  @override
+  String get statusChangedMessage =>
+      'The status has been updated successfully.';
+
+  @override
+  String get editStepBasics => 'Job Basics';
+
+  @override
+  String get editStepSkills => 'Skills Required';
+
+  @override
+  String get editStepDescription => 'Job Description';
+
+  @override
+  String get editStepPreferences => 'Preferences';
+
+  @override
+  String get editStepReview => 'Review';
+
+  @override
+  String get editIndustryLabel => 'Industry';
+
+  @override
+  String get editExperienceLevelLabel => 'Experience Level';
+
+  @override
+  String get editWorkplaceTypeLabel => 'Workplace Type';
+
+  @override
+  String get editSalaryFromLabel => 'Salary From';
+
+  @override
+  String get editSalaryToLabel => 'Salary To';
+
+  @override
+  String get editSetSalaryRange => 'Set Salary Range';
+
+  @override
+  String get editSetDeadline => 'Set the deadline for applications';
+
+  @override
+  String get editSkillsTitle => 'Skills Required';
+
+  @override
+  String get editSkillsDescription =>
+      'Add the required skills for this role by typing them one by one and selecting from the dropdown, or enter multiple skills separated by commas.';
+
+  @override
+  String get editSkillsHint => 'Start typing to add a skill';
+
+  @override
+  String get editAiSkillsSuggestions => 'AI Skills Suggestions';
+
+  @override
+  String get editLanguagesTitle => 'Languages skills Required';
+
+  @override
+  String get editLanguageLabel => 'Language';
+
+  @override
+  String get editProficiencyLabel => 'Proficiency Level';
+
+  @override
+  String get editAddLanguage => '+ Add Another Language';
+
+  @override
+  String get editCompetenciesTitle => 'Competencies';
+
+  @override
+  String get editComputerSkillsLabel => 'Computer Skills';
+
+  @override
+  String get editDrivingLicence => 'Driving Licence Required';
+
+  @override
+  String get editDrivingLicenceCategory => 'Driving Licence Category';
+
+  @override
+  String get editAboutRole => 'About the Role';
+
+  @override
+  String get editResponsibilities => 'Responsibilities';
+
+  @override
+  String get editRequirements => 'Requirements';
+
+  @override
+  String get editNiceToHave => 'Nice to Have';
+
+  @override
+  String get editWeOffer => 'We Offer';
+
+  @override
+  String get editCoverLetterTitle => 'Cover Letter';
+
+  @override
+  String get editCoverLetterDescription =>
+      'Cover letters help you better understand motivation and communication skills. Candidates will be asked to add it when applying.';
+
+  @override
+  String get editRequireCoverLetter => 'Require a cover letter from candidates';
+
+  @override
+  String get editScreeningQuestionsTitle => 'Additional Questions';
+
+  @override
+  String get editScreeningQuestionsDescription =>
+      'Add additional questions to learn more about candidates before the interview. This step is optional. We recommend adding up to 5 questions.';
+
+  @override
+  String get editAddScreeningQuestions => 'Add Screening Questions';
+
+  @override
+  String get editReviewTitle => 'Review';
+
+  @override
+  String get editJobBasicsButton => 'Edit Job Basics';
+
+  @override
+  String get editSkillsButton => 'Edit Skills';
+
+  @override
+  String get editDescriptionButton => 'Edit Job Description';
+
+  @override
+  String get editCoverLetterPrefsButton => 'Update Cover Letter Preferences';
+
+  @override
+  String get editScreeningButton => 'Edit Additional Screening Questions';
+
+  @override
+  String get publishJobPostButton => 'Publish Job post';
+
+  @override
+  String dashboardArchivedCount(int count) {
+    return 'You have $count archived job posts';
+  }
 }

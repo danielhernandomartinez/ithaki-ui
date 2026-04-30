@@ -1170,178 +1170,358 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get aiMatcherSubtitle =>
-      'Analyze your job post and instantly get the most relevant candidates based on skills, experience, and fit.';
+      'Αναλύστε την αγγελία σας και βρείτε άμεσα τους πιο κατάλληλους υποψηφίους βάσει δεξιοτήτων, εμπειρίας και καταλληλότητας.';
 
   @override
-  String get aiMatcherFilters => 'Filters';
+  String get aiMatcherFilters => 'Φίλτρα';
 
   @override
   String aiMatcherCandidatesFound(int count) {
-    return '$count Candidates found';
+    return 'Βρέθηκαν $count υποψήφιοι';
   }
 
   @override
   String get aiMatcherAllSent =>
-      'You\'ve sent invites to all best-matching candidates. We recommend using the AI Matcher regularly so you don\'t miss top candidates.';
+      'Έχετε στείλει προσκλήσεις σε όλους τους καλύτερους υποψηφίους. Συνιστούμε να χρησιμοποιείτε τακτικά το AI Matcher για να μην χάνετε κορυφαίους υποψηφίους.';
 
   @override
-  String get aiMatcherSendInvitation => 'Send Invitation';
+  String get aiMatcherSendInvitation => 'Αποστολή Πρόσκλησης';
 
   @override
-  String get editJobPostTitle => 'Edit Job Post';
+  String get editJobPostTitle => 'Επεξεργασία Αγγελίας';
 
   @override
   String get editJobPostSubtitle =>
-      'You can edit any section if needed — and if everything looks correct, go ahead and publish it.';
+      'Μπορείτε να επεξεργαστείτε οποιαδήποτε ενότητα χρειάζεται — και αν όλα φαίνονται σωστά, προχωρήστε στη δημοσίευση.';
 
   @override
-  String get editJobStepBasics => 'Job Basics';
+  String get editJobStepBasics => 'Βασικά Στοιχεία';
 
   @override
-  String get editJobStepSkills => 'Skills Required';
+  String get editJobStepSkills => 'Απαιτούμενες Δεξιότητες';
 
   @override
-  String get editJobStepDescription => 'Job Description';
+  String get editJobStepDescription => 'Περιγραφή Θέσης';
 
   @override
-  String get editJobStepPreferences => 'Preferences';
+  String get editJobStepPreferences => 'Προτιμήσεις';
 
   @override
-  String get editJobStepReview => 'Review';
+  String get editJobStepReview => 'Επισκόπηση';
 
   @override
-  String get editJobBasicsTitle => 'Job Basics';
+  String get editJobBasicsTitle => 'Βασικά Στοιχεία Θέσης';
 
   @override
   String get editJobBasicsSubtitle =>
-      'Provide the core details of the position to help candidates understand the role at a glance.';
+      'Δώστε τις βασικές λεπτομέρειες της θέσης για να βοηθήσετε τους υποψηφίους να κατανοήσουν τον ρόλο με μια ματιά.';
 
   @override
-  String get editJobPostNameLabel => 'Job Post Name';
+  String get editJobPostNameLabel => 'Όνομα Αγγελίας';
 
   @override
-  String get editJobIndustryLabel => 'Industry';
+  String get editJobIndustryLabel => 'Κλάδος';
 
   @override
-  String get editJobLocationLabel => 'Location';
+  String get editJobLocationLabel => 'Τοποθεσία';
 
   @override
-  String get editJobExperienceLabel => 'Experience Level';
+  String get editJobExperienceLabel => 'Επίπεδο Εμπειρίας';
 
   @override
-  String get editJobTypeLabel => 'Job Type';
+  String get editJobTypeLabel => 'Τύπος Εργασίας';
 
   @override
-  String get editJobWorkplaceLabel => 'Workplace Type';
+  String get editJobWorkplaceLabel => 'Τύπος Χώρου Εργασίας';
 
   @override
-  String get editJobSalaryFromLabel => 'Salary From';
+  String get editJobSalaryFromLabel => 'Μισθός Από';
 
   @override
-  String get editJobSalaryToLabel => 'Salary To';
+  String get editJobSalaryToLabel => 'Μισθός Έως';
 
   @override
-  String get editJobSetSalaryRange => 'Set Salary Range';
+  String get editJobSetSalaryRange => 'Ορισμός Εύρους Μισθού';
 
   @override
-  String get editJobPaymentTermLabel => 'Payment Term';
+  String get editJobPaymentTermLabel => 'Όρος Πληρωμής';
 
   @override
-  String get editJobSetDeadline => 'Set the deadline for applications';
+  String get editJobSetDeadline => 'Ορίστε την προθεσμία υποβολής αιτήσεων';
 
   @override
-  String get editJobContinue => 'Continue';
+  String get editJobContinue => 'Συνέχεια';
 
   @override
-  String get editJobBack => 'Back';
+  String get editJobBack => 'Πίσω';
 
   @override
-  String get editJobPublish => 'Publish Job post';
+  String get editJobPublish => 'Δημοσίευση Αγγελίας';
 
   @override
-  String get editJobSkillsTitle => 'Skills Required';
+  String get editJobSkillsTitle => 'Απαιτούμενες Δεξιότητες';
 
   @override
   String get editJobSkillsSubtitle =>
-      'Add the required skills for this role by typing them one by one and selecting from the dropdown, or enter multiple skills separated by commas.';
+      'Προσθέστε τις απαιτούμενες δεξιότητες για αυτόν τον ρόλο πληκτρολογώντας τες μία-μία και επιλέγοντας από την αναπτυσσόμενη λίστα, ή εισαγάγετε πολλές δεξιότητες χωρισμένες με κόμματα.';
 
   @override
-  String get editJobAiSkillsSuggestions => 'AI Skills Suggestions';
+  String get editJobAiSkillsSuggestions => 'Προτάσεις Δεξιοτήτων AI';
 
   @override
-  String get editJobSkillInputHint => 'Start typing to add a skill';
+  String get editJobSkillInputHint =>
+      'Αρχίστε να πληκτρολογείτε για να προσθέσετε δεξιότητα';
 
   @override
-  String get editJobLanguagesTitle => 'Languages skills Required';
+  String get editJobLanguagesTitle => 'Απαιτούμενες Γλωσσικές Δεξιότητες';
 
   @override
   String get editJobLanguagesSubtitle =>
-      'Specify the languages needed for this role and the expected proficiency level.';
+      'Καθορίστε τις γλώσσες που απαιτούνται για αυτόν τον ρόλο και το αναμενόμενο επίπεδο επάρκειας.';
 
   @override
-  String get editJobAddLanguage => '+ Add Another Language';
+  String get editJobAddLanguage => '+ Προσθήκη Άλλης Γλώσσας';
 
   @override
-  String get editJobLanguageLabel => 'Language';
+  String get editJobLanguageLabel => 'Γλώσσα';
 
   @override
-  String get editJobProficiencyLabel => 'Proficiency Level';
+  String get editJobProficiencyLabel => 'Επίπεδο Επάρκειας';
 
   @override
-  String get editJobCompetenciesTitle => 'Competencies';
+  String get editJobCompetenciesTitle => 'Ικανότητες';
 
   @override
   String get editJobCompetenciesSubtitle =>
-      'Indicate any additional requirements to clarify expectations and help identify candidates who meet the practical needs of the role.';
+      'Αναφέρετε τυχόν πρόσθετες απαιτήσεις για να αποσαφηνίσετε τις προσδοκίες και να εντοπίσετε υποψηφίους που πληρούν τις πρακτικές ανάγκες του ρόλου.';
 
   @override
-  String get editJobDrivingLicence => 'Driving Licence Required';
+  String get editJobDrivingLicence => 'Απαιτείται Άδεια Οδήγησης';
 
   @override
-  String get editJobDrivingLicenceCategory => 'Driving Licence Category';
+  String get editJobDrivingLicenceCategory => 'Κατηγορία Άδειας Οδήγησης';
 
   @override
-  String get editJobDescriptionTitle => 'Job Post Creation';
+  String get editJobDescriptionTitle => 'Δημιουργία Αγγελίας Εργασίας';
 
   @override
-  String get editJobPreferencesTitle => 'Preferences';
+  String get editJobPreferencesTitle => 'Προτιμήσεις';
 
   @override
-  String get editJobCoverLetterTitle => 'Cover Letter';
+  String get editJobCoverLetterTitle => 'Συνοδευτική Επιστολή';
 
   @override
   String get editJobCoverLetterSubtitle =>
-      'Cover letters help you better understand motivation and communication skills. Candidates will be asked to add it when applying.';
+      'Οι συνοδευτικές επιστολές σας βοηθούν να κατανοήσετε καλύτερα τα κίνητρα και τις επικοινωνιακές δεξιότητες. Οι υποψήφιοι θα κληθούν να την προσθέσουν κατά την υποβολή.';
 
   @override
   String get editJobRequireCoverLetter =>
-      'Require a cover letter from candidates';
+      'Απαίτηση συνοδευτικής επιστολής από τους υποψηφίους';
 
   @override
-  String get editJobAdditionalQuestionsTitle => 'Additional Questions';
+  String get editJobAdditionalQuestionsTitle => 'Πρόσθετες Ερωτήσεις';
 
   @override
   String get editJobAdditionalQuestionsSubtitle =>
-      'Add additional questions to learn more about candidates before the interview. This step is optional. We recommend adding up to 5 questions.';
+      'Προσθέστε πρόσθετες ερωτήσεις για να μάθετε περισσότερα για τους υποψηφίους πριν από τη συνέντευξη. Αυτό το βήμα είναι προαιρετικό. Συνιστούμε να προσθέτετε έως 5 ερωτήσεις.';
 
   @override
-  String get editJobAddScreeningQuestions => 'Add Screening Questions';
+  String get editJobAddScreeningQuestions => 'Προσθήκη Ερωτήσεων Αξιολόγησης';
 
   @override
-  String get editJobReviewTitle => 'Review';
+  String get editJobReviewTitle => 'Επισκόπηση';
 
   @override
-  String get editJobPublishedDate => 'Publish Date';
+  String get editJobPublishedDate => 'Ημερομηνία Δημοσίευσης';
 
   @override
-  String get editJobEditBasics => 'Edit Job Basics';
+  String get editJobEditBasics => 'Επεξεργασία Βασικών Στοιχείων';
 
   @override
-  String get editJobEditSkills => 'Edit Skills';
+  String get editJobEditSkills => 'Επεξεργασία Δεξιοτήτων';
 
   @override
-  String get editJobEditDescription => 'Edit Job Description';
+  String get editJobEditDescription => 'Επεξεργασία Περιγραφής';
 
   @override
-  String get editJobEditPreferences => 'Edit Preferences';
+  String get editJobEditPreferences => 'Επεξεργασία Προτιμήσεων';
+
+  @override
+  String get boostJobPostTitle => 'Ενίσχυση Αγγελίας';
+
+  @override
+  String get availableCredits => 'Διαθέσιμες Πιστώσεις';
+
+  @override
+  String get weeklyBoostLabel => 'Εβδομαδιαία Ενίσχυση';
+
+  @override
+  String get fullTermBoostLabel => 'Ενίσχυση Πλήρους Διάρκειας';
+
+  @override
+  String get changeStatusButton => 'Αλλαγή Κατάστασης';
+
+  @override
+  String get closeJobTitle => 'Κλείσιμο αυτής της θέσης;';
+
+  @override
+  String get closeJobReasonHint => 'Επιλέξτε τον λόγο';
+
+  @override
+  String get deleteJobPostTitle => 'Διαγραφή Αγγελίας';
+
+  @override
+  String get publishAgainTitle => 'Επαναδημοσίευση';
+
+  @override
+  String get publishAgainOptionLabel => 'Επαναδημοσίευση';
+
+  @override
+  String get publishAndWeeklyBoostLabel =>
+      'Δημοσίευση και Εβδομαδιαία Ενίσχυση';
+
+  @override
+  String get changesPublishedMessage =>
+      'Οι αλλαγές σε αυτή την αγγελία εργασίας αποθηκεύτηκαν με επιτυχία.';
+
+  @override
+  String get statusChangedMessage => 'Η κατάσταση ενημερώθηκε με επιτυχία.';
+
+  @override
+  String get editStepBasics => 'Βασικά Στοιχεία';
+
+  @override
+  String get editStepSkills => 'Απαιτούμενες Δεξιότητες';
+
+  @override
+  String get editStepDescription => 'Περιγραφή Θέσης';
+
+  @override
+  String get editStepPreferences => 'Προτιμήσεις';
+
+  @override
+  String get editStepReview => 'Επισκόπηση';
+
+  @override
+  String get editIndustryLabel => 'Κλάδος';
+
+  @override
+  String get editExperienceLevelLabel => 'Επίπεδο Εμπειρίας';
+
+  @override
+  String get editWorkplaceTypeLabel => 'Τύπος Χώρου Εργασίας';
+
+  @override
+  String get editSalaryFromLabel => 'Μισθός Από';
+
+  @override
+  String get editSalaryToLabel => 'Μισθός Έως';
+
+  @override
+  String get editSetSalaryRange => 'Ορισμός Εύρους Μισθού';
+
+  @override
+  String get editSetDeadline => 'Ορίστε την προθεσμία υποβολής αιτήσεων';
+
+  @override
+  String get editSkillsTitle => 'Απαιτούμενες Δεξιότητες';
+
+  @override
+  String get editSkillsDescription =>
+      'Προσθέστε τις απαιτούμενες δεξιότητες για αυτόν τον ρόλο πληκτρολογώντας τες μία-μία και επιλέγοντας από την αναπτυσσόμενη λίστα, ή εισαγάγετε πολλές δεξιότητες χωρισμένες με κόμματα.';
+
+  @override
+  String get editSkillsHint =>
+      'Αρχίστε να πληκτρολογείτε για να προσθέσετε δεξιότητα';
+
+  @override
+  String get editAiSkillsSuggestions => 'Προτάσεις Δεξιοτήτων AI';
+
+  @override
+  String get editLanguagesTitle => 'Απαιτούμενες Γλωσσικές Δεξιότητες';
+
+  @override
+  String get editLanguageLabel => 'Γλώσσα';
+
+  @override
+  String get editProficiencyLabel => 'Επίπεδο Επάρκειας';
+
+  @override
+  String get editAddLanguage => '+ Προσθήκη Άλλης Γλώσσας';
+
+  @override
+  String get editCompetenciesTitle => 'Ικανότητες';
+
+  @override
+  String get editComputerSkillsLabel => 'Δεξιότητες Υπολογιστή';
+
+  @override
+  String get editDrivingLicence => 'Απαιτείται Άδεια Οδήγησης';
+
+  @override
+  String get editDrivingLicenceCategory => 'Κατηγορία Άδειας Οδήγησης';
+
+  @override
+  String get editAboutRole => 'Σχετικά με τον Ρόλο';
+
+  @override
+  String get editResponsibilities => 'Αρμοδιότητες';
+
+  @override
+  String get editRequirements => 'Απαιτήσεις';
+
+  @override
+  String get editNiceToHave => 'Επιθυμητά Προσόντα';
+
+  @override
+  String get editWeOffer => 'Προσφέρουμε';
+
+  @override
+  String get editCoverLetterTitle => 'Συνοδευτική Επιστολή';
+
+  @override
+  String get editCoverLetterDescription =>
+      'Οι συνοδευτικές επιστολές σας βοηθούν να κατανοήσετε καλύτερα τα κίνητρα και τις επικοινωνιακές δεξιότητες. Οι υποψήφιοι θα κληθούν να την προσθέσουν κατά την υποβολή.';
+
+  @override
+  String get editRequireCoverLetter =>
+      'Απαίτηση συνοδευτικής επιστολής από τους υποψηφίους';
+
+  @override
+  String get editScreeningQuestionsTitle => 'Πρόσθετες Ερωτήσεις';
+
+  @override
+  String get editScreeningQuestionsDescription =>
+      'Προσθέστε πρόσθετες ερωτήσεις για να μάθετε περισσότερα για τους υποψηφίους πριν από τη συνέντευξη. Αυτό το βήμα είναι προαιρετικό. Συνιστούμε να προσθέτετε έως 5 ερωτήσεις.';
+
+  @override
+  String get editAddScreeningQuestions => 'Προσθήκη Ερωτήσεων Αξιολόγησης';
+
+  @override
+  String get editReviewTitle => 'Επισκόπηση';
+
+  @override
+  String get editJobBasicsButton => 'Επεξεργασία Βασικών Στοιχείων';
+
+  @override
+  String get editSkillsButton => 'Επεξεργασία Δεξιοτήτων';
+
+  @override
+  String get editDescriptionButton => 'Επεξεργασία Περιγραφής';
+
+  @override
+  String get editCoverLetterPrefsButton =>
+      'Ενημέρωση Προτιμήσεων Συνοδευτικής Επιστολής';
+
+  @override
+  String get editScreeningButton =>
+      'Επεξεργασία Πρόσθετων Ερωτήσεων Αξιολόγησης';
+
+  @override
+  String get publishJobPostButton => 'Δημοσίευση Αγγελίας';
+
+  @override
+  String dashboardArchivedCount(int count) {
+    return 'Έχετε $count αρχειοθετημένες αγγελίες';
+  }
 }

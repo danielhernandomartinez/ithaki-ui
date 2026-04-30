@@ -7,30 +7,32 @@ import '../../../../models/employer_dashboard_models.dart';
 class DashboardStatsSection extends StatelessWidget {
   final EmployerDashboardData data;
   final VoidCallback onToggleStats;
+  final bool isEmpty;
 
   const DashboardStatsSection({
     super.key,
     required this.data,
     required this.onToggleStats,
+    this.isEmpty = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    if (!data.showStats) {
-      return GestureDetector(
-        onTap: onToggleStats,
-        child: Center(
-          child: Text(
-            l10n.dashboardStatPlaceholder,
-            style: IthakiTheme.bodySmall.copyWith(
-              decoration: TextDecoration.underline,
-              decorationColor: IthakiTheme.textPrimary,
-            ),
+    if (!data.showStats || isEmpty) {
+      final isClickable = !isEmpty;
+      final placeholder = Center(
+        child: Text(
+          l10n.dashboardStatPlaceholder,
+          style: IthakiTheme.bodySmall.copyWith(
+            decoration: isClickable ? TextDecoration.underline : null,
+            decorationColor: IthakiTheme.textPrimary,
           ),
         ),
       );
+      if (!isClickable) return placeholder;
+      return GestureDetector(onTap: onToggleStats, child: placeholder);
     }
 
     return Column(

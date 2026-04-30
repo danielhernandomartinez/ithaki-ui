@@ -1156,182 +1156,355 @@ class AppLocalizationsAr extends AppLocalizations {
   String get matchStrengthWeak => 'تطابق ضعيف';
 
   @override
-  String get aiMatcherTitle => 'AI Matcher';
+  String get aiMatcherTitle => 'مطابق الذكاء الاصطناعي';
 
   @override
   String get aiMatcherSubtitle =>
-      'Analyze your job post and instantly get the most relevant candidates based on skills, experience, and fit.';
+      'حلّل إعلانك الوظيفي واحصل فوراً على أكثر المرشحين ملاءمةً بناءً على المهارات والخبرة والملاءمة.';
 
   @override
-  String get aiMatcherFilters => 'Filters';
+  String get aiMatcherFilters => 'التصفية';
 
   @override
   String aiMatcherCandidatesFound(int count) {
-    return '$count Candidates found';
+    return 'تم العثور على $count مرشح';
   }
 
   @override
   String get aiMatcherAllSent =>
-      'You\'ve sent invites to all best-matching candidates. We recommend using the AI Matcher regularly so you don\'t miss top candidates.';
+      'لقد أرسلتَ دعوات لجميع المرشحين الأكثر ملاءمةً. نوصي باستخدام مطابق الذكاء الاصطناعي بانتظام حتى لا تفوتك أفضل المرشحين.';
 
   @override
-  String get aiMatcherSendInvitation => 'Send Invitation';
+  String get aiMatcherSendInvitation => 'إرسال دعوة';
 
   @override
-  String get editJobPostTitle => 'Edit Job Post';
+  String get editJobPostTitle => 'تعديل الإعلان الوظيفي';
 
   @override
   String get editJobPostSubtitle =>
-      'You can edit any section if needed — and if everything looks correct, go ahead and publish it.';
+      'يمكنك تعديل أي قسم إذا لزم الأمر — وإذا كان كل شيء صحيحاً، تابع للنشر.';
 
   @override
-  String get editJobStepBasics => 'Job Basics';
+  String get editJobStepBasics => 'الأساسيات';
 
   @override
-  String get editJobStepSkills => 'Skills Required';
+  String get editJobStepSkills => 'المهارات المطلوبة';
 
   @override
-  String get editJobStepDescription => 'Job Description';
+  String get editJobStepDescription => 'وصف الوظيفة';
 
   @override
-  String get editJobStepPreferences => 'Preferences';
+  String get editJobStepPreferences => 'التفضيلات';
 
   @override
-  String get editJobStepReview => 'Review';
+  String get editJobStepReview => 'المراجعة';
 
   @override
-  String get editJobBasicsTitle => 'Job Basics';
+  String get editJobBasicsTitle => 'أساسيات الوظيفة';
 
   @override
   String get editJobBasicsSubtitle =>
-      'Provide the core details of the position to help candidates understand the role at a glance.';
+      'قدّم التفاصيل الأساسية للمنصب لمساعدة المرشحين على فهم الدور بنظرة سريعة.';
 
   @override
-  String get editJobPostNameLabel => 'Job Post Name';
+  String get editJobPostNameLabel => 'اسم الإعلان الوظيفي';
 
   @override
-  String get editJobIndustryLabel => 'Industry';
+  String get editJobIndustryLabel => 'القطاع';
 
   @override
-  String get editJobLocationLabel => 'Location';
+  String get editJobLocationLabel => 'الموقع';
 
   @override
-  String get editJobExperienceLabel => 'Experience Level';
+  String get editJobExperienceLabel => 'مستوى الخبرة';
 
   @override
-  String get editJobTypeLabel => 'Job Type';
+  String get editJobTypeLabel => 'نوع الوظيفة';
 
   @override
-  String get editJobWorkplaceLabel => 'Workplace Type';
+  String get editJobWorkplaceLabel => 'نوع بيئة العمل';
 
   @override
-  String get editJobSalaryFromLabel => 'Salary From';
+  String get editJobSalaryFromLabel => 'الراتب من';
 
   @override
-  String get editJobSalaryToLabel => 'Salary To';
+  String get editJobSalaryToLabel => 'الراتب إلى';
 
   @override
-  String get editJobSetSalaryRange => 'Set Salary Range';
+  String get editJobSetSalaryRange => 'تحديد نطاق الراتب';
 
   @override
-  String get editJobPaymentTermLabel => 'Payment Term';
+  String get editJobPaymentTermLabel => 'شرط الدفع';
 
   @override
-  String get editJobSetDeadline => 'Set the deadline for applications';
+  String get editJobSetDeadline => 'تحديد الموعد النهائي للطلبات';
 
   @override
-  String get editJobContinue => 'Continue';
+  String get editJobContinue => 'متابعة';
 
   @override
-  String get editJobBack => 'Back';
+  String get editJobBack => 'رجوع';
 
   @override
-  String get editJobPublish => 'Publish Job post';
+  String get editJobPublish => 'نشر الإعلان الوظيفي';
 
   @override
-  String get editJobSkillsTitle => 'Skills Required';
+  String get editJobSkillsTitle => 'المهارات المطلوبة';
 
   @override
   String get editJobSkillsSubtitle =>
-      'Add the required skills for this role by typing them one by one and selecting from the dropdown, or enter multiple skills separated by commas.';
+      'أضف المهارات المطلوبة لهذا الدور عن طريق كتابتها واحدة تلو الأخرى والاختيار من القائمة المنسدلة، أو أدخل عدة مهارات مفصولة بفواصل.';
 
   @override
-  String get editJobAiSkillsSuggestions => 'AI Skills Suggestions';
+  String get editJobAiSkillsSuggestions => 'اقتراحات مهارات الذكاء الاصطناعي';
 
   @override
-  String get editJobSkillInputHint => 'Start typing to add a skill';
+  String get editJobSkillInputHint => 'ابدأ الكتابة لإضافة مهارة';
 
   @override
-  String get editJobLanguagesTitle => 'Languages skills Required';
+  String get editJobLanguagesTitle => 'المهارات اللغوية المطلوبة';
 
   @override
   String get editJobLanguagesSubtitle =>
-      'Specify the languages needed for this role and the expected proficiency level.';
+      'حدّد اللغات المطلوبة لهذا الدور ومستوى الكفاءة المتوقع.';
 
   @override
-  String get editJobAddLanguage => '+ Add Another Language';
+  String get editJobAddLanguage => '+ إضافة لغة أخرى';
 
   @override
-  String get editJobLanguageLabel => 'Language';
+  String get editJobLanguageLabel => 'اللغة';
 
   @override
-  String get editJobProficiencyLabel => 'Proficiency Level';
+  String get editJobProficiencyLabel => 'مستوى الكفاءة';
 
   @override
-  String get editJobCompetenciesTitle => 'Competencies';
+  String get editJobCompetenciesTitle => 'الكفاءات';
 
   @override
   String get editJobCompetenciesSubtitle =>
-      'Indicate any additional requirements to clarify expectations and help identify candidates who meet the practical needs of the role.';
+      'أشر إلى أي متطلبات إضافية لتوضيح التوقعات والمساعدة في تحديد المرشحين الذين يلبون الاحتياجات العملية للدور.';
 
   @override
-  String get editJobDrivingLicence => 'Driving Licence Required';
+  String get editJobDrivingLicence => 'يُشترط رخصة القيادة';
 
   @override
-  String get editJobDrivingLicenceCategory => 'Driving Licence Category';
+  String get editJobDrivingLicenceCategory => 'فئة رخصة القيادة';
 
   @override
-  String get editJobDescriptionTitle => 'Job Post Creation';
+  String get editJobDescriptionTitle => 'إنشاء إعلان وظيفي';
 
   @override
-  String get editJobPreferencesTitle => 'Preferences';
+  String get editJobPreferencesTitle => 'التفضيلات';
 
   @override
-  String get editJobCoverLetterTitle => 'Cover Letter';
+  String get editJobCoverLetterTitle => 'خطاب التغطية';
 
   @override
   String get editJobCoverLetterSubtitle =>
-      'Cover letters help you better understand motivation and communication skills. Candidates will be asked to add it when applying.';
+      'تساعدك خطابات التغطية على فهم الدوافع ومهارات التواصل بشكل أفضل. سيُطلب من المرشحين إضافتها عند التقديم.';
 
   @override
-  String get editJobRequireCoverLetter =>
-      'Require a cover letter from candidates';
+  String get editJobRequireCoverLetter => 'اشتراط خطاب تغطية من المرشحين';
 
   @override
-  String get editJobAdditionalQuestionsTitle => 'Additional Questions';
+  String get editJobAdditionalQuestionsTitle => 'أسئلة إضافية';
 
   @override
   String get editJobAdditionalQuestionsSubtitle =>
-      'Add additional questions to learn more about candidates before the interview. This step is optional. We recommend adding up to 5 questions.';
+      'أضف أسئلة إضافية لمعرفة المزيد عن المرشحين قبل المقابلة. هذه الخطوة اختيارية. نوصي بإضافة ما يصل إلى 5 أسئلة.';
 
   @override
-  String get editJobAddScreeningQuestions => 'Add Screening Questions';
+  String get editJobAddScreeningQuestions => 'إضافة أسئلة الفرز';
 
   @override
-  String get editJobReviewTitle => 'Review';
+  String get editJobReviewTitle => 'المراجعة';
 
   @override
-  String get editJobPublishedDate => 'Publish Date';
+  String get editJobPublishedDate => 'تاريخ النشر';
 
   @override
-  String get editJobEditBasics => 'Edit Job Basics';
+  String get editJobEditBasics => 'تعديل أساسيات الوظيفة';
 
   @override
-  String get editJobEditSkills => 'Edit Skills';
+  String get editJobEditSkills => 'تعديل المهارات';
 
   @override
-  String get editJobEditDescription => 'Edit Job Description';
+  String get editJobEditDescription => 'تعديل وصف الوظيفة';
 
   @override
-  String get editJobEditPreferences => 'Edit Preferences';
+  String get editJobEditPreferences => 'تعديل التفضيلات';
+
+  @override
+  String get boostJobPostTitle => 'تعزيز الإعلان الوظيفي';
+
+  @override
+  String get availableCredits => 'الرصيد المتاح';
+
+  @override
+  String get weeklyBoostLabel => 'تعزيز أسبوعي';
+
+  @override
+  String get fullTermBoostLabel => 'تعزيز للمدة الكاملة';
+
+  @override
+  String get changeStatusButton => 'تغيير الحالة';
+
+  @override
+  String get closeJobTitle => 'إغلاق هذه الوظيفة؟';
+
+  @override
+  String get closeJobReasonHint => 'اختر السبب';
+
+  @override
+  String get deleteJobPostTitle => 'حذف الإعلان الوظيفي';
+
+  @override
+  String get publishAgainTitle => 'إعادة النشر';
+
+  @override
+  String get publishAgainOptionLabel => 'إعادة النشر';
+
+  @override
+  String get publishAndWeeklyBoostLabel => 'نشر وتعزيز أسبوعي';
+
+  @override
+  String get changesPublishedMessage =>
+      'تم حفظ التغييرات على هذا الإعلان الوظيفي بنجاح.';
+
+  @override
+  String get statusChangedMessage => 'تم تحديث الحالة بنجاح.';
+
+  @override
+  String get editStepBasics => 'الأساسيات';
+
+  @override
+  String get editStepSkills => 'المهارات المطلوبة';
+
+  @override
+  String get editStepDescription => 'وصف الوظيفة';
+
+  @override
+  String get editStepPreferences => 'التفضيلات';
+
+  @override
+  String get editStepReview => 'المراجعة';
+
+  @override
+  String get editIndustryLabel => 'القطاع';
+
+  @override
+  String get editExperienceLevelLabel => 'مستوى الخبرة';
+
+  @override
+  String get editWorkplaceTypeLabel => 'نوع بيئة العمل';
+
+  @override
+  String get editSalaryFromLabel => 'الراتب من';
+
+  @override
+  String get editSalaryToLabel => 'الراتب إلى';
+
+  @override
+  String get editSetSalaryRange => 'تحديد نطاق الراتب';
+
+  @override
+  String get editSetDeadline => 'تحديد الموعد النهائي للطلبات';
+
+  @override
+  String get editSkillsTitle => 'المهارات المطلوبة';
+
+  @override
+  String get editSkillsDescription =>
+      'أضف المهارات المطلوبة لهذا الدور عن طريق كتابتها واحدة تلو الأخرى والاختيار من القائمة المنسدلة، أو أدخل عدة مهارات مفصولة بفواصل.';
+
+  @override
+  String get editSkillsHint => 'ابدأ الكتابة لإضافة مهارة';
+
+  @override
+  String get editAiSkillsSuggestions => 'اقتراحات مهارات الذكاء الاصطناعي';
+
+  @override
+  String get editLanguagesTitle => 'المهارات اللغوية المطلوبة';
+
+  @override
+  String get editLanguageLabel => 'اللغة';
+
+  @override
+  String get editProficiencyLabel => 'مستوى الكفاءة';
+
+  @override
+  String get editAddLanguage => '+ إضافة لغة أخرى';
+
+  @override
+  String get editCompetenciesTitle => 'الكفاءات';
+
+  @override
+  String get editComputerSkillsLabel => 'مهارات الحاسوب';
+
+  @override
+  String get editDrivingLicence => 'يُشترط رخصة القيادة';
+
+  @override
+  String get editDrivingLicenceCategory => 'فئة رخصة القيادة';
+
+  @override
+  String get editAboutRole => 'حول الدور';
+
+  @override
+  String get editResponsibilities => 'المسؤوليات';
+
+  @override
+  String get editRequirements => 'المتطلبات';
+
+  @override
+  String get editNiceToHave => 'يُستحسن امتلاكها';
+
+  @override
+  String get editWeOffer => 'ما نقدمه';
+
+  @override
+  String get editCoverLetterTitle => 'خطاب التغطية';
+
+  @override
+  String get editCoverLetterDescription =>
+      'تساعدك خطابات التغطية على فهم الدوافع ومهارات التواصل بشكل أفضل. سيُطلب من المرشحين إضافتها عند التقديم.';
+
+  @override
+  String get editRequireCoverLetter => 'اشتراط خطاب تغطية من المرشحين';
+
+  @override
+  String get editScreeningQuestionsTitle => 'أسئلة إضافية';
+
+  @override
+  String get editScreeningQuestionsDescription =>
+      'أضف أسئلة إضافية لمعرفة المزيد عن المرشحين قبل المقابلة. هذه الخطوة اختيارية. نوصي بإضافة ما يصل إلى 5 أسئلة.';
+
+  @override
+  String get editAddScreeningQuestions => 'إضافة أسئلة الفرز';
+
+  @override
+  String get editReviewTitle => 'المراجعة';
+
+  @override
+  String get editJobBasicsButton => 'تعديل أساسيات الوظيفة';
+
+  @override
+  String get editSkillsButton => 'تعديل المهارات';
+
+  @override
+  String get editDescriptionButton => 'تعديل وصف الوظيفة';
+
+  @override
+  String get editCoverLetterPrefsButton => 'تحديث تفضيلات خطاب التغطية';
+
+  @override
+  String get editScreeningButton => 'تعديل أسئلة الفرز الإضافية';
+
+  @override
+  String get publishJobPostButton => 'نشر الإعلان الوظيفي';
+
+  @override
+  String dashboardArchivedCount(int count) {
+    return 'لديك $count إعلان وظيفي مؤرشف';
+  }
 }
