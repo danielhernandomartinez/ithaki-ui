@@ -63,6 +63,7 @@ class _EmployerSetupScreenState extends ConsumerState<EmployerSetupScreen> {
 
   // Tab 2 — Contact Details
   final _addressCtrl = TextEditingController();
+  final _cityCtrl = TextEditingController();
   String _city = '';
   final _contactEmailCtrl = TextEditingController();
   final _contactPhoneCtrl = TextEditingController();
@@ -79,6 +80,7 @@ class _EmployerSetupScreenState extends ConsumerState<EmployerSetupScreen> {
     _phoneCtrl.dispose();
     _legalNameCtrl.dispose();
     _addressCtrl.dispose();
+    _cityCtrl.dispose();
     _contactEmailCtrl.dispose();
     _contactPhoneCtrl.dispose();
     _websiteCtrl.dispose();
@@ -295,7 +297,7 @@ class _EmployerSetupScreenState extends ConsumerState<EmployerSetupScreen> {
         IthakiTextField(
           label: l.cityLabel,
           hint: l.cityHint,
-          controller: TextEditingController(text: _city),
+          controller: _cityCtrl,
           readOnly: true,
           suffixIcon: const Padding(
             padding: EdgeInsets.all(12),
@@ -303,7 +305,10 @@ class _EmployerSetupScreenState extends ConsumerState<EmployerSetupScreen> {
           ),
           onTap: () => CitySearchBottomSheet.show(
             context,
-            (city) => setState(() => _city = city),
+            (city) => setState(() {
+              _city = city;
+              _cityCtrl.text = city;
+            }),
           ),
         ),
         const SizedBox(height: 16),
