@@ -18,6 +18,13 @@ abstract final class Routes {
   static const loginPhone = '/login-phone';
   static const welcome = '/welcome';
 
+  // Employer sign-up
+  static const userTypeSelection = '/user-type';
+  static const employerTypeSelection = '/employer-type';
+  static const registerEmployer = '/employer/register';
+  static const employerSetup = '/employer/setup';
+  static const employerSetupValues = '/employer/setup/values';
+
   // Setup
   static const setupLocation = '/setup/location';
   static const setupJobInterests = '/setup/job-interests';

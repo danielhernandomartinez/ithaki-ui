@@ -67,6 +67,175 @@ class AppLocalizationsAr extends AppLocalizations {
       'لا أحب الأدوات المعقدة - أفضل عندما تعمل التكنولوجيا بسلاسة';
 
   @override
+  String get userTypeTitle => 'Select your account type';
+
+  @override
+  String get userTypeDescription =>
+      'Select the option that best describes you to continue with registration.';
+
+  @override
+  String get userTypeJobSeekerLabel => 'I\'m a Job Seeker';
+
+  @override
+  String get userTypeJobSeekerSubtitle =>
+      'You\'re looking for job opportunities. Create a talent profile to apply for jobs and connect with employers.';
+
+  @override
+  String get userTypeEmployerLabel => 'We are an Employer or NGO';
+
+  @override
+  String get userTypeEmployerSubtitle =>
+      'You\'re looking for talent or coordinating candidates. Create an organization account to post jobs and manage applications.';
+
+  @override
+  String get employerTypeTitle => 'Select your account type';
+
+  @override
+  String get employerTypeDescription =>
+      'Select the option that best describes your organization to continue with registration.';
+
+  @override
+  String get employerCompanyLabel => 'We are Employer Company';
+
+  @override
+  String get employerCompanySubtitle =>
+      'You\'re looking for skilled professionals to join your team. Create a company account to post jobs, manage applications, and connect with top talent.';
+
+  @override
+  String get employerNgoLabel => 'We are Non-Profit Organization';
+
+  @override
+  String get employerNgoSubtitle =>
+      'You\'re making social impact through meaningful projects. Create an organization account to coordinate your dedicated candidates and grow your community.';
+
+  @override
+  String get workEmailLabel => 'Work Email';
+
+  @override
+  String get employerSetupAdminTab => 'Admin Details';
+
+  @override
+  String get employerSetupCompanyTab => 'Company Details';
+
+  @override
+  String get employerSetupContactsTab => 'Contacts';
+
+  @override
+  String get employerSetupBrandingTab => 'Profile & Branding';
+
+  @override
+  String get employerAdminHeading => 'Account created';
+
+  @override
+  String get employerAdminDescription =>
+      'Great! Profile setup is next — let\'s make candidates search easier and faster.';
+
+  @override
+  String get adminRoleLabel => 'Role';
+
+  @override
+  String get adminRoleHint => 'Select your Role';
+
+  @override
+  String get employerCompanyHeading => 'Company Details';
+
+  @override
+  String get employerCompanyDescription =>
+      'Add core information about your business. Make sure these details match your company\'s legal documents.';
+
+  @override
+  String get legalCompanyNameLabel => 'Legal Company Name';
+
+  @override
+  String get legalCompanyNameHint => 'Enter legal company Name';
+
+  @override
+  String get businessIndustryLabel => 'Business Industry';
+
+  @override
+  String get businessIndustryHint => 'Select your business industry';
+
+  @override
+  String get companySizeLabel => 'Company Size';
+
+  @override
+  String get companySizeHint => 'Select your company size';
+
+  @override
+  String get employerContactsHeading => 'Contact Details';
+
+  @override
+  String get employerContactsDescription =>
+      'Share contact details for communication and verification purposes.';
+
+  @override
+  String get registeredAddressLabel => 'Registered Address';
+
+  @override
+  String get registeredAddressHint => 'Enter registered Address';
+
+  @override
+  String get cityLabel => 'City';
+
+  @override
+  String get cityHint => 'Select city or start typing';
+
+  @override
+  String get contactEmailLabel => 'Contact Email';
+
+  @override
+  String get contactEmailHint => 'Enter your email';
+
+  @override
+  String get contactEmailHelper => 'Contact email for candidates';
+
+  @override
+  String get contactPhoneLabel => 'Contact Phone Number';
+
+  @override
+  String get contactPhoneHint => '+30 XXX XXX XX XX';
+
+  @override
+  String get contactPhoneHelper => 'Contact phone for candidates';
+
+  @override
+  String get companyWebsiteLabel => 'Company Website (optional)';
+
+  @override
+  String get companyWebsiteHint => 'Enter company website';
+
+  @override
+  String get employerBrandingHeading => 'Profile & Branding';
+
+  @override
+  String get employerBrandingDescription =>
+      'Add your logo and company details to complete your profile. You can update this anytime in Profile Settings.';
+
+  @override
+  String get skipForNow => 'تخطي الآن';
+
+  @override
+  String get uploadPhotoLabel => 'Upload Photo';
+
+  @override
+  String get uploadPhotoDescription =>
+      'Upload a square logo (PNG, JPG, JPEG, or SVG) up to 2 MB, at least 400x400 px, preferably with a transparent background.';
+
+  @override
+  String get aboutCompanyLabel => 'About Company';
+
+  @override
+  String get aboutCompanyDescription =>
+      'Describe your company\'s mission, values, and main activities in a few sentences.';
+
+  @override
+  String get aboutCompanyHint => 'Add company description';
+
+  @override
+  String get employerValuesDescription =>
+      'Select up to 5 values that best reflect your company culture. We use them to match you with like-minded talents. You can update this anytime in Profile Settings.';
+
+  @override
   String get signInWithGoogle => 'تسجيل الدخول بواسطة Google';
 
   @override
@@ -273,9 +442,6 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get welcomeModalDescription =>
       'لنقم بإعداد قصير حتى نتمكن من مطابقتك مع أفضل خيارات العمل.';
-
-  @override
-  String get skipForNow => 'تخطي الآن';
 
   @override
   String get startSetup => 'بدء الإعداد';

@@ -208,6 +208,318 @@ abstract class AppLocalizations {
   /// **'I\'m not into complex tools - I prefer when technology just works smoothly'**
   String get techNewSubtitle;
 
+  /// No description provided for @userTypeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your account type'**
+  String get userTypeTitle;
+
+  /// No description provided for @userTypeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the option that best describes you to continue with registration.'**
+  String get userTypeDescription;
+
+  /// No description provided for @userTypeJobSeekerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m a Job Seeker'**
+  String get userTypeJobSeekerLabel;
+
+  /// No description provided for @userTypeJobSeekerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re looking for job opportunities. Create a talent profile to apply for jobs and connect with employers.'**
+  String get userTypeJobSeekerSubtitle;
+
+  /// No description provided for @userTypeEmployerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'We are an Employer or NGO'**
+  String get userTypeEmployerLabel;
+
+  /// No description provided for @userTypeEmployerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re looking for talent or coordinating candidates. Create an organization account to post jobs and manage applications.'**
+  String get userTypeEmployerSubtitle;
+
+  /// No description provided for @employerTypeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your account type'**
+  String get employerTypeTitle;
+
+  /// No description provided for @employerTypeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the option that best describes your organization to continue with registration.'**
+  String get employerTypeDescription;
+
+  /// No description provided for @employerCompanyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'We are Employer Company'**
+  String get employerCompanyLabel;
+
+  /// No description provided for @employerCompanySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re looking for skilled professionals to join your team. Create a company account to post jobs, manage applications, and connect with top talent.'**
+  String get employerCompanySubtitle;
+
+  /// No description provided for @employerNgoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'We are Non-Profit Organization'**
+  String get employerNgoLabel;
+
+  /// No description provided for @employerNgoSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re making social impact through meaningful projects. Create an organization account to coordinate your dedicated candidates and grow your community.'**
+  String get employerNgoSubtitle;
+
+  /// No description provided for @workEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Work Email'**
+  String get workEmailLabel;
+
+  /// No description provided for @employerSetupAdminTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin Details'**
+  String get employerSetupAdminTab;
+
+  /// No description provided for @employerSetupCompanyTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Details'**
+  String get employerSetupCompanyTab;
+
+  /// No description provided for @employerSetupContactsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts'**
+  String get employerSetupContactsTab;
+
+  /// No description provided for @employerSetupBrandingTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile & Branding'**
+  String get employerSetupBrandingTab;
+
+  /// No description provided for @employerAdminHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Account created'**
+  String get employerAdminHeading;
+
+  /// No description provided for @employerAdminDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Great! Profile setup is next — let\'s make candidates search easier and faster.'**
+  String get employerAdminDescription;
+
+  /// No description provided for @adminRoleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Role'**
+  String get adminRoleLabel;
+
+  /// No description provided for @adminRoleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your Role'**
+  String get adminRoleHint;
+
+  /// No description provided for @employerCompanyHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Details'**
+  String get employerCompanyHeading;
+
+  /// No description provided for @employerCompanyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add core information about your business. Make sure these details match your company\'s legal documents.'**
+  String get employerCompanyDescription;
+
+  /// No description provided for @legalCompanyNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal Company Name'**
+  String get legalCompanyNameLabel;
+
+  /// No description provided for @legalCompanyNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter legal company Name'**
+  String get legalCompanyNameHint;
+
+  /// No description provided for @businessIndustryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Business Industry'**
+  String get businessIndustryLabel;
+
+  /// No description provided for @businessIndustryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your business industry'**
+  String get businessIndustryHint;
+
+  /// No description provided for @companySizeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Size'**
+  String get companySizeLabel;
+
+  /// No description provided for @companySizeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your company size'**
+  String get companySizeHint;
+
+  /// No description provided for @employerContactsHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Details'**
+  String get employerContactsHeading;
+
+  /// No description provided for @employerContactsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Share contact details for communication and verification purposes.'**
+  String get employerContactsDescription;
+
+  /// No description provided for @registeredAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Registered Address'**
+  String get registeredAddressLabel;
+
+  /// No description provided for @registeredAddressHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter registered Address'**
+  String get registeredAddressHint;
+
+  /// No description provided for @cityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get cityLabel;
+
+  /// No description provided for @cityHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select city or start typing'**
+  String get cityHint;
+
+  /// No description provided for @contactEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Email'**
+  String get contactEmailLabel;
+
+  /// No description provided for @contactEmailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email'**
+  String get contactEmailHint;
+
+  /// No description provided for @contactEmailHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact email for candidates'**
+  String get contactEmailHelper;
+
+  /// No description provided for @contactPhoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Phone Number'**
+  String get contactPhoneLabel;
+
+  /// No description provided for @contactPhoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'+30 XXX XXX XX XX'**
+  String get contactPhoneHint;
+
+  /// No description provided for @contactPhoneHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact phone for candidates'**
+  String get contactPhoneHelper;
+
+  /// No description provided for @companyWebsiteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Website (optional)'**
+  String get companyWebsiteLabel;
+
+  /// No description provided for @companyWebsiteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter company website'**
+  String get companyWebsiteHint;
+
+  /// No description provided for @employerBrandingHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile & Branding'**
+  String get employerBrandingHeading;
+
+  /// No description provided for @employerBrandingDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your logo and company details to complete your profile. You can update this anytime in Profile Settings.'**
+  String get employerBrandingDescription;
+
+  /// No description provided for @skipForNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip for Now'**
+  String get skipForNow;
+
+  /// No description provided for @uploadPhotoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Photo'**
+  String get uploadPhotoLabel;
+
+  /// No description provided for @uploadPhotoDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload a square logo (PNG, JPG, JPEG, or SVG) up to 2 MB, at least 400x400 px, preferably with a transparent background.'**
+  String get uploadPhotoDescription;
+
+  /// No description provided for @aboutCompanyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'About Company'**
+  String get aboutCompanyLabel;
+
+  /// No description provided for @aboutCompanyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your company\'s mission, values, and main activities in a few sentences.'**
+  String get aboutCompanyDescription;
+
+  /// No description provided for @aboutCompanyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add company description'**
+  String get aboutCompanyHint;
+
+  /// No description provided for @employerValuesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Select up to 5 values that best reflect your company culture. We use them to match you with like-minded talents. You can update this anytime in Profile Settings.'**
+  String get employerValuesDescription;
+
   /// No description provided for @signInWithGoogle.
   ///
   /// In en, this message translates to:
@@ -597,12 +909,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Let\'s go through a short setup so we can match you with the best job options.'**
   String get welcomeModalDescription;
-
-  /// No description provided for @skipForNow.
-  ///
-  /// In en, this message translates to:
-  /// **'Skip for Now'**
-  String get skipForNow;
 
   /// No description provided for @startSetup.
   ///

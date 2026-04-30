@@ -4,6 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'config/app_config.dart';
 import 'repositories/profile/profile_local_store.dart';
 import 'screens/auth/select_language_screen.dart';
+import 'screens/auth/user_type_selection_screen.dart';
+import 'screens/auth/employer_type_selection_screen.dart';
+import 'screens/employer/employer_setup_screen.dart';
 import 'routes.dart';
 import 'screens/auth/tech_comfort_screen.dart';
 import 'screens/auth/register_screen.dart';
@@ -60,6 +63,11 @@ class IthakiRouter {
   // Routes that are accessible without phone verification.
   static const _unguardedRoutes = {
     Routes.root,
+    Routes.userTypeSelection,
+    Routes.employerTypeSelection,
+    Routes.registerEmployer,
+    Routes.employerSetup,
+    Routes.employerSetupValues,
     Routes.techComfort,
     Routes.register,
     Routes.personalDetails,
