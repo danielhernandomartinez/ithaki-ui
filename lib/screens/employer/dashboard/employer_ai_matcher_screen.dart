@@ -64,6 +64,17 @@ class _EmployerAiMatcherScreenState
     setState(() => _candidates[index].status = _InviteStatus.sent);
   }
 
+  void _showFilters() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (_) => _FiltersSheet(jobPost: widget.jobPost),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -121,25 +132,28 @@ class _EmployerAiMatcherScreenState
                       ),
                       const SizedBox(width: 10),
                       // Filters button
-                      Container(
-                        height: 44,
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: IthakiTheme.borderLight),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Row(
-                          children: [
-                            const IthakiIcon('settings',
-                                size: 16, color: IthakiTheme.textPrimary),
-                            const SizedBox(width: 6),
-                            Text(l10n.aiMatcherFilters,
-                                style: IthakiTheme.bodySmallSemiBold),
-                            const SizedBox(width: 4),
-                            const IthakiIcon('arrow-down',
-                                size: 14,
-                                color: IthakiTheme.softGraphite),
-                          ],
+                      GestureDetector(
+                        onTap: _showFilters,
+                        child: Container(
+                          height: 44,
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: IthakiTheme.borderLight),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Row(
+                            children: [
+                              const IthakiIcon('settings',
+                                  size: 16, color: IthakiTheme.textPrimary),
+                              const SizedBox(width: 6),
+                              Text(l10n.aiMatcherFilters,
+                                  style: IthakiTheme.bodySmallSemiBold),
+                              const SizedBox(width: 4),
+                              const IthakiIcon('arrow-down',
+                                  size: 14,
+                                  color: IthakiTheme.softGraphite),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -349,6 +363,89 @@ class _CandidateCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+// ── Filters sheet ─────────────────────────────────────────────────────────────
+
+class _FiltersSheet extends StatelessWidget {
+  final JobPost jobPost;
+  const _FiltersSheet({required this.jobPost});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    // Prefilled from job post; granular filter values are mocked until backend ready
+    final rows = [
+      ('Job Category', jobPost.category),
+      ('Role', jobPost.title),
+      ('Location', 'Chalkidiki'),              // TODO: from job post when model includes location
+      ('Experience Level', 'Entry'),            // TODO: from job post when model includes level
+      ('Salary', jobPost.salary),
+      ('Skills', 'Communication skill, + 7 more'), // TODO: from job post skills list
+      ('Driving Licence', 'Filter Item 3; Filter Item 2;'), // TODO: from job post preferences
+      ('Relocation', 'Filter Item 3; Filter Item 2;'),      // TODO: from job post preferences
+    ];
+
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(l10n.aiMatcherFilters, style: IthakiTheme.headingMedium),
+                const Spacer(),
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: const IthakiIcon('x-close', size: 20,
+                      color: IthakiTheme.softGraphite),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            ...rows.map((row) => _FilterRow(label: row.$1, value: row.$2)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _FilterRow extends StatelessWidget {
+  final String label;
+  final String value;
+  const _FilterRow({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 14),
+          child: Row(
+            children: [
+              Text(label, style: IthakiTheme.bodySmallBold),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  value,
+                  style: IthakiTheme.bodySmall,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              const SizedBox(width: 8),
+              const IthakiIcon('arrow-down', size: 14,
+                  color: IthakiTheme.softGraphite),
+            ],
+          ),
+        ),
+        const Divider(color: IthakiTheme.borderLight, height: 1),
+      ],
     );
   }
 }

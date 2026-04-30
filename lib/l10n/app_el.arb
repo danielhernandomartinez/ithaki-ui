@@ -558,5 +558,8 @@
   "editDescriptionButton": "Επεξεργασία Περιγραφής",
   "editCoverLetterPrefsButton": "Ενημέρωση Προτιμήσεων Συνοδευτικής Επιστολής",
   "editScreeningButton": "Επεξεργασία Πρόσθετων Ερωτήσεων Αξιολόγησης",
-  "publishJobPostButton": "Δημοσίευση Αγγελίας"
+  "publishJobPostButton": "Δημοσίευση Αγγελίας",
+  "closeJobHiredThroughIthaki": "Προσλάβαμε υποψήφιο μέσω Ithaki",
+  "closeJobIthakiCandidateDescription": "Για να βελτιώσουμε τα αναλυτικά μας και την πλατφόρμα, παρακαλούμε επιλέξτε τον υποψήφιο με τον οποίο θα συνεχίσετε.",
+  "closeJobSelectCandidate": "Επιλέξτε υποψήφιο"
 }

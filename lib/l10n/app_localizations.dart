@@ -2925,6 +2925,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You have {count} archived job posts'**
   String dashboardArchivedCount(int count);
+
+  /// No description provided for @closeJobHiredThroughIthaki.
+  ///
+  /// In en, this message translates to:
+  /// **'We hired a candidate through Ithaki'**
+  String get closeJobHiredThroughIthaki;
+
+  /// No description provided for @closeJobIthakiCandidateDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'To help us enhance our analytics and refine the platform, please select the candidate you will continue with.'**
+  String get closeJobIthakiCandidateDescription;
+
+  /// No description provided for @closeJobSelectCandidate.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the candidate'**
+  String get closeJobSelectCandidate;
 }
 
 class _AppLocalizationsDelegate

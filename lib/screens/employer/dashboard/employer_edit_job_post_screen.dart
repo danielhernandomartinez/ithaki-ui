@@ -111,6 +111,22 @@ class _EmployerEditJobPostScreenState
         showBackButton: true,
         onMenuPressed: () => context.pop(),
       ),
+      bottomNavigationBar: _EditBottomBar(
+        l10n: l10n,
+        onPublish: () => context.pop('published'),
+        onSaveDraft: () {
+          // TODO: persist draft when backend is ready
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Save as Draft — coming soon')),
+          );
+        },
+        onDelete: () {
+          // TODO: delete job post when backend is ready
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Delete — coming soon')),
+          );
+        },
+      ),
       body: Column(
         children: [
           Expanded(
@@ -751,48 +767,12 @@ class _ReviewStep extends StatelessWidget {
 
                 IthakiOutlineButton(l10n.editScreeningButton,
                     onPressed: () => s._goToStep(_Step.preferences)),
-                const SizedBox(height: 24),
-
-                Row(children: [
-                  Expanded(
-                    child: SizedBox(
-                      height: 52,
-                      child: ElevatedButton(
-                        onPressed: () => context.pop('published'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: IthakiTheme.primaryPurple,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const IthakiIcon('rocket', size: 16,
-                                color: Colors.white),
-                            const SizedBox(width: 6),
-                            Text(l10n.publishJobPostButton,
-                                style: IthakiTheme.buttonLabel),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    width: 48, height: 52,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: IthakiTheme.borderLight),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: const Center(
-                      child: IthakiIcon('arrow-down', size: 18,
-                          color: IthakiTheme.softGraphite),
-                    ),
-                  ),
-                ]),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: IthakiOutlineButton('Back', onPressed: s._back),
+                ),
               ],
             ),
           ),
@@ -881,6 +861,102 @@ class _DropdownField extends StatelessWidget {
           onChanged: onChanged,
           icon: const IthakiIcon('arrow-down', size: 16,
               color: IthakiTheme.softGraphite),
+        ),
+      ),
+    );
+  }
+}
+
+// ── Edit screen persistent bottom bar ────────────────────────────────────────
+
+class _EditBottomBar extends StatelessWidget {
+  final AppLocalizations l10n;
+  final VoidCallback onPublish;
+  final VoidCallback onSaveDraft;
+  final VoidCallback onDelete;
+
+  const _EditBottomBar({
+    required this.l10n,
+    required this.onPublish,
+    required this.onSaveDraft,
+    required this.onDelete,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+        child: Row(
+          children: [
+            Expanded(
+              child: SizedBox(
+                height: 52,
+                child: ElevatedButton(
+                  onPressed: onPublish,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: IthakiTheme.primaryPurple,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    elevation: 0,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const IthakiIcon('rocket', size: 16, color: Colors.white),
+                      const SizedBox(width: 8),
+                      Text(l10n.publishJobPostButton,
+                          style: IthakiTheme.buttonLabel),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            PopupMenuButton<String>(
+              onSelected: (value) {
+                if (value == 'draft') onSaveDraft();
+                if (value == 'delete') onDelete();
+              },
+              offset: const Offset(0, -110),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              itemBuilder: (_) => [
+                PopupMenuItem(
+                  value: 'draft',
+                  child: Row(children: [
+                    const IthakiIcon('resume',
+                        size: 18, color: IthakiTheme.textPrimary),
+                    const SizedBox(width: 10),
+                    const Text('Save as Draft'),
+                  ]),
+                ),
+                PopupMenuItem(
+                  value: 'delete',
+                  child: Row(children: [
+                    const IthakiIcon('delete',
+                        size: 18, color: IthakiTheme.textPrimary),
+                    const SizedBox(width: 10),
+                    Text(l10n.jobDetailDelete),
+                  ]),
+                ),
+              ],
+              child: Container(
+                width: 52,
+                height: 52,
+                decoration: BoxDecoration(
+                  color: IthakiTheme.softGray,
+                  shape: BoxShape.circle,
+                ),
+                child: const Center(
+                  child: IthakiIcon('settings',
+                      size: 20, color: IthakiTheme.softGraphite),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

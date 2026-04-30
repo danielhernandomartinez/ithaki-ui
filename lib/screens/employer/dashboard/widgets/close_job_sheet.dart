@@ -3,11 +3,22 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../models/employer_dashboard_models.dart';
 
-const _kCloseReasons = [
-  'Position filled',
-  'Budget cut',
-  'Role changed',
-  'Other',
+const _kCloseReasonHiredThroughIthaki = 'hired_through_ithaki';
+
+const _kCloseReasonKeys = [
+  _kCloseReasonHiredThroughIthaki,
+  'position_filled_other',
+  'budget_cut',
+  'role_changed',
+  'other',
+];
+
+// Mock candidates — replace with real data from provider when backend is ready
+const _kMockIthakiCandidates = [
+  'Nikos Papadakis',
+  'Elena Koutrouki',
+  'Omar Al-Hassan',
+  'Layla Mansour',
 ];
 
 class CloseJobSheet extends StatefulWidget {
@@ -21,7 +32,20 @@ class CloseJobSheet extends StatefulWidget {
 }
 
 class _CloseJobSheetState extends State<CloseJobSheet> {
-  String? _reason;
+  String? _reasonKey;
+  String? _ithakiCandidate;
+
+  bool get _isIthakiReason => _reasonKey == _kCloseReasonHiredThroughIthaki;
+  bool get _canConfirm =>
+      _reasonKey != null && (!_isIthakiReason || _ithakiCandidate != null);
+
+  String _reasonLabel(AppLocalizations l10n, String key) => switch (key) {
+        _kCloseReasonHiredThroughIthaki => l10n.closeJobHiredThroughIthaki,
+        'position_filled_other' => 'Position filled (other source)',
+        'budget_cut' => 'Budget cut',
+        'role_changed' => 'Role changed',
+        _ => 'Other',
+      };
 
   @override
   Widget build(BuildContext context) {
@@ -59,33 +83,52 @@ class _CloseJobSheetState extends State<CloseJobSheet> {
               ),
             ),
             const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                border: Border.all(color: IthakiTheme.borderLight),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  value: _reason,
-                  isExpanded: true,
-                  hint: Text(l10n.closeJobReasonHint,
-                      style: IthakiTheme.bodySmall
-                          .copyWith(color: IthakiTheme.textSecondary)),
-                  items: _kCloseReasons
-                      .map((r) => DropdownMenuItem(value: r, child: Text(r)))
-                      .toList(),
-                  onChanged: (v) => setState(() => _reason = v),
-                ),
-              ),
+
+            // ── Reason dropdown ───────────────────────────────
+            _Dropdown(
+              value: _reasonKey,
+              hint: l10n.closeJobReasonHint,
+              items: _kCloseReasonKeys
+                  .map((k) => DropdownMenuItem(
+                        value: k,
+                        child: Text(_reasonLabel(l10n, k)),
+                      ))
+                  .toList(),
+              onChanged: (v) => setState(() {
+                _reasonKey = v;
+                _ithakiCandidate = null;
+              }),
             ),
+
+            // ── Ithaki candidate section (conditional) ────────
+            if (_isIthakiReason) ...[
+              const SizedBox(height: 16),
+              Text(
+                l10n.closeJobIthakiCandidateDescription,
+                style: IthakiTheme.bodySmall,
+              ),
+              const SizedBox(height: 12),
+              _Dropdown(
+                value: _ithakiCandidate,
+                hint: l10n.closeJobSelectCandidate,
+                // TODO: replace with real candidates from provider when backend is ready
+                items: _kMockIthakiCandidates
+                    .map((name) => DropdownMenuItem(
+                          value: name,
+                          child: Text(name),
+                        ))
+                    .toList(),
+                onChanged: (v) => setState(() => _ithakiCandidate = v),
+              ),
+            ],
+
             const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               height: 52,
               child: ElevatedButton(
-                onPressed: _reason != null
-                    ? () => widget.onConfirm?.call(_reason!)
+                onPressed: _canConfirm
+                    ? () => widget.onConfirm?.call(_reasonKey!)
                     : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: IthakiTheme.primaryPurple,
@@ -102,6 +145,42 @@ class _CloseJobSheetState extends State<CloseJobSheet> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _Dropdown extends StatelessWidget {
+  final String? value;
+  final String hint;
+  final List<DropdownMenuItem<String>> items;
+  final ValueChanged<String?> onChanged;
+
+  const _Dropdown({
+    required this.value,
+    required this.hint,
+    required this.items,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      decoration: BoxDecoration(
+        border: Border.all(color: IthakiTheme.borderLight),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: value,
+          isExpanded: true,
+          hint: Text(hint,
+              style: IthakiTheme.bodySmall
+                  .copyWith(color: IthakiTheme.textSecondary)),
+          items: items,
+          onChanged: onChanged,
         ),
       ),
     );

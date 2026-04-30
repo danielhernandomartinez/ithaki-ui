@@ -1524,4 +1524,14 @@ class AppLocalizationsEl extends AppLocalizations {
   String dashboardArchivedCount(int count) {
     return 'Έχετε $count αρχειοθετημένες αγγελίες';
   }
+
+  @override
+  String get closeJobHiredThroughIthaki => 'Προσλάβαμε υποψήφιο μέσω Ithaki';
+
+  @override
+  String get closeJobIthakiCandidateDescription =>
+      'Για να βελτιώσουμε τα αναλυτικά μας και την πλατφόρμα, παρακαλούμε επιλέξτε τον υποψήφιο με τον οποίο θα συνεχίσετε.';
+
+  @override
+  String get closeJobSelectCandidate => 'Επιλέξτε υποψήφιο';
 }

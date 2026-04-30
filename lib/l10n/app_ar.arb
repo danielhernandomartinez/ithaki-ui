@@ -558,5 +558,8 @@
   "editDescriptionButton": "تعديل وصف الوظيفة",
   "editCoverLetterPrefsButton": "تحديث تفضيلات خطاب التغطية",
   "editScreeningButton": "تعديل أسئلة الفرز الإضافية",
-  "publishJobPostButton": "نشر الإعلان الوظيفي"
+  "publishJobPostButton": "نشر الإعلان الوظيفي",
+  "closeJobHiredThroughIthaki": "لقد وظفنا مرشحاً من خلال Ithaki",
+  "closeJobIthakiCandidateDescription": "لمساعدتنا في تحسين التحليلات وتطوير المنصة، يرجى اختيار المرشح الذي ستستمر معه.",
+  "closeJobSelectCandidate": "اختر المرشح"
 }

@@ -568,5 +568,8 @@
   "dashboardArchivedCount": "You have {count} archived job posts",
   "@dashboardArchivedCount": {
     "placeholders": { "count": { "type": "int" } }
-  }
+  },
+  "closeJobHiredThroughIthaki": "We hired a candidate through Ithaki",
+  "closeJobIthakiCandidateDescription": "To help us enhance our analytics and refine the platform, please select the candidate you will continue with.",
+  "closeJobSelectCandidate": "Select the candidate"
 }

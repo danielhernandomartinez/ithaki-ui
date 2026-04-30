@@ -1507,4 +1507,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String dashboardArchivedCount(int count) {
     return 'لديك $count إعلان وظيفي مؤرشف';
   }
+
+  @override
+  String get closeJobHiredThroughIthaki => 'لقد وظفنا مرشحاً من خلال Ithaki';
+
+  @override
+  String get closeJobIthakiCandidateDescription =>
+      'لمساعدتنا في تحسين التحليلات وتطوير المنصة، يرجى اختيار المرشح الذي ستستمر معه.';
+
+  @override
+  String get closeJobSelectCandidate => 'اختر المرشح';
 }

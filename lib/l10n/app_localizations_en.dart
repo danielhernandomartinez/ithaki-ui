@@ -1515,4 +1515,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String dashboardArchivedCount(int count) {
     return 'You have $count archived job posts';
   }
+
+  @override
+  String get closeJobHiredThroughIthaki =>
+      'We hired a candidate through Ithaki';
+
+  @override
+  String get closeJobIthakiCandidateDescription =>
+      'To help us enhance our analytics and refine the platform, please select the candidate you will continue with.';
+
+  @override
+  String get closeJobSelectCandidate => 'Select the candidate';
 }
