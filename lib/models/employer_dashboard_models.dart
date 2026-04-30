@@ -35,6 +35,17 @@ class JobPost {
     this.closedReason,
   });
 
+  factory JobPost.empty() => JobPost(
+        id: 'new',
+        title: '',
+        category: '',
+        salary: '',
+        status: JobPostStatus.draft,
+        views: 0,
+        candidates: 0,
+        createdAt: DateTime.now(),
+      );
+
   JobPost copyWith({
     String? id,
     String? title,

@@ -1,9 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../models/employer_dashboard_models.dart';
+import '../../../routes.dart';
+import 'widgets/close_job_sheet.dart';
+import 'widgets/delete_job_post_sheet.dart';
+import 'widgets/job_action_banner.dart';
+import 'widgets/publish_again_sheet.dart';
 
 // ── Mock candidate model (local to this screen for now) ──────────────────────
 
@@ -113,8 +121,91 @@ class _EmployerJobDetailScreenState
     with SingleTickerProviderStateMixin {
   bool _fullInfoExpanded = false;
   int _selectedTab = 0; // 0 = Candidates, 1 = Applications
+  JobActionBannerType? _activeBanner;
+  Timer? _bannerTimer;
 
   JobPost get job => widget.jobPost;
+  bool get _isExpired => job.status == JobPostStatus.expired;
+
+  @override
+  void dispose() {
+    _bannerTimer?.cancel();
+    super.dispose();
+  }
+
+  void _showBanner(JobActionBannerType type) {
+    _bannerTimer?.cancel();
+    setState(() => _activeBanner = type);
+    _bannerTimer = Timer(const Duration(seconds: 4), () {
+      if (mounted) setState(() => _activeBanner = null);
+    });
+  }
+
+  void _showCloseJob() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (_) => CloseJobSheet(
+        jobPost: job,
+        onConfirm: (_) {
+          Navigator.pop(context);
+          _showBanner(JobActionBannerType.statusChanged);
+        },
+      ),
+    );
+  }
+
+  void _showPublishAgain() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (_) => PublishAgainSheet(
+        jobPost: job,
+        onConfirm: () {
+          Navigator.pop(context);
+          _showBanner(JobActionBannerType.statusChanged);
+        },
+      ),
+    );
+  }
+
+  void _showDeleteJob() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (_) => DeleteJobPostSheet(
+        jobPost: job,
+        onConfirm: () {
+          Navigator.pop(context);
+          _showBanner(JobActionBannerType.statusChanged);
+        },
+      ),
+    );
+  }
+
+  void _pauseJob() {
+    // TODO: call pause endpoint when backend is ready
+    _showBanner(JobActionBannerType.statusChanged);
+  }
+
+  Future<void> _openEdit() async {
+    final result = await context.push<String>(
+      Routes.employerEditJobFor(job.id),
+      extra: job,
+    );
+    if (result == 'published' && mounted) {
+      _showBanner(JobActionBannerType.changesPublished);
+    }
+  }
 
   String _formatDate(DateTime d) =>
       '${d.day.toString().padLeft(2, '0')}-${d.month.toString().padLeft(2, '0')}-${d.year}';
@@ -129,7 +220,9 @@ class _EmployerJobDetailScreenState
         showBackButton: true,
         onMenuPressed: () => Navigator.of(context).pop(),
       ),
-      body: SingleChildScrollView(
+      body: Stack(
+        children: [
+          SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,9 +355,31 @@ class _EmployerJobDetailScreenState
           ],
         ),
       ),
+          if (_activeBanner != null)
+            Positioned(
+              top: 16,
+              left: 16,
+              right: 16,
+              child: JobActionBanner(
+                type: _activeBanner!,
+                onDismiss: () {
+                  _bannerTimer?.cancel();
+                  setState(() => _activeBanner = null);
+                },
+              ),
+            ),
+        ],
+      ),
 
       // ── Bottom action bar ─────────────────────────────────
-      bottomNavigationBar: _BottomBar(job: job, l10n: l10n),
+      bottomNavigationBar: _BottomBar(
+        job: job,
+        l10n: l10n,
+        onPrimaryAction: _isExpired ? _showPublishAgain : _showCloseJob,
+        onEdit: _openEdit,
+        onPause: _pauseJob,
+        onDelete: _showDeleteJob,
+      ),
     );
   }
 
@@ -684,8 +799,19 @@ class _CandidateTile extends StatelessWidget {
 class _BottomBar extends StatelessWidget {
   final JobPost job;
   final AppLocalizations l10n;
+  final VoidCallback? onPrimaryAction;
+  final VoidCallback? onEdit;
+  final VoidCallback? onPause;
+  final VoidCallback? onDelete;
 
-  const _BottomBar({required this.job, required this.l10n});
+  const _BottomBar({
+    required this.job,
+    required this.l10n,
+    this.onPrimaryAction,
+    this.onEdit,
+    this.onPause,
+    this.onDelete,
+  });
 
   bool get _isExpired => job.status == JobPostStatus.expired;
 
@@ -700,7 +826,7 @@ class _BottomBar extends StatelessWidget {
               child: SizedBox(
                 height: 52,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: onPrimaryAction,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: IthakiTheme.primaryPurple,
                     foregroundColor: Colors.white,
@@ -730,7 +856,12 @@ class _BottomBar extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 10),
-            _MoreButton(l10n: l10n),
+            _MoreButton(
+              l10n: l10n,
+              onEdit: onEdit,
+              onPause: onPause,
+              onDelete: onDelete,
+            ),
           ],
         ),
       ),
@@ -740,13 +871,27 @@ class _BottomBar extends StatelessWidget {
 
 class _MoreButton extends StatelessWidget {
   final AppLocalizations l10n;
+  final VoidCallback? onEdit;
+  final VoidCallback? onPause;
+  final VoidCallback? onDelete;
 
-  const _MoreButton({required this.l10n});
+  const _MoreButton({
+    required this.l10n,
+    this.onEdit,
+    this.onPause,
+    this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
-      onSelected: (_) {},
+      onSelected: (value) {
+        switch (value) {
+          case 'edit': onEdit?.call();
+          case 'pause': onPause?.call();
+          case 'delete': onDelete?.call();
+        }
+      },
       offset: const Offset(0, -120),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       itemBuilder: (_) => [

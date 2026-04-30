@@ -220,7 +220,13 @@ class _EmployerDashboardScreenState
                               style: IthakiTheme.bodySecondary,
                             ),
                             const SizedBox(height: 16),
-                            IthakiButton(l10n.createJobPost),
+                            IthakiButton(
+                              l10n.createJobPost,
+                              onPressed: () => context.push(
+                                Routes.employerEditJobFor('new'),
+                                extra: JobPost.empty(),
+                              ),
+                            ),
                             const SizedBox(height: 16),
 
                             // ── Tab bar ───────────────────────
