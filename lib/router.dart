@@ -177,6 +177,26 @@ class IthakiRouter {
         builder: (context, state) => const LoginPhoneScreen(),
       ),
       GoRoute(
+        path: Routes.userTypeSelection,
+        builder: (context, state) => const UserTypeSelectionScreen(),
+      ),
+      GoRoute(
+        path: Routes.employerTypeSelection,
+        builder: (context, state) => const EmployerTypeSelectionScreen(),
+      ),
+      GoRoute(
+        path: Routes.registerEmployer,
+        builder: (context, state) => const RegisterScreen(isEmployer: true),
+      ),
+      GoRoute(
+        path: Routes.employerSetup,
+        builder: (context, state) => const EmployerSetupScreen(),
+      ),
+      GoRoute(
+        path: Routes.employerSetupValues,
+        builder: (context, state) => const ValuesScreen(isEmployer: true),
+      ),
+      GoRoute(
         path: Routes.welcome,
         pageBuilder: (context, state) => CustomTransitionPage(
           opaque: false,
