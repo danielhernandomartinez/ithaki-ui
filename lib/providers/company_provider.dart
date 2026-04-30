@@ -129,7 +129,7 @@ class ApiCompanyRepository implements CompanyRepository {
       phone: c['phone'] as String? ?? '',
       email: c['email'] as String? ?? '',
       website: c['website'] as String? ?? '',
-      platformDomain: c['platformDomain'] as String? ?? 'ithaki.com',
+      platformDomain: c['platformDomain'] as String? ?? '',
       otherLocations: c['otherLocations'] as String? ?? '',
       aboutText: c['description'] as String? ?? c['about'] as String? ?? '',
       perks: toList(c['perks'] ?? c['benefits']),
@@ -162,7 +162,7 @@ CompanyProfile mockCompanyProfile(String companyId) {
     phone: '+30 123 456 78 90',
     email: 'career@techwave.com',
     website: 'techwave.com',
-    platformDomain: 'ithaki.com',
+    platformDomain: '',
     otherLocations: 'n/a',
     aboutText: 'TechWave is a team of engineers, designers,\n'
         'and strategists turning ideas into real\n'

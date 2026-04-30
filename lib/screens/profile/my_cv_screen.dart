@@ -170,6 +170,8 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
           profileOpen: _panels.profileOpen,
           avatarInitials: cvData.avatarInitials,
           avatarUrl: basicsAsync.value?.photoUrl,
+          onNotificationsPressed: () =>
+              context.push(Routes.settingsNotifications),
           onMenuPressed: () async {
             final shouldPop = await _handleBack(isPublished);
             if (shouldPop && context.mounted) {

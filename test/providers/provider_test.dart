@@ -541,12 +541,13 @@ void main() {
     test('initial state has expected defaults', () async {
       final c = ProviderContainer.test();
       final s = await c.read(profileJobPreferencesProvider.future);
-      expect(s.positionLevel, 'Senior');
-      expect(s.jobType, 'Full time');
+      expect(s.positionLevel, 'Middle (3 years)');
+      expect(s.jobType, 'Full-Time');
       expect(s.workplace, 'On-site');
-      expect(s.expectedSalary, 1800);
+      expect(s.expectedSalary, 21500);
       expect(s.preferNotToSpecifySalary, false);
       expect(s.jobInterests, isNotEmpty);
+      expect(s.jobInterests.first.title, 'Frontend Developer');
     });
 
     test('save changes all preference fields', () async {
@@ -999,14 +1000,17 @@ void main() {
       const a = UploadedFile(name: 'a.pdf', size: '1 KB');
       const b = UploadedFile(name: 'b.pdf', size: '2 KB');
       const d = UploadedFile(name: 'c.pdf', size: '3 KB');
+      final initialLength = c.read(profileFilesProvider).requireValue.length;
       await c.read(profileFilesProvider.notifier).add(a);
       await c.read(profileFilesProvider.notifier).add(b);
       await c.read(profileFilesProvider.notifier).add(d);
-      await c.read(profileFilesProvider.notifier).delete(1); // remove b
+      await c
+          .read(profileFilesProvider.notifier)
+          .delete(initialLength + 1); // remove b
       final files = c.read(profileFilesProvider).requireValue;
-      expect(files.length, 2);
-      expect(files[0].name, 'a.pdf');
-      expect(files[1].name, 'c.pdf');
+      expect(files.length, initialLength + 2);
+      expect(files[initialLength].name, 'a.pdf');
+      expect(files[initialLength + 1].name, 'c.pdf');
     });
   });
 

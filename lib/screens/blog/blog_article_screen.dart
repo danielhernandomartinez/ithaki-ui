@@ -71,9 +71,10 @@ class _BlogArticleScreenState extends ConsumerState<BlogArticleScreen>
         showMenuAndAvatar: true,
         menuOpen: _panels.menuOpen,
         profileOpen: _panels.profileOpen,
-        avatarInitials:
-            ref.watch(profileBasicsProvider).value?.initials ?? '',
+        avatarInitials: ref.watch(profileBasicsProvider).value?.initials ?? '',
         avatarUrl: ref.watch(profileBasicsProvider).value?.photoUrl,
+        onNotificationsPressed: () =>
+            context.push(Routes.settingsNotifications),
         onMenuPressed: _panels.toggleMenu,
         onAvatarPressed: _panels.toggleProfile,
       ),
@@ -350,10 +351,7 @@ class _BlogArticleScreenState extends ConsumerState<BlogArticleScreen>
                   },
                   onLogOut: () {
                     _panels.closeProfile();
-                    ref
-                        .read(authRepositoryProvider)
-                        .logout()
-                        .whenComplete(() {
+                    ref.read(authRepositoryProvider).logout().whenComplete(() {
                       resetProfileProviders(ref);
                       if (context.mounted) context.go(Routes.root);
                     });

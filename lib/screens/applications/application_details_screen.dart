@@ -61,6 +61,8 @@ class _ApplicationDetailsScreenState
         profileOpen: _panels.profileOpen,
         avatarInitials: homeData?.userInitials ?? 'CI',
         avatarUrl: homeData?.userPhotoUrl,
+        onNotificationsPressed: () =>
+            context.push(Routes.settingsNotifications),
         onMenuPressed: _panels.toggleMenu,
         onAvatarPressed: _panels.toggleProfile,
       ),
@@ -75,7 +77,8 @@ class _ApplicationDetailsScreenState
                 _pad(JobPostBasicsCard(detail: detail)),
                 _pad(TalentProfileCard(candidate: detail.candidate)),
                 _pad(CoverLetterCard(text: detail.coverLetter)),
-                _pad(ScreeningQuestionsCard(questions: detail.screeningQuestions)),
+                _pad(ScreeningQuestionsCard(
+                    questions: detail.screeningQuestions)),
                 _pad(ApplicationDetailCompanyCard(company: detail.company)),
                 SizedBox(height: MediaQuery.paddingOf(context).bottom + 112),
               ],
@@ -95,37 +98,52 @@ class _ApplicationDetailsScreenState
           if (_panels.menuOpen || _panels.profileOpen)
             Positioned.fill(
               child: GestureDetector(
-                onTap: () { _panels.closeMenu(); _panels.closeProfile(); },
+                onTap: () {
+                  _panels.closeMenu();
+                  _panels.closeProfile();
+                },
                 child: const ColoredBox(color: Colors.transparent),
               ),
             ),
-          if (_panels.menuOpen || _panels.menuCtrl.status != AnimationStatus.dismissed)
-            _panel(topOffset, SlideTransition(
-              position: _panels.slideAnim,
-              child: AppNavDrawer(
-                currentRoute: Routes.myApplications,
-                profileProgress: ref.watch(profileCompletionProvider),
-                items: kAppNavItems,
-                onItemTap: (item) { _panels.closeMenu(); context.go(item.route); },
-              ),
-            )),
-          if (_panels.profileOpen || _panels.profileCtrl.status != AnimationStatus.dismissed)
-            _panel(topOffset, SlideTransition(
-              position: _panels.profileSlideAnim,
-              child: ProfileMenuPanel(
-                onItemTap: (item) {
-                  _panels.closeProfile();
-                  if (item.route.isNotEmpty) context.push(item.route);
-                },
-                onLogOut: () {
-                  _panels.closeProfile();
-                  ref.read(authRepositoryProvider).logout().whenComplete(() {
-                    resetProfileProviders(ref);
-                    if (context.mounted) context.go(Routes.root);
-                  });
-                },
-              ),
-            )),
+          if (_panels.menuOpen ||
+              _panels.menuCtrl.status != AnimationStatus.dismissed)
+            _panel(
+                topOffset,
+                SlideTransition(
+                  position: _panels.slideAnim,
+                  child: AppNavDrawer(
+                    currentRoute: Routes.myApplications,
+                    profileProgress: ref.watch(profileCompletionProvider),
+                    items: kAppNavItems,
+                    onItemTap: (item) {
+                      _panels.closeMenu();
+                      context.go(item.route);
+                    },
+                  ),
+                )),
+          if (_panels.profileOpen ||
+              _panels.profileCtrl.status != AnimationStatus.dismissed)
+            _panel(
+                topOffset,
+                SlideTransition(
+                  position: _panels.profileSlideAnim,
+                  child: ProfileMenuPanel(
+                    onItemTap: (item) {
+                      _panels.closeProfile();
+                      if (item.route.isNotEmpty) context.push(item.route);
+                    },
+                    onLogOut: () {
+                      _panels.closeProfile();
+                      ref
+                          .read(authRepositoryProvider)
+                          .logout()
+                          .whenComplete(() {
+                        resetProfileProviders(ref);
+                        if (context.mounted) context.go(Routes.root);
+                      });
+                    },
+                  ),
+                )),
         ],
       ),
     );
@@ -137,7 +155,10 @@ class _ApplicationDetailsScreenState
       );
 
   Widget _panel(double topOffset, Widget child) => Positioned(
-        top: topOffset - 14, left: 16, right: 16, bottom: 40,
+        top: topOffset - 14,
+        left: 16,
+        right: 16,
+        bottom: 40,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(30),
           child: child,

@@ -52,9 +52,10 @@ class _BlogNewsScreenState extends ConsumerState<BlogNewsScreen>
         showMenuAndAvatar: true,
         menuOpen: _panels.menuOpen,
         profileOpen: _panels.profileOpen,
-        avatarInitials:
-            ref.watch(profileBasicsProvider).value?.initials ?? '',
+        avatarInitials: ref.watch(profileBasicsProvider).value?.initials ?? '',
         avatarUrl: ref.watch(profileBasicsProvider).value?.photoUrl,
+        onNotificationsPressed: () =>
+            context.push(Routes.settingsNotifications),
         onMenuPressed: _panels.toggleMenu,
         onAvatarPressed: _panels.toggleProfile,
       ),
@@ -101,8 +102,8 @@ class _BlogNewsScreenState extends ConsumerState<BlogNewsScreen>
                     subtitle:
                         "Career Assistant can help you if you're not sure where to start!",
                     buttonLabel: 'Ask Career Assistant',
-                    buttonIcon: const IthakiIcon(
-                        'ai', size: 18, color: IthakiTheme.backgroundWhite),
+                    buttonIcon: const IthakiIcon('ai',
+                        size: 18, color: IthakiTheme.backgroundWhite),
                     onButtonPressed: () => context.go(Routes.careerAssistant),
                     backgroundImage: const DecorationImage(
                       image: AssetImage('assets/images/ai_banner_bg.png'),

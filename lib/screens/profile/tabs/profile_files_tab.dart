@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../providers/profile_provider.dart';
+import '../../../utils/open_resource.dart';
 import '../../../widgets/profile_empty_state_card.dart';
 import '../../../widgets/upload_files_sheet.dart';
 
@@ -76,24 +78,19 @@ class ProfileFilesTab extends ConsumerWidget {
                               color: IthakiTheme.textPrimary)),
                       Text(f.size,
                           style: const TextStyle(
-                              fontSize: 12,
-                              color: IthakiTheme.textSecondary)),
+                              fontSize: 12, color: IthakiTheme.textSecondary)),
                     ]),
               ),
               TextButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Opening ${f.name}')),
-                  );
-                },
+                onPressed: () => _openFile(context, f),
                 child: const Text('Open',
                     style: TextStyle(color: IthakiTheme.primaryPurple)),
               ),
               TextButton(
                 onPressed: () =>
                     ref.read(profileFilesProvider.notifier).delete(i),
-                child: const Text('Delete',
-                    style: TextStyle(color: Colors.red)),
+                child:
+                    const Text('Delete', style: TextStyle(color: Colors.red)),
               ),
             ]),
           );
@@ -116,4 +113,21 @@ class ProfileFilesTab extends ConsumerWidget {
           ref.read(profileFilesProvider.notifier).add(f);
         }
       });
+
+  Future<void> _openFile(BuildContext context, UploadedFile file) async {
+    final uri = uriForUploadedFile(file);
+    if (uri == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('${file.name} has no file source to open.')),
+      );
+      return;
+    }
+
+    final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (!context.mounted || opened) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Could not open ${file.name}.')),
+    );
+  }
 }

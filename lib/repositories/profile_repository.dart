@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 
 import '../config/app_config.dart';
 import '../data/countries.dart';
+import '../data/mock_profile_data.dart';
 import '../models/profile_models.dart';
 import '../services/api_client.dart';
 import 'profile/profile_api_mapper.dart';
@@ -58,35 +59,14 @@ class MockProfileRepository implements ProfileRepository {
 
   final bool _persistLocal;
 
-  ProfileBasics _basics = const ProfileBasics(
-    firstName: 'Christos',
-    lastName: 'Ioannides',
-    email: 'c.ioannidis@gmail.com',
-    phone: '+30 123 456 78 90',
-    dateOfBirth: '15-06-1995',
-    gender: 'Male',
-    citizenship: 'Greek',
-    citizenshipCode: 'GR',
-    residence: 'Chalkidiki, Greece',
-    residenceCode: 'GR',
-    status: 'Citizen',
-    relocationReadiness: 'No',
-  );
-  ProfileAboutMe _aboutMe = const ProfileAboutMe();
-  ProfileSkills _skills = const ProfileSkills();
-  List<WorkExperience> _workExperiences = const [];
-  List<Education> _educations = const [];
-  List<UploadedFile> _files = const [];
+  ProfileBasics _basics = mockProfileBasics;
+  ProfileAboutMe _aboutMe = mockProfileAboutMe;
+  ProfileSkills _skills = mockProfileSkills;
+  List<WorkExperience> _workExperiences = mockProfileWorkExperiences;
+  List<Education> _educations = mockProfileEducations;
+  List<UploadedFile> _files = mockProfileFiles;
   List<String> _values = const [];
-  ProfileJobPreferences _jobPreferences = const ProfileJobPreferences(
-    jobInterests: [
-      JobInterest(title: 'Web Developer', category: 'IT & Development')
-    ],
-    positionLevel: 'Senior',
-    jobType: 'Full time',
-    workplace: 'On-site',
-    expectedSalary: 1800,
-  );
+  ProfileJobPreferences _jobPreferences = mockProfileJobPreferences;
   bool _profileVisible = true;
 
   Future<void>? _initFuture;
@@ -99,14 +79,46 @@ class MockProfileRepository implements ProfileRepository {
     }
 
     try {
-      _basics = await ProfileLocalStore.loadBasics() ?? _basics;
-      _aboutMe = await ProfileLocalStore.loadAboutMe() ?? _aboutMe;
-      _skills = await ProfileLocalStore.loadSkills() ?? _skills;
-      _workExperiences = await ProfileLocalStore.loadWork() ?? _workExperiences;
-      _educations = await ProfileLocalStore.loadEducation() ?? _educations;
-      _files = await ProfileLocalStore.loadFiles() ?? _files;
+      final cachedBasics = await ProfileLocalStore.loadBasics();
+      final cachedAboutMe = await ProfileLocalStore.loadAboutMe();
+      final cachedSkills = await ProfileLocalStore.loadSkills();
+      final cachedWorkExperiences = await ProfileLocalStore.loadWork();
+      final cachedEducations = await ProfileLocalStore.loadEducation();
+      final cachedFiles = await ProfileLocalStore.loadFiles();
+
+      if (cachedBasics != null &&
+          '${cachedBasics.firstName}${cachedBasics.lastName}'.isNotEmpty) {
+        _basics = cachedBasics;
+      }
+      if (cachedAboutMe != null && cachedAboutMe.bio.trim().isNotEmpty) {
+        _aboutMe = cachedAboutMe;
+      }
+      if (cachedSkills != null &&
+          (cachedSkills.hardSkills.isNotEmpty ||
+              cachedSkills.softSkills.isNotEmpty ||
+              cachedSkills.languages.isNotEmpty ||
+              cachedSkills.competencies.isNotEmpty)) {
+        _skills = cachedSkills;
+      }
+      if (cachedWorkExperiences != null && cachedWorkExperiences.isNotEmpty) {
+        _workExperiences = cachedWorkExperiences;
+      }
+      if (cachedEducations != null && cachedEducations.isNotEmpty) {
+        _educations = cachedEducations;
+      }
+      if (cachedFiles != null && cachedFiles.isNotEmpty) {
+        _files = cachedFiles;
+      }
       _values = await ProfileLocalStore.loadValues() ?? _values;
-      _jobPreferences = await ProfileLocalStore.loadPrefs() ?? _jobPreferences;
+      final cachedJobPreferences = await ProfileLocalStore.loadPrefs();
+      if (cachedJobPreferences != null &&
+          (cachedJobPreferences.jobInterests.isNotEmpty ||
+              cachedJobPreferences.positionLevel.isNotEmpty ||
+              cachedJobPreferences.jobType.isNotEmpty ||
+              cachedJobPreferences.workplace.isNotEmpty ||
+              cachedJobPreferences.expectedSalary != null)) {
+        _jobPreferences = cachedJobPreferences;
+      }
       _profileVisible =
           await ProfileLocalStore.loadVisible() ?? _profileVisible;
     } catch (_) {

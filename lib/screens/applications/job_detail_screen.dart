@@ -202,6 +202,8 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
             profileOpen: _panels.profileOpen,
             avatarInitials: homeData?.userInitials ?? 'CI',
             avatarUrl: homeData?.userPhotoUrl,
+            onNotificationsPressed: () =>
+                context.push(Routes.settingsNotifications),
             onMenuPressed: _panels.toggleMenu,
             onAvatarPressed: _panels.toggleProfile,
           ),
@@ -261,7 +263,8 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
                     _pad(ReviewsCard(detail: detail)),
                     _pad(RecommendedCard(job: detail.recommended)),
                     _pad(JobDetailCompanyCard(company: detail.company)),
-                    SizedBox(height: MediaQuery.paddingOf(context).bottom + 140),
+                    SizedBox(
+                        height: MediaQuery.paddingOf(context).bottom + 140),
                   ],
                 ),
               ),

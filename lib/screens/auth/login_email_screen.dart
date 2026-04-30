@@ -7,7 +7,6 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/profile_provider.dart';
 import '../../repositories/auth_repository.dart';
-import '../../widgets/login_method_footer.dart';
 
 class LoginEmailScreen extends ConsumerStatefulWidget {
   const LoginEmailScreen({super.key});
@@ -185,14 +184,6 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
             onPressed: () {
               // TODO: Handle Google sign in
             },
-          ),
-
-          const SizedBox(height: 24),
-
-          LoginMethodFooter(
-            promptText: l.preferPhone,
-            buttonLabel: l.signInWithPhone,
-            route: Routes.loginPhone,
           ),
 
           const SizedBox(height: 32),

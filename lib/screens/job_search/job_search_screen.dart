@@ -51,6 +51,8 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
         profileOpen: _panels.profileOpen,
         avatarInitials: ref.watch(profileBasicsProvider).value?.initials ?? '',
         avatarUrl: ref.watch(profileBasicsProvider).value?.photoUrl,
+        onNotificationsPressed: () =>
+            context.push(Routes.settingsNotifications),
         onMenuPressed: _panels.toggleMenu,
         onAvatarPressed: _panels.toggleProfile,
       ),

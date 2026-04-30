@@ -140,6 +140,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               profileOpen: _panels.profileOpen,
               avatarInitials: homeData.userInitials,
               avatarUrl: homeData.userPhotoUrl,
+              onNotificationsPressed: () =>
+                  context.push(Routes.settingsNotifications),
               onMenuPressed: _panels.toggleMenu,
               onAvatarPressed: _panels.toggleProfile,
             ),

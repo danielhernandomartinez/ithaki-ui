@@ -1,7 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+
+import '../utils/profile_photo_image.dart';
 
 class ProfilePhotoSection extends StatelessWidget {
   final String? photoPath;
@@ -13,19 +13,9 @@ class ProfilePhotoSection extends StatelessWidget {
     required this.onPick,
   });
 
-  ImageProvider? _photoImage(String? value) {
-    if (value == null || value.trim().isEmpty) return null;
-    final uri = Uri.tryParse(value);
-    if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
-      return NetworkImage(value);
-    }
-    if (!File(value).existsSync()) return null;
-    return FileImage(File(value));
-  }
-
   @override
   Widget build(BuildContext context) {
-    final photoImage = _photoImage(photoPath);
+    final photoImage = profilePhotoImageProvider(photoPath);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../providers/profile_provider.dart';
+import '../../widgets/panel_scaffold.dart';
 import '../../widgets/profile_picker_field.dart';
 import '../../widgets/city_search_bottom_sheet.dart';
 import 'widgets/education_card.dart';
@@ -144,114 +145,92 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: IthakiAppBar(showBackButton: true, title: 'Edit Education'),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(
-            left: 16,
-            right: 16,
-            top: 16,
-            bottom: MediaQuery.viewPaddingOf(context).bottom + 16),
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: IthakiTheme.backgroundWhite,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // ── Header ──────────────────────────────────────────────
-              const Text('Edit Education',
-                  style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      color: IthakiTheme.textPrimary)),
-              const SizedBox(height: 6),
-              const Text(
-                'Add information about your educational background, '
-                'degree, and field of study.',
-                style:
-                    TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
-              ),
-              const SizedBox(height: 24),
+    return PanelScaffold(
+      title: 'Edit Education',
+      onSave: _save,
+      children: [
+        // ── Header ──────────────────────────────────────────────
+        const Text('Edit Education',
+            style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                color: IthakiTheme.textPrimary)),
+        const SizedBox(height: 6),
+        const Text(
+          'Add information about your educational background, '
+          'degree, and field of study.',
+          style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+        ),
+        const SizedBox(height: 24),
 
-              // ── Fields ───────────────────────────────────────────────
-              IthakiTextField(
-                label: 'Institution Name',
-                hint: 'e.g. University of Athens',
-                controller: _institutionCtrl,
-              ),
-              const SizedBox(height: 12),
-              IthakiTextField(
-                label: 'Field of Study',
-                hint: 'e.g. Computer Science',
-                controller: _fieldCtrl,
-              ),
-              const SizedBox(height: 12),
-              ProfilePickerField(
-                label: 'Location',
-                hint: 'Type city to search',
-                value: _locationCtrl.text,
-                onTap: () => CitySearchBottomSheet.show(
-                  context,
-                  (city) => setState(() => _locationCtrl.text = city),
-                ),
-              ),
-              const SizedBox(height: 12),
-              ProfilePickerField(
-                label: 'Degree Type',
-                hint: 'Select degree',
-                value: _degreeType,
-                onTap: () => SearchBottomSheet.show(
-                  context,
-                  'Degree Type',
-                  _degreeTypes.map((d) => SearchItem(id: d, label: d)).toList(),
-                  (item) => setState(() => _degreeType = item.id),
-                ),
-              ),
-              const SizedBox(height: 12),
-              IthakiTextField(
-                label: 'Start Date',
-                hint: 'MM-YYYY',
-                controller: _startDateCtrl,
-                readOnly: true,
-                onTap: () => _pickDate(_startDateCtrl),
-                suffixIcon: const IthakiIcon('calendar',
-                    size: 20, color: IthakiTheme.textSecondary),
-              ),
-              const SizedBox(height: 12),
-              IthakiTextField(
-                label: 'End Date',
-                hint: 'MM-YYYY',
-                controller: _endDateCtrl,
-                readOnly: true,
-                onTap:
-                    _currentlyStudyHere ? null : () => _pickDate(_endDateCtrl),
-                suffixIcon: IthakiIcon('calendar',
-                    size: 20,
-                    color: _currentlyStudyHere
-                        ? IthakiTheme.softGraphite
-                        : IthakiTheme.textSecondary),
-              ),
-              const SizedBox(height: 4),
-              IthakiCheckbox(
-                value: _currentlyStudyHere,
-                onChanged: (v) => setState(() {
-                  _currentlyStudyHere = v;
-                  if (v) _endDateCtrl.clear();
-                }),
-                child: const Text('I currently study here',
-                    style: TextStyle(
-                        fontSize: 14, color: IthakiTheme.textPrimary)),
-              ),
-              const SizedBox(height: 24),
-              IthakiButton('Save', onPressed: _save),
-            ],
+        // ── Fields ───────────────────────────────────────────────
+        IthakiTextField(
+          label: 'Institution Name',
+          hint: 'e.g. University of Athens',
+          controller: _institutionCtrl,
+        ),
+        const SizedBox(height: 12),
+        IthakiTextField(
+          label: 'Field of Study',
+          hint: 'e.g. Computer Science',
+          controller: _fieldCtrl,
+        ),
+        const SizedBox(height: 12),
+        ProfilePickerField(
+          label: 'Location',
+          hint: 'Type city to search',
+          value: _locationCtrl.text,
+          onTap: () => CitySearchBottomSheet.show(
+            context,
+            (city) => setState(() => _locationCtrl.text = city),
           ),
         ),
-      ),
+        const SizedBox(height: 12),
+        ProfilePickerField(
+          label: 'Degree Type',
+          hint: 'Select degree',
+          value: _degreeType,
+          onTap: () => SearchBottomSheet.show(
+            context,
+            'Degree Type',
+            _degreeTypes.map((d) => SearchItem(id: d, label: d)).toList(),
+            (item) => setState(() => _degreeType = item.id),
+          ),
+        ),
+        const SizedBox(height: 12),
+        IthakiTextField(
+          label: 'Start Date',
+          hint: 'MM-YYYY',
+          controller: _startDateCtrl,
+          readOnly: true,
+          onTap: () => _pickDate(_startDateCtrl),
+          suffixIcon: const IthakiIcon('calendar',
+              size: 20, color: IthakiTheme.textSecondary),
+        ),
+        const SizedBox(height: 12),
+        IthakiTextField(
+          label: 'End Date',
+          hint: 'MM-YYYY',
+          controller: _endDateCtrl,
+          readOnly: true,
+          onTap: _currentlyStudyHere ? null : () => _pickDate(_endDateCtrl),
+          suffixIcon: IthakiIcon('calendar',
+              size: 20,
+              color: _currentlyStudyHere
+                  ? IthakiTheme.softGraphite
+                  : IthakiTheme.textSecondary),
+        ),
+        const SizedBox(height: 4),
+        IthakiCheckbox(
+          value: _currentlyStudyHere,
+          onChanged: (v) => setState(() {
+            _currentlyStudyHere = v;
+            if (v) _endDateCtrl.clear();
+          }),
+          child: const Text('I currently study here',
+              style: TextStyle(fontSize: 14, color: IthakiTheme.textPrimary)),
+        ),
+      ],
     );
   }
 }

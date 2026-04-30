@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../../config/app_config.dart';
-import '../../../models/profile_models.dart';
+import '../../../data/mock_profile_data.dart';
 import '../../../models/assessment_models.dart';
+import '../../../models/profile_models.dart';
 import '../../company/widgets/company_cultural_fit_gauge.dart';
 
 class MyCvData {
@@ -68,33 +69,6 @@ class MyCvData {
     required ProfileJobPreferences jobPreferences,
     required List<Assessment> assessments,
   }) {
-    const fallbackWorkExperiences = [
-      WorkExperience(
-        jobTitle: 'Web Developer',
-        companyName: 'Amazing Dev',
-        location: 'Athens, Greece',
-        experienceLevel: 'Middle',
-        workplace: 'On-site',
-        jobType: 'Full time',
-        startDate: '05-2024',
-        currentlyWorkHere: true,
-        summary:
-            'Developed and maintained responsive web applications using React, JavaScript, and Node.js. Collaborated with designers and backend developers to deliver seamless user experiences. Improved site performance and implemented new features based on client requirements.',
-      ),
-      WorkExperience(
-        jobTitle: 'Internship Web Developer',
-        companyName: 'Canveaa',
-        location: 'Athens, Greece',
-        experienceLevel: 'Entry',
-        workplace: 'On-site',
-        jobType: 'Part time',
-        startDate: '05-2014',
-        endDate: '01-2019',
-        summary:
-            'Assisted in developing and maintaining web applications using HTML, CSS, and JavaScript. Collaborated with the team on frontend features, fixed bugs, and gained hands-on experience in responsive design and web development best practices.',
-      ),
-    ];
-
     const fallbackEducations = [
       Education(
         institutionName: 'National Technical University of Athens',
@@ -105,44 +79,6 @@ class MyCvData {
         endDate: '07-2021',
       ),
     ];
-
-    const fallbackLanguages = [
-      Language(language: 'English', proficiency: 'Conversational'),
-      Language(language: 'Greek', proficiency: 'Fluent'),
-    ];
-
-    const fallbackFiles = [
-      UploadedFile(name: 'CV_Christos.pdf', size: '1.4 Mb'),
-      UploadedFile(name: 'Comp.Science_Diploma.pdf', size: '1.4 Mb'),
-    ];
-
-    const fallbackSkills = [
-      'Web Development',
-      'HTML5 / CSS3',
-      'JavaScript (ES6+)',
-      'React / Vue / Angular',
-      'Node.js / Express.js',
-      'Webflow',
-      'Github',
-      'RESTful APIs',
-      'GraphQL',
-      'Problem Solving',
-      'Attention to Detail',
-      'Teamwork',
-      'Responsibility',
-      'Continuous Learning',
-      'Time Management',
-      'Critical Thinking',
-      'Communication',
-      'Adaptability',
-    ];
-
-    const fallbackCompetencies = {
-      'Computer Skills': 'Professional',
-      'Driving Licence': 'Category B (Manual & Automatic)',
-      'Willing to relocate': 'No',
-      'Work Permit': 'Not required',
-    };
 
     final fullName = _value(
       '${basics.firstName} ${basics.lastName}'.trim(),
@@ -183,18 +119,19 @@ class MyCvData {
       salary: _value(salaryValue, '21,500 € / month'),
       aboutMe: _value(
         aboutMe.bio,
-        'Passionate Frontend Developer from Greece with extensive experience building responsive, user-friendly web applications. Skilled in HTML, CSS, JavaScript, and React, with a strong focus on clean, maintainable code and high performance. Enjoys collaborating with designers and backend teams to create seamless and engaging user experiences. Constantly learning new technologies, exploring modern frameworks, and improving workflows to deliver top-quality solutions.',
+        mockProfileAboutMe.bio,
       ),
-      skills: combinedSkills.isEmpty ? fallbackSkills : combinedSkills,
+      skills: combinedSkills.isEmpty ? mockCvSkills : combinedSkills,
       competencies: skills.competencies.isEmpty
-          ? fallbackCompetencies
+          ? mockProfileCompetencies
           : skills.competencies,
-      workExperiences:
-          workExperiences.isEmpty ? fallbackWorkExperiences : workExperiences,
+      workExperiences: workExperiences.isEmpty
+          ? mockProfileWorkExperiences
+          : workExperiences,
       educations: educations.isEmpty ? fallbackEducations : educations,
       languages:
-          skills.languages.isEmpty ? fallbackLanguages : skills.languages,
-      files: files.isEmpty ? fallbackFiles : files,
+          skills.languages.isEmpty ? mockProfileLanguages : skills.languages,
+      files: files.isEmpty ? mockProfileFiles : files,
       assessmentCards: completedAssessments,
     );
   }
@@ -1555,24 +1492,13 @@ class CvLanguageRow extends StatelessWidget {
 
   final Language language;
 
-  String get _flag {
-    switch (language.language.toLowerCase()) {
-      case 'english':
-        return '🇬🇧';
-      case 'greek':
-        return '🇬🇷';
-      default:
-        return '🏳️';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
-          Text(_flag, style: const TextStyle(fontSize: 20)),
+          IthakiLanguageFlag(language.language, size: 32),
           const SizedBox(width: 10),
           Expanded(
             child: Text(

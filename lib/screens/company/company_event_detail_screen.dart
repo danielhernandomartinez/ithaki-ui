@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../providers/company_provider.dart';
 import '../../providers/home_provider.dart';
+import '../../routes.dart';
 import 'widgets/company_profile_components.dart';
 
 class CompanyEventDetailScreen extends ConsumerWidget {
@@ -30,6 +32,8 @@ class CompanyEventDetailScreen extends ConsumerWidget {
         showBackButton: true,
         avatarInitials: homeData?.userInitials ?? 'CI',
         avatarUrl: homeData?.userPhotoUrl,
+        onNotificationsPressed: () =>
+            context.push(Routes.settingsNotifications),
       ),
       body: companyAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),

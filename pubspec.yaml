@@ -17,6 +17,7 @@ dependencies:
   shared_preferences: ^2.5.5
   flutter_secure_storage: ^10.0.0
   file_picker: ^10.3.10
+  url_launcher: ^6.3.2
   http: ^1.6.0
   ithaki_design_system:
     git:

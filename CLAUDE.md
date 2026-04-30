@@ -130,8 +130,9 @@ IthakiIcon('edit-pencil', size: 20, color: IthakiTheme.primaryPurple)
 
 `home`, `jobs`, `applications`, `ai`, `assessment`, `learning-hub`, `blog`,
 `eye`, `envelope`, `phone`, `rocket`, `edit-pencil`, `google-social`,
-`arrow-down`, `calendar`, `clock`, `delete`, `flag`, `help`, `location`,
-`plus`, `profile`, `resume`, `search`, `settings`, `team`, `upload-cloud`
+`arrow-down`, `arrow-left`, `calendar`, `calendar-check`, `check`, `clock`,
+`delete`, `flag`, `help`, `location`, `plus`, `profile`, `resume`, `search`,
+`settings`, `share`, `team`, `upload-cloud`, `x-close`, `x`
 
 ---
 

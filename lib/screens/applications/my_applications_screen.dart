@@ -144,6 +144,8 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
         profileOpen: _panels.profileOpen,
         avatarInitials: homeAsync.value?.userInitials ?? '',
         avatarUrl: homeAsync.value?.userPhotoUrl,
+        onNotificationsPressed: () =>
+            context.push(Routes.settingsNotifications),
         onMenuPressed: _panels.toggleMenu,
         onAvatarPressed: _panels.toggleProfile,
       ),
@@ -506,7 +508,7 @@ class _ToastBanner extends StatelessWidget {
           ),
           GestureDetector(
             onTap: onClose,
-            child: const IthakiIcon('close',
+            child: const IthakiIcon('x-close',
                 size: 20, color: IthakiTheme.lightGraphite),
           ),
         ],

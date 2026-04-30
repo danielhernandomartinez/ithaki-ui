@@ -114,7 +114,7 @@ class CompanyProfile {
     this.phone = '',
     this.email = '',
     this.website = '',
-    this.platformDomain = 'ithaki.com',
+    this.platformDomain = '',
     this.otherLocations = '',
     this.aboutText = '',
     this.perks = const [],

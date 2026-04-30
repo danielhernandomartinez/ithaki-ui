@@ -131,6 +131,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         menuOpen: _panels.menuOpen,
         avatarInitials: basics.initials,
         avatarUrl: basics.photoUrl,
+        onNotificationsPressed: () =>
+            context.push(Routes.settingsNotifications),
         onMenuPressed: _panels.toggleMenu,
         profileOpen: _panels.profileOpen,
         onAvatarPressed: _panels.toggleProfile,

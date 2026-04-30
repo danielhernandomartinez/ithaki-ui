@@ -56,7 +56,10 @@ class ProfileEducationTab extends ConsumerWidget {
               IthakiOutlineButton(
                 'Edit',
                 icon: const IthakiIcon('edit-pencil', size: 16),
-                onPressed: () => context.push(Routes.profileEducation),
+                onPressed: () => context.push(
+                  Routes.profileEducationEdit,
+                  extra: EducationEditExtra(index: entry.key, edu: edu).toMap(),
+                ),
                 borderRadius: 20,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 10),

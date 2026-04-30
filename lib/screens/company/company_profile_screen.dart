@@ -62,6 +62,8 @@ class _CompanyProfileScreenState extends ConsumerState<CompanyProfileScreen>
         profileOpen: _panels.profileOpen,
         avatarInitials: homeData?.userInitials ?? 'CI',
         avatarUrl: homeData?.userPhotoUrl,
+        onNotificationsPressed: () =>
+            context.push(Routes.settingsNotifications),
         onMenuPressed: _panels.toggleMenu,
         onAvatarPressed: _panels.toggleProfile,
       ),

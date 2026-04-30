@@ -1,16 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../constants/nav_items.dart';
+import '../../mixins/panel_menu_mixin.dart';
 import '../../providers/home_provider.dart';
 import '../../providers/notifications_provider.dart';
+import '../../providers/profile_provider.dart';
+import '../../repositories/auth_repository.dart';
+import '../../routes.dart';
+import '../../widgets/app_nav_drawer.dart';
+import '../../widgets/profile_menu_panel.dart';
 import 'widgets/notification_inbox_card.dart';
 
-class NotificationsScreen extends ConsumerWidget {
+class NotificationsScreen extends ConsumerStatefulWidget {
   const NotificationsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<NotificationsScreen> createState() =>
+      _NotificationsScreenState();
+}
+
+class _NotificationsScreenState extends ConsumerState<NotificationsScreen>
+    with TickerProviderStateMixin {
+  late final PanelMenuController _panels;
+
+  @override
+  void initState() {
+    super.initState();
+    _panels = PanelMenuController(setState)..init(this);
+  }
+
+  @override
+  void dispose() {
+    _panels.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final notifications = ref.watch(notificationsProvider);
     final unreadCount = ref.watch(unreadNotificationsCountProvider);
     final notifier = ref.read(notificationsProvider.notifier);
@@ -18,60 +47,112 @@ class NotificationsScreen extends ConsumerWidget {
     final avatarInitials = homeData?.userInitials.isNotEmpty == true
         ? homeData!.userInitials
         : 'AA';
+    final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
+      extendBodyBehindAppBar: true,
       appBar: IthakiAppBar(
         showMenuAndAvatar: true,
+        menuOpen: _panels.menuOpen,
+        profileOpen: _panels.profileOpen,
         avatarInitials: avatarInitials,
         avatarUrl: homeData?.userPhotoUrl,
+        onNotificationsPressed: () => context.go(Routes.settingsNotifications),
+        onMenuPressed: _panels.toggleMenu,
+        onAvatarPressed: _panels.toggleProfile,
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          top: 12,
-          bottom: MediaQuery.viewPaddingOf(context).bottom + 24,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Center(child: _PlatformPill(label: 'ithaki.com')),
-            const SizedBox(height: 16),
-            _buildSummaryCard(
-              unreadCount: unreadCount,
-              onMarkAllAsRead: unreadCount == 0 ? null : notifier.markAllAsRead,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            padding: EdgeInsets.only(
+              left: 16,
+              right: 16,
+              top: topOffset + 12,
+              bottom: MediaQuery.viewPaddingOf(context).bottom + 24,
             ),
-            const SizedBox(height: 14),
-            ...notifications.map(
-              (item) => Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: NotificationInboxCard(item: item),
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Divider(height: 1, color: IthakiTheme.borderLight),
-            IthakiFooter(
-              brandName: 'Odyssea',
-              copyright:
-                  'Copyright © Ithaki 2025. #1 Job-Seeker service in\nGreece',
-              privacyLabel: 'Privacy Policy',
-              termsLabel: 'Terms of Use',
-              socialIcons: const [
-                IthakiIcon('tiktok', size: 24, color: IthakiTheme.softGraphite),
-                IthakiIcon('youtube',
-                    size: 24, color: IthakiTheme.softGraphite),
-                IthakiIcon('instagram',
-                    size: 24, color: IthakiTheme.softGraphite),
-                IthakiIcon('linkedin',
-                    size: 24, color: IthakiTheme.softGraphite),
-                IthakiIcon('facebook',
-                    size: 24, color: IthakiTheme.softGraphite),
-                IthakiIcon('x', size: 24, color: IthakiTheme.softGraphite),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildSummaryCard(
+                  unreadCount: unreadCount,
+                  onMarkAllAsRead:
+                      unreadCount == 0 ? null : notifier.markAllAsRead,
+                ),
+                const SizedBox(height: 14),
+                ...notifications.map(
+                  (item) => Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: NotificationInboxCard(item: item),
+                  ),
+                ),
               ],
             ),
-          ],
-        ),
+          ),
+          if (_panels.menuOpen || _panels.profileOpen)
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: () {
+                  _panels.closeMenu();
+                  _panels.closeProfile();
+                },
+                child: Container(color: Colors.transparent),
+              ),
+            ),
+          if (_panels.profileOpen ||
+              _panels.profileCtrl.status != AnimationStatus.dismissed)
+            Positioned(
+              top: topOffset - 14,
+              left: 16,
+              right: 16,
+              bottom: 40,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: SlideTransition(
+                  position: _panels.profileSlideAnim,
+                  child: ProfileMenuPanel(
+                    onItemTap: (item) {
+                      _panels.closeProfile();
+                      if (item.route.isNotEmpty) context.push(item.route);
+                    },
+                    onLogOut: () {
+                      _panels.closeProfile();
+                      ref
+                          .read(authRepositoryProvider)
+                          .logout()
+                          .whenComplete(() {
+                        resetProfileProviders(ref);
+                        if (context.mounted) context.go(Routes.root);
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ),
+          if (_panels.menuOpen ||
+              _panels.menuCtrl.status != AnimationStatus.dismissed)
+            Positioned(
+              top: topOffset - 14,
+              left: 16,
+              right: 16,
+              bottom: 40,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: SlideTransition(
+                  position: _panels.slideAnim,
+                  child: AppNavDrawer(
+                    currentRoute: Routes.settingsNotifications,
+                    profileProgress: ref.watch(profileCompletionProvider),
+                    items: kAppNavItems,
+                    onItemTap: (item) {
+                      _panels.closeMenu();
+                      context.go(item.route);
+                    },
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -134,37 +215,6 @@ class NotificationsScreen extends ConsumerWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _PlatformPill extends StatelessWidget {
-  const _PlatformPill({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      decoration: BoxDecoration(
-        color: IthakiTheme.backgroundWhite,
-        borderRadius: BorderRadius.circular(999),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 16,
-            offset: const Offset(0, 6),
-          ),
-        ],
-      ),
-      child: Text(
-        label,
-        style: IthakiTheme.bodySmall.copyWith(
-          color: IthakiTheme.textPrimary,
-          fontWeight: FontWeight.w500,
-        ),
       ),
     );
   }

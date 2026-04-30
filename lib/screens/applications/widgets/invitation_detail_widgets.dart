@@ -234,7 +234,7 @@ class ApplyBottomSheet extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () => Navigator.of(context).pop(),
-                child: const IthakiIcon('close', size: 20,
+                child: const IthakiIcon('x-close', size: 20,
                     color: IthakiTheme.softGraphite),
               ),
             ],
@@ -383,7 +383,7 @@ class _DeclineInviteSheetState extends ConsumerState<DeclineInviteSheet> {
               ),
               GestureDetector(
                 onTap: () => Navigator.of(context).pop(false),
-                child: const IthakiIcon('close', size: 20,
+                child: const IthakiIcon('x-close', size: 20,
                     color: IthakiTheme.softGraphite),
               ),
             ],

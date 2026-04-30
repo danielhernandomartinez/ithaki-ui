@@ -95,6 +95,8 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
         profileOpen: _panels.profileOpen,
         avatarInitials: homeAsync.value?.userInitials ?? '',
         avatarUrl: homeAsync.value?.userPhotoUrl,
+        onNotificationsPressed: () =>
+            context.push(Routes.settingsNotifications),
         onMenuPressed: _panels.toggleMenu,
         onAvatarPressed: _panels.toggleProfile,
       ),
@@ -358,7 +360,7 @@ class _StartAssessmentSheet extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () => Navigator.pop(context),
-                child: const IthakiIcon('close',
+                child: const IthakiIcon('x-close',
                     size: 22, color: IthakiTheme.textSecondary),
               ),
             ],
@@ -546,7 +548,7 @@ class _ContinueAssessmentSheet extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () => Navigator.pop(context),
-                child: const IthakiIcon('close',
+                child: const IthakiIcon('x-close',
                     size: 22, color: IthakiTheme.textSecondary),
               ),
             ],

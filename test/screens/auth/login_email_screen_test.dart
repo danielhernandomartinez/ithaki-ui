@@ -119,17 +119,6 @@ void main() {
         expect(find.text('Sign in with Google'), findsOneWidget);
       });
 
-      testWidgets('shows phone-login footer', (tester) async {
-        await tester.pumpWidget(_buildApp(_router()));
-        await tester.pumpAndSettle();
-
-        expect(
-          find.text('Prefer phone? You can sign in with phone instead.'),
-          findsOneWidget,
-        );
-        expect(find.text('Sign in with Phone'), findsOneWidget);
-      });
-
       testWidgets('shows Sign Up action in the app bar', (tester) async {
         await tester.pumpWidget(_buildApp(_router()));
         await tester.pumpAndSettle();
@@ -261,18 +250,6 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.text('forgot-password-screen'), findsOneWidget);
-      });
-
-      testWidgets('Sign in with Phone navigates to login-phone screen',
-          (tester) async {
-        await tester.pumpWidget(_buildApp(_router()));
-        await tester.pumpAndSettle();
-
-        await tester.ensureVisible(find.text('Sign in with Phone'));
-        await tester.tap(find.text('Sign in with Phone'));
-        await tester.pumpAndSettle();
-
-        expect(find.text('login-phone-screen'), findsOneWidget);
       });
     });
   });

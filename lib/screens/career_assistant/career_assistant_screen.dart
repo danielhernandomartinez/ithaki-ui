@@ -249,6 +249,8 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
         profileOpen: _panels.profileOpen,
         avatarInitials: homeData?.userInitials ?? 'CI',
         avatarUrl: homeData?.userPhotoUrl,
+        onNotificationsPressed: () =>
+            context.push(Routes.settingsNotifications),
         onMenuPressed: _toggleMenu,
         onAvatarPressed: _toggleProfile,
       ),

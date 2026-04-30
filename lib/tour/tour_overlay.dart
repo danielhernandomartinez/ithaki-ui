@@ -166,6 +166,7 @@ class TourOverlay extends ConsumerStatefulWidget {
 }
 
 class _TourOverlayState extends ConsumerState<TourOverlay> {
+  Rect _lastTargetRect = Rect.zero;
   String _jobSearchTourJobId() {
     final jobs = ref.read(jobSearchDataProvider).maybeWhen(
           data: (value) => value.jobs,
@@ -282,10 +283,38 @@ class _TourOverlayState extends ConsumerState<TourOverlay> {
             final targetRect =
                 targetKey != null ? _getWidgetRect(targetKey) : Rect.zero;
 
+            // Retry while the widget is not yet laid out OR its position is still
+            // changing (navigation animation in progress). Stops once rect
+            // stabilises across consecutive frames.
+            final needsRetry = targetKey != null &&
+                (targetRect == Rect.zero || targetRect != _lastTargetRect);
+            _lastTargetRect = targetRect;
+            if (needsRetry) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) setState(() {});
+              });
+            }
+
+            final screenHeight = MediaQuery.of(context).size.height;
+            final topPad = MediaQuery.of(context).padding.top;
             final bottomPad = MediaQuery.of(context).padding.bottom;
-            // Tooltip always anchored to the bottom
-            const tooltipBottomMargin = 16.0;
-            final tooltipBottom = bottomPad + tooltipBottomMargin;
+            const tooltipMargin = 16.0;
+
+            // Place tooltip above the spotlight when the spotlight occupies the
+            // lower half of the screen, otherwise place it below.
+            final spotlightMidY = targetRect == Rect.zero
+                ? screenHeight
+                : targetRect.center.dy;
+            final tooltipAtTop = spotlightMidY > screenHeight / 2;
+
+            final tooltip = Material(
+              color: Colors.transparent,
+              child: _TourTooltip(
+                step: stepDef,
+                onNext: _advanceTour,
+                onSkip: () => notifier.showSkipConfirm(),
+              ),
+            );
 
             return Stack(
               children: [
@@ -301,20 +330,21 @@ class _TourOverlayState extends ConsumerState<TourOverlay> {
                   ),
                 ),
 
-                // Tooltip — always at bottom
-                Positioned(
-                  left: 16,
-                  right: 16,
-                  bottom: tooltipBottom,
-                  child: Material(
-                    color: Colors.transparent,
-                    child: _TourTooltip(
-                      step: stepDef,
-                      onNext: _advanceTour,
-                      onSkip: () => notifier.showSkipConfirm(),
-                    ),
+                // Tooltip — top or bottom depending on spotlight position
+                if (tooltipAtTop)
+                  Positioned(
+                    left: tooltipMargin,
+                    right: tooltipMargin,
+                    top: topPad + tooltipMargin,
+                    child: tooltip,
+                  )
+                else
+                  Positioned(
+                    left: tooltipMargin,
+                    right: tooltipMargin,
+                    bottom: bottomPad + tooltipMargin,
+                    child: tooltip,
                   ),
-                ),
               ],
             );
           },

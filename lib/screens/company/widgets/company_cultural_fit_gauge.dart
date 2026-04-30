@@ -25,15 +25,32 @@ class CompanyCulturalFitGauge extends StatelessWidget {
   final Alignment? textAlignment;
 
   int get _activeSegments {
-    switch (label.toLowerCase()) {
+    switch (label.trim().toLowerCase()) {
       case 'high':
-        return 4;
-      case 'medium':
         return 3;
-      case 'low':
+      case 'medium':
         return 2;
+      case 'low':
       default:
         return 1;
+    }
+  }
+
+  List<Color> get _gaugeGradientColors {
+    switch (label.trim().toLowerCase()) {
+      case 'high':
+        return [IthakiTheme.matchGradientHighStart, IthakiTheme.matchGreen];
+      case 'medium':
+        return [
+          IthakiTheme.matchGradientGoodStart,
+          IthakiTheme.matchGradientGoodEnd,
+        ];
+      case 'low':
+      default:
+        return [
+          IthakiTheme.matchGradientWeakStart,
+          IthakiTheme.matchGradientWeakEnd,
+        ];
     }
   }
 
@@ -68,6 +85,7 @@ class CompanyCulturalFitGauge extends StatelessWidget {
             child: CustomPaint(
               painter: _CompanyCulturalFitGaugePainter(
                 activeSegments: _activeSegments,
+                gradientColors: _gaugeGradientColors,
               ),
             ),
           ),
@@ -118,15 +136,18 @@ class CompanyCulturalFitGauge extends StatelessWidget {
 }
 
 class _CompanyCulturalFitGaugePainter extends CustomPainter {
-  const _CompanyCulturalFitGaugePainter({required this.activeSegments});
+  const _CompanyCulturalFitGaugePainter({
+    required this.activeSegments,
+    required this.gradientColors,
+  });
 
   final int activeSegments;
+  final List<Color> gradientColors;
 
   @override
   void paint(Canvas canvas, Size size) {
-    const segmentCount = 4;
-    const gapAngle = 0.24;
-    const capTrimAngle = 0.08;
+    const segmentCount = 3;
+    const gapAngle = 0.36;
     const verticalInset = 6.0;
     final strokeWidth =
         math.min(32.0, math.min(size.width * 0.22, size.height * 0.42));
@@ -138,12 +159,18 @@ class _CompanyCulturalFitGaugePainter extends CustomPainter {
     );
     final sweepPerSegment =
         (math.pi - gapAngle * (segmentCount - 1)) / segmentCount;
+    final capInsetAngle =
+        math.asin((strokeWidth / (radius * 2)).clamp(0.0, 1.0));
+    final adjustedSweepAngle = sweepPerSegment - capInsetAngle * 0.35;
 
-    for (var index = 0; index < segmentCount; index++) {
+    if (adjustedSweepAngle <= 0) {
+      return;
+    }
+
+    final visibleSegments = activeSegments.clamp(0, segmentCount).toInt();
+    for (var index = 0; index < visibleSegments; index++) {
       final baseStartAngle = math.pi + index * (sweepPerSegment + gapAngle);
-      final startAngle = baseStartAngle + capTrimAngle / 2;
-      final adjustedSweepAngle = sweepPerSegment - capTrimAngle;
-      final isActive = index < activeSegments;
+      final startAngle = baseStartAngle + capInsetAngle * 0.175;
 
       final segmentPath = _buildSegmentPath(
         center: center,
@@ -152,38 +179,26 @@ class _CompanyCulturalFitGaugePainter extends CustomPainter {
         startAngle: startAngle,
         sweepAngle: adjustedSweepAngle,
       );
-
-      final sweepPath = Path()
-        ..addArc(
-          Rect.fromCircle(center: center, radius: radius),
-          startAngle,
-          adjustedSweepAngle,
-        );
-
-      final basePaint = Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = strokeWidth
-        ..strokeCap = StrokeCap.round
-        ..color = isActive
-            ? IthakiTheme.matchGreen.withValues(alpha: 0.72)
-            : IthakiTheme.softGray.withValues(alpha: 0.75)
+      final bounds = segmentPath.getBounds();
+      final segmentPaint = Paint()
+        ..shader = ui.Gradient.linear(
+          bounds.topLeft,
+          bounds.bottomRight,
+          gradientColors,
+        )
         ..isAntiAlias = true;
 
-      canvas.drawPath(sweepPath, basePaint);
+      canvas.drawPath(segmentPath, segmentPaint);
 
       canvas.save();
       canvas.clipPath(segmentPath);
 
       final stripePaint = Paint()
-        ..color = isActive
-            ? IthakiTheme.backgroundWhite.withValues(alpha: 0.28)
-            : IthakiTheme.backgroundWhite.withValues(alpha: 0.16)
+        ..color = IthakiTheme.backgroundWhite.withValues(alpha: 0.28)
         ..strokeWidth = math.max(2.5, strokeWidth * 0.16)
         ..style = PaintingStyle.stroke
         ..strokeCap = StrokeCap.round
         ..isAntiAlias = true;
-
-      final bounds = segmentPath.getBounds();
       final stripeSpacing = math.max(7.0, strokeWidth * 0.38);
 
       for (double x = bounds.left - bounds.height;
@@ -239,6 +254,17 @@ class _CompanyCulturalFitGaugePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _CompanyCulturalFitGaugePainter oldDelegate) {
-    return oldDelegate.activeSegments != activeSegments;
+    if (oldDelegate.activeSegments != activeSegments ||
+        oldDelegate.gradientColors.length != gradientColors.length) {
+      return true;
+    }
+
+    for (var i = 0; i < gradientColors.length; i++) {
+      if (oldDelegate.gradientColors[i] != gradientColors[i]) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

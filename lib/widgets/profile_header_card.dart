@@ -1,31 +1,20 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../providers/profile_provider.dart';
 import '../routes.dart';
+import '../utils/profile_photo_image.dart';
 
 class ProfileHeaderCard extends ConsumerWidget {
   final ProfileBasics basics;
 
   const ProfileHeaderCard({super.key, required this.basics});
 
-  ImageProvider? _photoImage(String? value) {
-    if (value == null || value.trim().isEmpty) return null;
-    final uri = Uri.tryParse(value);
-    if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
-      return NetworkImage(value);
-    }
-    if (!File(value).existsSync()) return null;
-    return FileImage(File(value));
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final prefs = ref.watch(profileJobPreferencesProvider).value;
-    final photoImage = _photoImage(basics.photoUrl);
+    final photoImage = profilePhotoImageProvider(basics.photoUrl);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(16),

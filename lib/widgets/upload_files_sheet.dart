@@ -63,6 +63,7 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
         _files.add(UploadedFile(
           name: file.name,
           size: sizeStr,
+          url: file.path,
           uploadProgress: 1.0,
         ));
       }
@@ -131,10 +132,12 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
                     UploadUrlTab(
                       controller: _urlCtrl,
                       onChanged: (v) => setState(() {
-                        _urlFile = v.trim().isNotEmpty
+                        final value = v.trim();
+                        _urlFile = value.isNotEmpty
                             ? UploadedFile(
-                                name: v.trim(),
+                                name: _nameFromUrl(value),
                                 size: 'URL',
+                                url: value,
                                 uploadProgress: 1.0)
                             : null;
                       }),
@@ -163,5 +166,12 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
         ),
       ),
     );
+  }
+
+  String _nameFromUrl(String value) {
+    final uri = Uri.tryParse(value);
+    final lastSegment =
+        uri?.pathSegments.where((segment) => segment.isNotEmpty).lastOrNull;
+    return lastSegment == null || lastSegment.isEmpty ? value : lastSegment;
   }
 }
