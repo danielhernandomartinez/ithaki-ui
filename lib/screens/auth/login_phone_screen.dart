@@ -187,6 +187,42 @@ class _LoginPhoneScreenState extends State<LoginPhoneScreen> {
             ),
           ),
 
+          const SizedBox(height: 24),
+
+          const Divider(color: IthakiTheme.borderLight),
+
+          const SizedBox(height: 16),
+
+          Text(
+            l.preferEmail,
+            style: IthakiTheme.bodyRegular.copyWith(
+              color: IthakiTheme.textSecondary,
+            ),
+          ),
+
+          const SizedBox(height: 16),
+
+          SizedBox(
+            width: double.infinity,
+            height: 48,
+            child: OutlinedButton(
+              onPressed: () => context.push(Routes.loginEmail),
+              style: OutlinedButton.styleFrom(
+                shape: const StadiumBorder(),
+                side: const BorderSide(color: IthakiTheme.borderLight),
+                foregroundColor: IthakiTheme.textPrimary,
+              ),
+              child: Text(
+                l.signInWithEmail,
+                style: IthakiTheme.bodyRegular.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: IthakiTheme.textPrimary,
+                ),
+              ),
+            ),
+          ),
+
           const SizedBox(height: 32),
         ],
       ),
