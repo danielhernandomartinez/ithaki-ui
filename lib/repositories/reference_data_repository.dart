@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 import '../config/app_config.dart';
 import '../services/api_client.dart';
@@ -82,15 +83,40 @@ class ReferenceDataRepository {
         JobInterestItem(id: 5, title: 'Digital Marketing', category: 'Marketing'),
       ];
 
+  List<PersonalityValueItem> _fallbackPersonalityValues() => const [
+        PersonalityValueItem(id: 1, title: 'Learning'),
+        PersonalityValueItem(id: 2, title: 'Teamwork'),
+        PersonalityValueItem(id: 3, title: 'Stability'),
+        PersonalityValueItem(id: 4, title: 'Creativity'),
+        PersonalityValueItem(id: 5, title: 'Independence'),
+      ];
+
+  List<T>? _fallbackFor<T>(String path) {
+    if (path.startsWith('/list/job-interests') && T == JobInterestItem) {
+      return _fallbackJobInterests().cast<T>();
+    }
+    if (path.startsWith('/list/personality-values') &&
+        T == PersonalityValueItem) {
+      return _fallbackPersonalityValues().cast<T>();
+    }
+    return null;
+  }
+
   Future<List<T>> _fetchList<T>(
     String path,
     T Function(Map<String, dynamic>) fromJson,
   ) async {
-    final res = await _api.get(path);
+    final res = await _tryOptionalGet(path);
+    if (res == null) {
+      final fallback = _fallbackFor<T>(path);
+      if (fallback != null) return fallback;
+      throw Exception('Failed to load $path');
+    }
     if (res.statusCode != 200) {
-      final isJobInterests = path.startsWith('/list/job-interests');
-      if (isJobInterests && res.statusCode == 403 && T == JobInterestItem) {
-        return _fallbackJobInterests().cast<T>();
+      final fallback = _fallbackFor<T>(path);
+      if (fallback != null &&
+          (res.statusCode == 401 || res.statusCode == 403)) {
+        return fallback;
       }
       throw Exception(
         'Failed to load $path (${res.statusCode}): ${_api.readErrorBody(res)}',
@@ -106,6 +132,14 @@ class ReferenceDataRepository {
     return raw
         .map((e) => fromJson((e as Map).cast<String, dynamic>()))
         .toList();
+  }
+
+  Future<http.Response?> _tryOptionalGet(String path) async {
+    try {
+      return await _api.getOptionalAuth(path);
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<List<SkillItem>> getHardSkills() =>

@@ -55,6 +55,7 @@ class _EmployerSetupScreenState extends ConsumerState<EmployerSetupScreen> {
   final _lastNameCtrl = TextEditingController();
   final _phoneCtrl = TextEditingController();
   String? _adminRole;
+  String _adminPhone = '';
 
   // Tab 1 — Company Details
   final _legalNameCtrl = TextEditingController();
@@ -67,6 +68,7 @@ class _EmployerSetupScreenState extends ConsumerState<EmployerSetupScreen> {
   String _city = '';
   final _contactEmailCtrl = TextEditingController();
   final _contactPhoneCtrl = TextEditingController();
+  String _contactPhone = '';
   final _websiteCtrl = TextEditingController();
 
   // Tab 3 — Profile & Branding
@@ -112,14 +114,21 @@ class _EmployerSetupScreenState extends ConsumerState<EmployerSetupScreen> {
         _ => true,
       };
 
+  void _dismissKeyboard() {
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
+
   void _saveAndAdvance() {
+    _dismissKeyboard();
     final notifier = ref.read(employerSetupProvider.notifier);
     switch (_currentTab) {
       case 0:
         notifier.setAdminDetails(
           name: _nameCtrl.text.trim(),
           lastName: _lastNameCtrl.text.trim(),
-          phone: _phoneCtrl.text.trim(),
+          phone: _adminPhone.trim().isNotEmpty
+              ? _adminPhone.trim()
+              : _phoneCtrl.text.trim(),
           role: _adminRole!,
         );
       case 1:
@@ -133,7 +142,9 @@ class _EmployerSetupScreenState extends ConsumerState<EmployerSetupScreen> {
           address: _addressCtrl.text.trim(),
           city: _city,
           contactEmail: _contactEmailCtrl.text.trim(),
-          contactPhone: _contactPhoneCtrl.text.trim(),
+          contactPhone: _contactPhone.trim().isNotEmpty
+              ? _contactPhone.trim()
+              : _contactPhoneCtrl.text.trim(),
           website: _websiteCtrl.text.trim(),
         );
       case 3:
@@ -148,6 +159,7 @@ class _EmployerSetupScreenState extends ConsumerState<EmployerSetupScreen> {
   }
 
   void _openPicker(String title, List<String> options, ValueChanged<String> onSelected) {
+    _dismissKeyboard();
     SearchBottomSheet.show(
       context,
       title,
@@ -178,11 +190,9 @@ class _EmployerSetupScreenState extends ConsumerState<EmployerSetupScreen> {
             currentIndex: _currentTab,
             completedUpTo: _currentTab - 1,
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(24, 12, 24, 0),
-              child: _buildTabContent(l),
-            ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 12, 24, 0),
+            child: _buildTabContent(l),
           ),
           _buildButtons(l),
         ],
@@ -221,12 +231,14 @@ class _EmployerSetupScreenState extends ConsumerState<EmployerSetupScreen> {
           onChanged: (_) => setState(() {}),
         ),
         const SizedBox(height: 16),
-        IthakiTextField(
-          label: l.phoneNumberLabel,
-          hint: '+XX XXX XXX XX XX',
+        IthakiPhoneField(
           controller: _phoneCtrl,
-          keyboardType: TextInputType.phone,
-          onChanged: (_) => setState(() {}),
+          onChanged: (value) => setState(() => _adminPhone = value),
+          label: l.phoneNumberLabel,
+          selectCountryTitle: l.selectCountryTitle,
+          validationErrorText: l.phoneValidationError,
+          countryPickerSearchHint: l.searchHint,
+          countryPickerSelectLabel: l.selectAction,
         ),
         const SizedBox(height: 16),
         IthakiSelectorField(
@@ -303,13 +315,16 @@ class _EmployerSetupScreenState extends ConsumerState<EmployerSetupScreen> {
             padding: EdgeInsets.all(12),
             child: IthakiIcon('flag', size: 20, color: IthakiTheme.softGraphite),
           ),
-          onTap: () => CitySearchBottomSheet.show(
-            context,
-            (city) => setState(() {
-              _city = city;
-              _cityCtrl.text = city;
-            }),
-          ),
+          onTap: () {
+            _dismissKeyboard();
+            CitySearchBottomSheet.show(
+              context,
+              (city) => setState(() {
+                _city = city;
+                _cityCtrl.text = city;
+              }),
+            );
+          },
         ),
         const SizedBox(height: 16),
         IthakiTextField(
@@ -327,16 +342,14 @@ class _EmployerSetupScreenState extends ConsumerState<EmployerSetupScreen> {
         Text(l.contactEmailHelper,
             style: const TextStyle(fontSize: 12, color: IthakiTheme.textSecondary)),
         const SizedBox(height: 12),
-        IthakiTextField(
-          label: l.contactPhoneLabel,
-          hint: l.contactPhoneHint,
+        IthakiPhoneField(
           controller: _contactPhoneCtrl,
-          keyboardType: TextInputType.phone,
-          suffixIcon: const Padding(
-            padding: EdgeInsets.all(12),
-            child: IthakiIcon('phone', size: 20, color: IthakiTheme.softGraphite),
-          ),
-          onChanged: (_) => setState(() {}),
+          onChanged: (value) => setState(() => _contactPhone = value),
+          label: l.contactPhoneLabel,
+          selectCountryTitle: l.selectCountryTitle,
+          validationErrorText: l.phoneValidationError,
+          countryPickerSearchHint: l.searchHint,
+          countryPickerSelectLabel: l.selectAction,
         ),
         const SizedBox(height: 4),
         Text(l.contactPhoneHelper,
@@ -363,7 +376,10 @@ class _EmployerSetupScreenState extends ConsumerState<EmployerSetupScreen> {
         Text(l.employerBrandingDescription, style: IthakiTheme.bodyRegular),
         const SizedBox(height: 8),
         TextButton(
-          onPressed: () => context.push(Routes.employerSetupValues),
+          onPressed: () {
+            _dismissKeyboard();
+            context.push(Routes.employerSetupValues);
+          },
           child: Text(
             l.skipForNow,
             style: IthakiTheme.bodyRegular
@@ -380,6 +396,7 @@ class _EmployerSetupScreenState extends ConsumerState<EmployerSetupScreen> {
           l.uploadPhotoLabel,
           variant: IthakiButtonVariant.outline,
           onPressed: () {
+            _dismissKeyboard();
             UploadFilesSheet.show(context, onContinue: (files) {
               if (files.isNotEmpty) {
                 setState(() => _logoPath = files.first.name);
@@ -449,7 +466,10 @@ class _EmployerSetupScreenState extends ConsumerState<EmployerSetupScreen> {
             IthakiButton(
               l.backButton,
               variant: IthakiButtonVariant.outline,
-              onPressed: () => setState(() => _currentTab--),
+              onPressed: () {
+                _dismissKeyboard();
+                setState(() => _currentTab--);
+              },
             ),
           ],
         ],

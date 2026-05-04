@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 import '../config/app_config.dart';
 import '../services/api_client.dart';
@@ -43,8 +44,14 @@ class ApiCitySearchRepository implements CitySearchRepository {
         'country': countryCode.toUpperCase(),
     };
 
-    final res = await _api.get('/city', params: params);
+    final res = await _tryApiSearch(params);
+    if (res == null) {
+      return MockCitySearchRepository().search(query, countryCode: countryCode);
+    }
 
+    if (res.statusCode == 401 || res.statusCode == 403) {
+      return MockCitySearchRepository().search(query, countryCode: countryCode);
+    }
     if (res.statusCode != 200) return [];
 
     final body = jsonDecode(res.body);
@@ -69,6 +76,14 @@ class ApiCitySearchRepository implements CitySearchRepository {
         .where((r) => r.city.isNotEmpty)
         .toList();
   }
+
+  Future<http.Response?> _tryApiSearch(Map<String, String> params) async {
+    try {
+      return await _api.getOptionalAuth('/city', params: params);
+    } catch (_) {
+      return null;
+    }
+  }
 }
 
 class MockCitySearchRepository implements CitySearchRepository {
@@ -77,13 +92,33 @@ class MockCitySearchRepository implements CitySearchRepository {
     CityResult(id: 2, city: 'Thessaloniki', country: 'Greece', display: 'Thessaloniki, Greece'),
     CityResult(id: 3, city: 'Patras', country: 'Greece', display: 'Patras, Greece'),
     CityResult(id: 4, city: 'Heraklion', country: 'Greece', display: 'Heraklion, Greece'),
+    CityResult(id: 5, city: 'Larissa', country: 'Greece', display: 'Larissa, Greece'),
+    CityResult(id: 6, city: 'Volos', country: 'Greece', display: 'Volos, Greece'),
+    CityResult(id: 7, city: 'Ioannina', country: 'Greece', display: 'Ioannina, Greece'),
+    CityResult(id: 8, city: 'Chania', country: 'Greece', display: 'Chania, Greece'),
+    CityResult(id: 9, city: 'Madrid', country: 'Spain', display: 'Madrid, Spain'),
+    CityResult(id: 10, city: 'Barcelona', country: 'Spain', display: 'Barcelona, Spain'),
+    CityResult(id: 11, city: 'Valencia', country: 'Spain', display: 'Valencia, Spain'),
+    CityResult(id: 12, city: 'Seville', country: 'Spain', display: 'Seville, Spain'),
+    CityResult(id: 13, city: 'London', country: 'United Kingdom', display: 'London, United Kingdom'),
+    CityResult(id: 14, city: 'Paris', country: 'France', display: 'Paris, France'),
+    CityResult(id: 15, city: 'Berlin', country: 'Germany', display: 'Berlin, Germany'),
+    CityResult(id: 16, city: 'Rome', country: 'Italy', display: 'Rome, Italy'),
+    CityResult(id: 17, city: 'Lisbon', country: 'Portugal', display: 'Lisbon, Portugal'),
+    CityResult(id: 18, city: 'Amsterdam', country: 'Netherlands', display: 'Amsterdam, Netherlands'),
   ];
 
   @override
   Future<List<CityResult>> search(String query, {String? countryCode}) async {
     final normalized = query.trim().toLowerCase();
     if (normalized.length < 2) return const [];
+    final country = countryCode?.trim().toLowerCase();
     return _cities
+        .where((city) =>
+            country == null ||
+            country.isEmpty ||
+            city.country.toLowerCase() == country ||
+            city.country.toLowerCase().startsWith(country))
         .where((city) => city.display.toLowerCase().contains(normalized))
         .toList();
   }

@@ -37,9 +37,9 @@ void main() {
     registerFallbackValue(Uri());
   });
 
-  // Stub helper — matches any GET regardless of path.
+  // Stub helper — matches any optional-auth GET regardless of path.
   void stubGet(http.Response response) {
-    when(() => api.get(any(), params: any(named: 'params')))
+    when(() => api.getOptionalAuth(any(), params: any(named: 'params')))
         .thenAnswer((_) async => response);
   }
 
@@ -47,13 +47,13 @@ void main() {
   test('returns [] when query is shorter than 2 chars', () async {
     final result = await repo.search('A');
     expect(result, isEmpty);
-    verifyNever(() => api.get(any(), params: any(named: 'params')));
+    verifyNever(() => api.getOptionalAuth(any(), params: any(named: 'params')));
   });
 
   test('returns [] when query is blank / whitespace', () async {
     final result = await repo.search('  ');
     expect(result, isEmpty);
-    verifyNever(() => api.get(any(), params: any(named: 'params')));
+    verifyNever(() => api.getOptionalAuth(any(), params: any(named: 'params')));
   });
 
   // ── HTTP 200 happy path ──────────────────────────────────────────────────────
@@ -99,6 +99,25 @@ void main() {
     expect(await repo.search('Athens'), isEmpty);
   });
 
+  test('falls back to local city search on unauthorized response', () async {
+    stubGet(_resp('Unauthorized', status: 401));
+
+    final results = await repo.search('Athens');
+
+    expect(results, isNotEmpty);
+    expect(results.first.city, 'Athens');
+  });
+
+  test('falls back to local city search when request throws', () async {
+    when(() => api.getOptionalAuth(any(), params: any(named: 'params')))
+        .thenThrow(Exception('Network failed'));
+
+    final results = await repo.search('Bar');
+
+    expect(results, isNotEmpty);
+    expect(results.first.city, 'Barcelona');
+  });
+
   test('returns [] on HTTP 500', () async {
     stubGet(_resp('Internal Server Error', status: 500));
     expect(await repo.search('Athens'), isEmpty);
@@ -111,7 +130,7 @@ void main() {
     await repo.search('Mad', countryCode: 'ES');
 
     final captured = verify(
-      () => api.get(any(), params: captureAny(named: 'params')),
+      () => api.getOptionalAuth(any(), params: captureAny(named: 'params')),
     ).captured;
 
     final params = captured.single as Map<String, String>;
@@ -124,7 +143,7 @@ void main() {
     await repo.search('Mad');
 
     final captured = verify(
-      () => api.get(any(), params: captureAny(named: 'params')),
+      () => api.getOptionalAuth(any(), params: captureAny(named: 'params')),
     ).captured;
 
     final params = captured.single as Map<String, String>;
@@ -151,10 +170,20 @@ void main() {
     await repo.search('  Athens  ');
 
     final captured = verify(
-      () => api.get(any(), params: captureAny(named: 'params')),
+      () => api.getOptionalAuth(any(), params: captureAny(named: 'params')),
     ).captured;
 
     final params = captured.single as Map<String, String>;
     expect(params['name'], 'Athens');
+  });
+
+  test('uses optional auth so signup city search works before login', () async {
+    stubGet(_resp(_page([])));
+
+    await repo.search('Athens');
+
+    verify(() => api.getOptionalAuth('/city', params: any(named: 'params')))
+        .called(1);
+    verifyNever(() => api.get(any(), params: any(named: 'params')));
   });
 }
