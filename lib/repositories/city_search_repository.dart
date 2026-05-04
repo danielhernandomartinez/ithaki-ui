@@ -45,13 +45,7 @@ class ApiCitySearchRepository implements CitySearchRepository {
     };
 
     final res = await _tryApiSearch(params);
-    if (res == null) {
-      return MockCitySearchRepository().search(query, countryCode: countryCode);
-    }
-
-    if (res.statusCode == 401 || res.statusCode == 403) {
-      return MockCitySearchRepository().search(query, countryCode: countryCode);
-    }
+    if (res == null) return [];
     if (res.statusCode != 200) return [];
 
     final body = jsonDecode(res.body);

@@ -75,49 +75,13 @@ class ReferenceDataRepository {
 
   final ApiClient _api;
 
-  List<JobInterestItem> _fallbackJobInterests() => const [
-        JobInterestItem(id: 1, title: 'Web Development', category: 'IT'),
-        JobInterestItem(id: 2, title: 'Front-End Development', category: 'IT'),
-        JobInterestItem(id: 3, title: 'Back-End Development', category: 'IT'),
-        JobInterestItem(id: 4, title: 'Data Analysis', category: 'Data'),
-        JobInterestItem(id: 5, title: 'Digital Marketing', category: 'Marketing'),
-      ];
-
-  List<PersonalityValueItem> _fallbackPersonalityValues() => const [
-        PersonalityValueItem(id: 1, title: 'Learning'),
-        PersonalityValueItem(id: 2, title: 'Teamwork'),
-        PersonalityValueItem(id: 3, title: 'Stability'),
-        PersonalityValueItem(id: 4, title: 'Creativity'),
-        PersonalityValueItem(id: 5, title: 'Independence'),
-      ];
-
-  List<T>? _fallbackFor<T>(String path) {
-    if (path.startsWith('/list/job-interests') && T == JobInterestItem) {
-      return _fallbackJobInterests().cast<T>();
-    }
-    if (path.startsWith('/list/personality-values') &&
-        T == PersonalityValueItem) {
-      return _fallbackPersonalityValues().cast<T>();
-    }
-    return null;
-  }
-
   Future<List<T>> _fetchList<T>(
     String path,
     T Function(Map<String, dynamic>) fromJson,
   ) async {
     final res = await _tryOptionalGet(path);
-    if (res == null) {
-      final fallback = _fallbackFor<T>(path);
-      if (fallback != null) return fallback;
-      throw Exception('Failed to load $path');
-    }
+    if (res == null) throw Exception('Failed to load $path');
     if (res.statusCode != 200) {
-      final fallback = _fallbackFor<T>(path);
-      if (fallback != null &&
-          (res.statusCode == 401 || res.statusCode == 403)) {
-        return fallback;
-      }
       throw Exception(
         'Failed to load $path (${res.statusCode}): ${_api.readErrorBody(res)}',
       );
@@ -165,34 +129,26 @@ class ReferenceDataRepository {
   Future<List<JobInterestItem>> _fetchJobInterests(
     Map<String, String>? params,
   ) async {
-    try {
-      final res = await _api.getOptionalAuth(
-        '/list/job-interests',
-        params: params,
+    final res = await _api.getOptionalAuth(
+      '/list/job-interests',
+      params: params,
+    );
+
+    if (res.statusCode != 200) {
+      throw Exception(
+        'Failed to load /list/job-interests (${res.statusCode}): ${_api.readErrorBody(res)}',
       );
-
-      if (res.statusCode != 200) {
-        return _fallbackJobInterests();
-      }
-
-      final body = jsonDecode(res.body);
-      final List raw = body is List
-          ? body
-          : (body as Map<String, dynamic>)['content'] ?? body['data'] ?? [];
-
-      final items = raw
-          .map((e) => JobInterestItem.fromJson((e as Map).cast<String, dynamic>()))
-          .where((e) => e.title.trim().isNotEmpty)
-          .toList();
-
-      if (items.isEmpty) {
-        return _fallbackJobInterests();
-      }
-
-      return items;
-    } catch (_) {
-      return _fallbackJobInterests();
     }
+
+    final body = jsonDecode(res.body);
+    final List raw = body is List
+        ? body
+        : (body as Map<String, dynamic>)['content'] ?? body['data'] ?? [];
+
+    return raw
+        .map((e) => JobInterestItem.fromJson((e as Map).cast<String, dynamic>()))
+        .where((e) => e.title.trim().isNotEmpty)
+        .toList();
   }
 }
 
