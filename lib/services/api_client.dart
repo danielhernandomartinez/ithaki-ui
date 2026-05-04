@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -150,6 +151,13 @@ class ApiClient {
         if (token != null) 'Authorization': 'Bearer $token',
       };
 
+  static void log(String method, Uri url, int status) {
+    if (kDebugMode) {
+      final path = url.hasQuery ? '${url.path}?${url.query}' : url.path;
+      debugPrint('[API] $method $path → $status');
+    }
+  }
+
   String readErrorBody(http.Response response) {
     try {
       final decoded = jsonDecode(response.body);
@@ -180,6 +188,7 @@ class ApiClient {
           .get(uri(path, params), headers: jsonHeaders(token: token))
           .timeout(t);
     }
+    log('GET', uri(path, params), res.statusCode);
     return res;
   }
 
@@ -202,6 +211,7 @@ class ApiClient {
           .get(uri(path, params), headers: jsonHeaders(token: token))
           .timeout(t);
     }
+    log('GET', uri(path, params), res.statusCode);
     return res;
   }
 
@@ -225,9 +235,34 @@ class ApiClient {
       token = await requireToken();
       res = await doPost(token);
     }
+    log('POST', uri(path, params), res.statusCode);
     if (!_okStatuses.contains(res.statusCode)) {
       throw Exception(readErrorBody(res));
     }
+  }
+
+  /// Multipart file upload with Bearer auth. Returns the raw response body on
+  /// success; throws [Exception] on non-2xx.
+  Future<String> uploadMultipart(
+    String path,
+    String fileField,
+    String filePath, {
+    Duration? timeout,
+  }) async {
+    final token = await requireToken();
+    final request = http.MultipartRequest('POST', uri(path))
+      ..headers.addAll({
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      })
+      ..files.add(await http.MultipartFile.fromPath(fileField, filePath));
+    final streamed = await _client.send(request).timeout(timeout ?? uploadTimeout);
+    final res = await http.Response.fromStream(streamed);
+    log('POST', uri(path), res.statusCode);
+    if (res.statusCode < 200 || res.statusCode >= 300) {
+      throw Exception(readErrorBody(res));
+    }
+    return res.body;
   }
 }
 

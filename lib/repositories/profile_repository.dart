@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart' as http;
 
 import '../config/app_config.dart';
 import '../data/countries.dart';
@@ -667,13 +666,7 @@ class ApiProfileRepository implements ProfileRepository {
       return encoder.convert(value);
     }
 
-    String prettyResponseBody(String body) {
-      try {
-        return prettyJson(jsonDecode(body));
-      } catch (_) {
-        return body;
-      }
-    }
+
 
     bool isRemotePhoto(String value) {
       final uri = Uri.tryParse(value);
@@ -714,29 +707,9 @@ class ApiProfileRepository implements ProfileRepository {
         return photoUrl;
       }
 
-      final token = await _api.requireToken();
-      final request =
-          http.MultipartRequest('POST', _api.uri('/files/me/upload/photo'))
-            ..headers.addAll({
-              'Accept': 'application/json',
-              'Authorization': 'Bearer $token',
-            })
-            ..files.add(await http.MultipartFile.fromPath('file', localPath));
-
-      debugPrint('[saveBasics] photo upload → ${request.url}');
       debugPrint('[saveBasics] photo upload file → $localPath');
-
-      final streamed =
-          await _api.client.send(request).timeout(ApiClient.uploadTimeout);
-      final response = await http.Response.fromStream(streamed);
-      debugPrint(
-          '[saveBasics] photo upload response ${response.statusCode} →\n${prettyResponseBody(response.body)}');
-
-      if (response.statusCode < 200 || response.statusCode >= 300) {
-        throw Exception(_api.readErrorBody(response));
-      }
-
-      final uploadedPhoto = readUploadedPhoto(response.body);
+      final body = await _api.uploadMultipart('/files/me/upload/photo', 'file', localPath);
+      final uploadedPhoto = readUploadedPhoto(body);
       debugPrint('[saveBasics] uploaded photo → $uploadedPhoto');
       return uploadedPhoto;
     }
@@ -780,17 +753,7 @@ class ApiProfileRepository implements ProfileRepository {
       },
     };
     debugPrint('[saveBasics] payload →\n${prettyJson(jobSeekerPayload)}');
-    final token = await _api.requireToken();
-    final res = await _api.client
-        .post(_api.uri('/job-seeker/me'),
-            headers: _api.jsonHeaders(token: token),
-            body: jsonEncode(jobSeekerPayload))
-        .timeout(ApiClient.timeout);
-    debugPrint(
-        '[saveBasics] response ${res.statusCode} →\n${prettyResponseBody(res.body)}');
-    if (res.statusCode < 200 || res.statusCode >= 300) {
-      throw Exception(_api.readErrorBody(res));
-    }
+    await _api.postJson('/job-seeker/me', jobSeekerPayload);
 
     _basics = basics.copyWith(photoUrl: uploadedPhotoUrl);
     await ProfileLocalStore.saveBasics(_basics);

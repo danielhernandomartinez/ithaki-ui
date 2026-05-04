@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -134,6 +133,7 @@ class ApiAuthRepository implements AuthRepository {
           headers: _api.jsonHeaders(token: token),
         )
         .timeout(ApiClient.timeout);
+    ApiClient.log('POST', _api.uri('/user/send-sms/twilio'), response.statusCode);
 
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw AuthException(
@@ -155,6 +155,7 @@ class ApiAuthRepository implements AuthRepository {
           }),
         )
         .timeout(ApiClient.timeout);
+    ApiClient.log('POST', _api.uri('/auth/login'), response.statusCode);
 
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw AuthException(
@@ -210,6 +211,7 @@ class ApiAuthRepository implements AuthRepository {
           }),
         )
         .timeout(ApiClient.timeout);
+    ApiClient.log('POST', _api.uri('/auth/signup'), signupResponse.statusCode);
 
     if (signupResponse.statusCode != 200 && signupResponse.statusCode != 201) {
       throw AuthException(
@@ -249,6 +251,7 @@ class ApiAuthRepository implements AuthRepository {
           }),
         )
         .timeout(ApiClient.timeout);
+    ApiClient.log('POST', _api.uri('/user/me'), profileResponse.statusCode);
 
     if (profileResponse.statusCode != 200 && profileResponse.statusCode != 201) {
       throw AuthException(
@@ -279,6 +282,7 @@ class ApiAuthRepository implements AuthRepository {
           body: jsonEncode({'phone': phone.replaceAll(RegExp(r'\s+'), '')}),
         )
         .timeout(ApiClient.timeout);
+    ApiClient.log('POST', _api.uri('/user/me'), response.statusCode);
 
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw AuthException(
@@ -304,7 +308,7 @@ class ApiAuthRepository implements AuthRepository {
         )
         .timeout(ApiClient.timeout);
 
-    debugPrint('[verifyOtp] status=${response.statusCode} body=${response.body}');
+    ApiClient.log('POST', _api.uri('/user/send-sms/verify'), response.statusCode);
 
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw AuthException(
