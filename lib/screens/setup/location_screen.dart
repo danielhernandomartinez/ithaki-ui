@@ -80,13 +80,9 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
     final l = AppLocalizations.of(context)!;
 
     final roles = [
-      SearchItem(id: 'citizen', label: l.roleCitizen),
-      SearchItem(id: 'resident', label: l.roleResident),
-      SearchItem(id: 'work_permit', label: l.roleWorkPermit),
-      SearchItem(id: 'student', label: l.roleStudent),
-      SearchItem(id: 'freelancer', label: l.roleFreelancer),
-      SearchItem(id: 'job_seeker', label: l.roleJobSeeker),
-      SearchItem(id: 'expat', label: l.roleExpat),
+      const SearchItem(id: 'MIGRANT', label: 'Migrant'),
+      const SearchItem(id: 'REFUGEE', label: 'Refugee'),
+      const SearchItem(id: 'ASYLUM_SEEKER', label: 'Asylum Seeker'),
     ];
 
     final relocationOptions = [

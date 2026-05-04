@@ -776,6 +776,7 @@ class ApiProfileRepository implements ProfileRepository {
     final uploadedPhotoUrl = await uploadPhotoIfNeeded(basics.photoUrl);
     final photoForPayload =
         _isRemotePhoto(uploadedPhotoUrl) ? null : uploadedPhotoUrl;
+    final locationStatus = ProfileApiMapper.locationStatusDto(basics.status);
 
     final jobSeekerPayload = {
       'basics': {
@@ -790,8 +791,7 @@ class ApiProfileRepository implements ProfileRepository {
           'dateOfBirth': ProfileApiMapper.dobToIsoDate(basics.dateOfBirth),
       },
       'location': {
-        if (basics.status.isNotEmpty)
-          'status': ProfileApiMapper.enumDto(basics.status),
+        if (locationStatus != null) 'status': locationStatus,
         if (basics.relocationReadiness.isNotEmpty)
           'relocationReadiness': ProfileApiMapper.relocationReadinessDto(
               basics.relocationReadiness),
@@ -811,8 +811,7 @@ class ApiProfileRepository implements ProfileRepository {
           'location': {
             if (citizenship != null) 'citizenship': citizenship['id'],
             if (residence != null) 'residence': residence['id'],
-            if (basics.status.isNotEmpty)
-              'status': ProfileApiMapper.enumDto(basics.status),
+            if (locationStatus != null) 'status': locationStatus,
             if (basics.relocationReadiness.isNotEmpty)
               'relocationReadiness': ProfileApiMapper.relocationReadinessDto(
                   basics.relocationReadiness),

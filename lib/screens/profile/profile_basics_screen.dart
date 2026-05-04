@@ -39,12 +39,7 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
     'Other',
     'Prefer not to say'
   ];
-  static const _statusOptions = [
-    'Citizen',
-    'Permanent Resident',
-    'Work Visa',
-    'Student'
-  ];
+  static const _statusOptions = ['Migrant', 'Refugee', 'Asylum Seeker'];
   static const _relocationOptions = [
     'Not willing to relocate',
     'Willing to relocate locally',
@@ -64,7 +59,7 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
     _citizenshipCode = basics.citizenshipCode;
     _residenceCode = basics.residenceCode;
     _gender = basics.gender;
-    _status = basics.status;
+    _status = _statusOptions.contains(basics.status) ? basics.status : '';
     _relocation = basics.relocationReadiness;
     _photoPath = basics.photoUrl;
   }

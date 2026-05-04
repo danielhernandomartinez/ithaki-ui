@@ -41,6 +41,20 @@ class ProfileApiMapper {
     return {'value': slug(t), 'title': t};
   }
 
+  static Map<String, dynamic>? locationStatusDto(String title) {
+    final t = title.trim();
+    if (t.isEmpty) return null;
+    return switch (t.toUpperCase()) {
+      'MIGRANT' => const {'value': 'MIGRANT', 'title': 'Migrant'},
+      'REFUGEE' => const {'value': 'REFUGEE', 'title': 'Refugee'},
+      'ASYLUM_SEEKER' || 'ASYLUM SEEKER' => const {
+          'value': 'ASYLUM_SEEKER',
+          'title': 'Asylum Seeker',
+        },
+      _ => null,
+    };
+  }
+
   static Map<String, dynamic>? relocationReadinessDto(String title) {
     final t = title.trim();
     if (t.isEmpty) return null;
@@ -147,7 +161,7 @@ class ProfileApiMapper {
   static Map<String, dynamic> onboardingLocationBody(ProfileBasics basics) {
     return {
       'location': {
-        'status': enumDto(basics.status),
+        'status': locationStatusDto(basics.status),
         'relocationReadiness':
             relocationReadinessDto(basics.relocationReadiness),
       },
