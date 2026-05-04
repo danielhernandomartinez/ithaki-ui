@@ -20,8 +20,11 @@ class ProfileApiMapper {
       if (name is String && name.trim().isNotEmpty) return name.trim();
       final value = field['value'];
       if (value is String && value.trim().isNotEmpty) return value.trim();
+      if (value is num || value is bool) return value.toString();
     }
-    return (field as String? ?? '').trim();
+    if (field is String) return field.trim();
+    if (field is num || field is bool) return field.toString();
+    return '';
   }
 
   static String slug(String value) {
@@ -68,11 +71,26 @@ class ProfileApiMapper {
     if (raw.isEmpty) return null;
     final parts = raw.split('-');
     if (parts.length == 3) {
+      // Already in API format.
+      if (parts[0].length == 4) {
+        final yyyy = int.tryParse(parts[0]);
+        final mm = int.tryParse(parts[1]);
+        final dd = int.tryParse(parts[2]);
+        if (yyyy != null && mm != null && dd != null) {
+          return '${yyyy.toString().padLeft(4, '0')}-${mm.toString().padLeft(2, '0')}-${dd.toString().padLeft(2, '0')}';
+        }
+      }
       // DD-MM-YYYY
       final dd = int.tryParse(parts[0]);
       final mm = int.tryParse(parts[1]);
       final yyyy = int.tryParse(parts[2]);
-      if (dd != null && mm != null && yyyy != null) {
+      if (dd != null &&
+          mm != null &&
+          yyyy != null &&
+          dd >= 1 &&
+          dd <= 31 &&
+          mm >= 1 &&
+          mm <= 12) {
         return '${yyyy.toString().padLeft(4, '0')}-${mm.toString().padLeft(2, '0')}-${dd.toString().padLeft(2, '0')}';
       }
     } else if (parts.length == 2) {
@@ -84,6 +102,15 @@ class ProfileApiMapper {
       }
     }
     return raw;
+  }
+
+  static String isoDateToDdMmYyyy(dynamic raw) {
+    if (raw == null) return '';
+    final text = raw.toString().trim();
+    if (text.isEmpty) return '';
+    final parsed = DateTime.tryParse(text);
+    if (parsed == null) return text;
+    return '${parsed.day.toString().padLeft(2, '0')}-${parsed.month.toString().padLeft(2, '0')}-${parsed.year.toString().padLeft(4, '0')}';
   }
 
   static String? mmYyyyToIsoDate(String value) {

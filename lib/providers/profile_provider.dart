@@ -26,23 +26,35 @@ class ProfileBasicsNotifier extends AsyncNotifier<ProfileBasics> {
   }
 
   Future<void> save({
-    required String firstName, required String lastName,
-    required String dateOfBirth, required String gender,
-    required String citizenship, String? citizenshipCode,
-    required String residence, String? residenceCode,
-    required String status, required String relocationReadiness,
+    required String firstName,
+    required String lastName,
+    required String dateOfBirth,
+    required String gender,
+    required String citizenship,
+    String? citizenshipCode,
+    required String residence,
+    String? residenceCode,
+    required String status,
+    required String relocationReadiness,
     String? photoUrl,
   }) async {
     final updated = state.requireValue.copyWith(
-      firstName: firstName, lastName: lastName,
-      dateOfBirth: dateOfBirth, gender: gender,
-      citizenship: citizenship, citizenshipCode: citizenshipCode,
-      residence: residence, residenceCode: residenceCode,
-      status: status, relocationReadiness: relocationReadiness,
+      firstName: firstName,
+      lastName: lastName,
+      dateOfBirth: dateOfBirth,
+      gender: gender,
+      citizenship: citizenship,
+      citizenshipCode: citizenshipCode,
+      residence: residence,
+      residenceCode: residenceCode,
+      status: status,
+      relocationReadiness: relocationReadiness,
       photoUrl: photoUrl,
     );
     await ref.read(profileRepositoryProvider).saveBasics(updated);
-    state = AsyncData(updated);
+    final result = await ref.read(profileRepositoryProvider).refreshAll();
+    ref.read(profilePartialLoadProvider.notifier).set(result.isPartial);
+    state = AsyncData(result.basics);
   }
 }
 
@@ -89,7 +101,8 @@ class ProfileSkillsNotifier extends AsyncNotifier<ProfileSkills> {
       ref.read(profileRepositoryProvider).getSkills();
 
   Future<void> updateSkills(List<String> hard, List<String> soft) async {
-    final updated = state.requireValue.copyWith(hardSkills: hard, softSkills: soft);
+    final updated =
+        state.requireValue.copyWith(hardSkills: hard, softSkills: soft);
     await ref.read(profileRepositoryProvider).saveSkills(updated);
     state = AsyncData(updated);
   }
@@ -264,7 +277,8 @@ final profileVisibleProvider =
 
 // ─── Profile Completion (derived) ─────────────────────────────────────────────
 
-final profileCompletionItemsProvider = Provider<List<ProfileCompletionItem>>((ref) {
+final profileCompletionItemsProvider =
+    Provider<List<ProfileCompletionItem>>((ref) {
   final photoUrl = ref.watch(profileBasicsProvider).value?.photoUrl;
   final bio = ref.watch(profileAboutMeProvider).value?.bio ?? '';
   final experiences = ref.watch(profileWorkExperiencesProvider).value ?? [];

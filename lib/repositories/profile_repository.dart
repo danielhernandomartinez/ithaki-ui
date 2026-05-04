@@ -338,6 +338,52 @@ class ApiProfileRepository implements ProfileRepository {
       .replaceAll(RegExp(r'\s+'), ' ')
       .trim();
 
+  String _countryCodeFor(dynamic field) {
+    final apiCode = ProfileApiMapper.countryCode(field);
+    if (apiCode.isNotEmpty) return apiCode;
+    if (field is! Map) return '';
+
+    final idRaw = field['id'] ?? field['value'];
+    final id = idRaw is num ? idRaw.toInt() : int.tryParse(idRaw.toString());
+    if (id == null) return '';
+
+    for (final entry in countryIdByCode.entries) {
+      if (entry.value == id) return entry.key.toLowerCase();
+    }
+    return '';
+  }
+
+  String? _normalizePhotoUrl(dynamic raw) {
+    final value = (raw as String?)?.trim();
+    if (value == null || value.isEmpty) return null;
+
+    for (final marker in const [
+      'https%3A//',
+      'https%3A%2F%2F',
+      'http%3A//',
+      'http%3A%2F%2F',
+    ]) {
+      final start = value.indexOf(marker);
+      if (start <= 0) continue;
+      final outerQueryStart = value.indexOf('?Expires=', start);
+      final encoded = outerQueryStart == -1
+          ? value.substring(start)
+          : value.substring(start, outerQueryStart);
+      final decoded = Uri.decodeFull(encoded);
+      final uri = Uri.tryParse(decoded);
+      if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
+        return decoded;
+      }
+    }
+
+    return value;
+  }
+
+  bool _isRemotePhoto(String? value) {
+    final uri = Uri.tryParse(value?.trim() ?? '');
+    return uri != null && (uri.isScheme('http') || uri.isScheme('https'));
+  }
+
   Future<Map<String, int>> _getLanguageIdByName() async {
     if (_languageIdByName != null) return _languageIdByName!;
     final res = await _api.get('/list/languages');
@@ -461,13 +507,15 @@ class ApiProfileRepository implements ProfileRepository {
             debugPrint('[refreshAll] basics.photo → ${b['photo']}');
             basics = basics.copyWith(
               phone: b['phone'] as String? ?? basics.phone,
-              dateOfBirth: b['dateOfBirth'] as String? ?? '',
+              dateOfBirth: ProfileApiMapper.isoDateToDdMmYyyy(
+                b['dateOfBirth'],
+              ),
               gender: ProfileApiMapper.enumTitle(b['gender']),
               citizenship: ProfileApiMapper.countryName(b['citizenship']),
-              citizenshipCode: ProfileApiMapper.countryCode(b['citizenship']),
+              citizenshipCode: _countryCodeFor(b['citizenship']),
               residence: ProfileApiMapper.countryName(b['residence']),
-              residenceCode: ProfileApiMapper.countryCode(b['residence']),
-              photoUrl: b['photo'] as String?,
+              residenceCode: _countryCodeFor(b['residence']),
+              photoUrl: _normalizePhotoUrl(b['photo']),
             );
           }
           final loc = profileData['location'];
@@ -666,13 +714,6 @@ class ApiProfileRepository implements ProfileRepository {
       return encoder.convert(value);
     }
 
-
-
-    bool isRemotePhoto(String value) {
-      final uri = Uri.tryParse(value);
-      return uri != null && (uri.isScheme('http') || uri.isScheme('https'));
-    }
-
     String readUploadedPhoto(String body) {
       final trimmed = body.trim();
       if (trimmed.isEmpty) {
@@ -695,9 +736,9 @@ class ApiProfileRepository implements ProfileRepository {
     }
 
     Future<String?> uploadPhotoIfNeeded(String? photoUrl) async {
-      final localPath = photoUrl?.trim();
-      if (localPath == null || localPath.isEmpty || isRemotePhoto(localPath)) {
-        return photoUrl;
+      final localPath = _normalizePhotoUrl(photoUrl);
+      if (localPath == null || localPath.isEmpty || _isRemotePhoto(localPath)) {
+        return localPath;
       }
 
       final file = File(localPath);
@@ -708,7 +749,8 @@ class ApiProfileRepository implements ProfileRepository {
       }
 
       debugPrint('[saveBasics] photo upload file → $localPath');
-      final body = await _api.uploadMultipart('/files/me/upload/photo', 'file', localPath);
+      final body = await _api.uploadMultipart(
+          '/files/me/upload/photo', 'file', localPath);
       final uploadedPhoto = readUploadedPhoto(body);
       debugPrint('[saveBasics] uploaded photo → $uploadedPhoto');
       return uploadedPhoto;
@@ -724,6 +766,7 @@ class ApiProfileRepository implements ProfileRepository {
       return {
         'id': countryId,
         'name': capitalizedName,
+        'code': code.toUpperCase(),
       };
     }
 
@@ -731,6 +774,8 @@ class ApiProfileRepository implements ProfileRepository {
         countryPayload(basics.citizenshipCode, basics.citizenship);
     final residence = countryPayload(basics.residenceCode, basics.residence);
     final uploadedPhotoUrl = await uploadPhotoIfNeeded(basics.photoUrl);
+    final photoForPayload =
+        _isRemotePhoto(uploadedPhotoUrl) ? null : uploadedPhotoUrl;
 
     final jobSeekerPayload = {
       'basics': {
@@ -740,7 +785,7 @@ class ApiProfileRepository implements ProfileRepository {
         'gender': ProfileApiMapper.enumDto(basics.gender),
         if (citizenship != null) 'citizenship': citizenship,
         if (residence != null) 'residence': residence,
-        'photo': uploadedPhotoUrl,
+        if (photoForPayload != null) 'photo': photoForPayload,
         if (basics.dateOfBirth.isNotEmpty)
           'dateOfBirth': ProfileApiMapper.dobToIsoDate(basics.dateOfBirth),
       },
@@ -753,7 +798,31 @@ class ApiProfileRepository implements ProfileRepository {
       },
     };
     debugPrint('[saveBasics] payload →\n${prettyJson(jobSeekerPayload)}');
+    await _api.postJson('/user/me', {
+      'firstName': basics.firstName,
+      'lastName': basics.lastName,
+      'phone': basics.phone,
+    });
     await _api.postJson('/job-seeker/me', jobSeekerPayload);
+    try {
+      await _api.postJson(
+        '/job-seeker/me/onboarding',
+        {
+          'location': {
+            if (citizenship != null) 'citizenship': citizenship['id'],
+            if (residence != null) 'residence': residence['id'],
+            if (basics.status.isNotEmpty)
+              'status': ProfileApiMapper.enumDto(basics.status),
+            if (basics.relocationReadiness.isNotEmpty)
+              'relocationReadiness': ProfileApiMapper.relocationReadinessDto(
+                  basics.relocationReadiness),
+          },
+        },
+        params: const {'step': 'location'},
+      );
+    } catch (e) {
+      debugPrint('[saveBasics] onboarding location save skipped → $e');
+    }
 
     _basics = basics.copyWith(photoUrl: uploadedPhotoUrl);
     await ProfileLocalStore.saveBasics(_basics);
