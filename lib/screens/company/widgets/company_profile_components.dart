@@ -242,6 +242,7 @@ class CompanyVisualPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final compact = height < 120;
     return Container(
       height: height,
       width: double.infinity,
@@ -284,43 +285,105 @@ class CompanyVisualPlaceholder extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: IthakiTheme.backgroundWhite,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: IthakiTheme.borderLight),
+            padding: EdgeInsets.all(compact ? 10 : 20),
+            child: compact
+                ? Row(
+                    children: [
+                      _PlaceholderIcon(
+                        iconName: iconName,
+                        size: 34,
+                        iconSize: 18,
+                        borderRadius: 12,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(child: _PlaceholderText(title, subtitle)),
+                    ],
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      _PlaceholderIcon(
+                        iconName: iconName,
+                        size: 48,
+                        iconSize: 24,
+                        borderRadius: 16,
+                      ),
+                      const SizedBox(height: 16),
+                      _PlaceholderText(title, subtitle),
+                    ],
                   ),
-                  child: Center(
-                    child: IthakiIcon(
-                      iconName,
-                      size: 24,
-                      color: IthakiTheme.primaryPurple,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Text(title, style: companyProfileCardTitleStyle),
-                if (subtitle.isNotEmpty) ...[
-                  const SizedBox(height: 6),
-                  Text(
-                    subtitle,
-                    style: companyProfileBodyStyle.copyWith(
-                      color: IthakiTheme.textSecondary,
-                    ),
-                  ),
-                ],
-              ],
-            ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _PlaceholderIcon extends StatelessWidget {
+  const _PlaceholderIcon({
+    required this.iconName,
+    required this.size,
+    required this.iconSize,
+    required this.borderRadius,
+  });
+
+  final String iconName;
+  final double size;
+  final double iconSize;
+  final double borderRadius;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: IthakiTheme.backgroundWhite,
+        borderRadius: BorderRadius.circular(borderRadius),
+        border: Border.all(color: IthakiTheme.borderLight),
+      ),
+      child: Center(
+        child: IthakiIcon(
+          iconName,
+          size: iconSize,
+          color: IthakiTheme.primaryPurple,
+        ),
+      ),
+    );
+  }
+}
+
+class _PlaceholderText extends StatelessWidget {
+  const _PlaceholderText(this.title, this.subtitle);
+
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: companyProfileCardTitleStyle,
+        ),
+        if (subtitle.isNotEmpty) ...[
+          const SizedBox(height: 4),
+          Text(
+            subtitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: companyProfileBodyStyle.copyWith(
+              color: IthakiTheme.textSecondary,
+            ),
+          ),
+        ],
+      ],
     );
   }
 }
