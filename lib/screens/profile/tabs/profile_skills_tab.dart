@@ -16,15 +16,14 @@ class ProfileSkillsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final skills = ref.watch(profileSkillsProvider).value ?? const ProfileSkills();
-    final relocation = ref.watch(
-        profileBasicsProvider.select((b) => b.value?.relocationReadiness ?? ''));
+    final skills =
+        ref.watch(profileSkillsProvider).value ?? const ProfileSkills();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _skillsCard(context, skills),
         const SizedBox(height: 8),
-        _competenciesCard(context, skills, relocation),
+        _competenciesCard(context, skills),
         const SizedBox(height: 8),
         _languagesCard(context, skills),
       ],
@@ -54,8 +53,8 @@ class ProfileSkillsTab extends ConsumerWidget {
             style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 16),
-          _outlineButton(const IthakiIcon('plus', size: 16),
-              'Add Skills', () => context.push(Routes.profileSkills)),
+          _outlineButton(const IthakiIcon('plus', size: 16), 'Add Skills',
+              () => context.push(Routes.profileSkills)),
         ] else ...[
           if (skills.hardSkills.isNotEmpty) ...[
             const Text('Hard Skills',
@@ -92,26 +91,9 @@ class ProfileSkillsTab extends ConsumerWidget {
     );
   }
 
-  Widget _competenciesCard(
-      BuildContext context, ProfileSkills skills, String relocation) {
+  Widget _competenciesCard(BuildContext context, ProfileSkills skills) {
     final comp = skills.competencies;
-    final rows = <_CompRow>[];
-    if (relocation.isNotEmpty) {
-      rows.add(_CompRow('Willing to relocate', relocation));
-    }
-    if ((comp['workPermit'] ?? '').isNotEmpty) {
-      rows.add(_CompRow('Work Permit', comp['workPermit']!));
-    }
-    if ((comp['computerSkills'] ?? '').isNotEmpty) {
-      rows.add(_CompRow('Computer Skills', comp['computerSkills']!));
-    }
-    if ((comp['drivingLicense'] ?? '').isNotEmpty) {
-      final cat = comp['licenseCategory'] ?? '';
-      final value = comp['drivingLicense'] == 'Yes' && cat.isNotEmpty
-          ? 'Category $cat'
-          : comp['drivingLicense']!;
-      rows.add(_CompRow('Driving Licence', value));
-    }
+    final rows = _competencyRows(comp);
     final hasData = rows.isNotEmpty;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -133,30 +115,69 @@ class ProfileSkillsTab extends ConsumerWidget {
             style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 16),
-          _outlineButton(const IthakiIcon('plus', size: 16),
-              'Add Competencies', () => context.push(Routes.profileCompetencies)),
+          _outlineButton(const IthakiIcon('plus', size: 16), 'Add Competencies',
+              () => context.push(Routes.profileCompetencies)),
         ] else ...[
           ...rows.map((r) => Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(r.label,
-                        style: const TextStyle(
-                            fontSize: 14, color: IthakiTheme.textSecondary)),
-                    Text(r.value,
+                    Expanded(
+                      child: Text(r.label,
+                          style: const TextStyle(
+                              fontSize: 14, color: IthakiTheme.textSecondary)),
+                    ),
+                    const SizedBox(width: 12),
+                    Flexible(
+                      child: Text(
+                        r.value,
+                        textAlign: TextAlign.right,
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: IthakiTheme.textPrimary)),
+                            color: IthakiTheme.textPrimary),
+                      ),
+                    ),
                   ],
                 ),
               )),
-          _outlineButton(const IthakiIcon('edit-pencil', size: 16),
-              'Edit Competencies', () => context.push(Routes.profileCompetencies)),
+          SizedBox(
+            width: double.infinity,
+            child: _outlineButton(
+                const IthakiIcon('edit-pencil', size: 16),
+                'Edit Competencies',
+                () => context.push(Routes.profileCompetencies)),
+          ),
         ],
       ]),
     );
+  }
+
+  List<_CompRow> _competencyRows(Map<String, String> competencies) {
+    const preferredOrder = [
+      'computerSkills',
+      'drivingLicense',
+      'licenseCategory',
+      'greekLicense',
+    ];
+    final rows = <_CompRow>[];
+    final used = <String>{};
+
+    for (final key in preferredOrder) {
+      final value = competencies[key]?.trim();
+      if (value == null || value.isEmpty) continue;
+      rows.add(_CompRow(key, value));
+      used.add(key);
+    }
+
+    for (final entry in competencies.entries) {
+      final value = entry.value.trim();
+      if (used.contains(entry.key) || value.isEmpty) continue;
+      rows.add(_CompRow(entry.key, value));
+    }
+
+    return rows;
   }
 
   Widget _languagesCard(BuildContext context, ProfileSkills skills) =>
@@ -213,8 +234,8 @@ class ProfileSkillsTab extends ConsumerWidget {
           borderRadius: BorderRadius.circular(16),
         ),
         child: Text(label,
-            style: const TextStyle(
-                fontSize: 16, color: IthakiTheme.textPrimary)),
+            style:
+                const TextStyle(fontSize: 16, color: IthakiTheme.textPrimary)),
       );
 
   Widget _outlineButton(Widget icon, String label, VoidCallback onPressed) =>
@@ -224,7 +245,8 @@ class ProfileSkillsTab extends ConsumerWidget {
         label: Text(label),
         style: OutlinedButton.styleFrom(
           side: const BorderSide(color: IthakiTheme.softGraphite),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           foregroundColor: IthakiTheme.textPrimary,
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,

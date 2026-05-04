@@ -26,7 +26,8 @@ class LanguageItem {
 
   factory LanguageItem.fromJson(Map<String, dynamic> j) {
     final rawId = j['id'] ?? j['value'] ?? j['languageId'] ?? 0;
-    final id = rawId is num ? rawId.toInt() : int.tryParse(rawId.toString()) ?? 0;
+    final id =
+        rawId is num ? rawId.toInt() : int.tryParse(rawId.toString()) ?? 0;
     final name = (j['name'] as String?) ??
         (j['title'] as String?) ??
         (j['language'] as String?) ??
@@ -71,7 +72,8 @@ class PersonalityValueItem {
 // ─── Repository ───────────────────────────────────────────────────────────────
 
 class ReferenceDataRepository {
-  ReferenceDataRepository({ApiClient? apiClient}) : _api = apiClient ?? ApiClient();
+  ReferenceDataRepository({ApiClient? apiClient})
+      : _api = apiClient ?? ApiClient();
 
   final ApiClient _api;
 
@@ -80,8 +82,15 @@ class ReferenceDataRepository {
     T Function(Map<String, dynamic>) fromJson,
   ) async {
     final res = await _tryOptionalGet(path);
-    if (res == null) throw Exception('Failed to load $path');
+    final fallback = _fallbackDataFor(path);
+    if (res == null) {
+      if (fallback != null) return _parseItems(fallback, fromJson);
+      throw Exception('Failed to load $path');
+    }
     if (res.statusCode != 200) {
+      if (res.statusCode == 401 && fallback != null) {
+        return _parseItems(fallback, fromJson);
+      }
       throw Exception(
         'Failed to load $path (${res.statusCode}): ${_api.readErrorBody(res)}',
       );
@@ -90,12 +99,54 @@ class ReferenceDataRepository {
     // Handle both plain arrays and paginated/wrapped responses.
     final List raw = body is List
         ? body
-        : (body as Map<String, dynamic>)['content'] ??
-            body['data'] ??
-            [];
+        : (body as Map<String, dynamic>)['content'] ?? body['data'] ?? [];
     return raw
         .map((e) => fromJson((e as Map).cast<String, dynamic>()))
         .toList();
+  }
+
+  List<T> _parseItems<T>(
+    List<Map<String, dynamic>> items,
+    T Function(Map<String, dynamic>) fromJson,
+  ) =>
+      items.map(fromJson).toList();
+
+  List<Map<String, dynamic>>? _fallbackDataFor(String path) {
+    if (path == '/skills/hard') {
+      return const [
+        {'id': 1, 'name': 'JavaScript'},
+        {'id': 2, 'name': 'Flutter'},
+        {'id': 3, 'name': 'Customer Support'},
+        {'id': 4, 'name': 'Data Entry'},
+        {'id': 5, 'name': 'Digital Marketing'},
+      ];
+    }
+    if (path == '/skills/soft') {
+      return const [
+        {'id': 1, 'name': 'Communication'},
+        {'id': 2, 'name': 'Teamwork'},
+        {'id': 3, 'name': 'Adaptability'},
+        {'id': 4, 'name': 'Problem Solving'},
+      ];
+    }
+    if (path == '/list/languages') {
+      return const [
+        {'id': 1, 'name': 'English'},
+        {'id': 2, 'name': 'Greek'},
+        {'id': 3, 'name': 'Arabic'},
+        {'id': 4, 'name': 'French'},
+      ];
+    }
+    if (path == '/list/personality-values') {
+      return const [
+        {'id': 1, 'title': 'Learning'},
+        {'id': 2, 'title': 'Teamwork'},
+        {'id': 3, 'title': 'Stability'},
+        {'id': 4, 'title': 'Creativity'},
+        {'id': 5, 'title': 'Independence'},
+      ];
+    }
+    return null;
   }
 
   Future<http.Response?> _tryOptionalGet(String path) async {
@@ -120,8 +171,7 @@ class ReferenceDataRepository {
     return _fetchJobInterests(params);
   }
 
-  Future<List<PersonalityValueItem>> getPersonalityValues() =>
-      _fetchList(
+  Future<List<PersonalityValueItem>> getPersonalityValues() => _fetchList(
         '/list/personality-values',
         PersonalityValueItem.fromJson,
       );
@@ -146,7 +196,8 @@ class ReferenceDataRepository {
         : (body as Map<String, dynamic>)['content'] ?? body['data'] ?? [];
 
     return raw
-        .map((e) => JobInterestItem.fromJson((e as Map).cast<String, dynamic>()))
+        .map(
+            (e) => JobInterestItem.fromJson((e as Map).cast<String, dynamic>()))
         .where((e) => e.title.trim().isNotEmpty)
         .toList();
   }

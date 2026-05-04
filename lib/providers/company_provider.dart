@@ -20,7 +20,7 @@ class ApiCompanyRepository implements CompanyRepository {
 
   @override
   Future<CompanyProfile> getCompany(String companyId) async {
-    final response = await _api.get('/companies/$companyId');
+    final response = await _api.getOptionalAuth('/companies/$companyId');
     if (response.statusCode != 200) {
       throw Exception('Failed to load company: ${response.statusCode}');
     }
