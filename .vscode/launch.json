@@ -18,7 +18,12 @@
       "args": [
         "--dart-define=ITHAKI_API_BASE_URL=https://api.odyssea.com/talent/staging",
         "--dart-define=ITHAKI_USE_MOCK_HOME=true",
-        "--dart-define=ITHAKI_USE_MOCK_JOB_SEARCH=true"
+        "--dart-define=ITHAKI_USE_MOCK_JOB_SEARCH=true",
+        "--dart-define=ITHAKI_USE_MOCK_AUTH=true",
+        "--dart-define=ITHAKI_USE_MOCK_PROFILE=true",
+        "--dart-define=ITHAKI_USE_MOCK_APPLICATIONS=true",
+        "--dart-define=ITHAKI_USE_MOCK_INVITATIONS=true",
+        "--dart-define=ITHAKI_USE_MOCK_JOB_DETAIL=true"
       ]
     },
     {
