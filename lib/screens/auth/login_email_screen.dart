@@ -151,12 +151,20 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
                       if (_isLoading) return;
                       setState(() => _isLoading = true);
                       try {
-                        await ref.read(authRepositoryProvider).loginWithEmail(
+                        final session = await ref
+                            .read(authRepositoryProvider)
+                            .loginWithEmail(
                               _emailController.text,
                               _passwordController.text,
                             );
                         resetProfileProviders(ref);
-                        if (context.mounted) context.go(Routes.home);
+                        if (context.mounted) {
+                          context.go(
+                            session.isEmployer
+                                ? Routes.employerDashboard
+                                : Routes.home,
+                          );
+                        }
                       } catch (e) {
                         if (!context.mounted) return;
                         final message = e is AuthException

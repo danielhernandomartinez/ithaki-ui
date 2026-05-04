@@ -21,8 +21,18 @@ class AuthException implements Exception {
       '${internalDetail != null ? ' [$internalDetail]' : ''}';
 }
 
+enum AccountType { jobSeeker, employer }
+
+class LoginSession {
+  const LoginSession({required this.accountType});
+
+  final AccountType accountType;
+
+  bool get isEmployer => accountType == AccountType.employer;
+}
+
 abstract class AuthRepository {
-  Future<void> loginWithEmail(String email, String password);
+  Future<LoginSession> loginWithEmail(String email, String password);
   Future<void> register({
     required String email,
     required String password,
@@ -42,12 +52,13 @@ abstract class AuthRepository {
 
 class MockAuthRepository implements AuthRepository {
   @override
-  Future<void> loginWithEmail(String email, String password) async {
+  Future<LoginSession> loginWithEmail(String email, String password) async {
     await ApiAuthRepository._storage.write(
       key: 'jwt_token',
       value: 'mock-token',
     );
     await ProfileLocalStore.savePhoneVerified(true);
+    return const LoginSession(accountType: AccountType.jobSeeker);
   }
 
   @override
@@ -114,12 +125,99 @@ class ApiAuthRepository implements AuthRepository {
     return null;
   }
 
+  AccountType _extractAccountType(Map<String, dynamic> data) {
+    final values = <Object?>[
+      data['accountType'],
+      data['userType'],
+      data['type'],
+      data['role'],
+      data['authority'],
+      data['roles'],
+      data['authorities'],
+    ];
+
+    final nestedData = data['data'];
+    if (nestedData is Map<String, dynamic>) {
+      values.addAll([
+        nestedData['accountType'],
+        nestedData['userType'],
+        nestedData['type'],
+        nestedData['role'],
+        nestedData['authority'],
+        nestedData['roles'],
+        nestedData['authorities'],
+        nestedData['user'],
+      ]);
+    }
+
+    final user = data['user'];
+    if (user is Map<String, dynamic>) {
+      values.addAll([
+        user['accountType'],
+        user['userType'],
+        user['type'],
+        user['role'],
+        user['authority'],
+        user['roles'],
+        user['authorities'],
+      ]);
+    }
+
+    final token = _extractToken(data);
+    final tokenClaims = token == null ? null : _decodeJwtPayload(token);
+    if (tokenClaims != null) {
+      values.add(tokenClaims);
+    }
+
+    return _containsEmployerMarker(values)
+        ? AccountType.employer
+        : AccountType.jobSeeker;
+  }
+
+  Map<String, dynamic>? _decodeJwtPayload(String token) {
+    final parts = token.split('.');
+    if (parts.length < 2) return null;
+    try {
+      final normalized = base64Url.normalize(parts[1]);
+      final decoded = utf8.decode(base64Url.decode(normalized));
+      final payload = jsonDecode(decoded);
+      return payload is Map<String, dynamic> ? payload : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  bool _containsEmployerMarker(Iterable<Object?> values) {
+    for (final value in values) {
+      if (value == null) continue;
+      if (value is Iterable) {
+        if (_containsEmployerMarker(value.cast<Object?>())) return true;
+        continue;
+      }
+      if (value is Map) {
+        if (_containsEmployerMarker(value.values.cast<Object?>())) return true;
+        continue;
+      }
+      final normalized =
+          value.toString().toLowerCase().replaceAll(RegExp(r'[^a-z]'), '');
+      if (normalized.contains('employer') ||
+          normalized.contains('company') ||
+          normalized.contains('organization') ||
+          normalized.contains('organisation')) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   Future<void> _saveTokens(Map<String, dynamic> data) async {
     // New session: clear previous user's cached profile data.
     await ProfileLocalStore.clearAll();
 
     final accessToken = _extractToken(data);
-    if (accessToken != null) await _storage.write(key: 'jwt_token', value: accessToken);
+    if (accessToken != null) {
+      await _storage.write(key: 'jwt_token', value: accessToken);
+    }
 
     final refreshToken = data['refreshToken'] ?? data['data']?['refreshToken'];
     if (refreshToken is String && refreshToken.isNotEmpty) {
@@ -144,7 +242,7 @@ class ApiAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<void> loginWithEmail(String email, String password) async {
+  Future<LoginSession> loginWithEmail(String email, String password) async {
     final response = await _api.client
         .post(
           _api.uri('/auth/login'),
@@ -184,6 +282,7 @@ class ApiAuthRepository implements AuthRepository {
     await _saveTokens(data);
     // Login users are exempt from phone verification — only registration enforces it.
     await ProfileLocalStore.savePhoneVerified(true);
+    return LoginSession(accountType: _extractAccountType(data));
   }
 
   @override
@@ -250,7 +349,8 @@ class ApiAuthRepository implements AuthRepository {
         )
         .timeout(ApiClient.timeout);
 
-    if (profileResponse.statusCode != 200 && profileResponse.statusCode != 201) {
+    if (profileResponse.statusCode != 200 &&
+        profileResponse.statusCode != 201) {
       throw AuthException(
         'Could not save profile. Please try again.',
         internalDetail: _api.readErrorBody(profileResponse),
@@ -304,7 +404,8 @@ class ApiAuthRepository implements AuthRepository {
         )
         .timeout(ApiClient.timeout);
 
-    debugPrint('[verifyOtp] status=${response.statusCode} body=${response.body}');
+    debugPrint(
+        '[verifyOtp] status=${response.statusCode} body=${response.body}');
 
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw AuthException(

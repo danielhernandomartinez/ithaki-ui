@@ -12,6 +12,12 @@ import 'package:ithaki_ui/screens/auth/login_email_screen.dart';
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
+class _EmployerAuthRepository extends MockAuthRepository {
+  @override
+  Future<LoginSession> loginWithEmail(String email, String password) async =>
+      const LoginSession(accountType: AccountType.employer);
+}
+
 GoRouter _router() => GoRouter(
       initialLocation: Routes.loginEmail,
       routes: [
@@ -32,12 +38,27 @@ GoRouter _router() => GoRouter(
           path: Routes.loginPhone,
           builder: (_, __) => const Scaffold(body: Text('login-phone-screen')),
         ),
+        GoRoute(
+          path: Routes.home,
+          builder: (_, __) => const Scaffold(body: Text('job-seeker-home')),
+        ),
+        GoRoute(
+          path: Routes.employerDashboard,
+          builder: (_, __) =>
+              const Scaffold(body: Text('employer-dashboard-screen')),
+        ),
       ],
     );
 
-Widget _buildApp(GoRouter router) => ProviderScope(
+Widget _buildApp(
+  GoRouter router, {
+  AuthRepository? authRepository,
+}) =>
+    ProviderScope(
       overrides: [
-        authRepositoryProvider.overrideWithValue(MockAuthRepository()),
+        authRepositoryProvider.overrideWithValue(
+          authRepository ?? MockAuthRepository(),
+        ),
       ],
       child: MaterialApp.router(
         routerConfig: router,
@@ -250,6 +271,25 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.text('forgot-password-screen'), findsOneWidget);
+      });
+
+      testWidgets('Employer login navigates to employer dashboard',
+          (tester) async {
+        await tester.pumpWidget(
+          _buildApp(_router(), authRepository: _EmployerAuthRepository()),
+        );
+        await tester.pumpAndSettle();
+
+        await _enterCredentials(
+          tester,
+          email: 'employer@example.com',
+          password: 'password123',
+        );
+        await tester.tap(find.text('Sign In'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('employer-dashboard-screen'), findsOneWidget);
+        expect(find.text('job-seeker-home'), findsNothing);
       });
     });
   });
