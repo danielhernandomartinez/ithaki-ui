@@ -1117,7 +1117,7 @@ class CareerAssistantSheet extends StatelessWidget {
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
                   icon: const IthakiIcon(
-                    'close',
+                    'x-close',
                     size: 20,
                     color: IthakiTheme.textPrimary,
                   ),
@@ -1227,7 +1227,7 @@ class LeaveWithoutPublishingSheet extends StatelessWidget {
               IconButton(
                 onPressed: () => Navigator.of(context).pop(),
                 icon: const IthakiIcon(
-                  'close',
+                  'x-close',
                   size: 20,
                   color: IthakiTheme.textPrimary,
                 ),
