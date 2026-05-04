@@ -96,7 +96,7 @@ void main() {
                   'dateOfBirth': '1995-01-01',
                 },
                 'location': {
-                  'status': {'value': 'CITIZEN', 'title': 'Citizen'},
+                  'status': {'value': 'MIGRANT', 'title': 'Migrant'},
                   'relocationReadiness': {
                     'value': 'NEGATIVE',
                     'title': 'Not willing to relocate',
@@ -149,9 +149,6 @@ void main() {
       final client = MockClient((request) async {
         requests[request.url.path] =
             request.body.isEmpty ? null : jsonDecode(request.body);
-        if (request.url.path == '/api/job-seeker/me/onboarding') {
-          return http.Response('boom', 500);
-        }
         return http.Response('{}', 200);
       });
       final repository = ApiProfileRepository(
@@ -171,7 +168,7 @@ void main() {
           residence: 'Afghanistan',
           residenceCode: 'af',
           photoUrl: 'https://cdn.test/photo.jpg?Expires=1&Signature=abc',
-          status: 'Citizen',
+          status: 'Migrant',
           relocationReadiness: 'Not willing to relocate',
         ),
       );
@@ -202,6 +199,19 @@ void main() {
           requests['/api/job-seeker/me/onboarding'] as Map<String, dynamic>;
       expect(onboardingBody['location']['citizenship'], 2);
       expect(onboardingBody['location']['residence'], 1);
+      expect(
+        (onboardingBody['location'] as Map<String, dynamic>)
+            .containsKey('status'),
+        isTrue,
+      );
+      expect(onboardingBody['location']['status'], {
+        'value': 'MIGRANT',
+        'title': 'Migrant',
+      });
+      expect(onboardingBody['location']['relocationReadiness'], {
+        'value': 'NEGATIVE',
+        'title': 'Not willing to relocate',
+      });
     });
   });
 }

@@ -11,7 +11,7 @@ const mockProfileBasics = ProfileBasics(
   citizenshipCode: 'GR',
   residence: 'Chalkidiki, Greece',
   residenceCode: 'GR',
-  status: 'Citizen',
+  status: 'Migrant',
   relocationReadiness: 'No',
 );
 
