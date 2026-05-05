@@ -5,15 +5,13 @@ import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
-import '../../providers/employer_setup_provider.dart';
 import '../../providers/reference_data_provider.dart';
 import '../../providers/setup_provider.dart';
 
 const _maxValues = 5;
 
 class ValuesScreen extends ConsumerStatefulWidget {
-  final bool isEmployer;
-  const ValuesScreen({super.key, this.isEmployer = false});
+  const ValuesScreen({super.key});
 
   @override
   ConsumerState<ValuesScreen> createState() => _ValuesScreenState();
@@ -41,8 +39,7 @@ class _ValuesScreenState extends ConsumerState<ValuesScreen> {
       child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (!widget.isEmployer)
-                IthakiStepTabs(
+              IthakiStepTabs(
                   steps: [l.stepLocation, l.stepJobInterests, l.stepPreferences, l.stepValues, l.stepCommunication],
                   currentIndex: 3,
                   completedUpTo: 2,
@@ -55,23 +52,9 @@ class _ValuesScreenState extends ConsumerState<ValuesScreen> {
                     Text(l.valuesHeading, style: IthakiTheme.headingLarge),
                     const SizedBox(height: 8),
                     Text(
-                      widget.isEmployer
-                          ? l.employerValuesDescription
-                          : l.valuesDescription(_maxValues),
+                      l.valuesDescription(_maxValues),
                       style: IthakiTheme.bodyRegular,
                     ),
-                    if (widget.isEmployer) ...[
-                      const SizedBox(height: 8),
-                      TextButton(
-                        onPressed: () => context.go(Routes.home),
-                        child: Text(
-                          l.skipForNow,
-                          style: IthakiTheme.bodyRegular.copyWith(
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ),
-                    ],
                     if (hasLoadError) ...[
                       const SizedBox(height: 12),
                       Container(
@@ -103,15 +86,8 @@ class _ValuesScreenState extends ConsumerState<ValuesScreen> {
                       l.continueButton,
                       onPressed: _selected.isNotEmpty
                           ? () {
-                              if (widget.isEmployer) {
-                                ref
-                                    .read(employerSetupProvider.notifier)
-                                    .setValues(Set.of(_selected));
-                                context.go(Routes.home);
-                              } else {
-                                ref.read(setupProvider.notifier).setValues(Set.of(_selected));
-                                context.push(Routes.setupCommunication);
-                              }
+                              ref.read(setupProvider.notifier).setValues(Set.of(_selected));
+                              context.push(Routes.setupCommunication);
                             }
                           : null,
                     ),

@@ -18,26 +18,6 @@ abstract final class Routes {
   static const loginPhone = '/login-phone';
   static const welcome = '/welcome';
 
-  // Employer dashboard
-  static const employerDashboard = '/employer/dashboard';
-  static const employerJobDetail = '/employer/jobs/:jobId';
-  static String employerJobDetailFor(String jobId) => '/employer/jobs/$jobId';
-
-  static const employerAiMatcher = '/employer/jobs/:jobId/ai-matcher';
-  static String employerAiMatcherFor(String jobId) =>
-      '/employer/jobs/$jobId/ai-matcher';
-
-  static const employerEditJob = '/employer/jobs/:jobId/edit';
-  static String employerEditJobFor(String jobId) =>
-      '/employer/jobs/$jobId/edit';
-
-  // Employer sign-up
-  static const userTypeSelection = '/user-type';
-  static const employerTypeSelection = '/employer-type';
-  static const registerEmployer = '/employer/register';
-  static const employerSetup = '/employer/setup';
-  static const employerSetupValues = '/employer/setup/values';
-
   // Setup
   static const setupLocation = '/setup/location';
   static const setupJobInterests = '/setup/job-interests';
@@ -96,6 +76,9 @@ abstract final class Routes {
   static String assessmentQuizFor(String id) => '/assessments/$id/quiz';
   static const assessmentResults = '/assessments/:id/results';
   static String assessmentResultsFor(String id) => '/assessments/$id/results';
+
+  // Debug (dev only)
+  static const apiDiagnostics = '/debug/api-diagnostics';
 
   // Blog
   static const blogNews = '/blog';

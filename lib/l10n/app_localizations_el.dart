@@ -12,581 +12,451 @@ class AppLocalizationsEl extends AppLocalizations {
   String get appTitle => 'Ithaki';
 
   @override
-  String get loginAction => 'Σύνδεση';
+  String get loginAction => 'Ξ£ΟΞ½Ξ΄ΞµΟƒΞ·';
 
   @override
-  String get signUpAction => 'Εγγραφή';
+  String get signUpAction => 'Ξ•Ξ³Ξ³ΟΞ±Ο†Ξ®';
 
   @override
-  String get continueButton => 'Συνέχεια';
+  String get continueButton => 'Ξ£Ο…Ξ½Ξ­Ο‡ΞµΞΉΞ±';
 
   @override
-  String get skipButton => 'Παράλειψη';
+  String get skipButton => 'Ξ Ξ±ΟΞ¬Ξ»ΞµΞΉΟΞ·';
 
   @override
-  String get backButton => 'Πίσω';
+  String get backButton => 'Ξ Ξ―ΟƒΟ‰';
 
   @override
-  String get goBack => 'Επιστροφή';
+  String get goBack => 'Ξ•Ο€ΞΉΟƒΟ„ΟΞΏΟ†Ξ®';
 
   @override
   String get welcomeHeading =>
-      'Καλώς ήρθατε στο Ithaki!\nΑς δημιουργήσουμε έναν Λογαριασμό!';
+      'ΞΞ±Ξ»ΟΟ‚ Ξ®ΟΞΈΞ±Ο„Ξµ ΟƒΟ„ΞΏ Ithaki!\nΞ‘Ο‚ Ξ΄Ξ·ΞΌΞΉΞΏΟ…ΟΞ³Ξ®ΟƒΞΏΟ…ΞΌΞµ Ξ­Ξ½Ξ±Ξ½ Ξ›ΞΏΞ³Ξ±ΟΞΉΞ±ΟƒΞΌΟ!';
 
   @override
-  String get selectLanguageTitle => 'Επιλέξτε τη Γλώσσα σας';
+  String get selectLanguageTitle => 'Ξ•Ο€ΞΉΞ»Ξ­ΞΎΟ„Ξµ Ο„Ξ· Ξ“Ξ»ΟΟƒΟƒΞ± ΟƒΞ±Ο‚';
 
   @override
   String get selectLanguageDescription =>
-      'Μπορείτε να αλλάξετε τη γλώσσα διεπαφής ανά πάσα στιγμή. Όλο το περιεχόμενο, συμπεριλαμβανομένης της περιγραφής εργασίας, του βιογραφικού σας και της επικοινωνίας με συμβούλους και το chatbot, θα είναι στα Αγγλικά.';
+      'ΞΟ€ΞΏΟΞµΞ―Ο„Ξµ Ξ½Ξ± Ξ±Ξ»Ξ»Ξ¬ΞΎΞµΟ„Ξµ Ο„Ξ· Ξ³Ξ»ΟΟƒΟƒΞ± Ξ΄ΞΉΞµΟ€Ξ±Ο†Ξ®Ο‚ Ξ±Ξ½Ξ¬ Ο€Ξ¬ΟƒΞ± ΟƒΟ„ΞΉΞ³ΞΌΞ®. ΞΞ»ΞΏ Ο„ΞΏ Ο€ΞµΟΞΉΞµΟ‡ΟΞΌΞµΞ½ΞΏ, ΟƒΟ…ΞΌΟ€ΞµΟΞΉΞ»Ξ±ΞΌΞ²Ξ±Ξ½ΞΏΞΌΞ­Ξ½Ξ·Ο‚ Ο„Ξ·Ο‚ Ο€ΞµΟΞΉΞ³ΟΞ±Ο†Ξ®Ο‚ ΞµΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚, Ο„ΞΏΟ… Ξ²ΞΉΞΏΞ³ΟΞ±Ο†ΞΉΞΊΞΏΟ ΟƒΞ±Ο‚ ΞΊΞ±ΞΉ Ο„Ξ·Ο‚ ΞµΟ€ΞΉΞΊΞΏΞΉΞ½Ο‰Ξ½Ξ―Ξ±Ο‚ ΞΌΞµ ΟƒΟ…ΞΌΞ²ΞΏΟΞ»ΞΏΟ…Ο‚ ΞΊΞ±ΞΉ Ο„ΞΏ chatbot, ΞΈΞ± ΞµΞ―Ξ½Ξ±ΞΉ ΟƒΟ„Ξ± Ξ‘Ξ³Ξ³Ξ»ΞΉΞΊΞ¬.';
 
   @override
-  String get languageLabel => 'Γλώσσα';
+  String get languageLabel => 'Ξ“Ξ»ΟΟƒΟƒΞ±';
 
   @override
-  String get selectLanguagePlaceholder => 'Επιλέξτε τη γλώσσα σας';
+  String get selectLanguagePlaceholder =>
+      'Ξ•Ο€ΞΉΞ»Ξ­ΞΎΟ„Ξµ Ο„Ξ· Ξ³Ξ»ΟΟƒΟƒΞ± ΟƒΞ±Ο‚';
 
   @override
-  String get techComfortTitle => 'Πόσο άνετα νιώθετε με την τεχνολογία;';
+  String get techComfortTitle =>
+      'Ξ ΟΟƒΞΏ Ξ¬Ξ½ΞµΟ„Ξ± Ξ½ΞΉΟΞΈΞµΟ„Ξµ ΞΌΞµ Ο„Ξ·Ξ½ Ο„ΞµΟ‡Ξ½ΞΏΞ»ΞΏΞ³Ξ―Ξ±;';
 
   @override
   String get techComfortDescription =>
-      'Θα χρησιμοποιήσουμε την απάντησή σας για να κάνουμε την πλατφόρμα πιο άνετη για εσάς.';
+      'ΞΞ± Ο‡ΟΞ·ΟƒΞΉΞΌΞΏΟ€ΞΏΞΉΞ®ΟƒΞΏΟ…ΞΌΞµ Ο„Ξ·Ξ½ Ξ±Ο€Ξ¬Ξ½Ο„Ξ·ΟƒΞ® ΟƒΞ±Ο‚ Ξ³ΞΉΞ± Ξ½Ξ± ΞΊΞ¬Ξ½ΞΏΟ…ΞΌΞµ Ο„Ξ·Ξ½ Ο€Ξ»Ξ±Ο„Ο†ΟΟΞΌΞ± Ο€ΞΉΞΏ Ξ¬Ξ½ΞµΟ„Ξ· Ξ³ΞΉΞ± ΞµΟƒΞ¬Ο‚.';
 
   @override
-  String get techExperiencedLabel => 'Είμαι Έμπειρος/η';
+  String get techExperiencedLabel => 'Ξ•Ξ―ΞΌΞ±ΞΉ ΞΞΌΟ€ΞµΞΉΟΞΏΟ‚/Ξ·';
 
   @override
   String get techExperiencedSubtitle =>
-      'Νιώθω άνετα χρησιμοποιώντας ψηφιακά εργαλεία και μου αρέσει να εξερευνώ νέες τεχνολογίες';
+      'ΞΞΉΟΞΈΟ‰ Ξ¬Ξ½ΞµΟ„Ξ± Ο‡ΟΞ·ΟƒΞΉΞΌΞΏΟ€ΞΏΞΉΟΞ½Ο„Ξ±Ο‚ ΟΞ·Ο†ΞΉΞ±ΞΊΞ¬ ΞµΟΞ³Ξ±Ξ»ΞµΞ―Ξ± ΞΊΞ±ΞΉ ΞΌΞΏΟ… Ξ±ΟΞ­ΟƒΞµΞΉ Ξ½Ξ± ΞµΞΎΞµΟΞµΟ…Ξ½Ο Ξ½Ξ­ΞµΟ‚ Ο„ΞµΟ‡Ξ½ΞΏΞ»ΞΏΞ³Ξ―ΞµΟ‚';
 
   @override
-  String get techNewLabel => 'Είμαι ακόμα νέος/α σε αυτό';
+  String get techNewLabel => 'Ξ•Ξ―ΞΌΞ±ΞΉ Ξ±ΞΊΟΞΌΞ± Ξ½Ξ­ΞΏΟ‚/Ξ± ΟƒΞµ Ξ±Ο…Ο„Ο';
 
   @override
   String get techNewSubtitle =>
-      'Δεν μου αρέσουν τα πολύπλοκα εργαλεία - προτιμώ όταν η τεχνολογία απλά λειτουργεί ομαλά';
+      'Ξ”ΞµΞ½ ΞΌΞΏΟ… Ξ±ΟΞ­ΟƒΞΏΟ…Ξ½ Ο„Ξ± Ο€ΞΏΞ»ΟΟ€Ξ»ΞΏΞΊΞ± ΞµΟΞ³Ξ±Ξ»ΞµΞ―Ξ± - Ο€ΟΞΏΟ„ΞΉΞΌΟ ΟΟ„Ξ±Ξ½ Ξ· Ο„ΞµΟ‡Ξ½ΞΏΞ»ΞΏΞ³Ξ―Ξ± Ξ±Ο€Ξ»Ξ¬ Ξ»ΞµΞΉΟ„ΞΏΟ…ΟΞ³ΞµΞ― ΞΏΞΌΞ±Ξ»Ξ¬';
 
   @override
-  String get userTypeTitle => 'Επιλέξτε τον τύπο λογαριασμού σας';
-
-  @override
-  String get userTypeDescription =>
-      'Επιλέξτε την επιλογή που σας περιγράφει καλύτερα για να συνεχίσετε με την εγγραφή.';
-
-  @override
-  String get userTypeJobSeekerLabel => 'Είμαι Αναζητών Εργασία';
-
-  @override
-  String get userTypeJobSeekerSubtitle =>
-      'Αναζητάτε ευκαιρίες εργασίας. Δημιουργήστε ένα προφίλ ταλέντου για να κάνετε αίτηση σε θέσεις και να συνδεθείτε με εργοδότες.';
-
-  @override
-  String get userTypeEmployerLabel => 'Είμαστε Εργοδότης ή ΜΚΟ';
-
-  @override
-  String get userTypeEmployerSubtitle =>
-      'Αναζητάτε ταλέντα ή συντονίζετε υποψηφίους. Δημιουργήστε έναν εταιρικό λογαριασμό για να δημοσιεύσετε θέσεις και να διαχειριστείτε αιτήσεις.';
-
-  @override
-  String get employerTypeTitle => 'Επιλέξτε τον τύπο λογαριασμού σας';
-
-  @override
-  String get employerTypeDescription =>
-      'Επιλέξτε την επιλογή που περιγράφει καλύτερα τον οργανισμό σας για να συνεχίσετε με την εγγραφή.';
-
-  @override
-  String get employerCompanyLabel => 'Είμαστε Εταιρεία Εργοδότης';
-
-  @override
-  String get employerCompanySubtitle =>
-      'Αναζητάτε έμπειρους επαγγελματίες για την ομάδα σας. Δημιουργήστε εταιρικό λογαριασμό για να δημοσιεύσετε θέσεις, να διαχειριστείτε αιτήσεις και να συνδεθείτε με τα καλύτερα ταλέντα.';
-
-  @override
-  String get employerNgoLabel => 'Είμαστε Μη Κερδοσκοπική Οργάνωση';
-
-  @override
-  String get employerNgoSubtitle =>
-      'Δημιουργείτε κοινωνικό αντίκτυπο μέσω ουσιαστικών έργων. Δημιουργήστε οργανωτικό λογαριασμό για να συντονίσετε τους αφοσιωμένους υποψηφίους σας και να αναπτύξετε την κοινότητά σας.';
-
-  @override
-  String get workEmailLabel => 'Email Εργασίας';
-
-  @override
-  String get employerSetupAdminTab => 'Στοιχεία Διαχειριστή';
-
-  @override
-  String get employerSetupCompanyTab => 'Στοιχεία Εταιρείας';
-
-  @override
-  String get employerSetupContactsTab => 'Επαφές';
-
-  @override
-  String get employerSetupBrandingTab => 'Προφίλ & Branding';
-
-  @override
-  String get employerAdminHeading => 'Ο λογαριασμός δημιουργήθηκε';
-
-  @override
-  String get employerAdminDescription =>
-      'Τέλεια! Η ρύθμιση προφίλ είναι η επόμενη — ας κάνουμε την αναζήτηση υποψηφίων πιο εύκολη και γρήγορη.';
-
-  @override
-  String get adminRoleLabel => 'Ρόλος';
-
-  @override
-  String get adminRoleHint => 'Επιλέξτε τον Ρόλο σας';
-
-  @override
-  String get employerCompanyHeading => 'Στοιχεία Εταιρείας';
-
-  @override
-  String get employerCompanyDescription =>
-      'Προσθέστε βασικές πληροφορίες για την επιχείρησή σας. Βεβαιωθείτε ότι αυτές οι λεπτομέρειες αντιστοιχούν στα νομικά έγγραφα της εταιρείας σας.';
-
-  @override
-  String get legalCompanyNameLabel => 'Νόμιμη Επωνυμία Εταιρείας';
-
-  @override
-  String get legalCompanyNameHint => 'Εισάγετε τη νόμιμη επωνυμία εταιρείας';
-
-  @override
-  String get businessIndustryLabel => 'Κλάδος Επιχείρησης';
-
-  @override
-  String get businessIndustryHint => 'Επιλέξτε τον κλάδο επιχείρησής σας';
-
-  @override
-  String get companySizeLabel => 'Μέγεθος Εταιρείας';
-
-  @override
-  String get companySizeHint => 'Επιλέξτε το μέγεθος της εταιρείας σας';
-
-  @override
-  String get employerContactsHeading => 'Στοιχεία Επικοινωνίας';
-
-  @override
-  String get employerContactsDescription =>
-      'Μοιραστείτε στοιχεία επικοινωνίας για σκοπούς επαλήθευσης και επικοινωνίας.';
-
-  @override
-  String get registeredAddressLabel => 'Καταχωρισμένη Διεύθυνση';
-
-  @override
-  String get registeredAddressHint => 'Εισάγετε καταχωρισμένη διεύθυνση';
-
-  @override
-  String get cityLabel => 'Πόλη';
-
-  @override
-  String get cityHint => 'Επιλέξτε πόλη ή αρχίστε να πληκτρολογείτε';
-
-  @override
-  String get contactEmailLabel => 'Email Επικοινωνίας';
-
-  @override
-  String get contactEmailHint => 'Εισάγετε το email σας';
-
-  @override
-  String get contactEmailHelper => 'Email επικοινωνίας για υποψηφίους';
-
-  @override
-  String get contactPhoneLabel => 'Αριθμός Τηλεφώνου Επικοινωνίας';
-
-  @override
-  String get contactPhoneHint => '+30 XXX XXX XX XX';
-
-  @override
-  String get contactPhoneHelper => 'Τηλέφωνο επικοινωνίας για υποψηφίους';
-
-  @override
-  String get companyWebsiteLabel => 'Ιστοσελίδα Εταιρείας (προαιρετικό)';
-
-  @override
-  String get companyWebsiteHint => 'Εισάγετε ιστοσελίδα εταιρείας';
-
-  @override
-  String get employerBrandingHeading => 'Προφίλ & Branding';
-
-  @override
-  String get employerBrandingDescription =>
-      'Προσθέστε το λογότυπο και τα στοιχεία εταιρείας για να ολοκληρώσετε το προφίλ σας. Μπορείτε να το ενημερώσετε ανά πάσα στιγμή στις Ρυθμίσεις Προφίλ.';
-
-  @override
-  String get skipForNow => 'Παράλειψη Προς Τώρα';
-
-  @override
-  String get uploadPhotoLabel => 'Μεταφόρτωση Φωτογραφίας';
-
-  @override
-  String get uploadPhotoDescription =>
-      'Μεταφορτώστε τετράγωνο λογότυπο (PNG, JPG, JPEG ή SVG) έως 2 MB, τουλάχιστον 400x400 px, κατά προτίμηση με διαφανές φόντο.';
-
-  @override
-  String get aboutCompanyLabel => 'Σχετικά με την Εταιρεία';
-
-  @override
-  String get aboutCompanyDescription =>
-      'Περιγράψτε την αποστολή, τις αξίες και τις κύριες δραστηριότητες της εταιρείας σας σε λίγες προτάσεις.';
-
-  @override
-  String get aboutCompanyHint => 'Προσθέστε περιγραφή εταιρείας';
-
-  @override
-  String get employerValuesDescription =>
-      'Επιλέξτε έως 5 αξίες που αντικατοπτρίζουν καλύτερα την κουλτούρα της εταιρείας σας. Τις χρησιμοποιούμε για να σας ταιριάξουμε με ομοϊδεάτες. Μπορείτε να τις ενημερώσετε ανά πάσα στιγμή στις Ρυθμίσεις Προφίλ.';
-
-  @override
-  String get signInWithGoogle => 'Σύνδεση με Google';
+  String get signInWithGoogle => 'Ξ£ΟΞ½Ξ΄ΞµΟƒΞ· ΞΌΞµ Google';
 
   @override
   String get emailLabel => 'Email';
 
   @override
-  String get emailHint => 'Εισάγετε το email σας';
+  String get emailHint => 'Ξ•ΞΉΟƒΞ¬Ξ³ΞµΟ„Ξµ Ο„ΞΏ email ΟƒΞ±Ο‚';
 
   @override
-  String get passwordLabel => 'Κωδικός';
+  String get passwordLabel => 'ΞΟ‰Ξ΄ΞΉΞΊΟΟ‚';
 
   @override
-  String get passwordHint => 'Εισάγετε τον κωδικό σας';
+  String get passwordHint => 'Ξ•ΞΉΟƒΞ¬Ξ³ΞµΟ„Ξµ Ο„ΞΏΞ½ ΞΊΟ‰Ξ΄ΞΉΞΊΟ ΟƒΞ±Ο‚';
 
   @override
-  String get confirmPasswordLabel => 'Επιβεβαίωση Κωδικού';
+  String get confirmPasswordLabel => 'Ξ•Ο€ΞΉΞ²ΞµΞ²Ξ±Ξ―Ο‰ΟƒΞ· ΞΟ‰Ξ΄ΞΉΞΊΞΏΟ';
 
   @override
-  String get confirmPasswordHint => 'Επαναλάβετε τον κωδικό σας';
+  String get confirmPasswordHint =>
+      'Ξ•Ο€Ξ±Ξ½Ξ±Ξ»Ξ¬Ξ²ΞµΟ„Ξµ Ο„ΞΏΞ½ ΞΊΟ‰Ξ΄ΞΉΞΊΟ ΟƒΞ±Ο‚';
 
   @override
   String get passwordUpperLower =>
-      'Περιλαμβάνει ένα κεφαλαίο και ένα πεζό γράμμα';
+      'Ξ ΞµΟΞΉΞ»Ξ±ΞΌΞ²Ξ¬Ξ½ΞµΞΉ Ξ­Ξ½Ξ± ΞΊΞµΟ†Ξ±Ξ»Ξ±Ξ―ΞΏ ΞΊΞ±ΞΉ Ξ­Ξ½Ξ± Ο€ΞµΞ¶Ο Ξ³ΟΞ¬ΞΌΞΌΞ±';
 
   @override
-  String get passwordMinLength => 'Τουλάχιστον 8 χαρακτήρες';
+  String get passwordMinLength =>
+      'Ξ¤ΞΏΟ…Ξ»Ξ¬Ο‡ΞΉΟƒΟ„ΞΏΞ½ 8 Ο‡Ξ±ΟΞ±ΞΊΟ„Ξ®ΟΞµΟ‚';
 
   @override
-  String get passwordNumber => 'Περιλαμβάνει τουλάχιστον έναν αριθμό';
+  String get passwordNumber =>
+      'Ξ ΞµΟΞΉΞ»Ξ±ΞΌΞ²Ξ¬Ξ½ΞµΞΉ Ο„ΞΏΟ…Ξ»Ξ¬Ο‡ΞΉΟƒΟ„ΞΏΞ½ Ξ­Ξ½Ξ±Ξ½ Ξ±ΟΞΉΞΈΞΌΟ';
 
   @override
   String get passwordSpecial =>
-      'Περιλαμβάνει έναν ειδικό χαρακτήρα (όπως !@#\$%^&)';
+      'Ξ ΞµΟΞΉΞ»Ξ±ΞΌΞ²Ξ¬Ξ½ΞµΞΉ Ξ­Ξ½Ξ±Ξ½ ΞµΞΉΞ΄ΞΉΞΊΟ Ο‡Ξ±ΟΞ±ΞΊΟ„Ξ®ΟΞ± (ΟΟ€Ο‰Ο‚ !@#\$%^&)';
 
   @override
-  String get passwordsDoNotMatch => 'Οι κωδικοί δεν ταιριάζουν';
+  String get passwordsDoNotMatch =>
+      'ΞΞΉ ΞΊΟ‰Ξ΄ΞΉΞΊΞΏΞ― Ξ΄ΞµΞ½ Ο„Ξ±ΞΉΟΞΉΞ¬Ξ¶ΞΏΟ…Ξ½';
 
   @override
   String get termsText =>
-      'Συνεχίζοντας, αναγνωρίζετε ότι έχετε διαβάσει και αποδεχτεί την ';
+      'Ξ£Ο…Ξ½ΞµΟ‡Ξ―Ξ¶ΞΏΞ½Ο„Ξ±Ο‚, Ξ±Ξ½Ξ±Ξ³Ξ½Ο‰ΟΞ―Ξ¶ΞµΟ„Ξµ ΟΟ„ΞΉ Ξ­Ο‡ΞµΟ„Ξµ Ξ΄ΞΉΞ±Ξ²Ξ¬ΟƒΞµΞΉ ΞΊΞ±ΞΉ Ξ±Ο€ΞΏΞ΄ΞµΟ‡Ο„ΞµΞ― Ο„Ξ·Ξ½ ';
 
   @override
-  String get privacyPolicy => 'Πολιτική Απορρήτου';
+  String get privacyPolicy => 'Ξ ΞΏΞ»ΞΉΟ„ΞΉΞΊΞ® Ξ‘Ο€ΞΏΟΟΞ®Ο„ΞΏΟ…';
 
   @override
-  String get andText => ' και τους ';
+  String get andText => ' ΞΊΞ±ΞΉ Ο„ΞΏΟ…Ο‚ ';
 
   @override
-  String get termsOfUse => 'Όρους Χρήσης';
+  String get termsOfUse => 'ΞΟΞΏΟ…Ο‚ Ξ§ΟΞ®ΟƒΞ·Ο‚';
 
   @override
-  String get personalDetailsHeading => 'Σχεδόν έτοιμο!\nΠείτε μας για εσάς';
+  String get personalDetailsHeading =>
+      'Ξ£Ο‡ΞµΞ΄ΟΞ½ Ξ­Ο„ΞΏΞΉΞΌΞΏ!\nΞ ΞµΞ―Ο„Ξµ ΞΌΞ±Ο‚ Ξ³ΞΉΞ± ΞµΟƒΞ¬Ο‚';
 
   @override
   String get personalDetailsDescription =>
-      'Το όνομά σας και ο αριθμός τηλεφώνου βοηθούν τους εργοδότες να επικοινωνήσουν μαζί σας απευθείας.';
+      'Ξ¤ΞΏ ΟΞ½ΞΏΞΌΞ¬ ΟƒΞ±Ο‚ ΞΊΞ±ΞΉ ΞΏ Ξ±ΟΞΉΞΈΞΌΟΟ‚ Ο„Ξ·Ξ»ΞµΟ†ΟΞ½ΞΏΟ… Ξ²ΞΏΞ·ΞΈΞΏΟΞ½ Ο„ΞΏΟ…Ο‚ ΞµΟΞ³ΞΏΞ΄ΟΟ„ΞµΟ‚ Ξ½Ξ± ΞµΟ€ΞΉΞΊΞΏΞΉΞ½Ο‰Ξ½Ξ®ΟƒΞΏΟ…Ξ½ ΞΌΞ±Ξ¶Ξ― ΟƒΞ±Ο‚ Ξ±Ο€ΞµΟ…ΞΈΞµΞ―Ξ±Ο‚.';
 
   @override
-  String get nameLabel => 'Όνομα';
+  String get nameLabel => 'ΞΞ½ΞΏΞΌΞ±';
 
   @override
-  String get nameHint => 'Εισάγετε το Όνομά σας';
+  String get nameHint => 'Ξ•ΞΉΟƒΞ¬Ξ³ΞµΟ„Ξµ Ο„ΞΏ ΞΞ½ΞΏΞΌΞ¬ ΟƒΞ±Ο‚';
 
   @override
-  String get lastNameLabel => 'Επώνυμο';
+  String get lastNameLabel => 'Ξ•Ο€ΟΞ½Ο…ΞΌΞΏ';
 
   @override
-  String get lastNameHint => 'Εισάγετε το Επώνυμό σας';
+  String get lastNameHint => 'Ξ•ΞΉΟƒΞ¬Ξ³ΞµΟ„Ξµ Ο„ΞΏ Ξ•Ο€ΟΞ½Ο…ΞΌΟ ΟƒΞ±Ο‚';
 
   @override
-  String get verifyEmailHeading => 'Επαληθεύστε τη διεύθυνση email σας';
+  String get verifyEmailHeading =>
+      'Ξ•Ο€Ξ±Ξ»Ξ·ΞΈΞµΟΟƒΟ„Ξµ Ο„Ξ· Ξ΄ΞΉΞµΟΞΈΟ…Ξ½ΟƒΞ· email ΟƒΞ±Ο‚';
 
   @override
   String get verifyEmailDescription =>
-      'Στείλαμε έναν σύνδεσμο επαλήθευσης στη διεύθυνση email σας.\nΕλέγξτε τα εισερχόμενά σας και ακολουθήστε τον σύνδεσμο για να ολοκληρώσετε τη ρύθμιση του λογαριασμού σας.';
+      'Ξ£Ο„ΞµΞ―Ξ»Ξ±ΞΌΞµ Ξ­Ξ½Ξ±Ξ½ ΟƒΟΞ½Ξ΄ΞµΟƒΞΌΞΏ ΞµΟ€Ξ±Ξ»Ξ®ΞΈΞµΟ…ΟƒΞ·Ο‚ ΟƒΟ„Ξ· Ξ΄ΞΉΞµΟΞΈΟ…Ξ½ΟƒΞ· email ΟƒΞ±Ο‚.\nΞ•Ξ»Ξ­Ξ³ΞΎΟ„Ξµ Ο„Ξ± ΞµΞΉΟƒΞµΟΟ‡ΟΞΌΞµΞ½Ξ¬ ΟƒΞ±Ο‚ ΞΊΞ±ΞΉ Ξ±ΞΊΞΏΞ»ΞΏΟ…ΞΈΞ®ΟƒΟ„Ξµ Ο„ΞΏΞ½ ΟƒΟΞ½Ξ΄ΞµΟƒΞΌΞΏ Ξ³ΞΉΞ± Ξ½Ξ± ΞΏΞ»ΞΏΞΊΞ»Ξ·ΟΟΟƒΞµΟ„Ξµ Ο„Ξ· ΟΟΞΈΞΌΞΉΟƒΞ· Ο„ΞΏΟ… Ξ»ΞΏΞ³Ξ±ΟΞΉΞ±ΟƒΞΌΞΏΟ ΟƒΞ±Ο‚.';
 
   @override
   String get verifyEmailSpamHint =>
-      'Δεν λάβατε το email; Ελέγξτε τον φάκελο ανεπιθύμητης αλληλογραφίας ή στείλτε το ξανά.';
+      'Ξ”ΞµΞ½ Ξ»Ξ¬Ξ²Ξ±Ο„Ξµ Ο„ΞΏ email; Ξ•Ξ»Ξ­Ξ³ΞΎΟ„Ξµ Ο„ΞΏΞ½ Ο†Ξ¬ΞΊΞµΞ»ΞΏ Ξ±Ξ½ΞµΟ€ΞΉΞΈΟΞΌΞ·Ο„Ξ·Ο‚ Ξ±Ξ»Ξ»Ξ·Ξ»ΞΏΞ³ΟΞ±Ο†Ξ―Ξ±Ο‚ Ξ® ΟƒΟ„ΞµΞ―Ξ»Ο„Ξµ Ο„ΞΏ ΞΎΞ±Ξ½Ξ¬.';
 
   @override
-  String get verifiedEmailButton => 'Έχω επαληθεύσει το email μου';
+  String get verifiedEmailButton =>
+      'ΞΟ‡Ο‰ ΞµΟ€Ξ±Ξ»Ξ·ΞΈΞµΟΟƒΞµΞΉ Ο„ΞΏ email ΞΌΞΏΟ…';
 
   @override
-  String get resendEmailLabel => 'Αποστολή συνδέσμου ξανά μέσω email';
+  String get resendEmailLabel =>
+      'Ξ‘Ο€ΞΏΟƒΟ„ΞΏΞ»Ξ® ΟƒΟ…Ξ½Ξ΄Ξ­ΟƒΞΌΞΏΟ… ΞΎΞ±Ξ½Ξ¬ ΞΌΞ­ΟƒΟ‰ email';
 
   @override
-  String get verifyPhoneHeading => 'Επαληθεύστε τον αριθμό τηλεφώνου σας';
+  String get verifyPhoneHeading =>
+      'Ξ•Ο€Ξ±Ξ»Ξ·ΞΈΞµΟΟƒΟ„Ξµ Ο„ΞΏΞ½ Ξ±ΟΞΉΞΈΞΌΟ Ο„Ξ·Ξ»ΞµΟ†ΟΞ½ΞΏΟ… ΟƒΞ±Ο‚';
 
   @override
   String get verifyPhoneDescription =>
-      'Θα στείλουμε έναν κωδικό επαλήθευσης στο τηλέφωνό σας. Επιλέξτε πώς θέλετε να τον λάβετε.';
+      'ΞΞ± ΟƒΟ„ΞµΞ―Ξ»ΞΏΟ…ΞΌΞµ Ξ­Ξ½Ξ±Ξ½ ΞΊΟ‰Ξ΄ΞΉΞΊΟ ΞµΟ€Ξ±Ξ»Ξ®ΞΈΞµΟ…ΟƒΞ·Ο‚ ΟƒΟ„ΞΏ Ο„Ξ·Ξ»Ξ­Ο†Ο‰Ξ½Ο ΟƒΞ±Ο‚. Ξ•Ο€ΞΉΞ»Ξ­ΞΎΟ„Ξµ Ο€ΟΟ‚ ΞΈΞ­Ξ»ΞµΟ„Ξµ Ξ½Ξ± Ο„ΞΏΞ½ Ξ»Ξ¬Ξ²ΞµΟ„Ξµ.';
 
   @override
-  String get selectMethodTitle => 'Επιλέξτε μέθοδο λήψης του κωδικού';
+  String get selectMethodTitle =>
+      'Ξ•Ο€ΞΉΞ»Ξ­ΞΎΟ„Ξµ ΞΌΞ­ΞΈΞΏΞ΄ΞΏ Ξ»Ξ®ΟΞ·Ο‚ Ο„ΞΏΟ… ΞΊΟ‰Ξ΄ΞΉΞΊΞΏΟ';
 
   @override
-  String get sendViaSms => 'Αποστολή ασφαλούς κωδικού μέσω SMS';
+  String get sendViaSms =>
+      'Ξ‘Ο€ΞΏΟƒΟ„ΞΏΞ»Ξ® Ξ±ΟƒΟ†Ξ±Ξ»ΞΏΟΟ‚ ΞΊΟ‰Ξ΄ΞΉΞΊΞΏΟ ΞΌΞ­ΟƒΟ‰ SMS';
 
   @override
-  String get sendViaWhatsapp => 'Αποστολή ασφαλούς κωδικού μέσω WhatsApp';
+  String get sendViaWhatsapp =>
+      'Ξ‘Ο€ΞΏΟƒΟ„ΞΏΞ»Ξ® Ξ±ΟƒΟ†Ξ±Ξ»ΞΏΟΟ‚ ΞΊΟ‰Ξ΄ΞΉΞΊΞΏΟ ΞΌΞ­ΟƒΟ‰ WhatsApp';
 
   @override
-  String get rememberChoice => 'Απομνημόνευση της επιλογής μου';
+  String get rememberChoice =>
+      'Ξ‘Ο€ΞΏΞΌΞ½Ξ·ΞΌΟΞ½ΞµΟ…ΟƒΞ· Ο„Ξ·Ο‚ ΞµΟ€ΞΉΞ»ΞΏΞ³Ξ®Ο‚ ΞΌΞΏΟ…';
 
   @override
-  String get verifyAccountTitle => 'Ας επαληθεύσουμε τον Λογαριασμό σας';
+  String get verifyAccountTitle =>
+      'Ξ‘Ο‚ ΞµΟ€Ξ±Ξ»Ξ·ΞΈΞµΟΟƒΞΏΟ…ΞΌΞµ Ο„ΞΏΞ½ Ξ›ΞΏΞ³Ξ±ΟΞΉΞ±ΟƒΞΌΟ ΟƒΞ±Ο‚';
 
   @override
   String get verifyAccountSubtitle =>
-      'Στείλαμε έναν κωδικό επαλήθευσης στον αριθμό τηλεφώνου σας.';
+      'Ξ£Ο„ΞµΞ―Ξ»Ξ±ΞΌΞµ Ξ­Ξ½Ξ±Ξ½ ΞΊΟ‰Ξ΄ΞΉΞΊΟ ΞµΟ€Ξ±Ξ»Ξ®ΞΈΞµΟ…ΟƒΞ·Ο‚ ΟƒΟ„ΞΏΞ½ Ξ±ΟΞΉΞΈΞΌΟ Ο„Ξ·Ξ»ΞµΟ†ΟΞ½ΞΏΟ… ΟƒΞ±Ο‚.';
 
   @override
-  String get notYourPhone => 'Δεν είναι το τηλέφωνό σας;';
+  String get notYourPhone => 'Ξ”ΞµΞ½ ΞµΞ―Ξ½Ξ±ΞΉ Ο„ΞΏ Ο„Ξ·Ξ»Ξ­Ο†Ο‰Ξ½Ο ΟƒΞ±Ο‚;';
 
   @override
-  String get resendCode => 'Αποστολή κωδικού ξανά';
+  String get resendCode => 'Ξ‘Ο€ΞΏΟƒΟ„ΞΏΞ»Ξ® ΞΊΟ‰Ξ΄ΞΉΞΊΞΏΟ ΞΎΞ±Ξ½Ξ¬';
 
   @override
-  String get loginHeading => 'Σύνδεση στο Ithaki Talent';
+  String get loginHeading => 'Ξ£ΟΞ½Ξ΄ΞµΟƒΞ· ΟƒΟ„ΞΏ Ithaki Talent';
 
   @override
   String get loginSubtitle =>
-      'Εισάγετε τον αριθμό τηλεφώνου σας. Θα σας στείλουμε κωδικό μέσω SMS.';
+      'Ξ•ΞΉΟƒΞ¬Ξ³ΞµΟ„Ξµ Ο„ΞΏΞ½ Ξ±ΟΞΉΞΈΞΌΟ Ο„Ξ·Ξ»ΞµΟ†ΟΞ½ΞΏΟ… ΟƒΞ±Ο‚. ΞΞ± ΟƒΞ±Ο‚ ΟƒΟ„ΞµΞ―Ξ»ΞΏΟ…ΞΌΞµ ΞΊΟ‰Ξ΄ΞΉΞΊΟ ΞΌΞ­ΟƒΟ‰ SMS.';
 
   @override
   String loginVerifySubtitle(String phone) {
-    return 'Στείλαμε έναν κωδικό επαλήθευσης στο $phone.';
+    return 'Ξ£Ο„ΞµΞ―Ξ»Ξ±ΞΌΞµ Ξ­Ξ½Ξ±Ξ½ ΞΊΟ‰Ξ΄ΞΉΞΊΟ ΞµΟ€Ξ±Ξ»Ξ®ΞΈΞµΟ…ΟƒΞ·Ο‚ ΟƒΟ„ΞΏ $phone.';
   }
 
   @override
-  String get rememberMe => 'Να με θυμάσαι';
+  String get rememberMe => 'ΞΞ± ΞΌΞµ ΞΈΟ…ΞΌΞ¬ΟƒΞ±ΞΉ';
 
   @override
-  String get sendCodeButton => 'Αποστολή Κωδικού';
+  String get sendCodeButton => 'Ξ‘Ο€ΞΏΟƒΟ„ΞΏΞ»Ξ® ΞΟ‰Ξ΄ΞΉΞΊΞΏΟ';
 
   @override
-  String get signInWithEmail => 'Σύνδεση με Email';
+  String get signInWithEmail => 'Ξ£ΟΞ½Ξ΄ΞµΟƒΞ· ΞΌΞµ Email';
 
   @override
-  String get preferEmail => 'Προτιμάτε email; Μπορείτε να συνδεθείτε με email.';
+  String get preferEmail =>
+      'Ξ ΟΞΏΟ„ΞΉΞΌΞ¬Ο„Ξµ email; ΞΟ€ΞΏΟΞµΞ―Ο„Ξµ Ξ½Ξ± ΟƒΟ…Ξ½Ξ΄ΞµΞΈΞµΞ―Ο„Ξµ ΞΌΞµ email.';
 
   @override
-  String get signInWithPhone => 'Σύνδεση με Τηλέφωνο';
+  String get signInWithPhone => 'Ξ£ΟΞ½Ξ΄ΞµΟƒΞ· ΞΌΞµ Ξ¤Ξ·Ξ»Ξ­Ο†Ο‰Ξ½ΞΏ';
 
   @override
   String get preferPhone =>
-      'Προτιμάτε τηλέφωνο; Μπορείτε να συνδεθείτε με τηλέφωνο.';
+      'Ξ ΟΞΏΟ„ΞΉΞΌΞ¬Ο„Ξµ Ο„Ξ·Ξ»Ξ­Ο†Ο‰Ξ½ΞΏ; ΞΟ€ΞΏΟΞµΞ―Ο„Ξµ Ξ½Ξ± ΟƒΟ…Ξ½Ξ΄ΞµΞΈΞµΞ―Ο„Ξµ ΞΌΞµ Ο„Ξ·Ξ»Ξ­Ο†Ο‰Ξ½ΞΏ.';
 
   @override
-  String get signInButton => 'Σύνδεση';
+  String get signInButton => 'Ξ£ΟΞ½Ξ΄ΞµΟƒΞ·';
 
   @override
-  String get forgotPassword => 'Ξεχάσατε τον κωδικό σας;';
+  String get forgotPassword => 'ΞΞµΟ‡Ξ¬ΟƒΞ±Ο„Ξµ Ο„ΞΏΞ½ ΞΊΟ‰Ξ΄ΞΉΞΊΟ ΟƒΞ±Ο‚;';
 
   @override
-  String get forgotPasswordHeading => 'Ξεχάσατε τον κωδικό σας';
+  String get forgotPasswordHeading =>
+      'ΞΞµΟ‡Ξ¬ΟƒΞ±Ο„Ξµ Ο„ΞΏΞ½ ΞΊΟ‰Ξ΄ΞΉΞΊΟ ΟƒΞ±Ο‚';
 
   @override
   String get forgotPasswordDescription =>
-      'Μην ανησυχείτε. Εισάγετε τη διεύθυνση email του λογαριασμού σας και θα σας στείλουμε έναν σύνδεσμο για να επαναφέρετε τον κωδικό σας.';
+      'ΞΞ·Ξ½ Ξ±Ξ½Ξ·ΟƒΟ…Ο‡ΞµΞ―Ο„Ξµ. Ξ•ΞΉΟƒΞ¬Ξ³ΞµΟ„Ξµ Ο„Ξ· Ξ΄ΞΉΞµΟΞΈΟ…Ξ½ΟƒΞ· email Ο„ΞΏΟ… Ξ»ΞΏΞ³Ξ±ΟΞΉΞ±ΟƒΞΌΞΏΟ ΟƒΞ±Ο‚ ΞΊΞ±ΞΉ ΞΈΞ± ΟƒΞ±Ο‚ ΟƒΟ„ΞµΞ―Ξ»ΞΏΟ…ΞΌΞµ Ξ­Ξ½Ξ±Ξ½ ΟƒΟΞ½Ξ΄ΞµΟƒΞΌΞΏ Ξ³ΞΉΞ± Ξ½Ξ± ΞµΟ€Ξ±Ξ½Ξ±Ο†Ξ­ΟΞµΟ„Ξµ Ο„ΞΏΞ½ ΞΊΟ‰Ξ΄ΞΉΞΊΟ ΟƒΞ±Ο‚.';
 
   @override
-  String get backToLogin => 'Επιστροφή στη Σύνδεση';
+  String get backToLogin => 'Ξ•Ο€ΞΉΟƒΟ„ΟΞΏΟ†Ξ® ΟƒΟ„Ξ· Ξ£ΟΞ½Ξ΄ΞµΟƒΞ·';
 
   @override
-  String get sendResetLink => 'Αποστολή συνδέσμου';
+  String get sendResetLink => 'Ξ‘Ο€ΞΏΟƒΟ„ΞΏΞ»Ξ® ΟƒΟ…Ξ½Ξ΄Ξ­ΟƒΞΌΞΏΟ…';
 
   @override
-  String get resetLinkSentHeading => 'Ο σύνδεσμος επαναφοράς στάλθηκε!';
+  String get resetLinkSentHeading =>
+      'Ξ ΟƒΟΞ½Ξ΄ΞµΟƒΞΌΞΏΟ‚ ΞµΟ€Ξ±Ξ½Ξ±Ο†ΞΏΟΞ¬Ο‚ ΟƒΟ„Ξ¬Ξ»ΞΈΞ·ΞΊΞµ!';
 
   @override
   String get resetLinkSentDescription =>
-      'Ελέγξτε τα εισερχόμενά σας. Το email περιλαμβάνει έναν ασφαλή σύνδεσμο για τη δημιουργία νέου κωδικού. Δεν λάβατε το email;';
+      'Ξ•Ξ»Ξ­Ξ³ΞΎΟ„Ξµ Ο„Ξ± ΞµΞΉΟƒΞµΟΟ‡ΟΞΌΞµΞ½Ξ¬ ΟƒΞ±Ο‚. Ξ¤ΞΏ email Ο€ΞµΟΞΉΞ»Ξ±ΞΌΞ²Ξ¬Ξ½ΞµΞΉ Ξ­Ξ½Ξ±Ξ½ Ξ±ΟƒΟ†Ξ±Ξ»Ξ® ΟƒΟΞ½Ξ΄ΞµΟƒΞΌΞΏ Ξ³ΞΉΞ± Ο„Ξ· Ξ΄Ξ·ΞΌΞΉΞΏΟ…ΟΞ³Ξ―Ξ± Ξ½Ξ­ΞΏΟ… ΞΊΟ‰Ξ΄ΞΉΞΊΞΏΟ. Ξ”ΞµΞ½ Ξ»Ξ¬Ξ²Ξ±Ο„Ξµ Ο„ΞΏ email;';
 
   @override
-  String get resendResetLinkEmail => 'Αποστολή συνδέσμου ξανά μέσω email';
+  String get resendResetLinkEmail =>
+      'Ξ‘Ο€ΞΏΟƒΟ„ΞΏΞ»Ξ® ΟƒΟ…Ξ½Ξ΄Ξ­ΟƒΞΌΞΏΟ… ΞΎΞ±Ξ½Ξ¬ ΞΌΞ­ΟƒΟ‰ email';
 
   @override
-  String get sendResetViaWhatsapp => 'Αποστολή ασφαλούς κωδικού μέσω WhatsApp';
+  String get sendResetViaWhatsapp =>
+      'Ξ‘Ο€ΞΏΟƒΟ„ΞΏΞ»Ξ® Ξ±ΟƒΟ†Ξ±Ξ»ΞΏΟΟ‚ ΞΊΟ‰Ξ΄ΞΉΞΊΞΏΟ ΞΌΞ­ΟƒΟ‰ WhatsApp';
 
   @override
-  String get resetPasswordHeading => 'Επαναφορά κωδικού';
+  String get resetPasswordHeading => 'Ξ•Ο€Ξ±Ξ½Ξ±Ο†ΞΏΟΞ¬ ΞΊΟ‰Ξ΄ΞΉΞΊΞΏΟ';
 
   @override
   String get resetPasswordDescription =>
-      'Τελευταίο βήμα. Δημιουργήστε έναν νέο κωδικό για να ασφαλίσετε τον λογαριασμό σας.';
+      'Ξ¤ΞµΞ»ΞµΟ…Ο„Ξ±Ξ―ΞΏ Ξ²Ξ®ΞΌΞ±. Ξ”Ξ·ΞΌΞΉΞΏΟ…ΟΞ³Ξ®ΟƒΟ„Ξµ Ξ­Ξ½Ξ±Ξ½ Ξ½Ξ­ΞΏ ΞΊΟ‰Ξ΄ΞΉΞΊΟ Ξ³ΞΉΞ± Ξ½Ξ± Ξ±ΟƒΟ†Ξ±Ξ»Ξ―ΟƒΞµΟ„Ξµ Ο„ΞΏΞ½ Ξ»ΞΏΞ³Ξ±ΟΞΉΞ±ΟƒΞΌΟ ΟƒΞ±Ο‚.';
 
   @override
-  String get newPasswordLabel => 'Νέος Κωδικός';
+  String get newPasswordLabel => 'ΞΞ­ΞΏΟ‚ ΞΟ‰Ξ΄ΞΉΞΊΟΟ‚';
 
   @override
-  String get newPasswordHint => 'Εισάγετε τον νέο κωδικό σας';
+  String get newPasswordHint =>
+      'Ξ•ΞΉΟƒΞ¬Ξ³ΞµΟ„Ξµ Ο„ΞΏΞ½ Ξ½Ξ­ΞΏ ΞΊΟ‰Ξ΄ΞΉΞΊΟ ΟƒΞ±Ο‚';
 
   @override
-  String get confirmNewPasswordLabel => 'Επιβεβαίωση νέου Κωδικού';
+  String get confirmNewPasswordLabel =>
+      'Ξ•Ο€ΞΉΞ²ΞµΞ²Ξ±Ξ―Ο‰ΟƒΞ· Ξ½Ξ­ΞΏΟ… ΞΟ‰Ξ΄ΞΉΞΊΞΏΟ';
 
   @override
-  String get confirmNewPasswordHint => 'Εισάγετε τον νέο κωδικό σας';
+  String get confirmNewPasswordHint =>
+      'Ξ•ΞΉΟƒΞ¬Ξ³ΞµΟ„Ξµ Ο„ΞΏΞ½ Ξ½Ξ­ΞΏ ΞΊΟ‰Ξ΄ΞΉΞΊΟ ΟƒΞ±Ο‚';
 
   @override
-  String get resetPasswordButton => 'Επαναφορά Κωδικού';
+  String get resetPasswordButton => 'Ξ•Ο€Ξ±Ξ½Ξ±Ο†ΞΏΟΞ¬ ΞΟ‰Ξ΄ΞΉΞΊΞΏΟ';
 
   @override
   String get welcomeModalHeading =>
-      'Καλώς ήρθατε!\nΟ λογαριασμός σας δημιουργήθηκε και επαληθεύτηκε!';
+      'ΞΞ±Ξ»ΟΟ‚ Ξ®ΟΞΈΞ±Ο„Ξµ!\nΞ Ξ»ΞΏΞ³Ξ±ΟΞΉΞ±ΟƒΞΌΟΟ‚ ΟƒΞ±Ο‚ Ξ΄Ξ·ΞΌΞΉΞΏΟ…ΟΞ³Ξ®ΞΈΞ·ΞΊΞµ ΞΊΞ±ΞΉ ΞµΟ€Ξ±Ξ»Ξ·ΞΈΞµΟΟ„Ξ·ΞΊΞµ!';
 
   @override
   String get welcomeModalDescription =>
-      'Ας κάνουμε μια σύντομη ρύθμιση για να σας ταιριάξουμε με τις καλύτερες επιλογές εργασίας.';
+      'Ξ‘Ο‚ ΞΊΞ¬Ξ½ΞΏΟ…ΞΌΞµ ΞΌΞΉΞ± ΟƒΟΞ½Ο„ΞΏΞΌΞ· ΟΟΞΈΞΌΞΉΟƒΞ· Ξ³ΞΉΞ± Ξ½Ξ± ΟƒΞ±Ο‚ Ο„Ξ±ΞΉΟΞΉΞ¬ΞΎΞΏΟ…ΞΌΞµ ΞΌΞµ Ο„ΞΉΟ‚ ΞΊΞ±Ξ»ΟΟ„ΞµΟΞµΟ‚ ΞµΟ€ΞΉΞ»ΞΏΞ³Ξ­Ο‚ ΞµΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚.';
 
   @override
-  String get startSetup => 'Έναρξη Ρύθμισης';
+  String get skipForNow => 'Ξ Ξ±ΟΞ¬Ξ»ΞµΞΉΟΞ· Ξ ΟΞΏΟ‚ Ξ¤ΟΟΞ±';
+
+  @override
+  String get startSetup => 'ΞΞ½Ξ±ΟΞΎΞ· Ξ΅ΟΞΈΞΌΞΉΟƒΞ·Ο‚';
 
   @override
   String get ithakiLogo => 'Ithaki-logo';
 
   @override
-  String get stepLocation => 'Τοποθεσία';
+  String get stepLocation => 'Ξ¤ΞΏΟ€ΞΏΞΈΞµΟƒΞ―Ξ±';
 
   @override
-  String get stepJobInterests => 'Ενδιαφέροντα';
+  String get stepJobInterests => 'Ξ•Ξ½Ξ΄ΞΉΞ±Ο†Ξ­ΟΞΏΞ½Ο„Ξ±';
 
   @override
-  String get stepPreferences => 'Προτιμήσεις';
+  String get stepPreferences => 'Ξ ΟΞΏΟ„ΞΉΞΌΞ®ΟƒΞµΞΉΟ‚';
 
   @override
-  String get stepValues => 'Αξίες';
+  String get stepValues => 'Ξ‘ΞΎΞ―ΞµΟ‚';
 
   @override
-  String get stepCommunication => 'Επικοινωνία';
+  String get stepCommunication => 'Ξ•Ο€ΞΉΞΊΞΏΞΉΞ½Ο‰Ξ½Ξ―Ξ±';
 
   @override
-  String get locationHeading => 'Τοποθεσία';
+  String get locationHeading => 'Ξ¤ΞΏΟ€ΞΏΞΈΞµΟƒΞ―Ξ±';
 
   @override
   String get locationDescription =>
-      'Επιλέξτε τοποθεσία για να περιορίσετε τις σχετικές ευκαιρίες εργασίας.';
+      'Ξ•Ο€ΞΉΞ»Ξ­ΞΎΟ„Ξµ Ο„ΞΏΟ€ΞΏΞΈΞµΟƒΞ―Ξ± Ξ³ΞΉΞ± Ξ½Ξ± Ο€ΞµΟΞΉΞΏΟΞ―ΟƒΞµΟ„Ξµ Ο„ΞΉΟ‚ ΟƒΟ‡ΞµΟ„ΞΉΞΊΞ­Ο‚ ΞµΟ…ΞΊΞ±ΞΉΟΞ―ΞµΟ‚ ΞµΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚.';
 
   @override
-  String get citizenshipLabel => 'Υπηκοότητα';
+  String get citizenshipLabel => 'Ξ¥Ο€Ξ·ΞΊΞΏΟΟ„Ξ·Ο„Ξ±';
 
   @override
-  String get citizenshipHint => 'Επιλέξτε χώρα ή πληκτρολογήστε για αναζήτηση';
+  String get citizenshipHint =>
+      'Ξ•Ο€ΞΉΞ»Ξ­ΞΎΟ„Ξµ Ο‡ΟΟΞ± Ξ® Ο€Ξ»Ξ·ΞΊΟ„ΟΞΏΞ»ΞΏΞ³Ξ®ΟƒΟ„Ξµ Ξ³ΞΉΞ± Ξ±Ξ½Ξ±Ξ¶Ξ®Ο„Ξ·ΟƒΞ·';
 
   @override
-  String get residenceLabel => 'Κατοικία';
+  String get residenceLabel => 'ΞΞ±Ο„ΞΏΞΉΞΊΞ―Ξ±';
 
   @override
-  String get residenceHint => 'Επιλέξτε χώρα ή πληκτρολογήστε για αναζήτηση';
+  String get residenceHint =>
+      'Ξ•Ο€ΞΉΞ»Ξ­ΞΎΟ„Ξµ Ο‡ΟΟΞ± Ξ® Ο€Ξ»Ξ·ΞΊΟ„ΟΞΏΞ»ΞΏΞ³Ξ®ΟƒΟ„Ξµ Ξ³ΞΉΞ± Ξ±Ξ½Ξ±Ξ¶Ξ®Ο„Ξ·ΟƒΞ·';
 
   @override
-  String get workAuthorizationLabel => 'Άδεια Εργασίας';
+  String get workAuthorizationLabel => 'Ξ†Ξ΄ΞµΞΉΞ± Ξ•ΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚';
 
   @override
-  String get workAuthorizationHint => 'Επιλέξτε την κατάστασή σας';
+  String get workAuthorizationHint =>
+      'Ξ•Ο€ΞΉΞ»Ξ­ΞΎΟ„Ξµ Ο„Ξ·Ξ½ ΞΊΞ±Ο„Ξ¬ΟƒΟ„Ξ±ΟƒΞ® ΟƒΞ±Ο‚';
 
   @override
-  String get relocationLabel => 'Ετοιμότητα Μετεγκατάστασης';
+  String get relocationLabel =>
+      'Ξ•Ο„ΞΏΞΉΞΌΟΟ„Ξ·Ο„Ξ± ΞΞµΟ„ΞµΞ³ΞΊΞ±Ο„Ξ¬ΟƒΟ„Ξ±ΟƒΞ·Ο‚';
 
   @override
-  String get relocationHint => 'Επιλέξτε την προτίμησή σας για μετεγκατάσταση';
+  String get relocationHint =>
+      'Ξ•Ο€ΞΉΞ»Ξ­ΞΎΟ„Ξµ Ο„Ξ·Ξ½ Ο€ΟΞΏΟ„Ξ―ΞΌΞ·ΟƒΞ® ΟƒΞ±Ο‚ Ξ³ΞΉΞ± ΞΌΞµΟ„ΞµΞ³ΞΊΞ±Ο„Ξ¬ΟƒΟ„Ξ±ΟƒΞ·';
 
   @override
-  String get roleCitizen => 'Πολίτης';
+  String get roleCitizen => 'Ξ ΞΏΞ»Ξ―Ο„Ξ·Ο‚';
 
   @override
-  String get roleResident => 'Κάτοικος';
+  String get roleResident => 'ΞΞ¬Ο„ΞΏΞΉΞΊΞΏΟ‚';
 
   @override
-  String get roleWorkPermit => 'Άδεια Εργασίας';
+  String get roleWorkPermit => 'Ξ†Ξ΄ΞµΞΉΞ± Ξ•ΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚';
 
   @override
-  String get roleStudent => 'Φοιτητής';
+  String get roleStudent => 'Ξ¦ΞΏΞΉΟ„Ξ·Ο„Ξ®Ο‚';
 
   @override
-  String get roleFreelancer => 'Ελεύθερος Επαγγελματίας';
+  String get roleFreelancer => 'Ξ•Ξ»ΞµΟΞΈΞµΟΞΏΟ‚ Ξ•Ο€Ξ±Ξ³Ξ³ΞµΞ»ΞΌΞ±Ο„Ξ―Ξ±Ο‚';
 
   @override
-  String get roleJobSeeker => 'Αναζητών Εργασία';
+  String get roleJobSeeker => 'Ξ‘Ξ½Ξ±Ξ¶Ξ·Ο„ΟΞ½ Ξ•ΟΞ³Ξ±ΟƒΞ―Ξ±';
 
   @override
-  String get roleExpat => 'Εκπατρισμένος';
+  String get roleExpat => 'Ξ•ΞΊΟ€Ξ±Ο„ΟΞΉΟƒΞΌΞ­Ξ½ΞΏΟ‚';
 
   @override
-  String get relocationYes => 'Ναι, έτοιμος/η για μετεγκατάσταση';
+  String get relocationYes =>
+      'ΞΞ±ΞΉ, Ξ­Ο„ΞΏΞΉΞΌΞΏΟ‚/Ξ· Ξ³ΞΉΞ± ΞΌΞµΟ„ΞµΞ³ΞΊΞ±Ο„Ξ¬ΟƒΟ„Ξ±ΟƒΞ·';
 
   @override
-  String get relocationNo => 'Όχι, δεν ψάχνω μετεγκατάσταση';
+  String get relocationNo =>
+      'ΞΟ‡ΞΉ, Ξ΄ΞµΞ½ ΟΞ¬Ο‡Ξ½Ο‰ ΞΌΞµΟ„ΞµΞ³ΞΊΞ±Ο„Ξ¬ΟƒΟ„Ξ±ΟƒΞ·';
 
   @override
-  String get relocationOpen => 'Ανοιχτός/ή σε αυτό';
+  String get relocationOpen => 'Ξ‘Ξ½ΞΏΞΉΟ‡Ο„ΟΟ‚/Ξ® ΟƒΞµ Ξ±Ο…Ο„Ο';
 
   @override
-  String get relocationRemote => 'Μόνο εξ αποστάσεως';
+  String get relocationRemote => 'ΞΟΞ½ΞΏ ΞµΞΎ Ξ±Ο€ΞΏΟƒΟ„Ξ¬ΟƒΞµΟ‰Ο‚';
 
   @override
-  String get relocationWithinCountry => 'Μόνο εντός της χώρας μου';
+  String get relocationWithinCountry =>
+      'ΞΟΞ½ΞΏ ΞµΞ½Ο„ΟΟ‚ Ο„Ξ·Ο‚ Ο‡ΟΟΞ±Ο‚ ΞΌΞΏΟ…';
 
   @override
-  String get jobInterestsHeading => 'Ενδιαφέροντα Εργασίας';
+  String get jobInterestsHeading => 'Ξ•Ξ½Ξ΄ΞΉΞ±Ο†Ξ­ΟΞΏΞ½Ο„Ξ± Ξ•ΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚';
 
   @override
   String get jobInterestsDescription =>
-      'Επιλέξτε τύπους εργασίας ή τομείς που ταιριάζουν με τα επαγγελματικά σας ενδιαφέροντα. Μπορείτε να προσθέσετε έως 5 διαφορετικούς τομείς.';
+      'Ξ•Ο€ΞΉΞ»Ξ­ΞΎΟ„Ξµ Ο„ΟΟ€ΞΏΟ…Ο‚ ΞµΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚ Ξ® Ο„ΞΏΞΌΞµΞ―Ο‚ Ο€ΞΏΟ… Ο„Ξ±ΞΉΟΞΉΞ¬Ξ¶ΞΏΟ…Ξ½ ΞΌΞµ Ο„Ξ± ΞµΟ€Ξ±Ξ³Ξ³ΞµΞ»ΞΌΞ±Ο„ΞΉΞΊΞ¬ ΟƒΞ±Ο‚ ΞµΞ½Ξ΄ΞΉΞ±Ο†Ξ­ΟΞΏΞ½Ο„Ξ±. ΞΟ€ΞΏΟΞµΞ―Ο„Ξµ Ξ½Ξ± Ο€ΟΞΏΟƒΞΈΞ­ΟƒΞµΟ„Ξµ Ξ­Ο‰Ο‚ 5 Ξ΄ΞΉΞ±Ο†ΞΏΟΞµΟ„ΞΉΞΊΞΏΟΟ‚ Ο„ΞΏΞΌΞµΞ―Ο‚.';
 
   @override
-  String get searchJobInterest => 'Αναζήτηση και προσθήκη ενδιαφέροντος';
+  String get searchJobInterest =>
+      'Ξ‘Ξ½Ξ±Ξ¶Ξ®Ο„Ξ·ΟƒΞ· ΞΊΞ±ΞΉ Ο€ΟΞΏΟƒΞΈΞ®ΞΊΞ· ΞµΞ½Ξ΄ΞΉΞ±Ο†Ξ­ΟΞΏΞ½Ο„ΞΏΟ‚';
 
   @override
-  String get addAnotherJobInterest => 'Προσθήκη Άλλου Ενδιαφέροντος';
+  String get addAnotherJobInterest =>
+      'Ξ ΟΞΏΟƒΞΈΞ®ΞΊΞ· Ξ†Ξ»Ξ»ΞΏΟ… Ξ•Ξ½Ξ΄ΞΉΞ±Ο†Ξ­ΟΞΏΞ½Ο„ΞΏΟ‚';
 
   @override
-  String get selectJobInterest => 'Επιλογή Ενδιαφέροντος Εργασίας';
+  String get selectJobInterest =>
+      'Ξ•Ο€ΞΉΞ»ΞΏΞ³Ξ® Ξ•Ξ½Ξ΄ΞΉΞ±Ο†Ξ­ΟΞΏΞ½Ο„ΞΏΟ‚ Ξ•ΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚';
 
   @override
-  String get preferencesHeading => 'Προτιμήσεις Εργασίας';
+  String get preferencesHeading => 'Ξ ΟΞΏΟ„ΞΉΞΌΞ®ΟƒΞµΞΉΟ‚ Ξ•ΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚';
 
   @override
   String get preferencesDescription =>
-      'Ορίστε τον επιθυμητό μισθό, το επίπεδο θέσης, τον τύπο σύμβασης και τη μορφή εργασίας (εξ αποστάσεως, επιτόπια ή υβριδική) για να σας ταιριάξουμε με τις πιο σχετικές ευκαιρίες.';
+      'ΞΟΞ―ΟƒΟ„Ξµ Ο„ΞΏΞ½ ΞµΟ€ΞΉΞΈΟ…ΞΌΞ·Ο„Ο ΞΌΞΉΟƒΞΈΟ, Ο„ΞΏ ΞµΟ€Ξ―Ο€ΞµΞ΄ΞΏ ΞΈΞ­ΟƒΞ·Ο‚, Ο„ΞΏΞ½ Ο„ΟΟ€ΞΏ ΟƒΟΞΌΞ²Ξ±ΟƒΞ·Ο‚ ΞΊΞ±ΞΉ Ο„Ξ· ΞΌΞΏΟΟ†Ξ® ΞµΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚ (ΞµΞΎ Ξ±Ο€ΞΏΟƒΟ„Ξ¬ΟƒΞµΟ‰Ο‚, ΞµΟ€ΞΉΟ„ΟΟ€ΞΉΞ± Ξ® Ο…Ξ²ΟΞΉΞ΄ΞΉΞΊΞ®) Ξ³ΞΉΞ± Ξ½Ξ± ΟƒΞ±Ο‚ Ο„Ξ±ΞΉΟΞΉΞ¬ΞΎΞΏΟ…ΞΌΞµ ΞΌΞµ Ο„ΞΉΟ‚ Ο€ΞΉΞΏ ΟƒΟ‡ΞµΟ„ΞΉΞΊΞ­Ο‚ ΞµΟ…ΞΊΞ±ΞΉΟΞ―ΞµΟ‚.';
 
   @override
-  String get positionLevelLabel => 'Επίπεδο Θέσης';
+  String get positionLevelLabel => 'Ξ•Ο€Ξ―Ο€ΞµΞ΄ΞΏ ΞΞ­ΟƒΞ·Ο‚';
 
   @override
-  String get positionLevelHint => 'Επιλέξτε το επίπεδο θέσης σας';
+  String get positionLevelHint =>
+      'Ξ•Ο€ΞΉΞ»Ξ­ΞΎΟ„Ξµ Ο„ΞΏ ΞµΟ€Ξ―Ο€ΞµΞ΄ΞΏ ΞΈΞ­ΟƒΞ·Ο‚ ΟƒΞ±Ο‚';
 
   @override
-  String get jobTypeTitle => 'Τύπος Εργασίας';
+  String get jobTypeTitle => 'Ξ¤ΟΟ€ΞΏΟ‚ Ξ•ΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚';
 
   @override
   String get jobTypeDescription =>
-      'Επιλέξτε τους τύπους απασχόλησης που σας ενδιαφέρουν. Μπορείτε να επιλέξετε περισσότερες από μία επιλογές.';
+      'Ξ•Ο€ΞΉΞ»Ξ­ΞΎΟ„Ξµ Ο„ΞΏΟ…Ο‚ Ο„ΟΟ€ΞΏΟ…Ο‚ Ξ±Ο€Ξ±ΟƒΟ‡ΟΞ»Ξ·ΟƒΞ·Ο‚ Ο€ΞΏΟ… ΟƒΞ±Ο‚ ΞµΞ½Ξ΄ΞΉΞ±Ο†Ξ­ΟΞΏΟ…Ξ½. ΞΟ€ΞΏΟΞµΞ―Ο„Ξµ Ξ½Ξ± ΞµΟ€ΞΉΞ»Ξ­ΞΎΞµΟ„Ξµ Ο€ΞµΟΞΉΟƒΟƒΟΟ„ΞµΟΞµΟ‚ Ξ±Ο€Ο ΞΌΞ―Ξ± ΞµΟ€ΞΉΞ»ΞΏΞ³Ξ­Ο‚.';
 
   @override
-  String get workplaceFormatTitle => 'Μορφή Εργασίας';
+  String get workplaceFormatTitle => 'ΞΞΏΟΟ†Ξ® Ξ•ΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚';
 
   @override
   String get workplaceFormatDescription =>
-      'Επιλέξτε τις προτιμώμενες μορφές εργασίας σας. Μπορείτε να επιλέξετε περισσότερες από μία επιλογές.';
+      'Ξ•Ο€ΞΉΞ»Ξ­ΞΎΟ„Ξµ Ο„ΞΉΟ‚ Ο€ΟΞΏΟ„ΞΉΞΌΟΞΌΞµΞ½ΞµΟ‚ ΞΌΞΏΟΟ†Ξ­Ο‚ ΞµΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚ ΟƒΞ±Ο‚. ΞΟ€ΞΏΟΞµΞ―Ο„Ξµ Ξ½Ξ± ΞµΟ€ΞΉΞ»Ξ­ΞΎΞµΟ„Ξµ Ο€ΞµΟΞΉΟƒΟƒΟΟ„ΞµΟΞµΟ‚ Ξ±Ο€Ο ΞΌΞ―Ξ± ΞµΟ€ΞΉΞ»ΞΏΞ³Ξ­Ο‚.';
 
   @override
-  String get positionIntern => 'Ασκούμενος';
+  String get positionIntern => 'Ξ‘ΟƒΞΊΞΏΟΞΌΞµΞ½ΞΏΟ‚';
 
   @override
   String get positionJunior => 'Junior';
 
   @override
-  String get positionMid => 'Μεσαίο Επίπεδο';
+  String get positionMid => 'ΞΞµΟƒΞ±Ξ―ΞΏ Ξ•Ο€Ξ―Ο€ΞµΞ΄ΞΏ';
 
   @override
   String get positionSenior => 'Senior';
@@ -595,124 +465,125 @@ class AppLocalizationsEl extends AppLocalizations {
   String get positionLead => 'Lead';
 
   @override
-  String get positionManager => 'Διευθυντής';
+  String get positionManager => 'Ξ”ΞΉΞµΟ…ΞΈΟ…Ξ½Ο„Ξ®Ο‚';
 
   @override
-  String get positionDirector => 'Διευθύνων';
+  String get positionDirector => 'Ξ”ΞΉΞµΟ…ΞΈΟΞ½Ο‰Ξ½';
 
   @override
-  String get jobFullTime => 'Πλήρης Απασχόληση';
+  String get jobFullTime => 'Ξ Ξ»Ξ®ΟΞ·Ο‚ Ξ‘Ο€Ξ±ΟƒΟ‡ΟΞ»Ξ·ΟƒΞ·';
 
   @override
-  String get jobPartTime => 'Μερική Απασχόληση';
+  String get jobPartTime => 'ΞΞµΟΞΉΞΊΞ® Ξ‘Ο€Ξ±ΟƒΟ‡ΟΞ»Ξ·ΟƒΞ·';
 
   @override
-  String get jobContract => 'Σύμβαση';
+  String get jobContract => 'Ξ£ΟΞΌΞ²Ξ±ΟƒΞ·';
 
   @override
-  String get jobFreelance => 'Ελεύθερος Επαγγελματίας';
+  String get jobFreelance => 'Ξ•Ξ»ΞµΟΞΈΞµΟΞΏΟ‚ Ξ•Ο€Ξ±Ξ³Ξ³ΞµΞ»ΞΌΞ±Ο„Ξ―Ξ±Ο‚';
 
   @override
-  String get jobInternship => 'Πρακτική Άσκηση';
+  String get jobInternship => 'Ξ ΟΞ±ΞΊΟ„ΞΉΞΊΞ® Ξ†ΟƒΞΊΞ·ΟƒΞ·';
 
   @override
-  String get workOnSite => 'Επιτόπια';
+  String get workOnSite => 'Ξ•Ο€ΞΉΟ„ΟΟ€ΞΉΞ±';
 
   @override
-  String get workRemote => 'Εξ αποστάσεως';
+  String get workRemote => 'Ξ•ΞΎ Ξ±Ο€ΞΏΟƒΟ„Ξ¬ΟƒΞµΟ‰Ο‚';
 
   @override
-  String get workHybrid => 'Υβριδική';
+  String get workHybrid => 'Ξ¥Ξ²ΟΞΉΞ΄ΞΉΞΊΞ®';
 
   @override
-  String get payMonthly => 'Μηνιαία';
+  String get payMonthly => 'ΞΞ·Ξ½ΞΉΞ±Ξ―Ξ±';
 
   @override
-  String get payWeekly => 'Εβδομαδιαία';
+  String get payWeekly => 'Ξ•Ξ²Ξ΄ΞΏΞΌΞ±Ξ΄ΞΉΞ±Ξ―Ξ±';
 
   @override
-  String get payYearly => 'Ετήσια';
+  String get payYearly => 'Ξ•Ο„Ξ®ΟƒΞΉΞ±';
 
   @override
-  String get payHourly => 'Ωριαία';
+  String get payHourly => 'Ξ©ΟΞΉΞ±Ξ―Ξ±';
 
   @override
-  String get payDaily => 'Ημερήσια';
+  String get payDaily => 'Ξ—ΞΌΞµΟΞ®ΟƒΞΉΞ±';
 
   @override
-  String get valuesHeading => 'Αξίες';
+  String get valuesHeading => 'Ξ‘ΞΎΞ―ΞµΟ‚';
 
   @override
   String valuesDescription(int max) {
-    return 'Επιλέξτε τις αξίες που σας αντιπροσωπεύουν περισσότερο. Μπορείτε να επιλέξετε έως $max.';
+    return 'Ξ•Ο€ΞΉΞ»Ξ­ΞΎΟ„Ξµ Ο„ΞΉΟ‚ Ξ±ΞΎΞ―ΞµΟ‚ Ο€ΞΏΟ… ΟƒΞ±Ο‚ Ξ±Ξ½Ο„ΞΉΟ€ΟΞΏΟƒΟ‰Ο€ΞµΟΞΏΟ…Ξ½ Ο€ΞµΟΞΉΟƒΟƒΟΟ„ΞµΟΞΏ. ΞΟ€ΞΏΟΞµΞ―Ο„Ξµ Ξ½Ξ± ΞµΟ€ΞΉΞ»Ξ­ΞΎΞµΟ„Ξµ Ξ­Ο‰Ο‚ $max.';
   }
 
   @override
-  String get valueIntegrity => 'Ακεραιότητα';
+  String get valueIntegrity => 'Ξ‘ΞΊΞµΟΞ±ΞΉΟΟ„Ξ·Ο„Ξ±';
 
   @override
-  String get valueResponsibility => 'Υπευθυνότητα';
+  String get valueResponsibility => 'Ξ¥Ο€ΞµΟ…ΞΈΟ…Ξ½ΟΟ„Ξ·Ο„Ξ±';
 
   @override
-  String get valueTeamwork => 'Ομαδική Εργασία';
+  String get valueTeamwork => 'ΞΞΌΞ±Ξ΄ΞΉΞΊΞ® Ξ•ΟΞ³Ξ±ΟƒΞ―Ξ±';
 
   @override
-  String get valueRespect => 'Σεβασμός';
+  String get valueRespect => 'Ξ£ΞµΞ²Ξ±ΟƒΞΌΟΟ‚';
 
   @override
-  String get valueGrowth => 'Ανάπτυξη & Μάθηση';
+  String get valueGrowth => 'Ξ‘Ξ½Ξ¬Ο€Ο„Ο…ΞΎΞ· & ΞΞ¬ΞΈΞ·ΟƒΞ·';
 
   @override
-  String get valueInnovation => 'Καινοτομία';
+  String get valueInnovation => 'ΞΞ±ΞΉΞ½ΞΏΟ„ΞΏΞΌΞ―Ξ±';
 
   @override
-  String get valueCreativity => 'Δημιουργικότητα';
+  String get valueCreativity => 'Ξ”Ξ·ΞΌΞΉΞΏΟ…ΟΞ³ΞΉΞΊΟΟ„Ξ·Ο„Ξ±';
 
   @override
-  String get valueTransparency => 'Διαφάνεια';
+  String get valueTransparency => 'Ξ”ΞΉΞ±Ο†Ξ¬Ξ½ΞµΞΉΞ±';
 
   @override
-  String get valueEmpathy => 'Ενσυναίσθηση';
+  String get valueEmpathy => 'Ξ•Ξ½ΟƒΟ…Ξ½Ξ±Ξ―ΟƒΞΈΞ·ΟƒΞ·';
 
   @override
-  String get valueAccountability => 'Λογοδοσία';
+  String get valueAccountability => 'Ξ›ΞΏΞ³ΞΏΞ΄ΞΏΟƒΞ―Ξ±';
 
   @override
-  String get valueWorkLifeBalance => 'Ισορροπία Εργασίας-Ζωής';
+  String get valueWorkLifeBalance =>
+      'Ξ™ΟƒΞΏΟΟΞΏΟ€Ξ―Ξ± Ξ•ΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚-Ξ–Ο‰Ξ®Ο‚';
 
   @override
-  String get valueOpenCommunication => 'Ανοιχτή Επικοινωνία';
+  String get valueOpenCommunication => 'Ξ‘Ξ½ΞΏΞΉΟ‡Ο„Ξ® Ξ•Ο€ΞΉΞΊΞΏΞΉΞ½Ο‰Ξ½Ξ―Ξ±';
 
   @override
-  String get valueReliability => 'Αξιοπιστία';
+  String get valueReliability => 'Ξ‘ΞΎΞΉΞΏΟ€ΞΉΟƒΟ„Ξ―Ξ±';
 
   @override
-  String get valueAdaptability => 'Προσαρμοστικότητα';
+  String get valueAdaptability => 'Ξ ΟΞΏΟƒΞ±ΟΞΌΞΏΟƒΟ„ΞΉΞΊΟΟ„Ξ·Ο„Ξ±';
 
   @override
-  String get valueProblemSolving => 'Επίλυση Προβλημάτων';
+  String get valueProblemSolving => 'Ξ•Ο€Ξ―Ξ»Ο…ΟƒΞ· Ξ ΟΞΏΞ²Ξ»Ξ·ΞΌΞ¬Ο„Ο‰Ξ½';
 
   @override
-  String get valueOwnership => 'Ιδιοκτησία';
+  String get valueOwnership => 'Ξ™Ξ΄ΞΉΞΏΞΊΟ„Ξ·ΟƒΞ―Ξ±';
 
   @override
-  String get valueCustomerFocus => 'Εστίαση στον Πελάτη';
+  String get valueCustomerFocus => 'Ξ•ΟƒΟ„Ξ―Ξ±ΟƒΞ· ΟƒΟ„ΞΏΞ½ Ξ ΞµΞ»Ξ¬Ο„Ξ·';
 
   @override
-  String get valueAmbition => 'Φιλοδοξία';
+  String get valueAmbition => 'Ξ¦ΞΉΞ»ΞΏΞ΄ΞΏΞΎΞ―Ξ±';
 
   @override
-  String get valueInitiative => 'Πρωτοβουλία';
+  String get valueInitiative => 'Ξ ΟΟ‰Ο„ΞΏΞ²ΞΏΟ…Ξ»Ξ―Ξ±';
 
   @override
-  String get valueCollaboration => 'Συνεργασία';
+  String get valueCollaboration => 'Ξ£Ο…Ξ½ΞµΟΞ³Ξ±ΟƒΞ―Ξ±';
 
   @override
-  String get communicationHeading => 'Επικοινωνία';
+  String get communicationHeading => 'Ξ•Ο€ΞΉΞΊΞΏΞΉΞ½Ο‰Ξ½Ξ―Ξ±';
 
   @override
   String get communicationDescription =>
-      'Επιλέξτε κανάλι για να λαμβάνετε ειδοποιήσεις σχετικά με νέες σχετικές θέσεις εργασίας και απαντήσεις σε υποβληθείσες αιτήσεις. Μπορείτε να επιλέξετε πολλαπλές επιλογές και να τις αλλάξετε ανά πάσα στιγμή.';
+      'Ξ•Ο€ΞΉΞ»Ξ­ΞΎΟ„Ξµ ΞΊΞ±Ξ½Ξ¬Ξ»ΞΉ Ξ³ΞΉΞ± Ξ½Ξ± Ξ»Ξ±ΞΌΞ²Ξ¬Ξ½ΞµΟ„Ξµ ΞµΞΉΞ΄ΞΏΟ€ΞΏΞΉΞ®ΟƒΞµΞΉΟ‚ ΟƒΟ‡ΞµΟ„ΞΉΞΊΞ¬ ΞΌΞµ Ξ½Ξ­ΞµΟ‚ ΟƒΟ‡ΞµΟ„ΞΉΞΊΞ­Ο‚ ΞΈΞ­ΟƒΞµΞΉΟ‚ ΞµΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚ ΞΊΞ±ΞΉ Ξ±Ο€Ξ±Ξ½Ο„Ξ®ΟƒΞµΞΉΟ‚ ΟƒΞµ Ο…Ο€ΞΏΞ²Ξ»Ξ·ΞΈΞµΞ―ΟƒΞµΟ‚ Ξ±ΞΉΟ„Ξ®ΟƒΞµΞΉΟ‚. ΞΟ€ΞΏΟΞµΞ―Ο„Ξµ Ξ½Ξ± ΞµΟ€ΞΉΞ»Ξ­ΞΎΞµΟ„Ξµ Ο€ΞΏΞ»Ξ»Ξ±Ο€Ξ»Ξ­Ο‚ ΞµΟ€ΞΉΞ»ΞΏΞ³Ξ­Ο‚ ΞΊΞ±ΞΉ Ξ½Ξ± Ο„ΞΉΟ‚ Ξ±Ξ»Ξ»Ξ¬ΞΎΞµΟ„Ξµ Ξ±Ξ½Ξ¬ Ο€Ξ¬ΟƒΞ± ΟƒΟ„ΞΉΞ³ΞΌΞ®.';
 
   @override
   String get whatsapp => 'WhatsApp';
@@ -725,813 +596,281 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get receiveTips =>
-      'Λήψη συμβουλών για ευκαιρίες εργασίας, πληροφορίες για μαθήματα και επερχόμενες εκδηλώσεις.';
+      'Ξ›Ξ®ΟΞ· ΟƒΟ…ΞΌΞ²ΞΏΟ…Ξ»ΟΞ½ Ξ³ΞΉΞ± ΞµΟ…ΞΊΞ±ΞΉΟΞ―ΞµΟ‚ ΞµΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚, Ο€Ξ»Ξ·ΟΞΏΟ†ΞΏΟΞ―ΞµΟ‚ Ξ³ΞΉΞ± ΞΌΞ±ΞΈΞ®ΞΌΞ±Ο„Ξ± ΞΊΞ±ΞΉ ΞµΟ€ΞµΟΟ‡ΟΞΌΞµΞ½ΞµΟ‚ ΞµΞΊΞ΄Ξ·Ξ»ΟΟƒΞµΞΉΟ‚.';
 
   @override
-  String get finishSetup => 'Ολοκλήρωση Ρύθμισης';
+  String get finishSetup => 'ΞΞ»ΞΏΞΊΞ»Ξ®ΟΟ‰ΟƒΞ· Ξ΅ΟΞΈΞΌΞΉΟƒΞ·Ο‚';
 
   @override
-  String get searchHint => 'Αναζήτηση...';
+  String get searchHint => 'Ξ‘Ξ½Ξ±Ξ¶Ξ®Ο„Ξ·ΟƒΞ·...';
 
   @override
-  String get selectAction => 'Επιλογή';
+  String get selectAction => 'Ξ•Ο€ΞΉΞ»ΞΏΞ³Ξ®';
 
   @override
-  String get expectedPaymentLabel => 'Αναμενόμενη Αμοιβή';
+  String get expectedPaymentLabel => 'Ξ‘Ξ½Ξ±ΞΌΞµΞ½ΟΞΌΞµΞ½Ξ· Ξ‘ΞΌΞΏΞΉΞ²Ξ®';
 
   @override
-  String get fromLabel => 'Από';
+  String get fromLabel => 'Ξ‘Ο€Ο';
 
   @override
-  String get paymentTermTitle => 'Περίοδος Πληρωμής';
+  String get paymentTermTitle => 'Ξ ΞµΟΞ―ΞΏΞ΄ΞΏΟ‚ Ξ Ξ»Ξ·ΟΟ‰ΞΌΞ®Ο‚';
 
   @override
-  String get paymentTermPlaceholder => 'Μηνιαία';
+  String get paymentTermPlaceholder => 'ΞΞ·Ξ½ΞΉΞ±Ξ―Ξ±';
 
   @override
-  String get currencySymbol => '€';
+  String get currencySymbol => 'β‚¬';
 
   @override
-  String get preferNotToSpecify => 'Προτιμώ να μην προσδιορίσω';
+  String get preferNotToSpecify =>
+      'Ξ ΟΞΏΟ„ΞΉΞΌΟ Ξ½Ξ± ΞΌΞ·Ξ½ Ο€ΟΞΏΟƒΞ΄ΞΉΞΏΟΞ―ΟƒΟ‰';
 
   @override
-  String get selectCountryTitle => 'Επιλογή Χώρας';
+  String get selectCountryTitle => 'Ξ•Ο€ΞΉΞ»ΞΏΞ³Ξ® Ξ§ΟΟΞ±Ο‚';
 
   @override
-  String get phoneValidationError => 'Παρακαλώ εισάγετε σωστό αριθμό τηλεφώνου';
+  String get phoneValidationError =>
+      'Ξ Ξ±ΟΞ±ΞΊΞ±Ξ»Ο ΞµΞΉΟƒΞ¬Ξ³ΞµΟ„Ξµ ΟƒΟ‰ΟƒΟ„Ο Ξ±ΟΞΉΞΈΞΌΟ Ο„Ξ·Ξ»ΞµΟ†ΟΞ½ΞΏΟ…';
 
   @override
-  String get phoneNumberLabel => 'Αριθμός Τηλεφώνου';
+  String get phoneNumberLabel => 'Ξ‘ΟΞΉΞΈΞΌΟΟ‚ Ξ¤Ξ·Ξ»ΞµΟ†ΟΞ½ΞΏΟ…';
 
   @override
-  String get myApplicationsTabLabel => 'Οι Αιτήσεις μου';
+  String get myApplicationsTabLabel => 'ΞΞΉ Ξ‘ΞΉΟ„Ξ®ΟƒΞµΞΉΟ‚ ΞΌΞΏΟ…';
 
   @override
   String get myApplicationsTabDescription =>
-      'Παρακολούθησε όλες τις θέσεις για τις οποίες έχεις κάνει αίτηση και δες την τρέχουσα κατάστασή τους. Μπορείς επίσης να βρεις παλιές αιτήσεις στο αρχείο σου.';
+      'Ξ Ξ±ΟΞ±ΞΊΞΏΞ»ΞΏΟΞΈΞ·ΟƒΞµ ΟΞ»ΞµΟ‚ Ο„ΞΉΟ‚ ΞΈΞ­ΟƒΞµΞΉΟ‚ Ξ³ΞΉΞ± Ο„ΞΉΟ‚ ΞΏΟ€ΞΏΞ―ΞµΟ‚ Ξ­Ο‡ΞµΞΉΟ‚ ΞΊΞ¬Ξ½ΞµΞΉ Ξ±Ξ―Ο„Ξ·ΟƒΞ· ΞΊΞ±ΞΉ Ξ΄ΞµΟ‚ Ο„Ξ·Ξ½ Ο„ΟΞ­Ο‡ΞΏΟ…ΟƒΞ± ΞΊΞ±Ο„Ξ¬ΟƒΟ„Ξ±ΟƒΞ® Ο„ΞΏΟ…Ο‚. ΞΟ€ΞΏΟΞµΞ―Ο‚ ΞµΟ€Ξ―ΟƒΞ·Ο‚ Ξ½Ξ± Ξ²ΟΞµΞΉΟ‚ Ο€Ξ±Ξ»ΞΉΞ­Ο‚ Ξ±ΞΉΟ„Ξ®ΟƒΞµΞΉΟ‚ ΟƒΟ„ΞΏ Ξ±ΟΟ‡ΞµΞ―ΞΏ ΟƒΞΏΟ….';
 
   @override
-  String get myApplicationsLoadError => 'Αποτυχία φόρτωσης αιτήσεων.';
+  String get myApplicationsLoadError =>
+      'Ξ‘Ο€ΞΏΟ„Ο…Ο‡Ξ―Ξ± Ο†ΟΟΟ„Ο‰ΟƒΞ·Ο‚ Ξ±ΞΉΟ„Ξ®ΟƒΞµΟ‰Ξ½.';
 
   @override
-  String get myApplicationsEmptyTitle => 'Δεν υπάρχουν αιτήσεις ακόμη';
+  String get myApplicationsEmptyTitle =>
+      'Ξ”ΞµΞ½ Ο…Ο€Ξ¬ΟΟ‡ΞΏΟ…Ξ½ Ξ±ΞΉΟ„Ξ®ΟƒΞµΞΉΟ‚ Ξ±ΞΊΟΞΌΞ·';
 
   @override
   String get myApplicationsEmptySubtitle =>
-      'Θέσεις που κάνεις αίτηση θα εμφανιστούν εδώ\nώστε να παρακολουθείς την πορεία τους.';
+      'ΞΞ­ΟƒΞµΞΉΟ‚ Ο€ΞΏΟ… ΞΊΞ¬Ξ½ΞµΞΉΟ‚ Ξ±Ξ―Ο„Ξ·ΟƒΞ· ΞΈΞ± ΞµΞΌΟ†Ξ±Ξ½ΞΉΟƒΟ„ΞΏΟΞ½ ΞµΞ΄Ο\nΟΟƒΟ„Ξµ Ξ½Ξ± Ο€Ξ±ΟΞ±ΞΊΞΏΞ»ΞΏΟ…ΞΈΞµΞ―Ο‚ Ο„Ξ·Ξ½ Ο€ΞΏΟΞµΞ―Ξ± Ο„ΞΏΟ…Ο‚.';
 
   @override
   String myInvitationsTabLabel(int count) {
-    return 'Οι Προσκλήσεις μου ($count)';
+    return 'ΞΞΉ Ξ ΟΞΏΟƒΞΊΞ»Ξ®ΟƒΞµΞΉΟ‚ ΞΌΞΏΟ… ($count)';
   }
 
   @override
-  String get draftsTabLabel => 'Πρόχειρα';
+  String get draftsTabLabel => 'Ξ ΟΟΟ‡ΞµΞΉΟΞ±';
 
   @override
-  String get archiveTabLabel => 'Αρχείο';
+  String get archiveTabLabel => 'Ξ‘ΟΟ‡ΞµΞ―ΞΏ';
 
   @override
   String get invitationsTabDescription =>
-      'Εδώ θα βρεις ευκαιρίες εργασίας στις οποίες έχεις προσκληθεί. Εξέτασε προσκλήσεις από εργοδότες που βρήκαν το προφίλ σου ενδιαφέρον.';
+      'Ξ•Ξ΄Ο ΞΈΞ± Ξ²ΟΞµΞΉΟ‚ ΞµΟ…ΞΊΞ±ΞΉΟΞ―ΞµΟ‚ ΞµΟΞ³Ξ±ΟƒΞ―Ξ±Ο‚ ΟƒΟ„ΞΉΟ‚ ΞΏΟ€ΞΏΞ―ΞµΟ‚ Ξ­Ο‡ΞµΞΉΟ‚ Ο€ΟΞΏΟƒΞΊΞ»Ξ·ΞΈΞµΞ―. Ξ•ΞΎΞ­Ο„Ξ±ΟƒΞµ Ο€ΟΞΏΟƒΞΊΞ»Ξ®ΟƒΞµΞΉΟ‚ Ξ±Ο€Ο ΞµΟΞ³ΞΏΞ΄ΟΟ„ΞµΟ‚ Ο€ΞΏΟ… Ξ²ΟΞ®ΞΊΞ±Ξ½ Ο„ΞΏ Ο€ΟΞΏΟ†Ξ―Ξ» ΟƒΞΏΟ… ΞµΞ½Ξ΄ΞΉΞ±Ο†Ξ­ΟΞΏΞ½.';
 
   @override
-  String get invitationsLoadError => 'Αποτυχία φόρτωσης προσκλήσεων.';
+  String get invitationsLoadError =>
+      'Ξ‘Ο€ΞΏΟ„Ο…Ο‡Ξ―Ξ± Ο†ΟΟΟ„Ο‰ΟƒΞ·Ο‚ Ο€ΟΞΏΟƒΞΊΞ»Ξ®ΟƒΞµΟ‰Ξ½.';
 
   @override
-  String get invitationsEmptyTitle => 'Δεν υπάρχουν ακόμη προσκλήσεις';
+  String get invitationsEmptyTitle =>
+      'Ξ”ΞµΞ½ Ο…Ο€Ξ¬ΟΟ‡ΞΏΟ…Ξ½ Ξ±ΞΊΟΞΌΞ· Ο€ΟΞΏΟƒΞΊΞ»Ξ®ΟƒΞµΞΉΟ‚';
 
   @override
   String get invitationsEmptySubtitle =>
-      'Όταν εργοδότες βρουν το προφίλ σου ενδιαφέρον\nθα σε προσκαλέσουν εδώ.';
+      'ΞΟ„Ξ±Ξ½ ΞµΟΞ³ΞΏΞ΄ΟΟ„ΞµΟ‚ Ξ²ΟΞΏΟ…Ξ½ Ο„ΞΏ Ο€ΟΞΏΟ†Ξ―Ξ» ΟƒΞΏΟ… ΞµΞ½Ξ΄ΞΉΞ±Ο†Ξ­ΟΞΏΞ½\nΞΈΞ± ΟƒΞµ Ο€ΟΞΏΟƒΞΊΞ±Ξ»Ξ­ΟƒΞΏΟ…Ξ½ ΞµΞ΄Ο.';
 
   @override
   String get draftsTabDescription =>
-      'Εδώ θα βρεις αιτήσεις που ξεκίνησες αλλά δεν υπέβαλες. Συνέχισε από εκεί που σταμάτησες ή διέγραψέ τις.';
+      'Ξ•Ξ΄Ο ΞΈΞ± Ξ²ΟΞµΞΉΟ‚ Ξ±ΞΉΟ„Ξ®ΟƒΞµΞΉΟ‚ Ο€ΞΏΟ… ΞΎΞµΞΊΞ―Ξ½Ξ·ΟƒΞµΟ‚ Ξ±Ξ»Ξ»Ξ¬ Ξ΄ΞµΞ½ Ο…Ο€Ξ­Ξ²Ξ±Ξ»ΞµΟ‚. Ξ£Ο…Ξ½Ξ­Ο‡ΞΉΟƒΞµ Ξ±Ο€Ο ΞµΞΊΞµΞ― Ο€ΞΏΟ… ΟƒΟ„Ξ±ΞΌΞ¬Ο„Ξ·ΟƒΞµΟ‚ Ξ® Ξ΄ΞΉΞ­Ξ³ΟΞ±ΟΞ­ Ο„ΞΉΟ‚.';
 
   @override
-  String get draftsLoadError => 'Αποτυχία φόρτωσης πρόχειρων.';
+  String get draftsLoadError =>
+      'Ξ‘Ο€ΞΏΟ„Ο…Ο‡Ξ―Ξ± Ο†ΟΟΟ„Ο‰ΟƒΞ·Ο‚ Ο€ΟΟΟ‡ΞµΞΉΟΟ‰Ξ½.';
 
   @override
-  String get draftsEmptyTitle => 'Δεν υπάρχουν πρόχειρα';
+  String get draftsEmptyTitle => 'Ξ”ΞµΞ½ Ο…Ο€Ξ¬ΟΟ‡ΞΏΟ…Ξ½ Ο€ΟΟΟ‡ΞµΞΉΟΞ±';
 
   @override
   String get draftsEmptySubtitle =>
-      'Αιτήσεις που ξεκινάς αλλά δεν υποβάλλεις\nθα εμφανιστούν εδώ.';
+      'Ξ‘ΞΉΟ„Ξ®ΟƒΞµΞΉΟ‚ Ο€ΞΏΟ… ΞΎΞµΞΊΞΉΞ½Ξ¬Ο‚ Ξ±Ξ»Ξ»Ξ¬ Ξ΄ΞµΞ½ Ο…Ο€ΞΏΞ²Ξ¬Ξ»Ξ»ΞµΞΉΟ‚\nΞΈΞ± ΞµΞΌΟ†Ξ±Ξ½ΞΉΟƒΟ„ΞΏΟΞ½ ΞµΞ΄Ο.';
 
   @override
   String get archiveTabDescription =>
-      'Εδώ θα βρεις όλες τις απορριφθείσες προσκλήσεις και τις κλειστές αιτήσεις. Αποθηκεύονται για αναφορά.';
+      'Ξ•Ξ΄Ο ΞΈΞ± Ξ²ΟΞµΞΉΟ‚ ΟΞ»ΞµΟ‚ Ο„ΞΉΟ‚ Ξ±Ο€ΞΏΟΟΞΉΟ†ΞΈΞµΞ―ΟƒΞµΟ‚ Ο€ΟΞΏΟƒΞΊΞ»Ξ®ΟƒΞµΞΉΟ‚ ΞΊΞ±ΞΉ Ο„ΞΉΟ‚ ΞΊΞ»ΞµΞΉΟƒΟ„Ξ­Ο‚ Ξ±ΞΉΟ„Ξ®ΟƒΞµΞΉΟ‚. Ξ‘Ο€ΞΏΞΈΞ·ΞΊΞµΟΞΏΞ½Ο„Ξ±ΞΉ Ξ³ΞΉΞ± Ξ±Ξ½Ξ±Ο†ΞΏΟΞ¬.';
 
   @override
-  String get archiveEmptyTitle => 'Το αρχείο σου είναι άδειο';
+  String get archiveEmptyTitle =>
+      'Ξ¤ΞΏ Ξ±ΟΟ‡ΞµΞ―ΞΏ ΟƒΞΏΟ… ΞµΞ―Ξ½Ξ±ΞΉ Ξ¬Ξ΄ΞµΞΉΞΏ';
 
   @override
   String get archiveEmptySubtitle =>
-      'Απορριφθείσες προσκλήσεις και κλειστές αιτήσεις\nθα αποθηκευτούν εδώ.';
+      'Ξ‘Ο€ΞΏΟΟΞΉΟ†ΞΈΞµΞ―ΟƒΞµΟ‚ Ο€ΟΞΏΟƒΞΊΞ»Ξ®ΟƒΞµΞΉΟ‚ ΞΊΞ±ΞΉ ΞΊΞ»ΞµΞΉΟƒΟ„Ξ­Ο‚ Ξ±ΞΉΟ„Ξ®ΟƒΞµΞΉΟ‚\nΞΈΞ± Ξ±Ο€ΞΏΞΈΞ·ΞΊΞµΟ…Ο„ΞΏΟΞ½ ΞµΞ΄Ο.';
 
   @override
-  String get invitationDeclinedLabel => 'Η πρόσκληση απορρίφθηκε';
+  String get invitationDeclinedLabel =>
+      'Ξ— Ο€ΟΟΟƒΞΊΞ»Ξ·ΟƒΞ· Ξ±Ο€ΞΏΟΟΞ―Ο†ΞΈΞ·ΞΊΞµ';
 
   @override
-  String get viewJobDetails => 'Δες Λεπτομέρειες Θέσης';
+  String get viewJobDetails => 'Ξ”ΞµΟ‚ Ξ›ΞµΟ€Ο„ΞΏΞΌΞ­ΟΞµΞΉΞµΟ‚ ΞΞ­ΟƒΞ·Ο‚';
 
   @override
-  String get dismissInvite => 'Απόρριψη Πρόσκλησης';
+  String get dismissInvite => 'Ξ‘Ο€ΟΟΟΞΉΟΞ· Ξ ΟΟΟƒΞΊΞ»Ξ·ΟƒΞ·Ο‚';
 
   @override
-  String get declinedConfirmed => 'Απορρίφθηκε';
+  String get declinedConfirmed => 'Ξ‘Ο€ΞΏΟΟΞ―Ο†ΞΈΞ·ΞΊΞµ';
 
   @override
-  String get viewJob => 'Δες Θέση';
+  String get viewJob => 'Ξ”ΞµΟ‚ ΞΞ­ΟƒΞ·';
 
   @override
-  String get dismissBannerTitle => 'Η πρόσκληση θα μεταφερθεί στο Αρχείο';
+  String get dismissBannerTitle =>
+      'Ξ— Ο€ΟΟΟƒΞΊΞ»Ξ·ΟƒΞ· ΞΈΞ± ΞΌΞµΟ„Ξ±Ο†ΞµΟΞΈΞµΞ― ΟƒΟ„ΞΏ Ξ‘ΟΟ‡ΞµΞ―ΞΏ';
 
   @override
-  String get dismissBannerCountdown => 'Επιβεβαιώνεται σε 5 δευτερόλεπτα';
+  String get dismissBannerCountdown =>
+      'Ξ•Ο€ΞΉΞ²ΞµΞ²Ξ±ΞΉΟΞ½ΞµΟ„Ξ±ΞΉ ΟƒΞµ 5 Ξ΄ΞµΟ…Ο„ΞµΟΟΞ»ΞµΟ€Ο„Ξ±';
 
   @override
-  String get undo => 'Αναίρεση';
+  String get undo => 'Ξ‘Ξ½Ξ±Ξ―ΟΞµΟƒΞ·';
 
   @override
   String get invitationDismissedToast =>
-      'Η πρόσκληση απορρίφθηκε και μεταφέρθηκε στο Αρχείο';
+      'Ξ— Ο€ΟΟΟƒΞΊΞ»Ξ·ΟƒΞ· Ξ±Ο€ΞΏΟΟΞ―Ο†ΞΈΞ·ΞΊΞµ ΞΊΞ±ΞΉ ΞΌΞµΟ„Ξ±Ο†Ξ­ΟΞΈΞ·ΞΊΞµ ΟƒΟ„ΞΏ Ξ‘ΟΟ‡ΞµΞ―ΞΏ';
 
   @override
   String get invitationDeclinedToast =>
-      'Η πρόσκληση απορρίφθηκε και μεταφέρθηκε στο Αρχείο';
+      'Ξ— Ο€ΟΟΟƒΞΊΞ»Ξ·ΟƒΞ· Ξ±Ο€ΞΏΟΟΞ―Ο†ΞΈΞ·ΞΊΞµ ΞΊΞ±ΞΉ ΞΌΞµΟ„Ξ±Ο†Ξ­ΟΞΈΞ·ΞΊΞµ ΟƒΟ„ΞΏ Ξ‘ΟΟ‡ΞµΞ―ΞΏ';
 
   @override
   String get careerAssistantBannerTitle =>
-      'Δεν ξέρεις τι να κάνεις στη συνέχεια;';
+      'Ξ”ΞµΞ½ ΞΎΞ­ΟΞµΞΉΟ‚ Ο„ΞΉ Ξ½Ξ± ΞΊΞ¬Ξ½ΞµΞΉΟ‚ ΟƒΟ„Ξ· ΟƒΟ…Ξ½Ξ­Ο‡ΞµΞΉΞ±;';
 
   @override
   String get careerAssistantBannerSubtitle =>
-      'Κατά μέσο όρο, οι εργοδότες εξετάζουν αιτήσεις μέσα στην πρώτη εβδομάδα. Μπορείς πάντα να με ρωτήσεις για βοήθεια.';
+      'ΞΞ±Ο„Ξ¬ ΞΌΞ­ΟƒΞΏ ΟΟΞΏ, ΞΏΞΉ ΞµΟΞ³ΞΏΞ΄ΟΟ„ΞµΟ‚ ΞµΞΎΞµΟ„Ξ¬Ξ¶ΞΏΟ…Ξ½ Ξ±ΞΉΟ„Ξ®ΟƒΞµΞΉΟ‚ ΞΌΞ­ΟƒΞ± ΟƒΟ„Ξ·Ξ½ Ο€ΟΟΟ„Ξ· ΞµΞ²Ξ΄ΞΏΞΌΞ¬Ξ΄Ξ±. ΞΟ€ΞΏΟΞµΞ―Ο‚ Ο€Ξ¬Ξ½Ο„Ξ± Ξ½Ξ± ΞΌΞµ ΟΟ‰Ο„Ξ®ΟƒΞµΞΉΟ‚ Ξ³ΞΉΞ± Ξ²ΞΏΞ®ΞΈΞµΞΉΞ±.';
 
   @override
-  String get askCareerAssistant => 'Ρώτα τον Career Assistant';
+  String get askCareerAssistant => 'Ξ΅ΟΟ„Ξ± Ο„ΞΏΞ½ Career Assistant';
 
   @override
-  String get blogNewsTitle => 'Blog & Νέα';
+  String get blogNewsTitle => 'Blog & ΞΞ­Ξ±';
 
   @override
   String get blogNewsSubtitle =>
-      'Ανακαλύψτε συμβουλές καριέρας, οδηγούς συνεντεύξεων και νέα της πλατφόρμας.';
+      'Ξ‘Ξ½Ξ±ΞΊΞ±Ξ»ΟΟΟ„Ξµ ΟƒΟ…ΞΌΞ²ΞΏΟ…Ξ»Ξ­Ο‚ ΞΊΞ±ΟΞΉΞ­ΟΞ±Ο‚, ΞΏΞ΄Ξ·Ξ³ΞΏΟΟ‚ ΟƒΟ…Ξ½ΞµΞ½Ο„ΞµΟΞΎΞµΟ‰Ξ½ ΞΊΞ±ΞΉ Ξ½Ξ­Ξ± Ο„Ξ·Ο‚ Ο€Ξ»Ξ±Ο„Ο†ΟΟΞΌΞ±Ο‚.';
 
   @override
-  String get blogSearchHint => 'Αναζήτηση άρθρων και θεμάτων';
+  String get blogSearchHint =>
+      'Ξ‘Ξ½Ξ±Ξ¶Ξ®Ο„Ξ·ΟƒΞ· Ξ¬ΟΞΈΟΟ‰Ξ½ ΞΊΞ±ΞΉ ΞΈΞµΞΌΞ¬Ο„Ο‰Ξ½';
 
   @override
-  String get blogAllCategories => 'Όλα';
+  String get blogAllCategories => 'ΞΞ»Ξ±';
 
   @override
-  String get blogRelatedArticles => 'Σχετικά Άρθρα';
+  String get blogRelatedArticles => 'Ξ£Ο‡ΞµΟ„ΞΉΞΊΞ¬ Ξ†ΟΞΈΟΞ±';
 
   @override
-  String get blogDiscoverAll => 'Ανακαλύψτε Όλα τα Νέα';
+  String get blogDiscoverAll => 'Ξ‘Ξ½Ξ±ΞΊΞ±Ξ»ΟΟΟ„Ξµ ΞΞ»Ξ± Ο„Ξ± ΞΞ­Ξ±';
 
   @override
-  String get blogArticleNotFound => 'Το άρθρο δεν βρέθηκε.';
+  String get blogArticleNotFound => 'Ξ¤ΞΏ Ξ¬ΟΞΈΟΞΏ Ξ΄ΞµΞ½ Ξ²ΟΞ­ΞΈΞ·ΞΊΞµ.';
 
   @override
   String blogArticleBy(String author) {
-    return 'Από $author';
+    return 'Ξ‘Ο€Ο $author';
   }
 
   @override
-  String get cardAppliedWithCv => 'Υπέβαλες αίτηση με το Ithaki CV σου';
+  String get cardAppliedWithCv =>
+      'Ξ¥Ο€Ξ­Ξ²Ξ±Ξ»ΞµΟ‚ Ξ±Ξ―Ο„Ξ·ΟƒΞ· ΞΌΞµ Ο„ΞΏ Ithaki CV ΟƒΞΏΟ…';
 
   @override
-  String get cardJobClosed => 'Η θέση έχει κλείσει.';
+  String get cardJobClosed => 'Ξ— ΞΈΞ­ΟƒΞ· Ξ­Ο‡ΞµΞΉ ΞΊΞ»ΞµΞ―ΟƒΞµΞΉ.';
 
   @override
-  String get continueApplication => 'Συνέχεια';
+  String get continueApplication => 'Ξ£Ο…Ξ½Ξ­Ο‡ΞµΞΉΞ±';
 
   @override
-  String get viewApplication => 'Δες Αίτηση';
+  String get viewApplication => 'Ξ”ΞµΟ‚ Ξ‘Ξ―Ο„Ξ·ΟƒΞ·';
 
   @override
-  String get applySheetTitle => 'Έτοιμος/η να κάνεις αίτηση για αυτή τη θέση;';
+  String get applySheetTitle =>
+      'ΞΟ„ΞΏΞΉΞΌΞΏΟ‚/Ξ· Ξ½Ξ± ΞΊΞ¬Ξ½ΞµΞΉΟ‚ Ξ±Ξ―Ο„Ξ·ΟƒΞ· Ξ³ΞΉΞ± Ξ±Ο…Ο„Ξ® Ο„Ξ· ΞΈΞ­ΟƒΞ·;';
 
   @override
   String get applySheetSubtitle =>
-      'Βεβαιώσου ότι τα στοιχεία του προφίλ σου είναι ενημερωμένα πριν υποβάλεις την αίτησή σου. Μπορείς επίσης να ανεβάσεις το βιογραφικό σου.';
+      'Ξ’ΞµΞ²Ξ±ΞΉΟΟƒΞΏΟ… ΟΟ„ΞΉ Ο„Ξ± ΟƒΟ„ΞΏΞΉΟ‡ΞµΞ―Ξ± Ο„ΞΏΟ… Ο€ΟΞΏΟ†Ξ―Ξ» ΟƒΞΏΟ… ΞµΞ―Ξ½Ξ±ΞΉ ΞµΞ½Ξ·ΞΌΞµΟΟ‰ΞΌΞ­Ξ½Ξ± Ο€ΟΞΉΞ½ Ο…Ο€ΞΏΞ²Ξ¬Ξ»ΞµΞΉΟ‚ Ο„Ξ·Ξ½ Ξ±Ξ―Ο„Ξ·ΟƒΞ® ΟƒΞΏΟ…. ΞΟ€ΞΏΟΞµΞ―Ο‚ ΞµΟ€Ξ―ΟƒΞ·Ο‚ Ξ½Ξ± Ξ±Ξ½ΞµΞ²Ξ¬ΟƒΞµΞΉΟ‚ Ο„ΞΏ Ξ²ΞΉΞΏΞ³ΟΞ±Ο†ΞΉΞΊΟ ΟƒΞΏΟ….';
 
   @override
-  String get applyOptionIthakiCvTitle => 'Χρήση Ithaki CV';
+  String get applyOptionIthakiCvTitle => 'Ξ§ΟΞ®ΟƒΞ· Ithaki CV';
 
   @override
   String get applyOptionIthakiCvSubtitle =>
-      'Χρησιμοποίησε το αποθηκευμένο CV και τα στοιχεία προφίλ σου για να υποβάλεις αίτηση.';
+      'Ξ§ΟΞ·ΟƒΞΉΞΌΞΏΟ€ΞΏΞ―Ξ·ΟƒΞµ Ο„ΞΏ Ξ±Ο€ΞΏΞΈΞ·ΞΊΞµΟ…ΞΌΞ­Ξ½ΞΏ CV ΞΊΞ±ΞΉ Ο„Ξ± ΟƒΟ„ΞΏΞΉΟ‡ΞµΞ―Ξ± Ο€ΟΞΏΟ†Ξ―Ξ» ΟƒΞΏΟ… Ξ³ΞΉΞ± Ξ½Ξ± Ο…Ο€ΞΏΞ²Ξ¬Ξ»ΞµΞΉΟ‚ Ξ±Ξ―Ο„Ξ·ΟƒΞ·.';
 
   @override
-  String get applyOptionUploadTitle => 'Ανέβασε το CV σου';
+  String get applyOptionUploadTitle => 'Ξ‘Ξ½Ξ­Ξ²Ξ±ΟƒΞµ Ο„ΞΏ CV ΟƒΞΏΟ…';
 
   @override
   String get applyOptionUploadSubtitle =>
-      'Ανέβασε νέο αρχείο (PDF ή DOC) για να υποβάλεις αίτηση.';
+      'Ξ‘Ξ½Ξ­Ξ²Ξ±ΟƒΞµ Ξ½Ξ­ΞΏ Ξ±ΟΟ‡ΞµΞ―ΞΏ (PDF Ξ® DOC) Ξ³ΞΉΞ± Ξ½Ξ± Ο…Ο€ΞΏΞ²Ξ¬Ξ»ΞµΞΉΟ‚ Ξ±Ξ―Ο„Ξ·ΟƒΞ·.';
 
   @override
-  String get applyNow => 'Υποβολή Αίτησης';
+  String get applyNow => 'Ξ¥Ο€ΞΏΞ²ΞΏΞ»Ξ® Ξ‘Ξ―Ο„Ξ·ΟƒΞ·Ο‚';
 
   @override
-  String get declineSheetTitle => 'Απόρριψη Πρόσκλησης';
+  String get declineSheetTitle => 'Ξ‘Ο€ΟΟΟΞΉΟΞ· Ξ ΟΟΟƒΞΊΞ»Ξ·ΟƒΞ·Ο‚';
 
   @override
   String get declineSheetSubtitle =>
-      'Είσαι σίγουρος/η ότι θέλεις να απορρίψεις αυτή την πρόσκληση;';
+      'Ξ•Ξ―ΟƒΞ±ΞΉ ΟƒΞ―Ξ³ΞΏΟ…ΟΞΏΟ‚/Ξ· ΟΟ„ΞΉ ΞΈΞ­Ξ»ΞµΞΉΟ‚ Ξ½Ξ± Ξ±Ο€ΞΏΟΟΞ―ΟΞµΞΉΟ‚ Ξ±Ο…Ο„Ξ® Ο„Ξ·Ξ½ Ο€ΟΟΟƒΞΊΞ»Ξ·ΟƒΞ·;';
 
   @override
-  String get declineReasonLabel => 'Παρακαλώ επίλεξε έναν λόγο';
+  String get declineReasonLabel =>
+      'Ξ Ξ±ΟΞ±ΞΊΞ±Ξ»Ο ΞµΟ€Ξ―Ξ»ΞµΞΎΞµ Ξ­Ξ½Ξ±Ξ½ Ξ»ΟΞ³ΞΏ';
 
   @override
-  String get declineReasonHint => 'Επίλεξε λόγο';
+  String get declineReasonHint => 'Ξ•Ο€Ξ―Ξ»ΞµΞΎΞµ Ξ»ΟΞ³ΞΏ';
 
   @override
-  String get declineReasonNotInterested => 'Δεν ενδιαφέρομαι για αυτή τη θέση';
+  String get declineReasonNotInterested =>
+      'Ξ”ΞµΞ½ ΞµΞ½Ξ΄ΞΉΞ±Ο†Ξ­ΟΞΏΞΌΞ±ΞΉ Ξ³ΞΉΞ± Ξ±Ο…Ο„Ξ® Ο„Ξ· ΞΈΞ­ΟƒΞ·';
 
   @override
-  String get declineReasonFoundJob => 'Βρήκα ήδη δουλειά';
+  String get declineReasonFoundJob => 'Ξ’ΟΞ®ΞΊΞ± Ξ®Ξ΄Ξ· Ξ΄ΞΏΟ…Ξ»ΞµΞΉΞ¬';
 
   @override
   String get declineReasonSalary =>
-      'Ο μισθός δεν αντιστοιχεί στις προσδοκίες μου';
+      'Ξ ΞΌΞΉΟƒΞΈΟΟ‚ Ξ΄ΞµΞ½ Ξ±Ξ½Ο„ΞΉΟƒΟ„ΞΏΞΉΟ‡ΞµΞ― ΟƒΟ„ΞΉΟ‚ Ο€ΟΞΏΟƒΞ΄ΞΏΞΊΞ―ΞµΟ‚ ΞΌΞΏΟ…';
 
   @override
-  String get declineReasonLocation => 'Η τοποθεσία δεν με εξυπηρετεί';
+  String get declineReasonLocation =>
+      'Ξ— Ο„ΞΏΟ€ΞΏΞΈΞµΟƒΞ―Ξ± Ξ΄ΞµΞ½ ΞΌΞµ ΞµΞΎΟ…Ο€Ξ·ΟΞµΟ„ΞµΞ―';
 
   @override
-  String get declineReasonOther => 'Άλλο';
+  String get declineReasonOther => 'Ξ†Ξ»Ξ»ΞΏ';
 
   @override
-  String get declineButton => 'Απόρριψη Πρόσκλησης';
+  String get declineButton => 'Ξ‘Ο€ΟΟΟΞΉΟΞ· Ξ ΟΟΟƒΞΊΞ»Ξ·ΟƒΞ·Ο‚';
 
   @override
-  String get declinedButton => '✓  Απορρίφθηκε';
+  String get declinedButton => 'β“  Ξ‘Ο€ΞΏΟΟΞ―Ο†ΞΈΞ·ΞΊΞµ';
 
   @override
   String get jobDetailNotFoundMessage =>
-      'Δεν βρέθηκαν λεπτομέρειες για αυτή την αίτηση ακόμα.';
+      'Ξ”ΞµΞ½ Ξ²ΟΞ­ΞΈΞ·ΞΊΞ±Ξ½ Ξ»ΞµΟ€Ο„ΞΏΞΌΞ­ΟΞµΞΉΞµΟ‚ Ξ³ΞΉΞ± Ξ±Ο…Ο„Ξ® Ο„Ξ·Ξ½ Ξ±Ξ―Ο„Ξ·ΟƒΞ· Ξ±ΞΊΟΞΌΞ±.';
 
   @override
-  String get backToApplications => 'Επιστροφή στις Αιτήσεις';
+  String get backToApplications =>
+      'Ξ•Ο€ΞΉΟƒΟ„ΟΞΏΟ†Ξ® ΟƒΟ„ΞΉΟ‚ Ξ‘ΞΉΟ„Ξ®ΟƒΞµΞΉΟ‚';
 
   @override
-  String get acceptInviteAndApply => 'Αποδοχή Πρόσκλησης & Υποβολή';
+  String get acceptInviteAndApply =>
+      'Ξ‘Ο€ΞΏΞ΄ΞΏΟ‡Ξ® Ξ ΟΟΟƒΞΊΞ»Ξ·ΟƒΞ·Ο‚ & Ξ¥Ο€ΞΏΞ²ΞΏΞ»Ξ®';
 
   @override
-  String get jobDetailsTitle => 'Λεπτομέρειες Θέσης';
-
-  @override
-  String dashboardGreeting(String name) {
-    return 'Γεια σου, $name!';
-  }
-
-  @override
-  String get dashboardSubtitle =>
-      'Εδώ μπορείς να παρακολουθείς τις αγγελίες σου, να αξιολογείς υποψηφίους και να παρακολουθείς τη συνολική δραστηριότητα πρόσληψης.';
-
-  @override
-  String get dashboardStatPlaceholder => 'Τα στατιστικά θα εμφανιστούν εδώ.';
-
-  @override
-  String get dashboardActiveJobPosts => 'Ενεργές Αγγελίες';
-
-  @override
-  String get dashboardArchivedJobPosts => 'Αρχείο';
-
-  @override
-  String get dashboardApplications => 'Αιτήσεις';
-
-  @override
-  String get dashboardInvitations => 'Προσκλήσεις';
-
-  @override
-  String get dashboardHideStats => 'Απόκρυψη Στατιστικών';
-
-  @override
-  String get dashboardShowStats => 'Εμφάνιση Στατιστικών';
-
-  @override
-  String get jobPostsTitle => 'Αγγελίες Εργασίας';
-
-  @override
-  String get jobPostsEmptyDescription =>
-      'Διαχειρίσου όλες τις αγγελίες σου σε ένα μέρος, όπου μπορείς εύκολα να δημιουργείς νέες θέσεις, να ενημερώνεις υπάρχουσες και να παρακολουθείς την απόδοσή τους.';
-
-  @override
-  String get createJobPost => 'Δημιουργία Αγγελίας';
-
-  @override
-  String get searchByJobTitle => 'Αναζήτηση με τίτλο εργασίας';
-
-  @override
-  String dashboardJobPostsCount(int count) {
-    return 'Έχεις $count αγγελίες';
-  }
-
-  @override
-  String get dashboardNoJobPosts =>
-      'Δεν υπάρχουν αγγελίες ακόμα — δημιούργησε μία και βρες τον ιδανικό υποψήφιο!';
-
-  @override
-  String get jobStatusPublished => 'Δημοσιευμένη';
-
-  @override
-  String get jobStatusBoosted => 'Ενισχυμένη';
-
-  @override
-  String get jobStatusPaused => 'Σε Παύση';
-
-  @override
-  String get jobStatusDraft => 'Πρόχειρο';
-
-  @override
-  String get jobStatusClosed => 'Κλειστή';
-
-  @override
-  String get jobStatusExpired => 'Ληγμένη';
-
-  @override
-  String get jobStatusPendingApproval => 'Αναμονή Έγκρισης';
-
-  @override
-  String get jobActionDetails => 'Λεπτομέρειες';
-
-  @override
-  String get jobActionAiMatcher => 'AI Matcher';
-
-  @override
-  String get jobActionBoost => 'Ενίσχυση';
-
-  @override
-  String get jobActionPause => 'Παύση';
-
-  @override
-  String get jobActionClose => 'Κλείσιμο';
-
-  @override
-  String get jobActionDelete => 'Διαγραφή';
-
-  @override
-  String get jobActionPublish => 'Δημοσίευση';
-
-  @override
-  String get jobActionPublishAgain => 'Επαναδημοσίευση';
-
-  @override
-  String jobDetailPosted(String date) {
-    return 'Δημοσιεύτηκε $date';
-  }
-
-  @override
-  String jobDetailBoostedTill(String date) {
-    return 'Ενισχυμένη έως $date';
-  }
-
-  @override
-  String get jobDetailOpenFullInfo => 'Πλήρεις Πληροφορίες';
-
-  @override
-  String get jobDetailHideFullInfo => 'Απόκρυψη Πληροφοριών';
-
-  @override
-  String get jobDetailLocation => 'Τοποθεσία';
-
-  @override
-  String get jobDetailJobType => 'Τύπος Εργασίας';
-
-  @override
-  String get jobDetailIndustry => 'Κλάδος';
-
-  @override
-  String get jobDetailSalaryRange => 'Εύρος Μισθού';
-
-  @override
-  String get jobDetailWorkplace => 'Χώρος Εργασίας';
-
-  @override
-  String get jobDetailExperienceLevel => 'Επίπεδο Εμπειρίας';
-
-  @override
-  String get jobDetailLanguage => 'Γλώσσα';
-
-  @override
-  String get jobDetailViews => 'Προβολές';
-
-  @override
-  String get jobDetailCandidates => 'Υποψήφιοι';
-
-  @override
-  String get jobDetailApplications => 'Αιτήσεις';
-
-  @override
-  String jobDetailYouHaveCandidates(int count) {
-    return 'Έχεις $count Υποψηφίους';
-  }
-
-  @override
-  String get jobDetailCloseJob => 'Κλείσιμο Θέσης';
-
-  @override
-  String get jobDetailEditJobPost => 'Επεξεργασία';
-
-  @override
-  String get jobDetailPausePublication => 'Παύση Δημοσίευσης';
-
-  @override
-  String get jobDetailDelete => 'Διαγραφή';
-
-  @override
-  String get candidateStatusNew => 'Νέος';
-
-  @override
-  String get candidateStatusViewed => 'Προβλήθηκε';
-
-  @override
-  String get candidateStatusShortlisted => 'Επιλεγμένος';
-
-  @override
-  String get candidateStatusDeclined => 'Απορρίφθηκε';
-
-  @override
-  String get matchStrengthStrong => 'ΙΣΧΥΡΗ ΑΝΤΙΣΤΟΙΧΙΑ';
-
-  @override
-  String get matchStrengthGood => 'ΚΑΛΗ ΑΝΤΙΣΤΟΙΧΙΑ';
-
-  @override
-  String get matchStrengthWeak => 'ΑΣΘΕΝΗΣ ΑΝΤΙΣΤΟΙΧΙΑ';
-
-  @override
-  String get aiMatcherTitle => 'AI Matcher';
-
-  @override
-  String get aiMatcherSubtitle =>
-      'Αναλύστε την αγγελία σας και βρείτε άμεσα τους πιο κατάλληλους υποψηφίους βάσει δεξιοτήτων, εμπειρίας και καταλληλότητας.';
-
-  @override
-  String get aiMatcherFilters => 'Φίλτρα';
-
-  @override
-  String aiMatcherCandidatesFound(int count) {
-    return 'Βρέθηκαν $count υποψήφιοι';
-  }
-
-  @override
-  String get aiMatcherAllSent =>
-      'Έχετε στείλει προσκλήσεις σε όλους τους καλύτερους υποψηφίους. Συνιστούμε να χρησιμοποιείτε τακτικά το AI Matcher για να μην χάνετε κορυφαίους υποψηφίους.';
-
-  @override
-  String get aiMatcherSendInvitation => 'Αποστολή Πρόσκλησης';
-
-  @override
-  String get editJobPostTitle => 'Επεξεργασία Αγγελίας';
-
-  @override
-  String get editJobPostSubtitle =>
-      'Μπορείτε να επεξεργαστείτε οποιαδήποτε ενότητα χρειάζεται — και αν όλα φαίνονται σωστά, προχωρήστε στη δημοσίευση.';
-
-  @override
-  String get editJobStepBasics => 'Βασικά Στοιχεία';
-
-  @override
-  String get editJobStepSkills => 'Απαιτούμενες Δεξιότητες';
-
-  @override
-  String get editJobStepDescription => 'Περιγραφή Θέσης';
-
-  @override
-  String get editJobStepPreferences => 'Προτιμήσεις';
-
-  @override
-  String get editJobStepReview => 'Επισκόπηση';
-
-  @override
-  String get editJobBasicsTitle => 'Βασικά Στοιχεία Θέσης';
-
-  @override
-  String get editJobBasicsSubtitle =>
-      'Δώστε τις βασικές λεπτομέρειες της θέσης για να βοηθήσετε τους υποψηφίους να κατανοήσουν τον ρόλο με μια ματιά.';
-
-  @override
-  String get editJobPostNameLabel => 'Όνομα Αγγελίας';
-
-  @override
-  String get editJobIndustryLabel => 'Κλάδος';
-
-  @override
-  String get editJobLocationLabel => 'Τοποθεσία';
-
-  @override
-  String get editJobExperienceLabel => 'Επίπεδο Εμπειρίας';
-
-  @override
-  String get editJobTypeLabel => 'Τύπος Εργασίας';
-
-  @override
-  String get editJobWorkplaceLabel => 'Τύπος Χώρου Εργασίας';
-
-  @override
-  String get editJobSalaryFromLabel => 'Μισθός Από';
-
-  @override
-  String get editJobSalaryToLabel => 'Μισθός Έως';
-
-  @override
-  String get editJobSetSalaryRange => 'Ορισμός Εύρους Μισθού';
-
-  @override
-  String get editJobPaymentTermLabel => 'Όρος Πληρωμής';
-
-  @override
-  String get editJobSetDeadline => 'Ορίστε την προθεσμία υποβολής αιτήσεων';
-
-  @override
-  String get editJobContinue => 'Συνέχεια';
-
-  @override
-  String get editJobBack => 'Πίσω';
-
-  @override
-  String get editJobPublish => 'Δημοσίευση Αγγελίας';
-
-  @override
-  String get editJobSkillsTitle => 'Απαιτούμενες Δεξιότητες';
-
-  @override
-  String get editJobSkillsSubtitle =>
-      'Προσθέστε τις απαιτούμενες δεξιότητες για αυτόν τον ρόλο πληκτρολογώντας τες μία-μία και επιλέγοντας από την αναπτυσσόμενη λίστα, ή εισαγάγετε πολλές δεξιότητες χωρισμένες με κόμματα.';
-
-  @override
-  String get editJobAiSkillsSuggestions => 'Προτάσεις Δεξιοτήτων AI';
-
-  @override
-  String get editJobSkillInputHint =>
-      'Αρχίστε να πληκτρολογείτε για να προσθέσετε δεξιότητα';
-
-  @override
-  String get editJobLanguagesTitle => 'Απαιτούμενες Γλωσσικές Δεξιότητες';
-
-  @override
-  String get editJobLanguagesSubtitle =>
-      'Καθορίστε τις γλώσσες που απαιτούνται για αυτόν τον ρόλο και το αναμενόμενο επίπεδο επάρκειας.';
-
-  @override
-  String get editJobAddLanguage => '+ Προσθήκη Άλλης Γλώσσας';
-
-  @override
-  String get editJobLanguageLabel => 'Γλώσσα';
-
-  @override
-  String get editJobProficiencyLabel => 'Επίπεδο Επάρκειας';
-
-  @override
-  String get editJobCompetenciesTitle => 'Ικανότητες';
-
-  @override
-  String get editJobCompetenciesSubtitle =>
-      'Αναφέρετε τυχόν πρόσθετες απαιτήσεις για να αποσαφηνίσετε τις προσδοκίες και να εντοπίσετε υποψηφίους που πληρούν τις πρακτικές ανάγκες του ρόλου.';
-
-  @override
-  String get editJobDrivingLicence => 'Απαιτείται Άδεια Οδήγησης';
-
-  @override
-  String get editJobDrivingLicenceCategory => 'Κατηγορία Άδειας Οδήγησης';
-
-  @override
-  String get editJobDescriptionTitle => 'Δημιουργία Αγγελίας Εργασίας';
-
-  @override
-  String get editJobPreferencesTitle => 'Προτιμήσεις';
-
-  @override
-  String get editJobCoverLetterTitle => 'Συνοδευτική Επιστολή';
-
-  @override
-  String get editJobCoverLetterSubtitle =>
-      'Οι συνοδευτικές επιστολές σας βοηθούν να κατανοήσετε καλύτερα τα κίνητρα και τις επικοινωνιακές δεξιότητες. Οι υποψήφιοι θα κληθούν να την προσθέσουν κατά την υποβολή.';
-
-  @override
-  String get editJobRequireCoverLetter =>
-      'Απαίτηση συνοδευτικής επιστολής από τους υποψηφίους';
-
-  @override
-  String get editJobAdditionalQuestionsTitle => 'Πρόσθετες Ερωτήσεις';
-
-  @override
-  String get editJobAdditionalQuestionsSubtitle =>
-      'Προσθέστε πρόσθετες ερωτήσεις για να μάθετε περισσότερα για τους υποψηφίους πριν από τη συνέντευξη. Αυτό το βήμα είναι προαιρετικό. Συνιστούμε να προσθέτετε έως 5 ερωτήσεις.';
-
-  @override
-  String get editJobAddScreeningQuestions => 'Προσθήκη Ερωτήσεων Αξιολόγησης';
-
-  @override
-  String get editJobReviewTitle => 'Επισκόπηση';
-
-  @override
-  String get editJobPublishedDate => 'Ημερομηνία Δημοσίευσης';
-
-  @override
-  String get editJobEditBasics => 'Επεξεργασία Βασικών Στοιχείων';
-
-  @override
-  String get editJobEditSkills => 'Επεξεργασία Δεξιοτήτων';
-
-  @override
-  String get editJobEditDescription => 'Επεξεργασία Περιγραφής';
-
-  @override
-  String get editJobEditPreferences => 'Επεξεργασία Προτιμήσεων';
-
-  @override
-  String get boostJobPostTitle => 'Ενίσχυση Αγγελίας';
-
-  @override
-  String get availableCredits => 'Διαθέσιμες Πιστώσεις';
-
-  @override
-  String get weeklyBoostLabel => 'Εβδομαδιαία Ενίσχυση';
-
-  @override
-  String get fullTermBoostLabel => 'Ενίσχυση Πλήρους Διάρκειας';
-
-  @override
-  String get changeStatusButton => 'Αλλαγή Κατάστασης';
-
-  @override
-  String get closeJobTitle => 'Κλείσιμο αυτής της θέσης;';
-
-  @override
-  String get closeJobReasonHint => 'Επιλέξτε τον λόγο';
-
-  @override
-  String get deleteJobPostTitle => 'Διαγραφή Αγγελίας';
-
-  @override
-  String get publishAgainTitle => 'Επαναδημοσίευση';
-
-  @override
-  String get publishAgainOptionLabel => 'Επαναδημοσίευση';
-
-  @override
-  String get publishAndWeeklyBoostLabel =>
-      'Δημοσίευση και Εβδομαδιαία Ενίσχυση';
-
-  @override
-  String get changesPublishedMessage =>
-      'Οι αλλαγές σε αυτή την αγγελία εργασίας αποθηκεύτηκαν με επιτυχία.';
-
-  @override
-  String get statusChangedMessage => 'Η κατάσταση ενημερώθηκε με επιτυχία.';
-
-  @override
-  String get editStepBasics => 'Βασικά Στοιχεία';
-
-  @override
-  String get editStepSkills => 'Απαιτούμενες Δεξιότητες';
-
-  @override
-  String get editStepDescription => 'Περιγραφή Θέσης';
-
-  @override
-  String get editStepPreferences => 'Προτιμήσεις';
-
-  @override
-  String get editStepReview => 'Επισκόπηση';
-
-  @override
-  String get editIndustryLabel => 'Κλάδος';
-
-  @override
-  String get editExperienceLevelLabel => 'Επίπεδο Εμπειρίας';
-
-  @override
-  String get editWorkplaceTypeLabel => 'Τύπος Χώρου Εργασίας';
-
-  @override
-  String get editSalaryFromLabel => 'Μισθός Από';
-
-  @override
-  String get editSalaryToLabel => 'Μισθός Έως';
-
-  @override
-  String get editSetSalaryRange => 'Ορισμός Εύρους Μισθού';
-
-  @override
-  String get editSetDeadline => 'Ορίστε την προθεσμία υποβολής αιτήσεων';
-
-  @override
-  String get editSkillsTitle => 'Απαιτούμενες Δεξιότητες';
-
-  @override
-  String get editSkillsDescription =>
-      'Προσθέστε τις απαιτούμενες δεξιότητες για αυτόν τον ρόλο πληκτρολογώντας τες μία-μία και επιλέγοντας από την αναπτυσσόμενη λίστα, ή εισαγάγετε πολλές δεξιότητες χωρισμένες με κόμματα.';
-
-  @override
-  String get editSkillsHint =>
-      'Αρχίστε να πληκτρολογείτε για να προσθέσετε δεξιότητα';
-
-  @override
-  String get editAiSkillsSuggestions => 'Προτάσεις Δεξιοτήτων AI';
-
-  @override
-  String get editLanguagesTitle => 'Απαιτούμενες Γλωσσικές Δεξιότητες';
-
-  @override
-  String get editLanguageLabel => 'Γλώσσα';
-
-  @override
-  String get editProficiencyLabel => 'Επίπεδο Επάρκειας';
-
-  @override
-  String get editAddLanguage => '+ Προσθήκη Άλλης Γλώσσας';
-
-  @override
-  String get editCompetenciesTitle => 'Ικανότητες';
-
-  @override
-  String get editComputerSkillsLabel => 'Δεξιότητες Υπολογιστή';
-
-  @override
-  String get editDrivingLicence => 'Απαιτείται Άδεια Οδήγησης';
-
-  @override
-  String get editDrivingLicenceCategory => 'Κατηγορία Άδειας Οδήγησης';
-
-  @override
-  String get editAboutRole => 'Σχετικά με τον Ρόλο';
-
-  @override
-  String get editResponsibilities => 'Αρμοδιότητες';
-
-  @override
-  String get editRequirements => 'Απαιτήσεις';
-
-  @override
-  String get editNiceToHave => 'Επιθυμητά Προσόντα';
-
-  @override
-  String get editWeOffer => 'Προσφέρουμε';
-
-  @override
-  String get editCoverLetterTitle => 'Συνοδευτική Επιστολή';
-
-  @override
-  String get editCoverLetterDescription =>
-      'Οι συνοδευτικές επιστολές σας βοηθούν να κατανοήσετε καλύτερα τα κίνητρα και τις επικοινωνιακές δεξιότητες. Οι υποψήφιοι θα κληθούν να την προσθέσουν κατά την υποβολή.';
-
-  @override
-  String get editRequireCoverLetter =>
-      'Απαίτηση συνοδευτικής επιστολής από τους υποψηφίους';
-
-  @override
-  String get editScreeningQuestionsTitle => 'Πρόσθετες Ερωτήσεις';
-
-  @override
-  String get editScreeningQuestionsDescription =>
-      'Προσθέστε πρόσθετες ερωτήσεις για να μάθετε περισσότερα για τους υποψηφίους πριν από τη συνέντευξη. Αυτό το βήμα είναι προαιρετικό. Συνιστούμε να προσθέτετε έως 5 ερωτήσεις.';
-
-  @override
-  String get editAddScreeningQuestions => 'Προσθήκη Ερωτήσεων Αξιολόγησης';
-
-  @override
-  String get editReviewTitle => 'Επισκόπηση';
-
-  @override
-  String get editJobBasicsButton => 'Επεξεργασία Βασικών Στοιχείων';
-
-  @override
-  String get editSkillsButton => 'Επεξεργασία Δεξιοτήτων';
-
-  @override
-  String get editDescriptionButton => 'Επεξεργασία Περιγραφής';
-
-  @override
-  String get editCoverLetterPrefsButton =>
-      'Ενημέρωση Προτιμήσεων Συνοδευτικής Επιστολής';
-
-  @override
-  String get editScreeningButton =>
-      'Επεξεργασία Πρόσθετων Ερωτήσεων Αξιολόγησης';
-
-  @override
-  String get publishJobPostButton => 'Δημοσίευση Αγγελίας';
-
-  @override
-  String dashboardArchivedCount(int count) {
-    return 'Έχετε $count αρχειοθετημένες αγγελίες';
-  }
-
-  @override
-  String get closeJobHiredThroughIthaki => 'Προσλάβαμε υποψήφιο μέσω Ithaki';
-
-  @override
-  String get closeJobIthakiCandidateDescription =>
-      'Για να βελτιώσουμε τα αναλυτικά μας και την πλατφόρμα, παρακαλούμε επιλέξτε τον υποψήφιο με τον οποίο θα συνεχίσετε.';
-
-  @override
-  String get closeJobSelectCandidate => 'Επιλέξτε υποψήφιο';
+  String get jobDetailsTitle => 'Ξ›ΞµΟ€Ο„ΞΏΞΌΞ­ΟΞµΞΉΞµΟ‚ ΞΞ­ΟƒΞ·Ο‚';
 }

@@ -151,7 +151,7 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
                       if (_isLoading) return;
                       setState(() => _isLoading = true);
                       try {
-                        final session = await ref
+                        await ref
                             .read(authRepositoryProvider)
                             .loginWithEmail(
                               _emailController.text,
@@ -159,11 +159,7 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
                             );
                         resetProfileProviders(ref);
                         if (context.mounted) {
-                          context.go(
-                            session.isEmployer
-                                ? Routes.employerDashboard
-                                : Routes.home,
-                          );
+                          context.go(Routes.home);
                         }
                       } catch (e) {
                         if (!context.mounted) return;

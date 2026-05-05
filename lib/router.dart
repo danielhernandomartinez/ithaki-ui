@@ -4,14 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'config/app_config.dart';
 import 'repositories/profile/profile_local_store.dart';
 import 'screens/auth/select_language_screen.dart';
-import 'screens/auth/user_type_selection_screen.dart';
-import 'screens/auth/employer_type_selection_screen.dart';
-import 'screens/employer/employer_setup_screen.dart';
-import 'models/employer_dashboard_models.dart';
-import 'screens/employer/dashboard/employer_dashboard_screen.dart';
-import 'screens/employer/dashboard/employer_job_detail_screen.dart';
-import 'screens/employer/dashboard/employer_ai_matcher_screen.dart';
-import 'screens/employer/dashboard/employer_edit_job_post_screen.dart';
 import 'routes.dart';
 import 'screens/auth/tech_comfort_screen.dart';
 import 'screens/auth/register_screen.dart';
@@ -59,6 +51,7 @@ import 'screens/assessments/my_assessments_screen.dart';
 import 'screens/assessments/assessment_detail_screen.dart';
 import 'screens/assessments/assessment_quiz_screen.dart';
 import 'screens/assessments/assessment_results_screen.dart';
+import 'screens/debug/api_diagnostics_screen.dart';
 
 class IthakiRouter {
   static final navigatorKey = GlobalKey<NavigatorState>();
@@ -68,11 +61,6 @@ class IthakiRouter {
   // Routes that are accessible without phone verification.
   static const _unguardedRoutes = {
     Routes.root,
-    Routes.userTypeSelection,
-    Routes.employerTypeSelection,
-    Routes.registerEmployer,
-    Routes.employerSetup,
-    Routes.employerSetupValues,
     Routes.techComfort,
     Routes.register,
     Routes.personalDetails,
@@ -88,6 +76,8 @@ class IthakiRouter {
     // Blog is public content — no phone verification required.
     Routes.blogNews,
     Routes.blogArticle,
+    // Debug tools — no auth gate.
+    Routes.apiDiagnostics,
   };
 
   static Future<String?> _redirect(
@@ -180,51 +170,6 @@ class IthakiRouter {
       GoRoute(
         path: Routes.loginPhone,
         builder: (context, state) => const LoginPhoneScreen(),
-      ),
-      GoRoute(
-        path: Routes.userTypeSelection,
-        builder: (context, state) => const UserTypeSelectionScreen(),
-      ),
-      GoRoute(
-        path: Routes.employerTypeSelection,
-        builder: (context, state) => const EmployerTypeSelectionScreen(),
-      ),
-      GoRoute(
-        path: Routes.registerEmployer,
-        builder: (context, state) => const RegisterScreen(isEmployer: true),
-      ),
-      GoRoute(
-        path: Routes.employerSetup,
-        builder: (context, state) => const EmployerSetupScreen(),
-      ),
-      GoRoute(
-        path: Routes.employerDashboard,
-        builder: (context, state) => const EmployerDashboardScreen(),
-      ),
-      GoRoute(
-        path: Routes.employerJobDetail,
-        builder: (context, state) {
-          final extra = state.extra as JobPost;
-          return EmployerJobDetailScreen(jobPost: extra);
-        },
-      ),
-      GoRoute(
-        path: Routes.employerAiMatcher,
-        builder: (context, state) {
-          final jobPost = state.extra as JobPost;
-          return EmployerAiMatcherScreen(jobPost: jobPost);
-        },
-      ),
-      GoRoute(
-        path: Routes.employerEditJob,
-        builder: (context, state) {
-          final jobPost = state.extra as JobPost;
-          return EmployerEditJobPostScreen(jobPost: jobPost);
-        },
-      ),
-      GoRoute(
-        path: Routes.employerSetupValues,
-        builder: (context, state) => const ValuesScreen(isEmployer: true),
       ),
       GoRoute(
         path: Routes.welcome,
@@ -417,6 +362,10 @@ class IthakiRouter {
         builder: (context, state) => AssessmentResultsScreen(
           assessmentId: state.pathParameters['id']!,
         ),
+      ),
+      GoRoute(
+        path: Routes.apiDiagnostics,
+        builder: (context, state) => const ApiDiagnosticsScreen(),
       ),
       GoRoute(
         path: Routes.blogNews,

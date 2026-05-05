@@ -9,1512 +9,839 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appTitle => 'إيثاكي';
+  String get appTitle => 'Ψ¥ΩΨ«Ψ§ΩƒΩ';
 
   @override
-  String get loginAction => 'تسجيل الدخول';
+  String get loginAction => 'ΨΨ³Ψ¬ΩΩ„ Ψ§Ω„Ψ―Ψ®ΩΩ„';
 
   @override
-  String get signUpAction => 'إنشاء حساب';
+  String get signUpAction => 'Ψ¥Ω†Ψ΄Ψ§Ψ΅ Ψ­Ψ³Ψ§Ψ¨';
 
   @override
-  String get continueButton => 'متابعة';
+  String get continueButton => 'Ω…ΨΨ§Ψ¨ΨΉΨ©';
 
   @override
-  String get skipButton => 'تخطي';
+  String get skipButton => 'ΨΨ®Ψ·Ω';
 
   @override
-  String get backButton => 'رجوع';
+  String get backButton => 'Ψ±Ψ¬ΩΨΉ';
 
   @override
-  String get goBack => 'العودة';
+  String get goBack => 'Ψ§Ω„ΨΉΩΨ―Ψ©';
 
   @override
-  String get welcomeHeading => 'مرحبًا بك في إيثاكي!\nلنقم بإنشاء حساب!';
+  String get welcomeHeading =>
+      'Ω…Ψ±Ψ­Ψ¨Ω‹Ψ§ Ψ¨Ωƒ ΩΩ Ψ¥ΩΨ«Ψ§ΩƒΩ!\nΩ„Ω†Ω‚Ω… Ψ¨Ψ¥Ω†Ψ΄Ψ§Ψ΅ Ψ­Ψ³Ψ§Ψ¨!';
 
   @override
-  String get selectLanguageTitle => 'اختر لغتك';
+  String get selectLanguageTitle => 'Ψ§Ψ®ΨΨ± Ω„ΨΊΨΩƒ';
 
   @override
   String get selectLanguageDescription =>
-      'يمكنك تغيير لغة الواجهة في أي وقت. سيكون كل المحتوى، بما في ذلك وصف الوظيفة وسيرتك الذاتية والتواصل مع المستشارين وروبوت الدردشة، باللغة الإنجليزية.';
+      'ΩΩ…ΩƒΩ†Ωƒ ΨΨΊΩΩΨ± Ω„ΨΊΨ© Ψ§Ω„ΩΨ§Ψ¬Ω‡Ψ© ΩΩ Ψ£Ω ΩΩ‚Ψ. Ψ³ΩΩƒΩΩ† ΩƒΩ„ Ψ§Ω„Ω…Ψ­ΨΩΩ‰Ψ Ψ¨Ω…Ψ§ ΩΩ Ψ°Ω„Ωƒ ΩΨµΩ Ψ§Ω„ΩΨΈΩΩΨ© ΩΨ³ΩΨ±ΨΩƒ Ψ§Ω„Ψ°Ψ§ΨΩΨ© ΩΨ§Ω„ΨΩΨ§ΨµΩ„ Ω…ΨΉ Ψ§Ω„Ω…Ψ³ΨΨ΄Ψ§Ψ±ΩΩ† ΩΨ±ΩΨ¨ΩΨ Ψ§Ω„Ψ―Ψ±Ψ―Ψ΄Ψ©Ψ Ψ¨Ψ§Ω„Ω„ΨΊΨ© Ψ§Ω„Ψ¥Ω†Ψ¬Ω„ΩΨ²ΩΨ©.';
 
   @override
-  String get languageLabel => 'اللغة';
+  String get languageLabel => 'Ψ§Ω„Ω„ΨΊΨ©';
 
   @override
-  String get selectLanguagePlaceholder => 'اختر لغتك';
+  String get selectLanguagePlaceholder => 'Ψ§Ψ®ΨΨ± Ω„ΨΊΨΩƒ';
 
   @override
-  String get techComfortTitle => 'ما مدى ارتياحك مع التكنولوجيا؟';
+  String get techComfortTitle =>
+      'Ω…Ψ§ Ω…Ψ―Ω‰ Ψ§Ψ±ΨΩΨ§Ψ­Ωƒ Ω…ΨΉ Ψ§Ω„ΨΩƒΩ†ΩΩ„ΩΨ¬ΩΨ§Ψ';
 
   @override
   String get techComfortDescription =>
-      'سنستخدم إجابتك لجعل المنصة أكثر راحة لك.';
+      'Ψ³Ω†Ψ³ΨΨ®Ψ―Ω… Ψ¥Ψ¬Ψ§Ψ¨ΨΩƒ Ω„Ψ¬ΨΉΩ„ Ψ§Ω„Ω…Ω†ΨµΨ© Ψ£ΩƒΨ«Ψ± Ψ±Ψ§Ψ­Ψ© Ω„Ωƒ.';
 
   @override
-  String get techExperiencedLabel => 'لديّ خبرة';
+  String get techExperiencedLabel => 'Ω„Ψ―ΩΩ‘ Ψ®Ψ¨Ψ±Ψ©';
 
   @override
   String get techExperiencedSubtitle =>
-      'أشعر بالراحة في استخدام الأدوات الرقمية وأستمتع باستكشاف التقنيات الجديدة';
+      'Ψ£Ψ΄ΨΉΨ± Ψ¨Ψ§Ω„Ψ±Ψ§Ψ­Ψ© ΩΩ Ψ§Ψ³ΨΨ®Ψ―Ψ§Ω… Ψ§Ω„Ψ£Ψ―ΩΨ§Ψ Ψ§Ω„Ψ±Ω‚Ω…ΩΨ© ΩΨ£Ψ³ΨΩ…ΨΨΉ Ψ¨Ψ§Ψ³ΨΩƒΨ΄Ψ§Ω Ψ§Ω„ΨΩ‚Ω†ΩΨ§Ψ Ψ§Ω„Ψ¬Ψ―ΩΨ―Ψ©';
 
   @override
-  String get techNewLabel => 'ما زلت جديدًا على هذا';
+  String get techNewLabel => 'Ω…Ψ§ Ψ²Ω„Ψ Ψ¬Ψ―ΩΨ―Ω‹Ψ§ ΨΉΩ„Ω‰ Ω‡Ψ°Ψ§';
 
   @override
   String get techNewSubtitle =>
-      'لا أحب الأدوات المعقدة - أفضل عندما تعمل التكنولوجيا بسلاسة';
+      'Ω„Ψ§ Ψ£Ψ­Ψ¨ Ψ§Ω„Ψ£Ψ―ΩΨ§Ψ Ψ§Ω„Ω…ΨΉΩ‚Ψ―Ψ© - Ψ£ΩΨ¶Ω„ ΨΉΩ†Ψ―Ω…Ψ§ ΨΨΉΩ…Ω„ Ψ§Ω„ΨΩƒΩ†ΩΩ„ΩΨ¬ΩΨ§ Ψ¨Ψ³Ω„Ψ§Ψ³Ψ©';
 
   @override
-  String get userTypeTitle => 'اختر نوع حسابك';
+  String get signInWithGoogle => 'ΨΨ³Ψ¬ΩΩ„ Ψ§Ω„Ψ―Ψ®ΩΩ„ Ψ¨ΩΨ§Ψ³Ψ·Ψ© Google';
 
   @override
-  String get userTypeDescription =>
-      'اختر الخيار الذي يصفك بشكل أفضل للمتابعة في التسجيل.';
+  String get emailLabel => 'Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω';
 
   @override
-  String get userTypeJobSeekerLabel => 'أنا باحث عن عمل';
+  String get emailHint => 'Ψ£Ψ―Ψ®Ω„ Ψ¨Ψ±ΩΨ―Ωƒ Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω';
 
   @override
-  String get userTypeJobSeekerSubtitle =>
-      'تبحث عن فرص عمل. أنشئ ملف موهبة للتقدم للوظائف والتواصل مع أصحاب العمل.';
+  String get passwordLabel => 'ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ±';
 
   @override
-  String get userTypeEmployerLabel => 'نحن صاحب عمل أو منظمة غير حكومية';
+  String get passwordHint => 'Ψ£Ψ―Ψ®Ω„ ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ±';
 
   @override
-  String get userTypeEmployerSubtitle =>
-      'تبحث عن مواهب أو تنسق مرشحين. أنشئ حساب مؤسسة لنشر الوظائف وإدارة الطلبات.';
+  String get confirmPasswordLabel => 'ΨΨ£ΩƒΩΨ― ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ±';
 
   @override
-  String get employerTypeTitle => 'اختر نوع حسابك';
+  String get confirmPasswordHint => 'Ψ£ΨΉΨ― ΩƒΨΨ§Ψ¨Ψ© ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ±';
 
   @override
-  String get employerTypeDescription =>
-      'اختر الخيار الذي يصف مؤسستك بشكل أفضل للمتابعة في التسجيل.';
+  String get passwordUpperLower =>
+      'ΩΨΨ¶Ω…Ω† Ψ­Ψ±ΩΩ‹Ψ§ ΩƒΨ¨ΩΨ±Ω‹Ψ§ ΩΨ­Ψ±ΩΩ‹Ψ§ ΨµΨΊΩΨ±Ω‹Ψ§';
 
   @override
-  String get employerCompanyLabel => 'نحن شركة توظيف';
+  String get passwordMinLength => '8 Ψ£Ψ­Ψ±Ω ΨΉΩ„Ω‰ Ψ§Ω„Ψ£Ω‚Ω„';
 
   @override
-  String get employerCompanySubtitle =>
-      'تبحث عن متخصصين مهرة للانضمام إلى فريقك. أنشئ حساب شركة لنشر الوظائف وإدارة الطلبات والتواصل مع أفضل المواهب.';
+  String get passwordNumber =>
+      'ΩΨΨ¶Ω…Ω† Ψ±Ω‚Ω…Ω‹Ψ§ ΩΨ§Ψ­Ψ―Ω‹Ψ§ ΨΉΩ„Ω‰ Ψ§Ω„Ψ£Ω‚Ω„';
 
   @override
-  String get employerNgoLabel => 'نحن منظمة غير ربحية';
+  String get passwordSpecial =>
+      'ΩΨΨ¶Ω…Ω† Ψ±Ω…Ψ²Ω‹Ψ§ Ψ®Ψ§ΨµΩ‹Ψ§ ΩΨ§Ψ­Ψ―Ω‹Ψ§ (Ω…Ψ«Ω„ !@#\$%^&)';
 
   @override
-  String get employerNgoSubtitle =>
-      'تحدث أثرًا اجتماعيًا من خلال مشاريع هادفة. أنشئ حساب مؤسسة لتنسيق مرشحيك المتفانين وتنمية مجتمعك.';
+  String get passwordsDoNotMatch =>
+      'ΩƒΩ„Ω…ΨΨ§ Ψ§Ω„Ω…Ψ±ΩΨ± ΨΊΩΨ± Ω…ΨΨ·Ψ§Ψ¨Ω‚ΨΩΩ†';
 
   @override
-  String get workEmailLabel => 'البريد الإلكتروني للعمل';
+  String get termsText =>
+      'Ψ¨Ψ§Ω„Ω…ΨΨ§Ψ¨ΨΉΨ©Ψ ΩΨ¥Ω†Ωƒ ΨΩ‚Ψ± Ψ¨Ψ£Ω†Ωƒ Ω‚Ψ― Ω‚Ψ±Ψ£Ψ ΩΩΨ§ΩΩ‚Ψ ΨΉΩ„Ω‰ ';
 
   @override
-  String get employerSetupAdminTab => 'بيانات المسؤول';
+  String get privacyPolicy => 'Ψ³ΩΨ§Ψ³Ψ© Ψ§Ω„Ψ®ΨµΩΨµΩΨ©';
 
   @override
-  String get employerSetupCompanyTab => 'بيانات الشركة';
+  String get andText => ' Ω';
 
   @override
-  String get employerSetupContactsTab => 'جهات الاتصال';
+  String get termsOfUse => 'Ψ΄Ψ±ΩΨ· Ψ§Ω„Ψ§Ψ³ΨΨ®Ψ―Ψ§Ω…';
 
   @override
-  String get employerSetupBrandingTab => 'الملف والعلامة التجارية';
-
-  @override
-  String get employerAdminHeading => 'تم إنشاء الحساب';
-
-  @override
-  String get employerAdminDescription =>
-      'رائع! الخطوة التالية إعداد الملف الشخصي — لنجعل البحث عن المرشحين أسهل وأسرع.';
-
-  @override
-  String get adminRoleLabel => 'الدور';
-
-  @override
-  String get adminRoleHint => 'اختر دورك';
-
-  @override
-  String get employerCompanyHeading => 'بيانات الشركة';
-
-  @override
-  String get employerCompanyDescription =>
-      'أضف معلومات أساسية عن عملك. تأكد من تطابق هذه التفاصيل مع الوثائق القانونية لشركتك.';
-
-  @override
-  String get legalCompanyNameLabel => 'الاسم القانوني للشركة';
-
-  @override
-  String get legalCompanyNameHint => 'أدخل الاسم القانوني للشركة';
-
-  @override
-  String get businessIndustryLabel => 'قطاع الأعمال';
-
-  @override
-  String get businessIndustryHint => 'اختر قطاع عملك';
-
-  @override
-  String get companySizeLabel => 'حجم الشركة';
-
-  @override
-  String get companySizeHint => 'اختر حجم شركتك';
-
-  @override
-  String get employerContactsHeading => 'بيانات التواصل';
-
-  @override
-  String get employerContactsDescription =>
-      'شارك بيانات التواصل لأغراض التحقق والتواصل.';
-
-  @override
-  String get registeredAddressLabel => 'العنوان المسجل';
-
-  @override
-  String get registeredAddressHint => 'أدخل العنوان المسجل';
-
-  @override
-  String get cityLabel => 'المدينة';
-
-  @override
-  String get cityHint => 'اختر المدينة أو ابدأ بالكتابة';
-
-  @override
-  String get contactEmailLabel => 'بريد التواصل';
-
-  @override
-  String get contactEmailHint => 'أدخل بريدك الإلكتروني';
-
-  @override
-  String get contactEmailHelper => 'بريد التواصل للمرشحين';
-
-  @override
-  String get contactPhoneLabel => 'رقم هاتف التواصل';
-
-  @override
-  String get contactPhoneHint => '+30 XXX XXX XX XX';
-
-  @override
-  String get contactPhoneHelper => 'هاتف التواصل للمرشحين';
-
-  @override
-  String get companyWebsiteLabel => 'موقع الشركة الإلكتروني (اختياري)';
-
-  @override
-  String get companyWebsiteHint => 'أدخل موقع الشركة';
-
-  @override
-  String get employerBrandingHeading => 'الملف والعلامة التجارية';
-
-  @override
-  String get employerBrandingDescription =>
-      'أضف شعارك وبيانات الشركة لإكمال ملفك الشخصي. يمكنك تحديث هذا في أي وقت من إعدادات الملف الشخصي.';
-
-  @override
-  String get skipForNow => 'تخطي الآن';
-
-  @override
-  String get uploadPhotoLabel => 'رفع الصورة';
-
-  @override
-  String get uploadPhotoDescription =>
-      'ارفع شعارًا مربعًا (PNG أو JPG أو JPEG أو SVG) بحجم أقصى 2 ميجابايت، لا يقل عن 400×400 بكسل، ويُفضل أن يكون بخلفية شفافة.';
-
-  @override
-  String get aboutCompanyLabel => 'نبذة عن الشركة';
-
-  @override
-  String get aboutCompanyDescription =>
-      'صف مهمة شركتك وقيمها وأنشطتها الرئيسية في بضع جمل.';
-
-  @override
-  String get aboutCompanyHint => 'أضف وصف الشركة';
-
-  @override
-  String get employerValuesDescription =>
-      'اختر ما يصل إلى 5 قيم تعكس ثقافة شركتك بشكل أفضل. نستخدمها لمطابقتك مع المواهب المتشابهة في التفكير. يمكنك تحديث هذا في أي وقت من إعدادات الملف الشخصي.';
-
-  @override
-  String get signInWithGoogle => 'تسجيل الدخول بواسطة Google';
-
-  @override
-  String get emailLabel => 'البريد الإلكتروني';
-
-  @override
-  String get emailHint => 'أدخل بريدك الإلكتروني';
-
-  @override
-  String get passwordLabel => 'كلمة المرور';
-
-  @override
-  String get passwordHint => 'أدخل كلمة المرور';
-
-  @override
-  String get confirmPasswordLabel => 'تأكيد كلمة المرور';
-
-  @override
-  String get confirmPasswordHint => 'أعد كتابة كلمة المرور';
-
-  @override
-  String get passwordUpperLower => 'يتضمن حرفًا كبيرًا وحرفًا صغيرًا';
-
-  @override
-  String get passwordMinLength => '8 أحرف على الأقل';
-
-  @override
-  String get passwordNumber => 'يتضمن رقمًا واحدًا على الأقل';
-
-  @override
-  String get passwordSpecial => 'يتضمن رمزًا خاصًا واحدًا (مثل !@#\$%^&)';
-
-  @override
-  String get passwordsDoNotMatch => 'كلمتا المرور غير متطابقتين';
-
-  @override
-  String get termsText => 'بالمتابعة، فإنك تقر بأنك قد قرأت ووافقت على ';
-
-  @override
-  String get privacyPolicy => 'سياسة الخصوصية';
-
-  @override
-  String get andText => ' و';
-
-  @override
-  String get termsOfUse => 'شروط الاستخدام';
-
-  @override
-  String get personalDetailsHeading => 'أوشكت على الانتهاء!\nأخبرنا عن نفسك';
+  String get personalDetailsHeading =>
+      'Ψ£ΩΨ΄ΩƒΨ ΨΉΩ„Ω‰ Ψ§Ω„Ψ§Ω†ΨΩ‡Ψ§Ψ΅!\nΨ£Ψ®Ψ¨Ψ±Ω†Ψ§ ΨΉΩ† Ω†ΩΨ³Ωƒ';
 
   @override
   String get personalDetailsDescription =>
-      'اسمك ورقم هاتفك يساعدان أصحاب العمل على التواصل معك مباشرة.';
+      'Ψ§Ψ³Ω…Ωƒ ΩΨ±Ω‚Ω… Ω‡Ψ§ΨΩΩƒ ΩΨ³Ψ§ΨΉΨ―Ψ§Ω† Ψ£ΨµΨ­Ψ§Ψ¨ Ψ§Ω„ΨΉΩ…Ω„ ΨΉΩ„Ω‰ Ψ§Ω„ΨΩΨ§ΨµΩ„ Ω…ΨΉΩƒ Ω…Ψ¨Ψ§Ψ΄Ψ±Ψ©.';
 
   @override
-  String get nameLabel => 'الاسم';
+  String get nameLabel => 'Ψ§Ω„Ψ§Ψ³Ω…';
 
   @override
-  String get nameHint => 'أدخل اسمك';
+  String get nameHint => 'Ψ£Ψ―Ψ®Ω„ Ψ§Ψ³Ω…Ωƒ';
 
   @override
-  String get lastNameLabel => 'اسم العائلة';
+  String get lastNameLabel => 'Ψ§Ψ³Ω… Ψ§Ω„ΨΉΨ§Ψ¦Ω„Ψ©';
 
   @override
-  String get lastNameHint => 'أدخل اسم عائلتك';
+  String get lastNameHint => 'Ψ£Ψ―Ψ®Ω„ Ψ§Ψ³Ω… ΨΉΨ§Ψ¦Ω„ΨΩƒ';
 
   @override
-  String get verifyEmailHeading => 'تحقق من عنوان بريدك الإلكتروني';
+  String get verifyEmailHeading =>
+      'ΨΨ­Ω‚Ω‚ Ω…Ω† ΨΉΩ†ΩΨ§Ω† Ψ¨Ψ±ΩΨ―Ωƒ Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω';
 
   @override
   String get verifyEmailDescription =>
-      'لقد أرسلنا رابط تحقق إلى عنوان بريدك الإلكتروني.\nيرجى التحقق من صندوق الوارد واتباع الرابط لإكمال إعداد حسابك.';
+      'Ω„Ω‚Ψ― Ψ£Ψ±Ψ³Ω„Ω†Ψ§ Ψ±Ψ§Ψ¨Ψ· ΨΨ­Ω‚Ω‚ Ψ¥Ω„Ω‰ ΨΉΩ†ΩΨ§Ω† Ψ¨Ψ±ΩΨ―Ωƒ Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω.\nΩΨ±Ψ¬Ω‰ Ψ§Ω„ΨΨ­Ω‚Ω‚ Ω…Ω† ΨµΩ†Ψ―ΩΩ‚ Ψ§Ω„ΩΨ§Ψ±Ψ― ΩΨ§ΨΨ¨Ψ§ΨΉ Ψ§Ω„Ψ±Ψ§Ψ¨Ψ· Ω„Ψ¥ΩƒΩ…Ψ§Ω„ Ψ¥ΨΉΨ―Ψ§Ψ― Ψ­Ψ³Ψ§Ψ¨Ωƒ.';
 
   @override
   String get verifyEmailSpamHint =>
-      'لم تستلم البريد الإلكتروني؟ تحقق من مجلد البريد المزعج أو أعد إرساله.';
+      'Ω„Ω… ΨΨ³ΨΩ„Ω… Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†ΩΨ ΨΨ­Ω‚Ω‚ Ω…Ω† Ω…Ψ¬Ω„Ψ― Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ω…Ψ²ΨΉΨ¬ Ψ£Ω Ψ£ΨΉΨ― Ψ¥Ψ±Ψ³Ψ§Ω„Ω‡.';
 
   @override
-  String get verifiedEmailButton => 'لقد تحققت من بريدي الإلكتروني';
+  String get verifiedEmailButton =>
+      'Ω„Ω‚Ψ― ΨΨ­Ω‚Ω‚Ψ Ω…Ω† Ψ¨Ψ±ΩΨ―Ω Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω';
 
   @override
-  String get resendEmailLabel => 'إعادة إرسال الرابط عبر البريد الإلكتروني';
+  String get resendEmailLabel =>
+      'Ψ¥ΨΉΨ§Ψ―Ψ© Ψ¥Ψ±Ψ³Ψ§Ω„ Ψ§Ω„Ψ±Ψ§Ψ¨Ψ· ΨΉΨ¨Ψ± Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω';
 
   @override
-  String get verifyPhoneHeading => 'تحقق من رقم هاتفك';
+  String get verifyPhoneHeading => 'ΨΨ­Ω‚Ω‚ Ω…Ω† Ψ±Ω‚Ω… Ω‡Ψ§ΨΩΩƒ';
 
   @override
   String get verifyPhoneDescription =>
-      'سنرسل رمز تحقق إلى رقم هاتفك. اختر كيف تريد استلامه.';
+      'Ψ³Ω†Ψ±Ψ³Ω„ Ψ±Ω…Ψ² ΨΨ­Ω‚Ω‚ Ψ¥Ω„Ω‰ Ψ±Ω‚Ω… Ω‡Ψ§ΨΩΩƒ. Ψ§Ψ®ΨΨ± ΩƒΩΩ ΨΨ±ΩΨ― Ψ§Ψ³ΨΩ„Ψ§Ω…Ω‡.';
 
   @override
-  String get selectMethodTitle => 'اختر طريقة لاستلام الرمز';
+  String get selectMethodTitle =>
+      'Ψ§Ψ®ΨΨ± Ψ·Ψ±ΩΩ‚Ψ© Ω„Ψ§Ψ³ΨΩ„Ψ§Ω… Ψ§Ω„Ψ±Ω…Ψ²';
 
   @override
-  String get sendViaSms => 'إرسال رمز آمن عبر SMS';
+  String get sendViaSms => 'Ψ¥Ψ±Ψ³Ψ§Ω„ Ψ±Ω…Ψ² ΨΆΩ…Ω† ΨΉΨ¨Ψ± SMS';
 
   @override
-  String get sendViaWhatsapp => 'إرسال رمز آمن عبر واتساب';
+  String get sendViaWhatsapp => 'Ψ¥Ψ±Ψ³Ψ§Ω„ Ψ±Ω…Ψ² ΨΆΩ…Ω† ΨΉΨ¨Ψ± ΩΨ§ΨΨ³Ψ§Ψ¨';
 
   @override
-  String get rememberChoice => 'تذكر اختياري';
+  String get rememberChoice => 'ΨΨ°ΩƒΨ± Ψ§Ψ®ΨΩΨ§Ψ±Ω';
 
   @override
-  String get verifyAccountTitle => 'لنتحقق من حسابك';
+  String get verifyAccountTitle => 'Ω„Ω†ΨΨ­Ω‚Ω‚ Ω…Ω† Ψ­Ψ³Ψ§Ψ¨Ωƒ';
 
   @override
-  String get verifyAccountSubtitle => 'لقد أرسلنا رمز تحقق إلى رقم هاتفك.';
+  String get verifyAccountSubtitle =>
+      'Ω„Ω‚Ψ― Ψ£Ψ±Ψ³Ω„Ω†Ψ§ Ψ±Ω…Ψ² ΨΨ­Ω‚Ω‚ Ψ¥Ω„Ω‰ Ψ±Ω‚Ω… Ω‡Ψ§ΨΩΩƒ.';
 
   @override
-  String get notYourPhone => 'ليس هذا رقم هاتفك؟';
+  String get notYourPhone => 'Ω„ΩΨ³ Ω‡Ψ°Ψ§ Ψ±Ω‚Ω… Ω‡Ψ§ΨΩΩƒΨ';
 
   @override
-  String get resendCode => 'إعادة إرسال الرمز';
+  String get resendCode => 'Ψ¥ΨΉΨ§Ψ―Ψ© Ψ¥Ψ±Ψ³Ψ§Ω„ Ψ§Ω„Ψ±Ω…Ψ²';
 
   @override
-  String get loginHeading => 'تسجيل الدخول إلى Ithaki Talent';
+  String get loginHeading => 'ΨΨ³Ψ¬ΩΩ„ Ψ§Ω„Ψ―Ψ®ΩΩ„ Ψ¥Ω„Ω‰ Ithaki Talent';
 
   @override
-  String get loginSubtitle => 'أدخل رقم هاتفك. سنرسل لك رمزًا عبر SMS.';
+  String get loginSubtitle =>
+      'Ψ£Ψ―Ψ®Ω„ Ψ±Ω‚Ω… Ω‡Ψ§ΨΩΩƒ. Ψ³Ω†Ψ±Ψ³Ω„ Ω„Ωƒ Ψ±Ω…Ψ²Ω‹Ψ§ ΨΉΨ¨Ψ± SMS.';
 
   @override
   String loginVerifySubtitle(String phone) {
-    return 'لقد أرسلنا رمز تحقق إلى $phone.';
+    return 'Ω„Ω‚Ψ― Ψ£Ψ±Ψ³Ω„Ω†Ψ§ Ψ±Ω…Ψ² ΨΨ­Ω‚Ω‚ Ψ¥Ω„Ω‰ $phone.';
   }
 
   @override
-  String get rememberMe => 'تذكرني';
+  String get rememberMe => 'ΨΨ°ΩƒΨ±Ω†Ω';
 
   @override
-  String get sendCodeButton => 'إرسال الرمز';
+  String get sendCodeButton => 'Ψ¥Ψ±Ψ³Ψ§Ω„ Ψ§Ω„Ψ±Ω…Ψ²';
 
   @override
-  String get signInWithEmail => 'تسجيل الدخول بالبريد الإلكتروني';
+  String get signInWithEmail =>
+      'ΨΨ³Ψ¬ΩΩ„ Ψ§Ω„Ψ―Ψ®ΩΩ„ Ψ¨Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω';
 
   @override
   String get preferEmail =>
-      'تفضل البريد الإلكتروني؟ يمكنك تسجيل الدخول بالبريد الإلكتروني بدلاً من ذلك.';
+      'ΨΩΨ¶Ω„ Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†ΩΨ ΩΩ…ΩƒΩ†Ωƒ ΨΨ³Ψ¬ΩΩ„ Ψ§Ω„Ψ―Ψ®ΩΩ„ Ψ¨Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω Ψ¨Ψ―Ω„Ψ§Ω‹ Ω…Ω† Ψ°Ω„Ωƒ.';
 
   @override
-  String get signInWithPhone => 'تسجيل الدخول بالهاتف';
+  String get signInWithPhone => 'ΨΨ³Ψ¬ΩΩ„ Ψ§Ω„Ψ―Ψ®ΩΩ„ Ψ¨Ψ§Ω„Ω‡Ψ§ΨΩ';
 
   @override
   String get preferPhone =>
-      'تفضل الهاتف؟ يمكنك تسجيل الدخول بالهاتف بدلاً من ذلك.';
+      'ΨΩΨ¶Ω„ Ψ§Ω„Ω‡Ψ§ΨΩΨ ΩΩ…ΩƒΩ†Ωƒ ΨΨ³Ψ¬ΩΩ„ Ψ§Ω„Ψ―Ψ®ΩΩ„ Ψ¨Ψ§Ω„Ω‡Ψ§ΨΩ Ψ¨Ψ―Ω„Ψ§Ω‹ Ω…Ω† Ψ°Ω„Ωƒ.';
 
   @override
-  String get signInButton => 'تسجيل الدخول';
+  String get signInButton => 'ΨΨ³Ψ¬ΩΩ„ Ψ§Ω„Ψ―Ψ®ΩΩ„';
 
   @override
-  String get forgotPassword => 'هل نسيت كلمة المرور؟';
+  String get forgotPassword => 'Ω‡Ω„ Ω†Ψ³ΩΨ ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ±Ψ';
 
   @override
-  String get forgotPasswordHeading => 'هل نسيت كلمة المرور';
+  String get forgotPasswordHeading => 'Ω‡Ω„ Ω†Ψ³ΩΨ ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ±';
 
   @override
   String get forgotPasswordDescription =>
-      'لا تقلق. أدخل عنوان البريد الإلكتروني لحسابك وسنرسل لك رابطًا لإعادة تعيين كلمة المرور.';
+      'Ω„Ψ§ ΨΩ‚Ω„Ω‚. Ψ£Ψ―Ψ®Ω„ ΨΉΩ†ΩΨ§Ω† Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω Ω„Ψ­Ψ³Ψ§Ψ¨Ωƒ ΩΨ³Ω†Ψ±Ψ³Ω„ Ω„Ωƒ Ψ±Ψ§Ψ¨Ψ·Ω‹Ψ§ Ω„Ψ¥ΨΉΨ§Ψ―Ψ© ΨΨΉΩΩΩ† ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ±.';
 
   @override
-  String get backToLogin => 'العودة لتسجيل الدخول';
+  String get backToLogin => 'Ψ§Ω„ΨΉΩΨ―Ψ© Ω„ΨΨ³Ψ¬ΩΩ„ Ψ§Ω„Ψ―Ψ®ΩΩ„';
 
   @override
-  String get sendResetLink => 'إرسال رابط الإعادة';
+  String get sendResetLink => 'Ψ¥Ψ±Ψ³Ψ§Ω„ Ψ±Ψ§Ψ¨Ψ· Ψ§Ω„Ψ¥ΨΉΨ§Ψ―Ψ©';
 
   @override
-  String get resetLinkSentHeading => 'تم إرسال رابط إعادة تعيين كلمة المرور!';
+  String get resetLinkSentHeading =>
+      'ΨΩ… Ψ¥Ψ±Ψ³Ψ§Ω„ Ψ±Ψ§Ψ¨Ψ· Ψ¥ΨΉΨ§Ψ―Ψ© ΨΨΉΩΩΩ† ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ±!';
 
   @override
   String get resetLinkSentDescription =>
-      'تحقق من صندوق الوارد. يتضمن البريد الإلكتروني رابطًا آمنًا لإنشاء كلمة مرور جديدة. لم تحصل على البريد الإلكتروني؟';
+      'ΨΨ­Ω‚Ω‚ Ω…Ω† ΨµΩ†Ψ―ΩΩ‚ Ψ§Ω„ΩΨ§Ψ±Ψ―. ΩΨΨ¶Ω…Ω† Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω Ψ±Ψ§Ψ¨Ψ·Ω‹Ψ§ ΨΆΩ…Ω†Ω‹Ψ§ Ω„Ψ¥Ω†Ψ΄Ψ§Ψ΅ ΩƒΩ„Ω…Ψ© Ω…Ψ±ΩΨ± Ψ¬Ψ―ΩΨ―Ψ©. Ω„Ω… ΨΨ­ΨµΩ„ ΨΉΩ„Ω‰ Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†ΩΨ';
 
   @override
   String get resendResetLinkEmail =>
-      'إعادة إرسال رابط الإعادة عبر البريد الإلكتروني';
+      'Ψ¥ΨΉΨ§Ψ―Ψ© Ψ¥Ψ±Ψ³Ψ§Ω„ Ψ±Ψ§Ψ¨Ψ· Ψ§Ω„Ψ¥ΨΉΨ§Ψ―Ψ© ΨΉΨ¨Ψ± Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω';
 
   @override
-  String get sendResetViaWhatsapp => 'إرسال رمز آمن عبر واتساب';
+  String get sendResetViaWhatsapp =>
+      'Ψ¥Ψ±Ψ³Ψ§Ω„ Ψ±Ω…Ψ² ΨΆΩ…Ω† ΨΉΨ¨Ψ± ΩΨ§ΨΨ³Ψ§Ψ¨';
 
   @override
-  String get resetPasswordHeading => 'إعادة تعيين كلمة المرور';
+  String get resetPasswordHeading =>
+      'Ψ¥ΨΉΨ§Ψ―Ψ© ΨΨΉΩΩΩ† ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ±';
 
   @override
   String get resetPasswordDescription =>
-      'الخطوة الأخيرة. أنشئ كلمة مرور جديدة لتأمين حسابك.';
+      'Ψ§Ω„Ψ®Ψ·ΩΨ© Ψ§Ω„Ψ£Ψ®ΩΨ±Ψ©. Ψ£Ω†Ψ΄Ψ¦ ΩƒΩ„Ω…Ψ© Ω…Ψ±ΩΨ± Ψ¬Ψ―ΩΨ―Ψ© Ω„ΨΨ£Ω…ΩΩ† Ψ­Ψ³Ψ§Ψ¨Ωƒ.';
 
   @override
-  String get newPasswordLabel => 'كلمة المرور الجديدة';
+  String get newPasswordLabel => 'ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ± Ψ§Ω„Ψ¬Ψ―ΩΨ―Ψ©';
 
   @override
-  String get newPasswordHint => 'أدخل كلمة المرور الجديدة';
+  String get newPasswordHint => 'Ψ£Ψ―Ψ®Ω„ ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ± Ψ§Ω„Ψ¬Ψ―ΩΨ―Ψ©';
 
   @override
-  String get confirmNewPasswordLabel => 'تأكيد كلمة المرور الجديدة';
+  String get confirmNewPasswordLabel =>
+      'ΨΨ£ΩƒΩΨ― ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ± Ψ§Ω„Ψ¬Ψ―ΩΨ―Ψ©';
 
   @override
-  String get confirmNewPasswordHint => 'أدخل كلمة المرور الجديدة';
+  String get confirmNewPasswordHint =>
+      'Ψ£Ψ―Ψ®Ω„ ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ± Ψ§Ω„Ψ¬Ψ―ΩΨ―Ψ©';
 
   @override
-  String get resetPasswordButton => 'إعادة تعيين كلمة المرور';
+  String get resetPasswordButton =>
+      'Ψ¥ΨΉΨ§Ψ―Ψ© ΨΨΉΩΩΩ† ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ±';
 
   @override
-  String get welcomeModalHeading => 'مرحبًا بك!\nتم إنشاء حسابك والتحقق منه!';
+  String get welcomeModalHeading =>
+      'Ω…Ψ±Ψ­Ψ¨Ω‹Ψ§ Ψ¨Ωƒ!\nΨΩ… Ψ¥Ω†Ψ΄Ψ§Ψ΅ Ψ­Ψ³Ψ§Ψ¨Ωƒ ΩΨ§Ω„ΨΨ­Ω‚Ω‚ Ω…Ω†Ω‡!';
 
   @override
   String get welcomeModalDescription =>
-      'لنقم بإعداد قصير حتى نتمكن من مطابقتك مع أفضل خيارات العمل.';
+      'Ω„Ω†Ω‚Ω… Ψ¨Ψ¥ΨΉΨ―Ψ§Ψ― Ω‚ΨµΩΨ± Ψ­ΨΩ‰ Ω†ΨΩ…ΩƒΩ† Ω…Ω† Ω…Ψ·Ψ§Ψ¨Ω‚ΨΩƒ Ω…ΨΉ Ψ£ΩΨ¶Ω„ Ψ®ΩΨ§Ψ±Ψ§Ψ Ψ§Ω„ΨΉΩ…Ω„.';
 
   @override
-  String get startSetup => 'بدء الإعداد';
+  String get skipForNow => 'ΨΨ®Ψ·Ω Ψ§Ω„ΨΆΩ†';
+
+  @override
+  String get startSetup => 'Ψ¨Ψ―Ψ΅ Ψ§Ω„Ψ¥ΨΉΨ―Ψ§Ψ―';
 
   @override
   String get ithakiLogo => 'Ithaki-logo';
 
   @override
-  String get stepLocation => 'الموقع';
+  String get stepLocation => 'Ψ§Ω„Ω…ΩΩ‚ΨΉ';
 
   @override
-  String get stepJobInterests => 'الاهتمامات';
+  String get stepJobInterests => 'Ψ§Ω„Ψ§Ω‡ΨΩ…Ψ§Ω…Ψ§Ψ';
 
   @override
-  String get stepPreferences => 'التفضيلات';
+  String get stepPreferences => 'Ψ§Ω„ΨΩΨ¶ΩΩ„Ψ§Ψ';
 
   @override
-  String get stepValues => 'القيم';
+  String get stepValues => 'Ψ§Ω„Ω‚ΩΩ…';
 
   @override
-  String get stepCommunication => 'التواصل';
+  String get stepCommunication => 'Ψ§Ω„ΨΩΨ§ΨµΩ„';
 
   @override
-  String get locationHeading => 'الموقع';
+  String get locationHeading => 'Ψ§Ω„Ω…ΩΩ‚ΨΉ';
 
   @override
-  String get locationDescription => 'اختر موقعًا لتضييق فرص العمل ذات الصلة.';
+  String get locationDescription =>
+      'Ψ§Ψ®ΨΨ± Ω…ΩΩ‚ΨΉΩ‹Ψ§ Ω„ΨΨ¶ΩΩΩ‚ ΩΨ±Ψµ Ψ§Ω„ΨΉΩ…Ω„ Ψ°Ψ§Ψ Ψ§Ω„ΨµΩ„Ψ©.';
 
   @override
-  String get citizenshipLabel => 'الجنسية';
+  String get citizenshipLabel => 'Ψ§Ω„Ψ¬Ω†Ψ³ΩΨ©';
 
   @override
-  String get citizenshipHint => 'اختر دولة أو اكتب للبحث';
+  String get citizenshipHint => 'Ψ§Ψ®ΨΨ± Ψ―ΩΩ„Ψ© Ψ£Ω Ψ§ΩƒΨΨ¨ Ω„Ω„Ψ¨Ψ­Ψ«';
 
   @override
-  String get residenceLabel => 'الإقامة';
+  String get residenceLabel => 'Ψ§Ω„Ψ¥Ω‚Ψ§Ω…Ψ©';
 
   @override
-  String get residenceHint => 'اختر دولة أو اكتب للبحث';
+  String get residenceHint => 'Ψ§Ψ®ΨΨ± Ψ―ΩΩ„Ψ© Ψ£Ω Ψ§ΩƒΨΨ¨ Ω„Ω„Ψ¨Ψ­Ψ«';
 
   @override
-  String get workAuthorizationLabel => 'تصريح العمل';
+  String get workAuthorizationLabel => 'ΨΨµΨ±ΩΨ­ Ψ§Ω„ΨΉΩ…Ω„';
 
   @override
-  String get workAuthorizationHint => 'اختر حالتك';
+  String get workAuthorizationHint => 'Ψ§Ψ®ΨΨ± Ψ­Ψ§Ω„ΨΩƒ';
 
   @override
-  String get relocationLabel => 'الاستعداد للانتقال';
+  String get relocationLabel => 'Ψ§Ω„Ψ§Ψ³ΨΨΉΨ―Ψ§Ψ― Ω„Ω„Ψ§Ω†ΨΩ‚Ψ§Ω„';
 
   @override
-  String get relocationHint => 'اختر تفضيلك للانتقال';
+  String get relocationHint => 'Ψ§Ψ®ΨΨ± ΨΩΨ¶ΩΩ„Ωƒ Ω„Ω„Ψ§Ω†ΨΩ‚Ψ§Ω„';
 
   @override
-  String get roleCitizen => 'مواطن';
+  String get roleCitizen => 'Ω…ΩΨ§Ψ·Ω†';
 
   @override
-  String get roleResident => 'مقيم';
+  String get roleResident => 'Ω…Ω‚ΩΩ…';
 
   @override
-  String get roleWorkPermit => 'تصريح عمل';
+  String get roleWorkPermit => 'ΨΨµΨ±ΩΨ­ ΨΉΩ…Ω„';
 
   @override
-  String get roleStudent => 'طالب';
+  String get roleStudent => 'Ψ·Ψ§Ω„Ψ¨';
 
   @override
-  String get roleFreelancer => 'عامل مستقل';
+  String get roleFreelancer => 'ΨΉΨ§Ω…Ω„ Ω…Ψ³ΨΩ‚Ω„';
 
   @override
-  String get roleJobSeeker => 'باحث عن عمل';
+  String get roleJobSeeker => 'Ψ¨Ψ§Ψ­Ψ« ΨΉΩ† ΨΉΩ…Ω„';
 
   @override
-  String get roleExpat => 'مغترب';
+  String get roleExpat => 'Ω…ΨΊΨΨ±Ψ¨';
 
   @override
-  String get relocationYes => 'نعم، مستعد للانتقال';
+  String get relocationYes => 'Ω†ΨΉΩ…Ψ Ω…Ψ³ΨΨΉΨ― Ω„Ω„Ψ§Ω†ΨΩ‚Ψ§Ω„';
 
   @override
-  String get relocationNo => 'لا، لا أبحث عن الانتقال';
+  String get relocationNo => 'Ω„Ψ§Ψ Ω„Ψ§ Ψ£Ψ¨Ψ­Ψ« ΨΉΩ† Ψ§Ω„Ψ§Ω†ΨΩ‚Ψ§Ω„';
 
   @override
-  String get relocationOpen => 'منفتح على ذلك';
+  String get relocationOpen => 'Ω…Ω†ΩΨΨ­ ΨΉΩ„Ω‰ Ψ°Ω„Ωƒ';
 
   @override
-  String get relocationRemote => 'عن بُعد فقط';
+  String get relocationRemote => 'ΨΉΩ† Ψ¨ΩΨΉΨ― ΩΩ‚Ψ·';
 
   @override
-  String get relocationWithinCountry => 'داخل بلدي فقط';
+  String get relocationWithinCountry => 'Ψ―Ψ§Ψ®Ω„ Ψ¨Ω„Ψ―Ω ΩΩ‚Ψ·';
 
   @override
-  String get jobInterestsHeading => 'اهتمامات العمل';
+  String get jobInterestsHeading => 'Ψ§Ω‡ΨΩ…Ψ§Ω…Ψ§Ψ Ψ§Ω„ΨΉΩ…Ω„';
 
   @override
   String get jobInterestsDescription =>
-      'اختر أنواع الوظائف أو المجالات التي تتوافق مع اهتماماتك المهنية. يمكنك إضافة ما يصل إلى 5 مجالات مختلفة.';
+      'Ψ§Ψ®ΨΨ± Ψ£Ω†ΩΨ§ΨΉ Ψ§Ω„ΩΨΈΨ§Ψ¦Ω Ψ£Ω Ψ§Ω„Ω…Ψ¬Ψ§Ω„Ψ§Ψ Ψ§Ω„ΨΩ ΨΨΩΨ§ΩΩ‚ Ω…ΨΉ Ψ§Ω‡ΨΩ…Ψ§Ω…Ψ§ΨΩƒ Ψ§Ω„Ω…Ω‡Ω†ΩΨ©. ΩΩ…ΩƒΩ†Ωƒ Ψ¥Ψ¶Ψ§ΩΨ© Ω…Ψ§ ΩΨµΩ„ Ψ¥Ω„Ω‰ 5 Ω…Ψ¬Ψ§Ω„Ψ§Ψ Ω…Ψ®ΨΩ„ΩΨ©.';
 
   @override
-  String get searchJobInterest => 'البحث وإضافة اهتمام وظيفي';
+  String get searchJobInterest =>
+      'Ψ§Ω„Ψ¨Ψ­Ψ« ΩΨ¥Ψ¶Ψ§ΩΨ© Ψ§Ω‡ΨΩ…Ψ§Ω… ΩΨΈΩΩΩ';
 
   @override
-  String get addAnotherJobInterest => 'إضافة اهتمام آخر';
+  String get addAnotherJobInterest => 'Ψ¥Ψ¶Ψ§ΩΨ© Ψ§Ω‡ΨΩ…Ψ§Ω… ΨΆΨ®Ψ±';
 
   @override
-  String get selectJobInterest => 'اختيار اهتمام وظيفي';
+  String get selectJobInterest => 'Ψ§Ψ®ΨΩΨ§Ψ± Ψ§Ω‡ΨΩ…Ψ§Ω… ΩΨΈΩΩΩ';
 
   @override
-  String get preferencesHeading => 'تفضيلات العمل';
+  String get preferencesHeading => 'ΨΩΨ¶ΩΩ„Ψ§Ψ Ψ§Ω„ΨΉΩ…Ω„';
 
   @override
   String get preferencesDescription =>
-      'حدد الراتب المطلوب ومستوى الوظيفة ونوع العقد وشكل العمل (عن بُعد أو في الموقع أو هجين) لمساعدتنا في مطابقتك مع الفرص الأكثر صلة.';
+      'Ψ­Ψ―Ψ― Ψ§Ω„Ψ±Ψ§ΨΨ¨ Ψ§Ω„Ω…Ψ·Ω„ΩΨ¨ ΩΩ…Ψ³ΨΩΩ‰ Ψ§Ω„ΩΨΈΩΩΨ© ΩΩ†ΩΨΉ Ψ§Ω„ΨΉΩ‚Ψ― ΩΨ΄ΩƒΩ„ Ψ§Ω„ΨΉΩ…Ω„ (ΨΉΩ† Ψ¨ΩΨΉΨ― Ψ£Ω ΩΩ Ψ§Ω„Ω…ΩΩ‚ΨΉ Ψ£Ω Ω‡Ψ¬ΩΩ†) Ω„Ω…Ψ³Ψ§ΨΉΨ―ΨΩ†Ψ§ ΩΩ Ω…Ψ·Ψ§Ψ¨Ω‚ΨΩƒ Ω…ΨΉ Ψ§Ω„ΩΨ±Ψµ Ψ§Ω„Ψ£ΩƒΨ«Ψ± ΨµΩ„Ψ©.';
 
   @override
-  String get positionLevelLabel => 'مستوى الوظيفة';
+  String get positionLevelLabel => 'Ω…Ψ³ΨΩΩ‰ Ψ§Ω„ΩΨΈΩΩΨ©';
 
   @override
-  String get positionLevelHint => 'اختر مستوى وظيفتك';
+  String get positionLevelHint => 'Ψ§Ψ®ΨΨ± Ω…Ψ³ΨΩΩ‰ ΩΨΈΩΩΨΩƒ';
 
   @override
-  String get jobTypeTitle => 'نوع العمل';
+  String get jobTypeTitle => 'Ω†ΩΨΉ Ψ§Ω„ΨΉΩ…Ω„';
 
   @override
   String get jobTypeDescription =>
-      'اختر أنواع التوظيف التي تهمك. يمكنك اختيار أكثر من خيار واحد.';
+      'Ψ§Ψ®ΨΨ± Ψ£Ω†ΩΨ§ΨΉ Ψ§Ω„ΨΩΨΈΩΩ Ψ§Ω„ΨΩ ΨΩ‡Ω…Ωƒ. ΩΩ…ΩƒΩ†Ωƒ Ψ§Ψ®ΨΩΨ§Ψ± Ψ£ΩƒΨ«Ψ± Ω…Ω† Ψ®ΩΨ§Ψ± ΩΨ§Ψ­Ψ―.';
 
   @override
-  String get workplaceFormatTitle => 'شكل مكان العمل';
+  String get workplaceFormatTitle => 'Ψ΄ΩƒΩ„ Ω…ΩƒΨ§Ω† Ψ§Ω„ΨΉΩ…Ω„';
 
   @override
   String get workplaceFormatDescription =>
-      'اختر أشكال مكان العمل المفضلة لديك. يمكنك اختيار أكثر من خيار واحد.';
+      'Ψ§Ψ®ΨΨ± Ψ£Ψ΄ΩƒΨ§Ω„ Ω…ΩƒΨ§Ω† Ψ§Ω„ΨΉΩ…Ω„ Ψ§Ω„Ω…ΩΨ¶Ω„Ψ© Ω„Ψ―ΩΩƒ. ΩΩ…ΩƒΩ†Ωƒ Ψ§Ψ®ΨΩΨ§Ψ± Ψ£ΩƒΨ«Ψ± Ω…Ω† Ψ®ΩΨ§Ψ± ΩΨ§Ψ­Ψ―.';
 
   @override
-  String get positionIntern => 'متدرب';
+  String get positionIntern => 'Ω…ΨΨ―Ψ±Ψ¨';
 
   @override
-  String get positionJunior => 'مبتدئ';
+  String get positionJunior => 'Ω…Ψ¨ΨΨ―Ψ¦';
 
   @override
-  String get positionMid => 'متوسط';
+  String get positionMid => 'Ω…ΨΩΨ³Ψ·';
 
   @override
-  String get positionSenior => 'خبير';
+  String get positionSenior => 'Ψ®Ψ¨ΩΨ±';
 
   @override
-  String get positionLead => 'قائد';
+  String get positionLead => 'Ω‚Ψ§Ψ¦Ψ―';
 
   @override
-  String get positionManager => 'مدير';
+  String get positionManager => 'Ω…Ψ―ΩΨ±';
 
   @override
-  String get positionDirector => 'مدير تنفيذي';
+  String get positionDirector => 'Ω…Ψ―ΩΨ± ΨΩ†ΩΩΨ°Ω';
 
   @override
-  String get jobFullTime => 'دوام كامل';
+  String get jobFullTime => 'Ψ―ΩΨ§Ω… ΩƒΨ§Ω…Ω„';
 
   @override
-  String get jobPartTime => 'دوام جزئي';
+  String get jobPartTime => 'Ψ―ΩΨ§Ω… Ψ¬Ψ²Ψ¦Ω';
 
   @override
-  String get jobContract => 'عقد';
+  String get jobContract => 'ΨΉΩ‚Ψ―';
 
   @override
-  String get jobFreelance => 'عمل حر';
+  String get jobFreelance => 'ΨΉΩ…Ω„ Ψ­Ψ±';
 
   @override
-  String get jobInternship => 'تدريب';
+  String get jobInternship => 'ΨΨ―Ψ±ΩΨ¨';
 
   @override
-  String get workOnSite => 'في الموقع';
+  String get workOnSite => 'ΩΩ Ψ§Ω„Ω…ΩΩ‚ΨΉ';
 
   @override
-  String get workRemote => 'عن بُعد';
+  String get workRemote => 'ΨΉΩ† Ψ¨ΩΨΉΨ―';
 
   @override
-  String get workHybrid => 'هجين';
+  String get workHybrid => 'Ω‡Ψ¬ΩΩ†';
 
   @override
-  String get payMonthly => 'شهري';
+  String get payMonthly => 'Ψ΄Ω‡Ψ±Ω';
 
   @override
-  String get payWeekly => 'أسبوعي';
+  String get payWeekly => 'Ψ£Ψ³Ψ¨ΩΨΉΩ';
 
   @override
-  String get payYearly => 'سنوي';
+  String get payYearly => 'Ψ³Ω†ΩΩ';
 
   @override
-  String get payHourly => 'بالساعة';
+  String get payHourly => 'Ψ¨Ψ§Ω„Ψ³Ψ§ΨΉΨ©';
 
   @override
-  String get payDaily => 'يومي';
+  String get payDaily => 'ΩΩΩ…Ω';
 
   @override
-  String get valuesHeading => 'القيم';
+  String get valuesHeading => 'Ψ§Ω„Ω‚ΩΩ…';
 
   @override
   String valuesDescription(int max) {
-    return 'اختر القيم الأقرب إليك. يمكنك اختيار ما يصل إلى $max.';
+    return 'Ψ§Ψ®ΨΨ± Ψ§Ω„Ω‚ΩΩ… Ψ§Ω„Ψ£Ω‚Ψ±Ψ¨ Ψ¥Ω„ΩΩƒ. ΩΩ…ΩƒΩ†Ωƒ Ψ§Ψ®ΨΩΨ§Ψ± Ω…Ψ§ ΩΨµΩ„ Ψ¥Ω„Ω‰ $max.';
   }
 
   @override
-  String get valueIntegrity => 'النزاهة';
+  String get valueIntegrity => 'Ψ§Ω„Ω†Ψ²Ψ§Ω‡Ψ©';
 
   @override
-  String get valueResponsibility => 'المسؤولية';
+  String get valueResponsibility => 'Ψ§Ω„Ω…Ψ³Ψ¤ΩΩ„ΩΨ©';
 
   @override
-  String get valueTeamwork => 'العمل الجماعي';
+  String get valueTeamwork => 'Ψ§Ω„ΨΉΩ…Ω„ Ψ§Ω„Ψ¬Ω…Ψ§ΨΉΩ';
 
   @override
-  String get valueRespect => 'الاحترام';
+  String get valueRespect => 'Ψ§Ω„Ψ§Ψ­ΨΨ±Ψ§Ω…';
 
   @override
-  String get valueGrowth => 'النمو والتعلم';
+  String get valueGrowth => 'Ψ§Ω„Ω†Ω…Ω ΩΨ§Ω„ΨΨΉΩ„Ω…';
 
   @override
-  String get valueInnovation => 'الابتكار';
+  String get valueInnovation => 'Ψ§Ω„Ψ§Ψ¨ΨΩƒΨ§Ψ±';
 
   @override
-  String get valueCreativity => 'الإبداع';
+  String get valueCreativity => 'Ψ§Ω„Ψ¥Ψ¨Ψ―Ψ§ΨΉ';
 
   @override
-  String get valueTransparency => 'الشفافية';
+  String get valueTransparency => 'Ψ§Ω„Ψ΄ΩΨ§ΩΩΨ©';
 
   @override
-  String get valueEmpathy => 'التعاطف';
+  String get valueEmpathy => 'Ψ§Ω„ΨΨΉΨ§Ψ·Ω';
 
   @override
-  String get valueAccountability => 'المساءلة';
+  String get valueAccountability => 'Ψ§Ω„Ω…Ψ³Ψ§Ψ΅Ω„Ψ©';
 
   @override
-  String get valueWorkLifeBalance => 'التوازن بين العمل والحياة';
+  String get valueWorkLifeBalance =>
+      'Ψ§Ω„ΨΩΨ§Ψ²Ω† Ψ¨ΩΩ† Ψ§Ω„ΨΉΩ…Ω„ ΩΨ§Ω„Ψ­ΩΨ§Ψ©';
 
   @override
-  String get valueOpenCommunication => 'التواصل المفتوح';
+  String get valueOpenCommunication => 'Ψ§Ω„ΨΩΨ§ΨµΩ„ Ψ§Ω„Ω…ΩΨΩΨ­';
 
   @override
-  String get valueReliability => 'الموثوقية';
+  String get valueReliability => 'Ψ§Ω„Ω…ΩΨ«ΩΩ‚ΩΨ©';
 
   @override
-  String get valueAdaptability => 'القدرة على التكيف';
+  String get valueAdaptability => 'Ψ§Ω„Ω‚Ψ―Ψ±Ψ© ΨΉΩ„Ω‰ Ψ§Ω„ΨΩƒΩΩ';
 
   @override
-  String get valueProblemSolving => 'حل المشكلات';
+  String get valueProblemSolving => 'Ψ­Ω„ Ψ§Ω„Ω…Ψ΄ΩƒΩ„Ψ§Ψ';
 
   @override
-  String get valueOwnership => 'الملكية';
+  String get valueOwnership => 'Ψ§Ω„Ω…Ω„ΩƒΩΨ©';
 
   @override
-  String get valueCustomerFocus => 'التركيز على العميل';
+  String get valueCustomerFocus => 'Ψ§Ω„ΨΨ±ΩƒΩΨ² ΨΉΩ„Ω‰ Ψ§Ω„ΨΉΩ…ΩΩ„';
 
   @override
-  String get valueAmbition => 'الطموح';
+  String get valueAmbition => 'Ψ§Ω„Ψ·Ω…ΩΨ­';
 
   @override
-  String get valueInitiative => 'المبادرة';
+  String get valueInitiative => 'Ψ§Ω„Ω…Ψ¨Ψ§Ψ―Ψ±Ψ©';
 
   @override
-  String get valueCollaboration => 'التعاون';
+  String get valueCollaboration => 'Ψ§Ω„ΨΨΉΨ§ΩΩ†';
 
   @override
-  String get communicationHeading => 'التواصل';
+  String get communicationHeading => 'Ψ§Ω„ΨΩΨ§ΨµΩ„';
 
   @override
   String get communicationDescription =>
-      'اختر قناة لتلقي إشعارات حول فرص العمل الجديدة ذات الصلة والردود على الطلبات المقدمة. يمكنك اختيار خيارات متعددة وتغييرها في أي وقت.';
+      'Ψ§Ψ®ΨΨ± Ω‚Ω†Ψ§Ψ© Ω„ΨΩ„Ω‚Ω Ψ¥Ψ΄ΨΉΨ§Ψ±Ψ§Ψ Ψ­ΩΩ„ ΩΨ±Ψµ Ψ§Ω„ΨΉΩ…Ω„ Ψ§Ω„Ψ¬Ψ―ΩΨ―Ψ© Ψ°Ψ§Ψ Ψ§Ω„ΨµΩ„Ψ© ΩΨ§Ω„Ψ±Ψ―ΩΨ― ΨΉΩ„Ω‰ Ψ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ Ψ§Ω„Ω…Ω‚Ψ―Ω…Ψ©. ΩΩ…ΩƒΩ†Ωƒ Ψ§Ψ®ΨΩΨ§Ψ± Ψ®ΩΨ§Ψ±Ψ§Ψ Ω…ΨΨΉΨ―Ψ―Ψ© ΩΨΨΊΩΩΨ±Ω‡Ψ§ ΩΩ Ψ£Ω ΩΩ‚Ψ.';
 
   @override
-  String get whatsapp => 'واتساب';
+  String get whatsapp => 'ΩΨ§ΨΨ³Ψ§Ψ¨';
 
   @override
   String get sms => 'SMS';
 
   @override
-  String get email => 'البريد الإلكتروني';
+  String get email => 'Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω';
 
   @override
   String get receiveTips =>
-      'تلقي نصائح حول فرص العمل ومعلومات عن الدورات والفعاليات القادمة.';
+      'ΨΩ„Ω‚Ω Ω†ΨµΨ§Ψ¦Ψ­ Ψ­ΩΩ„ ΩΨ±Ψµ Ψ§Ω„ΨΉΩ…Ω„ ΩΩ…ΨΉΩ„ΩΩ…Ψ§Ψ ΨΉΩ† Ψ§Ω„Ψ―ΩΨ±Ψ§Ψ ΩΨ§Ω„ΩΨΉΨ§Ω„ΩΨ§Ψ Ψ§Ω„Ω‚Ψ§Ψ―Ω…Ψ©.';
 
   @override
-  String get finishSetup => 'إنهاء الإعداد';
+  String get finishSetup => 'Ψ¥Ω†Ω‡Ψ§Ψ΅ Ψ§Ω„Ψ¥ΨΉΨ―Ψ§Ψ―';
 
   @override
-  String get searchHint => 'بحث...';
+  String get searchHint => 'Ψ¨Ψ­Ψ«...';
 
   @override
-  String get selectAction => 'اختيار';
+  String get selectAction => 'Ψ§Ψ®ΨΩΨ§Ψ±';
 
   @override
-  String get expectedPaymentLabel => 'الراتب المتوقع';
+  String get expectedPaymentLabel => 'Ψ§Ω„Ψ±Ψ§ΨΨ¨ Ψ§Ω„Ω…ΨΩΩ‚ΨΉ';
 
   @override
-  String get fromLabel => 'من';
+  String get fromLabel => 'Ω…Ω†';
 
   @override
-  String get paymentTermTitle => 'فترة الدفع';
+  String get paymentTermTitle => 'ΩΨΨ±Ψ© Ψ§Ω„Ψ―ΩΨΉ';
 
   @override
-  String get paymentTermPlaceholder => 'شهري';
+  String get paymentTermPlaceholder => 'Ψ΄Ω‡Ψ±Ω';
 
   @override
-  String get currencySymbol => '€';
+  String get currencySymbol => 'β‚¬';
 
   @override
-  String get preferNotToSpecify => 'أفضل عدم التحديد';
+  String get preferNotToSpecify => 'Ψ£ΩΨ¶Ω„ ΨΉΨ―Ω… Ψ§Ω„ΨΨ­Ψ―ΩΨ―';
 
   @override
-  String get selectCountryTitle => 'اختر الدولة';
+  String get selectCountryTitle => 'Ψ§Ψ®ΨΨ± Ψ§Ω„Ψ―ΩΩ„Ψ©';
 
   @override
-  String get phoneValidationError => 'يرجى إدخال رقم هاتف صحيح';
+  String get phoneValidationError =>
+      'ΩΨ±Ψ¬Ω‰ Ψ¥Ψ―Ψ®Ψ§Ω„ Ψ±Ω‚Ω… Ω‡Ψ§ΨΩ ΨµΨ­ΩΨ­';
 
   @override
-  String get phoneNumberLabel => 'رقم الهاتف';
+  String get phoneNumberLabel => 'Ψ±Ω‚Ω… Ψ§Ω„Ω‡Ψ§ΨΩ';
 
   @override
-  String get myApplicationsTabLabel => 'طلباتي';
+  String get myApplicationsTabLabel => 'Ψ·Ω„Ψ¨Ψ§ΨΩ';
 
   @override
   String get myApplicationsTabDescription =>
-      'تتبع جميع الوظائف التي تقدمت إليها وشاهد حالتها الحالية. يمكنك أيضًا العثور على الطلبات القديمة في أرشيفك.';
+      'ΨΨΨ¨ΨΉ Ψ¬Ω…ΩΨΉ Ψ§Ω„ΩΨΈΨ§Ψ¦Ω Ψ§Ω„ΨΩ ΨΩ‚Ψ―Ω…Ψ Ψ¥Ω„ΩΩ‡Ψ§ ΩΨ΄Ψ§Ω‡Ψ― Ψ­Ψ§Ω„ΨΩ‡Ψ§ Ψ§Ω„Ψ­Ψ§Ω„ΩΨ©. ΩΩ…ΩƒΩ†Ωƒ Ψ£ΩΨ¶Ω‹Ψ§ Ψ§Ω„ΨΉΨ«ΩΨ± ΨΉΩ„Ω‰ Ψ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ Ψ§Ω„Ω‚Ψ―ΩΩ…Ψ© ΩΩ Ψ£Ψ±Ψ΄ΩΩΩƒ.';
 
   @override
-  String get myApplicationsLoadError => 'فشل تحميل الطلبات.';
+  String get myApplicationsLoadError => 'ΩΨ΄Ω„ ΨΨ­Ω…ΩΩ„ Ψ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ.';
 
   @override
-  String get myApplicationsEmptyTitle => 'لا توجد طلبات بعد';
+  String get myApplicationsEmptyTitle => 'Ω„Ψ§ ΨΩΨ¬Ψ― Ψ·Ω„Ψ¨Ψ§Ψ Ψ¨ΨΉΨ―';
 
   @override
   String get myApplicationsEmptySubtitle =>
-      'الوظائف التي تتقدم إليها ستظهر هنا\nحتى تتمكن من تتبع حالتها.';
+      'Ψ§Ω„ΩΨΈΨ§Ψ¦Ω Ψ§Ω„ΨΩ ΨΨΩ‚Ψ―Ω… Ψ¥Ω„ΩΩ‡Ψ§ Ψ³ΨΨΈΩ‡Ψ± Ω‡Ω†Ψ§\nΨ­ΨΩ‰ ΨΨΩ…ΩƒΩ† Ω…Ω† ΨΨΨ¨ΨΉ Ψ­Ψ§Ω„ΨΩ‡Ψ§.';
 
   @override
   String myInvitationsTabLabel(int count) {
-    return 'دعواتي ($count)';
+    return 'Ψ―ΨΉΩΨ§ΨΩ ($count)';
   }
 
   @override
-  String get draftsTabLabel => 'المسودات';
+  String get draftsTabLabel => 'Ψ§Ω„Ω…Ψ³ΩΨ―Ψ§Ψ';
 
   @override
-  String get archiveTabLabel => 'الأرشيف';
+  String get archiveTabLabel => 'Ψ§Ω„Ψ£Ψ±Ψ΄ΩΩ';
 
   @override
   String get invitationsTabDescription =>
-      'هنا يمكنك العثور على فرص العمل التي تمت دعوتك لاستكشافها. راجع دعوات العمل من أصحاب العمل الذين وجدوا ملفك الشخصي مثيرًا للاهتمام.';
+      'Ω‡Ω†Ψ§ ΩΩ…ΩƒΩ†Ωƒ Ψ§Ω„ΨΉΨ«ΩΨ± ΨΉΩ„Ω‰ ΩΨ±Ψµ Ψ§Ω„ΨΉΩ…Ω„ Ψ§Ω„ΨΩ ΨΩ…Ψ Ψ―ΨΉΩΨΩƒ Ω„Ψ§Ψ³ΨΩƒΨ΄Ψ§ΩΩ‡Ψ§. Ψ±Ψ§Ψ¬ΨΉ Ψ―ΨΉΩΨ§Ψ Ψ§Ω„ΨΉΩ…Ω„ Ω…Ω† Ψ£ΨµΨ­Ψ§Ψ¨ Ψ§Ω„ΨΉΩ…Ω„ Ψ§Ω„Ψ°ΩΩ† ΩΨ¬Ψ―ΩΨ§ Ω…Ω„ΩΩƒ Ψ§Ω„Ψ΄Ψ®ΨµΩ Ω…Ψ«ΩΨ±Ω‹Ψ§ Ω„Ω„Ψ§Ω‡ΨΩ…Ψ§Ω….';
 
   @override
-  String get invitationsLoadError => 'فشل تحميل الدعوات.';
+  String get invitationsLoadError => 'ΩΨ΄Ω„ ΨΨ­Ω…ΩΩ„ Ψ§Ω„Ψ―ΨΉΩΨ§Ψ.';
 
   @override
-  String get invitationsEmptyTitle => 'لا توجد دعوات بعد';
+  String get invitationsEmptyTitle => 'Ω„Ψ§ ΨΩΨ¬Ψ― Ψ―ΨΉΩΨ§Ψ Ψ¨ΨΉΨ―';
 
   @override
   String get invitationsEmptySubtitle =>
-      'عندما يجد أصحاب العمل ملفك الشخصي مثيرًا للاهتمام\nسيدعونك هنا.';
+      'ΨΉΩ†Ψ―Ω…Ψ§ ΩΨ¬Ψ― Ψ£ΨµΨ­Ψ§Ψ¨ Ψ§Ω„ΨΉΩ…Ω„ Ω…Ω„ΩΩƒ Ψ§Ω„Ψ΄Ψ®ΨµΩ Ω…Ψ«ΩΨ±Ω‹Ψ§ Ω„Ω„Ψ§Ω‡ΨΩ…Ψ§Ω…\nΨ³ΩΨ―ΨΉΩΩ†Ωƒ Ω‡Ω†Ψ§.';
 
   @override
   String get draftsTabDescription =>
-      'هنا يمكنك العثور على الطلبات التي بدأتها ولم تُرسلها بعد. أكمل من حيث توقفت أو احذفها.';
+      'Ω‡Ω†Ψ§ ΩΩ…ΩƒΩ†Ωƒ Ψ§Ω„ΨΉΨ«ΩΨ± ΨΉΩ„Ω‰ Ψ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ Ψ§Ω„ΨΩ Ψ¨Ψ―Ψ£ΨΩ‡Ψ§ ΩΩ„Ω… ΨΩΨ±Ψ³Ω„Ω‡Ψ§ Ψ¨ΨΉΨ―. Ψ£ΩƒΩ…Ω„ Ω…Ω† Ψ­ΩΨ« ΨΩΩ‚ΩΨ Ψ£Ω Ψ§Ψ­Ψ°ΩΩ‡Ψ§.';
 
   @override
-  String get draftsLoadError => 'فشل تحميل المسودات.';
+  String get draftsLoadError => 'ΩΨ΄Ω„ ΨΨ­Ω…ΩΩ„ Ψ§Ω„Ω…Ψ³ΩΨ―Ψ§Ψ.';
 
   @override
-  String get draftsEmptyTitle => 'لا توجد مسودات بعد';
+  String get draftsEmptyTitle => 'Ω„Ψ§ ΨΩΨ¬Ψ― Ω…Ψ³ΩΨ―Ψ§Ψ Ψ¨ΨΉΨ―';
 
   @override
   String get draftsEmptySubtitle =>
-      'الطلبات التي تبدأها ولا ترسلها\nستظهر هنا.';
+      'Ψ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ Ψ§Ω„ΨΩ ΨΨ¨Ψ―Ψ£Ω‡Ψ§ ΩΩ„Ψ§ ΨΨ±Ψ³Ω„Ω‡Ψ§\nΨ³ΨΨΈΩ‡Ψ± Ω‡Ω†Ψ§.';
 
   @override
   String get archiveTabDescription =>
-      'هنا يمكنك العثور على جميع الدعوات المرفوضة والطلبات المغلقة. يتم تخزينها للرجوع إليها.';
+      'Ω‡Ω†Ψ§ ΩΩ…ΩƒΩ†Ωƒ Ψ§Ω„ΨΉΨ«ΩΨ± ΨΉΩ„Ω‰ Ψ¬Ω…ΩΨΉ Ψ§Ω„Ψ―ΨΉΩΨ§Ψ Ψ§Ω„Ω…Ψ±ΩΩΨ¶Ψ© ΩΨ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ Ψ§Ω„Ω…ΨΊΩ„Ω‚Ψ©. ΩΨΩ… ΨΨ®Ψ²ΩΩ†Ω‡Ψ§ Ω„Ω„Ψ±Ψ¬ΩΨΉ Ψ¥Ω„ΩΩ‡Ψ§.';
 
   @override
-  String get archiveEmptyTitle => 'لا يوجد شيء في أرشيفك';
+  String get archiveEmptyTitle => 'Ω„Ψ§ ΩΩΨ¬Ψ― Ψ΄ΩΨ΅ ΩΩ Ψ£Ψ±Ψ΄ΩΩΩƒ';
 
   @override
   String get archiveEmptySubtitle =>
-      'الدعوات المرفوضة والطلبات المغلقة\nستُخزَّن هنا.';
+      'Ψ§Ω„Ψ―ΨΉΩΨ§Ψ Ψ§Ω„Ω…Ψ±ΩΩΨ¶Ψ© ΩΨ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ Ψ§Ω„Ω…ΨΊΩ„Ω‚Ψ©\nΨ³ΨΩΨ®Ψ²ΩΩ‘Ω† Ω‡Ω†Ψ§.';
 
   @override
-  String get invitationDeclinedLabel => 'تم رفض الدعوة';
+  String get invitationDeclinedLabel => 'ΨΩ… Ψ±ΩΨ¶ Ψ§Ω„Ψ―ΨΉΩΨ©';
 
   @override
-  String get viewJobDetails => 'عرض تفاصيل الوظيفة';
+  String get viewJobDetails => 'ΨΉΨ±Ψ¶ ΨΩΨ§ΨµΩΩ„ Ψ§Ω„ΩΨΈΩΩΨ©';
 
   @override
-  String get dismissInvite => 'رفض الدعوة';
+  String get dismissInvite => 'Ψ±ΩΨ¶ Ψ§Ω„Ψ―ΨΉΩΨ©';
 
   @override
-  String get declinedConfirmed => 'مرفوضة';
+  String get declinedConfirmed => 'Ω…Ψ±ΩΩΨ¶Ψ©';
 
   @override
-  String get viewJob => 'عرض الوظيفة';
+  String get viewJob => 'ΨΉΨ±Ψ¶ Ψ§Ω„ΩΨΈΩΩΨ©';
 
   @override
-  String get dismissBannerTitle => 'سيتم نقل هذه الدعوة إلى الأرشيف';
+  String get dismissBannerTitle =>
+      'Ψ³ΩΨΩ… Ω†Ω‚Ω„ Ω‡Ψ°Ω‡ Ψ§Ω„Ψ―ΨΉΩΨ© Ψ¥Ω„Ω‰ Ψ§Ω„Ψ£Ψ±Ψ΄ΩΩ';
 
   @override
-  String get dismissBannerCountdown => 'سيتم التأكيد تلقائيًا في 5 ثوانٍ';
+  String get dismissBannerCountdown =>
+      'Ψ³ΩΨΩ… Ψ§Ω„ΨΨ£ΩƒΩΨ― ΨΩ„Ω‚Ψ§Ψ¦ΩΩ‹Ψ§ ΩΩ 5 Ψ«ΩΨ§Ω†Ω';
 
   @override
-  String get undo => 'تراجع';
+  String get undo => 'ΨΨ±Ψ§Ψ¬ΨΉ';
 
   @override
-  String get invitationDismissedToast => 'تم رفض الدعوة ونقلها إلى الأرشيف';
+  String get invitationDismissedToast =>
+      'ΨΩ… Ψ±ΩΨ¶ Ψ§Ω„Ψ―ΨΉΩΨ© ΩΩ†Ω‚Ω„Ω‡Ψ§ Ψ¥Ω„Ω‰ Ψ§Ω„Ψ£Ψ±Ψ΄ΩΩ';
 
   @override
-  String get invitationDeclinedToast => 'تم رفض الدعوة ونقلها إلى الأرشيف';
+  String get invitationDeclinedToast =>
+      'ΨΩ… Ψ±ΩΨ¶ Ψ§Ω„Ψ―ΨΉΩΨ© ΩΩ†Ω‚Ω„Ω‡Ψ§ Ψ¥Ω„Ω‰ Ψ§Ω„Ψ£Ψ±Ψ΄ΩΩ';
 
   @override
-  String get careerAssistantBannerTitle => 'لا تعرف ما يجب فعله بعد ذلك؟';
+  String get careerAssistantBannerTitle =>
+      'Ω„Ψ§ ΨΨΉΨ±Ω Ω…Ψ§ ΩΨ¬Ψ¨ ΩΨΉΩ„Ω‡ Ψ¨ΨΉΨ― Ψ°Ω„ΩƒΨ';
 
   @override
   String get careerAssistantBannerSubtitle =>
-      'في المتوسط، يراجع أصحاب العمل الطلبات خلال الأسبوع الأول. يمكنك دائمًا أن تطلب مني المساعدة في خطواتك التالية.';
+      'ΩΩ Ψ§Ω„Ω…ΨΩΨ³Ψ·Ψ ΩΨ±Ψ§Ψ¬ΨΉ Ψ£ΨµΨ­Ψ§Ψ¨ Ψ§Ω„ΨΉΩ…Ω„ Ψ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ Ψ®Ω„Ψ§Ω„ Ψ§Ω„Ψ£Ψ³Ψ¨ΩΨΉ Ψ§Ω„Ψ£ΩΩ„. ΩΩ…ΩƒΩ†Ωƒ Ψ―Ψ§Ψ¦Ω…Ω‹Ψ§ Ψ£Ω† ΨΨ·Ω„Ψ¨ Ω…Ω†Ω Ψ§Ω„Ω…Ψ³Ψ§ΨΉΨ―Ψ© ΩΩ Ψ®Ψ·ΩΨ§ΨΩƒ Ψ§Ω„ΨΨ§Ω„ΩΨ©.';
 
   @override
-  String get askCareerAssistant => 'اسأل مساعد المهنة';
+  String get askCareerAssistant => 'Ψ§Ψ³Ψ£Ω„ Ω…Ψ³Ψ§ΨΉΨ― Ψ§Ω„Ω…Ω‡Ω†Ψ©';
 
   @override
-  String get blogNewsTitle => 'المدونة والأخبار';
+  String get blogNewsTitle => 'Ψ§Ω„Ω…Ψ―ΩΩ†Ψ© ΩΨ§Ω„Ψ£Ψ®Ψ¨Ψ§Ψ±';
 
   @override
   String get blogNewsSubtitle =>
-      'اكتشف نصائح مهنية وأدلة مقابلات وتحديثات المنصة.';
+      'Ψ§ΩƒΨΨ΄Ω Ω†ΨµΨ§Ψ¦Ψ­ Ω…Ω‡Ω†ΩΨ© ΩΨ£Ψ―Ω„Ψ© Ω…Ω‚Ψ§Ψ¨Ω„Ψ§Ψ ΩΨΨ­Ψ―ΩΨ«Ψ§Ψ Ψ§Ω„Ω…Ω†ΨµΨ©.';
 
   @override
-  String get blogSearchHint => 'ابحث في المقالات والمواضيع';
+  String get blogSearchHint =>
+      'Ψ§Ψ¨Ψ­Ψ« ΩΩ Ψ§Ω„Ω…Ω‚Ψ§Ω„Ψ§Ψ ΩΨ§Ω„Ω…ΩΨ§Ψ¶ΩΨΉ';
 
   @override
-  String get blogAllCategories => 'الكل';
+  String get blogAllCategories => 'Ψ§Ω„ΩƒΩ„';
 
   @override
-  String get blogRelatedArticles => 'مقالات ذات صلة';
+  String get blogRelatedArticles => 'Ω…Ω‚Ψ§Ω„Ψ§Ψ Ψ°Ψ§Ψ ΨµΩ„Ψ©';
 
   @override
-  String get blogDiscoverAll => 'اكتشف جميع الأخبار';
+  String get blogDiscoverAll => 'Ψ§ΩƒΨΨ΄Ω Ψ¬Ω…ΩΨΉ Ψ§Ω„Ψ£Ψ®Ψ¨Ψ§Ψ±';
 
   @override
-  String get blogArticleNotFound => 'لم يتم العثور على المقال.';
+  String get blogArticleNotFound =>
+      'Ω„Ω… ΩΨΩ… Ψ§Ω„ΨΉΨ«ΩΨ± ΨΉΩ„Ω‰ Ψ§Ω„Ω…Ω‚Ψ§Ω„.';
 
   @override
   String blogArticleBy(String author) {
-    return 'بقلم $author';
+    return 'Ψ¨Ω‚Ω„Ω… $author';
   }
 
   @override
   String get cardAppliedWithCv =>
-      'تقدمت بطلبك باستخدام سيرتك الذاتية في Ithaki';
+      'ΨΩ‚Ψ―Ω…Ψ Ψ¨Ψ·Ω„Ψ¨Ωƒ Ψ¨Ψ§Ψ³ΨΨ®Ψ―Ψ§Ω… Ψ³ΩΨ±ΨΩƒ Ψ§Ω„Ψ°Ψ§ΨΩΨ© ΩΩ Ithaki';
 
   @override
-  String get cardJobClosed => 'الوظيفة مغلقة.';
+  String get cardJobClosed => 'Ψ§Ω„ΩΨΈΩΩΨ© Ω…ΨΊΩ„Ω‚Ψ©.';
 
   @override
-  String get continueApplication => 'متابعة';
+  String get continueApplication => 'Ω…ΨΨ§Ψ¨ΨΉΨ©';
 
   @override
-  String get viewApplication => 'عرض الطلب';
+  String get viewApplication => 'ΨΉΨ±Ψ¶ Ψ§Ω„Ψ·Ω„Ψ¨';
 
   @override
-  String get applySheetTitle => 'هل أنت مستعد للتقدم لهذا الدور؟';
+  String get applySheetTitle =>
+      'Ω‡Ω„ Ψ£Ω†Ψ Ω…Ψ³ΨΨΉΨ― Ω„Ω„ΨΩ‚Ψ―Ω… Ω„Ω‡Ψ°Ψ§ Ψ§Ω„Ψ―ΩΨ±Ψ';
 
   @override
   String get applySheetSubtitle =>
-      'تأكد من تحديث تفاصيل ملفك الشخصي قبل تقديم طلبك. يمكنك أيضًا رفع سيرتك الذاتية.';
+      'ΨΨ£ΩƒΨ― Ω…Ω† ΨΨ­Ψ―ΩΨ« ΨΩΨ§ΨµΩΩ„ Ω…Ω„ΩΩƒ Ψ§Ω„Ψ΄Ψ®ΨµΩ Ω‚Ψ¨Ω„ ΨΩ‚Ψ―ΩΩ… Ψ·Ω„Ψ¨Ωƒ. ΩΩ…ΩƒΩ†Ωƒ Ψ£ΩΨ¶Ω‹Ψ§ Ψ±ΩΨΉ Ψ³ΩΨ±ΨΩƒ Ψ§Ω„Ψ°Ψ§ΨΩΨ©.';
 
   @override
-  String get applyOptionIthakiCvTitle => 'استخدام Ithaki CV';
+  String get applyOptionIthakiCvTitle => 'Ψ§Ψ³ΨΨ®Ψ―Ψ§Ω… Ithaki CV';
 
   @override
   String get applyOptionIthakiCvSubtitle =>
-      'استخدم سيرتك الذاتية المحفوظة وتفاصيل ملفك الشخصي للتقدم.';
+      'Ψ§Ψ³ΨΨ®Ψ―Ω… Ψ³ΩΨ±ΨΩƒ Ψ§Ω„Ψ°Ψ§ΨΩΨ© Ψ§Ω„Ω…Ψ­ΩΩΨΈΨ© ΩΨΩΨ§ΨµΩΩ„ Ω…Ω„ΩΩƒ Ψ§Ω„Ψ΄Ψ®ΨµΩ Ω„Ω„ΨΩ‚Ψ―Ω….';
 
   @override
-  String get applyOptionUploadTitle => 'رفع سيرتك الذاتية';
+  String get applyOptionUploadTitle => 'Ψ±ΩΨΉ Ψ³ΩΨ±ΨΩƒ Ψ§Ω„Ψ°Ψ§ΨΩΨ©';
 
   @override
   String get applyOptionUploadSubtitle =>
-      'ارفع ملفًا جديدًا (PDF أو DOC) للتقدم.';
+      'Ψ§Ψ±ΩΨΉ Ω…Ω„ΩΩ‹Ψ§ Ψ¬Ψ―ΩΨ―Ω‹Ψ§ (PDF Ψ£Ω DOC) Ω„Ω„ΨΩ‚Ψ―Ω….';
 
   @override
-  String get applyNow => 'تقدم الآن';
+  String get applyNow => 'ΨΩ‚Ψ―Ω… Ψ§Ω„ΨΆΩ†';
 
   @override
-  String get declineSheetTitle => 'رفض الدعوة';
+  String get declineSheetTitle => 'Ψ±ΩΨ¶ Ψ§Ω„Ψ―ΨΉΩΨ©';
 
   @override
-  String get declineSheetSubtitle => 'هل أنت متأكد أنك تريد رفض هذه الدعوة؟';
+  String get declineSheetSubtitle =>
+      'Ω‡Ω„ Ψ£Ω†Ψ Ω…ΨΨ£ΩƒΨ― Ψ£Ω†Ωƒ ΨΨ±ΩΨ― Ψ±ΩΨ¶ Ω‡Ψ°Ω‡ Ψ§Ω„Ψ―ΨΉΩΨ©Ψ';
 
   @override
-  String get declineReasonLabel => 'يرجى اختيار سبب';
+  String get declineReasonLabel => 'ΩΨ±Ψ¬Ω‰ Ψ§Ψ®ΨΩΨ§Ψ± Ψ³Ψ¨Ψ¨';
 
   @override
-  String get declineReasonHint => 'اختر سببًا';
+  String get declineReasonHint => 'Ψ§Ψ®ΨΨ± Ψ³Ψ¨Ψ¨Ω‹Ψ§';
 
   @override
-  String get declineReasonNotInterested => 'غير مهتم بهذه الوظيفة';
+  String get declineReasonNotInterested =>
+      'ΨΊΩΨ± Ω…Ω‡ΨΩ… Ψ¨Ω‡Ψ°Ω‡ Ψ§Ω„ΩΨΈΩΩΨ©';
 
   @override
-  String get declineReasonFoundJob => 'وجدت وظيفة بالفعل';
+  String get declineReasonFoundJob => 'ΩΨ¬Ψ―Ψ ΩΨΈΩΩΨ© Ψ¨Ψ§Ω„ΩΨΉΩ„';
 
   @override
-  String get declineReasonSalary => 'الراتب لا يتوافق مع توقعاتي';
+  String get declineReasonSalary =>
+      'Ψ§Ω„Ψ±Ψ§ΨΨ¨ Ω„Ψ§ ΩΨΩΨ§ΩΩ‚ Ω…ΨΉ ΨΩΩ‚ΨΉΨ§ΨΩ';
 
   @override
-  String get declineReasonLocation => 'الموقع لا يناسبني';
+  String get declineReasonLocation => 'Ψ§Ω„Ω…ΩΩ‚ΨΉ Ω„Ψ§ ΩΩ†Ψ§Ψ³Ψ¨Ω†Ω';
 
   @override
-  String get declineReasonOther => 'أخرى';
+  String get declineReasonOther => 'Ψ£Ψ®Ψ±Ω‰';
 
   @override
-  String get declineButton => 'رفض الدعوة';
+  String get declineButton => 'Ψ±ΩΨ¶ Ψ§Ω„Ψ―ΨΉΩΨ©';
 
   @override
-  String get declinedButton => '✓  مرفوضة';
+  String get declinedButton => 'β“  Ω…Ψ±ΩΩΨ¶Ψ©';
 
   @override
   String get jobDetailNotFoundMessage =>
-      'لم نتمكن من العثور على تفاصيل الوظيفة لهذا الطلب بعد.';
+      'Ω„Ω… Ω†ΨΩ…ΩƒΩ† Ω…Ω† Ψ§Ω„ΨΉΨ«ΩΨ± ΨΉΩ„Ω‰ ΨΩΨ§ΨµΩΩ„ Ψ§Ω„ΩΨΈΩΩΨ© Ω„Ω‡Ψ°Ψ§ Ψ§Ω„Ψ·Ω„Ψ¨ Ψ¨ΨΉΨ―.';
 
   @override
-  String get backToApplications => 'العودة إلى الطلبات';
+  String get backToApplications => 'Ψ§Ω„ΨΉΩΨ―Ψ© Ψ¥Ω„Ω‰ Ψ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ';
 
   @override
-  String get acceptInviteAndApply => 'قبول الدعوة والتقديم';
+  String get acceptInviteAndApply => 'Ω‚Ψ¨ΩΩ„ Ψ§Ω„Ψ―ΨΉΩΨ© ΩΨ§Ω„ΨΩ‚Ψ―ΩΩ…';
 
   @override
-  String get jobDetailsTitle => 'تفاصيل الوظيفة';
-
-  @override
-  String dashboardGreeting(String name) {
-    return 'مرحباً، $name!';
-  }
-
-  @override
-  String get dashboardSubtitle =>
-      'يمكنك هنا تتبع إعلانات وظائفك ومراجعة المرشحين ومتابعة نشاط التوظيف الإجمالي.';
-
-  @override
-  String get dashboardStatPlaceholder => 'ستظهر الإحصائيات هنا.';
-
-  @override
-  String get dashboardActiveJobPosts => 'الوظائف النشطة';
-
-  @override
-  String get dashboardArchivedJobPosts => 'المؤرشفة';
-
-  @override
-  String get dashboardApplications => 'الطلبات';
-
-  @override
-  String get dashboardInvitations => 'الدعوات';
-
-  @override
-  String get dashboardHideStats => 'إخفاء الإحصائيات';
-
-  @override
-  String get dashboardShowStats => 'إظهار الإحصائيات';
-
-  @override
-  String get jobPostsTitle => 'إعلانات الوظائف';
-
-  @override
-  String get jobPostsEmptyDescription =>
-      'أدِر جميع إعلانات وظائفك في مكان واحد، حيث يمكنك بسهولة إنشاء فرص جديدة وتحديث الموجودة وتتبع أدائها.';
-
-  @override
-  String get createJobPost => 'إنشاء إعلان وظيفة';
-
-  @override
-  String get searchByJobTitle => 'البحث بعنوان الوظيفة';
-
-  @override
-  String dashboardJobPostsCount(int count) {
-    return 'لديك $count إعلانات وظائف';
-  }
-
-  @override
-  String get dashboardNoJobPosts =>
-      'لا توجد إعلانات وظائف بعد — أنشئ واحداً وابحث عن مرشحك المثالي!';
-
-  @override
-  String get jobStatusPublished => 'منشور';
-
-  @override
-  String get jobStatusBoosted => 'معزز';
-
-  @override
-  String get jobStatusPaused => 'موقوف';
-
-  @override
-  String get jobStatusDraft => 'مسودة';
-
-  @override
-  String get jobStatusClosed => 'مغلق';
-
-  @override
-  String get jobStatusExpired => 'منتهي الصلاحية';
-
-  @override
-  String get jobStatusPendingApproval => 'في انتظار الموافقة';
-
-  @override
-  String get jobActionDetails => 'التفاصيل';
-
-  @override
-  String get jobActionAiMatcher => 'مطابق الذكاء الاصطناعي';
-
-  @override
-  String get jobActionBoost => 'تعزيز';
-
-  @override
-  String get jobActionPause => 'إيقاف مؤقت';
-
-  @override
-  String get jobActionClose => 'إغلاق';
-
-  @override
-  String get jobActionDelete => 'حذف';
-
-  @override
-  String get jobActionPublish => 'نشر';
-
-  @override
-  String get jobActionPublishAgain => 'إعادة النشر';
-
-  @override
-  String jobDetailPosted(String date) {
-    return 'نُشر في $date';
-  }
-
-  @override
-  String jobDetailBoostedTill(String date) {
-    return 'معزز حتى $date';
-  }
-
-  @override
-  String get jobDetailOpenFullInfo => 'فتح المعلومات الكاملة';
-
-  @override
-  String get jobDetailHideFullInfo => 'إخفاء المعلومات';
-
-  @override
-  String get jobDetailLocation => 'الموقع';
-
-  @override
-  String get jobDetailJobType => 'نوع الوظيفة';
-
-  @override
-  String get jobDetailIndustry => 'القطاع';
-
-  @override
-  String get jobDetailSalaryRange => 'نطاق الراتب';
-
-  @override
-  String get jobDetailWorkplace => 'مكان العمل';
-
-  @override
-  String get jobDetailExperienceLevel => 'مستوى الخبرة';
-
-  @override
-  String get jobDetailLanguage => 'اللغة';
-
-  @override
-  String get jobDetailViews => 'المشاهدات';
-
-  @override
-  String get jobDetailCandidates => 'المرشحون';
-
-  @override
-  String get jobDetailApplications => 'الطلبات';
-
-  @override
-  String jobDetailYouHaveCandidates(int count) {
-    return 'لديك $count مرشحين';
-  }
-
-  @override
-  String get jobDetailCloseJob => 'إغلاق الوظيفة';
-
-  @override
-  String get jobDetailEditJobPost => 'تعديل الإعلان';
-
-  @override
-  String get jobDetailPausePublication => 'إيقاف النشر';
-
-  @override
-  String get jobDetailDelete => 'حذف';
-
-  @override
-  String get candidateStatusNew => 'جديد';
-
-  @override
-  String get candidateStatusViewed => 'تمت المشاهدة';
-
-  @override
-  String get candidateStatusShortlisted => 'مدرج في القائمة';
-
-  @override
-  String get candidateStatusDeclined => 'مرفوض';
-
-  @override
-  String get matchStrengthStrong => 'تطابق قوي';
-
-  @override
-  String get matchStrengthGood => 'تطابق جيد';
-
-  @override
-  String get matchStrengthWeak => 'تطابق ضعيف';
-
-  @override
-  String get aiMatcherTitle => 'مطابق الذكاء الاصطناعي';
-
-  @override
-  String get aiMatcherSubtitle =>
-      'حلّل إعلانك الوظيفي واحصل فوراً على أكثر المرشحين ملاءمةً بناءً على المهارات والخبرة والملاءمة.';
-
-  @override
-  String get aiMatcherFilters => 'التصفية';
-
-  @override
-  String aiMatcherCandidatesFound(int count) {
-    return 'تم العثور على $count مرشح';
-  }
-
-  @override
-  String get aiMatcherAllSent =>
-      'لقد أرسلتَ دعوات لجميع المرشحين الأكثر ملاءمةً. نوصي باستخدام مطابق الذكاء الاصطناعي بانتظام حتى لا تفوتك أفضل المرشحين.';
-
-  @override
-  String get aiMatcherSendInvitation => 'إرسال دعوة';
-
-  @override
-  String get editJobPostTitle => 'تعديل الإعلان الوظيفي';
-
-  @override
-  String get editJobPostSubtitle =>
-      'يمكنك تعديل أي قسم إذا لزم الأمر — وإذا كان كل شيء صحيحاً، تابع للنشر.';
-
-  @override
-  String get editJobStepBasics => 'الأساسيات';
-
-  @override
-  String get editJobStepSkills => 'المهارات المطلوبة';
-
-  @override
-  String get editJobStepDescription => 'وصف الوظيفة';
-
-  @override
-  String get editJobStepPreferences => 'التفضيلات';
-
-  @override
-  String get editJobStepReview => 'المراجعة';
-
-  @override
-  String get editJobBasicsTitle => 'أساسيات الوظيفة';
-
-  @override
-  String get editJobBasicsSubtitle =>
-      'قدّم التفاصيل الأساسية للمنصب لمساعدة المرشحين على فهم الدور بنظرة سريعة.';
-
-  @override
-  String get editJobPostNameLabel => 'اسم الإعلان الوظيفي';
-
-  @override
-  String get editJobIndustryLabel => 'القطاع';
-
-  @override
-  String get editJobLocationLabel => 'الموقع';
-
-  @override
-  String get editJobExperienceLabel => 'مستوى الخبرة';
-
-  @override
-  String get editJobTypeLabel => 'نوع الوظيفة';
-
-  @override
-  String get editJobWorkplaceLabel => 'نوع بيئة العمل';
-
-  @override
-  String get editJobSalaryFromLabel => 'الراتب من';
-
-  @override
-  String get editJobSalaryToLabel => 'الراتب إلى';
-
-  @override
-  String get editJobSetSalaryRange => 'تحديد نطاق الراتب';
-
-  @override
-  String get editJobPaymentTermLabel => 'شرط الدفع';
-
-  @override
-  String get editJobSetDeadline => 'تحديد الموعد النهائي للطلبات';
-
-  @override
-  String get editJobContinue => 'متابعة';
-
-  @override
-  String get editJobBack => 'رجوع';
-
-  @override
-  String get editJobPublish => 'نشر الإعلان الوظيفي';
-
-  @override
-  String get editJobSkillsTitle => 'المهارات المطلوبة';
-
-  @override
-  String get editJobSkillsSubtitle =>
-      'أضف المهارات المطلوبة لهذا الدور عن طريق كتابتها واحدة تلو الأخرى والاختيار من القائمة المنسدلة، أو أدخل عدة مهارات مفصولة بفواصل.';
-
-  @override
-  String get editJobAiSkillsSuggestions => 'اقتراحات مهارات الذكاء الاصطناعي';
-
-  @override
-  String get editJobSkillInputHint => 'ابدأ الكتابة لإضافة مهارة';
-
-  @override
-  String get editJobLanguagesTitle => 'المهارات اللغوية المطلوبة';
-
-  @override
-  String get editJobLanguagesSubtitle =>
-      'حدّد اللغات المطلوبة لهذا الدور ومستوى الكفاءة المتوقع.';
-
-  @override
-  String get editJobAddLanguage => '+ إضافة لغة أخرى';
-
-  @override
-  String get editJobLanguageLabel => 'اللغة';
-
-  @override
-  String get editJobProficiencyLabel => 'مستوى الكفاءة';
-
-  @override
-  String get editJobCompetenciesTitle => 'الكفاءات';
-
-  @override
-  String get editJobCompetenciesSubtitle =>
-      'أشر إلى أي متطلبات إضافية لتوضيح التوقعات والمساعدة في تحديد المرشحين الذين يلبون الاحتياجات العملية للدور.';
-
-  @override
-  String get editJobDrivingLicence => 'يُشترط رخصة القيادة';
-
-  @override
-  String get editJobDrivingLicenceCategory => 'فئة رخصة القيادة';
-
-  @override
-  String get editJobDescriptionTitle => 'إنشاء إعلان وظيفي';
-
-  @override
-  String get editJobPreferencesTitle => 'التفضيلات';
-
-  @override
-  String get editJobCoverLetterTitle => 'خطاب التغطية';
-
-  @override
-  String get editJobCoverLetterSubtitle =>
-      'تساعدك خطابات التغطية على فهم الدوافع ومهارات التواصل بشكل أفضل. سيُطلب من المرشحين إضافتها عند التقديم.';
-
-  @override
-  String get editJobRequireCoverLetter => 'اشتراط خطاب تغطية من المرشحين';
-
-  @override
-  String get editJobAdditionalQuestionsTitle => 'أسئلة إضافية';
-
-  @override
-  String get editJobAdditionalQuestionsSubtitle =>
-      'أضف أسئلة إضافية لمعرفة المزيد عن المرشحين قبل المقابلة. هذه الخطوة اختيارية. نوصي بإضافة ما يصل إلى 5 أسئلة.';
-
-  @override
-  String get editJobAddScreeningQuestions => 'إضافة أسئلة الفرز';
-
-  @override
-  String get editJobReviewTitle => 'المراجعة';
-
-  @override
-  String get editJobPublishedDate => 'تاريخ النشر';
-
-  @override
-  String get editJobEditBasics => 'تعديل أساسيات الوظيفة';
-
-  @override
-  String get editJobEditSkills => 'تعديل المهارات';
-
-  @override
-  String get editJobEditDescription => 'تعديل وصف الوظيفة';
-
-  @override
-  String get editJobEditPreferences => 'تعديل التفضيلات';
-
-  @override
-  String get boostJobPostTitle => 'تعزيز الإعلان الوظيفي';
-
-  @override
-  String get availableCredits => 'الرصيد المتاح';
-
-  @override
-  String get weeklyBoostLabel => 'تعزيز أسبوعي';
-
-  @override
-  String get fullTermBoostLabel => 'تعزيز للمدة الكاملة';
-
-  @override
-  String get changeStatusButton => 'تغيير الحالة';
-
-  @override
-  String get closeJobTitle => 'إغلاق هذه الوظيفة؟';
-
-  @override
-  String get closeJobReasonHint => 'اختر السبب';
-
-  @override
-  String get deleteJobPostTitle => 'حذف الإعلان الوظيفي';
-
-  @override
-  String get publishAgainTitle => 'إعادة النشر';
-
-  @override
-  String get publishAgainOptionLabel => 'إعادة النشر';
-
-  @override
-  String get publishAndWeeklyBoostLabel => 'نشر وتعزيز أسبوعي';
-
-  @override
-  String get changesPublishedMessage =>
-      'تم حفظ التغييرات على هذا الإعلان الوظيفي بنجاح.';
-
-  @override
-  String get statusChangedMessage => 'تم تحديث الحالة بنجاح.';
-
-  @override
-  String get editStepBasics => 'الأساسيات';
-
-  @override
-  String get editStepSkills => 'المهارات المطلوبة';
-
-  @override
-  String get editStepDescription => 'وصف الوظيفة';
-
-  @override
-  String get editStepPreferences => 'التفضيلات';
-
-  @override
-  String get editStepReview => 'المراجعة';
-
-  @override
-  String get editIndustryLabel => 'القطاع';
-
-  @override
-  String get editExperienceLevelLabel => 'مستوى الخبرة';
-
-  @override
-  String get editWorkplaceTypeLabel => 'نوع بيئة العمل';
-
-  @override
-  String get editSalaryFromLabel => 'الراتب من';
-
-  @override
-  String get editSalaryToLabel => 'الراتب إلى';
-
-  @override
-  String get editSetSalaryRange => 'تحديد نطاق الراتب';
-
-  @override
-  String get editSetDeadline => 'تحديد الموعد النهائي للطلبات';
-
-  @override
-  String get editSkillsTitle => 'المهارات المطلوبة';
-
-  @override
-  String get editSkillsDescription =>
-      'أضف المهارات المطلوبة لهذا الدور عن طريق كتابتها واحدة تلو الأخرى والاختيار من القائمة المنسدلة، أو أدخل عدة مهارات مفصولة بفواصل.';
-
-  @override
-  String get editSkillsHint => 'ابدأ الكتابة لإضافة مهارة';
-
-  @override
-  String get editAiSkillsSuggestions => 'اقتراحات مهارات الذكاء الاصطناعي';
-
-  @override
-  String get editLanguagesTitle => 'المهارات اللغوية المطلوبة';
-
-  @override
-  String get editLanguageLabel => 'اللغة';
-
-  @override
-  String get editProficiencyLabel => 'مستوى الكفاءة';
-
-  @override
-  String get editAddLanguage => '+ إضافة لغة أخرى';
-
-  @override
-  String get editCompetenciesTitle => 'الكفاءات';
-
-  @override
-  String get editComputerSkillsLabel => 'مهارات الحاسوب';
-
-  @override
-  String get editDrivingLicence => 'يُشترط رخصة القيادة';
-
-  @override
-  String get editDrivingLicenceCategory => 'فئة رخصة القيادة';
-
-  @override
-  String get editAboutRole => 'حول الدور';
-
-  @override
-  String get editResponsibilities => 'المسؤوليات';
-
-  @override
-  String get editRequirements => 'المتطلبات';
-
-  @override
-  String get editNiceToHave => 'يُستحسن امتلاكها';
-
-  @override
-  String get editWeOffer => 'ما نقدمه';
-
-  @override
-  String get editCoverLetterTitle => 'خطاب التغطية';
-
-  @override
-  String get editCoverLetterDescription =>
-      'تساعدك خطابات التغطية على فهم الدوافع ومهارات التواصل بشكل أفضل. سيُطلب من المرشحين إضافتها عند التقديم.';
-
-  @override
-  String get editRequireCoverLetter => 'اشتراط خطاب تغطية من المرشحين';
-
-  @override
-  String get editScreeningQuestionsTitle => 'أسئلة إضافية';
-
-  @override
-  String get editScreeningQuestionsDescription =>
-      'أضف أسئلة إضافية لمعرفة المزيد عن المرشحين قبل المقابلة. هذه الخطوة اختيارية. نوصي بإضافة ما يصل إلى 5 أسئلة.';
-
-  @override
-  String get editAddScreeningQuestions => 'إضافة أسئلة الفرز';
-
-  @override
-  String get editReviewTitle => 'المراجعة';
-
-  @override
-  String get editJobBasicsButton => 'تعديل أساسيات الوظيفة';
-
-  @override
-  String get editSkillsButton => 'تعديل المهارات';
-
-  @override
-  String get editDescriptionButton => 'تعديل وصف الوظيفة';
-
-  @override
-  String get editCoverLetterPrefsButton => 'تحديث تفضيلات خطاب التغطية';
-
-  @override
-  String get editScreeningButton => 'تعديل أسئلة الفرز الإضافية';
-
-  @override
-  String get publishJobPostButton => 'نشر الإعلان الوظيفي';
-
-  @override
-  String dashboardArchivedCount(int count) {
-    return 'لديك $count إعلان وظيفي مؤرشف';
-  }
-
-  @override
-  String get closeJobHiredThroughIthaki => 'لقد وظفنا مرشحاً من خلال Ithaki';
-
-  @override
-  String get closeJobIthakiCandidateDescription =>
-      'لمساعدتنا في تحسين التحليلات وتطوير المنصة، يرجى اختيار المرشح الذي ستستمر معه.';
-
-  @override
-  String get closeJobSelectCandidate => 'اختر المرشح';
+  String get jobDetailsTitle => 'ΨΩΨ§ΨµΩΩ„ Ψ§Ω„ΩΨΈΩΩΨ©';
 }

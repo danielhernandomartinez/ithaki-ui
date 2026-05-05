@@ -20,14 +20,8 @@ class AuthException implements Exception {
       '${internalDetail != null ? ' [$internalDetail]' : ''}';
 }
 
-enum AccountType { jobSeeker, employer }
-
 class LoginSession {
-  const LoginSession({required this.accountType});
-
-  final AccountType accountType;
-
-  bool get isEmployer => accountType == AccountType.employer;
+  const LoginSession();
 }
 
 abstract class AuthRepository {
@@ -57,7 +51,7 @@ class MockAuthRepository implements AuthRepository {
       value: 'mock-token',
     );
     await ProfileLocalStore.savePhoneVerified(true);
-    return const LoginSession(accountType: AccountType.jobSeeker);
+    return const LoginSession();
   }
 
   @override
@@ -122,91 +116,6 @@ class ApiAuthRepository implements AuthRepository {
       if (nested is String && nested.isNotEmpty) return nested;
     }
     return null;
-  }
-
-  AccountType _extractAccountType(Map<String, dynamic> data) {
-    final values = <Object?>[
-      data['accountType'],
-      data['userType'],
-      data['type'],
-      data['role'],
-      data['authority'],
-      data['roles'],
-      data['authorities'],
-    ];
-
-    final nestedData = data['data'];
-    if (nestedData is Map<String, dynamic>) {
-      values.addAll([
-        nestedData['accountType'],
-        nestedData['userType'],
-        nestedData['type'],
-        nestedData['role'],
-        nestedData['authority'],
-        nestedData['roles'],
-        nestedData['authorities'],
-        nestedData['user'],
-      ]);
-    }
-
-    final user = data['user'];
-    if (user is Map<String, dynamic>) {
-      values.addAll([
-        user['accountType'],
-        user['userType'],
-        user['type'],
-        user['role'],
-        user['authority'],
-        user['roles'],
-        user['authorities'],
-      ]);
-    }
-
-    final token = _extractToken(data);
-    final tokenClaims = token == null ? null : _decodeJwtPayload(token);
-    if (tokenClaims != null) {
-      values.add(tokenClaims);
-    }
-
-    return _containsEmployerMarker(values)
-        ? AccountType.employer
-        : AccountType.jobSeeker;
-  }
-
-  Map<String, dynamic>? _decodeJwtPayload(String token) {
-    final parts = token.split('.');
-    if (parts.length < 2) return null;
-    try {
-      final normalized = base64Url.normalize(parts[1]);
-      final decoded = utf8.decode(base64Url.decode(normalized));
-      final payload = jsonDecode(decoded);
-      return payload is Map<String, dynamic> ? payload : null;
-    } catch (_) {
-      return null;
-    }
-  }
-
-  bool _containsEmployerMarker(Iterable<Object?> values) {
-    for (final value in values) {
-      if (value == null) continue;
-      if (value is Iterable) {
-        if (_containsEmployerMarker(value.cast<Object?>())) return true;
-        continue;
-      }
-      if (value is Map) {
-        if (_containsEmployerMarker(value.values.cast<Object?>())) return true;
-        continue;
-      }
-      final normalized =
-          value.toString().toLowerCase().replaceAll(RegExp(r'[^a-z]'), '');
-      if (normalized.contains('employer') ||
-          normalized.contains('company') ||
-          normalized.contains('organization') ||
-          normalized.contains('organisation')) {
-        return true;
-      }
-    }
-    return false;
   }
 
   Future<void> _saveTokens(Map<String, dynamic> data) async {
@@ -283,7 +192,7 @@ class ApiAuthRepository implements AuthRepository {
     await _saveTokens(data);
     // Login users are exempt from phone verification — only registration enforces it.
     await ProfileLocalStore.savePhoneVerified(true);
-    return LoginSession(accountType: _extractAccountType(data));
+    return const LoginSession();
   }
 
   @override

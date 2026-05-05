@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/employer_models.dart';
 
 class RegistrationState {
   final String language;
@@ -11,8 +10,6 @@ class RegistrationState {
   final String phone;
   final String verifyMethod;
   final bool rememberVerifyChoice;
-  final bool isEmployer;
-  final EmployerType? employerType;
 
   const RegistrationState({
     this.language = '',
@@ -24,8 +21,6 @@ class RegistrationState {
     this.phone = '',
     this.verifyMethod = '',
     this.rememberVerifyChoice = false,
-    this.isEmployer = false,
-    this.employerType,
   });
 
   RegistrationState copyWith({
@@ -38,8 +33,6 @@ class RegistrationState {
     String? phone,
     String? verifyMethod,
     bool? rememberVerifyChoice,
-    bool? isEmployer,
-    EmployerType? employerType,
   }) {
     return RegistrationState(
       language: language ?? this.language,
@@ -51,8 +44,6 @@ class RegistrationState {
       phone: phone ?? this.phone,
       verifyMethod: verifyMethod ?? this.verifyMethod,
       rememberVerifyChoice: rememberVerifyChoice ?? this.rememberVerifyChoice,
-      isEmployer: isEmployer ?? this.isEmployer,
-      employerType: employerType ?? this.employerType,
     );
   }
 }
@@ -75,12 +66,6 @@ class RegistrationNotifier extends Notifier<RegistrationState> {
 
   void setVerifyMethod(String method, {bool remember = false}) =>
       state = state.copyWith(verifyMethod: method, rememberVerifyChoice: remember);
-
-  void setIsEmployer(bool value) =>
-      state = state.copyWith(isEmployer: value);
-
-  void setEmployerType(EmployerType type) =>
-      state = state.copyWith(employerType: type);
 
   void reset() => state = const RegistrationState();
 }

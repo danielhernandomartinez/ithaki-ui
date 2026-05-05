@@ -9,8 +9,7 @@ import '../../providers/registration_provider.dart';
 import '../../utils/validators.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
-  final bool isEmployer;
-  const RegisterScreen({super.key, this.isEmployer = false});
+  const RegisterScreen({super.key});
 
   @override
   ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
@@ -86,7 +85,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           const Divider(),
           const SizedBox(height: 20),
           IthakiTextField(
-            label: widget.isEmployer ? l.workEmailLabel : l.emailLabel,
+            label: l.emailLabel,
             hint: l.emailHint,
             controller: _emailController,
             suffixIcon: Padding(
@@ -182,11 +181,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 ? () {
                     ref.read(registrationProvider.notifier).setCredentials(
                         _emailController.text, _passwordController.text);
-                    if (widget.isEmployer) {
-                      context.push(Routes.employerSetup);
-                    } else {
-                      context.push(Routes.personalDetails);
-                    }
+                    context.push(Routes.personalDetails);
                   }
                 : null,
           ),

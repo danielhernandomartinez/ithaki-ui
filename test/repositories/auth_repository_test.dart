@@ -38,58 +38,57 @@ void main() {
     );
   });
 
-  ApiAuthRepository repoFor(Map<String, dynamic> body) {
+  ApiAuthRepository repoFor(Map<String, dynamic> body, {int status = 200}) {
     final client = MockClient((request) async {
       expect(request.url.path, '/api/auth/login');
-      return http.Response(jsonEncode(body), 200);
+      return http.Response(jsonEncode(body), status);
     });
     return ApiAuthRepository(
       apiClient: ApiClient(client: client, baseUrl: 'http://localhost'),
     );
   }
 
-  String tokenWithPayload(Map<String, dynamic> payload) {
-    String part(Object value) =>
-        base64Url.encode(utf8.encode(jsonEncode(value))).replaceAll('=', '');
-    return '${part({'alg': 'none'})}.${part(payload)}.';
-  }
+  test('loginWithEmail returns LoginSession on success', () async {
+    final repo = repoFor({'accessToken': 'token123'});
 
-  test('loginWithEmail detects employer account from login response role',
-      () async {
-    final repo = repoFor({
-      'accessToken': 'token',
-      'role': 'EMPLOYER',
-    });
+    final session = await repo.loginWithEmail('user@example.com', 'secret');
 
-    final session = await repo.loginWithEmail('employer@example.com', 'secret');
-
-    expect(session.accountType, AccountType.employer);
+    expect(session, isA<LoginSession>());
   });
 
-  test('loginWithEmail detects employer account from nested roles', () async {
-    final repo = repoFor({
-      'data': {
-        'accessToken': 'token',
-        'user': {
-          'roles': ['ROLE_EMPLOYER'],
-        },
-      },
-    });
+  test('loginWithEmail saves access token to storage', () async {
+    final repo = repoFor({'accessToken': 'mytoken'});
 
-    final session = await repo.loginWithEmail('employer@example.com', 'secret');
+    await repo.loginWithEmail('user@example.com', 'secret');
 
-    expect(session.isEmployer, isTrue);
+    expect(storage['jwt_token'], 'mytoken');
   });
 
-  test('loginWithEmail detects employer account from JWT claims', () async {
+  test('loginWithEmail accepts token in nested data field', () async {
     final repo = repoFor({
-      'accessToken': tokenWithPayload({
-        'roles': ['ROLE_EMPLOYER'],
-      }),
+      'data': {'accessToken': 'nested-token'},
     });
 
-    final session = await repo.loginWithEmail('employer@example.com', 'secret');
+    await repo.loginWithEmail('user@example.com', 'secret');
 
-    expect(session.isEmployer, isTrue);
+    expect(storage['jwt_token'], 'nested-token');
+  });
+
+  test('loginWithEmail throws AuthException on 401', () async {
+    final repo = repoFor({'error': 'Unauthorized'}, status: 401);
+
+    expect(
+      () => repo.loginWithEmail('user@example.com', 'wrong'),
+      throwsA(isA<AuthException>()),
+    );
+  });
+
+  test('loginWithEmail throws AuthException when token missing', () async {
+    final repo = repoFor({'someOtherField': 'value'});
+
+    expect(
+      () => repo.loginWithEmail('user@example.com', 'secret'),
+      throwsA(isA<AuthException>()),
+    );
   });
 }

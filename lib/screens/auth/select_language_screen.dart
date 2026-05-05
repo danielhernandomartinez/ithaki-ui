@@ -137,7 +137,7 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
               onPressed: _selected != null
                   ? () {
                       ref.read(registrationProvider.notifier).setLanguage(_selected!.id);
-                      context.push(Routes.userTypeSelection);
+                      context.push(Routes.techComfort);
                     }
                   : null,
             ),
@@ -145,7 +145,7 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
             IthakiButton(
               l.skipButton,
               variant: IthakiButtonVariant.outline,
-              onPressed: () => context.push(Routes.userTypeSelection),
+              onPressed: () => context.push(Routes.techComfort),
             ),
           ],
         ),
