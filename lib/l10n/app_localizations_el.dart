@@ -1,4 +1,4 @@
-﻿// ignore: unused_import
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
@@ -1200,7 +1200,74 @@ class AppLocalizationsEl extends AppLocalizations {
   String get editLanguages => '??????????? ???????';
 
   @override
-  String get languagesTitle => 'Γλώσσες';
+  String get languagesTitle => '???????';
+
+  @override
+  String get aboutMeEditDescription =>
+      '????? ??????? ??????? ??????????? ??? ??? ????? ???. ???? ??? ????? ?? ?????????? ?? ?????? ??? ??? ?? ??????????????? ??? ???????? ???. ???????? ?? ?????????? ??????????? ???????? ? ?? ??? ??????????? ??????????? ?????? ??? ?? ??????.';
+
+  @override
+  String get addBioDescription =>
+      '????????? ???? ????? ??? ??? ????? ??? ???? ?? ????????? ?? ?????????? ????? ????? ??? ?? ??????. ??????????? ?? ????? ???????, ????? ???????? ????????????, ??? ?? ??????????? ??????? ?????????? ??? ????????.';
+
+  @override
+  String get addVideoDescription =>
+      '????????? ??? ??????? ?????? ??? ?? ?????????? ????? ?????????, ?? ?????????? ??? ???????? ??? ??? ?????????? ???. ??? ?????? ??? ????? ?? ?????????? ??? ?????? ??????????.';
+
+  @override
+  String get uploadViaUrl => '??????????? ???? URL';
+
+  @override
+  String get uploadInstructions =>
+      '??????? ?? ?????? ??? ????????? (??? 10 ??????, ??? 5 MB\n?? ??????, ??????????????? ??????: .pdf, .doc, .png, .jpg)';
+
+  @override
+  String get selectCategory => '???????? ?????????';
+
+  @override
+  String categoryLabel(String category) {
+    return '????????? $category';
+  }
+
+  @override
+  String get iHaveGreekLicense => '??? ???????? ?????';
+
+  @override
+  String get yes => '???';
+
+  @override
+  String get no => '???';
+
+  @override
+  String get selectLanguage => '???????? ??????';
+
+  @override
+  String get languageFieldLabel => '??????';
+
+  @override
+  String get selectLanguageHint => '???????? ??????';
+
+  @override
+  String get searchLanguage => '????????? ???????';
+
+  @override
+  String get loadingLanguages => '??????? ???????...';
+
+  @override
+  String get noLanguagesAvailable =>
+      '??? ???????? ?????????? ??????? ????? ?? ??????.';
+
+  @override
+  String get proficiencyLevel => '??????? ??????';
+
+  @override
+  String get addAnotherLanguage => '???????? ????? ???????';
+
+  @override
+  String get editJobsPreferences => '??????????? ??????????? ????????';
+
+  @override
+  String get assessmentsResultsTitle => '???????????? ????????????';
 
   @override
   String get companyTabVacancies => 'Κενές Θέσεις';
@@ -1215,10 +1282,13 @@ class AppLocalizationsEl extends AppLocalizations {
   String get companyTabPosts => 'Αναρτήσεις';
 
   @override
-  String companyJobsFound(int count) => '$count θέσεις εργασίας';
+  String companyJobsFound(int count) {
+    return '$count θέσεις εργασίας';
+  }
 
   @override
-  String get companyNoVacancies => 'Δεν υπάρχουν ανοιχτές θέσεις αυτή τη στιγμή.';
+  String get companyNoVacancies =>
+      'Δεν υπάρχουν ανοιχτές θέσεις αυτή τη στιγμή.';
 
   @override
   String get saveJob => 'Αποθήκευση Θέσης';
@@ -1242,7 +1312,9 @@ class AppLocalizationsEl extends AppLocalizations {
   String get companyPostsTitle => 'Αναρτήσεις Εταιρείας';
 
   @override
-  String companyPostsFound(int count) => '$count αναρτήσεις';
+  String companyPostsFound(int count) {
+    return '$count αναρτήσεις';
+  }
 
   @override
   String get companyNoPostsYet => 'Δεν υπάρχουν ακόμα αναρτήσεις εταιρείας.';
@@ -1261,7 +1333,9 @@ class AppLocalizationsEl extends AppLocalizations {
   String get culturalMatchYouBothCareAbout => 'Ενδιαφέρεστε και οι δύο για:';
 
   @override
-  String companyTeamEmployees(String teamSize) => '$teamSize υπάλληλοι';
+  String companyTeamEmployees(String teamSize) {
+    return '$teamSize υπάλληλοι';
+  }
 
   @override
   String get companyLabelMainOffice => 'Κύρια Τοποθεσία Γραφείου';
@@ -1292,4 +1366,442 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get tryAgain => 'Δοκιμάστε Ξανά';
+
+  @override
+  String get assessmentsRecommendedForYou =>
+      'Αξιολογήσεις που προτείνονται για εσάς';
+
+  @override
+  String get assessmentYourScore => 'Η Βαθμολογία Σας';
+
+  @override
+  String get assessmentLevel => 'Επίπεδο';
+
+  @override
+  String get assessmentSkillBreakdown => 'Ανάλυση Δεξιοτήτων';
+
+  @override
+  String get assessmentKeyInsights => 'Βασικά Ευρήματα';
+
+  @override
+  String get assessmentPreviousResults => 'Προηγούμενα Αποτελέσματα';
+
+  @override
+  String get assessmentYouImproving => 'Βελτιώνεστε!';
+
+  @override
+  String get assessmentMeansForProfile => 'Τι σημαίνει αυτό για το προφίλ σας';
+
+  @override
+  String get assessmentAboutThis => 'Σχετικά με αυτή την αξιολόγηση';
+
+  @override
+  String get assessmentUsedFor => 'Σε τι χρησιμοποιείται αυτή η αξιολόγηση';
+
+  @override
+  String get assessmentBeforeStart => 'Πριν ξεκινήσετε';
+
+  @override
+  String get assessmentApproxDuration => 'Κατά Προσέγγιση Διάρκεια';
+
+  @override
+  String get assessmentQuestionsLabel => 'Ερωτήσεις';
+
+  @override
+  String get bannerNotSureJob =>
+      'Δεν είστε σίγουροι πώς να βρείτε τη σωστή δουλειά;';
+
+  @override
+  String get chatNewChat => 'Νέα Συνομιλία';
+
+  @override
+  String get chatSearchInChats => 'Αναζήτηση σε Συνομιλίες';
+
+  @override
+  String get chatHistory => 'Ιστορικό Συνομιλιών';
+
+  @override
+  String get homeNeedRefresher => 'Χρειάζεστε μια γρήγορη επανάληψη;';
+
+  @override
+  String get homeCvSuccess => 'Επιτυχία CV';
+
+  @override
+  String get homeStatViews => 'Προβολές';
+
+  @override
+  String get homeStatInvitations => 'Προσκλήσεις';
+
+  @override
+  String get homeStatApplicationsSent => 'Αιτήσεις που Στάλθηκαν';
+
+  @override
+  String get homeStatInterviews => 'Συνεντεύξεις';
+
+  @override
+  String get homeRecommendedCourses => 'Προτεινόμενα Μαθήματα';
+
+  @override
+  String get homeLatestNews => 'Τελευταία Νέα';
+
+  @override
+  String get homeSmartJobRecommendations => 'Έξυπνες Προτάσεις Εργασίας';
+
+  @override
+  String get viewAll => 'Προβολή Όλων';
+
+  @override
+  String get searchByJobTitle => 'Αναζήτηση κατά τίτλο εργασίας';
+
+  @override
+  String get jobLoadError => 'Δεν ήταν δυνατή η φόρτωση της θέσης εργασίας.';
+
+  @override
+  String get jobRemovedFromSaved => 'Αφαιρέθηκε από τις αποθηκευμένες θέσεις.';
+
+  @override
+  String get jobSavedMessage =>
+      'Η θέση αποθηκεύτηκε! Ελέγξτε τις αποθηκευμένες θέσεις σας.';
+
+  @override
+  String get jobPostRemoved => 'Η αγγελία εργασίας αφαιρέθηκε';
+
+  @override
+  String get deadlineReminderSet =>
+      'Η υπενθύμιση προθεσμίας ορίστηκε. Θα σας ειδοποιήσουμε μια εβδομάδα πριν την προθεσμία.';
+
+  @override
+  String get readMore => 'Διαβάστε περισσότερα';
+
+  @override
+  String jobPostedDate(String date) {
+    return 'Δημοσιεύτηκε $date';
+  }
+
+  @override
+  String get jobClosedLabel => 'Κλειστή';
+
+  @override
+  String get deadlineReminderLabel => 'Υπενθύμιση Προθεσμίας';
+
+  @override
+  String get reportLabel => 'Αναφορά';
+
+  @override
+  String get reminderSetNotification =>
+      'Έχετε ορίσει υπενθύμιση για αυτή την αγγελία εργασίας';
+
+  @override
+  String get odysseaReviewLabel => 'Αξιολόγηση Odyssea: ';
+
+  @override
+  String get recommendedForYouLabel => 'Προτείνεται για εσάς';
+
+  @override
+  String get tabAllJobs => 'Όλες οι Θέσεις';
+
+  @override
+  String tabSavedJobs(int count) {
+    return 'Αποθηκευμένες ($count)';
+  }
+
+  @override
+  String get sortingTitle => 'Ταξινόμηση';
+
+  @override
+  String get filtersTitle => 'Φίλτρα';
+
+  @override
+  String get resetFilters => 'Επαναφορά Φίλτρων';
+
+  @override
+  String get applyFilters => 'Εφαρμογή Φίλτρων';
+
+  @override
+  String get filterAllLabel => 'Όλα';
+
+  @override
+  String get filterClear => 'Εκκαθάριση';
+
+  @override
+  String get applyFilter => 'Εφαρμογή Φίλτρου';
+
+  @override
+  String get salaryTitle => 'Μισθός';
+
+  @override
+  String get tillLabel => 'Έως';
+
+  @override
+  String get reportJobTitle => 'Αναφορά αυτής της θέσης;';
+
+  @override
+  String get selectReasonHint => 'Επιλογή αιτίας';
+
+  @override
+  String get setReminderTitle => 'Ορισμός υπενθύμισης';
+
+  @override
+  String get applicationOpenTill => 'Η αίτηση είναι ανοιχτή έως:';
+
+  @override
+  String get whenShouldRemind => 'Πότε να σας υπενθυμίσουμε;';
+
+  @override
+  String get reminderTomorrow => 'Αύριο';
+
+  @override
+  String get reminderTomorrowSub => 'Η υπενθύμιση θα σταλεί αύριο αυτή την ώρα';
+
+  @override
+  String get reminderOneWeek => 'Σε μια εβδομάδα';
+
+  @override
+  String get reminderOneWeekSub =>
+      'Η υπενθύμιση θα σταλεί σε μια εβδομάδα αυτή την ώρα';
+
+  @override
+  String get reminderOneDayBefore => 'Μια μέρα πριν την προθεσμία';
+
+  @override
+  String get reminderOneDayBeforeSub =>
+      'Η υπενθύμιση θα σταλεί μια μέρα πριν την προθεσμία';
+
+  @override
+  String get reminderCustomDate => 'Επιλογή προσαρμοσμένης ημερομηνίας';
+
+  @override
+  String get reminderCustomDateSub =>
+      'Επιλέξτε προσαρμοσμένη ημερομηνία για την υπενθύμισή σας';
+
+  @override
+  String get selectDateLabel => 'Επιλέξτε ημερομηνία';
+
+  @override
+  String get selectTimeLabel => 'Επιλέξτε ώρα';
+
+  @override
+  String get ddMmYyyyHint => 'ΗΗ-ΜΜ-ΕΕΕΕ';
+
+  @override
+  String reminderViaContactSub(String contact) {
+    return 'Θα στείλουμε υπενθύμιση στο:\n$contact';
+  }
+
+  @override
+  String get reminderViaSmsWhatsapp => 'SMS / WhatsApp';
+
+  @override
+  String get changeEmailTitle => 'Αλλαγή Email';
+
+  @override
+  String get newEmailLabel => 'Νέο Email';
+
+  @override
+  String get newEmailHint => 'Εισάγετε νέο email';
+
+  @override
+  String get changePasswordTitle => 'Αλλαγή Κωδικού';
+
+  @override
+  String get repeatNewPasswordLabel => 'Επανάληψη Νέου Κωδικού';
+
+  @override
+  String get repeatNewPasswordHint => 'Επαναλάβετε τον νέο κωδικό σας';
+
+  @override
+  String get changePhoneTitle => 'Αλλαγή Αριθμού Τηλεφώνου';
+
+  @override
+  String get newPhoneNumberLabel => 'Νέος Αριθμός Τηλεφώνου';
+
+  @override
+  String get confirmAccountDeletion => 'Επιβεβαίωση Διαγραφής Λογαριασμού';
+
+  @override
+  String get typeDeleteToConfirm => 'Πληκτρολογήστε \'delete\' για επιβεβαίωση';
+
+  @override
+  String get enterDeleteHint => 'Εισάγετε \"delete\"';
+
+  @override
+  String get deleteAccountButton => 'Διαγραφή Λογαριασμού';
+
+  @override
+  String get makeProfileInvisible => 'Να γίνει αόρατο το προφίλ σας;';
+
+  @override
+  String get switchToLite => 'Μετάβαση στο Ithaki Lite;';
+
+  @override
+  String get verificationTitle => 'Επαλήθευση';
+
+  @override
+  String get pushNotifications => 'Push Notifications';
+
+  @override
+  String get unsubscribe => 'Κατάργηση εγγραφής';
+
+  @override
+  String get noMoreJobInterests =>
+      'Δεν υπάρχουν άλλα επαγγελματικά ενδιαφέροντα για προσθήκη.';
+
+  @override
+  String get roleMigrant => 'Μετανάστης';
+
+  @override
+  String get roleRefugee => 'Πρόσφυγας';
+
+  @override
+  String get roleAsylumSeeker => 'Αιτών Άσυλο';
+
+  @override
+  String homeGreetingName(String name) {
+    return 'Γεια σου, $name!';
+  }
+
+  @override
+  String get homeGreetingNoName => 'Γεια σου!';
+
+  @override
+  String get homeGreetingSubtitle =>
+      'Ακολουθεί μια γρήγορη επισκόπηση των τελευταίων αντιστοιχίσεων εργασίας, ενημερώσεων και χρήσιμων συμβουλών για την πρόοδο της καριέρας σας.';
+
+  @override
+  String get homeRestartProductTourSubtitle =>
+      'Ξεκινήστε ξανά την περιήγηση στο προϊόν όποτε θέλετε από την Αρχική.';
+
+  @override
+  String get homeRestartProductTour => 'Επανεκκίνηση Περιήγησης';
+
+  @override
+  String get homeCareerAssistantBannerSubtitle =>
+      'Ο Career Assistant μπορεί να βοηθήσει αν δεν είστε σίγουροι από πού να ξεκινήσετε!';
+
+  @override
+  String get homeCoursesSubtitle =>
+      'Αναβαθμίστε τις δεξιότητές σας με μαθήματα που σας βοηθούν να εξελιχθείτε γρηγορότερα. Μάθετε με τον δικό σας ρυθμό.';
+
+  @override
+  String get homeProfileCompleteYourProfile => 'Συμπληρώστε το προφίλ σας';
+
+  @override
+  String get homeProfileWelcomeTitle => 'Καλώς ήρθατε στο Ithaki!';
+
+  @override
+  String get homeProfileFillMissing =>
+      'Συμπληρώστε τα στοιχεία που λείπουν για να ξεκλειδώσετε την πλήρη εμπειρία. Ένα πλήρες προφίλ σας βοηθά να έχετε καλύτερες αντιστοιχίσεις και περισσότερες προσκλήσεις.';
+
+  @override
+  String get homeProfileBenefitsTitle => 'Πλεονεκτήματα ενός πλήρους προφίλ';
+
+  @override
+  String get homeProfileFillButton => 'Συμπλήρωση Προφίλ';
+
+  @override
+  String get homeQuestionsTitle => 'Έχετε ερωτήσεις;';
+
+  @override
+  String get homeQuestionsSubtitle => 'Αφήστε μας να σας βοηθήσουμε!';
+
+  @override
+  String get homeQuestionsButton => 'Κλείστε Ραντεβού με Σύμβουλο';
+
+  @override
+  String get assessmentStartNew => 'Νέα Αξιολόγηση';
+
+  @override
+  String assessmentsInProgressTitle(int count) {
+    return 'Αξιολογήσεις σε Εξέλιξη ($count)';
+  }
+
+  @override
+  String get assessmentsInProgressSubtitle =>
+      'Έχετε αξιολογήσεις σε εξέλιξη. Ολοκληρώστε τις για να δείτε τα αποτελέσματά σας.';
+
+  @override
+  String get assessmentsRecommendedSubtitle =>
+      'Σας προτείνουμε αυτές τις αξιολογήσεις για να επικυρώσετε τις δεξιότητές σας.';
+
+  @override
+  String get assessmentsCompletedTitle => 'Ολοκληρωμένες Αξιολογήσεις σας';
+
+  @override
+  String get assessmentsCompletedSubtitle =>
+      'Δείτε τις ολοκληρωμένες αξιολογήσεις και τα αποτελέσματά σας.';
+
+  @override
+  String get assessmentStartTitle => 'Έναρξη Αξιολόγησης';
+
+  @override
+  String get assessmentStartSubtitle =>
+      'Πρόκειται να ξεκινήσετε την παρακάτω αξιολόγηση';
+
+  @override
+  String get assessmentStartNow => 'Ξεκινήστε τώρα';
+
+  @override
+  String get assessmentContinueTitle => 'Να συνεχίσετε την αξιολόγηση;';
+
+  @override
+  String get assessmentContinueSubtitle =>
+      'Έχετε ήδη ξεκινήσει αυτή την αξιολόγηση. Θέλετε να συνεχίσετε από εκεί που σταματήσατε ή να ξεκινήσετε από την αρχή;';
+
+  @override
+  String get assessmentStartOver => 'Ξεκίνημα από την αρχή';
+
+  @override
+  String get assessmentSkillBreakdownSubtitle =>
+      'Αυτή η ανάλυση δείχνει πώς κατανέμονται τα αποτελέσματά σας στους βασικούς τομείς δεξιοτήτων.';
+
+  @override
+  String get assessmentResultsConfirmSkills =>
+      'Αυτό το αποτέλεσμα επιβεβαιώνει τις δεξιότητές σας, οι οποίες αντικατοπτρίζονται στις αιτήσεις εργασίας σας στην πλατφόρμα.';
+
+  @override
+  String get assessmentShowInCV => 'Εμφάνιση αποτελέσματος στο CV μου';
+
+  @override
+  String get assessmentHideFromCV => 'Απόκρυψη από το CV';
+
+  @override
+  String assessmentTakenLabel(String date) {
+    return 'Έγινε: $date';
+  }
+
+  @override
+  String get assessmentImprovingSubtitle =>
+      'Τα αποτελέσματά σας δείχνουν σταθερή βελτίωση στον τρόπο που αντιμετωπίζετε προβλήματα εργασίας.';
+
+  @override
+  String get assessmentProcessingTitle => 'Επεξεργασία αποτελεσμάτων!';
+
+  @override
+  String get assessmentProcessingSubtitle =>
+      'Έχετε ολοκληρώσει επιτυχώς την αξιολόγηση. Δημιουργούμε τα αποτελέσματά σας — αυτό θα πάρει μόνο μια στιγμή.';
+
+  @override
+  String get assessmentLeaveTitle => 'Αποχώρηση από τη σελίδα;';
+
+  @override
+  String get assessmentLeaveSubtitle =>
+      'Πρόκειται να φύγετε από αυτή την αξιολόγηση. Η πρόοδός σας θα αποθηκευτεί αυτόματα και μπορείτε να συνεχίσετε αργότερα.';
+
+  @override
+  String get assessmentLeaveButton => 'Αποχώρηση';
+
+  @override
+  String get quizSelectOneAnswer => 'Επιλέξτε μόνο μία απάντηση';
+
+  @override
+  String quizSelectUpToAnswers(int max) {
+    return 'Επιλέξτε έως $max απαντήσεις';
+  }
+
+  @override
+  String get quizSelectBestReflects =>
+      'Επιλέξτε την επιλογή που αντικατοπτρίζει καλύτερα το πώς αισθάνεστε συνήθως.';
+
+  @override
+  String get quizNoResults => 'Δεν βρέθηκαν αποτελέσματα';
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
@@ -124,6 +125,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         );
     final tourKeys = ref.watch(tourKeysProvider);
     final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
+    final l10n = AppLocalizations.of(context)!;
 
     _maybeShowWelcomeModal(tourState);
     _syncTourScroll(tourState, tourKeys);
@@ -159,10 +161,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: IthakiGradientBanner(
-                            title: 'Need a quick refresher?',
-                            subtitle:
-                                'Restart the product tour whenever you want from Home.',
-                            buttonLabel: 'Restart Product Tour',
+                            title: l10n.homeNeedRefresher,
+                            subtitle: l10n.homeRestartProductTourSubtitle,
+                            buttonLabel: l10n.homeRestartProductTour,
                             buttonIcon: const IthakiIcon(
                               'rocket',
                               size: 18,
@@ -197,10 +198,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: IthakiGradientBanner(
-                          title: 'Not sure how to find the right job?',
-                          subtitle:
-                              "Career Assistant can help if you're not sure where to start!",
-                          buttonLabel: 'Ask Career Assistant',
+                          title: l10n.bannerNotSureJob,
+                          subtitle: l10n.homeCareerAssistantBannerSubtitle,
+                          buttonLabel: l10n.askCareerAssistant,
                           buttonIcon: const IthakiIcon('ai',
                               size: 18, color: IthakiTheme.backgroundWhite),
                           onButtonPressed: () =>
@@ -215,32 +215,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                       IthakiCard(
                         margin: const EdgeInsets.symmetric(horizontal: 16),
                         child: IthakiStatCard(
-                          title: 'Your CV Success',
+                          title: l10n.homeCvSuccess,
                           rows: [
                             IthakiStatRowData(
                               icon: const IthakiIcon('eye',
                                   size: 18, color: IthakiTheme.primaryPurple),
-                              label: 'Views',
+                              label: l10n.homeStatViews,
                               value: homeData.cvStats.views,
                               change: homeData.cvStats.viewsChange,
                             ),
                             IthakiStatRowData(
                               icon: const IthakiIcon('envelope',
                                   size: 18, color: IthakiTheme.primaryPurple),
-                              label: 'Invitations',
+                              label: l10n.homeStatInvitations,
                               value: homeData.cvStats.invitations,
                               change: homeData.cvStats.invitationsChange,
                             ),
                             IthakiStatRowData(
                               icon: const IthakiIcon('applications',
                                   size: 22, color: IthakiTheme.primaryPurple),
-                              label: 'Applications Sent',
+                              label: l10n.homeStatApplicationsSent,
                               value: homeData.cvStats.applicationsSent,
                             ),
                             IthakiStatRowData(
                               icon: const IthakiIcon('rocket',
                                   size: 22, color: IthakiTheme.primaryPurple),
-                              label: 'Interviews',
+                              label: l10n.homeStatInterviews,
                               value: homeData.cvStats.interviews,
                             ),
                           ],

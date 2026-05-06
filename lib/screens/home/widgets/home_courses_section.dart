@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/home_provider.dart';
@@ -13,13 +14,14 @@ class HomeCoursesSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final homeData = ref.watch(homeProvider).value;
     if (homeData == null) return const SizedBox.shrink();
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Recommended Courses', style: IthakiTheme.headingMedium),
+        Text(l10n.homeRecommendedCourses, style: IthakiTheme.headingMedium),
         const SizedBox(height: 4),
         Text(
-          "Boost your skills with courses that help you grow faster and stay aligned with today's industry standards. Learn at your own pace and strengthen the experience on your profile.",
+          l10n.homeCoursesSubtitle,
           style: IthakiTheme.bodyRegular.copyWith(
             color: IthakiTheme.textSecondary,
             fontSize: 14,
@@ -41,7 +43,7 @@ class HomeCoursesSection extends ConsumerWidget {
         ),
         const SizedBox(height: 4),
         HomePurpleButton(
-          label: 'View All',
+          label: l10n.viewAll,
           onPressed: () => context.go(Routes.assessments),
         ),
       ],

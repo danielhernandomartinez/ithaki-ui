@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/home_provider.dart';
@@ -11,10 +12,11 @@ class HomeNewsSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final newsList = ref.watch(homeProvider).value?.news ?? [];
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Latest News', style: IthakiTheme.headingMedium),
+        Text(l10n.homeLatestNews, style: IthakiTheme.headingMedium),
         const SizedBox(height: 12),
         for (int i = 0; i < newsList.length; i++) ...[
           IthakiNewsTile(
@@ -37,9 +39,9 @@ class HomeNewsSection extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(24),
               ),
             ),
-            child: const Text(
-              'Discover All News',
-              style: TextStyle(
+            child: Text(
+              l10n.blogDiscoverAll,
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 color: IthakiTheme.textPrimary,

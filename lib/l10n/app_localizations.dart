@@ -2224,128 +2224,1103 @@ abstract class AppLocalizations {
   /// **'Languages'**
   String get languagesTitle;
 
+  /// No description provided for @aboutMeEditDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Please provide some basic information about yourself. This helps us set up your profile and personalize your experience. You can add information later or update this anytime in Profile.'**
+  String get aboutMeEditDescription;
+
+  /// No description provided for @addBioDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a few words about yourself to help employers understand who you are and what you do. We recommend keeping it concise, avoiding unnecessary filler, and highlighting key skills and experience.'**
+  String get addBioDescription;
+
+  /// No description provided for @addVideoDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a short video to introduce yourself to employers, highlight your experience, and showcase your skills. A video helps you stand out among other candidates.'**
+  String get addVideoDescription;
+
+  /// No description provided for @uploadViaUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload via URL'**
+  String get uploadViaUrl;
+
+  /// No description provided for @uploadInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'tap button to browse (max 10 files, up to 5 MB\neach; supported formats: .pdf, .doc, .png, .jpg)'**
+  String get uploadInstructions;
+
+  /// No description provided for @selectCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Select category'**
+  String get selectCategory;
+
+  /// No description provided for @categoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category {category}'**
+  String categoryLabel(String category);
+
+  /// No description provided for @iHaveGreekLicense.
+  ///
+  /// In en, this message translates to:
+  /// **'I have Greek License'**
+  String get iHaveGreekLicense;
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
+
+  /// No description provided for @selectLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Language'**
+  String get selectLanguage;
+
+  /// No description provided for @languageFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get languageFieldLabel;
+
+  /// No description provided for @selectLanguageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select language'**
+  String get selectLanguageHint;
+
+  /// No description provided for @searchLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Search language'**
+  String get searchLanguage;
+
+  /// No description provided for @loadingLanguages.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading languages...'**
+  String get loadingLanguages;
+
+  /// No description provided for @noLanguagesAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No languages available right now.'**
+  String get noLanguagesAvailable;
+
+  /// No description provided for @proficiencyLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Proficiency Level'**
+  String get proficiencyLevel;
+
+  /// No description provided for @addAnotherLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Another Language'**
+  String get addAnotherLanguage;
+
+  /// No description provided for @editJobsPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Jobs Preferences'**
+  String get editJobsPreferences;
+
+  /// No description provided for @assessmentsResultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Assessments results'**
+  String get assessmentsResultsTitle;
+
+  /// No description provided for @companyTabVacancies.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacancies'**
   String get companyTabVacancies;
+
+  /// No description provided for @companyTabAboutCompany.
+  ///
+  /// In en, this message translates to:
+  /// **'About Company'**
   String get companyTabAboutCompany;
+
+  /// No description provided for @companyTabEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'Events'**
   String get companyTabEvents;
+
+  /// No description provided for @companyTabPosts.
+  ///
+  /// In en, this message translates to:
+  /// **'Posts'**
   String get companyTabPosts;
+
+  /// No description provided for @companyJobsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} jobs found'**
   String companyJobsFound(int count);
+
+  /// No description provided for @companyNoVacancies.
+  ///
+  /// In en, this message translates to:
+  /// **'No open vacancies at this time.'**
   String get companyNoVacancies;
+
+  /// No description provided for @saveJob.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Job'**
   String get saveJob;
+
+  /// No description provided for @entryLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry'**
   String get entryLevel;
+
+  /// No description provided for @companyPerksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Perks & Benefits'**
   String get companyPerksTitle;
+
+  /// No description provided for @companyGalleryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Gallery'**
   String get companyGalleryTitle;
+
+  /// No description provided for @companyNoEvents.
+  ///
+  /// In en, this message translates to:
+  /// **'No upcoming events.'**
   String get companyNoEvents;
+
+  /// No description provided for @companyEventsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Events'**
   String get companyEventsTitle;
+
+  /// No description provided for @companyPostsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Company Posts'**
   String get companyPostsTitle;
+
+  /// No description provided for @companyPostsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} posts found'**
   String companyPostsFound(int count);
+
+  /// No description provided for @companyNoPostsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No company posts yet.'**
   String get companyNoPostsYet;
+
+  /// No description provided for @shareButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
   String get shareButton;
+
+  /// No description provided for @culturalMatchScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Cultural Match Score'**
   String get culturalMatchScore;
+
+  /// No description provided for @culturalMatchDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'You and this company both chose your top 5 values and preferences. This score shows how closely they align.'**
   String get culturalMatchDescription;
+
+  /// No description provided for @culturalMatchYouBothCareAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'You both care about:'**
   String get culturalMatchYouBothCareAbout;
+
+  /// No description provided for @companyTeamEmployees.
+  ///
+  /// In en, this message translates to:
+  /// **'{teamSize} employees'**
   String companyTeamEmployees(String teamSize);
+
+  /// No description provided for @companyLabelMainOffice.
+  ///
+  /// In en, this message translates to:
+  /// **'Main Office Location'**
   String get companyLabelMainOffice;
+
+  /// No description provided for @companyLabelOtherLocations.
+  ///
+  /// In en, this message translates to:
+  /// **'Other Locations'**
   String get companyLabelOtherLocations;
+
+  /// No description provided for @companyLabelContactPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Phone'**
   String get companyLabelContactPhone;
+
+  /// No description provided for @companyLabelWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
   String get companyLabelWebsite;
+
+  /// No description provided for @notAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'N/A'**
   String get notAvailable;
+
+  /// No description provided for @eventDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Event Details'**
   String get eventDetailsTitle;
+
+  /// No description provided for @eventAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
   String get eventAddressLabel;
+
+  /// No description provided for @eventRegistrationLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration Link'**
   String get eventRegistrationLink;
+
+  /// No description provided for @companyLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load company.'**
   String get companyLoadError;
+
+  /// No description provided for @tryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
   String get tryAgain;
 
+  /// No description provided for @assessmentsRecommendedForYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Assessments recommended for you'**
   String get assessmentsRecommendedForYou;
+
+  /// No description provided for @assessmentYourScore.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Score'**
   String get assessmentYourScore;
+
+  /// No description provided for @assessmentLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Level'**
   String get assessmentLevel;
+
+  /// No description provided for @assessmentSkillBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Skill breakdown'**
   String get assessmentSkillBreakdown;
+
+  /// No description provided for @assessmentKeyInsights.
+  ///
+  /// In en, this message translates to:
+  /// **'Key insights'**
   String get assessmentKeyInsights;
+
+  /// No description provided for @assessmentPreviousResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous results'**
   String get assessmentPreviousResults;
+
+  /// No description provided for @assessmentYouImproving.
+  ///
+  /// In en, this message translates to:
+  /// **'You improving!'**
   String get assessmentYouImproving;
+
+  /// No description provided for @assessmentMeansForProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'What this means for your profile'**
   String get assessmentMeansForProfile;
+
+  /// No description provided for @assessmentAboutThis.
+  ///
+  /// In en, this message translates to:
+  /// **'About this assessment'**
   String get assessmentAboutThis;
+
+  /// No description provided for @assessmentUsedFor.
+  ///
+  /// In en, this message translates to:
+  /// **'What this assessment is used for'**
   String get assessmentUsedFor;
+
+  /// No description provided for @assessmentBeforeStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Before you start'**
   String get assessmentBeforeStart;
+
+  /// No description provided for @assessmentApproxDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Approximate Duration'**
   String get assessmentApproxDuration;
+
+  /// No description provided for @assessmentQuestionsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions'**
   String get assessmentQuestionsLabel;
+
+  /// No description provided for @bannerNotSureJob.
+  ///
+  /// In en, this message translates to:
+  /// **'Not sure how to find the right job?'**
   String get bannerNotSureJob;
+
+  /// No description provided for @chatNewChat.
+  ///
+  /// In en, this message translates to:
+  /// **'New Chat'**
   String get chatNewChat;
+
+  /// No description provided for @chatSearchInChats.
+  ///
+  /// In en, this message translates to:
+  /// **'Search in Chats'**
   String get chatSearchInChats;
+
+  /// No description provided for @chatHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat\'s History'**
   String get chatHistory;
+
+  /// No description provided for @homeNeedRefresher.
+  ///
+  /// In en, this message translates to:
+  /// **'Need a quick refresher?'**
   String get homeNeedRefresher;
+
+  /// No description provided for @homeCvSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Your CV Success'**
   String get homeCvSuccess;
+
+  /// No description provided for @homeStatViews.
+  ///
+  /// In en, this message translates to:
+  /// **'Views'**
   String get homeStatViews;
+
+  /// No description provided for @homeStatInvitations.
+  ///
+  /// In en, this message translates to:
+  /// **'Invitations'**
   String get homeStatInvitations;
+
+  /// No description provided for @homeStatApplicationsSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Applications Sent'**
   String get homeStatApplicationsSent;
+
+  /// No description provided for @homeStatInterviews.
+  ///
+  /// In en, this message translates to:
+  /// **'Interviews'**
   String get homeStatInterviews;
+
+  /// No description provided for @homeRecommendedCourses.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended Courses'**
   String get homeRecommendedCourses;
+
+  /// No description provided for @homeLatestNews.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest News'**
   String get homeLatestNews;
+
+  /// No description provided for @homeSmartJobRecommendations.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Job Recommendations'**
   String get homeSmartJobRecommendations;
+
+  /// No description provided for @viewAll.
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
   String get viewAll;
+
+  /// No description provided for @searchByJobTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by job title'**
   String get searchByJobTitle;
+
+  /// No description provided for @jobLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load job.'**
   String get jobLoadError;
+
+  /// No description provided for @jobRemovedFromSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from saved jobs.'**
   String get jobRemovedFromSaved;
+
+  /// No description provided for @jobSavedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Job has been saved! Check your saved jobs.'**
   String get jobSavedMessage;
+
+  /// No description provided for @jobPostRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Job post has been removed'**
   String get jobPostRemoved;
+
+  /// No description provided for @deadlineReminderSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Deadline Reminder has been set. We will notify you a week before the deadline'**
   String get deadlineReminderSet;
+
+  /// No description provided for @readMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Read more'**
   String get readMore;
+
+  /// No description provided for @jobPostedDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted {date}'**
   String jobPostedDate(String date);
+
+  /// No description provided for @jobClosedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
   String get jobClosedLabel;
+
+  /// No description provided for @deadlineReminderLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Deadline Reminder'**
   String get deadlineReminderLabel;
+
+  /// No description provided for @reportLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Report'**
   String get reportLabel;
+
+  /// No description provided for @reminderSetNotification.
+  ///
+  /// In en, this message translates to:
+  /// **'You have set a reminder for this job post'**
   String get reminderSetNotification;
+
+  /// No description provided for @odysseaReviewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Odyssea Review: '**
   String get odysseaReviewLabel;
+
+  /// No description provided for @recommendedForYouLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Recommended for you'**
   String get recommendedForYouLabel;
+
+  /// No description provided for @tabAllJobs.
+  ///
+  /// In en, this message translates to:
+  /// **'All Jobs'**
   String get tabAllJobs;
+
+  /// No description provided for @tabSavedJobs.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved ({count})'**
   String tabSavedJobs(int count);
+
+  /// No description provided for @sortingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorting'**
   String get sortingTitle;
+
+  /// No description provided for @filtersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
   String get filtersTitle;
+
+  /// No description provided for @resetFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Filters'**
   String get resetFilters;
+
+  /// No description provided for @applyFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply Filters'**
   String get applyFilters;
+
+  /// No description provided for @filterAllLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
   String get filterAllLabel;
+
+  /// No description provided for @filterClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
   String get filterClear;
+
+  /// No description provided for @applyFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply Filter'**
   String get applyFilter;
+
+  /// No description provided for @salaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary'**
   String get salaryTitle;
+
+  /// No description provided for @tillLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Till'**
   String get tillLabel;
+
+  /// No description provided for @reportJobTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report this job?'**
   String get reportJobTitle;
+
+  /// No description provided for @selectReasonHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Reason'**
   String get selectReasonHint;
+
+  /// No description provided for @setReminderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a reminder'**
   String get setReminderTitle;
+
+  /// No description provided for @applicationOpenTill.
+  ///
+  /// In en, this message translates to:
+  /// **'Application open till:'**
   String get applicationOpenTill;
+
+  /// No description provided for @whenShouldRemind.
+  ///
+  /// In en, this message translates to:
+  /// **'When should we remind you?'**
   String get whenShouldRemind;
+
+  /// No description provided for @reminderTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
   String get reminderTomorrow;
+
+  /// No description provided for @reminderTomorrowSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder will be sent at this time tomorrow'**
   String get reminderTomorrowSub;
+
+  /// No description provided for @reminderOneWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'In one week'**
   String get reminderOneWeek;
+
+  /// No description provided for @reminderOneWeekSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder will be sent at this time in one week'**
   String get reminderOneWeekSub;
+
+  /// No description provided for @reminderOneDayBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'One day before the deadline'**
   String get reminderOneDayBefore;
+
+  /// No description provided for @reminderOneDayBeforeSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder will be sent one day before the deadline'**
   String get reminderOneDayBeforeSub;
+
+  /// No description provided for @reminderCustomDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a custom date'**
   String get reminderCustomDate;
+
+  /// No description provided for @reminderCustomDateSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a custom date for your reminder'**
   String get reminderCustomDateSub;
+
+  /// No description provided for @selectDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the date'**
   String get selectDateLabel;
+
+  /// No description provided for @selectTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the time'**
   String get selectTimeLabel;
+
+  /// No description provided for @ddMmYyyyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'DD-MM-YYYY'**
   String get ddMmYyyyHint;
+
+  /// No description provided for @reminderViaContactSub.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll send a reminder to:\n{contact}'**
   String reminderViaContactSub(String contact);
+
+  /// No description provided for @reminderViaSmsWhatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'SMS / WhatsApp'**
   String get reminderViaSmsWhatsapp;
+
+  /// No description provided for @changeEmailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Email'**
   String get changeEmailTitle;
+
+  /// No description provided for @newEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New Email'**
   String get newEmailLabel;
+
+  /// No description provided for @newEmailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter new email'**
   String get newEmailHint;
+
+  /// No description provided for @changePasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
   String get changePasswordTitle;
+
+  /// No description provided for @repeatNewPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat New Password'**
   String get repeatNewPasswordLabel;
+
+  /// No description provided for @repeatNewPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat your new password'**
   String get repeatNewPasswordHint;
+
+  /// No description provided for @changePhoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Phone Number'**
   String get changePhoneTitle;
+
+  /// No description provided for @newPhoneNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New Phone Number'**
   String get newPhoneNumberLabel;
+
+  /// No description provided for @confirmAccountDeletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Account Deletion'**
   String get confirmAccountDeletion;
+
+  /// No description provided for @typeDeleteToConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Type \'delete\' to confirm'**
   String get typeDeleteToConfirm;
+
+  /// No description provided for @enterDeleteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter \"delete\"'**
   String get enterDeleteHint;
+
+  /// No description provided for @deleteAccountButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
   String get deleteAccountButton;
+
+  /// No description provided for @makeProfileInvisible.
+  ///
+  /// In en, this message translates to:
+  /// **'Make your profile invisible?'**
   String get makeProfileInvisible;
+
+  /// No description provided for @switchToLite.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to Ithaki Lite?'**
   String get switchToLite;
+
+  /// No description provided for @verificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification'**
   String get verificationTitle;
+
+  /// No description provided for @pushNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Push Notifications'**
   String get pushNotifications;
+
+  /// No description provided for @unsubscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsubscribe'**
   String get unsubscribe;
+
+  /// No description provided for @noMoreJobInterests.
+  ///
+  /// In en, this message translates to:
+  /// **'No more job interests available to add.'**
   String get noMoreJobInterests;
+
+  /// No description provided for @roleMigrant.
+  ///
+  /// In en, this message translates to:
+  /// **'Migrant'**
   String get roleMigrant;
+
+  /// No description provided for @roleRefugee.
+  ///
+  /// In en, this message translates to:
+  /// **'Refugee'**
   String get roleRefugee;
+
+  /// No description provided for @roleAsylumSeeker.
+  ///
+  /// In en, this message translates to:
+  /// **'Asylum Seeker'**
   String get roleAsylumSeeker;
+
+  /// No description provided for @homeGreetingName.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi, {name}!'**
+  String homeGreetingName(String name);
+
+  /// No description provided for @homeGreetingNoName.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi!'**
+  String get homeGreetingNoName;
+
+  /// No description provided for @homeGreetingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Here\'s a quick overview of your latest job matches, updates, and helpful tips to move your career forward.'**
+  String get homeGreetingSubtitle;
+
+  /// No description provided for @homeRestartProductTourSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart the product tour whenever you want from Home.'**
+  String get homeRestartProductTourSubtitle;
+
+  /// No description provided for @homeRestartProductTour.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart Product Tour'**
+  String get homeRestartProductTour;
+
+  /// No description provided for @homeCareerAssistantBannerSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Career Assistant can help if you\'re not sure where to start!'**
+  String get homeCareerAssistantBannerSubtitle;
+
+  /// No description provided for @homeCoursesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Boost your skills with courses that help you grow faster and stay aligned with today\'s industry standards. Learn at your own pace and strengthen the experience on your profile.'**
+  String get homeCoursesSubtitle;
+
+  /// No description provided for @homeProfileCompleteYourProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile'**
+  String get homeProfileCompleteYourProfile;
+
+  /// No description provided for @homeProfileWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Ithaki!'**
+  String get homeProfileWelcomeTitle;
+
+  /// No description provided for @homeProfileFillMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the missing information to unlock your full experience on the platform. A complete profile helps you get better job matches and more employer invitations.'**
+  String get homeProfileFillMissing;
+
+  /// No description provided for @homeProfileBenefitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Benefits of completing your profile'**
+  String get homeProfileBenefitsTitle;
+
+  /// No description provided for @homeProfileFillButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill Profile'**
+  String get homeProfileFillButton;
+
+  /// No description provided for @homeQuestionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Have questions?'**
+  String get homeQuestionsTitle;
+
+  /// No description provided for @homeQuestionsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Let us help you!'**
+  String get homeQuestionsSubtitle;
+
+  /// No description provided for @homeQuestionsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Book Call with Counselor'**
+  String get homeQuestionsButton;
+
+  /// No description provided for @assessmentStartNew.
+  ///
+  /// In en, this message translates to:
+  /// **'Start New Assessment'**
+  String get assessmentStartNew;
+
+  /// No description provided for @assessmentsInProgressTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Assessments in Progress ({count})'**
+  String assessmentsInProgressTitle(int count);
+
+  /// No description provided for @assessmentsInProgressSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You have assessments in progress. Complete them to see your results.'**
+  String get assessmentsInProgressSubtitle;
+
+  /// No description provided for @assessmentsRecommendedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We recommend these assessments to help you validate your skills.'**
+  String get assessmentsRecommendedSubtitle;
+
+  /// No description provided for @assessmentsCompletedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Completed Assessments'**
+  String get assessmentsCompletedTitle;
+
+  /// No description provided for @assessmentsCompletedSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Here are your completed assessments and results.'**
+  String get assessmentsCompletedSubtitle;
+
+  /// No description provided for @assessmentStartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the Assessment'**
+  String get assessmentStartTitle;
+
+  /// No description provided for @assessmentStartSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You are about to start the following assessment'**
+  String get assessmentStartSubtitle;
+
+  /// No description provided for @assessmentStartNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Start now'**
+  String get assessmentStartNow;
+
+  /// No description provided for @assessmentContinueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue your assessment?'**
+  String get assessmentContinueTitle;
+
+  /// No description provided for @assessmentContinueSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve already started this assessment and have saved progress. Would you like to continue where you left off or start over?'**
+  String get assessmentContinueSubtitle;
+
+  /// No description provided for @assessmentStartOver.
+  ///
+  /// In en, this message translates to:
+  /// **'Start over'**
+  String get assessmentStartOver;
+
+  /// No description provided for @assessmentSkillBreakdownSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This breakdown shows how your results are distributed across key skill areas.'**
+  String get assessmentSkillBreakdownSubtitle;
+
+  /// No description provided for @assessmentResultsConfirmSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'This result confirms your skills, which are reflected in your job applications on the platform.'**
+  String get assessmentResultsConfirmSkills;
+
+  /// No description provided for @assessmentShowInCV.
+  ///
+  /// In en, this message translates to:
+  /// **'Show result in my CV'**
+  String get assessmentShowInCV;
+
+  /// No description provided for @assessmentHideFromCV.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide from CV'**
+  String get assessmentHideFromCV;
+
+  /// No description provided for @assessmentTakenLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Taken: {date}'**
+  String assessmentTakenLabel(String date);
+
+  /// No description provided for @assessmentImprovingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your results show steady improvement in how you approach and resolve work-related problems.'**
+  String get assessmentImprovingSubtitle;
+
+  /// No description provided for @assessmentProcessingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Processing your results!'**
+  String get assessmentProcessingTitle;
+
+  /// No description provided for @assessmentProcessingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'ve successfully completed the assessment. We\'re now generating your results — this will only take a moment.'**
+  String get assessmentProcessingSubtitle;
+
+  /// No description provided for @assessmentLeaveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave this page?'**
+  String get assessmentLeaveTitle;
+
+  /// No description provided for @assessmentLeaveSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re about to leave this assessment. Your progress will be saved automatically, and you can continue later.'**
+  String get assessmentLeaveSubtitle;
+
+  /// No description provided for @assessmentLeaveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave'**
+  String get assessmentLeaveButton;
+
+  /// No description provided for @quizSelectOneAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Select only one answer'**
+  String get quizSelectOneAnswer;
+
+  /// No description provided for @quizSelectUpToAnswers.
+  ///
+  /// In en, this message translates to:
+  /// **'Select up to {max} answers'**
+  String quizSelectUpToAnswers(int max);
+
+  /// No description provided for @quizSelectBestReflects.
+  ///
+  /// In en, this message translates to:
+  /// **'Select the option that best reflects how you usually feel.'**
+  String get quizSelectBestReflects;
+
+  /// No description provided for @quizNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get quizNoResults;
 }
 
 class _AppLocalizationsDelegate

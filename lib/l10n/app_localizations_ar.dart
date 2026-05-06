@@ -1,4 +1,4 @@
-﻿// ignore: unused_import
+// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
@@ -1166,7 +1166,73 @@ class AppLocalizationsAr extends AppLocalizations {
   String get editLanguages => '????? ??????';
 
   @override
-  String get languagesTitle => 'اللغات';
+  String get languagesTitle => '??????';
+
+  @override
+  String get aboutMeEditDescription =>
+      '???? ??? ????????? ???????? ?? ????. ??????? ??? ??? ????? ???? ?????? ?????? ??????. ????? ????? ????????? ?????? ?? ??????? ?? ?? ??? ?? ????? ??????.';
+
+  @override
+  String get addBioDescription =>
+      '??? ??? ????? ?? ???? ??????? ????? ????? ??? ??? ?? ??? ??? ???? ???? ??. ???? ??? ???? ??????? ?????? ????? ????? ???????? ???????? ????????.';
+
+  @override
+  String get addVideoDescription =>
+      '??? ????? ?????? ??????? ????? ?????? ????? ?????? ????? ????????. ?????? ??????? ??? ?????? ??? ???????? ???????.';
+
+  @override
+  String get uploadViaUrl => '??? ??? ????';
+
+  @override
+  String get uploadInstructions =>
+      '???? ???? ?????? (??? 10 ?????? ??? 5 ????????\n??? ???? ????? ????????: .pdf? .doc? .png? .jpg)';
+
+  @override
+  String get selectCategory => '???? ?????';
+
+  @override
+  String categoryLabel(String category) {
+    return '????? $category';
+  }
+
+  @override
+  String get iHaveGreekLicense => '??? ???? ???????';
+
+  @override
+  String get yes => '???';
+
+  @override
+  String get no => '??';
+
+  @override
+  String get selectLanguage => '???? ?????';
+
+  @override
+  String get languageFieldLabel => '?????';
+
+  @override
+  String get selectLanguageHint => '???? ?????';
+
+  @override
+  String get searchLanguage => '???? ?? ???';
+
+  @override
+  String get loadingLanguages => '??? ????? ??????...';
+
+  @override
+  String get noLanguagesAvailable => '?? ???? ???? ????? ????.';
+
+  @override
+  String get proficiencyLevel => '????? ???????';
+
+  @override
+  String get addAnotherLanguage => '????? ??? ????';
+
+  @override
+  String get editJobsPreferences => '????? ??????? ???????';
+
+  @override
+  String get assessmentsResultsTitle => '????? ?????????';
 
   @override
   String get companyTabVacancies => 'الوظائف الشاغرة';
@@ -1181,7 +1247,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get companyTabPosts => 'المنشورات';
 
   @override
-  String companyJobsFound(int count) => 'تم العثور على $count وظيفة';
+  String companyJobsFound(int count) {
+    return 'تم العثور على $count وظيفة';
+  }
 
   @override
   String get companyNoVacancies => 'لا توجد وظائف شاغرة حالياً.';
@@ -1208,7 +1276,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get companyPostsTitle => 'منشورات الشركة';
 
   @override
-  String companyPostsFound(int count) => 'تم العثور على $count منشور';
+  String companyPostsFound(int count) {
+    return 'تم العثور على $count منشور';
+  }
 
   @override
   String get companyNoPostsYet => 'لا توجد منشورات للشركة بعد.';
@@ -1227,7 +1297,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get culturalMatchYouBothCareAbout => 'كلاكما يهتم بـ:';
 
   @override
-  String companyTeamEmployees(String teamSize) => '$teamSize موظف';
+  String companyTeamEmployees(String teamSize) {
+    return '$teamSize موظف';
+  }
 
   @override
   String get companyLabelMainOffice => 'موقع المكتب الرئيسي';
@@ -1258,4 +1330,435 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get tryAgain => 'حاول مجدداً';
+
+  @override
+  String get assessmentsRecommendedForYou => 'التقييمات الموصى بها لك';
+
+  @override
+  String get assessmentYourScore => 'درجتك';
+
+  @override
+  String get assessmentLevel => 'المستوى';
+
+  @override
+  String get assessmentSkillBreakdown => 'تحليل المهارات';
+
+  @override
+  String get assessmentKeyInsights => 'الرؤى الرئيسية';
+
+  @override
+  String get assessmentPreviousResults => 'النتائج السابقة';
+
+  @override
+  String get assessmentYouImproving => 'أنت تتحسن!';
+
+  @override
+  String get assessmentMeansForProfile => 'ماذا يعني هذا لملفك الشخصي';
+
+  @override
+  String get assessmentAboutThis => 'حول هذا التقييم';
+
+  @override
+  String get assessmentUsedFor => 'ما استخدام هذا التقييم';
+
+  @override
+  String get assessmentBeforeStart => 'قبل أن تبدأ';
+
+  @override
+  String get assessmentApproxDuration => 'المدة التقريبية';
+
+  @override
+  String get assessmentQuestionsLabel => 'الأسئلة';
+
+  @override
+  String get bannerNotSureJob => 'لا تعرف كيف تجد الوظيفة المناسبة؟';
+
+  @override
+  String get chatNewChat => 'محادثة جديدة';
+
+  @override
+  String get chatSearchInChats => 'البحث في المحادثات';
+
+  @override
+  String get chatHistory => 'سجل المحادثات';
+
+  @override
+  String get homeNeedRefresher => 'هل تحتاج إلى مراجعة سريعة؟';
+
+  @override
+  String get homeCvSuccess => 'نجاح السيرة الذاتية';
+
+  @override
+  String get homeStatViews => 'المشاهدات';
+
+  @override
+  String get homeStatInvitations => 'الدعوات';
+
+  @override
+  String get homeStatApplicationsSent => 'الطلبات المُرسلة';
+
+  @override
+  String get homeStatInterviews => 'المقابلات';
+
+  @override
+  String get homeRecommendedCourses => 'الدورات الموصى بها';
+
+  @override
+  String get homeLatestNews => 'آخر الأخبار';
+
+  @override
+  String get homeSmartJobRecommendations => 'توصيات الوظائف الذكية';
+
+  @override
+  String get viewAll => 'عرض الكل';
+
+  @override
+  String get searchByJobTitle => 'ابحث بمسمى وظيفي';
+
+  @override
+  String get jobLoadError => 'تعذر تحميل بيانات الوظيفة.';
+
+  @override
+  String get jobRemovedFromSaved => 'تمت إزالته من الوظائف المحفوظة.';
+
+  @override
+  String get jobSavedMessage => 'تم حفظ الوظيفة! تحقق من وظائفك المحفوظة.';
+
+  @override
+  String get jobPostRemoved => 'تمت إزالة إعلان الوظيفة';
+
+  @override
+  String get deadlineReminderSet =>
+      'تم تعيين تذكير الموعد النهائي. سنُعلمك قبل أسبوع من الموعد النهائي.';
+
+  @override
+  String get readMore => 'اقرأ المزيد';
+
+  @override
+  String jobPostedDate(String date) {
+    return 'نُشر في $date';
+  }
+
+  @override
+  String get jobClosedLabel => 'مغلقة';
+
+  @override
+  String get deadlineReminderLabel => 'تذكير الموعد النهائي';
+
+  @override
+  String get reportLabel => 'الإبلاغ';
+
+  @override
+  String get reminderSetNotification =>
+      'لقد قمت بتعيين تذكير لهذا الإعلان الوظيفي';
+
+  @override
+  String get odysseaReviewLabel => 'تقييم Odyssea: ';
+
+  @override
+  String get recommendedForYouLabel => 'موصى به لك';
+
+  @override
+  String get tabAllJobs => 'جميع الوظائف';
+
+  @override
+  String tabSavedJobs(int count) {
+    return 'المحفوظة ($count)';
+  }
+
+  @override
+  String get sortingTitle => 'الترتيب';
+
+  @override
+  String get filtersTitle => 'الفلاتر';
+
+  @override
+  String get resetFilters => 'إعادة تعيين الفلاتر';
+
+  @override
+  String get applyFilters => 'تطبيق الفلاتر';
+
+  @override
+  String get filterAllLabel => 'الكل';
+
+  @override
+  String get filterClear => 'مسح';
+
+  @override
+  String get applyFilter => 'تطبيق الفلتر';
+
+  @override
+  String get salaryTitle => 'الراتب';
+
+  @override
+  String get tillLabel => 'حتى';
+
+  @override
+  String get reportJobTitle => 'الإبلاغ عن هذه الوظيفة؟';
+
+  @override
+  String get selectReasonHint => 'اختر السبب';
+
+  @override
+  String get setReminderTitle => 'تعيين تذكير';
+
+  @override
+  String get applicationOpenTill => 'الطلب مفتوح حتى:';
+
+  @override
+  String get whenShouldRemind => 'متى نذكّرك؟';
+
+  @override
+  String get reminderTomorrow => 'غداً';
+
+  @override
+  String get reminderTomorrowSub => 'سيُرسَل التذكير غداً في نفس الوقت';
+
+  @override
+  String get reminderOneWeek => 'بعد أسبوع';
+
+  @override
+  String get reminderOneWeekSub => 'سيُرسَل التذكير بعد أسبوع في نفس الوقت';
+
+  @override
+  String get reminderOneDayBefore => 'يوم واحد قبل الموعد النهائي';
+
+  @override
+  String get reminderOneDayBeforeSub =>
+      'سيُرسَل التذكير يوماً قبل الموعد النهائي';
+
+  @override
+  String get reminderCustomDate => 'اختر تاريخاً مخصصاً';
+
+  @override
+  String get reminderCustomDateSub => 'اختر تاريخاً مخصصاً لتذكيرك';
+
+  @override
+  String get selectDateLabel => 'اختر التاريخ';
+
+  @override
+  String get selectTimeLabel => 'اختر الوقت';
+
+  @override
+  String get ddMmYyyyHint => 'يي-شش-سسسس';
+
+  @override
+  String reminderViaContactSub(String contact) {
+    return 'سنُرسل تذكيراً إلى:\n$contact';
+  }
+
+  @override
+  String get reminderViaSmsWhatsapp => 'SMS / WhatsApp';
+
+  @override
+  String get changeEmailTitle => 'تغيير البريد الإلكتروني';
+
+  @override
+  String get newEmailLabel => 'بريد إلكتروني جديد';
+
+  @override
+  String get newEmailHint => 'أدخل بريداً إلكترونياً جديداً';
+
+  @override
+  String get changePasswordTitle => 'تغيير كلمة المرور';
+
+  @override
+  String get repeatNewPasswordLabel => 'تكرار كلمة المرور الجديدة';
+
+  @override
+  String get repeatNewPasswordHint => 'كرر كلمة مرورك الجديدة';
+
+  @override
+  String get changePhoneTitle => 'تغيير رقم الهاتف';
+
+  @override
+  String get newPhoneNumberLabel => 'رقم هاتف جديد';
+
+  @override
+  String get confirmAccountDeletion => 'تأكيد حذف الحساب';
+
+  @override
+  String get typeDeleteToConfirm => 'اكتب \'delete\' للتأكيد';
+
+  @override
+  String get enterDeleteHint => 'أدخل \"delete\"';
+
+  @override
+  String get deleteAccountButton => 'حذف الحساب';
+
+  @override
+  String get makeProfileInvisible => 'هل تريد إخفاء ملفك الشخصي؟';
+
+  @override
+  String get switchToLite => 'التحويل إلى Ithaki Lite؟';
+
+  @override
+  String get verificationTitle => 'التحقق';
+
+  @override
+  String get pushNotifications => 'الإشعارات الفورية';
+
+  @override
+  String get unsubscribe => 'إلغاء الاشتراك';
+
+  @override
+  String get noMoreJobInterests => 'لا توجد اهتمامات وظيفية أخرى لإضافتها.';
+
+  @override
+  String get roleMigrant => 'مهاجر';
+
+  @override
+  String get roleRefugee => 'لاجئ';
+
+  @override
+  String get roleAsylumSeeker => 'طالب لجوء';
+
+  @override
+  String homeGreetingName(String name) {
+    return 'مرحباً، $name!';
+  }
+
+  @override
+  String get homeGreetingNoName => 'مرحباً!';
+
+  @override
+  String get homeGreetingSubtitle =>
+      'إليك نظرة سريعة على أحدث تطابقات الوظائف والتحديثات والنصائح المفيدة للمضي قدماً في مسيرتك المهنية.';
+
+  @override
+  String get homeRestartProductTourSubtitle =>
+      'أعد تشغيل جولة المنتج في أي وقت تريد من الصفحة الرئيسية.';
+
+  @override
+  String get homeRestartProductTour => 'إعادة تشغيل الجولة';
+
+  @override
+  String get homeCareerAssistantBannerSubtitle =>
+      'يمكن لمساعد المهنة مساعدتك إذا لم تكن متأكداً من أين تبدأ!';
+
+  @override
+  String get homeCoursesSubtitle =>
+      'طوّر مهاراتك بدورات تساعدك على النمو بسرعة أكبر. تعلّم بالوتيرة التي تناسبك.';
+
+  @override
+  String get homeProfileCompleteYourProfile => 'أكمل ملفك الشخصي';
+
+  @override
+  String get homeProfileWelcomeTitle => 'مرحباً بك في Ithaki!';
+
+  @override
+  String get homeProfileFillMissing =>
+      'أكمل المعلومات الناقصة لفتح التجربة الكاملة على المنصة. يساعدك الملف الشخصي الكامل على الحصول على تطابقات أفضل ودعوات أكثر.';
+
+  @override
+  String get homeProfileBenefitsTitle => 'فوائد إكمال ملفك الشخصي';
+
+  @override
+  String get homeProfileFillButton => 'أكمل الملف الشخصي';
+
+  @override
+  String get homeQuestionsTitle => 'هل لديك أسئلة؟';
+
+  @override
+  String get homeQuestionsSubtitle => 'دعنا نساعدك!';
+
+  @override
+  String get homeQuestionsButton => 'احجز مكالمة مع مستشار';
+
+  @override
+  String get assessmentStartNew => 'بدء تقييم جديد';
+
+  @override
+  String assessmentsInProgressTitle(int count) {
+    return 'التقييمات قيد التنفيذ ($count)';
+  }
+
+  @override
+  String get assessmentsInProgressSubtitle =>
+      'لديك تقييمات قيد التنفيذ. أكملها لمشاهدة نتائجك.';
+
+  @override
+  String get assessmentsRecommendedSubtitle =>
+      'نوصيك بهذه التقييمات للتحقق من مهاراتك.';
+
+  @override
+  String get assessmentsCompletedTitle => 'تقييماتك المكتملة';
+
+  @override
+  String get assessmentsCompletedSubtitle =>
+      'إليك التقييمات المكتملة ونتائجها.';
+
+  @override
+  String get assessmentStartTitle => 'بدء التقييم';
+
+  @override
+  String get assessmentStartSubtitle => 'أنت على وشك بدء التقييم التالي';
+
+  @override
+  String get assessmentStartNow => 'ابدأ الآن';
+
+  @override
+  String get assessmentContinueTitle => 'هل تريد متابعة التقييم؟';
+
+  @override
+  String get assessmentContinueSubtitle =>
+      'لقد بدأت هذا التقييم بالفعل ولديك تقدم محفوظ. هل تريد الاستمرار من حيث توقفت أم البدء من جديد؟';
+
+  @override
+  String get assessmentStartOver => 'البدء من جديد';
+
+  @override
+  String get assessmentSkillBreakdownSubtitle =>
+      'يوضح هذا التحليل كيفية توزيع نتائجك عبر مجالات المهارات الرئيسية.';
+
+  @override
+  String get assessmentResultsConfirmSkills =>
+      'تؤكد هذه النتيجة مهاراتك التي تنعكس في طلبات العمل الخاصة بك على المنصة.';
+
+  @override
+  String get assessmentShowInCV => 'عرض النتيجة في سيرتي الذاتية';
+
+  @override
+  String get assessmentHideFromCV => 'إخفاء من السيرة الذاتية';
+
+  @override
+  String assessmentTakenLabel(String date) {
+    return 'تم في: $date';
+  }
+
+  @override
+  String get assessmentImprovingSubtitle =>
+      'تُظهر نتائجك تحسناً مستمراً في طريقة تعاملك مع مشكلات العمل.';
+
+  @override
+  String get assessmentProcessingTitle => 'جارٍ معالجة نتائجك!';
+
+  @override
+  String get assessmentProcessingSubtitle =>
+      'لقد أكملت التقييم بنجاح. نحن نعمل على إنشاء نتائجك — سيستغرق هذا لحظة فقط.';
+
+  @override
+  String get assessmentLeaveTitle => 'مغادرة هذه الصفحة؟';
+
+  @override
+  String get assessmentLeaveSubtitle =>
+      'أنت على وشك مغادرة هذا التقييم. سيتم حفظ تقدمك تلقائياً ويمكنك الاستمرار لاحقاً.';
+
+  @override
+  String get assessmentLeaveButton => 'مغادرة';
+
+  @override
+  String get quizSelectOneAnswer => 'اختر إجابة واحدة فقط';
+
+  @override
+  String quizSelectUpToAnswers(int max) {
+    return 'اختر ما يصل إلى $max إجابات';
+  }
+
+  @override
+  String get quizSelectBestReflects =>
+      'اختر الخيار الذي يعكس بشكل أفضل شعورك عادةً.';
+
+  @override
+  String get quizNoResults => 'لا توجد نتائج';
 }

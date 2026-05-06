@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
@@ -9,16 +10,17 @@ class HomeQuestionsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       children: [
-        const Row(
+        Row(
           children: [
-            IthakiIcon('help', size: 24, color: IthakiTheme.accentPurpleLight),
-            SizedBox(width: 8),
+            const IthakiIcon('help', size: 24, color: IthakiTheme.accentPurpleLight),
+            const SizedBox(width: 8),
             Expanded(
               child: Text(
-                'Have questions?',
-                style: TextStyle(
+                l10n.homeQuestionsTitle,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: IthakiTheme.textPrimary,
@@ -28,11 +30,11 @@ class HomeQuestionsSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
-        const Align(
+        Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            'Let us help you!',
-            style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
+            l10n.homeQuestionsSubtitle,
+            style: const TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
           ),
         ),
         const SizedBox(height: 16),
@@ -47,9 +49,9 @@ class HomeQuestionsSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(24),
               ),
             ),
-            child: const Text(
-              'Book Call with Counselor',
-              style: TextStyle(
+            child: Text(
+              l10n.homeQuestionsButton,
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 color: IthakiTheme.textPrimary,

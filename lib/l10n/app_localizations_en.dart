@@ -1140,6 +1140,72 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languagesTitle => 'Languages';
 
   @override
+  String get aboutMeEditDescription =>
+      'Please provide some basic information about yourself. This helps us set up your profile and personalize your experience. You can add information later or update this anytime in Profile.';
+
+  @override
+  String get addBioDescription =>
+      'Add a few words about yourself to help employers understand who you are and what you do. We recommend keeping it concise, avoiding unnecessary filler, and highlighting key skills and experience.';
+
+  @override
+  String get addVideoDescription =>
+      'Add a short video to introduce yourself to employers, highlight your experience, and showcase your skills. A video helps you stand out among other candidates.';
+
+  @override
+  String get uploadViaUrl => 'Upload via URL';
+
+  @override
+  String get uploadInstructions =>
+      'tap button to browse (max 10 files, up to 5 MB\neach; supported formats: .pdf, .doc, .png, .jpg)';
+
+  @override
+  String get selectCategory => 'Select category';
+
+  @override
+  String categoryLabel(String category) {
+    return 'Category $category';
+  }
+
+  @override
+  String get iHaveGreekLicense => 'I have Greek License';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get selectLanguage => 'Select Language';
+
+  @override
+  String get languageFieldLabel => 'Language';
+
+  @override
+  String get selectLanguageHint => 'Select language';
+
+  @override
+  String get searchLanguage => 'Search language';
+
+  @override
+  String get loadingLanguages => 'Loading languages...';
+
+  @override
+  String get noLanguagesAvailable => 'No languages available right now.';
+
+  @override
+  String get proficiencyLevel => 'Proficiency Level';
+
+  @override
+  String get addAnotherLanguage => 'Add Another Language';
+
+  @override
+  String get editJobsPreferences => 'Edit Jobs Preferences';
+
+  @override
+  String get assessmentsResultsTitle => 'Assessments results';
+
+  @override
   String get companyTabVacancies => 'Vacancies';
 
   @override
@@ -1152,7 +1218,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get companyTabPosts => 'Posts';
 
   @override
-  String companyJobsFound(int count) => '$count jobs found';
+  String companyJobsFound(int count) {
+    return '$count jobs found';
+  }
 
   @override
   String get companyNoVacancies => 'No open vacancies at this time.';
@@ -1179,7 +1247,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get companyPostsTitle => 'Company Posts';
 
   @override
-  String companyPostsFound(int count) => '$count posts found';
+  String companyPostsFound(int count) {
+    return '$count posts found';
+  }
 
   @override
   String get companyNoPostsYet => 'No company posts yet.';
@@ -1198,7 +1268,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get culturalMatchYouBothCareAbout => 'You both care about:';
 
   @override
-  String companyTeamEmployees(String teamSize) => '$teamSize employees';
+  String companyTeamEmployees(String teamSize) {
+    return '$teamSize employees';
+  }
 
   @override
   String get companyLabelMainOffice => 'Main Office Location';
@@ -1279,7 +1351,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chatSearchInChats => 'Search in Chats';
 
   @override
-  String get chatHistory => "Chat's History";
+  String get chatHistory => 'Chat\'s History';
 
   @override
   String get homeNeedRefresher => 'Need a quick refresher?';
@@ -1334,7 +1406,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get readMore => 'Read more';
 
   @override
-  String jobPostedDate(String date) => 'Posted $date';
+  String jobPostedDate(String date) {
+    return 'Posted $date';
+  }
 
   @override
   String get jobClosedLabel => 'Closed';
@@ -1359,7 +1433,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabAllJobs => 'All Jobs';
 
   @override
-  String tabSavedJobs(int count) => 'Saved ($count)';
+  String tabSavedJobs(int count) {
+    return 'Saved ($count)';
+  }
 
   @override
   String get sortingTitle => 'Sorting';
@@ -1440,8 +1516,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get ddMmYyyyHint => 'DD-MM-YYYY';
 
   @override
-  String reminderViaContactSub(String contact) =>
-      "We'll send a reminder to:\n$contact";
+  String reminderViaContactSub(String contact) {
+    return 'We\'ll send a reminder to:\n$contact';
+  }
 
   @override
   String get reminderViaSmsWhatsapp => 'SMS / WhatsApp';
@@ -1474,10 +1551,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmAccountDeletion => 'Confirm Account Deletion';
 
   @override
-  String get typeDeleteToConfirm => "Type 'delete' to confirm";
+  String get typeDeleteToConfirm => 'Type \'delete\' to confirm';
 
   @override
-  String get enterDeleteHint => 'Enter "delete"';
+  String get enterDeleteHint => 'Enter \"delete\"';
 
   @override
   String get deleteAccountButton => 'Delete Account';
@@ -1498,8 +1575,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unsubscribe => 'Unsubscribe';
 
   @override
-  String get noMoreJobInterests =>
-      'No more job interests available to add.';
+  String get noMoreJobInterests => 'No more job interests available to add.';
 
   @override
   String get roleMigrant => 'Migrant';
@@ -1509,4 +1585,154 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get roleAsylumSeeker => 'Asylum Seeker';
+
+  @override
+  String homeGreetingName(String name) {
+    return 'Hi, $name!';
+  }
+
+  @override
+  String get homeGreetingNoName => 'Hi!';
+
+  @override
+  String get homeGreetingSubtitle =>
+      'Here\'s a quick overview of your latest job matches, updates, and helpful tips to move your career forward.';
+
+  @override
+  String get homeRestartProductTourSubtitle =>
+      'Restart the product tour whenever you want from Home.';
+
+  @override
+  String get homeRestartProductTour => 'Restart Product Tour';
+
+  @override
+  String get homeCareerAssistantBannerSubtitle =>
+      'Career Assistant can help if you\'re not sure where to start!';
+
+  @override
+  String get homeCoursesSubtitle =>
+      'Boost your skills with courses that help you grow faster and stay aligned with today\'s industry standards. Learn at your own pace and strengthen the experience on your profile.';
+
+  @override
+  String get homeProfileCompleteYourProfile => 'Complete your profile';
+
+  @override
+  String get homeProfileWelcomeTitle => 'Welcome to Ithaki!';
+
+  @override
+  String get homeProfileFillMissing =>
+      'Fill in the missing information to unlock your full experience on the platform. A complete profile helps you get better job matches and more employer invitations.';
+
+  @override
+  String get homeProfileBenefitsTitle => 'Benefits of completing your profile';
+
+  @override
+  String get homeProfileFillButton => 'Fill Profile';
+
+  @override
+  String get homeQuestionsTitle => 'Have questions?';
+
+  @override
+  String get homeQuestionsSubtitle => 'Let us help you!';
+
+  @override
+  String get homeQuestionsButton => 'Book Call with Counselor';
+
+  @override
+  String get assessmentStartNew => 'Start New Assessment';
+
+  @override
+  String assessmentsInProgressTitle(int count) {
+    return 'Assessments in Progress ($count)';
+  }
+
+  @override
+  String get assessmentsInProgressSubtitle =>
+      'You have assessments in progress. Complete them to see your results.';
+
+  @override
+  String get assessmentsRecommendedSubtitle =>
+      'We recommend these assessments to help you validate your skills.';
+
+  @override
+  String get assessmentsCompletedTitle => 'Your Completed Assessments';
+
+  @override
+  String get assessmentsCompletedSubtitle =>
+      'Here are your completed assessments and results.';
+
+  @override
+  String get assessmentStartTitle => 'Start the Assessment';
+
+  @override
+  String get assessmentStartSubtitle =>
+      'You are about to start the following assessment';
+
+  @override
+  String get assessmentStartNow => 'Start now';
+
+  @override
+  String get assessmentContinueTitle => 'Continue your assessment?';
+
+  @override
+  String get assessmentContinueSubtitle =>
+      'You\'ve already started this assessment and have saved progress. Would you like to continue where you left off or start over?';
+
+  @override
+  String get assessmentStartOver => 'Start over';
+
+  @override
+  String get assessmentSkillBreakdownSubtitle =>
+      'This breakdown shows how your results are distributed across key skill areas.';
+
+  @override
+  String get assessmentResultsConfirmSkills =>
+      'This result confirms your skills, which are reflected in your job applications on the platform.';
+
+  @override
+  String get assessmentShowInCV => 'Show result in my CV';
+
+  @override
+  String get assessmentHideFromCV => 'Hide from CV';
+
+  @override
+  String assessmentTakenLabel(String date) {
+    return 'Taken: $date';
+  }
+
+  @override
+  String get assessmentImprovingSubtitle =>
+      'Your results show steady improvement in how you approach and resolve work-related problems.';
+
+  @override
+  String get assessmentProcessingTitle => 'Processing your results!';
+
+  @override
+  String get assessmentProcessingSubtitle =>
+      'You\'ve successfully completed the assessment. We\'re now generating your results — this will only take a moment.';
+
+  @override
+  String get assessmentLeaveTitle => 'Leave this page?';
+
+  @override
+  String get assessmentLeaveSubtitle =>
+      'You\'re about to leave this assessment. Your progress will be saved automatically, and you can continue later.';
+
+  @override
+  String get assessmentLeaveButton => 'Leave';
+
+  @override
+  String get quizSelectOneAnswer => 'Select only one answer';
+
+  @override
+  String quizSelectUpToAnswers(int max) {
+    return 'Select up to $max answers';
+  }
+
+  @override
+  String get quizSelectBestReflects =>
+      'Select the option that best reflects how you usually feel.';
+
+  @override
+  String get quizNoResults => 'No results found';
 }

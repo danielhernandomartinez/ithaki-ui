@@ -1,6 +1,7 @@
 // lib/screens/assessments/assessment_detail_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
@@ -92,35 +93,47 @@ class _DetailBody extends StatelessWidget {
               const SizedBox(height: 16),
               _MetaRow(assessment: assessment),
               const SizedBox(height: 20),
-              Text('About this assessment',
-                  style: IthakiTheme.bodyRegular
-                      .copyWith(fontWeight: FontWeight.w700)),
+              Builder(builder: (context) {
+                final l10n = AppLocalizations.of(context)!;
+                return Text(l10n.assessmentAboutThis,
+                    style: IthakiTheme.bodyRegular
+                        .copyWith(fontWeight: FontWeight.w700));
+              }),
               const SizedBox(height: 8),
               Text(assessment.description,
                   style: IthakiTheme.bodyRegular
                       .copyWith(color: IthakiTheme.textSecondary)),
               if (assessment.usedFor.isNotEmpty) ...[
                 const SizedBox(height: 16),
-                Text('What this assessment is used for',
-                    style: IthakiTheme.bodyRegular
-                        .copyWith(fontWeight: FontWeight.w600)),
+                Builder(builder: (context) {
+                  final l10n = AppLocalizations.of(context)!;
+                  return Text(l10n.assessmentUsedFor,
+                      style: IthakiTheme.bodyRegular
+                          .copyWith(fontWeight: FontWeight.w600));
+                }),
                 const SizedBox(height: 8),
                 ...assessment.usedFor.map(_buildBullet),
               ],
               if (assessment.beforeYouStart.isNotEmpty) ...[
                 const SizedBox(height: 16),
-                Text('Before you start',
-                    style: IthakiTheme.bodyRegular
-                        .copyWith(fontWeight: FontWeight.w600)),
+                Builder(builder: (context) {
+                  final l10n = AppLocalizations.of(context)!;
+                  return Text(l10n.assessmentBeforeStart,
+                      style: IthakiTheme.bodyRegular
+                          .copyWith(fontWeight: FontWeight.w600));
+                }),
                 const SizedBox(height: 8),
                 ...assessment.beforeYouStart.map(_buildBullet),
               ],
               const SizedBox(height: 28),
-              IthakiButton(
-                'Start Test',
-                onPressed: () =>
-                    context.push(Routes.assessmentQuizFor(assessment.id)),
-              ),
+              Builder(builder: (context) {
+                final l10n = AppLocalizations.of(context)!;
+                return IthakiButton(
+                  l10n.assessmentStartNow,
+                  onPressed: () =>
+                      context.push(Routes.assessmentQuizFor(assessment.id)),
+                );
+              }),
               const SizedBox(height: 32),
             ],
           ),
@@ -170,23 +183,32 @@ class _MetaRow extends StatelessWidget {
       ),
       child: Row(
         children: [
-          _MetaItem(
-            iconName: 'clock',
-            label: 'Duration',
-            value: '${assessment.durationMinutes} min',
-          ),
+          Builder(builder: (context) {
+            final l10n = AppLocalizations.of(context)!;
+            return _MetaItem(
+              iconName: 'clock',
+              label: l10n.assessmentApproxDuration,
+              value: '${assessment.durationMinutes} min',
+            );
+          }),
           _MetaDivider(),
-          _MetaItem(
-            iconName: 'assessment',
-            label: 'Questions',
-            value: '${assessment.questionCount}',
-          ),
+          Builder(builder: (context) {
+            final l10n = AppLocalizations.of(context)!;
+            return _MetaItem(
+              iconName: 'assessment',
+              label: l10n.assessmentQuestionsLabel,
+              value: '${assessment.questionCount}',
+            );
+          }),
           _MetaDivider(),
-          _MetaItem(
-            iconName: 'flag',
-            label: 'Language',
-            value: assessment.language,
-          ),
+          Builder(builder: (context) {
+            final l10n = AppLocalizations.of(context)!;
+            return _MetaItem(
+              iconName: 'flag',
+              label: l10n.assessmentLevel,
+              value: assessment.language,
+            );
+          }),
         ],
       ),
     );

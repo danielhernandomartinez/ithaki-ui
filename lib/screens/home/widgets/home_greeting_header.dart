@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/home_provider.dart';
 
@@ -12,8 +13,9 @@ class HomeGreetingHeader extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final homeData = ref.watch(homeProvider).value;
     if (homeData == null) return const SizedBox.shrink();
+    final l10n = AppLocalizations.of(context)!;
     final name = homeData.userName.trim();
-    final greeting = name.isEmpty ? 'Hi!' : 'Hi, $name!';
+    final greeting = name.isEmpty ? l10n.homeGreetingNoName : l10n.homeGreetingName(name);
     return Container(
       margin: EdgeInsets.only(
         top: topOffset + 12,
@@ -35,7 +37,7 @@ class HomeGreetingHeader extends ConsumerWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            "Here's a quick overview of your latest job matches, updates, and helpful tips to move your career forward.",
+            l10n.homeGreetingSubtitle,
             style: IthakiTheme.bodyRegular.copyWith(
               color: IthakiTheme.textSecondary,
             ),

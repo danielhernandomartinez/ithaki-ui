@@ -1,4 +1,4 @@
-﻿{
+{
   "@@locale": "en",
   "appTitle": "Ithaki",
   "loginAction": "Login",
@@ -617,5 +617,67 @@
   "noMoreJobInterests": "No more job interests available to add.",
   "roleMigrant": "Migrant",
   "roleRefugee": "Refugee",
-  "roleAsylumSeeker": "Asylum Seeker"
+  "roleAsylumSeeker": "Asylum Seeker",
+
+  "homeGreetingName": "Hi, {name}!",
+  "@homeGreetingName": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "homeGreetingNoName": "Hi!",
+  "homeGreetingSubtitle": "Here's a quick overview of your latest job matches, updates, and helpful tips to move your career forward.",
+
+  "homeRestartProductTourSubtitle": "Restart the product tour whenever you want from Home.",
+  "homeRestartProductTour": "Restart Product Tour",
+  "homeCareerAssistantBannerSubtitle": "Career Assistant can help if you're not sure where to start!",
+  "homeCoursesSubtitle": "Boost your skills with courses that help you grow faster and stay aligned with today's industry standards. Learn at your own pace and strengthen the experience on your profile.",
+
+  "homeProfileCompleteYourProfile": "Complete your profile",
+  "homeProfileWelcomeTitle": "Welcome to Ithaki!",
+  "homeProfileFillMissing": "Fill in the missing information to unlock your full experience on the platform. A complete profile helps you get better job matches and more employer invitations.",
+  "homeProfileBenefitsTitle": "Benefits of completing your profile",
+  "homeProfileFillButton": "Fill Profile",
+
+  "homeQuestionsTitle": "Have questions?",
+  "homeQuestionsSubtitle": "Let us help you!",
+  "homeQuestionsButton": "Book Call with Counselor",
+
+  "assessmentStartNew": "Start New Assessment",
+  "assessmentsInProgressTitle": "Assessments in Progress ({count})",
+  "@assessmentsInProgressTitle": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "assessmentsInProgressSubtitle": "You have assessments in progress. Complete them to see your results.",
+  "assessmentsRecommendedSubtitle": "We recommend these assessments to help you validate your skills.",
+  "assessmentsCompletedTitle": "Your Completed Assessments",
+  "assessmentsCompletedSubtitle": "Here are your completed assessments and results.",
+
+  "assessmentStartTitle": "Start the Assessment",
+  "assessmentStartSubtitle": "You are about to start the following assessment",
+  "assessmentStartNow": "Start now",
+  "assessmentContinueTitle": "Continue your assessment?",
+  "assessmentContinueSubtitle": "You've already started this assessment and have saved progress. Would you like to continue where you left off or start over?",
+  "assessmentStartOver": "Start over",
+
+  "assessmentSkillBreakdownSubtitle": "This breakdown shows how your results are distributed across key skill areas.",
+  "assessmentResultsConfirmSkills": "This result confirms your skills, which are reflected in your job applications on the platform.",
+  "assessmentShowInCV": "Show result in my CV",
+  "assessmentHideFromCV": "Hide from CV",
+  "assessmentTakenLabel": "Taken: {date}",
+  "@assessmentTakenLabel": {
+    "placeholders": { "date": { "type": "String" } }
+  },
+  "assessmentImprovingSubtitle": "Your results show steady improvement in how you approach and resolve work-related problems.",
+  "assessmentProcessingTitle": "Processing your results!",
+  "assessmentProcessingSubtitle": "You've successfully completed the assessment. We're now generating your results — this will only take a moment.",
+  "assessmentLeaveTitle": "Leave this page?",
+  "assessmentLeaveSubtitle": "You're about to leave this assessment. Your progress will be saved automatically, and you can continue later.",
+  "assessmentLeaveButton": "Leave",
+
+  "quizSelectOneAnswer": "Select only one answer",
+  "quizSelectUpToAnswers": "Select up to {max} answers",
+  "@quizSelectUpToAnswers": {
+    "placeholders": { "max": { "type": "int" } }
+  },
+  "quizSelectBestReflects": "Select the option that best reflects how you usually feel.",
+  "quizNoResults": "No results found"
 }

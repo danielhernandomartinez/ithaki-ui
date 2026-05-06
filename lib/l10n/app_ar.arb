@@ -1,4 +1,4 @@
-﻿{
+{
   "@@locale": "ar",
   "appTitle": "Ψ¥ΩΨ«Ψ§ΩƒΩ",
   "loginAction": "ΨΨ³Ψ¬ΩΩ„ Ψ§Ω„Ψ―Ψ®ΩΩ„",
@@ -618,5 +618,67 @@
   "noMoreJobInterests": "لا توجد اهتمامات وظيفية أخرى لإضافتها.",
   "roleMigrant": "مهاجر",
   "roleRefugee": "لاجئ",
-  "roleAsylumSeeker": "طالب لجوء"
+  "roleAsylumSeeker": "طالب لجوء",
+
+  "homeGreetingName": "مرحباً، {name}!",
+  "@homeGreetingName": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "homeGreetingNoName": "مرحباً!",
+  "homeGreetingSubtitle": "إليك نظرة سريعة على أحدث تطابقات الوظائف والتحديثات والنصائح المفيدة للمضي قدماً في مسيرتك المهنية.",
+
+  "homeRestartProductTourSubtitle": "أعد تشغيل جولة المنتج في أي وقت تريد من الصفحة الرئيسية.",
+  "homeRestartProductTour": "إعادة تشغيل الجولة",
+  "homeCareerAssistantBannerSubtitle": "يمكن لمساعد المهنة مساعدتك إذا لم تكن متأكداً من أين تبدأ!",
+  "homeCoursesSubtitle": "طوّر مهاراتك بدورات تساعدك على النمو بسرعة أكبر. تعلّم بالوتيرة التي تناسبك.",
+
+  "homeProfileCompleteYourProfile": "أكمل ملفك الشخصي",
+  "homeProfileWelcomeTitle": "مرحباً بك في Ithaki!",
+  "homeProfileFillMissing": "أكمل المعلومات الناقصة لفتح التجربة الكاملة على المنصة. يساعدك الملف الشخصي الكامل على الحصول على تطابقات أفضل ودعوات أكثر.",
+  "homeProfileBenefitsTitle": "فوائد إكمال ملفك الشخصي",
+  "homeProfileFillButton": "أكمل الملف الشخصي",
+
+  "homeQuestionsTitle": "هل لديك أسئلة؟",
+  "homeQuestionsSubtitle": "دعنا نساعدك!",
+  "homeQuestionsButton": "احجز مكالمة مع مستشار",
+
+  "assessmentStartNew": "بدء تقييم جديد",
+  "assessmentsInProgressTitle": "التقييمات قيد التنفيذ ({count})",
+  "@assessmentsInProgressTitle": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "assessmentsInProgressSubtitle": "لديك تقييمات قيد التنفيذ. أكملها لمشاهدة نتائجك.",
+  "assessmentsRecommendedSubtitle": "نوصيك بهذه التقييمات للتحقق من مهاراتك.",
+  "assessmentsCompletedTitle": "تقييماتك المكتملة",
+  "assessmentsCompletedSubtitle": "إليك التقييمات المكتملة ونتائجها.",
+
+  "assessmentStartTitle": "بدء التقييم",
+  "assessmentStartSubtitle": "أنت على وشك بدء التقييم التالي",
+  "assessmentStartNow": "ابدأ الآن",
+  "assessmentContinueTitle": "هل تريد متابعة التقييم؟",
+  "assessmentContinueSubtitle": "لقد بدأت هذا التقييم بالفعل ولديك تقدم محفوظ. هل تريد الاستمرار من حيث توقفت أم البدء من جديد؟",
+  "assessmentStartOver": "البدء من جديد",
+
+  "assessmentSkillBreakdownSubtitle": "يوضح هذا التحليل كيفية توزيع نتائجك عبر مجالات المهارات الرئيسية.",
+  "assessmentResultsConfirmSkills": "تؤكد هذه النتيجة مهاراتك التي تنعكس في طلبات العمل الخاصة بك على المنصة.",
+  "assessmentShowInCV": "عرض النتيجة في سيرتي الذاتية",
+  "assessmentHideFromCV": "إخفاء من السيرة الذاتية",
+  "assessmentTakenLabel": "تم في: {date}",
+  "@assessmentTakenLabel": {
+    "placeholders": { "date": { "type": "String" } }
+  },
+  "assessmentImprovingSubtitle": "تُظهر نتائجك تحسناً مستمراً في طريقة تعاملك مع مشكلات العمل.",
+  "assessmentProcessingTitle": "جارٍ معالجة نتائجك!",
+  "assessmentProcessingSubtitle": "لقد أكملت التقييم بنجاح. نحن نعمل على إنشاء نتائجك — سيستغرق هذا لحظة فقط.",
+  "assessmentLeaveTitle": "مغادرة هذه الصفحة؟",
+  "assessmentLeaveSubtitle": "أنت على وشك مغادرة هذا التقييم. سيتم حفظ تقدمك تلقائياً ويمكنك الاستمرار لاحقاً.",
+  "assessmentLeaveButton": "مغادرة",
+
+  "quizSelectOneAnswer": "اختر إجابة واحدة فقط",
+  "quizSelectUpToAnswers": "اختر ما يصل إلى {max} إجابات",
+  "@quizSelectUpToAnswers": {
+    "placeholders": { "max": { "type": "int" } }
+  },
+  "quizSelectBestReflects": "اختر الخيار الذي يعكس بشكل أفضل شعورك عادةً.",
+  "quizNoResults": "لا توجد نتائج"
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../routes.dart';
@@ -16,6 +17,7 @@ class HomeProfileCompletionCard extends ConsumerWidget {
     if (homeData == null) return const SizedBox.shrink();
     final progress = ref.watch(profileCompletionProvider);
     final completionItems = ref.watch(profileCompletionItemsProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -39,9 +41,9 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Complete your profile',
-                        style: TextStyle(
+                      Text(
+                        l10n.homeProfileCompleteYourProfile,
+                        style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                           color: IthakiTheme.textPrimary,
@@ -96,27 +98,27 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Welcome to Ithaki!',
-                      style: TextStyle(
+                    Text(
+                      l10n.homeProfileWelcomeTitle,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                         color: IthakiTheme.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      "Fill in the missing information to unlock your full experience on the platform. A complete profile helps you get better job matches and more employer invitations.",
-                      style: TextStyle(
+                    Text(
+                      l10n.homeProfileFillMissing,
+                      style: const TextStyle(
                         fontSize: 13,
                         color: IthakiTheme.textSecondary,
                         height: 1.5,
                       ),
                     ),
                     const SizedBox(height: 14),
-                    const Text(
-                      'Benefits of completing your profile',
-                      style: TextStyle(
+                    Text(
+                      l10n.homeProfileBenefitsTitle,
+                      style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: IthakiTheme.textPrimary,
@@ -148,7 +150,7 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                         )),
                     const SizedBox(height: 14),
                     HomePurpleButton(
-                      label: 'Fill Profile',
+                      label: l10n.homeProfileFillButton,
                       onPressed: () => context.push(Routes.profile),
                     ),
                   ],
