@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/panel_scaffold.dart';
 import '../../widgets/profile_picker_field.dart';
@@ -17,14 +18,14 @@ class EducationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final educations = ref.watch(profileEducationsProvider).value ?? const [];
 
     return IthakiEntryListShell(
-      appBarTitle: 'Education',
-      title: 'Education',
-      subtitle:
-          'Add information about your educational background, degree, and field of study.',
-      addButtonLabel: 'Add Education',
+      appBarTitle: l.profileEducationTitle,
+      title: l.profileEducationTitle,
+      subtitle: l.profileEducationSubtitle,
+      addButtonLabel: l.addEducation,
       onAddPressed: () => context.push(Routes.profileEducationEdit),
       onSavePressed: () => context.pop(),
       entries: educations.asMap().entries.map((e) {
@@ -145,13 +146,14 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return PanelScaffold(
-      title: 'Edit Education',
+      title: l.editEducation,
       onSave: _save,
       children: [
         // ── Header ──────────────────────────────────────────────
-        const Text('Edit Education',
-            style: TextStyle(
+        Text(l.editEducation,
+            style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
                 color: IthakiTheme.textPrimary)),
@@ -165,20 +167,20 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
 
         // ── Fields ───────────────────────────────────────────────
         IthakiTextField(
-          label: 'Institution Name',
-          hint: 'e.g. University of Athens',
+          label: l.institutionNameLabel,
+          hint: l.institutionNameHint,
           controller: _institutionCtrl,
         ),
         const SizedBox(height: 12),
         IthakiTextField(
-          label: 'Field of Study',
-          hint: 'e.g. Computer Science',
+          label: l.fieldOfStudyLabel,
+          hint: l.fieldOfStudyHint,
           controller: _fieldCtrl,
         ),
         const SizedBox(height: 12),
         ProfilePickerField(
-          label: 'Location',
-          hint: 'Type city to search',
+          label: l.locationInfoLabel,
+          hint: l.typeCityToSearch,
           value: _locationCtrl.text,
           onTap: () => CitySearchBottomSheet.show(
             context,
@@ -187,20 +189,20 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
         ),
         const SizedBox(height: 12),
         ProfilePickerField(
-          label: 'Degree Type',
-          hint: 'Select degree',
+          label: l.degreeTypeLabel,
+          hint: l.selectDegree,
           value: _degreeType,
           onTap: () => SearchBottomSheet.show(
             context,
-            'Degree Type',
+            l.degreeTypeLabel,
             _degreeTypes.map((d) => SearchItem(id: d, label: d)).toList(),
             (item) => setState(() => _degreeType = item.id),
           ),
         ),
         const SizedBox(height: 12),
         IthakiTextField(
-          label: 'Start Date',
-          hint: 'MM-YYYY',
+          label: l.startDateLabel,
+          hint: l.mmYyyyHint,
           controller: _startDateCtrl,
           readOnly: true,
           onTap: () => _pickDate(_startDateCtrl),
@@ -209,8 +211,8 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
         ),
         const SizedBox(height: 12),
         IthakiTextField(
-          label: 'End Date',
-          hint: 'MM-YYYY',
+          label: l.endDateLabel,
+          hint: l.mmYyyyHint,
           controller: _endDateCtrl,
           readOnly: true,
           onTap: _currentlyStudyHere ? null : () => _pickDate(_endDateCtrl),
@@ -227,8 +229,9 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
             _currentlyStudyHere = v;
             if (v) _endDateCtrl.clear();
           }),
-          child: const Text('I currently study here',
-              style: TextStyle(fontSize: 14, color: IthakiTheme.textPrimary)),
+          child: Text(l.currentlyStudyHere,
+              style: const TextStyle(
+                  fontSize: 14, color: IthakiTheme.textPrimary)),
         ),
       ],
     );

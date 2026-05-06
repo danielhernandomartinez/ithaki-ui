@@ -12,15 +12,18 @@ class WelcomeModalScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     return Material(
-      color: Colors.black.withValues(alpha: 0.5),
+      color: Colors.transparent,
       child: Column(
         children: [
           // Tappable overlay (dismiss to location)
           Expanded(
             child: GestureDetector(
-              onTap: () => context.push(Routes.setupLocation),
+              onTap: () => context.go(Routes.setupLocation),
               behavior: HitTestBehavior.opaque,
-              child: const SizedBox.expand(),
+              child: ColoredBox(
+                color: Colors.black.withValues(alpha: 0.45),
+                child: const SizedBox.expand(),
+              ),
             ),
           ),
           // Bottom sheet card
@@ -43,7 +46,8 @@ class WelcomeModalScreen extends StatelessWidget {
                 // Logo placeholder
                 Center(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                     decoration: BoxDecoration(
                       color: IthakiTheme.cardBackground,
                       borderRadius: BorderRadius.circular(14),
@@ -77,7 +81,7 @@ class WelcomeModalScreen extends StatelessWidget {
                 const SizedBox(height: 12),
                 IthakiButton(
                   l.startSetup,
-                  onPressed: () => context.push(Routes.setupLocation),
+                  onPressed: () => context.go(Routes.setupLocation),
                 ),
               ],
             ),

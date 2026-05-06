@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../l10n/app_localizations.dart';
 import '../providers/profile_provider.dart';
 import '../routes.dart';
-import '../utils/profile_photo_image.dart';
 
 /// Shared scaffold for profile edit screens:
 /// violet background + app bar + scrollable white rounded panel + Save button.
@@ -25,54 +25,49 @@ class PanelScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final basics = ref.watch(profileBasicsProvider).value;
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
+      extendBodyBehindAppBar: true,
+      appBar: ProfileEditAppBar(
+        avatarInitials: basics?.initials ?? 'AA',
+        avatarUrl: basics?.photoUrl,
+        onNotificationsTap: () => context.push(Routes.settingsNotifications),
+        onBack: () => context.pop(),
+      ),
       body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 8),
-            ProfileEditAppBar(
-              avatarInitials: basics?.initials ?? 'AA',
-              avatarUrl: basics?.photoUrl,
-              onNotificationsTap: () =>
-                  context.push(Routes.settingsNotifications),
-              onBack: () => context.pop(),
+        top: false,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.only(
+            left: 16,
+            right: 16,
+            top: MediaQuery.paddingOf(context).top + kToolbarHeight + 24,
+            bottom: MediaQuery.viewPaddingOf(context).bottom + 16,
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: IthakiTheme.backgroundWhite,
+              borderRadius: BorderRadius.circular(20),
             ),
-            const SizedBox(height: 8),
-            Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  bottom: MediaQuery.viewPaddingOf(context).bottom + 16,
-                ),
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: IthakiTheme.backgroundWhite,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ...children,
-                      const SizedBox(height: 28),
-                      IthakiButton('Save', onPressed: onSave),
-                    ],
-                  ),
-                ),
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ...children,
+                const SizedBox(height: 28),
+                IthakiButton(l.save, onPressed: onSave),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-class ProfileEditAppBar extends StatelessWidget {
+class ProfileEditAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ProfileEditAppBar({
     super.key,
     required this.onBack,
@@ -87,82 +82,18 @@ class ProfileEditAppBar extends StatelessWidget {
   final VoidCallback? onNotificationsTap;
 
   @override
-  Widget build(BuildContext context) {
-    final avatarImage = profilePhotoImageProvider(avatarUrl);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight + 16);
 
-    return Container(
-      height: 52,
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-        color: IthakiTheme.backgroundWhite,
-        borderRadius: BorderRadius.circular(26),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 14,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          InkWell(
-            onTap: onBack,
-            borderRadius: BorderRadius.circular(20),
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-              child: Row(
-                children: [
-                  IthakiIcon('back-chevron',
-                      size: 18, color: IthakiTheme.textPrimary),
-                  SizedBox(width: 4),
-                  Text(
-                    'Back',
-                    style:
-                        TextStyle(fontSize: 16, color: IthakiTheme.textPrimary),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const Expanded(
-            child: Center(
-              child: Text(
-                'Ithaki',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: IthakiTheme.textPrimary,
-                ),
-              ),
-            ),
-          ),
-          IconButton(
-            icon: const IthakiIcon('notifications-bell',
-                size: 22, color: IthakiTheme.textPrimary),
-            onPressed: onNotificationsTap,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints.tightFor(width: 40, height: 40),
-          ),
-          const SizedBox(width: 10),
-          CircleAvatar(
-            radius: 16,
-            backgroundColor: IthakiTheme.successGreen,
-            backgroundImage: avatarImage,
-            child: avatarImage == null
-                ? Text(
-                    avatarInitials,
-                    style: const TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold,
-                      color: IthakiTheme.foregroundWhite,
-                    ),
-                  )
-                : null,
-          ),
-        ],
-      ),
+  @override
+  Widget build(BuildContext context) {
+    return IthakiAppBar(
+      showMenuAndAvatar: true,
+      showBackButton: true,
+      title: AppLocalizations.of(context)!.appBarTitleIthaki,
+      avatarInitials: avatarInitials,
+      avatarUrl: avatarUrl,
+      onMenuPressed: onBack,
+      onNotificationsPressed: onNotificationsTap,
     );
   }
 }

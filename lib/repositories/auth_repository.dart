@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -140,7 +139,8 @@ class ApiAuthRepository implements AuthRepository {
           headers: _api.jsonHeaders(token: token),
         )
         .timeout(ApiClient.timeout);
-    ApiClient.log('POST', _api.uri('/user/send-sms/twilio'), response.statusCode);
+    ApiClient.log(
+        'POST', _api.uri('/user/send-sms/twilio'), response.statusCode);
 
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw AuthException(
@@ -317,7 +317,8 @@ class ApiAuthRepository implements AuthRepository {
         )
         .timeout(ApiClient.timeout);
 
-    ApiClient.log('POST', _api.uri('/user/send-sms/verify'), response.statusCode);
+    ApiClient.log(
+        'POST', _api.uri('/user/send-sms/verify'), response.statusCode);
 
     if (response.statusCode != 200 && response.statusCode != 201) {
       throw AuthException(
@@ -350,11 +351,8 @@ class ApiAuthRepository implements AuthRepository {
   }
 }
 
-const bool _useMockAuth =
-    AppConfig.useMockData || bool.fromEnvironment('ITHAKI_USE_MOCK_AUTH');
-
 final authRepositoryProvider = Provider<AuthRepository>(
-  (ref) => _useMockAuth
+  (ref) => AppConfig.useMockData
       ? MockAuthRepository()
       : ApiAuthRepository(apiClient: ref.watch(apiClientProvider)),
 );

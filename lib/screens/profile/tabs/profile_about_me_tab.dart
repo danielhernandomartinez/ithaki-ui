@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../routes.dart';
 import '../../../utils/open_resource.dart';
@@ -13,14 +14,14 @@ class ProfileAboutMeTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final aboutMe =
         ref.watch(profileAboutMeProvider).value ?? const ProfileAboutMe();
     if (aboutMe.bio.isEmpty) {
       return ProfileEmptyStateCard(
-        title: 'About Me',
-        description:
-            'Add a few words about yourself to help employers understand who you are and what you do.',
-        buttonLabel: 'Add About Me Information',
+        title: l.profileAboutMeTitle,
+        description: l.aboutMeEmptyDescription,
+        buttonLabel: l.addAboutMeInformation,
         buttonIcon: const IthakiIcon('plus', size: 16),
         onPressed: () => context.push(Routes.profileAboutMe),
       );
@@ -35,8 +36,8 @@ class ProfileAboutMeTab extends ConsumerWidget {
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('About Me',
-              style: TextStyle(
+          Text(l.profileAboutMeTitle,
+              style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: IthakiTheme.textPrimary)),
@@ -48,8 +49,8 @@ class ProfileAboutMeTab extends ConsumerWidget {
         const SizedBox(height: 20),
         if (aboutMe.videoUrl != null) ...[
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text('Video Introduction',
-                style: TextStyle(
+            Text(l.videoIntroductionTitle,
+                style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: IthakiTheme.textPrimary)),
@@ -82,7 +83,7 @@ class ProfileAboutMeTab extends ConsumerWidget {
         OutlinedButton.icon(
           onPressed: () => context.push(Routes.profileAboutMe),
           icon: const IthakiIcon('edit-pencil', size: 20),
-          label: const Text('Edit About Me & Video Introduction'),
+          label: Text(l.editAboutMeVideo),
           style: OutlinedButton.styleFrom(
             side: const BorderSide(color: IthakiTheme.softGraphite),
             shape:
@@ -104,7 +105,9 @@ class ProfileAboutMeTab extends ConsumerWidget {
     if (!context.mounted || opened) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Could not open video introduction.')),
+      SnackBar(
+          content: Text(
+              AppLocalizations.of(context)!.couldNotOpenVideoIntroduction)),
     );
   }
 }

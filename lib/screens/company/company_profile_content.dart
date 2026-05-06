@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../models/company_models.dart';
 import '../../providers/job_search_provider.dart';
 import '../../routes.dart';
@@ -9,7 +10,14 @@ import 'widgets/company_profile_components.dart';
 import 'widgets/company_profile_header.dart';
 import 'widgets/company_profile_tabs.dart';
 
-const companyProfileTabs = ['Vacancies', 'About Company', 'Events', 'Posts'];
+const kCompanyTabCount = 4;
+
+List<String> _companyTabLabels(AppLocalizations l10n) => [
+      l10n.companyTabVacancies,
+      l10n.companyTabAboutCompany,
+      l10n.companyTabEvents,
+      l10n.companyTabPosts,
+    ];
 
 class CompanyProfileContent extends ConsumerStatefulWidget {
   const CompanyProfileContent({
@@ -65,6 +73,8 @@ class _CompanyProfileContentState extends ConsumerState<CompanyProfileContent> {
   Widget build(BuildContext context) {
     final company = widget.company;
     final searchState = ref.watch(jobSearchProvider).value;
+    final l10n = AppLocalizations.of(context)!;
+    final tabs = _companyTabLabels(l10n);
 
     return SingleChildScrollView(
       child: Column(
@@ -87,13 +97,12 @@ class _CompanyProfileContentState extends ConsumerState<CompanyProfileContent> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: List.generate(
-                    companyProfileTabs.length,
+                    tabs.length,
                     (index) => Padding(
                       padding: EdgeInsets.only(
-                          right:
-                              index == companyProfileTabs.length - 1 ? 0 : 6),
+                          right: index == tabs.length - 1 ? 0 : 6),
                       child: CompanyTabChip(
-                        label: companyProfileTabs[index],
+                        label: tabs[index],
                         selected: _selectedTab == index,
                         onTap: () {
                           widget.tabController.animateTo(index);

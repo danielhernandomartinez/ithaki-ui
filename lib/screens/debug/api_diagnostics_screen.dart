@@ -43,8 +43,9 @@ class _ApiDiagnosticsScreenState extends ConsumerState<ApiDiagnosticsScreen> {
                 ? const _EmptyState()
                 : ListView.builder(
                     padding: const EdgeInsets.all(16),
-                    itemCount: _running && _results.length <
-                            ApiDiagnosticsRepository.endpoints.length
+                    itemCount: _running &&
+                            _results.length <
+                                ApiDiagnosticsRepository.endpoints.length
                         ? _results.length + 1
                         : _results.length,
                     itemBuilder: (context, i) {
@@ -163,8 +164,8 @@ class _Chip extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(
-            fontSize: 12, fontWeight: FontWeight.w600, color: color),
+        style:
+            TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: color),
       ),
     );
   }
@@ -252,15 +253,12 @@ class _ResultTileState extends State<_ResultTile> {
                   ),
                   Text(
                     '${r.duration.inMilliseconds}ms',
-                    style: const TextStyle(
-                        fontSize: 11, color: Colors.black38),
+                    style: const TextStyle(fontSize: 11, color: Colors.black38),
                   ),
                   if (r.responsePreview.isNotEmpty || r.error != null) ...[
                     const SizedBox(width: 4),
                     Icon(
-                      _expanded
-                          ? Icons.expand_less
-                          : Icons.expand_more,
+                      _expanded ? Icons.expand_less : Icons.expand_more,
                       size: 18,
                       color: Colors.black38,
                     ),
@@ -324,7 +322,7 @@ class _LoadingTile extends StatelessWidget {
             child: CircularProgressIndicator(strokeWidth: 2),
           ),
           SizedBox(width: 12),
-          Text('Running…', style: TextStyle(color: Colors.black45)),
+          Text('Running...', style: TextStyle(color: Colors.black45)),
         ],
       ),
     );
@@ -340,8 +338,7 @@ class _EmptyState extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.wifi_tethering_outlined,
-              size: 48, color: Colors.black26),
+          Icon(Icons.wifi_tethering_outlined, size: 48, color: Colors.black26),
           const SizedBox(height: 12),
           const Text(
             'Press "Run all checks" to test all endpoints.',

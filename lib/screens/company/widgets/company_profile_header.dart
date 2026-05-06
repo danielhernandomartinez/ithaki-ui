@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../models/company_models.dart';
 import 'company_profile_components.dart';
 
@@ -16,6 +17,7 @@ class CompanyProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: EdgeInsets.fromLTRB(16, topOffset, 16, 0),
       child: Column(
@@ -28,7 +30,7 @@ class CompanyProfileHeader extends StatelessWidget {
                   ? Image.asset(company.heroImageAsset, fit: BoxFit.cover)
                   : CompanyVisualPlaceholder(
                       title: company.name,
-                      subtitle: 'Approved hero placeholder',
+                      subtitle: '',
                       height: double.infinity,
                       iconName: 'company-profile',
                       borderRadius: 32,
@@ -68,35 +70,35 @@ class CompanyProfileHeader extends StatelessWidget {
                 const SizedBox(height: 14),
                 if (company.teamSize.isNotEmpty)
                   CompanyMetaBlock(
-                    label: 'Team',
-                    value: '${company.teamSize} employees',
+                    label: l10n.teamTitle,
+                    value: l10n.companyTeamEmployees(company.teamSize),
                     iconName: 'team',
                   ),
                 if (company.location.isNotEmpty)
                   CompanyMetaBlock(
-                    label: 'Main Office Location',
+                    label: l10n.companyLabelMainOffice,
                     value: company.location,
                     iconName: 'location',
                   ),
                 CompanyMetaBlock(
-                  label: 'Other Locations',
+                  label: l10n.companyLabelOtherLocations,
                   value: company.otherLocations.isEmpty
-                      ? 'n/a'
+                      ? l10n.notAvailable
                       : company.otherLocations,
                 ),
                 if (company.phone.isNotEmpty)
                   CompanyMetaBlock(
-                    label: 'Contact Phone',
+                    label: l10n.companyLabelContactPhone,
                     value: company.phone,
                   ),
                 if (company.email.isNotEmpty)
                   CompanyMetaBlock(
-                    label: 'Email',
+                    label: l10n.email,
                     value: company.email,
                   ),
                 if (company.website.isNotEmpty)
                   CompanyMetaBlock(
-                    label: 'Website',
+                    label: l10n.companyLabelWebsite,
                     value: company.website,
                     isLink: true,
                   ),

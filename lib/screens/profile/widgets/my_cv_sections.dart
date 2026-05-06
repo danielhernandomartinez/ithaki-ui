@@ -145,7 +145,7 @@ class MyCvData {
       return fallback;
     }
 
-    return fallback;
+    return '';
   }
 
   static String _ageFromDate(String dateOfBirth) {

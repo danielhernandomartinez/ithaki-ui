@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/profile_provider.dart';
 import '../../providers/tour_provider.dart';
 import '../../repositories/auth_repository.dart';
@@ -78,6 +79,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final basicsAsync = ref.watch(profileBasicsProvider);
     if (basicsAsync.isLoading) {
       return const Scaffold(
@@ -194,7 +196,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     child: OutlinedButton.icon(
                       onPressed: () => context.push(Routes.cv),
                       icon: const IthakiIcon('resume', size: 16),
-                      label: const Text('Open CV'),
+                      label: Text(l.openCv),
                       style: OutlinedButton.styleFrom(
                         side: BorderSide(color: Colors.grey.shade300),
                         shape: RoundedRectangleBorder(
@@ -210,7 +212,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     child: OutlinedButton.icon(
                       onPressed: () => context.push(Routes.settings),
                       icon: const IthakiIcon('settings', size: 16),
-                      label: const Text('Account Settings'),
+                      label: Text(l.accountSettings),
                       style: OutlinedButton.styleFrom(
                         side: BorderSide(color: Colors.grey.shade300),
                         shape: RoundedRectangleBorder(

@@ -1,29 +1,23 @@
-{
+﻿{
   "@@locale": "en",
-
   "appTitle": "Ithaki",
-
   "loginAction": "Login",
   "signUpAction": "Sign Up",
   "continueButton": "Continue",
   "skipButton": "Skip",
   "backButton": "Back",
   "goBack": "Go Back",
-
   "welcomeHeading": "Welcome to Ithaki!\nLet's create an Account!",
-
   "selectLanguageTitle": "Select your Language",
   "selectLanguageDescription": "You can change the interface language at any time. All content, including the job description, your resume, and communication with consultants and the chatbot, will be in English.",
   "languageLabel": "Language",
   "selectLanguagePlaceholder": "Select your language",
-
   "techComfortTitle": "How comfortable are you with technology?",
   "techComfortDescription": "We'll use your answer to make the platform feel more comfortable for you.",
   "techExperiencedLabel": "I'm Experienced",
   "techExperiencedSubtitle": "I feel comfortable using digital tools and enjoy exploring new technologies",
   "techNewLabel": "I'm still new to this",
   "techNewSubtitle": "I'm not into complex tools - I prefer when technology just works smoothly",
-
   "signInWithGoogle": "Sign in with Google",
   "emailLabel": "Email",
   "emailHint": "Enter your email",
@@ -40,38 +34,35 @@
   "privacyPolicy": "Privacy Policy",
   "andText": " and ",
   "termsOfUse": "Terms of Use",
-
   "personalDetailsHeading": "Almost there!\nTell us about yourself",
   "personalDetailsDescription": "Your name and phone number help employers reach you directly.",
   "nameLabel": "Name",
   "nameHint": "Enter your Name",
   "lastNameLabel": "Last Name",
   "lastNameHint": "Enter your Last Name",
-
   "verifyEmailHeading": "Verify your email address",
   "verifyEmailDescription": "We've sent a verification link to your email address.\nPlease check your inbox and follow the link to complete your account setup.",
   "verifyEmailSpamHint": "Didn't receive the email? Check your spam folder or resend it.",
   "verifiedEmailButton": "I've verified my email",
   "resendEmailLabel": "Resend link via email",
-
   "verifyPhoneHeading": "Verify your phone number",
   "verifyPhoneDescription": "We'll send a verification code to your phone number. Choose how you'd like to receive it.",
   "selectMethodTitle": "Select a method to receive the code",
   "sendViaSms": "Send secured code via SMS",
   "sendViaWhatsapp": "Send secured code via WhatsApp",
   "rememberChoice": "Remember my choice",
-
   "verifyAccountTitle": "Let's verify your Account",
   "verifyAccountSubtitle": "We've sent a verification code to your phone number.",
   "notYourPhone": "This is not your phone?",
   "resendCode": "Resend code",
-
   "loginHeading": "Login to Ithaki Talent",
   "loginSubtitle": "Enter your phone number. We'll send you a code by SMS.",
   "loginVerifySubtitle": "We've sent a verification code to {phone}.",
   "@loginVerifySubtitle": {
     "placeholders": {
-      "phone": { "type": "String" }
+      "phone": {
+        "type": "String"
+      }
     }
   },
   "rememberMe": "Remember me",
@@ -90,7 +81,6 @@
   "resetLinkSentDescription": "Check your inbox. Email includes a secure link to create a new password. Didn't get the email?",
   "resendResetLinkEmail": "Resend reset link via email",
   "sendResetViaWhatsapp": "Send secured code via WhatsApp",
-
   "resetPasswordHeading": "Reset your password",
   "resetPasswordDescription": "Final step. Create a new password to secure your account.",
   "newPasswordLabel": "New Password",
@@ -98,19 +88,16 @@
   "confirmNewPasswordLabel": "Confirm new Password",
   "confirmNewPasswordHint": "Enter your new password",
   "resetPasswordButton": "Reset Password",
-
   "welcomeModalHeading": "Welcome on board!\nYour account is created and verified!",
   "welcomeModalDescription": "Let's go through a short setup so we can match you with the best job options.",
   "skipForNow": "Skip for Now",
   "startSetup": "Start Setup",
   "ithakiLogo": "Ithaki-logo",
-
   "stepLocation": "Location",
   "stepJobInterests": "Job Interests",
   "stepPreferences": "Preferences",
   "stepValues": "Values",
   "stepCommunication": "Communication",
-
   "locationHeading": "Location",
   "locationDescription": "Select a location to narrow down relevant job opportunities.",
   "citizenshipLabel": "Citizenship",
@@ -133,13 +120,11 @@
   "relocationOpen": "Open to it",
   "relocationRemote": "Remote only",
   "relocationWithinCountry": "Within my country only",
-
   "jobInterestsHeading": "Job Interests",
   "jobInterestsDescription": "Select job types or fields that match your professional interests. You can add up to 5 different fields.",
   "searchJobInterest": "Search and add job interest",
   "addAnotherJobInterest": "Add Another Job Interest",
   "selectJobInterest": "Select Job Interest",
-
   "preferencesHeading": "Job Preferences",
   "preferencesDescription": "Set your desired salary, position level, contract type, and work format (remote, on-site, or hybrid) to help us match you with the most relevant opportunities.",
   "positionLevelLabel": "Position Level",
@@ -168,12 +153,13 @@
   "payYearly": "Yearly",
   "payHourly": "Hourly",
   "payDaily": "Daily",
-
   "valuesHeading": "Values",
   "valuesDescription": "Pick the values that feel closest to you. You can choose up to {max}.",
   "@valuesDescription": {
     "placeholders": {
-      "max": { "type": "int" }
+      "max": {
+        "type": "int"
+      }
     }
   },
   "valueIntegrity": "Integrity",
@@ -196,7 +182,6 @@
   "valueAmbition": "Ambition",
   "valueInitiative": "Initiative",
   "valueCollaboration": "Collaboration",
-
   "communicationHeading": "Communication",
   "communicationDescription": "Choose a channel to get notifications about new relevant job openings and responses to submitted applications. You can select multiple options and change them anytime.",
   "whatsapp": "WhatsApp",
@@ -204,7 +189,6 @@
   "email": "Email",
   "receiveTips": "Receive tips on job opportunities, information about courses, and upcoming events.",
   "finishSetup": "Finish Setup",
-
   "searchHint": "Search...",
   "selectAction": "Select",
   "expectedPaymentLabel": "Expected Payment",
@@ -216,52 +200,45 @@
   "selectCountryTitle": "Select Country",
   "phoneValidationError": "Please enter correct phone number",
   "phoneNumberLabel": "Phone Number",
-
   "myApplicationsTabLabel": "My Applications",
   "myApplicationsTabDescription": "Track all the jobs you've applied for and see their current status. You can also review invitations you've accepted or find past applications in your archive.",
   "myApplicationsLoadError": "Failed to load applications.",
   "myApplicationsEmptyTitle": "No applications yet",
   "myApplicationsEmptySubtitle": "Jobs you apply for will appear here\nso you can track their status.",
-
   "myInvitationsTabLabel": "My Invitations ({count})",
   "@myInvitationsTabLabel": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "draftsTabLabel": "Drafts",
   "archiveTabLabel": "Archive",
-
   "invitationsTabDescription": "Here you can find job opportunities you've been invited to explore. Review job invitations from employers or organizations who found your profile interesting.",
   "invitationsLoadError": "Failed to load invitations.",
   "invitationsEmptyTitle": "No invitations yet",
   "invitationsEmptySubtitle": "When employers find your profile interesting\nthey will invite you here.",
-
   "draftsTabDescription": "Here you can find applications you started but haven't submitted yet. Continue where you left off or discard them.",
   "draftsLoadError": "Failed to load drafts.",
   "draftsEmptyTitle": "No drafts yet",
   "draftsEmptySubtitle": "Applications you start but don't submit\nwill appear here.",
-
   "archiveTabDescription": "Here you can find all declined invitations and closed applications. They're stored for your reference and can be viewed anytime.",
   "archiveEmptyTitle": "Nothing in your archive",
   "archiveEmptySubtitle": "Declined invitations and closed applications\nwill be stored here.",
-
   "invitationDeclinedLabel": "Invitation declined",
   "viewJobDetails": "View Job Details",
   "dismissInvite": "Dismiss Invite",
   "declinedConfirmed": "Declined",
   "viewJob": "View Job",
-
   "dismissBannerTitle": "This invitation will be moved to Archive",
   "dismissBannerCountdown": "Auto-confirms in 5 seconds",
   "undo": "Undo",
   "invitationDismissedToast": "Invitation dismissed and moved to Archive",
   "invitationDeclinedToast": "Invitation declined and moved to Archive",
-
   "careerAssistantBannerTitle": "Don't know what to do next?",
   "careerAssistantBannerSubtitle": "On average, employers review applications within the first week. You can always ask me for help with your next steps.",
   "askCareerAssistant": "Ask Career Assistant",
-
   "blogNewsTitle": "Blog & News",
   "blogNewsSubtitle": "Discover career tips, interview guides, and platform updates.",
   "blogSearchHint": "Search for articles and topics",
@@ -272,15 +249,15 @@
   "blogArticleBy": "By {author}",
   "@blogArticleBy": {
     "placeholders": {
-      "author": { "type": "String" }
+      "author": {
+        "type": "String"
+      }
     }
   },
-
   "cardAppliedWithCv": "You applied with your Ithaki CV",
   "cardJobClosed": "Job is closed.",
   "continueApplication": "Continue",
   "viewApplication": "View Application",
-
   "applySheetTitle": "Ready to apply for this role?",
   "applySheetSubtitle": "Make sure your talent profile details are up to date before submitting your application. You can also upload your CV.",
   "applyOptionIthakiCvTitle": "Use Ithaki CV",
@@ -288,7 +265,6 @@
   "applyOptionUploadTitle": "Upload your CV",
   "applyOptionUploadSubtitle": "Upload a new file (PDF or DOC) to apply.",
   "applyNow": "Apply Now",
-
   "declineSheetTitle": "Decline Invitation",
   "declineSheetSubtitle": "Are you sure you want to decline this invitation?",
   "declineReasonLabel": "Please select a reason",
@@ -300,10 +276,346 @@
   "declineReasonOther": "Other",
   "declineButton": "Decline Invite",
   "declinedButton": "✓  Declined",
-
   "jobDetailNotFoundMessage": "We could not find job details for this application yet.",
   "backToApplications": "Back to Applications",
   "acceptInviteAndApply": "Accept Invite and Apply",
-  "jobDetailsTitle": "Job Details"
-
+  "jobDetailsTitle": "Job Details",
+  "save": "Save",
+  "cancel": "Cancel",
+  "open": "Open",
+  "delete": "Delete",
+  "appBarTitleIthaki": "Ithaki",
+  "profileAboutMeTitle": "About Me",
+  "profileSkillsTitle": "Skills",
+  "hardSkillsTitle": "Hard Skills",
+  "softSkillsTitle": "Soft Skills",
+  "competenciesTitle": "Competencies",
+  "computerSkillsTitle": "Computer Skills",
+  "drivingLicenseTitle": "Driving License",
+  "licenseCategoryTitle": "License Category",
+  "editCompetenciesTitle": "Edit Competencies",
+  "editSkillsTitle": "Edit Skills",
+  "editLanguagesTitle": "Edit Languages",
+  "editValuesTitle": "Values",
+  "editAboutMeTitle": "About Me",
+  "addBioOptional": "Add Bio (optional)",
+  "addVideoPresentationOptional": "Add Video Presentation (optional)",
+  "uploadFile": "Upload File",
+  "pasteVideoUrlHere": "Paste video URL here",
+  "noValuesAddedYet": "No values added yet.",
+  "profileMyFilesTitle": "My Files",
+  "couldNotOpenVideoIntroduction": "Could not open video introduction.",
+  "openFileNoSource": "{fileName} has no file source to open.",
+  "@openFileNoSource": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "couldNotOpenFile": "Could not open {fileName}.",
+  "@couldNotOpenFile": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "openingFile": "Opening {fileName}",
+  "@openingFile": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "openCv": "Open CV",
+  "accountSettings": "Account Settings",
+  "editJobPreferencesTitle": "Job Preferences",
+  "positionLevelOptionalLabel": "Position Level (optional)",
+  "selectLevel": "Select level",
+  "profileEducationTitle": "Education",
+  "profileEducationSubtitle": "Add information about your educational background, degree, and field of study.",
+  "addEducation": "Add Education",
+  "editEducation": "Edit Education",
+  "institutionNameLabel": "Institution Name",
+  "institutionNameHint": "e.g. University of Athens",
+  "fieldOfStudyLabel": "Field of Study",
+  "fieldOfStudyHint": "e.g. Computer Science",
+  "degreeTypeLabel": "Degree Type",
+  "selectDegree": "Select degree",
+  "startDateLabel": "Start Date",
+  "endDateLabel": "End Date",
+  "mmYyyyHint": "MM-YYYY",
+  "currentlyStudyHere": "I currently study here",
+  "profileWorkExperienceTitle": "Work Experience",
+  "profileWorkExperienceSubtitle": "Add details about your previous roles and companies",
+  "addWorkExperience": "Add Work Experience",
+  "editWorkExperience": "Edit Work Experience",
+  "jobTitleLabel": "Job Title",
+  "jobTitleHint": "e.g. Software Engineer",
+  "companyNameLabel": "Company Name",
+  "companyNameHint": "e.g. Acme Corp",
+  "experienceSummaryOptional": "Experience Summary (optional)",
+  "experienceSummaryHint": "Describe your role and achievements...",
+  "currentlyWorkHere": "I currently work here",
+  "charactersCounter": "{current} / {max} symbols",
+  "@charactersCounter": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "dateOfBirthLabel": "Date of Birth",
+  "yourFirstNameHint": "Your first name",
+  "yourLastNameHint": "Your last name",
+  "genderLabel": "Gender",
+  "selectGender": "Select gender",
+  "selectCountry": "Select country",
+  "statusLabel": "Status",
+  "selectStatus": "Select status",
+  "relocationReadinessLabel": "Relocation Readiness",
+  "selectOption": "Select option",
+  "fileExceedsLimit": "File exceeds 5 MB limit",
+  "leaveEditingTitle": "Leave Editing?",
+  "leaveEditingMessage": "All entered information will be lost if you leave this screen.",
+  "leaveWithoutSaving": "Leave without saving",
+  "saveAndLeave": "Save and Leave",
+  "highLabel": "High",
+  "genderInfoLabel": "Gender",
+  "ageInfoLabel": "Age",
+  "locationInfoLabel": "Location",
+  "showFullCv": "Show full CV",
+  "coverLetterTitle": "Cover Letter",
+  "screeningQuestionsTitle": "Screening Questions",
+  "aboutCompanyTitle": "About the Company",
+  "teamTitle": "Team",
+  "companyProfile": "Company Profile",
+  "typeCityToSearch": "Type city to search",
+  "experienceLevelLabel": "Experience Level",
+  "workplaceLabel": "Workplace",
+  "selectWorkplace": "Select workplace",
+  "selectJobType": "Select job type",
+  "skillsDescription": "Select the skills that best represent your qualifications and professional expertise.",
+  "addSkillHint": "Start typing to add a skill",
+  "errorLoadingSkills": "Error loading skills: {error}",
+  "@errorLoadingSkills": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "chooseValuesDescription": "Choose up to {max} values that best represent what matters most to you professionally.",
+  "@chooseValuesDescription": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "videoIntroductionTitle": "Video Introduction",
+  "editAboutMeVideo": "Edit About Me & Video Introduction",
+  "addAboutMeInformation": "Add About Me Information",
+  "aboutMeEmptyDescription": "Add a few words about yourself to help employers understand who you are and what you do.",
+  "addSkills": "Add Skills",
+  "addCompetencies": "Add Competencies",
+  "addLanguages": "Add Languages",
+  "editLanguages": "Edit Languages",
+  "languagesTitle": "Languages",
+  "aboutMeEditDescription": "Please provide some basic information about yourself. This helps us set up your profile and personalize your experience. You can add information later or update this anytime in Profile.",
+  "addBioDescription": "Add a few words about yourself to help employers understand who you are and what you do. We recommend keeping it concise, avoiding unnecessary filler, and highlighting key skills and experience.",
+  "addVideoDescription": "Add a short video to introduce yourself to employers, highlight your experience, and showcase your skills. A video helps you stand out among other candidates.",
+  "uploadViaUrl": "Upload via URL",
+  "uploadInstructions": "tap button to browse (max 10 files, up to 5 MB\neach; supported formats: .pdf, .doc, .png, .jpg)",
+  "selectCategory": "Select category",
+  "categoryLabel": "Category {category}",
+  "@categoryLabel": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "iHaveGreekLicense": "I have Greek License",
+  "yes": "Yes",
+  "no": "No",
+  "selectLanguage": "Select Language",
+  "languageFieldLabel": "Language",
+  "selectLanguageHint": "Select language",
+  "searchLanguage": "Search language",
+  "loadingLanguages": "Loading languages...",
+  "noLanguagesAvailable": "No languages available right now.",
+  "proficiencyLevel": "Proficiency Level",
+  "addAnotherLanguage": "Add Another Language",
+  "editJobsPreferences": "Edit Jobs Preferences",
+  "assessmentsResultsTitle": "Assessments results",
+  "companyTabVacancies": "Vacancies",
+  "companyTabAboutCompany": "About Company",
+  "companyTabEvents": "Events",
+  "companyTabPosts": "Posts",
+  "companyJobsFound": "{count} jobs found",
+  "@companyJobsFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "companyNoVacancies": "No open vacancies at this time.",
+  "saveJob": "Save Job",
+  "entryLevel": "Entry",
+  "companyPerksTitle": "Perks & Benefits",
+  "companyGalleryTitle": "Company Gallery",
+  "companyNoEvents": "No upcoming events.",
+  "companyEventsTitle": "Company Events",
+  "companyPostsTitle": "Company Posts",
+  "companyPostsFound": "{count} posts found",
+  "@companyPostsFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "companyNoPostsYet": "No company posts yet.",
+  "shareButton": "Share",
+  "culturalMatchScore": "Cultural Match Score",
+  "culturalMatchDescription": "You and this company both chose your top 5 values and preferences. This score shows how closely they align.",
+  "culturalMatchYouBothCareAbout": "You both care about:",
+  "companyTeamEmployees": "{teamSize} employees",
+  "@companyTeamEmployees": {
+    "placeholders": {
+      "teamSize": {
+        "type": "String"
+      }
+    }
+  },
+  "companyLabelMainOffice": "Main Office Location",
+  "companyLabelOtherLocations": "Other Locations",
+  "companyLabelContactPhone": "Contact Phone",
+  "companyLabelWebsite": "Website",
+  "notAvailable": "N/A",
+  "eventDetailsTitle": "Event Details",
+  "eventAddressLabel": "Address",
+  "eventRegistrationLink": "Registration Link",
+  "companyLoadError": "Could not load company.",
+  "tryAgain": "Try Again"
+,
+  "assessmentsRecommendedForYou": "Assessments recommended for you",
+  "assessmentYourScore": "Your Score",
+  "assessmentLevel": "Level",
+  "assessmentSkillBreakdown": "Skill breakdown",
+  "assessmentKeyInsights": "Key insights",
+  "assessmentPreviousResults": "Previous results",
+  "assessmentYouImproving": "You improving!",
+  "assessmentMeansForProfile": "What this means for your profile",
+  "assessmentAboutThis": "About this assessment",
+  "assessmentUsedFor": "What this assessment is used for",
+  "assessmentBeforeStart": "Before you start",
+  "assessmentApproxDuration": "Approximate Duration",
+  "assessmentQuestionsLabel": "Questions",
+  "bannerNotSureJob": "Not sure how to find the right job?",
+  "chatNewChat": "New Chat",
+  "chatSearchInChats": "Search in Chats",
+  "chatHistory": "Chat's History",
+  "homeNeedRefresher": "Need a quick refresher?",
+  "homeCvSuccess": "Your CV Success",
+  "homeStatViews": "Views",
+  "homeStatInvitations": "Invitations",
+  "homeStatApplicationsSent": "Applications Sent",
+  "homeStatInterviews": "Interviews",
+  "homeRecommendedCourses": "Recommended Courses",
+  "homeLatestNews": "Latest News",
+  "homeSmartJobRecommendations": "Smart Job Recommendations",
+  "viewAll": "View All",
+  "searchByJobTitle": "Search by job title",
+  "jobLoadError": "Could not load job.",
+  "jobRemovedFromSaved": "Removed from saved jobs.",
+  "jobSavedMessage": "Job has been saved! Check your saved jobs.",
+  "jobPostRemoved": "Job post has been removed",
+  "deadlineReminderSet": "Deadline Reminder has been set. We will notify you a week before the deadline",
+  "readMore": "Read more",
+  "jobPostedDate": "Posted {date}",
+  "@jobPostedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "jobClosedLabel": "Closed",
+  "deadlineReminderLabel": "Deadline Reminder",
+  "reportLabel": "Report",
+  "reminderSetNotification": "You have set a reminder for this job post",
+  "odysseaReviewLabel": "Odyssea Review: ",
+  "recommendedForYouLabel": "Recommended for you",
+  "tabAllJobs": "All Jobs",
+  "tabSavedJobs": "Saved ({count})",
+  "@tabSavedJobs": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sortingTitle": "Sorting",
+  "filtersTitle": "Filters",
+  "resetFilters": "Reset Filters",
+  "applyFilters": "Apply Filters",
+  "filterAllLabel": "All",
+  "filterClear": "Clear",
+  "applyFilter": "Apply Filter",
+  "salaryTitle": "Salary",
+  "tillLabel": "Till",
+  "reportJobTitle": "Report this job?",
+  "selectReasonHint": "Select Reason",
+  "setReminderTitle": "Set a reminder",
+  "applicationOpenTill": "Application open till:",
+  "whenShouldRemind": "When should we remind you?",
+  "reminderTomorrow": "Tomorrow",
+  "reminderTomorrowSub": "Reminder will be sent at this time tomorrow",
+  "reminderOneWeek": "In one week",
+  "reminderOneWeekSub": "Reminder will be sent at this time in one week",
+  "reminderOneDayBefore": "One day before the deadline",
+  "reminderOneDayBeforeSub": "Reminder will be sent one day before the deadline",
+  "reminderCustomDate": "Pick a custom date",
+  "reminderCustomDateSub": "Pick a custom date for your reminder",
+  "selectDateLabel": "Select the date",
+  "selectTimeLabel": "Select the time",
+  "ddMmYyyyHint": "DD-MM-YYYY",
+  "reminderViaContactSub": "We'll send a reminder to:\n{contact}",
+  "@reminderViaContactSub": {
+    "placeholders": {
+      "contact": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderViaSmsWhatsapp": "SMS / WhatsApp",
+  "changeEmailTitle": "Change Email",
+  "newEmailLabel": "New Email",
+  "newEmailHint": "Enter new email",
+  "changePasswordTitle": "Change Password",
+  "repeatNewPasswordLabel": "Repeat New Password",
+  "repeatNewPasswordHint": "Repeat your new password",
+  "changePhoneTitle": "Change Phone Number",
+  "newPhoneNumberLabel": "New Phone Number",
+  "confirmAccountDeletion": "Confirm Account Deletion",
+  "typeDeleteToConfirm": "Type 'delete' to confirm",
+  "enterDeleteHint": "Enter \"delete\"",
+  "deleteAccountButton": "Delete Account",
+  "makeProfileInvisible": "Make your profile invisible?",
+  "switchToLite": "Switch to Ithaki Lite?",
+  "verificationTitle": "Verification",
+  "pushNotifications": "Push Notifications",
+  "unsubscribe": "Unsubscribe",
+  "noMoreJobInterests": "No more job interests available to add.",
+  "roleMigrant": "Migrant",
+  "roleRefugee": "Refugee",
+  "roleAsylumSeeker": "Asylum Seeker"
 }

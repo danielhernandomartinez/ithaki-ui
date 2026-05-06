@@ -8,6 +8,10 @@ import 'package:ithaki_ui/services/api_client.dart';
 class _MockApiClient extends Mock implements ApiClient {}
 
 void main() {
+  setUpAll(() {
+    registerFallbackValue(http.Response('', 500));
+  });
+
   late _MockApiClient api;
   late ReferenceDataRepository repo;
 
@@ -16,41 +20,31 @@ void main() {
     repo = ReferenceDataRepository(apiClient: api);
   });
 
-  test('personality values fall back before login when auth token is missing',
-      () async {
+  test('personality values throw when API is unavailable', () async {
     when(() => api.getOptionalAuth('/list/personality-values'))
         .thenThrow(Exception('Missing auth token'));
 
-    final values = await repo.getPersonalityValues();
-
-    expect(values, isNotEmpty);
-    expect(values.map((v) => v.title), contains('Learning'));
+    expect(repo.getPersonalityValues(), throwsException);
     verifyNever(() => api.get('/list/personality-values'));
   });
 
-  test('hard skills fall back when optional auth returns unauthorized',
-      () async {
+  test('hard skills throw when optional auth returns unauthorized', () async {
     when(() => api.getOptionalAuth('/skills/hard')).thenAnswer(
       (_) async => http.Response('Unauthorized', 401),
     );
+    when(() => api.readErrorBody(any())).thenReturn('Unauthorized');
 
-    final skills = await repo.getHardSkills();
-
-    expect(skills, isNotEmpty);
-    expect(skills.map((s) => s.name), contains('Flutter'));
+    expect(repo.getHardSkills(), throwsException);
     verifyNever(() => api.get('/skills/hard'));
   });
 
-  test('soft skills fall back when optional auth returns unauthorized',
-      () async {
+  test('soft skills throw when optional auth returns unauthorized', () async {
     when(() => api.getOptionalAuth('/skills/soft')).thenAnswer(
       (_) async => http.Response('Unauthorized', 401),
     );
+    when(() => api.readErrorBody(any())).thenReturn('Unauthorized');
 
-    final skills = await repo.getSoftSkills();
-
-    expect(skills, isNotEmpty);
-    expect(skills.map((s) => s.name), contains('Communication'));
+    expect(repo.getSoftSkills(), throwsException);
     verifyNever(() => api.get('/skills/soft'));
   });
 }

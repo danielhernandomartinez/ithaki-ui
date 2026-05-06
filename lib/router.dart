@@ -175,7 +175,7 @@ class IthakiRouter {
         path: Routes.welcome,
         pageBuilder: (context, state) => CustomTransitionPage(
           opaque: false,
-          barrierColor: Colors.black54,
+          barrierColor: Colors.transparent,
           child: const WelcomeModalScreen(),
           transitionsBuilder: (context, animation, _, child) =>
               FadeTransition(opacity: animation, child: child),

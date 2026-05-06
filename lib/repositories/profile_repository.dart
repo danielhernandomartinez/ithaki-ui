@@ -993,11 +993,8 @@ class ApiProfileRepository implements ProfileRepository {
   }
 }
 
-const bool _useMockProfile = AppConfig.shouldUseMockData ||
-    bool.fromEnvironment('ITHAKI_USE_MOCK_PROFILE');
-
 final profileRepositoryProvider = Provider<ProfileRepository>(
-  (ref) => _useMockProfile
+  (ref) => AppConfig.shouldUseMockData
       ? MockProfileRepository(persistLocal: true)
       : ApiProfileRepository(apiClient: ref.watch(apiClientProvider)),
 );

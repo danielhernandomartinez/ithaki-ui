@@ -813,4 +813,700 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get jobDetailsTitle => 'Job Details';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get open => 'Open';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get appBarTitleIthaki => 'Ithaki';
+
+  @override
+  String get profileAboutMeTitle => 'About Me';
+
+  @override
+  String get profileSkillsTitle => 'Skills';
+
+  @override
+  String get hardSkillsTitle => 'Hard Skills';
+
+  @override
+  String get softSkillsTitle => 'Soft Skills';
+
+  @override
+  String get competenciesTitle => 'Competencies';
+
+  @override
+  String get computerSkillsTitle => 'Computer Skills';
+
+  @override
+  String get drivingLicenseTitle => 'Driving License';
+
+  @override
+  String get licenseCategoryTitle => 'License Category';
+
+  @override
+  String get editCompetenciesTitle => 'Edit Competencies';
+
+  @override
+  String get editSkillsTitle => 'Edit Skills';
+
+  @override
+  String get editLanguagesTitle => 'Edit Languages';
+
+  @override
+  String get editValuesTitle => 'Values';
+
+  @override
+  String get editAboutMeTitle => 'About Me';
+
+  @override
+  String get addBioOptional => 'Add Bio (optional)';
+
+  @override
+  String get addVideoPresentationOptional =>
+      'Add Video Presentation (optional)';
+
+  @override
+  String get uploadFile => 'Upload File';
+
+  @override
+  String get pasteVideoUrlHere => 'Paste video URL here';
+
+  @override
+  String get noValuesAddedYet => 'No values added yet.';
+
+  @override
+  String get profileMyFilesTitle => 'My Files';
+
+  @override
+  String get couldNotOpenVideoIntroduction =>
+      'Could not open video introduction.';
+
+  @override
+  String openFileNoSource(String fileName) {
+    return '$fileName has no file source to open.';
+  }
+
+  @override
+  String couldNotOpenFile(String fileName) {
+    return 'Could not open $fileName.';
+  }
+
+  @override
+  String openingFile(String fileName) {
+    return 'Opening $fileName';
+  }
+
+  @override
+  String get openCv => 'Open CV';
+
+  @override
+  String get accountSettings => 'Account Settings';
+
+  @override
+  String get editJobPreferencesTitle => 'Job Preferences';
+
+  @override
+  String get positionLevelOptionalLabel => 'Position Level (optional)';
+
+  @override
+  String get selectLevel => 'Select level';
+
+  @override
+  String get profileEducationTitle => 'Education';
+
+  @override
+  String get profileEducationSubtitle =>
+      'Add information about your educational background, degree, and field of study.';
+
+  @override
+  String get addEducation => 'Add Education';
+
+  @override
+  String get editEducation => 'Edit Education';
+
+  @override
+  String get institutionNameLabel => 'Institution Name';
+
+  @override
+  String get institutionNameHint => 'e.g. University of Athens';
+
+  @override
+  String get fieldOfStudyLabel => 'Field of Study';
+
+  @override
+  String get fieldOfStudyHint => 'e.g. Computer Science';
+
+  @override
+  String get degreeTypeLabel => 'Degree Type';
+
+  @override
+  String get selectDegree => 'Select degree';
+
+  @override
+  String get startDateLabel => 'Start Date';
+
+  @override
+  String get endDateLabel => 'End Date';
+
+  @override
+  String get mmYyyyHint => 'MM-YYYY';
+
+  @override
+  String get currentlyStudyHere => 'I currently study here';
+
+  @override
+  String get profileWorkExperienceTitle => 'Work Experience';
+
+  @override
+  String get profileWorkExperienceSubtitle =>
+      'Add details about your previous roles and companies';
+
+  @override
+  String get addWorkExperience => 'Add Work Experience';
+
+  @override
+  String get editWorkExperience => 'Edit Work Experience';
+
+  @override
+  String get jobTitleLabel => 'Job Title';
+
+  @override
+  String get jobTitleHint => 'e.g. Software Engineer';
+
+  @override
+  String get companyNameLabel => 'Company Name';
+
+  @override
+  String get companyNameHint => 'e.g. Acme Corp';
+
+  @override
+  String get experienceSummaryOptional => 'Experience Summary (optional)';
+
+  @override
+  String get experienceSummaryHint => 'Describe your role and achievements...';
+
+  @override
+  String get currentlyWorkHere => 'I currently work here';
+
+  @override
+  String charactersCounter(int current, int max) {
+    return '$current / $max symbols';
+  }
+
+  @override
+  String get dateOfBirthLabel => 'Date of Birth';
+
+  @override
+  String get yourFirstNameHint => 'Your first name';
+
+  @override
+  String get yourLastNameHint => 'Your last name';
+
+  @override
+  String get genderLabel => 'Gender';
+
+  @override
+  String get selectGender => 'Select gender';
+
+  @override
+  String get selectCountry => 'Select country';
+
+  @override
+  String get statusLabel => 'Status';
+
+  @override
+  String get selectStatus => 'Select status';
+
+  @override
+  String get relocationReadinessLabel => 'Relocation Readiness';
+
+  @override
+  String get selectOption => 'Select option';
+
+  @override
+  String get fileExceedsLimit => 'File exceeds 5 MB limit';
+
+  @override
+  String get leaveEditingTitle => 'Leave Editing?';
+
+  @override
+  String get leaveEditingMessage =>
+      'All entered information will be lost if you leave this screen.';
+
+  @override
+  String get leaveWithoutSaving => 'Leave without saving';
+
+  @override
+  String get saveAndLeave => 'Save and Leave';
+
+  @override
+  String get highLabel => 'High';
+
+  @override
+  String get genderInfoLabel => 'Gender';
+
+  @override
+  String get ageInfoLabel => 'Age';
+
+  @override
+  String get locationInfoLabel => 'Location';
+
+  @override
+  String get showFullCv => 'Show full CV';
+
+  @override
+  String get coverLetterTitle => 'Cover Letter';
+
+  @override
+  String get screeningQuestionsTitle => 'Screening Questions';
+
+  @override
+  String get aboutCompanyTitle => 'About the Company';
+
+  @override
+  String get teamTitle => 'Team';
+
+  @override
+  String get companyProfile => 'Company Profile';
+
+  @override
+  String get typeCityToSearch => 'Type city to search';
+
+  @override
+  String get experienceLevelLabel => 'Experience Level';
+
+  @override
+  String get workplaceLabel => 'Workplace';
+
+  @override
+  String get selectWorkplace => 'Select workplace';
+
+  @override
+  String get selectJobType => 'Select job type';
+
+  @override
+  String get skillsDescription =>
+      'Select the skills that best represent your qualifications and professional expertise.';
+
+  @override
+  String get addSkillHint => 'Start typing to add a skill';
+
+  @override
+  String errorLoadingSkills(String error) {
+    return 'Error loading skills: $error';
+  }
+
+  @override
+  String chooseValuesDescription(int max) {
+    return 'Choose up to $max values that best represent what matters most to you professionally.';
+  }
+
+  @override
+  String get videoIntroductionTitle => 'Video Introduction';
+
+  @override
+  String get editAboutMeVideo => 'Edit About Me & Video Introduction';
+
+  @override
+  String get addAboutMeInformation => 'Add About Me Information';
+
+  @override
+  String get aboutMeEmptyDescription =>
+      'Add a few words about yourself to help employers understand who you are and what you do.';
+
+  @override
+  String get addSkills => 'Add Skills';
+
+  @override
+  String get addCompetencies => 'Add Competencies';
+
+  @override
+  String get addLanguages => 'Add Languages';
+
+  @override
+  String get editLanguages => 'Edit Languages';
+
+  @override
+  String get languagesTitle => 'Languages';
+
+  @override
+  String get companyTabVacancies => 'Vacancies';
+
+  @override
+  String get companyTabAboutCompany => 'About Company';
+
+  @override
+  String get companyTabEvents => 'Events';
+
+  @override
+  String get companyTabPosts => 'Posts';
+
+  @override
+  String companyJobsFound(int count) => '$count jobs found';
+
+  @override
+  String get companyNoVacancies => 'No open vacancies at this time.';
+
+  @override
+  String get saveJob => 'Save Job';
+
+  @override
+  String get entryLevel => 'Entry';
+
+  @override
+  String get companyPerksTitle => 'Perks & Benefits';
+
+  @override
+  String get companyGalleryTitle => 'Company Gallery';
+
+  @override
+  String get companyNoEvents => 'No upcoming events.';
+
+  @override
+  String get companyEventsTitle => 'Company Events';
+
+  @override
+  String get companyPostsTitle => 'Company Posts';
+
+  @override
+  String companyPostsFound(int count) => '$count posts found';
+
+  @override
+  String get companyNoPostsYet => 'No company posts yet.';
+
+  @override
+  String get shareButton => 'Share';
+
+  @override
+  String get culturalMatchScore => 'Cultural Match Score';
+
+  @override
+  String get culturalMatchDescription =>
+      'You and this company both chose your top 5 values and preferences. This score shows how closely they align.';
+
+  @override
+  String get culturalMatchYouBothCareAbout => 'You both care about:';
+
+  @override
+  String companyTeamEmployees(String teamSize) => '$teamSize employees';
+
+  @override
+  String get companyLabelMainOffice => 'Main Office Location';
+
+  @override
+  String get companyLabelOtherLocations => 'Other Locations';
+
+  @override
+  String get companyLabelContactPhone => 'Contact Phone';
+
+  @override
+  String get companyLabelWebsite => 'Website';
+
+  @override
+  String get notAvailable => 'N/A';
+
+  @override
+  String get eventDetailsTitle => 'Event Details';
+
+  @override
+  String get eventAddressLabel => 'Address';
+
+  @override
+  String get eventRegistrationLink => 'Registration Link';
+
+  @override
+  String get companyLoadError => 'Could not load company.';
+
+  @override
+  String get tryAgain => 'Try Again';
+
+  @override
+  String get assessmentsRecommendedForYou => 'Assessments recommended for you';
+
+  @override
+  String get assessmentYourScore => 'Your Score';
+
+  @override
+  String get assessmentLevel => 'Level';
+
+  @override
+  String get assessmentSkillBreakdown => 'Skill breakdown';
+
+  @override
+  String get assessmentKeyInsights => 'Key insights';
+
+  @override
+  String get assessmentPreviousResults => 'Previous results';
+
+  @override
+  String get assessmentYouImproving => 'You improving!';
+
+  @override
+  String get assessmentMeansForProfile => 'What this means for your profile';
+
+  @override
+  String get assessmentAboutThis => 'About this assessment';
+
+  @override
+  String get assessmentUsedFor => 'What this assessment is used for';
+
+  @override
+  String get assessmentBeforeStart => 'Before you start';
+
+  @override
+  String get assessmentApproxDuration => 'Approximate Duration';
+
+  @override
+  String get assessmentQuestionsLabel => 'Questions';
+
+  @override
+  String get bannerNotSureJob => 'Not sure how to find the right job?';
+
+  @override
+  String get chatNewChat => 'New Chat';
+
+  @override
+  String get chatSearchInChats => 'Search in Chats';
+
+  @override
+  String get chatHistory => "Chat's History";
+
+  @override
+  String get homeNeedRefresher => 'Need a quick refresher?';
+
+  @override
+  String get homeCvSuccess => 'Your CV Success';
+
+  @override
+  String get homeStatViews => 'Views';
+
+  @override
+  String get homeStatInvitations => 'Invitations';
+
+  @override
+  String get homeStatApplicationsSent => 'Applications Sent';
+
+  @override
+  String get homeStatInterviews => 'Interviews';
+
+  @override
+  String get homeRecommendedCourses => 'Recommended Courses';
+
+  @override
+  String get homeLatestNews => 'Latest News';
+
+  @override
+  String get homeSmartJobRecommendations => 'Smart Job Recommendations';
+
+  @override
+  String get viewAll => 'View All';
+
+  @override
+  String get searchByJobTitle => 'Search by job title';
+
+  @override
+  String get jobLoadError => 'Could not load job.';
+
+  @override
+  String get jobRemovedFromSaved => 'Removed from saved jobs.';
+
+  @override
+  String get jobSavedMessage => 'Job has been saved! Check your saved jobs.';
+
+  @override
+  String get jobPostRemoved => 'Job post has been removed';
+
+  @override
+  String get deadlineReminderSet =>
+      'Deadline Reminder has been set. We will notify you a week before the deadline';
+
+  @override
+  String get readMore => 'Read more';
+
+  @override
+  String jobPostedDate(String date) => 'Posted $date';
+
+  @override
+  String get jobClosedLabel => 'Closed';
+
+  @override
+  String get deadlineReminderLabel => 'Deadline Reminder';
+
+  @override
+  String get reportLabel => 'Report';
+
+  @override
+  String get reminderSetNotification =>
+      'You have set a reminder for this job post';
+
+  @override
+  String get odysseaReviewLabel => 'Odyssea Review: ';
+
+  @override
+  String get recommendedForYouLabel => 'Recommended for you';
+
+  @override
+  String get tabAllJobs => 'All Jobs';
+
+  @override
+  String tabSavedJobs(int count) => 'Saved ($count)';
+
+  @override
+  String get sortingTitle => 'Sorting';
+
+  @override
+  String get filtersTitle => 'Filters';
+
+  @override
+  String get resetFilters => 'Reset Filters';
+
+  @override
+  String get applyFilters => 'Apply Filters';
+
+  @override
+  String get filterAllLabel => 'All';
+
+  @override
+  String get filterClear => 'Clear';
+
+  @override
+  String get applyFilter => 'Apply Filter';
+
+  @override
+  String get salaryTitle => 'Salary';
+
+  @override
+  String get tillLabel => 'Till';
+
+  @override
+  String get reportJobTitle => 'Report this job?';
+
+  @override
+  String get selectReasonHint => 'Select Reason';
+
+  @override
+  String get setReminderTitle => 'Set a reminder';
+
+  @override
+  String get applicationOpenTill => 'Application open till:';
+
+  @override
+  String get whenShouldRemind => 'When should we remind you?';
+
+  @override
+  String get reminderTomorrow => 'Tomorrow';
+
+  @override
+  String get reminderTomorrowSub =>
+      'Reminder will be sent at this time tomorrow';
+
+  @override
+  String get reminderOneWeek => 'In one week';
+
+  @override
+  String get reminderOneWeekSub =>
+      'Reminder will be sent at this time in one week';
+
+  @override
+  String get reminderOneDayBefore => 'One day before the deadline';
+
+  @override
+  String get reminderOneDayBeforeSub =>
+      'Reminder will be sent one day before the deadline';
+
+  @override
+  String get reminderCustomDate => 'Pick a custom date';
+
+  @override
+  String get reminderCustomDateSub => 'Pick a custom date for your reminder';
+
+  @override
+  String get selectDateLabel => 'Select the date';
+
+  @override
+  String get selectTimeLabel => 'Select the time';
+
+  @override
+  String get ddMmYyyyHint => 'DD-MM-YYYY';
+
+  @override
+  String reminderViaContactSub(String contact) =>
+      "We'll send a reminder to:\n$contact";
+
+  @override
+  String get reminderViaSmsWhatsapp => 'SMS / WhatsApp';
+
+  @override
+  String get changeEmailTitle => 'Change Email';
+
+  @override
+  String get newEmailLabel => 'New Email';
+
+  @override
+  String get newEmailHint => 'Enter new email';
+
+  @override
+  String get changePasswordTitle => 'Change Password';
+
+  @override
+  String get repeatNewPasswordLabel => 'Repeat New Password';
+
+  @override
+  String get repeatNewPasswordHint => 'Repeat your new password';
+
+  @override
+  String get changePhoneTitle => 'Change Phone Number';
+
+  @override
+  String get newPhoneNumberLabel => 'New Phone Number';
+
+  @override
+  String get confirmAccountDeletion => 'Confirm Account Deletion';
+
+  @override
+  String get typeDeleteToConfirm => "Type 'delete' to confirm";
+
+  @override
+  String get enterDeleteHint => 'Enter "delete"';
+
+  @override
+  String get deleteAccountButton => 'Delete Account';
+
+  @override
+  String get makeProfileInvisible => 'Make your profile invisible?';
+
+  @override
+  String get switchToLite => 'Switch to Ithaki Lite?';
+
+  @override
+  String get verificationTitle => 'Verification';
+
+  @override
+  String get pushNotifications => 'Push Notifications';
+
+  @override
+  String get unsubscribe => 'Unsubscribe';
+
+  @override
+  String get noMoreJobInterests =>
+      'No more job interests available to add.';
+
+  @override
+  String get roleMigrant => 'Migrant';
+
+  @override
+  String get roleRefugee => 'Refugee';
+
+  @override
+  String get roleAsylumSeeker => 'Asylum Seeker';
 }

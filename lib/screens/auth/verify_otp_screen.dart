@@ -37,7 +37,8 @@ class VerifyOtpScreen extends ConsumerStatefulWidget {
   ConsumerState<VerifyOtpScreen> createState() => _VerifyOtpScreenState();
 }
 
-class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> with CountdownMixin {
+class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen>
+    with CountdownMixin {
   final _otpController = PinInputController();
   String _otp = '';
   bool _isSending = false;
@@ -144,7 +145,12 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen> with Countdow
                     try {
                       await ref.read(authRepositoryProvider).verifyOtp(_otp);
                       resetProfileProviders(ref);
-                      if (context.mounted) context.go(widget.successRoute);
+                      if (!context.mounted) return;
+                      if (widget.successRoute == Routes.welcome) {
+                        context.push(widget.successRoute);
+                      } else {
+                        context.go(widget.successRoute);
+                      }
                     } catch (e) {
                       if (!context.mounted) return;
                       final message = e is AuthException

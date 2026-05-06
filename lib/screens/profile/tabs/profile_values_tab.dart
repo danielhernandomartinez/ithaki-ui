@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../routes.dart';
 
@@ -10,6 +11,7 @@ class ProfileValuesTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final values = ref.watch(profileValuesProvider).value ?? const [];
     if (values.isEmpty) {
       return Container(
@@ -21,12 +23,12 @@ class ProfileValuesTab extends ConsumerWidget {
           border: Border.all(color: Colors.grey.shade200),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('No values added yet.',
-              style: TextStyle(
+          Text(l.noValuesAddedYet,
+              style: const TextStyle(
                   fontSize: 14, color: IthakiTheme.textSecondary)),
           const SizedBox(height: 12),
           IthakiOutlineButton(
-            'Update Values',
+            l.editValuesTitle,
             icon: const IthakiIcon('edit-pencil', size: 16),
             onPressed: () => context.push(Routes.profileValues),
             borderRadius: 20,
@@ -51,7 +53,7 @@ class ProfileValuesTab extends ConsumerWidget {
         ),
         const SizedBox(height: 12),
         IthakiOutlineButton(
-          'Update Values',
+          l.editValuesTitle,
           icon: const IthakiIcon('edit-pencil', size: 16),
           onPressed: () => context.push(Routes.profileValues),
           borderRadius: 20,

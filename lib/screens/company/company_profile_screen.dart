@@ -12,6 +12,7 @@ import '../../repositories/auth_repository.dart';
 import '../../routes.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
+import '../../l10n/app_localizations.dart';
 import 'company_profile_content.dart';
 
 class CompanyProfileScreen extends ConsumerStatefulWidget {
@@ -34,7 +35,7 @@ class _CompanyProfileScreenState extends ConsumerState<CompanyProfileScreen>
     super.initState();
     _panels = PanelMenuController(setState)..init(this);
     _tabController = TabController(
-      length: companyProfileTabs.length,
+      length: kCompanyTabCount,
       vsync: this,
     );
   }
@@ -79,16 +80,16 @@ class _CompanyProfileScreenState extends ConsumerState<CompanyProfileScreen>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    'Could not load company.',
-                    style: TextStyle(
+                  Text(
+                    AppLocalizations.of(context)!.companyLoadError,
+                    style: const TextStyle(
                       color: IthakiTheme.textPrimary,
                       fontSize: 16,
                     ),
                   ),
                   const SizedBox(height: 16),
                   IthakiButton(
-                    'Try Again',
+                    AppLocalizations.of(context)!.tryAgain,
                     onPressed: () =>
                         ref.invalidate(companyProvider(widget.companyId)),
                   ),

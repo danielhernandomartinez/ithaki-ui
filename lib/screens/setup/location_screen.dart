@@ -6,6 +6,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/countries.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/setup_provider.dart';
+import 'widgets/setup_app_bar.dart';
 
 class LocationScreen extends ConsumerStatefulWidget {
   const LocationScreen({super.key});
@@ -94,7 +95,7 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
     ];
 
     return IthakiScreenLayout(
-      appBar: const IthakiAppBar(showMenuAndAvatar: true),
+      appBar: const SetupAppBar(),
       horizontalPadding: 0,
       verticalPadding: 8,
       child: Column(

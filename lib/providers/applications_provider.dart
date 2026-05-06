@@ -115,12 +115,8 @@ class MockApplicationsRepository implements ApplicationsRepository {
   Future<List<Application>> getApplications() async => _mockApplications;
 }
 
-const bool _useMockApplications =
-    AppConfig.useMockData ||
-    bool.fromEnvironment('ITHAKI_USE_MOCK_APPLICATIONS');
-
 final applicationsRepositoryProvider = Provider<ApplicationsRepository>(
-  (ref) => _useMockApplications
+  (ref) => AppConfig.useMockData
       ? MockApplicationsRepository()
       : ApiApplicationsRepository(apiClient: ref.watch(apiClientProvider)),
 );
@@ -253,12 +249,8 @@ class MockInvitationsRepository implements InvitationsRepository {
   }
 }
 
-const bool _useMockInvitations =
-    AppConfig.useMockData ||
-    bool.fromEnvironment('ITHAKI_USE_MOCK_INVITATIONS');
-
 final invitationsRepositoryProvider = Provider<InvitationsRepository>(
-  (ref) => _useMockInvitations
+  (ref) => AppConfig.useMockData
       ? MockInvitationsRepository()
       : ApiInvitationsRepository(apiClient: ref.watch(apiClientProvider)),
 );
@@ -312,7 +304,7 @@ final invitationDeclinedProvider =
   InvitationDeclinedNotifier.new,
 );
 
-// ─── Mock data (used when ITHAKI_USE_MOCK_APPLICATIONS=true) ──────────────────
+// Mock data (used when ITHAKI_USE_MOCK_DATA=true).
 
 const _mockApplications = [
   // ── Active applications ───────────────────────────────────────────────────

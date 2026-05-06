@@ -233,7 +233,8 @@ class MockJobSearchRepository implements JobSearchRepository {
 // ─── API implementation ───────────────────────────────────────────────────────
 
 class ApiJobSearchRepository implements JobSearchRepository {
-  ApiJobSearchRepository({ApiClient? apiClient}) : _api = apiClient ?? ApiClient();
+  ApiJobSearchRepository({ApiClient? apiClient})
+      : _api = apiClient ?? ApiClient();
 
   final ApiClient _api;
   // TODO(backend): replace local persistence with real API calls once the
@@ -246,7 +247,8 @@ class ApiJobSearchRepository implements JobSearchRepository {
     final companyName = companyRaw is Map
         ? (companyRaw['name'] as String? ?? '')
         : (j['companyName'] as String? ?? '');
-    final salary = mapper.formatSalary(j['salaryMin'], j['salaryMax'], j['paymentTerm']);
+    final salary =
+        mapper.formatSalary(j['salaryMin'], j['salaryMax'], j['paymentTerm']);
     final location = j['location'] as String?;
     final workMode = mapper.enumTitle(j['workArrangement']);
     final employmentType = mapper.enumTitle(j['employmentType']);
@@ -280,18 +282,31 @@ class ApiJobSearchRepository implements JobSearchRepository {
     String sort = 'Date: Recent',
     int page = 1,
   }) async {
-    final params = <String, String>{'page': (page - 1).toString(), 'size': '10'};
+    final params = <String, String>{
+      'page': (page - 1).toString(),
+      'size': '10'
+    };
 
     final location = filters['Location'];
-    if (location != null && location.isNotEmpty) params['location'] = location.first;
+    if (location != null && location.isNotEmpty) {
+      params['location'] = location.first;
+    }
     final industry = filters['Industry'];
-    if (industry != null && industry.isNotEmpty) params['industry'] = industry.first;
+    if (industry != null && industry.isNotEmpty) {
+      params['industry'] = industry.first;
+    }
     final jobType = filters['Job Type'];
-    if (jobType != null && jobType.isNotEmpty) params['employmentType'] = jobType.first;
+    if (jobType != null && jobType.isNotEmpty) {
+      params['employmentType'] = jobType.first;
+    }
     final workplace = filters['Workplace'];
-    if (workplace != null && workplace.isNotEmpty) params['workArrangement'] = workplace.first;
+    if (workplace != null && workplace.isNotEmpty) {
+      params['workArrangement'] = workplace.first;
+    }
     final experience = filters['Experience Level'];
-    if (experience != null && experience.isNotEmpty) params['experienceLevel'] = experience.first;
+    if (experience != null && experience.isNotEmpty) {
+      params['experienceLevel'] = experience.first;
+    }
 
     final response = await _api.get('/jobs', params: params);
 
@@ -301,14 +316,17 @@ class ApiJobSearchRepository implements JobSearchRepository {
 
     final body = jsonDecode(response.body);
     final items = mapper.extractList(body);
-    final totalElements =
-        body is Map ? (body['totalElements'] as num?)?.toInt() ?? items.length : items.length;
+    final totalElements = body is Map
+        ? (body['totalElements'] as num?)?.toInt() ?? items.length
+        : items.length;
     final totalPages =
         body is Map ? (body['totalPages'] as num?)?.toInt() ?? 1 : 1;
 
-    final jobs = items.whereType<Map<String, dynamic>>().map(_parseJob).toList();
+    final jobs =
+        items.whereType<Map<String, dynamic>>().map(_parseJob).toList();
 
-    return JobSearchResult(jobs: jobs, totalJobs: totalElements, totalPages: totalPages);
+    return JobSearchResult(
+        jobs: jobs, totalJobs: totalElements, totalPages: totalPages);
   }
 
   @override
@@ -331,11 +349,8 @@ class ApiJobSearchRepository implements JobSearchRepository {
 
 // ─── Provider ─────────────────────────────────────────────────────────────────
 
-const bool _useMockJobSearch =
-    AppConfig.useMockData || bool.fromEnvironment('ITHAKI_USE_MOCK_JOB_SEARCH');
-
 final jobSearchRepositoryProvider = Provider<JobSearchRepository>(
-  (ref) => _useMockJobSearch
+  (ref) => AppConfig.useMockData
       ? MockJobSearchRepository()
       : ApiJobSearchRepository(apiClient: ref.watch(apiClientProvider)),
 );

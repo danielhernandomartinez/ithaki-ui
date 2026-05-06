@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/company_provider.dart';
 import '../../providers/home_provider.dart';
 import '../../routes.dart';
@@ -37,7 +38,9 @@ class CompanyEventDetailScreen extends ConsumerWidget {
       ),
       body: companyAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, __) => const Center(child: Text('Could not load company.')),
+        error: (_, __) => Center(
+          child: Text(AppLocalizations.of(context)!.companyLoadError),
+        ),
         data: (company) {
           final event = company.events.firstWhere(
             (item) => item.id == eventId,
@@ -61,7 +64,7 @@ class CompanyEventDetailScreen extends ConsumerWidget {
                             )
                           : CompanyVisualPlaceholder(
                               title: event.title,
-                              subtitle: 'Event hero placeholder',
+                              subtitle: '',
                               height: double.infinity,
                               iconName: 'calendar',
                               borderRadius: 32,
@@ -98,35 +101,38 @@ class CompanyEventDetailScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  CompanySurfaceCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const CompanySectionTitle('Event Details'),
-                        const SizedBox(height: 14),
-                        Text(event.description, style: companyProfileBodyStyle),
-                        if (event.address.isNotEmpty) ...[
-                          const SizedBox(height: 20),
-                          const CompanySectionTitle('Address'),
-                          const SizedBox(height: 12),
-                          Text(event.address, style: companyProfileBodyStyle),
-                        ],
-                        if (event.registrationLink.isNotEmpty) ...[
-                          const SizedBox(height: 20),
-                          const CompanySectionTitle('Registration Link'),
-                          const SizedBox(height: 12),
-                          Text(
-                            event.registrationLink,
-                            style: companyProfileBodyStyle.copyWith(
-                              color: IthakiTheme.textSecondary,
-                              decoration: TextDecoration.underline,
-                              decorationColor: IthakiTheme.textSecondary,
+                  Builder(builder: (context) {
+                    final l10n = AppLocalizations.of(context)!;
+                    return CompanySurfaceCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CompanySectionTitle(l10n.eventDetailsTitle),
+                          const SizedBox(height: 14),
+                          Text(event.description, style: companyProfileBodyStyle),
+                          if (event.address.isNotEmpty) ...[
+                            const SizedBox(height: 20),
+                            CompanySectionTitle(l10n.eventAddressLabel),
+                            const SizedBox(height: 12),
+                            Text(event.address, style: companyProfileBodyStyle),
+                          ],
+                          if (event.registrationLink.isNotEmpty) ...[
+                            const SizedBox(height: 20),
+                            CompanySectionTitle(l10n.eventRegistrationLink),
+                            const SizedBox(height: 12),
+                            Text(
+                              event.registrationLink,
+                              style: companyProfileBodyStyle.copyWith(
+                                color: IthakiTheme.textSecondary,
+                                decoration: TextDecoration.underline,
+                                decorationColor: IthakiTheme.textSecondary,
+                              ),
                             ),
-                          ),
+                          ],
                         ],
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  }),
                   if (company.culturalMatch != null) ...[
                     const SizedBox(height: 12),
                     CulturalMatchCard(match: company.culturalMatch!),

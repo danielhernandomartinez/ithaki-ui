@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/panel_scaffold.dart';
 
@@ -88,28 +89,29 @@ class _EditCompetenciesScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return PanelScaffold(
-      title: 'Edit Competencies',
+      title: l.editCompetenciesTitle,
       onSave: _save,
       children: [
               // ── Header ──────────────────────────────────────────
-              const Text(
-                'Edit Competencies',
-                style: TextStyle(
+              Text(
+                l.editCompetenciesTitle,
+                style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: IthakiTheme.textPrimary),
               ),
               const SizedBox(height: 6),
-              const Text(
-                'Select the skills that best represent your qualifications and professional expertise.',
-                style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+              Text(
+                l.skillsDescription,
+                style: const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
               ),
               const SizedBox(height: 24),
 
               // ── Computer Skills ──────────────────────────────────
-              const Text('Computer Skills',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600,
+              Text(l.computerSkillsTitle,
+                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600,
                       color: IthakiTheme.textPrimary)),
               const SizedBox(height: 10),
               GridView.count(
@@ -130,16 +132,16 @@ class _EditCompetenciesScreenState
               const SizedBox(height: 24),
 
               // ── Driving License ──────────────────────────────────
-              const Text('Driving License',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600,
+              Text(l.drivingLicenseTitle,
+                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600,
                       color: IthakiTheme.textPrimary)),
               const SizedBox(height: 10),
               Row(
-                children: ['Yes', 'No'].map((o) {
+                children: [l.yes, l.no].map((o) {
                   final isSelected = o == _drivingLicense;
                   return Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(right: o == 'Yes' ? 8 : 0),
+                      padding: EdgeInsets.only(right: o == l.yes ? 8 : 0),
                       child: _optionTile(
                         o,
                         isSelected,
@@ -151,13 +153,13 @@ class _EditCompetenciesScreenState
               ),
 
               // ── Category (only when Yes) ─────────────────────────
-              if (_drivingLicense == 'Yes') ...[
+              if (_drivingLicense == l.yes) ...[
                 const SizedBox(height: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('License Category',
-                        style: TextStyle(
+                    Text(l.licenseCategoryTitle,
+                        style: const TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
                             color: IthakiTheme.textPrimary)),
@@ -165,10 +167,10 @@ class _EditCompetenciesScreenState
                     GestureDetector(
                       onTap: () => SearchBottomSheet.show(
                         context,
-                        'License Category',
+                        l.licenseCategoryTitle,
                         _licenseCategories
                             .map((c) => SearchItem(
-                                id: c, label: 'Category $c'))
+                                id: c, label: l.categoryLabel(c)))
                             .toList(),
                         (item) =>
                             setState(() => _licenseCategory = item.id),
@@ -186,8 +188,8 @@ class _EditCompetenciesScreenState
                           Expanded(
                             child: Text(
                               _licenseCategory.isEmpty
-                                  ? 'Select category'
-                                  : 'Category $_licenseCategory',
+                                  ? l.selectCategory
+                                  : l.categoryLabel(_licenseCategory),
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: _licenseCategory.isEmpty
@@ -211,9 +213,9 @@ class _EditCompetenciesScreenState
                 IthakiCheckbox(
                   value: _greekLicense,
                   onChanged: (v) => setState(() => _greekLicense = v),
-                  child: const Text(
-                    'I have Greek License',
-                    style: TextStyle(fontSize: 14, color: IthakiTheme.textPrimary),
+                  child: Text(
+                    l.iHaveGreekLicense,
+                    style: const TextStyle(fontSize: 14, color: IthakiTheme.textPrimary),
                   ),
                 ),
               ],

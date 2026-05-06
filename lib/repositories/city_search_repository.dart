@@ -82,24 +82,62 @@ class ApiCitySearchRepository implements CitySearchRepository {
 
 class MockCitySearchRepository implements CitySearchRepository {
   static const _cities = [
-    CityResult(id: 1, city: 'Athens', country: 'Greece', display: 'Athens, Greece'),
-    CityResult(id: 2, city: 'Thessaloniki', country: 'Greece', display: 'Thessaloniki, Greece'),
-    CityResult(id: 3, city: 'Patras', country: 'Greece', display: 'Patras, Greece'),
-    CityResult(id: 4, city: 'Heraklion', country: 'Greece', display: 'Heraklion, Greece'),
-    CityResult(id: 5, city: 'Larissa', country: 'Greece', display: 'Larissa, Greece'),
-    CityResult(id: 6, city: 'Volos', country: 'Greece', display: 'Volos, Greece'),
-    CityResult(id: 7, city: 'Ioannina', country: 'Greece', display: 'Ioannina, Greece'),
-    CityResult(id: 8, city: 'Chania', country: 'Greece', display: 'Chania, Greece'),
-    CityResult(id: 9, city: 'Madrid', country: 'Spain', display: 'Madrid, Spain'),
-    CityResult(id: 10, city: 'Barcelona', country: 'Spain', display: 'Barcelona, Spain'),
-    CityResult(id: 11, city: 'Valencia', country: 'Spain', display: 'Valencia, Spain'),
-    CityResult(id: 12, city: 'Seville', country: 'Spain', display: 'Seville, Spain'),
-    CityResult(id: 13, city: 'London', country: 'United Kingdom', display: 'London, United Kingdom'),
-    CityResult(id: 14, city: 'Paris', country: 'France', display: 'Paris, France'),
-    CityResult(id: 15, city: 'Berlin', country: 'Germany', display: 'Berlin, Germany'),
+    CityResult(
+        id: 1, city: 'Athens', country: 'Greece', display: 'Athens, Greece'),
+    CityResult(
+        id: 2,
+        city: 'Thessaloniki',
+        country: 'Greece',
+        display: 'Thessaloniki, Greece'),
+    CityResult(
+        id: 3, city: 'Patras', country: 'Greece', display: 'Patras, Greece'),
+    CityResult(
+        id: 4,
+        city: 'Heraklion',
+        country: 'Greece',
+        display: 'Heraklion, Greece'),
+    CityResult(
+        id: 5, city: 'Larissa', country: 'Greece', display: 'Larissa, Greece'),
+    CityResult(
+        id: 6, city: 'Volos', country: 'Greece', display: 'Volos, Greece'),
+    CityResult(
+        id: 7,
+        city: 'Ioannina',
+        country: 'Greece',
+        display: 'Ioannina, Greece'),
+    CityResult(
+        id: 8, city: 'Chania', country: 'Greece', display: 'Chania, Greece'),
+    CityResult(
+        id: 9, city: 'Madrid', country: 'Spain', display: 'Madrid, Spain'),
+    CityResult(
+        id: 10,
+        city: 'Barcelona',
+        country: 'Spain',
+        display: 'Barcelona, Spain'),
+    CityResult(
+        id: 11, city: 'Valencia', country: 'Spain', display: 'Valencia, Spain'),
+    CityResult(
+        id: 12, city: 'Seville', country: 'Spain', display: 'Seville, Spain'),
+    CityResult(
+        id: 13,
+        city: 'London',
+        country: 'United Kingdom',
+        display: 'London, United Kingdom'),
+    CityResult(
+        id: 14, city: 'Paris', country: 'France', display: 'Paris, France'),
+    CityResult(
+        id: 15, city: 'Berlin', country: 'Germany', display: 'Berlin, Germany'),
     CityResult(id: 16, city: 'Rome', country: 'Italy', display: 'Rome, Italy'),
-    CityResult(id: 17, city: 'Lisbon', country: 'Portugal', display: 'Lisbon, Portugal'),
-    CityResult(id: 18, city: 'Amsterdam', country: 'Netherlands', display: 'Amsterdam, Netherlands'),
+    CityResult(
+        id: 17,
+        city: 'Lisbon',
+        country: 'Portugal',
+        display: 'Lisbon, Portugal'),
+    CityResult(
+        id: 18,
+        city: 'Amsterdam',
+        country: 'Netherlands',
+        display: 'Amsterdam, Netherlands'),
   ];
 
   @override

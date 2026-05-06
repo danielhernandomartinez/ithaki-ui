@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../models/company_models.dart';
 import 'company_cultural_fit_gauge.dart';
 
@@ -482,6 +483,7 @@ class CulturalMatchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return CompanySurfaceCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -490,16 +492,14 @@ class CulturalMatchCard extends StatelessWidget {
             child: CompanyCulturalFitGauge(label: match.label),
           ),
           const SizedBox(height: 12),
-          const Text('Cultural Match Score', style: companyProfileSectionTitle),
+          Text(l10n.culturalMatchScore, style: companyProfileSectionTitle),
           const SizedBox(height: 14),
-          const Text(
-            'You and this company both chose your top 5\n'
-            'values and preferences. This score shows how\n'
-            'closely they align.',
+          Text(
+            l10n.culturalMatchDescription,
             style: companyProfileBodyStyle,
           ),
           const SizedBox(height: 14),
-          const Text('You both care about:', style: companyProfileBodyStyle),
+          Text(l10n.culturalMatchYouBothCareAbout, style: companyProfileBodyStyle),
           const SizedBox(height: 8),
           ...match.sharedValues.map(_CompanyMatchBullet.new),
           if (match.description.isNotEmpty) ...[

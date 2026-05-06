@@ -99,23 +99,21 @@ void main() {
     expect(await repo.search('Athens'), isEmpty);
   });
 
-  test('falls back to local city search on unauthorized response', () async {
+  test('returns [] on unauthorized response', () async {
     stubGet(_resp('Unauthorized', status: 401));
 
     final results = await repo.search('Athens');
 
-    expect(results, isNotEmpty);
-    expect(results.first.city, 'Athens');
+    expect(results, isEmpty);
   });
 
-  test('falls back to local city search when request throws', () async {
+  test('returns [] when request throws', () async {
     when(() => api.getOptionalAuth(any(), params: any(named: 'params')))
         .thenThrow(Exception('Network failed'));
 
     final results = await repo.search('Bar');
 
-    expect(results, isNotEmpty);
-    expect(results.first.city, 'Barcelona');
+    expect(results, isEmpty);
   });
 
   test('returns [] on HTTP 500', () async {

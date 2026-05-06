@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/dotted_border_box.dart';
 import '../../widgets/panel_scaffold.dart';
@@ -72,34 +73,35 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final bioLen = _bioCtrl.text.length;
 
     return PanelScaffold(
-      title: 'About Me',
+      title: l.editAboutMeTitle,
       onSave: _save,
       children: [
         // ── Page header ────────────────────────────────────
-        const Text('About Me',
-            style: TextStyle(
+        Text(l.editAboutMeTitle,
+            style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
                 color: IthakiTheme.textPrimary)),
         const SizedBox(height: 6),
         const Text(
-          'Please provide some basic information about yourself. This helps us set up your profile and personalize your experience. You can add information later or update this anytime in Profile.',
+          l.aboutMeEditDescription,
           style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 24),
 
         // ── Bio ────────────────────────────────────────────
-        const Text('Add Bio (optional)',
-            style: TextStyle(
+        Text(l.addBioOptional,
+            style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
                 color: IthakiTheme.textPrimary)),
         const SizedBox(height: 6),
         const Text(
-          'Add a few words about yourself to help employers understand who you are and what you do. We recommend keeping it concise, avoiding unnecessary filler, and highlighting key skills and experience.',
+          l.addBioDescription,
           style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 12),
@@ -132,7 +134,7 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
         Align(
           alignment: Alignment.centerRight,
           child: Text(
-            '$bioLen / 1000 symbols',
+            l.charactersCounter(bioLen, 1000),
             style:
                 const TextStyle(fontSize: 11, color: IthakiTheme.textSecondary),
           ),
@@ -140,14 +142,14 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
         const SizedBox(height: 24),
 
         // ── Video ──────────────────────────────────────────
-        const Text('Add Video Presentation (optional)',
-            style: TextStyle(
+        Text(l.addVideoPresentationOptional,
+            style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
                 color: IthakiTheme.textPrimary)),
         const SizedBox(height: 6),
         const Text(
-          'Add a short video to introduce yourself to employers, highlight your experience, and showcase your skills. A video helps you stand out among other candidates.',
+          l.addVideoDescription,
           style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 12),
@@ -155,9 +157,9 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
         // Tab row
         Row(
           children: [
-            _tab('Upload File', 0),
+            _tab(l.uploadFile, 0),
             const SizedBox(width: 20),
-            _tab('Upload via URL', 1),
+            _tab(l.uploadViaUrl, 1),
           ],
         ),
         const SizedBox(height: 12),
@@ -171,8 +173,8 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
                 const Icon(Icons.upload_rounded,
                     size: 32, color: IthakiTheme.softGraphite),
                 const SizedBox(height: 8),
-                const Text(
-                  'tap button to browse (max 10 files, up to 5 MB\neach; supported formats: .pdf, .doc, .png, .jpg)',
+                Text(
+                  l.uploadInstructions,
                   textAlign: TextAlign.center,
                   style:
                       TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
@@ -200,7 +202,7 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
                     });
                   },
                   icon: const Icon(Icons.upload_rounded, size: 16),
-                  label: const Text('Upload File'),
+                  label: Text(l.uploadFile),
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: IthakiTheme.softGraphite),
                     shape: RoundedRectangleBorder(
@@ -219,7 +221,7 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
             onChanged: (v) => setState(
                 () => _videoUrl = v.trim().isNotEmpty ? v.trim() : null),
             decoration: InputDecoration(
-              hintText: 'Paste video URL here',
+              hintText: l.pasteVideoUrlHere,
               hintStyle: const TextStyle(
                   color: IthakiTheme.softGraphite, fontSize: 14),
               prefixIcon:

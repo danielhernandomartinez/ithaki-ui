@@ -82,15 +82,10 @@ class ReferenceDataRepository {
     T Function(Map<String, dynamic>) fromJson,
   ) async {
     final res = await _tryOptionalGet(path);
-    final fallback = _fallbackDataFor(path);
     if (res == null) {
-      if (fallback != null) return _parseItems(fallback, fromJson);
       throw Exception('Failed to load $path');
     }
     if (res.statusCode != 200) {
-      if (res.statusCode == 401 && fallback != null) {
-        return _parseItems(fallback, fromJson);
-      }
       throw Exception(
         'Failed to load $path (${res.statusCode}): ${_api.readErrorBody(res)}',
       );
@@ -103,50 +98,6 @@ class ReferenceDataRepository {
     return raw
         .map((e) => fromJson((e as Map).cast<String, dynamic>()))
         .toList();
-  }
-
-  List<T> _parseItems<T>(
-    List<Map<String, dynamic>> items,
-    T Function(Map<String, dynamic>) fromJson,
-  ) =>
-      items.map(fromJson).toList();
-
-  List<Map<String, dynamic>>? _fallbackDataFor(String path) {
-    if (path == '/skills/hard') {
-      return const [
-        {'id': 1, 'name': 'JavaScript'},
-        {'id': 2, 'name': 'Flutter'},
-        {'id': 3, 'name': 'Customer Support'},
-        {'id': 4, 'name': 'Data Entry'},
-        {'id': 5, 'name': 'Digital Marketing'},
-      ];
-    }
-    if (path == '/skills/soft') {
-      return const [
-        {'id': 1, 'name': 'Communication'},
-        {'id': 2, 'name': 'Teamwork'},
-        {'id': 3, 'name': 'Adaptability'},
-        {'id': 4, 'name': 'Problem Solving'},
-      ];
-    }
-    if (path == '/list/languages') {
-      return const [
-        {'id': 1, 'name': 'English'},
-        {'id': 2, 'name': 'Greek'},
-        {'id': 3, 'name': 'Arabic'},
-        {'id': 4, 'name': 'French'},
-      ];
-    }
-    if (path == '/list/personality-values') {
-      return const [
-        {'id': 1, 'title': 'Learning'},
-        {'id': 2, 'title': 'Teamwork'},
-        {'id': 3, 'title': 'Stability'},
-        {'id': 4, 'title': 'Creativity'},
-        {'id': 5, 'title': 'Independence'},
-      ];
-    }
-    return null;
   }
 
   Future<http.Response?> _tryOptionalGet(String path) async {

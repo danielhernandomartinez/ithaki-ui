@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/profile_provider.dart';
 import '../../providers/reference_data_provider.dart';
 import '../../widgets/panel_scaffold.dart';
@@ -42,6 +43,7 @@ class _EditValuesScreenState extends ConsumerState<EditValuesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final valuesAsync = ref.watch(personalityValuesListProvider);
     final options = valuesAsync.value
             ?.map((v) => v.title.trim())
@@ -51,12 +53,12 @@ class _EditValuesScreenState extends ConsumerState<EditValuesScreen> {
         _selected.toList();
 
     return PanelScaffold(
-      title: 'Values',
+      title: l.editValuesTitle,
       onSave: _selected.isNotEmpty ? _save : null,
       children: [
-        const Text(
-          'Values',
-          style: TextStyle(
+        Text(
+          l.editValuesTitle,
+          style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w700,
             color: IthakiTheme.textPrimary,
@@ -64,7 +66,7 @@ class _EditValuesScreenState extends ConsumerState<EditValuesScreen> {
         ),
         const SizedBox(height: 6),
         Text(
-          'Choose up to $_kMaxValues values that best represent what matters most to you professionally.',
+          l.chooseValuesDescription(_kMaxValues),
           style: const TextStyle(
             fontSize: 13,
             color: IthakiTheme.textSecondary,

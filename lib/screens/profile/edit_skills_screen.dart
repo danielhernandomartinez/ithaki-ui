@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/profile_provider.dart';
 import '../../providers/reference_data_provider.dart';
 import '../../widgets/panel_scaffold.dart';
@@ -27,7 +28,9 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
 
   Future<void> _save() async {
     try {
-      await ref.read(profileSkillsProvider.notifier).updateSkills(_hardSkills, _softSkills);
+      await ref
+          .read(profileSkillsProvider.notifier)
+          .updateSkills(_hardSkills, _softSkills);
       if (!mounted) return;
       context.pop();
     } catch (e) {
@@ -64,16 +67,19 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
         ),
         child: Row(mainAxisSize: MainAxisSize.min, children: [
           Text(label,
-              style: const TextStyle(fontSize: 14, color: IthakiTheme.textPrimary)),
+              style: const TextStyle(
+                  fontSize: 14, color: IthakiTheme.textPrimary)),
           const SizedBox(width: 6),
           GestureDetector(
             onTap: onRemove,
-            child: const Icon(Icons.close, size: 14, color: IthakiTheme.softGraphite),
+            child: const Icon(Icons.close,
+                size: 14, color: IthakiTheme.softGraphite),
           ),
         ]),
       );
 
   Widget _section({
+    required AppLocalizations l,
     required String title,
     required List<String> skills,
     required List<String> allOptions,
@@ -116,11 +122,13 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
           child: Row(children: [
             Expanded(
               child: Text(
-                'Start typing to add a skill',
-                style: TextStyle(fontSize: 14, color: IthakiTheme.softGraphite),
+                l.addSkillHint,
+                style: const TextStyle(
+                    fontSize: 14, color: IthakiTheme.softGraphite),
               ),
             ),
-            const IthakiIcon('arrow-down', size: 18, color: IthakiTheme.softGraphite),
+            const IthakiIcon('arrow-down',
+                size: 18, color: IthakiTheme.softGraphite),
           ]),
         ),
       ),
@@ -129,25 +137,29 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final hardAsync = ref.watch(hardSkillsProvider);
     final softAsync = ref.watch(softSkillsProvider);
 
-    final hardOptions = hardAsync.value?.map((s) => s.name).toList() ?? const [];
-    final softOptions = softAsync.value?.map((s) => s.name).toList() ?? const [];
+    final hardOptions =
+        hardAsync.value?.map((s) => s.name).toList() ?? const [];
+    final softOptions =
+        softAsync.value?.map((s) => s.name).toList() ?? const [];
 
     return PanelScaffold(
-      title: 'Edit Skills',
+      title: l.editSkillsTitle,
       onSave: _save,
       children: [
-        const Text('Edit Skills',
-            style: TextStyle(
+        Text(l.editSkillsTitle,
+            style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
                 color: IthakiTheme.textPrimary)),
         const SizedBox(height: 6),
-        const Text(
-          'Select the skills that best represent your qualifications and professional expertise.',
-          style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+        Text(
+          l.skillsDescription,
+          style:
+              const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 24),
         if (hardAsync.isLoading || softAsync.isLoading)
@@ -160,13 +172,15 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
-              'Error loading skills: ${hardAsync.error ?? softAsync.error}',
+              l.errorLoadingSkills(
+                  (hardAsync.error ?? softAsync.error).toString()),
               style: const TextStyle(fontSize: 13, color: Colors.red),
             ),
           )
         else ...[
           _section(
-            title: 'Hard Skills',
+            l: l,
+            title: l.hardSkillsTitle,
             skills: _hardSkills,
             allOptions: hardOptions,
             onAdd: (s) => _hardSkills.add(s),
@@ -174,7 +188,8 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
           ),
           const SizedBox(height: 24),
           _section(
-            title: 'Soft Skills',
+            l: l,
+            title: l.softSkillsTitle,
             skills: _softSkills,
             allOptions: softOptions,
             onAdd: (s) => _softSkills.add(s),

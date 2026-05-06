@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/panel_scaffold.dart';
 import '../../widgets/profile_picker_field.dart';
@@ -17,14 +18,15 @@ class WorkExperienceScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final experiences =
         ref.watch(profileWorkExperiencesProvider).value ?? const [];
 
     return IthakiEntryListShell(
-      appBarTitle: 'Work Experience',
-      title: 'Work Experience',
-      subtitle: 'Add details about your previous roles and companies',
-      addButtonLabel: 'Add Work Experience',
+      appBarTitle: l.profileWorkExperienceTitle,
+      title: l.profileWorkExperienceTitle,
+      subtitle: l.profileWorkExperienceSubtitle,
+      addButtonLabel: l.addWorkExperience,
       onAddPressed: () => context.push(Routes.profileWorkExperienceEdit),
       onSavePressed: () => context.pop(),
       entries: experiences
@@ -174,37 +176,39 @@ class _WorkExperienceFormScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return PanelScaffold(
-      title: 'Edit Work Experience',
+      title: l.editWorkExperience,
       onSave: _save,
       children: [
         // ── Header ─────────────────────────────────────────
-        const Text('Edit Work Experience',
-            style: TextStyle(
+        Text(l.editWorkExperience,
+            style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
                 color: IthakiTheme.textPrimary)),
         const SizedBox(height: 6),
-        const Text(
-          'Add details about your previous roles and companies',
-          style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+        Text(
+          l.profileWorkExperienceSubtitle,
+          style:
+              const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 24),
 
         // ── Fields ──────────────────────────────────────────
         IthakiTextField(
-            label: 'Job Title',
-            hint: 'e.g. Software Engineer',
+            label: l.jobTitleLabel,
+            hint: l.jobTitleHint,
             controller: _jobTitleCtrl),
         const SizedBox(height: 12),
         IthakiTextField(
-            label: 'Company Name',
-            hint: 'e.g. Acme Corp',
+            label: l.companyNameLabel,
+            hint: l.companyNameHint,
             controller: _companyCtrl),
         const SizedBox(height: 12),
         ProfilePickerField(
-          label: 'Location',
-          hint: 'Type city to search',
+          label: l.locationInfoLabel,
+          hint: l.typeCityToSearch,
           value: _locationCtrl.text,
           onTap: () => CitySearchBottomSheet.show(
             context,
@@ -213,41 +217,41 @@ class _WorkExperienceFormScreenState
         ),
         const SizedBox(height: 12),
         ProfilePickerField(
-            label: 'Experience Level',
-            hint: 'Select level',
+            label: l.experienceLevelLabel,
+            hint: l.selectLevel,
             value: _experienceLevel,
             onTap: () => _openPicker(
-                  title: 'Experience Level',
+                  title: l.experienceLevelLabel,
                   options: _experienceLevels,
                   current: _experienceLevel,
                   onSelect: (v) => _experienceLevel = v,
                 )),
         const SizedBox(height: 12),
         ProfilePickerField(
-            label: 'Workplace',
-            hint: 'Select workplace',
+            label: l.workplaceLabel,
+            hint: l.selectWorkplace,
             value: _workplaceType,
             onTap: () => _openPicker(
-                  title: 'Workplace',
+                  title: l.workplaceLabel,
                   options: _workplaces,
                   current: _workplaceType,
                   onSelect: (v) => _workplaceType = v,
                 )),
         const SizedBox(height: 12),
         ProfilePickerField(
-            label: 'Job Type',
-            hint: 'Select job type',
+            label: l.jobTypeTitle,
+            hint: l.selectJobType,
             value: _jobType,
             onTap: () => _openPicker(
-                  title: 'Job Type',
+                  title: l.jobTypeTitle,
                   options: _jobTypes,
                   current: _jobType,
                   onSelect: (v) => _jobType = v,
                 )),
         const SizedBox(height: 12),
         IthakiTextField(
-          label: 'Start Date',
-          hint: 'MM-YYYY',
+          label: l.startDateLabel,
+          hint: l.mmYyyyHint,
           controller: _startDateCtrl,
           readOnly: true,
           onTap: () => _pickDate(_startDateCtrl),
@@ -256,8 +260,8 @@ class _WorkExperienceFormScreenState
         ),
         const SizedBox(height: 12),
         IthakiTextField(
-          label: 'End Date',
-          hint: 'MM-YYYY',
+          label: l.endDateLabel,
+          hint: l.mmYyyyHint,
           controller: _endDateCtrl,
           readOnly: true,
           onTap: _currentlyWorkHere ? null : () => _pickDate(_endDateCtrl),
@@ -274,14 +278,15 @@ class _WorkExperienceFormScreenState
             _currentlyWorkHere = v;
             if (v) _endDateCtrl.clear();
           }),
-          child: const Text('I currently work here',
-              style: TextStyle(fontSize: 14, color: IthakiTheme.textPrimary)),
+          child: Text(l.currentlyWorkHere,
+              style: const TextStyle(
+                  fontSize: 14, color: IthakiTheme.textPrimary)),
         ),
         const SizedBox(height: 16),
 
         // ── Summary ─────────────────────────────────────────
-        const Text('Experience Summary (optional)',
-            style: TextStyle(
+        Text(l.experienceSummaryOptional,
+            style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: IthakiTheme.textPrimary)),
@@ -292,11 +297,11 @@ class _WorkExperienceFormScreenState
           maxLength: 1000,
           buildCounter: (_,
                   {required currentLength, required isFocused, maxLength}) =>
-              Text('$currentLength / $maxLength symbols',
+              Text(l.charactersCounter(currentLength, maxLength ?? 0),
                   style: const TextStyle(
                       fontSize: 11, color: IthakiTheme.textSecondary)),
           decoration: InputDecoration(
-            hintText: 'Describe your role and achievements...',
+            hintText: l.experienceSummaryHint,
             hintStyle:
                 const TextStyle(color: IthakiTheme.softGraphite, fontSize: 14),
             border: OutlineInputBorder(

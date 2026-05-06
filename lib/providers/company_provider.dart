@@ -336,7 +336,10 @@ final companyProvider = FutureProvider.family<CompanyProfile, String>(
     try {
       return await ref.watch(companyRepositoryProvider).getCompany(companyId);
     } catch (_) {
-      return mockCompanyProfile(companyId);
+      if (AppConfig.shouldUseMockData) {
+        return mockCompanyProfile(companyId);
+      }
+      rethrow;
     }
   },
 );

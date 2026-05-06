@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 
 import 'package:ithaki_ui/l10n/app_localizations.dart';
@@ -20,15 +21,19 @@ Widget _buildApp(ApiClient api) => ProviderScope(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: Locale('en'),
-        home: ValuesScreen(isEmployer: true),
+        home: ValuesScreen(),
       ),
     );
 
 void main() {
-  testWidgets('employer values render fallback before login', (tester) async {
+  testWidgets('values render API response before login', (tester) async {
     final api = _MockApiClient();
-    when(() => api.getOptionalAuth('/list/personality-values'))
-        .thenThrow(Exception('Missing auth token'));
+    when(() => api.getOptionalAuth('/list/personality-values')).thenAnswer(
+      (_) async => http.Response(
+        '[{"id":1,"title":"Learning"},{"id":2,"title":"Teamwork"}]',
+        200,
+      ),
+    );
 
     await tester.pumpWidget(_buildApp(api));
     await tester.pumpAndSettle();

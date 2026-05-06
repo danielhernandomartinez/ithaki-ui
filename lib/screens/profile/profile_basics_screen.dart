@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/countries.dart';
+import '../../l10n/app_localizations.dart';
 import '../../routes.dart';
 import '../../utils/validators.dart';
 import '../../providers/profile_provider.dart';
@@ -123,7 +124,8 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
     if (exceedsMaxFileSize(file.size)) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('File exceeds 5 MB limit')),
+          SnackBar(
+              content: Text(AppLocalizations.of(context)!.fileExceedsLimit)),
         );
       }
       return;
@@ -190,13 +192,14 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) => BottomSheetBase(
-        title: 'Leave Editing?',
+        title: AppLocalizations.of(context)!.leaveEditingTitle,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'All entered information will be lost if you leave this screen.',
-              style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
+            Text(
+              AppLocalizations.of(context)!.leaveEditingMessage,
+              style: const TextStyle(
+                  fontSize: 14, color: IthakiTheme.textSecondary),
             ),
             const SizedBox(height: 20),
             SizedBox(
@@ -213,13 +216,14 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   foregroundColor: IthakiTheme.textPrimary,
                 ),
-                child: const Text('Leave without saving'),
+                child: Text(AppLocalizations.of(context)!.leaveWithoutSaving),
               ),
             ),
             const SizedBox(height: 8),
             SizedBox(
               width: double.infinity,
-              child: IthakiButton('Save and Leave', onPressed: () {
+              child: IthakiButton(AppLocalizations.of(context)!.saveAndLeave,
+                  onPressed: () {
                 _save();
                 Navigator.of(context).pop();
               }),
@@ -232,6 +236,7 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return PopScope(
       canPop: !_isDirty,
       onPopInvokedWithResult: (didPop, result) {
@@ -239,148 +244,139 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
       },
       child: Scaffold(
         backgroundColor: IthakiTheme.backgroundViolet,
+        extendBodyBehindAppBar: true,
+        appBar: ProfileEditAppBar(
+          avatarInitials:
+              '${_nameCtrl.text.trim().isNotEmpty ? _nameCtrl.text.trim()[0] : '?'}'
+              '${_lastNameCtrl.text.trim().isNotEmpty ? _lastNameCtrl.text.trim()[0] : '?'}',
+          avatarUrl: _photoPath,
+          onNotificationsTap: () => context.push(Routes.settingsNotifications),
+          onBack: _onBack,
+        ),
         body: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(height: 8),
-              ProfileEditAppBar(
-                avatarInitials:
-                    '${_nameCtrl.text.trim().isNotEmpty ? _nameCtrl.text.trim()[0] : '?'}'
-                    '${_lastNameCtrl.text.trim().isNotEmpty ? _lastNameCtrl.text.trim()[0] : '?'}',
-                avatarUrl: _photoPath,
-                onNotificationsTap: () =>
-                    context.push(Routes.settingsNotifications),
-                onBack: _onBack,
+          top: false,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(
+              left: 16,
+              right: 16,
+              top: MediaQuery.paddingOf(context).top + kToolbarHeight + 24,
+              bottom: MediaQuery.viewPaddingOf(context).bottom + 16,
+            ),
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: IthakiTheme.backgroundWhite,
+                borderRadius: BorderRadius.circular(20),
               ),
-              const SizedBox(height: 8),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    bottom: MediaQuery.viewPaddingOf(context).bottom + 16,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // ── Photo ──────────────────────────────────────────
+                  ProfilePhotoSection(
+                    photoPath: _photoPath,
+                    onPick: _pickPhoto,
                   ),
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: IthakiTheme.backgroundWhite,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // ── Photo ──────────────────────────────────────────
-                        ProfilePhotoSection(
-                          photoPath: _photoPath,
-                          onPick: _pickPhoto,
-                        ),
-                        const SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
-                        // ── Fields ─────────────────────────────────────────
-                        IthakiTextField(
-                          label: 'Name',
-                          hint: 'Your first name',
-                          controller: _nameCtrl,
-                          onChanged: (_) => _markDirty(),
-                        ),
-                        const SizedBox(height: 12),
-                        IthakiTextField(
-                          label: 'Last Name',
-                          hint: 'Your last name',
-                          controller: _lastNameCtrl,
-                          onChanged: (_) => _markDirty(),
-                        ),
-                        const SizedBox(height: 12),
-                        IthakiTextField(
-                          label: 'Date of Birth',
-                          hint: 'DD-MM-YYYY',
-                          controller: _dobCtrl,
-                          readOnly: true,
-                          onTap: _pickDate,
-                          suffixIcon: const IthakiIcon('calendar',
-                              size: 16, color: IthakiTheme.softGraphite),
-                        ),
-                        const SizedBox(height: 12),
-                        ProfilePickerField(
-                          label: 'Gender',
-                          hint: 'Select gender',
-                          value: _gender,
-                          onTap: () => _openSelectorSheet(
-                            'Gender',
-                            _genderOptions,
-                            _gender.isEmpty ? null : _gender,
-                            (v) => _gender = v,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        // Citizenship with flag
-                        IthakiTextField(
-                          label: 'Citizenship',
-                          hint: 'Select country',
-                          controller: _citizenshipCtrl,
-                          readOnly: true,
-                          onTap: () => _openCountryPicker(
-                            'Citizenship',
-                            _citizenshipCtrl,
-                            (code) => _citizenshipCode = code,
-                          ),
-                          suffixIcon: _citizenshipCode.isNotEmpty
-                              ? IthakiFlag(_citizenshipCode,
-                                  width: 24, height: 18)
-                              : const IthakiIcon('flag',
-                                  size: 16, color: IthakiTheme.softGraphite),
-                        ),
-                        const SizedBox(height: 12),
-                        // Residence with flag
-                        IthakiTextField(
-                          label: 'Residence',
-                          hint: 'Select country',
-                          controller: _residenceCtrl,
-                          readOnly: true,
-                          onTap: () => _openCountryPicker(
-                            'Residence',
-                            _residenceCtrl,
-                            (code) => _residenceCode = code,
-                          ),
-                          suffixIcon: _residenceCode.isNotEmpty
-                              ? IthakiFlag(_residenceCode,
-                                  width: 24, height: 18)
-                              : const IthakiIcon('flag',
-                                  size: 16, color: IthakiTheme.softGraphite),
-                        ),
-                        const SizedBox(height: 12),
-                        ProfilePickerField(
-                          label: 'Status',
-                          hint: 'Select status',
-                          value: _status,
-                          onTap: () => _openSelectorSheet(
-                            'Status',
-                            _statusOptions,
-                            _status.isEmpty ? null : _status,
-                            (v) => _status = v,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        ProfilePickerField(
-                          label: 'Relocation Readiness',
-                          hint: 'Select option',
-                          value: _relocation,
-                          onTap: () => _openSelectorSheet(
-                            'Relocation Readiness',
-                            _relocationOptions,
-                            _relocation.isEmpty ? null : _relocation,
-                            (v) => _relocation = v,
-                          ),
-                        ),
-                        const SizedBox(height: 24),
-                        IthakiButton('Save',
-                            onPressed: _isFormValid ? _save : null),
-                      ],
+                  // ── Fields ─────────────────────────────────────────
+                  IthakiTextField(
+                    label: l.nameLabel,
+                    hint: l.yourFirstNameHint,
+                    controller: _nameCtrl,
+                    onChanged: (_) => _markDirty(),
+                  ),
+                  const SizedBox(height: 12),
+                  IthakiTextField(
+                    label: l.lastNameLabel,
+                    hint: l.yourLastNameHint,
+                    controller: _lastNameCtrl,
+                    onChanged: (_) => _markDirty(),
+                  ),
+                  const SizedBox(height: 12),
+                  IthakiTextField(
+                    label: l.dateOfBirthLabel,
+                    hint: l.mmYyyyHint,
+                    controller: _dobCtrl,
+                    readOnly: true,
+                    onTap: _pickDate,
+                    suffixIcon: const IthakiIcon('calendar',
+                        size: 16, color: IthakiTheme.softGraphite),
+                  ),
+                  const SizedBox(height: 12),
+                  ProfilePickerField(
+                    label: l.genderLabel,
+                    hint: l.selectGender,
+                    value: _gender,
+                    onTap: () => _openSelectorSheet(
+                      l.genderLabel,
+                      _genderOptions,
+                      _gender.isEmpty ? null : _gender,
+                      (v) => _gender = v,
                     ),
                   ),
-                ),
+                  const SizedBox(height: 12),
+                  // Citizenship with flag
+                  IthakiTextField(
+                    label: l.citizenshipLabel,
+                    hint: l.selectCountry,
+                    controller: _citizenshipCtrl,
+                    readOnly: true,
+                    onTap: () => _openCountryPicker(
+                      l.citizenshipLabel,
+                      _citizenshipCtrl,
+                      (code) => _citizenshipCode = code,
+                    ),
+                    suffixIcon: _citizenshipCode.isNotEmpty
+                        ? IthakiFlag(_citizenshipCode, width: 24, height: 18)
+                        : const IthakiIcon('flag',
+                            size: 16, color: IthakiTheme.softGraphite),
+                  ),
+                  const SizedBox(height: 12),
+                  // Residence with flag
+                  IthakiTextField(
+                    label: l.residenceLabel,
+                    hint: l.selectCountry,
+                    controller: _residenceCtrl,
+                    readOnly: true,
+                    onTap: () => _openCountryPicker(
+                      l.residenceLabel,
+                      _residenceCtrl,
+                      (code) => _residenceCode = code,
+                    ),
+                    suffixIcon: _residenceCode.isNotEmpty
+                        ? IthakiFlag(_residenceCode, width: 24, height: 18)
+                        : const IthakiIcon('flag',
+                            size: 16, color: IthakiTheme.softGraphite),
+                  ),
+                  const SizedBox(height: 12),
+                  ProfilePickerField(
+                    label: l.statusLabel,
+                    hint: l.selectStatus,
+                    value: _status,
+                    onTap: () => _openSelectorSheet(
+                      l.statusLabel,
+                      _statusOptions,
+                      _status.isEmpty ? null : _status,
+                      (v) => _status = v,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  ProfilePickerField(
+                    label: l.relocationReadinessLabel,
+                    hint: l.selectOption,
+                    value: _relocation,
+                    onTap: () => _openSelectorSheet(
+                      l.relocationReadinessLabel,
+                      _relocationOptions,
+                      _relocation.isEmpty ? null : _relocation,
+                      (v) => _relocation = v,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  IthakiButton(l.save, onPressed: _isFormValid ? _save : null),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),

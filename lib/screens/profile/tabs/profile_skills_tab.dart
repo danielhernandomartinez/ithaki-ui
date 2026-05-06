@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../routes.dart';
 
@@ -16,21 +17,23 @@ class ProfileSkillsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final skills =
         ref.watch(profileSkillsProvider).value ?? const ProfileSkills();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _skillsCard(context, skills),
+        _skillsCard(context, skills, l),
         const SizedBox(height: 8),
-        _competenciesCard(context, skills),
+        _competenciesCard(context, skills, l),
         const SizedBox(height: 8),
-        _languagesCard(context, skills),
+        _languagesCard(context, skills, l),
       ],
     );
   }
 
-  Widget _skillsCard(BuildContext context, ProfileSkills skills) {
+  Widget _skillsCard(
+      BuildContext context, ProfileSkills skills, AppLocalizations l) {
     final hasSkills =
         skills.hardSkills.isNotEmpty || skills.softSkills.isNotEmpty;
     return Container(
@@ -41,24 +44,25 @@ class ProfileSkillsTab extends ConsumerWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('Skills',
-            style: TextStyle(
+        Text(l.profileSkillsTitle,
+            style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 color: IthakiTheme.textPrimary)),
         const SizedBox(height: 8),
         if (!hasSkills) ...[
-          const Text(
-            'Add your technical and soft skills to help employers find and evaluate you.',
-            style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
+          Text(
+            l.skillsDescription,
+            style:
+                const TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 16),
-          _outlineButton(const IthakiIcon('plus', size: 16), 'Add Skills',
+          _outlineButton(const IthakiIcon('plus', size: 16), l.addSkills,
               () => context.push(Routes.profileSkills)),
         ] else ...[
           if (skills.hardSkills.isNotEmpty) ...[
-            const Text('Hard Skills',
-                style: TextStyle(
+            Text(l.hardSkillsTitle,
+                style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: IthakiTheme.textPrimary)),
@@ -71,8 +75,8 @@ class ProfileSkillsTab extends ConsumerWidget {
             const SizedBox(height: 16),
           ],
           if (skills.softSkills.isNotEmpty) ...[
-            const Text('Soft Skills',
-                style: TextStyle(
+            Text(l.softSkillsTitle,
+                style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: IthakiTheme.textPrimary)),
@@ -85,13 +89,14 @@ class ProfileSkillsTab extends ConsumerWidget {
             const SizedBox(height: 16),
           ],
           _outlineButton(const IthakiIcon('edit-pencil', size: 16),
-              'Edit Skills', () => context.push(Routes.profileSkills)),
+              l.editSkillsTitle, () => context.push(Routes.profileSkills)),
         ],
       ]),
     );
   }
 
-  Widget _competenciesCard(BuildContext context, ProfileSkills skills) {
+  Widget _competenciesCard(
+      BuildContext context, ProfileSkills skills, AppLocalizations l) {
     final comp = skills.competencies;
     final rows = _competencyRows(comp);
     final hasData = rows.isNotEmpty;
@@ -103,19 +108,20 @@ class ProfileSkillsTab extends ConsumerWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('Competencies',
-            style: TextStyle(
+        Text(l.competenciesTitle,
+            style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 color: IthakiTheme.textPrimary)),
         const SizedBox(height: 8),
         if (!hasData) ...[
-          const Text(
-            'Select the skills that best represent your qualifications and professional expertise.',
-            style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
+          Text(
+            l.skillsDescription,
+            style:
+                const TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 16),
-          _outlineButton(const IthakiIcon('plus', size: 16), 'Add Competencies',
+          _outlineButton(const IthakiIcon('plus', size: 16), l.addCompetencies,
               () => context.push(Routes.profileCompetencies)),
         ] else ...[
           ...rows.map((r) => Padding(
@@ -146,7 +152,7 @@ class ProfileSkillsTab extends ConsumerWidget {
             width: double.infinity,
             child: _outlineButton(
                 const IthakiIcon('edit-pencil', size: 16),
-                'Edit Competencies',
+                l.editCompetenciesTitle,
                 () => context.push(Routes.profileCompetencies)),
           ),
         ],
@@ -180,7 +186,8 @@ class ProfileSkillsTab extends ConsumerWidget {
     return rows;
   }
 
-  Widget _languagesCard(BuildContext context, ProfileSkills skills) =>
+  Widget _languagesCard(
+          BuildContext context, ProfileSkills skills, AppLocalizations l) =>
       Container(
         margin: const EdgeInsets.symmetric(horizontal: 16),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
@@ -189,8 +196,8 @@ class ProfileSkillsTab extends ConsumerWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('Languages',
-              style: TextStyle(
+          Text(l.languagesTitle,
+              style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: IthakiTheme.textPrimary)),
@@ -221,7 +228,7 @@ class ProfileSkillsTab extends ConsumerWidget {
             skills.languages.isEmpty
                 ? const IthakiIcon('plus', size: 16)
                 : const IthakiIcon('edit-pencil', size: 16),
-            skills.languages.isEmpty ? 'Add Languages' : 'Edit Languages',
+            skills.languages.isEmpty ? l.addLanguages : l.editLanguages,
             () => context.push(Routes.profileLanguages),
           ),
         ]),

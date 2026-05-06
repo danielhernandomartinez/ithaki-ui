@@ -1,29 +1,23 @@
 ﻿{
   "@@locale": "ar",
-
   "appTitle": "Ψ¥ΩΨ«Ψ§ΩƒΩ",
-
   "loginAction": "ΨΨ³Ψ¬ΩΩ„ Ψ§Ω„Ψ―Ψ®ΩΩ„",
   "signUpAction": "Ψ¥Ω†Ψ΄Ψ§Ψ΅ Ψ­Ψ³Ψ§Ψ¨",
   "continueButton": "Ω…ΨΨ§Ψ¨ΨΉΨ©",
   "skipButton": "ΨΨ®Ψ·Ω",
   "backButton": "Ψ±Ψ¬ΩΨΉ",
   "goBack": "Ψ§Ω„ΨΉΩΨ―Ψ©",
-
   "welcomeHeading": "Ω…Ψ±Ψ­Ψ¨Ω‹Ψ§ Ψ¨Ωƒ ΩΩ Ψ¥ΩΨ«Ψ§ΩƒΩ!\nΩ„Ω†Ω‚Ω… Ψ¨Ψ¥Ω†Ψ΄Ψ§Ψ΅ Ψ­Ψ³Ψ§Ψ¨!",
-
   "selectLanguageTitle": "Ψ§Ψ®ΨΨ± Ω„ΨΊΨΩƒ",
   "selectLanguageDescription": "ΩΩ…ΩƒΩ†Ωƒ ΨΨΊΩΩΨ± Ω„ΨΊΨ© Ψ§Ω„ΩΨ§Ψ¬Ω‡Ψ© ΩΩ Ψ£Ω ΩΩ‚Ψ. Ψ³ΩΩƒΩΩ† ΩƒΩ„ Ψ§Ω„Ω…Ψ­ΨΩΩ‰Ψ Ψ¨Ω…Ψ§ ΩΩ Ψ°Ω„Ωƒ ΩΨµΩ Ψ§Ω„ΩΨΈΩΩΨ© ΩΨ³ΩΨ±ΨΩƒ Ψ§Ω„Ψ°Ψ§ΨΩΨ© ΩΨ§Ω„ΨΩΨ§ΨµΩ„ Ω…ΨΉ Ψ§Ω„Ω…Ψ³ΨΨ΄Ψ§Ψ±ΩΩ† ΩΨ±ΩΨ¨ΩΨ Ψ§Ω„Ψ―Ψ±Ψ―Ψ΄Ψ©Ψ Ψ¨Ψ§Ω„Ω„ΨΊΨ© Ψ§Ω„Ψ¥Ω†Ψ¬Ω„ΩΨ²ΩΨ©.",
   "languageLabel": "Ψ§Ω„Ω„ΨΊΨ©",
   "selectLanguagePlaceholder": "Ψ§Ψ®ΨΨ± Ω„ΨΊΨΩƒ",
-
   "techComfortTitle": "Ω…Ψ§ Ω…Ψ―Ω‰ Ψ§Ψ±ΨΩΨ§Ψ­Ωƒ Ω…ΨΉ Ψ§Ω„ΨΩƒΩ†ΩΩ„ΩΨ¬ΩΨ§Ψ",
   "techComfortDescription": "Ψ³Ω†Ψ³ΨΨ®Ψ―Ω… Ψ¥Ψ¬Ψ§Ψ¨ΨΩƒ Ω„Ψ¬ΨΉΩ„ Ψ§Ω„Ω…Ω†ΨµΨ© Ψ£ΩƒΨ«Ψ± Ψ±Ψ§Ψ­Ψ© Ω„Ωƒ.",
   "techExperiencedLabel": "Ω„Ψ―ΩΩ‘ Ψ®Ψ¨Ψ±Ψ©",
   "techExperiencedSubtitle": "Ψ£Ψ΄ΨΉΨ± Ψ¨Ψ§Ω„Ψ±Ψ§Ψ­Ψ© ΩΩ Ψ§Ψ³ΨΨ®Ψ―Ψ§Ω… Ψ§Ω„Ψ£Ψ―ΩΨ§Ψ Ψ§Ω„Ψ±Ω‚Ω…ΩΨ© ΩΨ£Ψ³ΨΩ…ΨΨΉ Ψ¨Ψ§Ψ³ΨΩƒΨ΄Ψ§Ω Ψ§Ω„ΨΩ‚Ω†ΩΨ§Ψ Ψ§Ω„Ψ¬Ψ―ΩΨ―Ψ©",
   "techNewLabel": "Ω…Ψ§ Ψ²Ω„Ψ Ψ¬Ψ―ΩΨ―Ω‹Ψ§ ΨΉΩ„Ω‰ Ω‡Ψ°Ψ§",
   "techNewSubtitle": "Ω„Ψ§ Ψ£Ψ­Ψ¨ Ψ§Ω„Ψ£Ψ―ΩΨ§Ψ Ψ§Ω„Ω…ΨΉΩ‚Ψ―Ψ© - Ψ£ΩΨ¶Ω„ ΨΉΩ†Ψ―Ω…Ψ§ ΨΨΉΩ…Ω„ Ψ§Ω„ΨΩƒΩ†ΩΩ„ΩΨ¬ΩΨ§ Ψ¨Ψ³Ω„Ψ§Ψ³Ψ©",
-
   "signInWithGoogle": "ΨΨ³Ψ¬ΩΩ„ Ψ§Ω„Ψ―Ψ®ΩΩ„ Ψ¨ΩΨ§Ψ³Ψ·Ψ© Google",
   "emailLabel": "Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω",
   "emailHint": "Ψ£Ψ―Ψ®Ω„ Ψ¨Ψ±ΩΨ―Ωƒ Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω",
@@ -40,35 +34,37 @@
   "privacyPolicy": "Ψ³ΩΨ§Ψ³Ψ© Ψ§Ω„Ψ®ΨµΩΨµΩΨ©",
   "andText": " Ω",
   "termsOfUse": "Ψ΄Ψ±ΩΨ· Ψ§Ω„Ψ§Ψ³ΨΨ®Ψ―Ψ§Ω…",
-
   "personalDetailsHeading": "Ψ£ΩΨ΄ΩƒΨ ΨΉΩ„Ω‰ Ψ§Ω„Ψ§Ω†ΨΩ‡Ψ§Ψ΅!\nΨ£Ψ®Ψ¨Ψ±Ω†Ψ§ ΨΉΩ† Ω†ΩΨ³Ωƒ",
   "personalDetailsDescription": "Ψ§Ψ³Ω…Ωƒ ΩΨ±Ω‚Ω… Ω‡Ψ§ΨΩΩƒ ΩΨ³Ψ§ΨΉΨ―Ψ§Ω† Ψ£ΨµΨ­Ψ§Ψ¨ Ψ§Ω„ΨΉΩ…Ω„ ΨΉΩ„Ω‰ Ψ§Ω„ΨΩΨ§ΨµΩ„ Ω…ΨΉΩƒ Ω…Ψ¨Ψ§Ψ΄Ψ±Ψ©.",
   "nameLabel": "Ψ§Ω„Ψ§Ψ³Ω…",
   "nameHint": "Ψ£Ψ―Ψ®Ω„ Ψ§Ψ³Ω…Ωƒ",
   "lastNameLabel": "Ψ§Ψ³Ω… Ψ§Ω„ΨΉΨ§Ψ¦Ω„Ψ©",
   "lastNameHint": "Ψ£Ψ―Ψ®Ω„ Ψ§Ψ³Ω… ΨΉΨ§Ψ¦Ω„ΨΩƒ",
-
   "verifyEmailHeading": "ΨΨ­Ω‚Ω‚ Ω…Ω† ΨΉΩ†ΩΨ§Ω† Ψ¨Ψ±ΩΨ―Ωƒ Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω",
   "verifyEmailDescription": "Ω„Ω‚Ψ― Ψ£Ψ±Ψ³Ω„Ω†Ψ§ Ψ±Ψ§Ψ¨Ψ· ΨΨ­Ω‚Ω‚ Ψ¥Ω„Ω‰ ΨΉΩ†ΩΨ§Ω† Ψ¨Ψ±ΩΨ―Ωƒ Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω.\nΩΨ±Ψ¬Ω‰ Ψ§Ω„ΨΨ­Ω‚Ω‚ Ω…Ω† ΨµΩ†Ψ―ΩΩ‚ Ψ§Ω„ΩΨ§Ψ±Ψ― ΩΨ§ΨΨ¨Ψ§ΨΉ Ψ§Ω„Ψ±Ψ§Ψ¨Ψ· Ω„Ψ¥ΩƒΩ…Ψ§Ω„ Ψ¥ΨΉΨ―Ψ§Ψ― Ψ­Ψ³Ψ§Ψ¨Ωƒ.",
   "verifyEmailSpamHint": "Ω„Ω… ΨΨ³ΨΩ„Ω… Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†ΩΨ ΨΨ­Ω‚Ω‚ Ω…Ω† Ω…Ψ¬Ω„Ψ― Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ω…Ψ²ΨΉΨ¬ Ψ£Ω Ψ£ΨΉΨ― Ψ¥Ψ±Ψ³Ψ§Ω„Ω‡.",
   "verifiedEmailButton": "Ω„Ω‚Ψ― ΨΨ­Ω‚Ω‚Ψ Ω…Ω† Ψ¨Ψ±ΩΨ―Ω Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω",
   "resendEmailLabel": "Ψ¥ΨΉΨ§Ψ―Ψ© Ψ¥Ψ±Ψ³Ψ§Ω„ Ψ§Ω„Ψ±Ψ§Ψ¨Ψ· ΨΉΨ¨Ψ± Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω",
-
   "verifyPhoneHeading": "ΨΨ­Ω‚Ω‚ Ω…Ω† Ψ±Ω‚Ω… Ω‡Ψ§ΨΩΩƒ",
   "verifyPhoneDescription": "Ψ³Ω†Ψ±Ψ³Ω„ Ψ±Ω…Ψ² ΨΨ­Ω‚Ω‚ Ψ¥Ω„Ω‰ Ψ±Ω‚Ω… Ω‡Ψ§ΨΩΩƒ. Ψ§Ψ®ΨΨ± ΩƒΩΩ ΨΨ±ΩΨ― Ψ§Ψ³ΨΩ„Ψ§Ω…Ω‡.",
   "selectMethodTitle": "Ψ§Ψ®ΨΨ± Ψ·Ψ±ΩΩ‚Ψ© Ω„Ψ§Ψ³ΨΩ„Ψ§Ω… Ψ§Ω„Ψ±Ω…Ψ²",
   "sendViaSms": "Ψ¥Ψ±Ψ³Ψ§Ω„ Ψ±Ω…Ψ² ΨΆΩ…Ω† ΨΉΨ¨Ψ± SMS",
   "sendViaWhatsapp": "Ψ¥Ψ±Ψ³Ψ§Ω„ Ψ±Ω…Ψ² ΨΆΩ…Ω† ΨΉΨ¨Ψ± ΩΨ§ΨΨ³Ψ§Ψ¨",
   "rememberChoice": "ΨΨ°ΩƒΨ± Ψ§Ψ®ΨΩΨ§Ψ±Ω",
-
   "verifyAccountTitle": "Ω„Ω†ΨΨ­Ω‚Ω‚ Ω…Ω† Ψ­Ψ³Ψ§Ψ¨Ωƒ",
   "verifyAccountSubtitle": "Ω„Ω‚Ψ― Ψ£Ψ±Ψ³Ω„Ω†Ψ§ Ψ±Ω…Ψ² ΨΨ­Ω‚Ω‚ Ψ¥Ω„Ω‰ Ψ±Ω‚Ω… Ω‡Ψ§ΨΩΩƒ.",
   "notYourPhone": "Ω„ΩΨ³ Ω‡Ψ°Ψ§ Ψ±Ω‚Ω… Ω‡Ψ§ΨΩΩƒΨ",
   "resendCode": "Ψ¥ΨΉΨ§Ψ―Ψ© Ψ¥Ψ±Ψ³Ψ§Ω„ Ψ§Ω„Ψ±Ω…Ψ²",
-
   "loginHeading": "ΨΨ³Ψ¬ΩΩ„ Ψ§Ω„Ψ―Ψ®ΩΩ„ Ψ¥Ω„Ω‰ Ithaki Talent",
   "loginSubtitle": "Ψ£Ψ―Ψ®Ω„ Ψ±Ω‚Ω… Ω‡Ψ§ΨΩΩƒ. Ψ³Ω†Ψ±Ψ³Ω„ Ω„Ωƒ Ψ±Ω…Ψ²Ω‹Ψ§ ΨΉΨ¨Ψ± SMS.",
   "loginVerifySubtitle": "Ω„Ω‚Ψ― Ψ£Ψ±Ψ³Ω„Ω†Ψ§ Ψ±Ω…Ψ² ΨΨ­Ω‚Ω‚ Ψ¥Ω„Ω‰ {phone}.",
+  "@loginVerifySubtitle": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
   "rememberMe": "ΨΨ°ΩƒΨ±Ω†Ω",
   "sendCodeButton": "Ψ¥Ψ±Ψ³Ψ§Ω„ Ψ§Ω„Ψ±Ω…Ψ²",
   "signInWithEmail": "ΨΨ³Ψ¬ΩΩ„ Ψ§Ω„Ψ―Ψ®ΩΩ„ Ψ¨Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω",
@@ -85,7 +81,6 @@
   "resetLinkSentDescription": "ΨΨ­Ω‚Ω‚ Ω…Ω† ΨµΩ†Ψ―ΩΩ‚ Ψ§Ω„ΩΨ§Ψ±Ψ―. ΩΨΨ¶Ω…Ω† Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω Ψ±Ψ§Ψ¨Ψ·Ω‹Ψ§ ΨΆΩ…Ω†Ω‹Ψ§ Ω„Ψ¥Ω†Ψ΄Ψ§Ψ΅ ΩƒΩ„Ω…Ψ© Ω…Ψ±ΩΨ± Ψ¬Ψ―ΩΨ―Ψ©. Ω„Ω… ΨΨ­ΨµΩ„ ΨΉΩ„Ω‰ Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†ΩΨ",
   "resendResetLinkEmail": "Ψ¥ΨΉΨ§Ψ―Ψ© Ψ¥Ψ±Ψ³Ψ§Ω„ Ψ±Ψ§Ψ¨Ψ· Ψ§Ω„Ψ¥ΨΉΨ§Ψ―Ψ© ΨΉΨ¨Ψ± Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω",
   "sendResetViaWhatsapp": "Ψ¥Ψ±Ψ³Ψ§Ω„ Ψ±Ω…Ψ² ΨΆΩ…Ω† ΨΉΨ¨Ψ± ΩΨ§ΨΨ³Ψ§Ψ¨",
-
   "resetPasswordHeading": "Ψ¥ΨΉΨ§Ψ―Ψ© ΨΨΉΩΩΩ† ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ±",
   "resetPasswordDescription": "Ψ§Ω„Ψ®Ψ·ΩΨ© Ψ§Ω„Ψ£Ψ®ΩΨ±Ψ©. Ψ£Ω†Ψ΄Ψ¦ ΩƒΩ„Ω…Ψ© Ω…Ψ±ΩΨ± Ψ¬Ψ―ΩΨ―Ψ© Ω„ΨΨ£Ω…ΩΩ† Ψ­Ψ³Ψ§Ψ¨Ωƒ.",
   "newPasswordLabel": "ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ± Ψ§Ω„Ψ¬Ψ―ΩΨ―Ψ©",
@@ -93,19 +88,16 @@
   "confirmNewPasswordLabel": "ΨΨ£ΩƒΩΨ― ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ± Ψ§Ω„Ψ¬Ψ―ΩΨ―Ψ©",
   "confirmNewPasswordHint": "Ψ£Ψ―Ψ®Ω„ ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ± Ψ§Ω„Ψ¬Ψ―ΩΨ―Ψ©",
   "resetPasswordButton": "Ψ¥ΨΉΨ§Ψ―Ψ© ΨΨΉΩΩΩ† ΩƒΩ„Ω…Ψ© Ψ§Ω„Ω…Ψ±ΩΨ±",
-
   "welcomeModalHeading": "Ω…Ψ±Ψ­Ψ¨Ω‹Ψ§ Ψ¨Ωƒ!\nΨΩ… Ψ¥Ω†Ψ΄Ψ§Ψ΅ Ψ­Ψ³Ψ§Ψ¨Ωƒ ΩΨ§Ω„ΨΨ­Ω‚Ω‚ Ω…Ω†Ω‡!",
   "welcomeModalDescription": "Ω„Ω†Ω‚Ω… Ψ¨Ψ¥ΨΉΨ―Ψ§Ψ― Ω‚ΨµΩΨ± Ψ­ΨΩ‰ Ω†ΨΩ…ΩƒΩ† Ω…Ω† Ω…Ψ·Ψ§Ψ¨Ω‚ΨΩƒ Ω…ΨΉ Ψ£ΩΨ¶Ω„ Ψ®ΩΨ§Ψ±Ψ§Ψ Ψ§Ω„ΨΉΩ…Ω„.",
   "skipForNow": "ΨΨ®Ψ·Ω Ψ§Ω„ΨΆΩ†",
   "startSetup": "Ψ¨Ψ―Ψ΅ Ψ§Ω„Ψ¥ΨΉΨ―Ψ§Ψ―",
   "ithakiLogo": "Ithaki-logo",
-
   "stepLocation": "Ψ§Ω„Ω…ΩΩ‚ΨΉ",
   "stepJobInterests": "Ψ§Ω„Ψ§Ω‡ΨΩ…Ψ§Ω…Ψ§Ψ",
   "stepPreferences": "Ψ§Ω„ΨΩΨ¶ΩΩ„Ψ§Ψ",
   "stepValues": "Ψ§Ω„Ω‚ΩΩ…",
   "stepCommunication": "Ψ§Ω„ΨΩΨ§ΨµΩ„",
-
   "locationHeading": "Ψ§Ω„Ω…ΩΩ‚ΨΉ",
   "locationDescription": "Ψ§Ψ®ΨΨ± Ω…ΩΩ‚ΨΉΩ‹Ψ§ Ω„ΨΨ¶ΩΩΩ‚ ΩΨ±Ψµ Ψ§Ω„ΨΉΩ…Ω„ Ψ°Ψ§Ψ Ψ§Ω„ΨµΩ„Ψ©.",
   "citizenshipLabel": "Ψ§Ω„Ψ¬Ω†Ψ³ΩΨ©",
@@ -128,13 +120,11 @@
   "relocationOpen": "Ω…Ω†ΩΨΨ­ ΨΉΩ„Ω‰ Ψ°Ω„Ωƒ",
   "relocationRemote": "ΨΉΩ† Ψ¨ΩΨΉΨ― ΩΩ‚Ψ·",
   "relocationWithinCountry": "Ψ―Ψ§Ψ®Ω„ Ψ¨Ω„Ψ―Ω ΩΩ‚Ψ·",
-
   "jobInterestsHeading": "Ψ§Ω‡ΨΩ…Ψ§Ω…Ψ§Ψ Ψ§Ω„ΨΉΩ…Ω„",
   "jobInterestsDescription": "Ψ§Ψ®ΨΨ± Ψ£Ω†ΩΨ§ΨΉ Ψ§Ω„ΩΨΈΨ§Ψ¦Ω Ψ£Ω Ψ§Ω„Ω…Ψ¬Ψ§Ω„Ψ§Ψ Ψ§Ω„ΨΩ ΨΨΩΨ§ΩΩ‚ Ω…ΨΉ Ψ§Ω‡ΨΩ…Ψ§Ω…Ψ§ΨΩƒ Ψ§Ω„Ω…Ω‡Ω†ΩΨ©. ΩΩ…ΩƒΩ†Ωƒ Ψ¥Ψ¶Ψ§ΩΨ© Ω…Ψ§ ΩΨµΩ„ Ψ¥Ω„Ω‰ 5 Ω…Ψ¬Ψ§Ω„Ψ§Ψ Ω…Ψ®ΨΩ„ΩΨ©.",
   "searchJobInterest": "Ψ§Ω„Ψ¨Ψ­Ψ« ΩΨ¥Ψ¶Ψ§ΩΨ© Ψ§Ω‡ΨΩ…Ψ§Ω… ΩΨΈΩΩΩ",
   "addAnotherJobInterest": "Ψ¥Ψ¶Ψ§ΩΨ© Ψ§Ω‡ΨΩ…Ψ§Ω… ΨΆΨ®Ψ±",
   "selectJobInterest": "Ψ§Ψ®ΨΩΨ§Ψ± Ψ§Ω‡ΨΩ…Ψ§Ω… ΩΨΈΩΩΩ",
-
   "preferencesHeading": "ΨΩΨ¶ΩΩ„Ψ§Ψ Ψ§Ω„ΨΉΩ…Ω„",
   "preferencesDescription": "Ψ­Ψ―Ψ― Ψ§Ω„Ψ±Ψ§ΨΨ¨ Ψ§Ω„Ω…Ψ·Ω„ΩΨ¨ ΩΩ…Ψ³ΨΩΩ‰ Ψ§Ω„ΩΨΈΩΩΨ© ΩΩ†ΩΨΉ Ψ§Ω„ΨΉΩ‚Ψ― ΩΨ΄ΩƒΩ„ Ψ§Ω„ΨΉΩ…Ω„ (ΨΉΩ† Ψ¨ΩΨΉΨ― Ψ£Ω ΩΩ Ψ§Ω„Ω…ΩΩ‚ΨΉ Ψ£Ω Ω‡Ψ¬ΩΩ†) Ω„Ω…Ψ³Ψ§ΨΉΨ―ΨΩ†Ψ§ ΩΩ Ω…Ψ·Ψ§Ψ¨Ω‚ΨΩƒ Ω…ΨΉ Ψ§Ω„ΩΨ±Ψµ Ψ§Ω„Ψ£ΩƒΨ«Ψ± ΨµΩ„Ψ©.",
   "positionLevelLabel": "Ω…Ψ³ΨΩΩ‰ Ψ§Ω„ΩΨΈΩΩΨ©",
@@ -163,9 +153,15 @@
   "payYearly": "Ψ³Ω†ΩΩ",
   "payHourly": "Ψ¨Ψ§Ω„Ψ³Ψ§ΨΉΨ©",
   "payDaily": "ΩΩΩ…Ω",
-
   "valuesHeading": "Ψ§Ω„Ω‚ΩΩ…",
   "valuesDescription": "Ψ§Ψ®ΨΨ± Ψ§Ω„Ω‚ΩΩ… Ψ§Ω„Ψ£Ω‚Ψ±Ψ¨ Ψ¥Ω„ΩΩƒ. ΩΩ…ΩƒΩ†Ωƒ Ψ§Ψ®ΨΩΨ§Ψ± Ω…Ψ§ ΩΨµΩ„ Ψ¥Ω„Ω‰ {max}.",
+  "@valuesDescription": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
   "valueIntegrity": "Ψ§Ω„Ω†Ψ²Ψ§Ω‡Ψ©",
   "valueResponsibility": "Ψ§Ω„Ω…Ψ³Ψ¤ΩΩ„ΩΨ©",
   "valueTeamwork": "Ψ§Ω„ΨΉΩ…Ω„ Ψ§Ω„Ψ¬Ω…Ψ§ΨΉΩ",
@@ -186,7 +182,6 @@
   "valueAmbition": "Ψ§Ω„Ψ·Ω…ΩΨ­",
   "valueInitiative": "Ψ§Ω„Ω…Ψ¨Ψ§Ψ―Ψ±Ψ©",
   "valueCollaboration": "Ψ§Ω„ΨΨΉΨ§ΩΩ†",
-
   "communicationHeading": "Ψ§Ω„ΨΩΨ§ΨµΩ„",
   "communicationDescription": "Ψ§Ψ®ΨΨ± Ω‚Ω†Ψ§Ψ© Ω„ΨΩ„Ω‚Ω Ψ¥Ψ΄ΨΉΨ§Ψ±Ψ§Ψ Ψ­ΩΩ„ ΩΨ±Ψµ Ψ§Ω„ΨΉΩ…Ω„ Ψ§Ω„Ψ¬Ψ―ΩΨ―Ψ© Ψ°Ψ§Ψ Ψ§Ω„ΨµΩ„Ψ© ΩΨ§Ω„Ψ±Ψ―ΩΨ― ΨΉΩ„Ω‰ Ψ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ Ψ§Ω„Ω…Ω‚Ψ―Ω…Ψ©. ΩΩ…ΩƒΩ†Ωƒ Ψ§Ψ®ΨΩΨ§Ψ± Ψ®ΩΨ§Ψ±Ψ§Ψ Ω…ΨΨΉΨ―Ψ―Ψ© ΩΨΨΊΩΩΨ±Ω‡Ψ§ ΩΩ Ψ£Ω ΩΩ‚Ψ.",
   "whatsapp": "ΩΨ§ΨΨ³Ψ§Ψ¨",
@@ -194,7 +189,6 @@
   "email": "Ψ§Ω„Ψ¨Ψ±ΩΨ― Ψ§Ω„Ψ¥Ω„ΩƒΨΨ±ΩΩ†Ω",
   "receiveTips": "ΨΩ„Ω‚Ω Ω†ΨµΨ§Ψ¦Ψ­ Ψ­ΩΩ„ ΩΨ±Ψµ Ψ§Ω„ΨΉΩ…Ω„ ΩΩ…ΨΉΩ„ΩΩ…Ψ§Ψ ΨΉΩ† Ψ§Ω„Ψ―ΩΨ±Ψ§Ψ ΩΨ§Ω„ΩΨΉΨ§Ω„ΩΨ§Ψ Ψ§Ω„Ω‚Ψ§Ψ―Ω…Ψ©.",
   "finishSetup": "Ψ¥Ω†Ω‡Ψ§Ψ΅ Ψ§Ω„Ψ¥ΨΉΨ―Ψ§Ψ―",
-
   "searchHint": "Ψ¨Ψ­Ψ«...",
   "selectAction": "Ψ§Ψ®ΨΩΨ§Ψ±",
   "expectedPaymentLabel": "Ψ§Ω„Ψ±Ψ§ΨΨ¨ Ψ§Ω„Ω…ΨΩΩ‚ΨΉ",
@@ -206,52 +200,45 @@
   "selectCountryTitle": "Ψ§Ψ®ΨΨ± Ψ§Ω„Ψ―ΩΩ„Ψ©",
   "phoneValidationError": "ΩΨ±Ψ¬Ω‰ Ψ¥Ψ―Ψ®Ψ§Ω„ Ψ±Ω‚Ω… Ω‡Ψ§ΨΩ ΨµΨ­ΩΨ­",
   "phoneNumberLabel": "Ψ±Ω‚Ω… Ψ§Ω„Ω‡Ψ§ΨΩ",
-
   "myApplicationsTabLabel": "Ψ·Ω„Ψ¨Ψ§ΨΩ",
   "myApplicationsTabDescription": "ΨΨΨ¨ΨΉ Ψ¬Ω…ΩΨΉ Ψ§Ω„ΩΨΈΨ§Ψ¦Ω Ψ§Ω„ΨΩ ΨΩ‚Ψ―Ω…Ψ Ψ¥Ω„ΩΩ‡Ψ§ ΩΨ΄Ψ§Ω‡Ψ― Ψ­Ψ§Ω„ΨΩ‡Ψ§ Ψ§Ω„Ψ­Ψ§Ω„ΩΨ©. ΩΩ…ΩƒΩ†Ωƒ Ψ£ΩΨ¶Ω‹Ψ§ Ψ§Ω„ΨΉΨ«ΩΨ± ΨΉΩ„Ω‰ Ψ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ Ψ§Ω„Ω‚Ψ―ΩΩ…Ψ© ΩΩ Ψ£Ψ±Ψ΄ΩΩΩƒ.",
   "myApplicationsLoadError": "ΩΨ΄Ω„ ΨΨ­Ω…ΩΩ„ Ψ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ.",
   "myApplicationsEmptyTitle": "Ω„Ψ§ ΨΩΨ¬Ψ― Ψ·Ω„Ψ¨Ψ§Ψ Ψ¨ΨΉΨ―",
   "myApplicationsEmptySubtitle": "Ψ§Ω„ΩΨΈΨ§Ψ¦Ω Ψ§Ω„ΨΩ ΨΨΩ‚Ψ―Ω… Ψ¥Ω„ΩΩ‡Ψ§ Ψ³ΨΨΈΩ‡Ψ± Ω‡Ω†Ψ§\nΨ­ΨΩ‰ ΨΨΩ…ΩƒΩ† Ω…Ω† ΨΨΨ¨ΨΉ Ψ­Ψ§Ω„ΨΩ‡Ψ§.",
-
   "myInvitationsTabLabel": "Ψ―ΨΉΩΨ§ΨΩ ({count})",
   "@myInvitationsTabLabel": {
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
   "draftsTabLabel": "Ψ§Ω„Ω…Ψ³ΩΨ―Ψ§Ψ",
   "archiveTabLabel": "Ψ§Ω„Ψ£Ψ±Ψ΄ΩΩ",
-
   "invitationsTabDescription": "Ω‡Ω†Ψ§ ΩΩ…ΩƒΩ†Ωƒ Ψ§Ω„ΨΉΨ«ΩΨ± ΨΉΩ„Ω‰ ΩΨ±Ψµ Ψ§Ω„ΨΉΩ…Ω„ Ψ§Ω„ΨΩ ΨΩ…Ψ Ψ―ΨΉΩΨΩƒ Ω„Ψ§Ψ³ΨΩƒΨ΄Ψ§ΩΩ‡Ψ§. Ψ±Ψ§Ψ¬ΨΉ Ψ―ΨΉΩΨ§Ψ Ψ§Ω„ΨΉΩ…Ω„ Ω…Ω† Ψ£ΨµΨ­Ψ§Ψ¨ Ψ§Ω„ΨΉΩ…Ω„ Ψ§Ω„Ψ°ΩΩ† ΩΨ¬Ψ―ΩΨ§ Ω…Ω„ΩΩƒ Ψ§Ω„Ψ΄Ψ®ΨµΩ Ω…Ψ«ΩΨ±Ω‹Ψ§ Ω„Ω„Ψ§Ω‡ΨΩ…Ψ§Ω….",
   "invitationsLoadError": "ΩΨ΄Ω„ ΨΨ­Ω…ΩΩ„ Ψ§Ω„Ψ―ΨΉΩΨ§Ψ.",
   "invitationsEmptyTitle": "Ω„Ψ§ ΨΩΨ¬Ψ― Ψ―ΨΉΩΨ§Ψ Ψ¨ΨΉΨ―",
   "invitationsEmptySubtitle": "ΨΉΩ†Ψ―Ω…Ψ§ ΩΨ¬Ψ― Ψ£ΨµΨ­Ψ§Ψ¨ Ψ§Ω„ΨΉΩ…Ω„ Ω…Ω„ΩΩƒ Ψ§Ω„Ψ΄Ψ®ΨµΩ Ω…Ψ«ΩΨ±Ω‹Ψ§ Ω„Ω„Ψ§Ω‡ΨΩ…Ψ§Ω…\nΨ³ΩΨ―ΨΉΩΩ†Ωƒ Ω‡Ω†Ψ§.",
-
   "draftsTabDescription": "Ω‡Ω†Ψ§ ΩΩ…ΩƒΩ†Ωƒ Ψ§Ω„ΨΉΨ«ΩΨ± ΨΉΩ„Ω‰ Ψ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ Ψ§Ω„ΨΩ Ψ¨Ψ―Ψ£ΨΩ‡Ψ§ ΩΩ„Ω… ΨΩΨ±Ψ³Ω„Ω‡Ψ§ Ψ¨ΨΉΨ―. Ψ£ΩƒΩ…Ω„ Ω…Ω† Ψ­ΩΨ« ΨΩΩ‚ΩΨ Ψ£Ω Ψ§Ψ­Ψ°ΩΩ‡Ψ§.",
   "draftsLoadError": "ΩΨ΄Ω„ ΨΨ­Ω…ΩΩ„ Ψ§Ω„Ω…Ψ³ΩΨ―Ψ§Ψ.",
   "draftsEmptyTitle": "Ω„Ψ§ ΨΩΨ¬Ψ― Ω…Ψ³ΩΨ―Ψ§Ψ Ψ¨ΨΉΨ―",
   "draftsEmptySubtitle": "Ψ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ Ψ§Ω„ΨΩ ΨΨ¨Ψ―Ψ£Ω‡Ψ§ ΩΩ„Ψ§ ΨΨ±Ψ³Ω„Ω‡Ψ§\nΨ³ΨΨΈΩ‡Ψ± Ω‡Ω†Ψ§.",
-
   "archiveTabDescription": "Ω‡Ω†Ψ§ ΩΩ…ΩƒΩ†Ωƒ Ψ§Ω„ΨΉΨ«ΩΨ± ΨΉΩ„Ω‰ Ψ¬Ω…ΩΨΉ Ψ§Ω„Ψ―ΨΉΩΨ§Ψ Ψ§Ω„Ω…Ψ±ΩΩΨ¶Ψ© ΩΨ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ Ψ§Ω„Ω…ΨΊΩ„Ω‚Ψ©. ΩΨΩ… ΨΨ®Ψ²ΩΩ†Ω‡Ψ§ Ω„Ω„Ψ±Ψ¬ΩΨΉ Ψ¥Ω„ΩΩ‡Ψ§.",
   "archiveEmptyTitle": "Ω„Ψ§ ΩΩΨ¬Ψ― Ψ΄ΩΨ΅ ΩΩ Ψ£Ψ±Ψ΄ΩΩΩƒ",
   "archiveEmptySubtitle": "Ψ§Ω„Ψ―ΨΉΩΨ§Ψ Ψ§Ω„Ω…Ψ±ΩΩΨ¶Ψ© ΩΨ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ Ψ§Ω„Ω…ΨΊΩ„Ω‚Ψ©\nΨ³ΨΩΨ®Ψ²ΩΩ‘Ω† Ω‡Ω†Ψ§.",
-
   "invitationDeclinedLabel": "ΨΩ… Ψ±ΩΨ¶ Ψ§Ω„Ψ―ΨΉΩΨ©",
   "viewJobDetails": "ΨΉΨ±Ψ¶ ΨΩΨ§ΨµΩΩ„ Ψ§Ω„ΩΨΈΩΩΨ©",
   "dismissInvite": "Ψ±ΩΨ¶ Ψ§Ω„Ψ―ΨΉΩΨ©",
   "declinedConfirmed": "Ω…Ψ±ΩΩΨ¶Ψ©",
   "viewJob": "ΨΉΨ±Ψ¶ Ψ§Ω„ΩΨΈΩΩΨ©",
-
   "dismissBannerTitle": "Ψ³ΩΨΩ… Ω†Ω‚Ω„ Ω‡Ψ°Ω‡ Ψ§Ω„Ψ―ΨΉΩΨ© Ψ¥Ω„Ω‰ Ψ§Ω„Ψ£Ψ±Ψ΄ΩΩ",
   "dismissBannerCountdown": "Ψ³ΩΨΩ… Ψ§Ω„ΨΨ£ΩƒΩΨ― ΨΩ„Ω‚Ψ§Ψ¦ΩΩ‹Ψ§ ΩΩ 5 Ψ«ΩΨ§Ω†Ω",
   "undo": "ΨΨ±Ψ§Ψ¬ΨΉ",
   "invitationDismissedToast": "ΨΩ… Ψ±ΩΨ¶ Ψ§Ω„Ψ―ΨΉΩΨ© ΩΩ†Ω‚Ω„Ω‡Ψ§ Ψ¥Ω„Ω‰ Ψ§Ω„Ψ£Ψ±Ψ΄ΩΩ",
   "invitationDeclinedToast": "ΨΩ… Ψ±ΩΨ¶ Ψ§Ω„Ψ―ΨΉΩΨ© ΩΩ†Ω‚Ω„Ω‡Ψ§ Ψ¥Ω„Ω‰ Ψ§Ω„Ψ£Ψ±Ψ΄ΩΩ",
-
   "careerAssistantBannerTitle": "Ω„Ψ§ ΨΨΉΨ±Ω Ω…Ψ§ ΩΨ¬Ψ¨ ΩΨΉΩ„Ω‡ Ψ¨ΨΉΨ― Ψ°Ω„ΩƒΨ",
   "careerAssistantBannerSubtitle": "ΩΩ Ψ§Ω„Ω…ΨΩΨ³Ψ·Ψ ΩΨ±Ψ§Ψ¬ΨΉ Ψ£ΨµΨ­Ψ§Ψ¨ Ψ§Ω„ΨΉΩ…Ω„ Ψ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ Ψ®Ω„Ψ§Ω„ Ψ§Ω„Ψ£Ψ³Ψ¨ΩΨΉ Ψ§Ω„Ψ£ΩΩ„. ΩΩ…ΩƒΩ†Ωƒ Ψ―Ψ§Ψ¦Ω…Ω‹Ψ§ Ψ£Ω† ΨΨ·Ω„Ψ¨ Ω…Ω†Ω Ψ§Ω„Ω…Ψ³Ψ§ΨΉΨ―Ψ© ΩΩ Ψ®Ψ·ΩΨ§ΨΩƒ Ψ§Ω„ΨΨ§Ω„ΩΨ©.",
   "askCareerAssistant": "Ψ§Ψ³Ψ£Ω„ Ω…Ψ³Ψ§ΨΉΨ― Ψ§Ω„Ω…Ω‡Ω†Ψ©",
-
   "blogNewsTitle": "Ψ§Ω„Ω…Ψ―ΩΩ†Ψ© ΩΨ§Ω„Ψ£Ψ®Ψ¨Ψ§Ψ±",
   "blogNewsSubtitle": "Ψ§ΩƒΨΨ΄Ω Ω†ΨµΨ§Ψ¦Ψ­ Ω…Ω‡Ω†ΩΨ© ΩΨ£Ψ―Ω„Ψ© Ω…Ω‚Ψ§Ψ¨Ω„Ψ§Ψ ΩΨΨ­Ψ―ΩΨ«Ψ§Ψ Ψ§Ω„Ω…Ω†ΨµΨ©.",
   "blogSearchHint": "Ψ§Ψ¨Ψ­Ψ« ΩΩ Ψ§Ω„Ω…Ω‚Ψ§Ω„Ψ§Ψ ΩΨ§Ω„Ω…ΩΨ§Ψ¶ΩΨΉ",
@@ -262,15 +249,15 @@
   "blogArticleBy": "Ψ¨Ω‚Ω„Ω… {author}",
   "@blogArticleBy": {
     "placeholders": {
-      "author": { "type": "String" }
+      "author": {
+        "type": "String"
+      }
     }
   },
-
   "cardAppliedWithCv": "ΨΩ‚Ψ―Ω…Ψ Ψ¨Ψ·Ω„Ψ¨Ωƒ Ψ¨Ψ§Ψ³ΨΨ®Ψ―Ψ§Ω… Ψ³ΩΨ±ΨΩƒ Ψ§Ω„Ψ°Ψ§ΨΩΨ© ΩΩ Ithaki",
   "cardJobClosed": "Ψ§Ω„ΩΨΈΩΩΨ© Ω…ΨΊΩ„Ω‚Ψ©.",
   "continueApplication": "Ω…ΨΨ§Ψ¨ΨΉΨ©",
   "viewApplication": "ΨΉΨ±Ψ¶ Ψ§Ω„Ψ·Ω„Ψ¨",
-
   "applySheetTitle": "Ω‡Ω„ Ψ£Ω†Ψ Ω…Ψ³ΨΨΉΨ― Ω„Ω„ΨΩ‚Ψ―Ω… Ω„Ω‡Ψ°Ψ§ Ψ§Ω„Ψ―ΩΨ±Ψ",
   "applySheetSubtitle": "ΨΨ£ΩƒΨ― Ω…Ω† ΨΨ­Ψ―ΩΨ« ΨΩΨ§ΨµΩΩ„ Ω…Ω„ΩΩƒ Ψ§Ω„Ψ΄Ψ®ΨµΩ Ω‚Ψ¨Ω„ ΨΩ‚Ψ―ΩΩ… Ψ·Ω„Ψ¨Ωƒ. ΩΩ…ΩƒΩ†Ωƒ Ψ£ΩΨ¶Ω‹Ψ§ Ψ±ΩΨΉ Ψ³ΩΨ±ΨΩƒ Ψ§Ω„Ψ°Ψ§ΨΩΨ©.",
   "applyOptionIthakiCvTitle": "Ψ§Ψ³ΨΨ®Ψ―Ψ§Ω… Ithaki CV",
@@ -278,7 +265,6 @@
   "applyOptionUploadTitle": "Ψ±ΩΨΉ Ψ³ΩΨ±ΨΩƒ Ψ§Ω„Ψ°Ψ§ΨΩΨ©",
   "applyOptionUploadSubtitle": "Ψ§Ψ±ΩΨΉ Ω…Ω„ΩΩ‹Ψ§ Ψ¬Ψ―ΩΨ―Ω‹Ψ§ (PDF Ψ£Ω DOC) Ω„Ω„ΨΩ‚Ψ―Ω….",
   "applyNow": "ΨΩ‚Ψ―Ω… Ψ§Ω„ΨΆΩ†",
-
   "declineSheetTitle": "Ψ±ΩΨ¶ Ψ§Ω„Ψ―ΨΉΩΨ©",
   "declineSheetSubtitle": "Ω‡Ω„ Ψ£Ω†Ψ Ω…ΨΨ£ΩƒΨ― Ψ£Ω†Ωƒ ΨΨ±ΩΨ― Ψ±ΩΨ¶ Ω‡Ψ°Ω‡ Ψ§Ω„Ψ―ΨΉΩΨ©Ψ",
   "declineReasonLabel": "ΩΨ±Ψ¬Ω‰ Ψ§Ψ®ΨΩΨ§Ψ± Ψ³Ψ¨Ψ¨",
@@ -290,9 +276,347 @@
   "declineReasonOther": "Ψ£Ψ®Ψ±Ω‰",
   "declineButton": "Ψ±ΩΨ¶ Ψ§Ω„Ψ―ΨΉΩΨ©",
   "declinedButton": "β“  Ω…Ψ±ΩΩΨ¶Ψ©",
-
   "jobDetailNotFoundMessage": "Ω„Ω… Ω†ΨΩ…ΩƒΩ† Ω…Ω† Ψ§Ω„ΨΉΨ«ΩΨ± ΨΉΩ„Ω‰ ΨΩΨ§ΨµΩΩ„ Ψ§Ω„ΩΨΈΩΩΨ© Ω„Ω‡Ψ°Ψ§ Ψ§Ω„Ψ·Ω„Ψ¨ Ψ¨ΨΉΨ―.",
   "backToApplications": "Ψ§Ω„ΨΉΩΨ―Ψ© Ψ¥Ω„Ω‰ Ψ§Ω„Ψ·Ω„Ψ¨Ψ§Ψ",
   "acceptInviteAndApply": "Ω‚Ψ¨ΩΩ„ Ψ§Ω„Ψ―ΨΉΩΨ© ΩΨ§Ω„ΨΩ‚Ψ―ΩΩ…",
-  "jobDetailsTitle": "ΨΩΨ§ΨµΩΩ„ Ψ§Ω„ΩΨΈΩΩΨ©"
+  "jobDetailsTitle": "ΨΩΨ§ΨµΩΩ„ Ψ§Ω„ΩΨΈΩΩΨ©",
+  "save": "???",
+  "cancel": "?????",
+  "open": "???",
+  "delete": "???",
+  "appBarTitleIthaki": "Ithaki",
+  "profileAboutMeTitle": "???? ???",
+  "profileSkillsTitle": "????????",
+  "hardSkillsTitle": "???????? ???????",
+  "softSkillsTitle": "???????? ???????",
+  "competenciesTitle": "????????",
+  "computerSkillsTitle": "?????? ???????",
+  "drivingLicenseTitle": "???? ???????",
+  "licenseCategoryTitle": "??? ??????",
+  "editCompetenciesTitle": "????? ????????",
+  "editSkillsTitle": "????? ????????",
+  "editLanguagesTitle": "????? ??????",
+  "editValuesTitle": "?????",
+  "editAboutMeTitle": "???? ???",
+  "addBioOptional": "????? ???? (???????)",
+  "addVideoPresentationOptional": "????? ??? ????? (???????)",
+  "uploadFile": "??? ???",
+  "pasteVideoUrlHere": "???? ???? ??????? ???",
+  "noValuesAddedYet": "?? ??? ????? ?? ??? ???.",
+  "profileMyFilesTitle": "??????",
+  "couldNotOpenVideoIntroduction": "???? ??? ????? ???????.",
+  "openFileNoSource": "?? ????? {fileName} ??? ???? ??? ???? ????.",
+  "@openFileNoSource": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "couldNotOpenFile": "???? ??? {fileName}.",
+  "@couldNotOpenFile": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "openingFile": "??? ??? {fileName}",
+  "@openingFile": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "openCv": "??? ?????? ???????",
+  "accountSettings": "??????? ??????",
+  "editJobPreferencesTitle": "??????? ???????",
+  "positionLevelOptionalLabel": "????? ?????? (???????)",
+  "selectLevel": "???? ???????",
+  "profileEducationTitle": "???????",
+  "profileEducationSubtitle": "??? ??????? ?? ?????? ????????? ??????? ????? ???????.",
+  "addEducation": "????? ?????",
+  "editEducation": "????? ???????",
+  "institutionNameLabel": "??? ???????",
+  "institutionNameHint": "????: ????? ?????",
+  "fieldOfStudyLabel": "???? ???????",
+  "fieldOfStudyHint": "????: ???? ???????",
+  "degreeTypeLabel": "??? ??????",
+  "selectDegree": "???? ??????",
+  "startDateLabel": "????? ?????",
+  "endDateLabel": "????? ????????",
+  "mmYyyyHint": "MM-YYYY",
+  "currentlyStudyHere": "?? ??? ???? ???",
+  "profileWorkExperienceTitle": "?????? ???????",
+  "profileWorkExperienceSubtitle": "??? ?????? ?? ?????? ??????? ???????",
+  "addWorkExperience": "????? ???? ?????",
+  "editWorkExperience": "????? ?????? ???????",
+  "jobTitleLabel": "?????? ???????",
+  "jobTitleHint": "????: ????? ???????",
+  "companyNameLabel": "??? ??????",
+  "companyNameHint": "????: Acme Corp",
+  "experienceSummaryOptional": "???? ?????? (???????)",
+  "experienceSummaryHint": "?? ???? ?????????...",
+  "currentlyWorkHere": "?? ??? ???? ???",
+  "charactersCounter": "{current} / {max} ???",
+  "@charactersCounter": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "dateOfBirthLabel": "????? ???????",
+  "yourFirstNameHint": "???? ?????",
+  "yourLastNameHint": "??? ???????",
+  "genderLabel": "?????",
+  "selectGender": "???? ?????",
+  "selectCountry": "???? ?????",
+  "statusLabel": "??????",
+  "selectStatus": "???? ??????",
+  "relocationReadinessLabel": "????????? ????????",
+  "selectOption": "???? ??????",
+  "fileExceedsLimit": "?????? ????? ?? 5 ????????",
+  "leaveEditingTitle": "?????? ????????",
+  "leaveEditingMessage": "????? ?? ????????? ???? ??????? ??? ????? ??? ??????.",
+  "leaveWithoutSaving": "???????? ??? ???",
+  "saveAndLeave": "??? ???????",
+  "highLabel": "????",
+  "genderInfoLabel": "?????",
+  "ageInfoLabel": "?????",
+  "locationInfoLabel": "??????",
+  "showFullCv": "??? ?????? ??????? ?????",
+  "coverLetterTitle": "???? ???????",
+  "screeningQuestionsTitle": "????? ?????",
+  "aboutCompanyTitle": "?? ??????",
+  "teamTitle": "??????",
+  "companyProfile": "??? ??????",
+  "typeCityToSearch": "???? ??? ??????? ?????",
+  "experienceLevelLabel": "????? ??????",
+  "workplaceLabel": "???? ?????",
+  "selectWorkplace": "???? ???? ?????",
+  "selectJobType": "???? ??? ???????",
+  "skillsDescription": "???? ???????? ???? ???? ??????? ?????? ??????? ???? ????.",
+  "addSkillHint": "???? ???????? ?????? ?????",
+  "errorLoadingSkills": "??? ?? ????? ????????: {error}",
+  "@errorLoadingSkills": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "chooseValuesDescription": "???? ??? {max} ??? ???? ???? ?? ???? ??????.",
+  "@chooseValuesDescription": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "videoIntroductionTitle": "????? ???????",
+  "editAboutMeVideo": "????? ???? ??? ?????? ???????",
+  "addAboutMeInformation": "????? ??????? ???",
+  "aboutMeEmptyDescription": "??? ??? ????? ?? ???? ??????? ????? ????? ??? ??? ?? ??? ??? ???? ???? ??.",
+  "addSkills": "????? ??????",
+  "addCompetencies": "????? ??????",
+  "addLanguages": "????? ????",
+  "editLanguages": "????? ??????",
+  "languagesTitle": "??????",
+  "aboutMeEditDescription": "???? ??? ????????? ???????? ?? ????. ??????? ??? ??? ????? ???? ?????? ?????? ??????. ????? ????? ????????? ?????? ?? ??????? ?? ?? ??? ?? ????? ??????.",
+  "addBioDescription": "??? ??? ????? ?? ???? ??????? ????? ????? ??? ??? ?? ??? ??? ???? ???? ??. ???? ??? ???? ??????? ?????? ????? ????? ???????? ???????? ????????.",
+  "addVideoDescription": "??? ????? ?????? ??????? ????? ?????? ????? ?????? ????? ????????. ?????? ??????? ??? ?????? ??? ???????? ???????.",
+  "uploadViaUrl": "??? ??? ????",
+  "uploadInstructions": "???? ???? ?????? (??? 10 ?????? ??? 5 ????????\n??? ???? ????? ????????: .pdf? .doc? .png? .jpg)",
+  "selectCategory": "???? ?????",
+  "categoryLabel": "????? {category}",
+  "@categoryLabel": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "iHaveGreekLicense": "??? ???? ???????",
+  "yes": "???",
+  "no": "??",
+  "selectLanguage": "???? ?????",
+  "languageFieldLabel": "?????",
+  "selectLanguageHint": "???? ?????",
+  "searchLanguage": "???? ?? ???",
+  "loadingLanguages": "??? ????? ??????...",
+  "noLanguagesAvailable": "?? ???? ???? ????? ????.",
+  "proficiencyLevel": "????? ???????",
+  "addAnotherLanguage": "????? ??? ????",
+  "editJobsPreferences": "????? ??????? ???????",
+  "assessmentsResultsTitle": "????? ?????????"
+,
+  "companyTabVacancies": "الوظائف الشاغرة",
+  "companyTabAboutCompany": "عن الشركة",
+  "companyTabEvents": "الفعاليات",
+  "companyTabPosts": "المنشورات",
+  "companyJobsFound": "تم العثور على {count} وظيفة",
+  "@companyJobsFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "companyNoVacancies": "لا توجد وظائف شاغرة حالياً.",
+  "saveJob": "حفظ الوظيفة",
+  "entryLevel": "مبتدئ",
+  "companyPerksTitle": "المزايا والفوائد",
+  "companyGalleryTitle": "معرض الشركة",
+  "companyNoEvents": "لا توجد فعاليات قادمة.",
+  "companyEventsTitle": "فعاليات الشركة",
+  "companyPostsTitle": "منشورات الشركة",
+  "companyPostsFound": "تم العثور على {count} منشور",
+  "@companyPostsFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "companyNoPostsYet": "لا توجد منشورات للشركة بعد.",
+  "shareButton": "مشاركة",
+  "culturalMatchScore": "نقاط التوافق الثقافي",
+  "culturalMatchDescription": "أنت وهذه الشركة اخترتم كلاكما أهم 5 قيم وتفضيلات. تُظهر هذه النقاط مدى تقاربهما.",
+  "culturalMatchYouBothCareAbout": "كلاكما يهتم بـ:",
+  "companyTeamEmployees": "{teamSize} موظف",
+  "@companyTeamEmployees": {
+    "placeholders": {
+      "teamSize": {
+        "type": "String"
+      }
+    }
+  },
+  "companyLabelMainOffice": "موقع المكتب الرئيسي",
+  "companyLabelOtherLocations": "مواقع أخرى",
+  "companyLabelContactPhone": "هاتف التواصل",
+  "companyLabelWebsite": "الموقع الإلكتروني",
+  "notAvailable": "غير متوفر",
+  "eventDetailsTitle": "تفاصيل الفعالية",
+  "eventAddressLabel": "العنوان",
+  "eventRegistrationLink": "رابط التسجيل",
+  "companyLoadError": "تعذر تحميل بيانات الشركة.",
+  "tryAgain": "حاول مجدداً"
+,
+  "assessmentsRecommendedForYou": "التقييمات الموصى بها لك",
+  "assessmentYourScore": "درجتك",
+  "assessmentLevel": "المستوى",
+  "assessmentSkillBreakdown": "تحليل المهارات",
+  "assessmentKeyInsights": "الرؤى الرئيسية",
+  "assessmentPreviousResults": "النتائج السابقة",
+  "assessmentYouImproving": "أنت تتحسن!",
+  "assessmentMeansForProfile": "ماذا يعني هذا لملفك الشخصي",
+  "assessmentAboutThis": "حول هذا التقييم",
+  "assessmentUsedFor": "ما استخدام هذا التقييم",
+  "assessmentBeforeStart": "قبل أن تبدأ",
+  "assessmentApproxDuration": "المدة التقريبية",
+  "assessmentQuestionsLabel": "الأسئلة",
+  "bannerNotSureJob": "لا تعرف كيف تجد الوظيفة المناسبة؟",
+  "chatNewChat": "محادثة جديدة",
+  "chatSearchInChats": "البحث في المحادثات",
+  "chatHistory": "سجل المحادثات",
+  "homeNeedRefresher": "هل تحتاج إلى مراجعة سريعة؟",
+  "homeCvSuccess": "نجاح السيرة الذاتية",
+  "homeStatViews": "المشاهدات",
+  "homeStatInvitations": "الدعوات",
+  "homeStatApplicationsSent": "الطلبات المُرسلة",
+  "homeStatInterviews": "المقابلات",
+  "homeRecommendedCourses": "الدورات الموصى بها",
+  "homeLatestNews": "آخر الأخبار",
+  "homeSmartJobRecommendations": "توصيات الوظائف الذكية",
+  "viewAll": "عرض الكل",
+  "searchByJobTitle": "ابحث بمسمى وظيفي",
+  "jobLoadError": "تعذر تحميل بيانات الوظيفة.",
+  "jobRemovedFromSaved": "تمت إزالته من الوظائف المحفوظة.",
+  "jobSavedMessage": "تم حفظ الوظيفة! تحقق من وظائفك المحفوظة.",
+  "jobPostRemoved": "تمت إزالة إعلان الوظيفة",
+  "deadlineReminderSet": "تم تعيين تذكير الموعد النهائي. سنُعلمك قبل أسبوع من الموعد النهائي.",
+  "readMore": "اقرأ المزيد",
+  "jobPostedDate": "نُشر في {date}",
+  "@jobPostedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "jobClosedLabel": "مغلقة",
+  "deadlineReminderLabel": "تذكير الموعد النهائي",
+  "reportLabel": "الإبلاغ",
+  "reminderSetNotification": "لقد قمت بتعيين تذكير لهذا الإعلان الوظيفي",
+  "odysseaReviewLabel": "تقييم Odyssea: ",
+  "recommendedForYouLabel": "موصى به لك",
+  "tabAllJobs": "جميع الوظائف",
+  "tabSavedJobs": "المحفوظة ({count})",
+  "@tabSavedJobs": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sortingTitle": "الترتيب",
+  "filtersTitle": "الفلاتر",
+  "resetFilters": "إعادة تعيين الفلاتر",
+  "applyFilters": "تطبيق الفلاتر",
+  "filterAllLabel": "الكل",
+  "filterClear": "مسح",
+  "applyFilter": "تطبيق الفلتر",
+  "salaryTitle": "الراتب",
+  "tillLabel": "حتى",
+  "reportJobTitle": "الإبلاغ عن هذه الوظيفة؟",
+  "selectReasonHint": "اختر السبب",
+  "setReminderTitle": "تعيين تذكير",
+  "applicationOpenTill": "الطلب مفتوح حتى:",
+  "whenShouldRemind": "متى نذكّرك؟",
+  "reminderTomorrow": "غداً",
+  "reminderTomorrowSub": "سيُرسَل التذكير غداً في نفس الوقت",
+  "reminderOneWeek": "بعد أسبوع",
+  "reminderOneWeekSub": "سيُرسَل التذكير بعد أسبوع في نفس الوقت",
+  "reminderOneDayBefore": "يوم واحد قبل الموعد النهائي",
+  "reminderOneDayBeforeSub": "سيُرسَل التذكير يوماً قبل الموعد النهائي",
+  "reminderCustomDate": "اختر تاريخاً مخصصاً",
+  "reminderCustomDateSub": "اختر تاريخاً مخصصاً لتذكيرك",
+  "selectDateLabel": "اختر التاريخ",
+  "selectTimeLabel": "اختر الوقت",
+  "ddMmYyyyHint": "يي-شش-سسسس",
+  "reminderViaContactSub": "سنُرسل تذكيراً إلى:\n{contact}",
+  "@reminderViaContactSub": {
+    "placeholders": {
+      "contact": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderViaSmsWhatsapp": "SMS / WhatsApp",
+  "changeEmailTitle": "تغيير البريد الإلكتروني",
+  "newEmailLabel": "بريد إلكتروني جديد",
+  "newEmailHint": "أدخل بريداً إلكترونياً جديداً",
+  "changePasswordTitle": "تغيير كلمة المرور",
+  "repeatNewPasswordLabel": "تكرار كلمة المرور الجديدة",
+  "repeatNewPasswordHint": "كرر كلمة مرورك الجديدة",
+  "changePhoneTitle": "تغيير رقم الهاتف",
+  "newPhoneNumberLabel": "رقم هاتف جديد",
+  "confirmAccountDeletion": "تأكيد حذف الحساب",
+  "typeDeleteToConfirm": "اكتب 'delete' للتأكيد",
+  "enterDeleteHint": "أدخل \"delete\"",
+  "deleteAccountButton": "حذف الحساب",
+  "makeProfileInvisible": "هل تريد إخفاء ملفك الشخصي؟",
+  "switchToLite": "التحويل إلى Ithaki Lite؟",
+  "verificationTitle": "التحقق",
+  "pushNotifications": "الإشعارات الفورية",
+  "unsubscribe": "إلغاء الاشتراك",
+  "noMoreJobInterests": "لا توجد اهتمامات وظيفية أخرى لإضافتها.",
+  "roleMigrant": "مهاجر",
+  "roleRefugee": "لاجئ",
+  "roleAsylumSeeker": "طالب لجوء"
 }

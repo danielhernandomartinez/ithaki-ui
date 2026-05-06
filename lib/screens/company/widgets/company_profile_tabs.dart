@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../models/company_models.dart';
 import '../../../utils/match_colors.dart';
 import 'company_profile_components.dart';
@@ -23,6 +24,7 @@ class CompanyVacanciesTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: Column(
@@ -30,12 +32,12 @@ class CompanyVacanciesTab extends StatelessWidget {
         children: [
           if (vacancies.isNotEmpty)
             Text(
-              '${vacancies.length} jobs found',
+              l10n.companyJobsFound(vacancies.length),
               style: companyProfileSectionHeaderStyle,
             ),
           const SizedBox(height: 12),
           if (vacancies.isEmpty)
-            const CompanyEmptyState('No open vacancies at this time.')
+            CompanyEmptyState(l10n.companyNoVacancies)
           else
             ...vacancies.map(
               (vacancy) => Padding(
@@ -65,6 +67,7 @@ class CompanyAboutTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: Column(
@@ -75,7 +78,7 @@ class CompanyAboutTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CompanySectionTitle('About Company'),
+                  CompanySectionTitle(l10n.companyTabAboutCompany),
                   const SizedBox(height: 14),
                   Text(company.aboutText, style: companyProfileBodyStyle),
                 ],
@@ -88,7 +91,7 @@ class CompanyAboutTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CompanySectionTitle('Perks & Benefits'),
+                  CompanySectionTitle(l10n.companyPerksTitle),
                   const SizedBox(height: 14),
                   ...company.perks.map(CompanyBullet.new),
                 ],
@@ -101,7 +104,7 @@ class CompanyAboutTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CompanySectionTitle('Company Gallery'),
+                  CompanySectionTitle(l10n.companyGalleryTitle),
                   const SizedBox(height: 14),
                   CompanyGalleryGrid(imageAssets: company.galleryImageAssets),
                 ],
@@ -133,16 +136,17 @@ class CompanyEventsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (events.isEmpty)
-            const CompanyEmptyState('No upcoming events.')
+            CompanyEmptyState(l10n.companyNoEvents)
           else ...[
-            const CompanySurfaceCard(
-              child: CompanySectionTitle('Company Events'),
+            CompanySurfaceCard(
+              child: CompanySectionTitle(l10n.companyEventsTitle),
             ),
             const SizedBox(height: 12),
             ...events.map(
@@ -179,6 +183,7 @@ class CompanyPostsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: Column(
@@ -188,10 +193,10 @@ class CompanyPostsTab extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CompanySectionTitle('Company Posts'),
+                CompanySectionTitle(l10n.companyPostsTitle),
                 const SizedBox(height: 18),
                 Text(
-                  '${posts.length} posts found',
+                  l10n.companyPostsFound(posts.length),
                   style: companyProfileSectionHeaderStyle,
                 ),
               ],
@@ -199,7 +204,7 @@ class CompanyPostsTab extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           if (posts.isEmpty)
-            const CompanyEmptyState('No company posts yet.')
+            CompanyEmptyState(l10n.companyNoPostsYet)
           else
             ...posts.map(
               (post) => Padding(
@@ -297,7 +302,8 @@ class _VacancyCard extends StatelessWidget {
                 CompanyInfoStat(
                     icon: 'company-profile', label: vacancy.workMode),
                 CompanyInfoStat(icon: 'clock', label: vacancy.employmentType),
-                CompanyInfoStat(icon: 'level', label: 'Entry'),
+                CompanyInfoStat(
+                    icon: 'level', label: AppLocalizations.of(context)!.entryLevel),
               ],
             ),
             const SizedBox(height: 16),
@@ -313,7 +319,7 @@ class _VacancyCard extends StatelessWidget {
                           ? IthakiTheme.primaryPurple
                           : IthakiTheme.textPrimary,
                     ),
-                    label: const Text('Save Job'),
+                    label: Text(AppLocalizations.of(context)!.saveJob),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: IthakiTheme.textPrimary,
                       side: const BorderSide(color: IthakiTheme.softGraphite),
@@ -326,7 +332,10 @@ class _VacancyCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                  child: IthakiButton('View Job', onPressed: onView),
+                  child: IthakiButton(
+                    AppLocalizations.of(context)!.viewJob,
+                    onPressed: onView,
+                  ),
                 ),
               ],
             ),
@@ -484,7 +493,7 @@ class _PostCard extends StatelessWidget {
                 size: 18,
                 color: IthakiTheme.softGraphite,
               ),
-              label: const Text('Share'),
+              label: Text(AppLocalizations.of(context)!.shareButton),
               style: OutlinedButton.styleFrom(
                 foregroundColor: IthakiTheme.textPrimary,
                 side: const BorderSide(color: IthakiTheme.borderLight),

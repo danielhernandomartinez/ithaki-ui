@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../utils/open_resource.dart';
 import '../../../widgets/profile_empty_state_card.dart';
@@ -12,13 +13,14 @@ class ProfileFilesTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final files = ref.watch(profileFilesProvider).value ?? const [];
     if (files.isEmpty) {
       return ProfileEmptyStateCard(
-        title: 'My Files',
+        title: l.profileMyFilesTitle,
         description:
             'Upload certificates, CV, photos, or any other files that showcase your qualifications.',
-        buttonLabel: 'Upload Documents',
+        buttonLabel: l.uploadFile,
         buttonIcon: const IthakiIcon('upload-cloud', size: 16),
         onPressed: () => _openUpload(context, ref),
       );
@@ -32,8 +34,8 @@ class ProfileFilesTab extends ConsumerWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('My Files',
-            style: TextStyle(
+        Text(l.profileMyFilesTitle,
+            style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 color: IthakiTheme.textPrimary)),
@@ -83,21 +85,21 @@ class ProfileFilesTab extends ConsumerWidget {
               ),
               TextButton(
                 onPressed: () => _openFile(context, f),
-                child: const Text('Open',
-                    style: TextStyle(color: IthakiTheme.primaryPurple)),
+                child: Text(l.open,
+                    style: const TextStyle(color: IthakiTheme.primaryPurple)),
               ),
               TextButton(
                 onPressed: () =>
                     ref.read(profileFilesProvider.notifier).delete(i),
                 child:
-                    const Text('Delete', style: TextStyle(color: Colors.red)),
+                    Text(l.delete, style: const TextStyle(color: Colors.red)),
               ),
             ]),
           );
         }),
         const SizedBox(height: 4),
         IthakiOutlineButton(
-          'Upload Documents',
+          l.uploadFile,
           icon: const IthakiIcon('upload-cloud', size: 16),
           onPressed: () => _openUpload(context, ref),
           borderRadius: 20,
@@ -118,7 +120,9 @@ class ProfileFilesTab extends ConsumerWidget {
     final uri = uriForUploadedFile(file);
     if (uri == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${file.name} has no file source to open.')),
+        SnackBar(
+            content: Text(
+                AppLocalizations.of(context)!.openFileNoSource(file.name))),
       );
       return;
     }
@@ -127,7 +131,9 @@ class ProfileFilesTab extends ConsumerWidget {
     if (!context.mounted || opened) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Could not open ${file.name}.')),
+      SnackBar(
+          content:
+              Text(AppLocalizations.of(context)!.couldNotOpenFile(file.name))),
     );
   }
 }

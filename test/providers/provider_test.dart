@@ -2,6 +2,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_ui/providers/profile_provider.dart';
+import 'package:ithaki_ui/repositories/profile_repository.dart';
 import 'package:ithaki_ui/providers/registration_provider.dart';
 
 // ─── Fake notifiers used as overrides ────────────────────────────────────────
@@ -89,15 +90,20 @@ const _sampleFile = UploadedFile(name: 'cv.pdf', size: '120 KB');
 
 // In Riverpod 3.x, ProviderContainer.test() is the correct testing factory:
 // it automatically registers addTearDown(container.dispose).
-// Override is a sealed class not exported from the public API, so it cannot be
-// used as a type annotation; pass override lists directly to the named parameter.
+// Profile tests use the in-memory repository so they do not need API config.
+
+ProviderContainer _container([List<dynamic> overrides = const []]) =>
+    ProviderContainer.test(overrides: [
+      profileRepositoryProvider.overrideWithValue(MockProfileRepository()),
+      ...overrides,
+    ]);
 
 void main() {
   // ─── registrationProvider ─────────────────────────────────────────────────
 
   group('registrationProvider', () {
     test('initial state is all-empty', () {
-      final c = ProviderContainer.test();
+      final c = _container();
       final s = c.read(registrationProvider);
       expect(s.language, '');
       expect(s.techLevel, '');
@@ -111,7 +117,7 @@ void main() {
     });
 
     test('setLanguage updates language only', () {
-      final c = ProviderContainer.test();
+      final c = _container();
       c.read(registrationProvider.notifier).setLanguage('es');
       final s = c.read(registrationProvider);
       expect(s.language, 'es');
@@ -119,13 +125,13 @@ void main() {
     });
 
     test('setTechLevel updates techLevel', () {
-      final c = ProviderContainer.test();
+      final c = _container();
       c.read(registrationProvider.notifier).setTechLevel('advanced');
       expect(c.read(registrationProvider).techLevel, 'advanced');
     });
 
     test('setCredentials updates email and password together', () {
-      final c = ProviderContainer.test();
+      final c = _container();
       c
           .read(registrationProvider.notifier)
           .setCredentials('a@b.com', 'pass123');
@@ -135,7 +141,7 @@ void main() {
     });
 
     test('setPersonalDetails updates name, lastName and phone', () {
-      final c = ProviderContainer.test();
+      final c = _container();
       c
           .read(registrationProvider.notifier)
           .setPersonalDetails('Ana', 'López', '+34 600 000 000');
@@ -146,7 +152,7 @@ void main() {
     });
 
     test('setVerifyMethod with remember=true', () {
-      final c = ProviderContainer.test();
+      final c = _container();
       c
           .read(registrationProvider.notifier)
           .setVerifyMethod('email', remember: true);
@@ -156,13 +162,13 @@ void main() {
     });
 
     test('setVerifyMethod defaults remember to false', () {
-      final c = ProviderContainer.test();
+      final c = _container();
       c.read(registrationProvider.notifier).setVerifyMethod('sms');
       expect(c.read(registrationProvider).rememberVerifyChoice, false);
     });
 
     test('reset clears all fields back to initial', () {
-      final c = ProviderContainer.test();
+      final c = _container();
       c.read(registrationProvider.notifier).setLanguage('fr');
       c.read(registrationProvider.notifier).setCredentials('x@y.com', 'secret');
       c.read(registrationProvider.notifier).reset();
@@ -177,7 +183,7 @@ void main() {
 
   group('profileBasicsProvider', () {
     test('initial state has hard-coded defaults', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileBasicsProvider.overrideWith(_PhotoFilledNotifier.new),
       ]);
       final s = await c.read(profileBasicsProvider.future);
@@ -188,7 +194,7 @@ void main() {
     });
 
     test('save replaces the provided fields', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileBasicsProvider.overrideWith(_PhotoFilledNotifier.new),
       ]);
       await c.read(profileBasicsProvider.future);
@@ -209,7 +215,7 @@ void main() {
     });
 
     test('save with photoUrl sets photoUrl', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileBasicsProvider.overrideWith(_PhotoFilledNotifier.new),
       ]);
       await c.read(profileBasicsProvider.future);
@@ -233,7 +239,7 @@ void main() {
 
   group('profileAboutMeProvider', () {
     test('initial bio is empty, videoUrl is null', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileAboutMeProvider.overrideWith(_BioFilledNotifier.new),
       ]);
       final s = await c.read(profileAboutMeProvider.future);
@@ -242,7 +248,7 @@ void main() {
     });
 
     test('save sets bio and videoUrl', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileAboutMeProvider.overrideWith(_BioFilledNotifier.new),
       ]);
       await c.read(profileAboutMeProvider.future);
@@ -255,7 +261,7 @@ void main() {
     });
 
     test('save with only bio leaves videoUrl null', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileAboutMeProvider.overrideWith(_BioFilledNotifier.new),
       ]);
       await c.read(profileAboutMeProvider.future);
@@ -264,7 +270,7 @@ void main() {
     });
 
     test('save overwrites previous bio', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileAboutMeProvider.overrideWith(_BioFilledNotifier.new),
       ]);
       await c.read(profileAboutMeProvider.future);
@@ -278,7 +284,7 @@ void main() {
 
   group('profileSkillsProvider', () {
     test('initial state is fully empty', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileSkillsProvider.overrideWith(_OneSkillNotifier.new),
       ]);
       final s = await c.read(profileSkillsProvider.future);
@@ -289,7 +295,7 @@ void main() {
     });
 
     test('updateSkills sets hard and soft skills', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileSkillsProvider.overrideWith(_OneSkillNotifier.new),
       ]);
       await c.read(profileSkillsProvider.future);
@@ -302,7 +308,7 @@ void main() {
     });
 
     test('updateSkills replaces previous lists', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileSkillsProvider.overrideWith(_OneSkillNotifier.new),
       ]);
       await c.read(profileSkillsProvider.future);
@@ -313,7 +319,7 @@ void main() {
     });
 
     test('updateLanguages sets language list', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileSkillsProvider.overrideWith(_OneSkillNotifier.new),
       ]);
       await c.read(profileSkillsProvider.future);
@@ -325,7 +331,7 @@ void main() {
     });
 
     test('updateCompetencies sets competency map', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileSkillsProvider.overrideWith(_OneSkillNotifier.new),
       ]);
       await c.read(profileSkillsProvider.future);
@@ -341,7 +347,7 @@ void main() {
 
   group('profileWorkExperiencesProvider', () {
     test('initial state is empty list', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileWorkExperiencesProvider.overrideWith(_OneExpNotifier.new),
       ]);
       final result = await c.read(profileWorkExperiencesProvider.future);
@@ -349,7 +355,7 @@ void main() {
     });
 
     test('add appends a new experience', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileWorkExperiencesProvider.overrideWith(_OneExpNotifier.new),
       ]);
       await c.read(profileWorkExperiencesProvider.future);
@@ -365,7 +371,7 @@ void main() {
     });
 
     test('add twice results in two items', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileWorkExperiencesProvider.overrideWith(_OneExpNotifier.new),
       ]);
       await c.read(profileWorkExperiencesProvider.future);
@@ -377,7 +383,7 @@ void main() {
     });
 
     test('save replaces experience at given index', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileWorkExperiencesProvider.overrideWith(_OneExpNotifier.new),
       ]);
       await c.read(profileWorkExperiencesProvider.future);
@@ -399,7 +405,7 @@ void main() {
 
   group('profileEducationsProvider', () {
     test('initial state is empty list', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileEducationsProvider.overrideWith(_OneEduNotifier.new),
       ]);
       final result = await c.read(profileEducationsProvider.future);
@@ -407,7 +413,7 @@ void main() {
     });
 
     test('add appends a new education', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileEducationsProvider.overrideWith(_OneEduNotifier.new),
       ]);
       await c.read(profileEducationsProvider.future);
@@ -423,7 +429,7 @@ void main() {
     });
 
     test('add twice results in two items', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileEducationsProvider.overrideWith(_OneEduNotifier.new),
       ]);
       await c.read(profileEducationsProvider.future);
@@ -435,7 +441,7 @@ void main() {
     });
 
     test('save replaces education at given index', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileEducationsProvider.overrideWith(_OneEduNotifier.new),
       ]);
       await c.read(profileEducationsProvider.future);
@@ -457,7 +463,7 @@ void main() {
 
   group('profileFilesProvider', () {
     test('initial state is empty list', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileFilesProvider.overrideWith(_OneFileNotifier.new),
       ]);
       final result = await c.read(profileFilesProvider.future);
@@ -465,7 +471,7 @@ void main() {
     });
 
     test('add appends a file', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileFilesProvider.overrideWith(_OneFileNotifier.new),
       ]);
       await c.read(profileFilesProvider.future);
@@ -476,7 +482,7 @@ void main() {
     });
 
     test('delete removes file at index, preserving order', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileFilesProvider.overrideWith(_OneFileNotifier.new),
       ]);
       await c.read(profileFilesProvider.future);
@@ -490,7 +496,7 @@ void main() {
     });
 
     test('delete last item results in empty list', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileFilesProvider.overrideWith(_OneFileNotifier.new),
       ]);
       await c.read(profileFilesProvider.future);
@@ -504,12 +510,16 @@ void main() {
 
   group('profileValuesProvider', () {
     test('initial state is empty list', () async {
-      expect(await ProviderContainer.test().read(profileValuesProvider.future),
+      expect(
+          await ProviderContainer.test(overrides: [
+            profileRepositoryProvider
+                .overrideWithValue(MockProfileRepository()),
+          ]).read(profileValuesProvider.future),
           isEmpty);
     });
 
     test('save sets values list', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileValuesProvider.future);
       await c
           .read(profileValuesProvider.notifier)
@@ -519,7 +529,7 @@ void main() {
     });
 
     test('save replaces previous list entirely', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileValuesProvider.future);
       await c.read(profileValuesProvider.notifier).save(['A', 'B', 'C']);
       await c.read(profileValuesProvider.notifier).save(['X']);
@@ -527,7 +537,7 @@ void main() {
     });
 
     test('save with empty list clears values', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileValuesProvider.future);
       await c.read(profileValuesProvider.notifier).save(['Integrity']);
       await c.read(profileValuesProvider.notifier).save([]);
@@ -539,7 +549,7 @@ void main() {
 
   group('profileJobPreferencesProvider', () {
     test('initial state has expected defaults', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       final s = await c.read(profileJobPreferencesProvider.future);
       expect(s.positionLevel, 'Middle (3 years)');
       expect(s.jobType, 'Full-Time');
@@ -551,7 +561,7 @@ void main() {
     });
 
     test('save changes all preference fields', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileJobPreferencesProvider.future);
       await c.read(profileJobPreferencesProvider.notifier).save(
         interests: [const JobInterest(title: 'PM', category: 'Management')],
@@ -570,7 +580,7 @@ void main() {
     });
 
     test('preferNotToSpecifySalary can be toggled on', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileJobPreferencesProvider.future);
       await c.read(profileJobPreferencesProvider.notifier).save(
         interests: [],
@@ -592,19 +602,23 @@ void main() {
 
   group('profileVisibleProvider', () {
     test('initial state is true (visible)', () async {
-      expect(await ProviderContainer.test().read(profileVisibleProvider.future),
+      expect(
+          await ProviderContainer.test(overrides: [
+            profileRepositoryProvider
+                .overrideWithValue(MockProfileRepository()),
+          ]).read(profileVisibleProvider.future),
           true);
     });
 
     test('toggle flips to false', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileVisibleProvider.future);
       await c.read(profileVisibleProvider.notifier).toggle();
       expect(c.read(profileVisibleProvider).requireValue, false);
     });
 
     test('double toggle returns to true', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileVisibleProvider.future);
       await c.read(profileVisibleProvider.notifier).toggle();
       await c.read(profileVisibleProvider.notifier).toggle();
@@ -618,18 +632,23 @@ void main() {
 
   group('profileCompletionProvider', () {
     test('starts at 0.0 with a fresh container', () {
-      expect(ProviderContainer.test().read(profileCompletionProvider), 0.0);
+      expect(
+          ProviderContainer.test(overrides: [
+            profileRepositoryProvider
+                .overrideWithValue(MockProfileRepository()),
+          ]).read(profileCompletionProvider),
+          0.0);
     });
 
     test('bio filled → 1/6 via direct mutation', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileAboutMeProvider.future);
       await c.read(profileAboutMeProvider.notifier).save('Hello world');
       expect(c.read(profileCompletionProvider), closeTo(1 / 6, 0.001));
     });
 
     test('photo set → 1/6 via override', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileBasicsProvider.overrideWith(_PhotoFilledNotifier.new),
       ]);
       await c.read(profileBasicsProvider.future);
@@ -637,7 +656,7 @@ void main() {
     });
 
     test('experience added → 1/6 via override', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileWorkExperiencesProvider.overrideWith(_OneExpNotifier.new),
       ]);
       await c.read(profileWorkExperiencesProvider.future);
@@ -645,7 +664,7 @@ void main() {
     });
 
     test('education added → 1/6 via override', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileEducationsProvider.overrideWith(_OneEduNotifier.new),
       ]);
       await c.read(profileEducationsProvider.future);
@@ -653,7 +672,7 @@ void main() {
     });
 
     test('skills added → 1/6 via override', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileSkillsProvider.overrideWith(_OneSkillNotifier.new),
       ]);
       await c.read(profileSkillsProvider.future);
@@ -661,7 +680,7 @@ void main() {
     });
 
     test('file added → 1/6 via override', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileFilesProvider.overrideWith(_OneFileNotifier.new),
       ]);
       await c.read(profileFilesProvider.future);
@@ -669,7 +688,7 @@ void main() {
     });
 
     test('all 6 sections filled → 1.0 via overrides', () async {
-      final c = ProviderContainer.test(overrides: [
+      final c = _container([
         profileAboutMeProvider.overrideWith(_BioFilledNotifier.new),
         profileBasicsProvider.overrideWith(_PhotoFilledNotifier.new),
         profileWorkExperiencesProvider.overrideWith(_OneExpNotifier.new),
@@ -689,7 +708,7 @@ void main() {
     });
 
     test('all 6 sections filled → 1.0 via direct mutations', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileAboutMeProvider.future);
       await c.read(profileBasicsProvider.future);
       await c.read(profileWorkExperiencesProvider.future);
@@ -716,7 +735,7 @@ void main() {
     });
 
     test('softSkills alone count as skills section filled', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileSkillsProvider.future);
       await c
           .read(profileSkillsProvider.notifier)
@@ -725,7 +744,7 @@ void main() {
     });
 
     test('3 of 6 sections filled → 0.5', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileAboutMeProvider.future);
       await c.read(profileWorkExperiencesProvider.future);
       await c.read(profileSkillsProvider.future);
@@ -876,7 +895,7 @@ void main() {
 
   group('profileAboutMeProvider – copyWith nullable semantics', () {
     test('save without videoUrl preserves previously set videoUrl', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileAboutMeProvider.future);
       await c
           .read(profileAboutMeProvider.notifier)
@@ -890,7 +909,7 @@ void main() {
 
   group('profileBasicsProvider – save API boundary', () {
     test('save cannot change email or phone (not in params)', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileBasicsProvider.future);
       await c.read(profileBasicsProvider.notifier).save(
             firstName: 'X',
@@ -910,7 +929,7 @@ void main() {
     });
 
     test('save without photoUrl preserves previously set photoUrl', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileBasicsProvider.future);
       await c.read(profileBasicsProvider.notifier).save(
             firstName: 'X',
@@ -941,7 +960,7 @@ void main() {
 
   group('profileSkillsProvider – orthogonality of update methods', () {
     test('updateLanguages does not reset existing skills', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileSkillsProvider.future);
       await c
           .read(profileSkillsProvider.notifier)
@@ -954,7 +973,7 @@ void main() {
     });
 
     test('updateCompetencies does not reset skills or languages', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileSkillsProvider.future);
       await c.read(profileSkillsProvider.notifier).updateSkills(['Dart'], []);
       await c.read(profileSkillsProvider.notifier).updateLanguages(
@@ -972,7 +991,7 @@ void main() {
   group('profileJobPreferencesProvider – null salary', () {
     test('expectedSalary can be null when preferNotToSpecifySalary is true',
         () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileJobPreferencesProvider.future);
       await c.read(profileJobPreferencesProvider.notifier).save(
         interests: [],
@@ -995,7 +1014,7 @@ void main() {
 
   group('profileFilesProvider – delete from middle', () {
     test('deleting middle item preserves surrounding items in order', () async {
-      final c = ProviderContainer.test();
+      final c = _container();
       await c.read(profileFilesProvider.future);
       const a = UploadedFile(name: 'a.pdf', size: '1 KB');
       const b = UploadedFile(name: 'b.pdf', size: '2 KB');
@@ -1016,7 +1035,7 @@ void main() {
 
   group('registrationProvider – full sequential flow', () {
     test('all setters applied in sequence preserve every field', () {
-      final c = ProviderContainer.test();
+      final c = _container();
       final n = c.read(registrationProvider.notifier);
       n.setLanguage('es');
       n.setTechLevel('basic');
@@ -1036,8 +1055,8 @@ void main() {
     });
 
     test('two containers are fully isolated from each other', () {
-      final c1 = ProviderContainer.test();
-      final c2 = ProviderContainer.test();
+      final c1 = _container();
+      final c2 = _container();
       c1.read(registrationProvider.notifier).setLanguage('es');
       expect(c2.read(registrationProvider).language, '');
     });
