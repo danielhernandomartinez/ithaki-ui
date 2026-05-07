@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/job_search_data_provider.dart';
 import '../../../providers/job_search_provider.dart';
 import '../../../providers/tour_provider.dart';
@@ -28,6 +29,7 @@ class JobSearchList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final notifier = ref.read(jobSearchProvider.notifier);
     final searchState = ref.watch(jobSearchProvider).value;
     final searchResult = ref.watch(jobSearchDataProvider).value;
@@ -58,8 +60,8 @@ class JobSearchList extends ConsumerWidget {
             children: [
               Text(
                 isSavedTab
-                    ? '${formatNumber(jobs.length)} saved jobs'
-                    : '${formatNumber(searchResult.totalJobs)} jobs found',
+                    ? l.savedJobsCountLabel(formatNumber(jobs.length))
+                    : l.jobsFoundLabel(formatNumber(searchResult.totalJobs)),
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -77,12 +79,12 @@ class JobSearchList extends ConsumerWidget {
 
           // ── Job cards ─────────────────────────────────────
           if (jobs.isEmpty && isSavedTab)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 28),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 28),
               child: Center(
                 child: Text(
-                  'No saved jobs yet.',
-                  style: TextStyle(
+                  l.noSavedJobsYet,
+                  style: const TextStyle(
                     fontSize: 14,
                     color: IthakiTheme.textSecondary,
                   ),

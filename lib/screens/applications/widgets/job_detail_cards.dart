@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../models/job_detail_models.dart';
 import '../../../routes.dart';
 import '../../../utils/match_colors.dart';
@@ -139,8 +140,8 @@ class JobMainCard extends StatelessWidget {
           const SizedBox(height: 12),
           const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
           const SizedBox(height: 12),
-          const Text('Curious why you match this job?',
-              style: TextStyle(
+          Text(AppLocalizations.of(context)!.curiousWhyMatch,
+              style: const TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
@@ -148,29 +149,37 @@ class JobMainCard extends StatelessWidget {
                 letterSpacing: -0.32,
               )),
           const SizedBox(height: 8),
-          IthakiButton('Ask Career Assistant',
+          IthakiButton(AppLocalizations.of(context)!.askCareerAssistant,
               variant: IthakiButtonVariant.outline,
               onPressed: () => context.go(Routes.careerAssistant)),
           const _Divider(),
-          _SectionContent(title: 'About the role', body: detail.description),
-          const _Divider(),
-          _SectionTitle('Requirements'),
-          const SizedBox(height: 8),
-          ...detail.requirements.map((r) => _BulletItem(text: r)),
-          const _Divider(),
-          _SectionTitle('Skills'),
-          const SizedBox(height: 8),
-          Wrap(
-            spacing: 6,
-            runSpacing: 6,
-            children: detail.skills.map((s) => _SkillChip(label: s)).toList(),
-          ),
-          const _Divider(),
-          _SectionContent(title: 'Communication', body: detail.communication),
-          const _Divider(),
-          _SectionContent(title: 'Nice to have', body: detail.niceToHave),
-          const _Divider(),
-          _SectionContent(title: 'What we offer', body: detail.whatWeOffer),
+          Builder(builder: (ctx) {
+            final l = AppLocalizations.of(ctx)!;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _SectionContent(title: l.aboutRoleTitle, body: detail.description),
+                const _Divider(),
+                _SectionTitle(l.requirementsTitle),
+                const SizedBox(height: 8),
+                ...detail.requirements.map((r) => _BulletItem(text: r)),
+                const _Divider(),
+                _SectionTitle(l.profileSkillsTitle),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 6,
+                  children: detail.skills.map((s) => _SkillChip(label: s)).toList(),
+                ),
+                const _Divider(),
+                _SectionContent(title: l.communicationHeading, body: detail.communication),
+                const _Divider(),
+                _SectionContent(title: l.niceToHaveTitle, body: detail.niceToHave),
+                const _Divider(),
+                _SectionContent(title: l.whatWeOfferTitle, body: detail.whatWeOffer),
+              ],
+            );
+          }),
         ],
       ),
     );
@@ -395,8 +404,8 @@ class ReviewsCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Employee Reviews',
-                  style: TextStyle(
+              Text(AppLocalizations.of(context)!.employeeReviewsTitle,
+                  style: const TextStyle(
                     fontFamily: 'Noto Sans',
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -544,8 +553,8 @@ class RecommendedCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Recommended for you',
-              style: TextStyle(
+          Text(AppLocalizations.of(context)!.recommendedForYouLabel,
+              style: const TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -636,14 +645,14 @@ class RecommendedCard extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: IthakiButton('Save Job',
+                child: IthakiButton(AppLocalizations.of(context)!.saveJob,
                     variant: IthakiButtonVariant.outline,
                     onPressed: () => context.go(Routes.jobSearch)),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: IthakiButton(
-                  'View Job',
+                  AppLocalizations.of(context)!.viewJob,
                   onPressed: () => context.go(Routes.jobSearch),
                 ),
               ),
@@ -672,8 +681,8 @@ class JobDetailCompanyCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('About the Company',
-              style: TextStyle(
+          Text(AppLocalizations.of(context)!.aboutCompanyTitle,
+              style: const TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
@@ -736,7 +745,7 @@ class JobDetailCompanyCard extends StatelessWidget {
                 letterSpacing: -0.3,
               )),
           const SizedBox(height: 12),
-          IthakiButton('Company Profile',
+          IthakiButton(AppLocalizations.of(context)!.companyProfile,
               variant: IthakiButtonVariant.outline,
               onPressed: company.id.isNotEmpty
                   ? () => context.push(Routes.companyProfileFor(company.id))
@@ -791,7 +800,7 @@ class JobDetailStickyBar extends StatelessWidget {
                     children: [
                       Expanded(
                         child: IthakiButton(
-                          'Save Job',
+                          AppLocalizations.of(context)!.saveJob,
                           variant: IthakiButtonVariant.outline,
                           onPressed: () => context.go(Routes.jobSearch),
                         ),
@@ -799,7 +808,7 @@ class JobDetailStickyBar extends StatelessWidget {
                       const SizedBox(width: 8),
                       Expanded(
                         child: IthakiButton(
-                          'Apply',
+                          AppLocalizations.of(context)!.applyButton,
                           onPressed: () {
                             showModalBottomSheet(
                               context: context,

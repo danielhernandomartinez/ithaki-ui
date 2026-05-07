@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-
+import '../../../l10n/app_localizations.dart';
 import 'chat_action_chip.dart';
 import 'article_card.dart';
 import 'job_card.dart';
@@ -117,11 +117,11 @@ class ThinkingBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(bottom: 12),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
       child: Text(
-        'Thinking...',
-        style: TextStyle(
+        AppLocalizations.of(context)!.chatThinking,
+        style: const TextStyle(
           fontFamily: 'Noto Sans',
           fontSize: 13,
           color: IthakiTheme.textSecondary,

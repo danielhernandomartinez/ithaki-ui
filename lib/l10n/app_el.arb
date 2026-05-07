@@ -955,5 +955,74 @@
         "type": "String"
       }
     }
-  }
+  },
+  "addJobInterestTitle": "Add Job Interest",
+  "searchCityTitle": "Search City",
+  "typeCityHint": "Type a city name...",
+  "citySearchTypeMore": "Type at least 2 characters",
+  "citySearchNoResults": "No cities found",
+  "photoFileLimit": "5 MB max · PNG or JPG",
+  "photoRecommendation": "We recommend a professional photo that clearly shows your face.",
+  "uploadPhoto": "Upload Photo",
+  "replacePhoto": "Replace Photo",
+  "workplaceLabel": "Workplace",
+  "screeningQuestionsSubtitle": "Here are your answers to a few questions from the employer",
+  "toJobDetails": "To Job Details",
+  "whatWeOfferTitle": "What we offer",
+  "employeeReviewsTitle": "Employee Reviews",
+  "applyButton": "Apply",
+  "shareLabel": "Share:",
+  "readArticle": "Read Article",
+  "chatGetStartedHint": "You can get started with an example below",
+  "chatWithCareerAssistant": "Chat with your\nCareer Assistant",
+  "chatHistorySubtitle": "You can search across all your previous chats by keywords or phrases.",
+  "chatHistorySearchHint": "Type a word or phrase to find messages...",
+  "chatHistoryToday": "Today",
+  "chatHistoryLast7Days": "Last 7 days",
+  "chatThinking": "Thinking...",
+  "viewJobDetails": "View Job Details",
+  "chatSearchMessagesHint": "Search messages...",
+  "culturalFitLabel": "Cultural Fit",
+  "savedJobsCountLabel": "{count} saved jobs",
+  "@savedJobsCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "jobsFoundLabel": "{count} jobs found",
+  "@jobsFoundLabel": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "noSavedJobsYet": "No saved jobs yet.",
+  "notificationsLabel": "Notifications",
+  "notificationsScreenSubtitle": "Here you can see all your news. Stay up to date with important updates.",
+  "notificationsUnreadCount": "You have {count} new notifications",
+  "@notificationsUnreadCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "markAllAsRead": "Mark all as read",
+  "accountInformationTitle": "Account Information",
+  "accountInformationSubtitle": "Manage your account details to keep your account secure and up to date.",
+  "profileVisibilityTitle": "Profile Visibility",
+  "profileVisibleForEmployers": "Profile Visible for Employers",
+  "profileHiddenFromEmployers": "Profile Hidden from Employers",
+  "profileVisibilityDescription": "Right now, employers can view your profile and send you invitations. If you prefer more privacy, you can hide your profile — it will only be visible when you apply to a job.",
+  "hideProfileFromEmployers": "Hide Profile from Employers",
+  "showProfileToEmployers": "Show Profile to Employers",
+  "digitalComfortTitle": "Digital Comfort",
+  "digitalComfortExperienced": "You are experienced tech user",
+  "digitalComfortDescription": "You're using our full experience right now — perfect for confident tech users. If you ever want a simpler, easier interface, you can switch to the light version whenever you like.",
+  "tryIthakiLite": "Try Ithaki Lite",
+  "deleteAnAccount": "Delete an Account",
+  "deleteAccountTabDescription": "Permanently remove your account and all related data from the system. This action cannot be undone."
 }

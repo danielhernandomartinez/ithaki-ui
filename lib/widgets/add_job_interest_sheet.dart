@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../l10n/app_localizations.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../models/profile_models.dart';
@@ -33,6 +34,7 @@ class AddJobInterestSheet extends ConsumerStatefulWidget {
 class _AddJobInterestSheetState extends ConsumerState<AddJobInterestSheet> {
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final interestsAsync = ref.watch(jobInterestsListProvider);
 
     return Padding(
@@ -46,9 +48,9 @@ class _AddJobInterestSheetState extends ConsumerState<AddJobInterestSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Add Job Interest',
-            style: TextStyle(
+          Text(
+            l.addJobInterestTitle,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: IthakiTheme.textPrimary,

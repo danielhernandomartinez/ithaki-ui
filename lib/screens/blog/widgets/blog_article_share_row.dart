@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../l10n/app_localizations.dart';
 
 class BlogArticleShareRow extends StatelessWidget {
   const BlogArticleShareRow({super.key});
@@ -8,8 +9,8 @@ class BlogArticleShareRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Text(
-          'Share:',
+        Text(
+          AppLocalizations.of(context)!.shareLabel,
           style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w600,

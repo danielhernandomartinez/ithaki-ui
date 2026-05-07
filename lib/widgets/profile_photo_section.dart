@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../utils/profile_photo_image.dart';
@@ -15,6 +16,7 @@ class ProfilePhotoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final photoImage = profilePhotoImageProvider(photoPath);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,20 +32,20 @@ class ProfilePhotoSection extends StatelessWidget {
                 : null,
           ),
           const SizedBox(width: 12),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '5 MB max · PNG or JPG',
+                  l.photoFileLimit,
                   style:
-                      TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
+                      const TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
                 ),
-                SizedBox(height: 4),
+                const SizedBox(height: 4),
                 Text(
-                  'We recommend a professional photo that clearly shows your face.',
+                  l.photoRecommendation,
                   style:
-                      TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
+                      const TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
                 ),
               ],
             ),
@@ -56,7 +58,7 @@ class ProfilePhotoSection extends StatelessWidget {
             onPressed: onPick,
             icon: const IthakiIcon('upload-cloud',
                 size: 16, color: IthakiTheme.textPrimary),
-            label: Text(photoPath == null ? 'Upload Photo' : 'Replace Photo'),
+            label: Text(photoPath == null ? l.uploadPhoto : l.replacePhoto),
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: IthakiTheme.borderLight),
               shape: RoundedRectangleBorder(

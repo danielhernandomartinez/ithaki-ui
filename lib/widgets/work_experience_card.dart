@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../l10n/app_localizations.dart';
 import '../models/profile_models.dart';
 
 /// Renders a single WorkExperience entry.
@@ -22,8 +23,9 @@ class WorkExperienceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final duration = exp.duration;
-    final endLabel = exp.currentlyWorkHere ? 'Present' : (exp.endDate ?? '');
+    final endLabel = exp.currentlyWorkHere ? l.present : (exp.endDate ?? '');
 
     final content = Column(
       crossAxisAlignment: CrossAxisAlignment.start,

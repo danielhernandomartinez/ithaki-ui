@@ -2266,4 +2266,196 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get responsibilitiesTitle => 'Responsibilities';
+
+  @override
+  String errorMessage(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get assessmentNotFound => 'Assessment not found';
+
+  @override
+  String get testDetails => 'Test Details';
+
+  @override
+  String get startTest => 'Start Test';
+
+  @override
+  String get viewDetails => 'View Details';
+
+  @override
+  String get inCv => 'In CV';
+
+  @override
+  String get showInCv => 'Show in CV';
+
+  @override
+  String questionsCount(int count) {
+    return '$count questions';
+  }
+
+  @override
+  String durationMinutes(int count) {
+    return '$count min';
+  }
+
+  @override
+  String rangeNumberSubtitle(
+      int min, int max, String minLabel, String maxLabel) {
+    return 'Select a number from $min to $max, where $min means \"$minLabel\" and $max means \"$maxLabel\".';
+  }
+
+  @override
+  String get addJobInterestTitle => 'Add Job Interest';
+
+  @override
+  String get searchCityTitle => 'Search City';
+
+  @override
+  String get typeCityHint => 'Type a city name...';
+
+  @override
+  String get citySearchTypeMore => 'Type at least 2 characters';
+
+  @override
+  String get citySearchNoResults => 'No cities found';
+
+  @override
+  String get photoFileLimit => '5 MB max · PNG or JPG';
+
+  @override
+  String get photoRecommendation =>
+      'We recommend a professional photo that clearly shows your face.';
+
+  @override
+  String get uploadPhoto => 'Upload Photo';
+
+  @override
+  String get replacePhoto => 'Replace Photo';
+
+  @override
+  String get screeningQuestionsSubtitle =>
+      'Here are your answers to a few questions from the employer';
+
+  @override
+  String get toJobDetails => 'To Job Details';
+
+  @override
+  String get whatWeOfferTitle => 'What we offer';
+
+  @override
+  String get employeeReviewsTitle => 'Employee Reviews';
+
+  @override
+  String get applyButton => 'Apply';
+
+  @override
+  String get shareLabel => 'Share:';
+
+  @override
+  String get readArticle => 'Read Article';
+
+  @override
+  String get chatGetStartedHint => 'You can get started with an example below';
+
+  @override
+  String get chatWithCareerAssistant => 'Chat with your\nCareer Assistant';
+
+  @override
+  String get chatHistorySubtitle =>
+      'You can search across all your previous chats by keywords or phrases.';
+
+  @override
+  String get chatHistorySearchHint =>
+      'Type a word or phrase to find messages...';
+
+  @override
+  String get chatHistoryToday => 'Today';
+
+  @override
+  String get chatHistoryLast7Days => 'Last 7 days';
+
+  @override
+  String get chatThinking => 'Thinking...';
+
+  @override
+  String get chatSearchMessagesHint => 'Search messages...';
+
+  @override
+  String get culturalFitLabel => 'Cultural Fit';
+
+  @override
+  String savedJobsCountLabel(String count) {
+    return '$count saved jobs';
+  }
+
+  @override
+  String jobsFoundLabel(String count) {
+    return '$count jobs found';
+  }
+
+  @override
+  String get noSavedJobsYet => 'No saved jobs yet.';
+
+  @override
+  String get notificationsLabel => 'Notifications';
+
+  @override
+  String get notificationsScreenSubtitle =>
+      'Here you can see all your news. Stay up to date with important updates.';
+
+  @override
+  String notificationsUnreadCount(int count) {
+    return 'You have $count new notifications';
+  }
+
+  @override
+  String get markAllAsRead => 'Mark all as read';
+
+  @override
+  String get accountInformationTitle => 'Account Information';
+
+  @override
+  String get accountInformationSubtitle =>
+      'Manage your account details to keep your account secure and up to date.';
+
+  @override
+  String get profileVisibilityTitle => 'Profile Visibility';
+
+  @override
+  String get profileVisibleForEmployers => 'Profile Visible for Employers';
+
+  @override
+  String get profileHiddenFromEmployers => 'Profile Hidden from Employers';
+
+  @override
+  String get profileVisibilityDescription =>
+      'Right now, employers can view your profile and send you invitations. If you prefer more privacy, you can hide your profile — it will only be visible when you apply to a job.';
+
+  @override
+  String get hideProfileFromEmployers => 'Hide Profile from Employers';
+
+  @override
+  String get showProfileToEmployers => 'Show Profile to Employers';
+
+  @override
+  String get digitalComfortTitle => 'Digital Comfort';
+
+  @override
+  String get digitalComfortExperienced => 'You are experienced tech user';
+
+  @override
+  String get digitalComfortDescription =>
+      'You\'re using our full experience right now — perfect for confident tech users. If you ever want a simpler, easier interface, you can switch to the light version whenever you like.';
+
+  @override
+  String get tryIthakiLite => 'Try Ithaki Lite';
+
+  @override
+  String get deleteAnAccount => 'Delete an Account';
+
+  @override
+  String get deleteAccountTabDescription =>
+      'Permanently remove your account and all related data from the system. This action cannot be undone.';
 }

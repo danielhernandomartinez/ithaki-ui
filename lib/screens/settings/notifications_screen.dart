@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../constants/nav_items.dart';
+import '../../l10n/app_localizations.dart';
 import '../../mixins/panel_menu_mixin.dart';
 import '../../providers/home_provider.dart';
 import '../../providers/notifications_provider.dart';
@@ -78,6 +79,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen>
                   unreadCount: unreadCount,
                   onMarkAllAsRead:
                       unreadCount == 0 ? null : notifier.markAllAsRead,
+                  l10n: AppLocalizations.of(context)!,
                 ),
                 const SizedBox(height: 14),
                 ...notifications.map(
@@ -160,6 +162,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen>
   Widget _buildSummaryCard({
     required int unreadCount,
     required VoidCallback? onMarkAllAsRead,
+    required AppLocalizations l10n,
   }) {
     return Container(
       width: double.infinity,
@@ -172,7 +175,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Notifications',
+            l10n.notificationsLabel,
             style: IthakiTheme.headingLarge.copyWith(
               color: IthakiTheme.textPrimary,
               height: 1.1,
@@ -180,7 +183,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen>
           ),
           const SizedBox(height: 6),
           Text(
-            'Here you can see all your news. Stay up to\ndate with important updates.',
+            l10n.notificationsScreenSubtitle,
             style: IthakiTheme.bodyRegular.copyWith(
               color: IthakiTheme.textPrimary,
               height: 1.45,
@@ -188,7 +191,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen>
           ),
           const SizedBox(height: 16),
           Text(
-            'You have $unreadCount new notifications',
+            l10n.notificationsUnreadCount(unreadCount),
             style: IthakiTheme.bodyRegular.copyWith(
               color: IthakiTheme.textPrimary,
               fontWeight: FontWeight.w700,
@@ -207,7 +210,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen>
               ),
             ),
             child: Text(
-              'Mark all as read',
+              l10n.markAllAsRead,
               style: IthakiTheme.bodyRegular.copyWith(
                 color: IthakiTheme.textPrimary,
                 fontWeight: FontWeight.w500,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-
+import '../../../l10n/app_localizations.dart';
 import '../../../models/profile_models.dart';
 
 class EducationCard extends StatelessWidget {
@@ -15,6 +15,7 @@ class EducationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final duration = education.duration;
 
     return Container(
@@ -75,7 +76,7 @@ class EducationCard extends StatelessWidget {
           Text(
             [
               education.currentlyStudyHere
-                  ? '${education.startDate} - Present'
+                  ? '${education.startDate} - ${l.present}'
                   : '${education.startDate} - ${education.endDate ?? ''}',
               if (duration.isNotEmpty) '($duration)',
             ].join(' '),

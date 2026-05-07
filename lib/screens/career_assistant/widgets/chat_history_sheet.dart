@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-
+import '../../../l10n/app_localizations.dart';
 import '../models/chat_mock_data.dart';
 
 // ---------------------------------------------------------------------------
@@ -31,6 +31,7 @@ class _ChatHistorySheetState extends State<ChatHistorySheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final bottom = MediaQuery.viewInsetsOf(context).bottom;
     final todayItems = _filtered(kHistoryToday);
     final lastItems = _filtered(kHistoryLast7);
@@ -59,10 +60,10 @@ class _ChatHistorySheetState extends State<ChatHistorySheet> {
           const SizedBox(height: 16),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  "Chat's History",
-                  style: TextStyle(
+                  l.chatHistory,
+                  style: const TextStyle(
                     fontFamily: 'Noto Sans',
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -77,9 +78,9 @@ class _ChatHistorySheetState extends State<ChatHistorySheet> {
             ],
           ),
           const SizedBox(height: 8),
-          const Text(
-            'You can search across all your previous chats by keywords or phrases.',
-            style: TextStyle(
+          Text(
+            l.chatHistorySubtitle,
+            style: const TextStyle(
               fontFamily: 'Noto Sans',
               fontSize: 13,
               color: IthakiTheme.softGraphite,
@@ -91,7 +92,7 @@ class _ChatHistorySheetState extends State<ChatHistorySheet> {
             controller: _searchController,
             onChanged: (v) => setState(() => _query = v.toLowerCase()),
             decoration: InputDecoration(
-              hintText: 'Type a word or phrase to find messages...',
+              hintText: l.chatHistorySearchHint,
               hintStyle: const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
               prefixIcon: const Padding(
                 padding: EdgeInsets.only(left: 12, right: 8),
@@ -119,18 +120,18 @@ class _ChatHistorySheetState extends State<ChatHistorySheet> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (todayItems.isNotEmpty) ...[
-                    const Text(
-                      'Today',
-                      style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+                    Text(
+                      l.chatHistoryToday,
+                      style: const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
                     ),
                     const SizedBox(height: 8),
                     ...todayItems.map((item) => ChatHistoryItem(label: item)),
                     const SizedBox(height: 12),
                   ],
                   if (lastItems.isNotEmpty) ...[
-                    const Text(
-                      'Last 7 days',
-                      style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+                    Text(
+                      l.chatHistoryLast7Days,
+                      style: const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
                     ),
                     const SizedBox(height: 8),
                     ...lastItems.map((item) => ChatHistoryItem(label: item)),

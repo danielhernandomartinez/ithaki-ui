@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../l10n/app_localizations.dart';
 
 // ---------------------------------------------------------------------------
 // Single tappable suggestion chip
@@ -51,9 +52,9 @@ class ChatInitialChipsRow extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'You can get started with an example below',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.chatGetStartedHint,
+            style: const TextStyle(
               fontFamily: 'Noto Sans',
               fontSize: 13,
               color: IthakiTheme.softGraphite,

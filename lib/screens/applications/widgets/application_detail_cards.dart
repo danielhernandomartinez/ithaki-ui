@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../models/application_detail_models.dart';
 import '../../../routes.dart';
 import '../../../utils/match_colors.dart';
@@ -100,6 +101,7 @@ class JobPostBasicsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         color: IthakiTheme.backgroundWhite,
@@ -162,28 +164,13 @@ class JobPostBasicsCard extends StatelessWidget {
             spacing: 0,
             runSpacing: 12,
             children: [
-              _DetailCell(
-                  label: 'Location', icon: 'location', value: detail.location),
-              _DetailCell(
-                  label: 'Job Type', icon: 'clock', value: detail.jobType),
-              _DetailCell(label: 'Industry', value: detail.industry),
-              _DetailCell(
-                  label: 'Salary Range',
-                  value: detail.salaryRange,
-                  valueSemibold: true),
-              _DetailCell(
-                  label: 'Workplace',
-                  icon: 'company-profile',
-                  value: detail.workplace),
-              _DetailCell(
-                  label: 'Experience Level',
-                  icon: 'level',
-                  value: detail.experienceLevel),
-              _DetailCell(
-                  label: 'Language',
-                  icon: 'globe',
-                  value: detail.languages,
-                  wide: true),
+              _DetailCell(label: l.locationInfoLabel, icon: 'location', value: detail.location),
+              _DetailCell(label: l.jobTypeTitle, icon: 'clock', value: detail.jobType),
+              _DetailCell(label: l.industryLabel, value: detail.industry),
+              _DetailCell(label: l.salaryRangeLabel, value: detail.salaryRange, valueSemibold: true),
+              _DetailCell(label: l.workplaceLabel, icon: 'company-profile', value: detail.workplace),
+              _DetailCell(label: l.experienceLevelLabel, icon: 'level', value: detail.experienceLevel),
+              _DetailCell(label: l.languageFieldLabel, icon: 'globe', value: detail.languages, wide: true),
             ],
           ),
         ],
@@ -333,12 +320,15 @@ class TalentProfileCard extends StatelessWidget {
           const SizedBox(height: 12),
           const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
           const SizedBox(height: 12),
-          Wrap(spacing: 0, runSpacing: 12, children: [
-            _InfoCell(label: 'Gender', value: candidate.gender),
-            _InfoCell(label: 'Age', value: candidate.age),
-            _InfoCell(label: 'Citizenship', value: candidate.citizenship),
-            _InfoCell(label: 'Location', value: candidate.location),
-          ]),
+          Builder(builder: (context) {
+            final l = AppLocalizations.of(context)!;
+            return Wrap(spacing: 0, runSpacing: 12, children: [
+              _InfoCell(label: l.genderInfoLabel, value: candidate.gender),
+              _InfoCell(label: l.ageInfoLabel, value: candidate.age),
+              _InfoCell(label: l.citizenshipLabel, value: candidate.citizenship),
+              _InfoCell(label: l.locationInfoLabel, value: candidate.location),
+            ]);
+          }),
           const SizedBox(height: 12),
           const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
           const SizedBox(height: 12),
@@ -358,8 +348,8 @@ class TalentProfileCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Show full CV',
-                    style: TextStyle(
+                Text(AppLocalizations.of(context)!.showFullCv,
+                    style: const TextStyle(
                       fontFamily: 'Noto Sans',
                       fontSize: 16,
                       color: IthakiTheme.textPrimary,
@@ -481,8 +471,8 @@ class CoverLetterCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Cover Letter',
-              style: TextStyle(
+          Text(AppLocalizations.of(context)!.coverLetterTitle,
+              style: const TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
@@ -522,8 +512,8 @@ class ScreeningQuestionsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Screening Questions',
-              style: TextStyle(
+          Text(AppLocalizations.of(context)!.screeningQuestionsTitle,
+              style: const TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
@@ -531,8 +521,8 @@ class ScreeningQuestionsCard extends StatelessWidget {
                 letterSpacing: -0.36,
               )),
           const SizedBox(height: 4),
-          const Text(
-              'Here are your answers to a few questions from the employer',
+          Text(
+              AppLocalizations.of(context)!.screeningQuestionsSubtitle,
               style: TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: 16,
@@ -599,8 +589,8 @@ class ApplicationDetailCompanyCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('About the Company',
-              style: TextStyle(
+          Text(AppLocalizations.of(context)!.aboutCompanyTitle,
+              style: const TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
@@ -642,8 +632,8 @@ class ApplicationDetailCompanyCard extends StatelessWidget {
           const SizedBox(height: 12),
           const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
           const SizedBox(height: 12),
-          const Text('Team',
-              style: TextStyle(
+          Text(AppLocalizations.of(context)!.teamTitle,
+              style: const TextStyle(
                   fontFamily: 'Noto Sans',
                   fontSize: 14,
                   color: Color(0xFF4B4B4B))),
@@ -660,8 +650,8 @@ class ApplicationDetailCompanyCard extends StatelessWidget {
                 )),
           ]),
           const SizedBox(height: 8),
-          const Text('Location',
-              style: TextStyle(
+          Text(AppLocalizations.of(context)!.locationInfoLabel,
+              style: const TextStyle(
                   fontFamily: 'Noto Sans',
                   fontSize: 14,
                   color: Color(0xFF4B4B4B))),
@@ -689,7 +679,7 @@ class ApplicationDetailCompanyCard extends StatelessWidget {
                 letterSpacing: -0.32,
               )),
           const SizedBox(height: 12),
-          IthakiButton('Company Profile',
+          IthakiButton(AppLocalizations.of(context)!.companyProfile,
               variant: IthakiButtonVariant.outline,
               onPressed: company.id.isNotEmpty
                   ? () => context.push(Routes.companyProfileFor(company.id))
@@ -724,7 +714,7 @@ class ApplicationDetailStickyBar extends StatelessWidget {
               ),
             ),
             child: IthakiButton(
-              'To Job Details',
+              AppLocalizations.of(context)!.toJobDetails,
               onPressed: () => context.push(Routes.jobDetailFor(applicationId)),
             ),
           ),

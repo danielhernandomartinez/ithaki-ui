@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../l10n/app_localizations.dart';
 
 class CompanyCulturalFitGauge extends StatelessWidget {
   const CompanyCulturalFitGauge({
@@ -112,7 +113,7 @@ class CompanyCulturalFitGauge extends StatelessWidget {
                     ),
                     SizedBox(height: textSpacing),
                     Text(
-                      'Cultural Fit',
+                      AppLocalizations.of(context)!.culturalFitLabel,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       softWrap: false,

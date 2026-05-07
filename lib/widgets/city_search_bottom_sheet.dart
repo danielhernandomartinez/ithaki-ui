@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../l10n/app_localizations.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../repositories/city_search_repository.dart';
 
@@ -59,6 +60,7 @@ class _CitySearchBottomSheetState extends ConsumerState<CitySearchBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final bottomPadding = MediaQuery.viewInsetsOf(context).bottom;
 
     return Container(
@@ -84,8 +86,8 @@ class _CitySearchBottomSheetState extends ConsumerState<CitySearchBottomSheet> {
           ),
 
           // ── Title ───────────────────────────────────────────
-          const Text('Search City',
-              style: TextStyle(
+          Text(l.searchCityTitle,
+              style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: IthakiTheme.textPrimary)),
@@ -97,7 +99,7 @@ class _CitySearchBottomSheetState extends ConsumerState<CitySearchBottomSheet> {
             autofocus: true,
             onChanged: _onChanged,
             decoration: InputDecoration(
-              hintText: 'Type a city name...',
+              hintText: l.typeCityHint,
               hintStyle: const TextStyle(
                   color: IthakiTheme.softGraphite, fontSize: 14),
               prefixIcon: const Icon(Icons.search, color: IthakiTheme.softGraphite),
@@ -135,8 +137,8 @@ class _CitySearchBottomSheetState extends ConsumerState<CitySearchBottomSheet> {
                     child: Center(
                       child: Text(
                         _ctrl.text.length < 2
-                            ? 'Type at least 2 characters'
-                            : 'No cities found',
+                            ? l.citySearchTypeMore
+                            : l.citySearchNoResults,
                         style: const TextStyle(
                             fontSize: 14, color: IthakiTheme.textSecondary),
                       ),

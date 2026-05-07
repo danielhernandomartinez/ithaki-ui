@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../l10n/app_localizations.dart';
 
 class NavItem {
   final String icon;
@@ -164,6 +165,7 @@ class _ProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final pct = (progress * 100).round();
     return Container(
       padding: const EdgeInsets.all(16),
@@ -175,9 +177,9 @@ class _ProfileCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Complete your profile',
-            style: TextStyle(
+          Text(
+            l.homeProfileCompleteYourProfile,
+            style: const TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w700,
               color: IthakiTheme.textPrimary,

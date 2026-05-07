@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/home_provider.dart';
 
 class HomeSearchSection extends ConsumerWidget {
@@ -17,9 +18,9 @@ class HomeSearchSection extends ConsumerWidget {
             border: Border.all(color: IthakiTheme.borderLight),
             borderRadius: BorderRadius.circular(16),
           ),
-          child: const TextField(
+          child: TextField(
             decoration: InputDecoration(
-              hintText: 'Search by job title',
+              hintText: AppLocalizations.of(context)!.searchByJobTitle,
               hintStyle: TextStyle(color: IthakiTheme.softGraphite),
               prefixIcon: Padding(
                 padding: EdgeInsets.all(12),

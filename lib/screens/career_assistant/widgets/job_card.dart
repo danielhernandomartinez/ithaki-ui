@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-
+import '../../../l10n/app_localizations.dart';
 import '../../../routes.dart';
 import '../models/chat_message.dart';
 
@@ -119,7 +119,7 @@ class JobCard extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: IthakiButton(
-              'View Job Details',
+              AppLocalizations.of(context)!.viewJobDetails,
               onPressed: () => context.push(Routes.jobSearchDetailFor('job-2')),
             ),
           ),

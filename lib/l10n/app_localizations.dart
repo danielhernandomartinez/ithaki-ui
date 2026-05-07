@@ -4269,6 +4269,343 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Responsibilities'**
   String get responsibilitiesTitle;
+
+  /// No description provided for @errorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String errorMessage(String error);
+
+  /// No description provided for @assessmentNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Assessment not found'**
+  String get assessmentNotFound;
+
+  /// No description provided for @testDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Test Details'**
+  String get testDetails;
+
+  /// No description provided for @startTest.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Test'**
+  String get startTest;
+
+  /// No description provided for @viewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get viewDetails;
+
+  /// No description provided for @inCv.
+  ///
+  /// In en, this message translates to:
+  /// **'In CV'**
+  String get inCv;
+
+  /// No description provided for @showInCv.
+  ///
+  /// In en, this message translates to:
+  /// **'Show in CV'**
+  String get showInCv;
+
+  /// No description provided for @questionsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} questions'**
+  String questionsCount(int count);
+
+  /// No description provided for @durationMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} min'**
+  String durationMinutes(int count);
+
+  /// No description provided for @rangeNumberSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a number from {min} to {max}, where {min} means \"{minLabel}\" and {max} means \"{maxLabel}\".'**
+  String rangeNumberSubtitle(
+      int min, int max, String minLabel, String maxLabel);
+
+  /// No description provided for @addJobInterestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Job Interest'**
+  String get addJobInterestTitle;
+
+  /// No description provided for @searchCityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search City'**
+  String get searchCityTitle;
+
+  /// No description provided for @typeCityHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a city name...'**
+  String get typeCityHint;
+
+  /// No description provided for @citySearchTypeMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Type at least 2 characters'**
+  String get citySearchTypeMore;
+
+  /// No description provided for @citySearchNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No cities found'**
+  String get citySearchNoResults;
+
+  /// No description provided for @photoFileLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'5 MB max · PNG or JPG'**
+  String get photoFileLimit;
+
+  /// No description provided for @photoRecommendation.
+  ///
+  /// In en, this message translates to:
+  /// **'We recommend a professional photo that clearly shows your face.'**
+  String get photoRecommendation;
+
+  /// No description provided for @uploadPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Photo'**
+  String get uploadPhoto;
+
+  /// No description provided for @replacePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace Photo'**
+  String get replacePhoto;
+
+  /// No description provided for @screeningQuestionsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Here are your answers to a few questions from the employer'**
+  String get screeningQuestionsSubtitle;
+
+  /// No description provided for @toJobDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'To Job Details'**
+  String get toJobDetails;
+
+  /// No description provided for @whatWeOfferTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What we offer'**
+  String get whatWeOfferTitle;
+
+  /// No description provided for @employeeReviewsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Employee Reviews'**
+  String get employeeReviewsTitle;
+
+  /// No description provided for @applyButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get applyButton;
+
+  /// No description provided for @shareLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Share:'**
+  String get shareLabel;
+
+  /// No description provided for @readArticle.
+  ///
+  /// In en, this message translates to:
+  /// **'Read Article'**
+  String get readArticle;
+
+  /// No description provided for @chatGetStartedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You can get started with an example below'**
+  String get chatGetStartedHint;
+
+  /// No description provided for @chatWithCareerAssistant.
+  ///
+  /// In en, this message translates to:
+  /// **'Chat with your\nCareer Assistant'**
+  String get chatWithCareerAssistant;
+
+  /// No description provided for @chatHistorySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You can search across all your previous chats by keywords or phrases.'**
+  String get chatHistorySubtitle;
+
+  /// No description provided for @chatHistorySearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a word or phrase to find messages...'**
+  String get chatHistorySearchHint;
+
+  /// No description provided for @chatHistoryToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get chatHistoryToday;
+
+  /// No description provided for @chatHistoryLast7Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get chatHistoryLast7Days;
+
+  /// No description provided for @chatThinking.
+  ///
+  /// In en, this message translates to:
+  /// **'Thinking...'**
+  String get chatThinking;
+
+  /// No description provided for @chatSearchMessagesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search messages...'**
+  String get chatSearchMessagesHint;
+
+  /// No description provided for @culturalFitLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cultural Fit'**
+  String get culturalFitLabel;
+
+  /// No description provided for @savedJobsCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} saved jobs'**
+  String savedJobsCountLabel(String count);
+
+  /// No description provided for @jobsFoundLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} jobs found'**
+  String jobsFoundLabel(String count);
+
+  /// No description provided for @noSavedJobsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No saved jobs yet.'**
+  String get noSavedJobsYet;
+
+  /// No description provided for @notificationsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsLabel;
+
+  /// No description provided for @notificationsScreenSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can see all your news. Stay up to date with important updates.'**
+  String get notificationsScreenSubtitle;
+
+  /// No description provided for @notificationsUnreadCount.
+  ///
+  /// In en, this message translates to:
+  /// **'You have {count} new notifications'**
+  String notificationsUnreadCount(int count);
+
+  /// No description provided for @markAllAsRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get markAllAsRead;
+
+  /// No description provided for @accountInformationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Information'**
+  String get accountInformationTitle;
+
+  /// No description provided for @accountInformationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your account details to keep your account secure and up to date.'**
+  String get accountInformationSubtitle;
+
+  /// No description provided for @profileVisibilityTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Visibility'**
+  String get profileVisibilityTitle;
+
+  /// No description provided for @profileVisibleForEmployers.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Visible for Employers'**
+  String get profileVisibleForEmployers;
+
+  /// No description provided for @profileHiddenFromEmployers.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Hidden from Employers'**
+  String get profileHiddenFromEmployers;
+
+  /// No description provided for @profileVisibilityDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Right now, employers can view your profile and send you invitations. If you prefer more privacy, you can hide your profile — it will only be visible when you apply to a job.'**
+  String get profileVisibilityDescription;
+
+  /// No description provided for @hideProfileFromEmployers.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide Profile from Employers'**
+  String get hideProfileFromEmployers;
+
+  /// No description provided for @showProfileToEmployers.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Profile to Employers'**
+  String get showProfileToEmployers;
+
+  /// No description provided for @digitalComfortTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Digital Comfort'**
+  String get digitalComfortTitle;
+
+  /// No description provided for @digitalComfortExperienced.
+  ///
+  /// In en, this message translates to:
+  /// **'You are experienced tech user'**
+  String get digitalComfortExperienced;
+
+  /// No description provided for @digitalComfortDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re using our full experience right now — perfect for confident tech users. If you ever want a simpler, easier interface, you can switch to the light version whenever you like.'**
+  String get digitalComfortDescription;
+
+  /// No description provided for @tryIthakiLite.
+  ///
+  /// In en, this message translates to:
+  /// **'Try Ithaki Lite'**
+  String get tryIthakiLite;
+
+  /// No description provided for @deleteAnAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete an Account'**
+  String get deleteAnAccount;
+
+  /// No description provided for @deleteAccountTabDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanently remove your account and all related data from the system. This action cannot be undone.'**
+  String get deleteAccountTabDescription;
 }
 
 class _AppLocalizationsDelegate

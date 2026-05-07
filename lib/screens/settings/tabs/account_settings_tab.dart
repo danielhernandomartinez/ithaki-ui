@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/profile_provider.dart';
 import '../sheets/change_email_sheet.dart';
 import '../sheets/change_password_sheet.dart';
@@ -15,6 +15,7 @@ class AccountSettingsTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final profile = ref.watch(profileBasicsProvider).value;
     final profileVisible = ref.watch(profileVisibleProvider).value ?? false;
 
@@ -27,7 +28,7 @@ class AccountSettingsTab extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Account Information',
+                l10n.accountInformationTitle,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -36,13 +37,13 @@ class AccountSettingsTab extends ConsumerWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                'Manage your account details to keep your account secure and up to date.',
+                l10n.accountInformationSubtitle,
                 style:
                     TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
               ),
               const SizedBox(height: 16),
               Text(
-                'Email',
+                l10n.email,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: IthakiTheme.textPrimary,
@@ -56,7 +57,7 @@ class AccountSettingsTab extends ConsumerWidget {
               ),
               const SizedBox(height: 8),
               IthakiOutlineButton(
-                'Change Email',
+                l10n.changeEmailTitle,
                 icon: IthakiIcon('edit-pencil', size: 14),
                 onPressed: () => _showSheet(
                   context,
@@ -67,7 +68,7 @@ class AccountSettingsTab extends ConsumerWidget {
               Divider(color: IthakiTheme.borderLight, thickness: 1),
               const SizedBox(height: 12),
               Text(
-                'Phone Number',
+                l10n.phoneNumberLabel,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: IthakiTheme.textPrimary,
@@ -81,7 +82,7 @@ class AccountSettingsTab extends ConsumerWidget {
               ),
               const SizedBox(height: 8),
               IthakiOutlineButton(
-                'Change Phone Number',
+                l10n.changePhoneTitle,
                 icon: IthakiIcon('edit-pencil', size: 14),
                 onPressed: () => _showSheet(
                   context,
@@ -92,7 +93,7 @@ class AccountSettingsTab extends ConsumerWidget {
               Divider(color: IthakiTheme.borderLight, thickness: 1),
               const SizedBox(height: 12),
               IthakiOutlineButton(
-                'Change Password',
+                l10n.changePasswordTitle,
                 icon: IthakiIcon('edit-pencil', size: 14),
                 onPressed: () => _showSheet(
                   context,
@@ -109,7 +110,7 @@ class AccountSettingsTab extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Profile Visibility',
+                l10n.profileVisibilityTitle,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: IthakiTheme.textPrimary,
@@ -133,8 +134,8 @@ class AccountSettingsTab extends ConsumerWidget {
                     const SizedBox(width: 4),
                     Text(
                       profileVisible
-                          ? 'Profile Visible for Employers'
-                          : 'Profile Hidden from Employers',
+                          ? l10n.profileVisibleForEmployers
+                          : l10n.profileHiddenFromEmployers,
                       style: const TextStyle(fontSize: 13),
                     ),
                   ],
@@ -142,21 +143,21 @@ class AccountSettingsTab extends ConsumerWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'Right now, employers can view your profile and send you invitations. If you prefer more privacy, you can hide your profile — it will only be visible when you apply to a job.',
+                l10n.profileVisibilityDescription,
                 style:
                     TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
               ),
               const SizedBox(height: 12),
               profileVisible
                   ? IthakiOutlineButton(
-                      'Hide Profile from Employers',
+                      l10n.hideProfileFromEmployers,
                       onPressed: () => _showSheet(
                         context,
                         const MakeInvisibleSheet(),
                       ),
                     )
                   : IthakiOutlineButton(
-                      'Show Profile to Employers',
+                      l10n.showProfileToEmployers,
                       icon: IthakiIcon('eye', size: 14),
                       onPressed: () =>
                           ref.read(profileVisibleProvider.notifier).toggle(),
@@ -171,7 +172,7 @@ class AccountSettingsTab extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Digital Comfort',
+                l10n.digitalComfortTitle,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: IthakiTheme.textPrimary,
@@ -180,7 +181,7 @@ class AccountSettingsTab extends ConsumerWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'You are experienced tech user',
+                l10n.digitalComfortExperienced,
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
@@ -189,13 +190,13 @@ class AccountSettingsTab extends ConsumerWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                "You're using our full experience right now — perfect for confident tech users. If you ever want a simpler, easier interface, you can switch to the light version whenever you like.",
+                l10n.digitalComfortDescription,
                 style:
                     TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
               ),
               const SizedBox(height: 12),
               IthakiOutlineButton(
-                'Try Ithaki Lite',
+                l10n.tryIthakiLite,
                 onPressed: () => _showSheet(
                   context,
                   SwitchLiteSheet(parentContext: context),
@@ -210,9 +211,9 @@ class AccountSettingsTab extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Delete an Account',
-                style: TextStyle(
+              Text(
+                l10n.deleteAnAccount,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: IthakiTheme.textPrimary,
@@ -220,13 +221,13 @@ class AccountSettingsTab extends ConsumerWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                'Permanently remove your account and all related data from the system. This action cannot be undone.',
+                l10n.deleteAccountTabDescription,
                 style:
                     TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
               ),
               const SizedBox(height: 12),
               IthakiOutlineButton(
-                'Delete an Account',
+                l10n.deleteAnAccount,
                 icon: IthakiIcon('delete', size: 14, color: Colors.red),
                 onPressed: () => _showSheet(
                   context,

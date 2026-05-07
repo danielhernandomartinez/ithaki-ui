@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../l10n/app_localizations.dart';
 
 import '../../constants/nav_items.dart';
 import '../../mixins/panel_menu_mixin.dart';
@@ -105,7 +106,7 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
           // ── Main content ────────────────────────────────────────────────────
           assessmentsAsync.when(
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => Center(child: Text('Error: $e')),
+            error: (e, _) => Center(child: Text(AppLocalizations.of(context)!.errorMessage(e.toString()))),
             data: (assessments) {
               final inProgress = assessments
                   .where((a) => a.status == AssessmentStatus.inProgress)
@@ -128,7 +129,7 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
                       child: KeyedSubtree(
                         key: tourState?.currentStep == 13 ? tourKeys[13] : null,
                         child: IthakiButton(
-                          'Start New Assessment',
+                          AppLocalizations.of(context)!.assessmentStartNew,
                           onPressed: recommended.isNotEmpty
                               ? () => _onStartTest(context, recommended.first)
                               : null,
@@ -140,13 +141,13 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: _SectionHeader(
-                            'Assessments in Progress (${inProgress.length})'),
+                            AppLocalizations.of(context)!.assessmentsInProgressTitle(inProgress.length)),
                       ),
                       const SizedBox(height: 4),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
-                          'You have assessments in progress. Complete them to see your results.',
+                          AppLocalizations.of(context)!.assessmentsInProgressSubtitle,
                           style: IthakiTheme.bodySmall
                               .copyWith(color: IthakiTheme.textSecondary),
                         ),
@@ -170,14 +171,14 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
                       const SizedBox(height: 8),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: const _SectionHeader(
-                            'Assessments recommended for you'),
+                        child: _SectionHeader(
+                            AppLocalizations.of(context)!.assessmentsRecommendedForYou),
                       ),
                       const SizedBox(height: 4),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
-                          'We recommend these assessments to help you validate your skills.',
+                          AppLocalizations.of(context)!.assessmentsRecommendedSubtitle,
                           style: IthakiTheme.bodySmall
                               .copyWith(color: IthakiTheme.textSecondary),
                         ),
@@ -202,13 +203,13 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child:
-                            const _SectionHeader('Your Completed Assessments'),
+                            _SectionHeader(AppLocalizations.of(context)!.assessmentsCompletedTitle),
                       ),
                       const SizedBox(height: 4),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
-                          'Here are your completed assessments and results.',
+                          AppLocalizations.of(context)!.assessmentsCompletedSubtitle,
                           style: IthakiTheme.bodySmall
                               .copyWith(color: IthakiTheme.textSecondary),
                         ),
@@ -338,6 +339,7 @@ class _StartAssessmentSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(24),
@@ -353,7 +355,7 @@ class _StartAssessmentSheet extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Start the Assessment',
+                  l.assessmentStartTitle,
                   style: IthakiTheme.headingMedium
                       .copyWith(fontWeight: FontWeight.w700),
                 ),
@@ -367,7 +369,7 @@ class _StartAssessmentSheet extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            'You are about to start the following assessment',
+            l.assessmentStartSubtitle,
             style: IthakiTheme.bodySmall
                 .copyWith(color: IthakiTheme.textSecondary),
           ),
@@ -419,21 +421,21 @@ class _StartAssessmentSheet extends StatelessWidget {
                   children: [
                     _MetaItem(
                       icon: 'clock',
-                      label: 'Approximate Duration',
-                      value: '${assessment.durationMinutes} min',
+                      label: l.assessmentApproxDuration,
+                      value: l.durationMinutes(assessment.durationMinutes),
                     ),
                     const SizedBox(width: 24),
                     _MetaItem(
                       icon: 'assessment',
-                      label: 'Questions',
-                      value: '${assessment.questionCount} questions',
+                      label: l.assessmentQuestionsLabel,
+                      value: l.questionsCount(assessment.questionCount),
                     ),
                   ],
                 ),
                 const SizedBox(height: 12),
                 _MetaItem(
                   icon: 'flag',
-                  label: 'Language',
+                  label: l.languageFieldLabel,
                   value: assessment.language,
                 ),
               ],
@@ -441,7 +443,7 @@ class _StartAssessmentSheet extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Text(
-            'Before you start',
+            l.assessmentBeforeStart,
             style: IthakiTheme.bodySmallSemiBold,
           ),
           const SizedBox(height: 8),
@@ -472,7 +474,7 @@ class _StartAssessmentSheet extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          IthakiButton('Start now', onPressed: onStart),
+          IthakiButton(l.assessmentStartNow, onPressed: onStart),
           const SizedBox(height: 8),
         ],
       ),
@@ -526,6 +528,7 @@ class _ContinueAssessmentSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(24),
@@ -541,7 +544,7 @@ class _ContinueAssessmentSheet extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Continue your assessment?',
+                  l.assessmentContinueTitle,
                   style: IthakiTheme.headingMedium
                       .copyWith(fontWeight: FontWeight.w700),
                 ),
@@ -555,8 +558,7 @@ class _ContinueAssessmentSheet extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            "You've already started this assessment and have saved progress. "
-            "Would you like to continue where you left off or start over?",
+            l.assessmentContinueSubtitle,
             style: IthakiTheme.bodySmall
                 .copyWith(color: IthakiTheme.textSecondary),
           ),
@@ -564,12 +566,11 @@ class _ContinueAssessmentSheet extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child:
-                    IthakiOutlineButton('Start over', onPressed: onStartOver),
+                child: IthakiOutlineButton(l.assessmentStartOver, onPressed: onStartOver),
               ),
               const SizedBox(width: 8),
               Expanded(
-                child: IthakiButton('Continue', onPressed: onContinue),
+                child: IthakiButton(l.continueButton, onPressed: onContinue),
               ),
             ],
           ),

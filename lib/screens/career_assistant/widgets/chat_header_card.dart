@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../l10n/app_localizations.dart';
 
 class ChatHeaderCard extends StatelessWidget {
   final VoidCallback onMenu;
@@ -16,10 +17,10 @@ class ChatHeaderCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Expanded(
+          Expanded(
             child: Text(
-              'Chat with your\nCareer Assistant',
-              style: TextStyle(
+              AppLocalizations.of(context)!.chatWithCareerAssistant,
+              style: const TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: 16,
                 fontWeight: FontWeight.w700,

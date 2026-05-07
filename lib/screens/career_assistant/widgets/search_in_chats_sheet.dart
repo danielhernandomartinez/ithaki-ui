@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-
+import '../../../l10n/app_localizations.dart';
 import '../models/chat_mock_data.dart';
 import 'chat_history_sheet.dart';
 
@@ -30,6 +30,7 @@ class _SearchInChatsSheetState extends State<SearchInChatsSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final bottom = MediaQuery.viewInsetsOf(context).bottom;
     final results = _results;
 
@@ -57,10 +58,10 @@ class _SearchInChatsSheetState extends State<SearchInChatsSheet> {
           const SizedBox(height: 16),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Search in Chats',
-                  style: TextStyle(
+                  l.chatSearchInChats,
+                  style: const TextStyle(
                     fontFamily: 'Noto Sans',
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -80,7 +81,7 @@ class _SearchInChatsSheetState extends State<SearchInChatsSheet> {
             autofocus: true,
             onChanged: (v) => setState(() => _query = v.toLowerCase()),
             decoration: InputDecoration(
-              hintText: 'Search messages...',
+              hintText: l.chatSearchMessagesHint,
               hintStyle: const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
               prefixIcon: const Padding(
                 padding: EdgeInsets.only(left: 12, right: 8),
@@ -113,10 +114,10 @@ class _SearchInChatsSheetState extends State<SearchInChatsSheet> {
           ],
           if (_query.isNotEmpty && results.isEmpty) ...[
             const SizedBox(height: 16),
-            const Center(
+            Center(
               child: Text(
-                'No results found',
-                style: TextStyle(
+                l.quizNoResults,
+                style: const TextStyle(
                   fontFamily: 'Noto Sans',
                   fontSize: 14,
                   color: IthakiTheme.textSecondary,

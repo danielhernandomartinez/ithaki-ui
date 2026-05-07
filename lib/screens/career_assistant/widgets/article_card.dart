@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-
+import '../../../l10n/app_localizations.dart';
 import '../../../routes.dart';
 import '../models/chat_message.dart';
 
@@ -49,7 +49,7 @@ class ArticleCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'by ${card.author}',
+                      AppLocalizations.of(context)!.blogArticleBy(card.author),
                       style: const TextStyle(
                         fontFamily: 'Noto Sans',
                         fontSize: 12,
@@ -76,7 +76,7 @@ class ArticleCard extends StatelessWidget {
             child: SizedBox(
               width: double.infinity,
               child: IthakiButton(
-                'Read Article',
+                AppLocalizations.of(context)!.readArticle,
                 onPressed: () => context.push(Routes.blogArticleFor('article_1')),
               ),
             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-
+import '../../l10n/app_localizations.dart';
 import 'tabs/account_settings_tab.dart';
 import 'tabs/notifications_tab.dart';
 
@@ -24,15 +24,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
       appBar: IthakiAppBar(
         showBackButton: true,
-        title: _tabIndex == 0 ? 'Account Settings' : 'Notifications',
+        title: _tabIndex == 0 ? l10n.accountSettings : l10n.notificationsLabel,
       ),
       body: Column(
         children: [
-          _buildTabBar(),
+          _buildTabBar(l10n),
           Expanded(
             child: IndexedStack(
               index: _tabIndex,
@@ -55,7 +56,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 
-  Widget _buildTabBar() {
+  Widget _buildTabBar(AppLocalizations l10n) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       height: 48,
@@ -66,9 +67,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       padding: const EdgeInsets.all(4),
       child: Row(
         children: [
-          Expanded(child: _tabPill('Account Settings', 0)),
+          Expanded(child: _tabPill(l10n.accountSettings, 0)),
           const SizedBox(width: 6),
-          Expanded(child: _tabPill('Notifications', 1)),
+          Expanded(child: _tabPill(l10n.notificationsLabel, 1)),
         ],
       ),
     );
