@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../routes.dart';
 
@@ -10,6 +11,7 @@ class ProfileJobPreferencesTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final prefs = ref.watch(profileJobPreferencesProvider).value;
     if (prefs == null) return const SizedBox.shrink();
     return Container(
@@ -20,23 +22,24 @@ class ProfileJobPreferencesTab extends ConsumerWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text(
-          'Job Preferences',
-          style: TextStyle(
+        Text(
+          l.editJobPreferencesTitle,
+          style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: IthakiTheme.textPrimary),
         ),
         const SizedBox(height: 4),
-        const Text(
-          'This shows the job you are currently looking for. You can change this anytime.',
-          style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+        Text(
+          l.jobPreferencesTabDescription,
+          style:
+              const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 16),
         if (prefs.jobInterests.isNotEmpty) ...[
-          const Text(
-            'Job Interests',
-            style: TextStyle(
+          Text(
+            l.jobInterestsHeading,
+            style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 color: IthakiTheme.textPrimary),
@@ -45,24 +48,24 @@ class ProfileJobPreferencesTab extends ConsumerWidget {
           ...prefs.jobInterests.map(_jobInterestCard),
           const SizedBox(height: 8),
         ],
-        const Text(
-          'Preferences',
-          style: TextStyle(
+        Text(
+          l.preferencesSectionTitle,
+          style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: IthakiTheme.textPrimary),
         ),
         const SizedBox(height: 8),
-        _prefGrid(prefs),
+        _prefGrid(prefs, l),
         const SizedBox(height: 12),
         OutlinedButton.icon(
           onPressed: () => context.push(Routes.profileJobPreferences),
           icon: const IthakiIcon('edit-pencil', size: 16),
-          label: const Text('Edit Jobs Preferences'),
+          label: Text(l.editJobsPreferences),
           style: OutlinedButton.styleFrom(
             side: BorderSide(color: Colors.grey.shade300),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             foregroundColor: IthakiTheme.textPrimary,
           ),
@@ -88,8 +91,8 @@ class ProfileJobPreferencesTab extends ConsumerWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             alignment: Alignment.center,
-            child: const IthakiIcon('rocket', size: 20,
-                color: IthakiTheme.primaryPurple),
+            child: const IthakiIcon('rocket',
+                size: 20, color: IthakiTheme.primaryPurple),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -110,32 +113,35 @@ class ProfileJobPreferencesTab extends ConsumerWidget {
         ]),
       );
 
-  Widget _prefGrid(ProfileJobPreferences prefs) {
+  Widget _prefGrid(ProfileJobPreferences prefs, AppLocalizations l) {
     final salary = prefs.preferNotToSpecifySalary
-        ? 'Not specified'
+        ? l.notSpecified
         : prefs.expectedSalary != null
             ? '${prefs.expectedSalary!.toStringAsFixed(0)} € / month'
             : '—';
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFF2F2F2),
+        color: IthakiTheme.softGray,
         borderRadius: BorderRadius.circular(24),
       ),
       padding: const EdgeInsets.all(12),
       child: Column(children: [
         Row(children: [
-          Expanded(child: _prefCell('briefcase-work', 'Workspace',
-              prefs.workplace.isNotEmpty ? prefs.workplace : '—')),
+          Expanded(
+              child: _prefCell('briefcase-work', l.workspaceLabel,
+                  prefs.workplace.isNotEmpty ? prefs.workplace : '—')),
           const SizedBox(width: 10),
-          Expanded(child: _prefCell('clock', 'Job Type',
-              prefs.jobType.isNotEmpty ? prefs.jobType : '—')),
+          Expanded(
+              child: _prefCell('clock', l.jobTypeTitle,
+                  prefs.jobType.isNotEmpty ? prefs.jobType : '—')),
         ]),
         const SizedBox(height: 10),
         Row(children: [
-          Expanded(child: _prefCell('level', 'Level',
-              prefs.positionLevel.isNotEmpty ? prefs.positionLevel : '—')),
+          Expanded(
+              child: _prefCell('level', l.levelLabel,
+                  prefs.positionLevel.isNotEmpty ? prefs.positionLevel : '—')),
           const SizedBox(width: 10),
-          Expanded(child: _prefCell('bank-note', 'Desired Salary', salary)),
+          Expanded(child: _prefCell('bank-note', l.desiredSalaryLabel, salary)),
         ]),
       ]),
     );
@@ -146,7 +152,8 @@ class ProfileJobPreferencesTab extends ConsumerWidget {
         IthakiIcon(iconName, size: 20, color: IthakiTheme.softGraphite),
         const SizedBox(width: 8),
         Expanded(
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
               label,
               maxLines: 1,

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../constants/nav_items.dart';
+import '../../l10n/app_localizations.dart';
 import '../../mixins/panel_menu_mixin.dart';
 import '../../models/job_detail_models.dart';
 import '../../providers/home_provider.dart';
@@ -50,6 +51,7 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final homeData = ref.watch(homeProvider).value;
     final detailAsync = ref.watch(jobDetailProvider(widget.jobId));
     final searchState = ref.watch(jobSearchProvider).value;
@@ -72,11 +74,11 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
       error: (_, __) => _shell(context, homeData, topOffset, isSaved,
           child: Center(
             child: Column(mainAxisSize: MainAxisSize.min, children: [
-              const Text('Could not load job.',
-                  style:
-                      TextStyle(color: IthakiTheme.textPrimary, fontSize: 16)),
+              Text(l.jobLoadError,
+                  style: const TextStyle(
+                      color: IthakiTheme.textPrimary, fontSize: 16)),
               const SizedBox(height: 16),
-              IthakiButton('Try Again',
+              IthakiButton(l.tryAgain,
                   onPressed: () =>
                       ref.invalidate(jobDetailProvider(widget.jobId))),
             ]),
@@ -212,11 +214,10 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
       );
 
   void _toggleSave(BuildContext context, bool isSaved) {
+    final l = AppLocalizations.of(context)!;
     ref.read(jobSearchProvider.notifier).toggleSaved(widget.jobId);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(isSaved
-          ? 'Removed from saved jobs.'
-          : 'Job has been saved! Check your saved jobs.'),
+      content: Text(isSaved ? l.jobRemovedFromSaved : l.jobSavedMessage),
       duration: const Duration(seconds: 3),
     ));
   }
@@ -251,14 +252,15 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
   }
 
   void _onNotInterested(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     ref
         .read(jobDetailInteractionProvider(widget.jobId).notifier)
         .markNotInterested();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: const Text('Job post has been removed'),
+      content: Text(l.jobPostRemoved),
       duration: const Duration(seconds: 5),
       action: SnackBarAction(
-        label: 'Undo',
+        label: l.undo,
         onPressed: () => ref
             .read(jobDetailInteractionProvider(widget.jobId).notifier)
             .undoNotInterested(),
@@ -280,13 +282,13 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
       ),
     );
     if (set == true && context.mounted) {
+      final l = AppLocalizations.of(context)!;
       ref
           .read(jobDetailInteractionProvider(widget.jobId).notifier)
           .setReminder();
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text(
-            'Deadline Reminder has been set. We will notify you a week before the deadline'),
-        duration: Duration(seconds: 4),
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(l.deadlineReminderSet),
+        duration: const Duration(seconds: 4),
       ));
     }
   }
@@ -299,14 +301,15 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
       builder: (_) => const ReportJobSheet(),
     );
     if (reported == true && context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Job post has been reported'),
-        duration: Duration(seconds: 3),
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(AppLocalizations.of(context)!.jobReportedMessage),
+        duration: const Duration(seconds: 3),
       ));
     }
   }
 
   void _showShareMenu(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final box = _shareKey.currentContext?.findRenderObject() as RenderBox?;
     final position = box != null
         ? RelativeRect.fromRect(
@@ -318,22 +321,22 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
       context: context,
       position: position,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      items: const [
+      items: [
         PopupMenuItem(
             value: 'link',
-            child: JobDetailShareOption(icon: 'resume', label: 'Copy Link')),
+            child: JobDetailShareOption(icon: 'resume', label: l.copyLink)),
         PopupMenuItem(
             value: 'whatsapp',
-            child: JobDetailShareOption(
-                icon: 'phone', label: 'Share WhatsApp/SMS')),
+            child:
+                JobDetailShareOption(icon: 'phone', label: l.shareWhatsappSms)),
         PopupMenuItem(
             value: 'email',
-            child: JobDetailShareOption(
-                icon: 'envelope', label: 'Share in Email')),
+            child:
+                JobDetailShareOption(icon: 'envelope', label: l.shareInEmail)),
         PopupMenuItem(
             value: 'linkedin',
             child:
-                JobDetailShareOption(icon: 'team', label: 'Share on LinkedIn')),
+                JobDetailShareOption(icon: 'team', label: l.shareOnLinkedIn)),
       ],
     );
   }

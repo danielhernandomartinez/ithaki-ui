@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../../../l10n/app_localizations.dart';
+
 void showVerificationSheet(
   BuildContext context, {
   required String newValue,
@@ -48,15 +50,18 @@ class _VerificationSheetState extends State<VerificationSheet>
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+    final contactType = widget.isEmail ? l.emailLabel : l.phoneNumberLabel;
+
     return BottomSheetBase(
-      title: 'Verification',
+      title: l.verificationTitle,
       onClose: () => Navigator.pop(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'New ${widget.isEmail ? 'Email' : 'Phone Number'}',
-            style: TextStyle(
+            l.newValueLabel(contactType),
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: IthakiTheme.textPrimary,
             ),
@@ -64,12 +69,14 @@ class _VerificationSheetState extends State<VerificationSheet>
           const SizedBox(height: 4),
           Text(
             widget.newValue,
-            style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+            style:
+                const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 8),
           Text(
-            'A 6-digit code was sent to your ${widget.isEmail ? 'phone via SMS' : 'email'}.',
-            style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+            l.codeSentToContact(widget.isEmail ? l.phoneViaSms : l.emailLabel),
+            style:
+                const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 16),
           MaterialPinField(
@@ -86,7 +93,7 @@ class _VerificationSheetState extends State<VerificationSheet>
               focusedFillColor: IthakiTheme.backgroundWhite,
               filledBorderColor: IthakiTheme.primaryPurple,
               filledFillColor: IthakiTheme.backgroundWhite,
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
                 color: IthakiTheme.textPrimary,
@@ -99,20 +106,18 @@ class _VerificationSheetState extends State<VerificationSheet>
           IthakiResendTimer(
             canResend: countdownCanResend,
             secondsLeft: countdownSeconds,
-            label: 'Resend code',
+            label: l.resendCode,
             onResend: () => startCountdown(24),
           ),
           const SizedBox(height: 20),
           IthakiButton(
-            'Submit',
+            l.submit,
             onPressed: _otp.length == 6
                 ? () {
                     Navigator.pop(context);
                     SuccessBanner.show(
                       widget.parentContext,
-                      widget.isEmail
-                          ? 'Your email has been changed.'
-                          : 'Your phone number has been changed.',
+                      widget.isEmail ? l.changedEmail : l.changedPhone,
                     );
                   }
                 : null,

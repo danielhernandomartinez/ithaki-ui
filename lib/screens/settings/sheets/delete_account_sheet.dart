@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../l10n/app_localizations.dart';
+
 class DeleteAccountSheet extends StatefulWidget {
   final BuildContext parentContext;
   const DeleteAccountSheet({super.key, required this.parentContext});
@@ -21,22 +23,24 @@ class _DeleteAccountSheetState extends State<DeleteAccountSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final canDelete = _ctrl.text.toLowerCase() == 'delete';
 
     return BottomSheetBase(
-      title: 'Confirm Account Deletion',
+      title: l.confirmAccountDeletion,
       onClose: () => Navigator.pop(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'To permanently delete your account, please type delete in the field below.\nThis action cannot be undone — all your data will be removed forever.',
-            style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+            l.deleteAccountDescription,
+            style:
+                const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 16),
           IthakiTextField(
-            label: "Type 'delete' to confirm",
-            hint: 'Enter "delete"',
+            label: l.typeDeleteToConfirm,
+            hint: l.enterDeleteHint,
             controller: _ctrl,
             onChanged: (_) => setState(() {}),
           ),
@@ -53,7 +57,7 @@ class _DeleteAccountSheetState extends State<DeleteAccountSheet> {
                 foregroundColor: IthakiTheme.textPrimary,
                 padding: const EdgeInsets.symmetric(vertical: 14),
               ),
-              child: const Text('Cancel'),
+              child: Text(l.cancel),
             ),
           ),
           const SizedBox(height: 10),
@@ -75,7 +79,7 @@ class _DeleteAccountSheetState extends State<DeleteAccountSheet> {
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 14),
               ),
-              child: const Text('Delete Account'),
+              child: Text(l.deleteAccountButton),
             ),
           ),
           const SizedBox(height: 8),

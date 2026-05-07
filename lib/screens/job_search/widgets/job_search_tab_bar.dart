@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/job_search_provider.dart';
 
 class JobSearchTabBar extends ConsumerWidget {
@@ -8,7 +9,9 @@ class JobSearchTabBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final selectedTab = ref.watch(jobSearchProvider).value?.selectedTab ?? 0;
+    final savedCount = ref.watch(jobSearchProvider).value?.savedCount ?? 0;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -21,10 +24,10 @@ class JobSearchTabBar extends ConsumerWidget {
         padding: const EdgeInsets.all(4),
         child: Row(
           children: [
-            _TabItem(label: 'All Jobs', index: 0, selectedTab: selectedTab),
+            _TabItem(label: l.tabAllJobs, index: 0, selectedTab: selectedTab),
             const SizedBox(width: 4),
             _TabItem(
-              label: 'Saved (${ref.watch(jobSearchProvider).value?.savedCount ?? 0})',
+              label: l.tabSavedJobs(savedCount),
               index: 1,
               selectedTab: selectedTab,
             ),
@@ -57,9 +60,8 @@ class _TabItem extends ConsumerWidget {
           height: double.infinity,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: isSelected
-                ? IthakiTheme.backgroundWhite
-                : Colors.transparent,
+            color:
+                isSelected ? IthakiTheme.backgroundWhite : Colors.transparent,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(

@@ -87,9 +87,10 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
                 fontWeight: FontWeight.w700,
                 color: IthakiTheme.textPrimary)),
         const SizedBox(height: 6),
-        const Text(
+        Text(
           l.aboutMeEditDescription,
-          style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+          style:
+              const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 24),
 
@@ -100,9 +101,10 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
                 fontWeight: FontWeight.w600,
                 color: IthakiTheme.textPrimary)),
         const SizedBox(height: 6),
-        const Text(
+        Text(
           l.addBioDescription,
-          style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+          style:
+              const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 12),
         TextField(
@@ -148,9 +150,10 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
                 fontWeight: FontWeight.w600,
                 color: IthakiTheme.textPrimary)),
         const SizedBox(height: 6),
-        const Text(
+        Text(
           l.addVideoDescription,
-          style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+          style:
+              const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 12),
 

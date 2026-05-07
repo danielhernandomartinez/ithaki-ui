@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../l10n/app_localizations.dart';
 
 class ReportJobSheet extends StatefulWidget {
   const ReportJobSheet({super.key});
@@ -29,6 +30,7 @@ class _ReportJobSheetState extends State<ReportJobSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final bottom = MediaQuery.viewInsetsOf(context).bottom;
     return Container(
       decoration: const BoxDecoration(
@@ -44,7 +46,8 @@ class _ReportJobSheetState extends State<ReportJobSheet> {
             const SizedBox(height: 12),
             Center(
               child: Container(
-                width: 40, height: 4,
+                width: 40,
+                height: 4,
                 decoration: BoxDecoration(
                   color: IthakiTheme.borderLight,
                   borderRadius: BorderRadius.circular(2),
@@ -54,34 +57,40 @@ class _ReportJobSheetState extends State<ReportJobSheet> {
             const SizedBox(height: 16),
             Row(
               children: [
-                const Expanded(
-                  child: Text('Report this job?',
-                      style: TextStyle(
-                        fontFamily: 'Noto Sans', fontSize: 20,
-                        fontWeight: FontWeight.w700, color: IthakiTheme.textPrimary,
+                Expanded(
+                  child: Text(l.reportJobTitle,
+                      style: const TextStyle(
+                        fontFamily: 'Noto Sans',
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: IthakiTheme.textPrimary,
                       )),
                 ),
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
-                  child: const IthakiIcon('delete', size: 22, color: IthakiTheme.softGraphite),
+                  child: const IthakiIcon('delete',
+                      size: 22, color: IthakiTheme.softGraphite),
                 ),
               ],
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Reporting jobs helps us keep the job postings at the highest quality levels.',
-              style: TextStyle(
-                fontFamily: 'Noto Sans', fontSize: 14,
-                color: IthakiTheme.softGraphite, height: 1.5,
+            Text(
+              l.reportJobDescription,
+              style: const TextStyle(
+                fontFamily: 'Noto Sans',
+                fontSize: 14,
+                color: IthakiTheme.softGraphite,
+                height: 1.5,
               ),
             ),
             const SizedBox(height: 20),
             DropdownButtonFormField<String>(
               initialValue: _reason,
-              hint: const Text('Select Reason',
+              hint: Text(l.selectReasonHint,
                   style: TextStyle(color: IthakiTheme.textSecondary)),
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: const BorderSide(color: IthakiTheme.borderLight),
@@ -104,29 +113,36 @@ class _ReportJobSheetState extends State<ReportJobSheet> {
                   controller: _noteController,
                   maxLines: 8,
                   maxLength: _maxChars,
-                  buildCounter: (_, {required currentLength, required isFocused, maxLength}) =>
+                  buildCounter: (_,
+                          {required currentLength,
+                          required isFocused,
+                          maxLength}) =>
                       const SizedBox.shrink(),
                   onChanged: (_) => setState(() {}),
                   decoration: InputDecoration(
-                    hintText: 'Tell us more (optional)',
-                    hintStyle: const TextStyle(color: IthakiTheme.textSecondary),
+                    hintText: l.tellUsMoreOptional,
+                    hintStyle:
+                        const TextStyle(color: IthakiTheme.textSecondary),
                     contentPadding: const EdgeInsets.all(16),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: IthakiTheme.borderLight),
+                      borderSide:
+                          const BorderSide(color: IthakiTheme.borderLight),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: IthakiTheme.borderLight),
+                      borderSide:
+                          const BorderSide(color: IthakiTheme.borderLight),
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Text(
-                    '${_noteController.text.length} / $_maxChars symbols',
+                    l.charactersCounter(_noteController.text.length, _maxChars),
                     style: const TextStyle(
-                      fontFamily: 'Noto Sans', fontSize: 12,
+                      fontFamily: 'Noto Sans',
+                      fontSize: 12,
                       color: IthakiTheme.textSecondary,
                     ),
                   ),
@@ -135,8 +151,9 @@ class _ReportJobSheetState extends State<ReportJobSheet> {
             ),
             const SizedBox(height: 16),
             IthakiButton(
-              'Report this Job',
-              onPressed: _reason != null ? () => Navigator.pop(context, true) : null,
+              l.reportThisJobButton,
+              onPressed:
+                  _reason != null ? () => Navigator.pop(context, true) : null,
             ),
           ],
         ),

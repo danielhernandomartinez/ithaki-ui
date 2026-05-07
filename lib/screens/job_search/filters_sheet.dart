@@ -1,17 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../l10n/app_localizations.dart';
 import 'filter_sub_sheet.dart';
 import 'location_filter_sheet.dart';
 import 'salary_filter_sheet.dart';
 
 const kFilterOptions = {
   'Location': ['Athens', 'Thessaloniki', 'Remote', 'Chalkida', 'Patras'],
-  'Industry': ['IT & Web Development', 'Design & Creative', 'Sales', 'Marketing', 'Customer Service', 'Logistics', 'Finance', 'Healthcare'],
-  'Skills': ['Flutter', 'React', 'Python', 'Figma', 'SQL', 'Node.js', 'Swift', 'Kotlin'],
+  'Industry': [
+    'IT & Web Development',
+    'Design & Creative',
+    'Sales',
+    'Marketing',
+    'Customer Service',
+    'Logistics',
+    'Finance',
+    'Healthcare'
+  ],
+  'Skills': [
+    'Flutter',
+    'React',
+    'Python',
+    'Figma',
+    'SQL',
+    'Node.js',
+    'Swift',
+    'Kotlin'
+  ],
   'Job Type': ['Full-Time', 'Part-Time', 'Contract', 'Freelance', 'Internship'],
   'Workplace': ['On-site', 'Remote', 'Hybrid'],
   'Experience Level': ['Entry', 'Junior', 'Mid-level', 'Senior', 'Lead'],
-  'Salary': ['< 1 000 €', '1 000 – 2 000 €', '2 000 – 3 500 €', '3 500 – 5 000 €', '> 5 000 €'],
+  'Salary': [
+    '< 1 000 €',
+    '1 000 – 2 000 €',
+    '2 000 – 3 500 €',
+    '3 500 – 5 000 €',
+    '> 5 000 €'
+  ],
   'Travel': ['No travel', 'Occasional', 'Frequent', 'International'],
 };
 
@@ -35,6 +60,7 @@ class _FiltersSheetState extends State<FiltersSheet> {
   }
 
   void _openSubSheet(String filterName) {
+    final l = AppLocalizations.of(context)!;
     if (filterName == 'Location') {
       showModalBottomSheet(
         context: context,
@@ -55,8 +81,7 @@ class _FiltersSheetState extends State<FiltersSheet> {
         backgroundColor: Colors.transparent,
         builder: (_) => SalaryFilterSheet(
           selected: Set.from(_local['Salary'] ?? {}),
-          onConfirm: (selected) =>
-              setState(() => _local['Salary'] = selected),
+          onConfirm: (selected) => setState(() => _local['Salary'] = selected),
         ),
       );
       return;
@@ -67,7 +92,7 @@ class _FiltersSheetState extends State<FiltersSheet> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) => FilterSubSheet(
-        title: filterName,
+        title: _filterLabel(l, filterName),
         options: options,
         selected: Set.from(_local[filterName] ?? {}),
         onConfirm: (selected) => setState(() => _local[filterName] = selected),
@@ -77,13 +102,14 @@ class _FiltersSheetState extends State<FiltersSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Container(
       decoration: const BoxDecoration(
         color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).padding.bottom + 16),
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -93,8 +119,8 @@ class _FiltersSheetState extends State<FiltersSheet> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Filters',
-                    style: TextStyle(
+                Text(l.filtersTitle,
+                    style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                         color: IthakiTheme.textPrimary)),
@@ -127,6 +153,7 @@ class _FiltersSheetState extends State<FiltersSheet> {
                       }
                       return buf.toString();
                     }
+
                     valueText = '${fmtNum(parts[0])} – ${fmtNum(parts[1])} €';
                   }
                 }
@@ -147,7 +174,7 @@ class _FiltersSheetState extends State<FiltersSheet> {
                               : IthakiTheme.placeholderBg),
                     ),
                     child: Row(children: [
-                      Text(name,
+                      Text(_filterLabel(l, name),
                           style: TextStyle(
                               fontSize: 15,
                               fontWeight: hasSelection
@@ -161,8 +188,7 @@ class _FiltersSheetState extends State<FiltersSheet> {
                             valueText,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                                fontSize: 14,
-                                color: IthakiTheme.textSecondary),
+                                fontSize: 14, color: IthakiTheme.textSecondary),
                           ),
                         ),
                       ] else
@@ -184,10 +210,10 @@ class _FiltersSheetState extends State<FiltersSheet> {
             child: Row(children: [
               Expanded(
                 child: OutlinedButton.icon(
-                  onPressed: () => setState(
-                      () => _local.updateAll((_, __) => {})),
+                  onPressed: () =>
+                      setState(() => _local.updateAll((_, __) => {})),
                   icon: const Icon(Icons.refresh, size: 16),
-                  label: const Text('Reset Filters'),
+                  label: Text(l.resetFilters),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     side: const BorderSide(color: IthakiTheme.borderLight),
@@ -212,8 +238,8 @@ class _FiltersSheetState extends State<FiltersSheet> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24)),
                   ),
-                  child: const Text('Apply Filters',
-                      style: TextStyle(fontWeight: FontWeight.w600)),
+                  child: Text(l.applyFilters,
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
                 ),
               ),
             ]),
@@ -222,4 +248,16 @@ class _FiltersSheetState extends State<FiltersSheet> {
       ),
     );
   }
+
+  String _filterLabel(AppLocalizations l, String name) => switch (name) {
+        'Location' => l.locationHeading,
+        'Industry' => l.industryLabel,
+        'Skills' => l.profileSkillsTitle,
+        'Job Type' => l.jobTypeTitle,
+        'Workplace' => l.workplaceLabel,
+        'Experience Level' => l.experienceLevelLabel,
+        'Salary' => l.salaryTitle,
+        'Travel' => l.travelLabel,
+        _ => name,
+      };
 }

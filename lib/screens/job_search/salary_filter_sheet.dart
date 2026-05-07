@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../l10n/app_localizations.dart';
 import '../../utils/number_utils.dart';
 
 class SalaryFilterSheet extends StatefulWidget {
@@ -38,6 +39,7 @@ class _SalaryFilterSheetState extends State<SalaryFilterSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final bottomPadding = MediaQuery.of(context).padding.bottom;
 
     return Container(
@@ -59,8 +61,8 @@ class _SalaryFilterSheetState extends State<SalaryFilterSheet> {
                     size: 22, color: IthakiTheme.textPrimary),
                 onPressed: () => Navigator.pop(context),
               ),
-              const Text('Salary',
-                  style: TextStyle(
+              Text(l.salaryTitle,
+                  style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: IthakiTheme.textPrimary)),
@@ -77,8 +79,8 @@ class _SalaryFilterSheetState extends State<SalaryFilterSheet> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('From',
-                        style: TextStyle(
+                    Text(l.fromLabel,
+                        style: const TextStyle(
                             fontSize: 12, color: IthakiTheme.textSecondary)),
                     const SizedBox(height: 6),
                     Container(
@@ -91,7 +93,9 @@ class _SalaryFilterSheetState extends State<SalaryFilterSheet> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(formatNumber(_range.start.toInt(), separator: ' '),
+                          Text(
+                              formatNumber(_range.start.toInt(),
+                                  separator: ' '),
                               style: const TextStyle(
                                   fontSize: 15,
                                   color: IthakiTheme.textPrimary)),
@@ -110,8 +114,8 @@ class _SalaryFilterSheetState extends State<SalaryFilterSheet> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Till',
-                        style: TextStyle(
+                    Text(l.tillLabel,
+                        style: const TextStyle(
                             fontSize: 12, color: IthakiTheme.textSecondary)),
                     const SizedBox(height: 6),
                     Container(
@@ -150,8 +154,7 @@ class _SalaryFilterSheetState extends State<SalaryFilterSheet> {
                 activeTrackColor: IthakiTheme.primaryPurple,
                 inactiveTrackColor: const Color(0xFFE0D5F8),
                 thumbColor: IthakiTheme.primaryPurple,
-                overlayColor:
-                    IthakiTheme.primaryPurple.withValues(alpha: 0.12),
+                overlayColor: IthakiTheme.primaryPurple.withValues(alpha: 0.12),
                 trackHeight: 4,
               ),
               child: RangeSlider(
@@ -171,8 +174,8 @@ class _SalaryFilterSheetState extends State<SalaryFilterSheet> {
             child: Row(children: [
               Expanded(
                 child: OutlinedButton(
-                  onPressed: () => setState(
-                      () => _range = const RangeValues(_min, _max)),
+                  onPressed: () =>
+                      setState(() => _range = const RangeValues(_min, _max)),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     side: const BorderSide(color: IthakiTheme.borderLight),
@@ -180,7 +183,7 @@ class _SalaryFilterSheetState extends State<SalaryFilterSheet> {
                         borderRadius: BorderRadius.circular(24)),
                     foregroundColor: IthakiTheme.textPrimary,
                   ),
-                  child: const Text('Clear'),
+                  child: Text(l.filterClear),
                 ),
               ),
               const SizedBox(width: 12),
@@ -202,8 +205,8 @@ class _SalaryFilterSheetState extends State<SalaryFilterSheet> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24)),
                   ),
-                  child: const Text('Apply Filter',
-                      style: TextStyle(fontWeight: FontWeight.w600)),
+                  child: Text(l.applyFilter,
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
                 ),
               ),
             ]),

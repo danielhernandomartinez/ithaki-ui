@@ -313,7 +313,7 @@ abstract class AppLocalizations {
   /// No description provided for @personalDetailsDescription.
   ///
   /// In en, this message translates to:
-  /// **'Your name and phone number help employers reach you directly.'**
+  /// **'Your name and phone number help teams contact you directly.'**
   String get personalDetailsDescription;
 
   /// No description provided for @nameLabel.
@@ -1267,7 +1267,7 @@ abstract class AppLocalizations {
   /// No description provided for @invitationsTabDescription.
   ///
   /// In en, this message translates to:
-  /// **'Here you can find job opportunities you\'ve been invited to explore. Review job invitations from employers or organizations who found your profile interesting.'**
+  /// **'Here you can find job opportunities you\'ve been invited to explore. Review invitations from companies or organizations who found your profile interesting.'**
   String get invitationsTabDescription;
 
   /// No description provided for @invitationsLoadError.
@@ -1285,7 +1285,7 @@ abstract class AppLocalizations {
   /// No description provided for @invitationsEmptySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'When employers find your profile interesting\nthey will invite you here.'**
+  /// **'When companies find your profile interesting\nthey will invite you here.'**
   String get invitationsEmptySubtitle;
 
   /// No description provided for @draftsTabDescription.
@@ -1399,7 +1399,7 @@ abstract class AppLocalizations {
   /// No description provided for @careerAssistantBannerSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'On average, employers review applications within the first week. You can always ask me for help with your next steps.'**
+  /// **'On average, applications are reviewed within the first week. You can always ask me for help with your next steps.'**
   String get careerAssistantBannerSubtitle;
 
   /// No description provided for @askCareerAssistant.
@@ -2191,7 +2191,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutMeEmptyDescription.
   ///
   /// In en, this message translates to:
-  /// **'Add a few words about yourself to help employers understand who you are and what you do.'**
+  /// **'Add a few words about yourself to help teams understand who you are and what you do.'**
   String get aboutMeEmptyDescription;
 
   /// No description provided for @addSkills.
@@ -2233,13 +2233,13 @@ abstract class AppLocalizations {
   /// No description provided for @addBioDescription.
   ///
   /// In en, this message translates to:
-  /// **'Add a few words about yourself to help employers understand who you are and what you do. We recommend keeping it concise, avoiding unnecessary filler, and highlighting key skills and experience.'**
+  /// **'Add a few words about yourself to help teams understand who you are and what you do. We recommend keeping it concise, avoiding unnecessary filler, and highlighting key skills and experience.'**
   String get addBioDescription;
 
   /// No description provided for @addVideoDescription.
   ///
   /// In en, this message translates to:
-  /// **'Add a short video to introduce yourself to employers, highlight your experience, and showcase your skills. A video helps you stand out among other candidates.'**
+  /// **'Add a short video to introduce yourself to teams, highlight your experience, and showcase your skills. A video helps you stand out among other candidates.'**
   String get addVideoDescription;
 
   /// No description provided for @uploadViaUrl.
@@ -3127,7 +3127,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeProfileFillMissing.
   ///
   /// In en, this message translates to:
-  /// **'Fill in the missing information to unlock your full experience on the platform. A complete profile helps you get better job matches and more employer invitations.'**
+  /// **'Fill in the missing information to unlock your full experience on the platform. A complete profile helps you get better job matches and more invitations.'**
   String get homeProfileFillMissing;
 
   /// No description provided for @homeProfileBenefitsTitle.
@@ -3321,6 +3321,954 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No results found'**
   String get quizNoResults;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @present.
+  ///
+  /// In en, this message translates to:
+  /// **'Present'**
+  String get present;
+
+  /// No description provided for @cvCouldNotLoadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load your CV.'**
+  String get cvCouldNotLoadTitle;
+
+  /// No description provided for @cvCouldNotLoadMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Try refreshing your profile data and open it again.'**
+  String get cvCouldNotLoadMessage;
+
+  /// No description provided for @goToProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Profile'**
+  String get goToProfile;
+
+  /// No description provided for @publishCv.
+  ///
+  /// In en, this message translates to:
+  /// **'Publish CV'**
+  String get publishCv;
+
+  /// No description provided for @downloadCv.
+  ///
+  /// In en, this message translates to:
+  /// **'Download CV'**
+  String get downloadCv;
+
+  /// No description provided for @cvDownloadSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'CV download will be available soon.'**
+  String get cvDownloadSoon;
+
+  /// No description provided for @returnToProfileSetup.
+  ///
+  /// In en, this message translates to:
+  /// **'Return to Profile Setup'**
+  String get returnToProfileSetup;
+
+  /// No description provided for @publishedBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Published'**
+  String get publishedBadge;
+
+  /// No description provided for @draftModeBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft Mode'**
+  String get draftModeBadge;
+
+  /// No description provided for @cvDraftReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This is your CV - this is how companies see you.'**
+  String get cvDraftReviewTitle;
+
+  /// No description provided for @cvDraftReviewBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Please review all information carefully and make any necessary changes before publishing your CV.\nIf your CV is not published, companies will not be able to review it.\nYou can update your information anytime via Profile. Your CV will be updated automatically.'**
+  String get cvDraftReviewBody;
+
+  /// No description provided for @contactVisibilityNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your contact details stay hidden until you apply for a job or accept an invitation.'**
+  String get contactVisibilityNote;
+
+  /// No description provided for @youBothShareSameValues.
+  ///
+  /// In en, this message translates to:
+  /// **'You both share the same values'**
+  String get youBothShareSameValues;
+
+  /// No description provided for @learnMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn More'**
+  String get learnMore;
+
+  /// No description provided for @greatJob.
+  ///
+  /// In en, this message translates to:
+  /// **'Great Job!'**
+  String get greatJob;
+
+  /// No description provided for @cvLevelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your CV Level:'**
+  String get cvLevelLabel;
+
+  /// No description provided for @strongLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'STRONG'**
+  String get strongLevel;
+
+  /// No description provided for @cvAssistantImprovementSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'The assistant found 4 areas you can improve to increase your chances of getting a job by about 15%.'**
+  String get cvAssistantImprovementSummary;
+
+  /// No description provided for @careerAssistantTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Career Assistant'**
+  String get careerAssistantTitle;
+
+  /// No description provided for @pathfinderName.
+  ///
+  /// In en, this message translates to:
+  /// **'Pathfinder'**
+  String get pathfinderName;
+
+  /// No description provided for @pathfinderAdviceText.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi! I\'m Pathfinder, your career assistant.\nI\'ve reviewed your profile and found a few quick improvements:\n\n- Critical: Your profile photo looks blurry. Upload a clear, professional one to make a stronger first impression.\n- Recommended: Add more detail to your work experience - specify what you built to show your real impact.\n- Minor: Record a short video intro. It helps teams connect with you and makes your profile stand out.\nThese small updates will noticeably boost your credibility and visibility.'**
+  String get pathfinderAdviceText;
+
+  /// No description provided for @askCareerPathHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask me about your career path...'**
+  String get askCareerPathHint;
+
+  /// No description provided for @leaveWithoutPublishingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave without publishing?'**
+  String get leaveWithoutPublishingTitle;
+
+  /// No description provided for @leaveWithoutPublishingMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'If you leave this page, your CV will not be published and companies will not be able to review it. You can always publish it later from your profile, but we recommend publishing now to increase your chances of landing jobs.'**
+  String get leaveWithoutPublishingMessage;
+
+  /// No description provided for @notSpecified.
+  ///
+  /// In en, this message translates to:
+  /// **'Not specified'**
+  String get notSpecified;
+
+  /// No description provided for @workspaceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Workspace'**
+  String get workspaceLabel;
+
+  /// No description provided for @levelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Level'**
+  String get levelLabel;
+
+  /// No description provided for @desiredSalaryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Desired Salary'**
+  String get desiredSalaryLabel;
+
+  /// No description provided for @jobPreferencesTabDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'This shows the job you are currently looking for. You can change this anytime.'**
+  String get jobPreferencesTabDescription;
+
+  /// No description provided for @preferencesSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get preferencesSectionTitle;
+
+  /// No description provided for @experienceAtCompany.
+  ///
+  /// In en, this message translates to:
+  /// **'{role}  at  {company}'**
+  String experienceAtCompany(String role, String company);
+
+  /// No description provided for @educationAtInstitution.
+  ///
+  /// In en, this message translates to:
+  /// **'{field}  at\n{institution}'**
+  String educationAtInstitution(String field, String institution);
+
+  /// No description provided for @periodWithDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'{start} - {end}  ({duration})'**
+  String periodWithDuration(String start, String end, String duration);
+
+  /// No description provided for @assessmentCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{category} Assessment'**
+  String assessmentCategoryLabel(String category);
+
+  /// No description provided for @jobPreferencesUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Your job preferences have been updated.'**
+  String get jobPreferencesUpdated;
+
+  /// No description provided for @updateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get updateButton;
+
+  /// No description provided for @currentEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Email'**
+  String get currentEmailLabel;
+
+  /// No description provided for @updateEmailDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your email address'**
+  String get updateEmailDescription;
+
+  /// No description provided for @deleteAccountDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'To permanently delete your account, please type delete in the field below.\nThis action cannot be undone - all your data will be removed forever.'**
+  String get deleteAccountDescription;
+
+  /// No description provided for @communicationChannelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Communication Channel'**
+  String get communicationChannelTitle;
+
+  /// No description provided for @emailNewsletterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Newsletter'**
+  String get emailNewsletterTitle;
+
+  /// No description provided for @emailNewsletterDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay informed and make the most of your experience! Choose which types of updates and insights you\'d like to receive directly to your inbox.'**
+  String get emailNewsletterDescription;
+
+  /// No description provided for @newsletterActive.
+  ///
+  /// In en, this message translates to:
+  /// **'(active)'**
+  String get newsletterActive;
+
+  /// No description provided for @newsletterInactive.
+  ///
+  /// In en, this message translates to:
+  /// **'(inactive)'**
+  String get newsletterInactive;
+
+  /// No description provided for @subscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscribe'**
+  String get subscribe;
+
+  /// No description provided for @settingsUpdatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings updated successfully.'**
+  String get settingsUpdatedSuccessfully;
+
+  /// No description provided for @newsletterJobsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Jobs Recommendations'**
+  String get newsletterJobsTitle;
+
+  /// No description provided for @newsletterJobsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Personalized job offers based on your skills and preferences'**
+  String get newsletterJobsSubtitle;
+
+  /// No description provided for @newsletterCareerTipsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Career Tips'**
+  String get newsletterCareerTipsTitle;
+
+  /// No description provided for @newsletterCareerTipsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Expert advice and resources to boost your professional growth'**
+  String get newsletterCareerTipsSubtitle;
+
+  /// No description provided for @newsletterEventsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Events & Webinars'**
+  String get newsletterEventsTitle;
+
+  /// No description provided for @newsletterEventsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming career events, workshops, and networking sessions'**
+  String get newsletterEventsSubtitle;
+
+  /// No description provided for @newsletterPlatformTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform Updates'**
+  String get newsletterPlatformTitle;
+
+  /// No description provided for @newsletterPlatformSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New features, tools, and product improvements'**
+  String get newsletterPlatformSubtitle;
+
+  /// No description provided for @newsletterLearningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Learning Opportunities'**
+  String get newsletterLearningTitle;
+
+  /// No description provided for @newsletterLearningSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Online courses and certifications to enhance your skills'**
+  String get newsletterLearningSubtitle;
+
+  /// No description provided for @uploadFilesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Files'**
+  String get uploadFilesTitle;
+
+  /// No description provided for @uploadMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload More'**
+  String get uploadMore;
+
+  /// No description provided for @uploadFileInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap button to browse\n(max 10 files, up to 5 MB each;\nsupported: .pdf, .doc, .png, .jpg)'**
+  String get uploadFileInstructions;
+
+  /// No description provided for @documentUrlDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Provide a link to a document to import it into the system.'**
+  String get documentUrlDescription;
+
+  /// No description provided for @documentUrlMustBeActive.
+  ///
+  /// In en, this message translates to:
+  /// **'The link must be active and accessible without login.'**
+  String get documentUrlMustBeActive;
+
+  /// No description provided for @documentUrlSupportedFormats.
+  ///
+  /// In en, this message translates to:
+  /// **'The document must be in a supported format (PDF, DOC, DOCX).'**
+  String get documentUrlSupportedFormats;
+
+  /// No description provided for @documentUrlCommonServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Common services: Google Drive, Dropbox, iCloud.'**
+  String get documentUrlCommonServices;
+
+  /// No description provided for @documentLinkHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Document\'s Link'**
+  String get documentLinkHint;
+
+  /// No description provided for @fileComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete'**
+  String get fileComplete;
+
+  /// No description provided for @fileUploading.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading...'**
+  String get fileUploading;
+
+  /// No description provided for @fileFallbackLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'FILE'**
+  String get fileFallbackLabel;
+
+  /// No description provided for @profileMenuMyProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'My Profile'**
+  String get profileMenuMyProfile;
+
+  /// No description provided for @profileMenuMyCv.
+  ///
+  /// In en, this message translates to:
+  /// **'My CV'**
+  String get profileMenuMyCv;
+
+  /// No description provided for @logOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Out'**
+  String get logOut;
+
+  /// No description provided for @goToJobSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Job Search'**
+  String get goToJobSearch;
+
+  /// No description provided for @startProductTour.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Product Tour'**
+  String get startProductTour;
+
+  /// No description provided for @continueProductTour.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Product Tour'**
+  String get continueProductTour;
+
+  /// No description provided for @skipAndClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip and Close'**
+  String get skipAndClose;
+
+  /// No description provided for @finish.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get finish;
+
+  /// No description provided for @nextButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get nextButton;
+
+  /// No description provided for @tourStepIndicator.
+  ///
+  /// In en, this message translates to:
+  /// **'{current} Step / {total}'**
+  String tourStepIndicator(int current, int total);
+
+  /// No description provided for @tourReadyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re Ready!'**
+  String get tourReadyTitle;
+
+  /// No description provided for @tourReadyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Now you know the main platform features. Complete your profile, take assessments, and apply for jobs that match you.'**
+  String get tourReadyBody;
+
+  /// No description provided for @tourWelcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s Get You Started!'**
+  String get tourWelcomeTitle;
+
+  /// No description provided for @tourWelcomeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can find a job that fits your skills and experience. Let\'s go step by step.'**
+  String get tourWelcomeBody;
+
+  /// No description provided for @tourSkipTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip for now?'**
+  String get tourSkipTitle;
+
+  /// No description provided for @tourSkipBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You can always take the product tour later using the banner on the Home page.'**
+  String get tourSkipBody;
+
+  /// No description provided for @tourStep1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Get on Track!'**
+  String get tourStep1Title;
+
+  /// No description provided for @tourStep1Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you\'ll see jobs and courses selected for you, CV insights, and tools to help you start your job search.'**
+  String get tourStep1Body;
+
+  /// No description provided for @tourStep2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a Job'**
+  String get tourStep2Title;
+
+  /// No description provided for @tourStep2Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for jobs by name or choose from categories below. You can find work near your city, or set other parameters to find the job you need.'**
+  String get tourStep2Body;
+
+  /// No description provided for @tourStep3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Post'**
+  String get tourStep3Title;
+
+  /// No description provided for @tourStep3Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Each job card shows the main information - position, location, and salary. Tap the card to open full details and apply.'**
+  String get tourStep3Body;
+
+  /// No description provided for @tourStep4Title.
+  ///
+  /// In en, this message translates to:
+  /// **'See how well this job fits for you'**
+  String get tourStep4Title;
+
+  /// No description provided for @tourStep4Body.
+  ///
+  /// In en, this message translates to:
+  /// **'This part shows how well your experience and skills match the job. The higher the match, the better your chances.'**
+  String get tourStep4Body;
+
+  /// No description provided for @tourStep5Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Details'**
+  String get tourStep5Title;
+
+  /// No description provided for @tourStep5Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the full job description, requirements, and what the company offers before you apply.'**
+  String get tourStep5Body;
+
+  /// No description provided for @tourStep6Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Easy to Apply'**
+  String get tourStep6Title;
+
+  /// No description provided for @tourStep6Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Application is easy! Select your CV format and add a few words about yourself in the Cover Letter to increase your chances.'**
+  String get tourStep6Body;
+
+  /// No description provided for @tourStep7Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Track the Progress'**
+  String get tourStep7Title;
+
+  /// No description provided for @tourStep7Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Once you apply for a job, you can find your response in My Applications.'**
+  String get tourStep7Body;
+
+  /// No description provided for @tourStep8Title.
+  ///
+  /// In en, this message translates to:
+  /// **'My Invitations'**
+  String get tourStep8Title;
+
+  /// No description provided for @tourStep8Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Companies can invite you directly. You can review relevant invitations from teams interested in your profile.'**
+  String get tourStep8Body;
+
+  /// No description provided for @tourStep9Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Get on Track!'**
+  String get tourStep9Title;
+
+  /// No description provided for @tourStep9Body.
+  ///
+  /// In en, this message translates to:
+  /// **'You can open the invitation to read job details and accept the offer.'**
+  String get tourStep9Body;
+
+  /// No description provided for @tourStep10Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Build your Profile'**
+  String get tourStep10Title;
+
+  /// No description provided for @tourStep10Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Your profile shows your experience, skills, and contact info. A complete profile helps you get better job matches. You can edit or update it anytime.'**
+  String get tourStep10Body;
+
+  /// No description provided for @tourStep11Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Meet your Career Assistant'**
+  String get tourStep11Title;
+
+  /// No description provided for @tourStep11Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Pathfinder can help you improve your profile, find the right jobs, and answer your questions about work.'**
+  String get tourStep11Body;
+
+  /// No description provided for @tourStep12Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Learning Hub'**
+  String get tourStep12Title;
+
+  /// No description provided for @tourStep12Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Access courses and resources tailored to your career goals and the skills companies are looking for.'**
+  String get tourStep12Body;
+
+  /// No description provided for @tourStep13Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Get to know yourself better'**
+  String get tourStep13Title;
+
+  /// No description provided for @tourStep13Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can take different assessments. Your results help highlight your strengths and working style.'**
+  String get tourStep13Body;
+
+  /// No description provided for @changePasswordDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Change your password to keep your account secure'**
+  String get changePasswordDescription;
+
+  /// No description provided for @passwordUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Your password has been updated.'**
+  String get passwordUpdated;
+
+  /// No description provided for @currentPhoneNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Phone Number'**
+  String get currentPhoneNumberLabel;
+
+  /// No description provided for @makeProfileInvisibleDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'If you make your profile invisible, companies won\'t be able to find you in candidate searches. You\'ll still be able to apply for jobs you\'re interested in. You can change your profile visibility anytime in your account settings.'**
+  String get makeProfileInvisibleDescription;
+
+  /// No description provided for @makeProfileInvisibleButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Make Profile Invisible'**
+  String get makeProfileInvisibleButton;
+
+  /// No description provided for @switchLiteDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'The interface will become simpler and easier to use. We\'ll show you only the jobs that best match your job interests.\nYou can switch back to the full interface at any time.'**
+  String get switchLiteDescription;
+
+  /// No description provided for @switchLiteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to Ithaki Lite'**
+  String get switchLiteButton;
+
+  /// No description provided for @switchedToLite.
+  ///
+  /// In en, this message translates to:
+  /// **'Switched to Ithaki Lite.'**
+  String get switchedToLite;
+
+  /// No description provided for @submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submit;
+
+  /// No description provided for @newValueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New {type}'**
+  String newValueLabel(String type);
+
+  /// No description provided for @codeSentToContact.
+  ///
+  /// In en, this message translates to:
+  /// **'A 6-digit code was sent to your {contact}.'**
+  String codeSentToContact(String contact);
+
+  /// No description provided for @phoneViaSms.
+  ///
+  /// In en, this message translates to:
+  /// **'phone via SMS'**
+  String get phoneViaSms;
+
+  /// No description provided for @changedEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Your email has been changed.'**
+  String get changedEmail;
+
+  /// No description provided for @changedPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Your phone number has been changed.'**
+  String get changedPhone;
+
+  /// No description provided for @jobReportedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Job post has been reported'**
+  String get jobReportedMessage;
+
+  /// No description provided for @copyLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Link'**
+  String get copyLink;
+
+  /// No description provided for @shareWhatsappSms.
+  ///
+  /// In en, this message translates to:
+  /// **'Share WhatsApp/SMS'**
+  String get shareWhatsappSms;
+
+  /// No description provided for @shareInEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Share in Email'**
+  String get shareInEmail;
+
+  /// No description provided for @shareOnLinkedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Share on LinkedIn'**
+  String get shareOnLinkedIn;
+
+  /// No description provided for @industryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Industry'**
+  String get industryLabel;
+
+  /// No description provided for @travelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Travel'**
+  String get travelLabel;
+
+  /// No description provided for @reportJobDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Reporting jobs helps us keep job postings at the highest quality levels.'**
+  String get reportJobDescription;
+
+  /// No description provided for @tellUsMoreOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us more (optional)'**
+  String get tellUsMoreOptional;
+
+  /// No description provided for @reportThisJobButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Report this Job'**
+  String get reportThisJobButton;
+
+  /// No description provided for @setReminderButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Set Reminder'**
+  String get setReminderButton;
+
+  /// No description provided for @reminderChoiceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How would you like to be reminded?'**
+  String get reminderChoiceTitle;
+
+  /// No description provided for @reminderViaEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll send a reminder via email'**
+  String get reminderViaEmail;
+
+  /// No description provided for @reminderViaSmsWhatsappGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll send a reminder via SMS/WhatsApp'**
+  String get reminderViaSmsWhatsappGeneric;
+
+  /// No description provided for @jobClosedButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Closed'**
+  String get jobClosedButton;
+
+  /// No description provided for @removeFromSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from Saved'**
+  String get removeFromSaved;
+
+  /// No description provided for @newFeatureBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'New on Ithaki! We just released a new feature that makes job search easier.'**
+  String get newFeatureBanner;
+
+  /// No description provided for @curiousWhyMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Curious why you match this job?'**
+  String get curiousWhyMatch;
+
+  /// No description provided for @strongSkillsMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s a Strong skills\nMatch!'**
+  String get strongSkillsMatch;
+
+  /// No description provided for @goodSkillsMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s a Good skills\nMatch!'**
+  String get goodSkillsMatch;
+
+  /// No description provided for @partialSkillsMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s a Partial skills\nMatch!'**
+  String get partialSkillsMatch;
+
+  /// No description provided for @starterSkillsMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s a Starter skills\nMatch!'**
+  String get starterSkillsMatch;
+
+  /// No description provided for @deadlineBannerText.
+  ///
+  /// In en, this message translates to:
+  /// **'This job has a deadline! Application\nopen till:'**
+  String get deadlineBannerText;
+
+  /// No description provided for @skillsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Skills required'**
+  String get skillsRequired;
+
+  /// No description provided for @aboutRoleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About the role'**
+  String get aboutRoleTitle;
+
+  /// No description provided for @requirementsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Requirements'**
+  String get requirementsTitle;
+
+  /// No description provided for @niceToHaveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nice to have'**
+  String get niceToHaveTitle;
+
+  /// No description provided for @weOfferTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We offer'**
+  String get weOfferTitle;
+
+  /// No description provided for @shareJob.
+  ///
+  /// In en, this message translates to:
+  /// **'Share Job'**
+  String get shareJob;
+
+  /// No description provided for @notInterested.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Interested'**
+  String get notInterested;
+
+  /// No description provided for @deleteReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Reminder'**
+  String get deleteReminder;
+
+  /// No description provided for @salaryRangeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary Range'**
+  String get salaryRangeLabel;
+
+  /// No description provided for @responsibilitiesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Responsibilities'**
+  String get responsibilitiesTitle;
 }
 
 class _AppLocalizationsDelegate

@@ -122,7 +122,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get personalDetailsDescription =>
-      'Your name and phone number help employers reach you directly.';
+      'Your name and phone number help teams contact you directly.';
 
   @override
   String get nameLabel => 'Name';
@@ -625,7 +625,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invitationsTabDescription =>
-      'Here you can find job opportunities you\'ve been invited to explore. Review job invitations from employers or organizations who found your profile interesting.';
+      'Here you can find job opportunities you\'ve been invited to explore. Review invitations from companies or organizations who found your profile interesting.';
 
   @override
   String get invitationsLoadError => 'Failed to load invitations.';
@@ -635,7 +635,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invitationsEmptySubtitle =>
-      'When employers find your profile interesting\nthey will invite you here.';
+      'When companies find your profile interesting\nthey will invite you here.';
 
   @override
   String get draftsTabDescription =>
@@ -699,7 +699,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get careerAssistantBannerSubtitle =>
-      'On average, employers review applications within the first week. You can always ask me for help with your next steps.';
+      'On average, applications are reviewed within the first week. You can always ask me for help with your next steps.';
 
   @override
   String get askCareerAssistant => 'Ask Career Assistant';
@@ -1122,7 +1122,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aboutMeEmptyDescription =>
-      'Add a few words about yourself to help employers understand who you are and what you do.';
+      'Add a few words about yourself to help teams understand who you are and what you do.';
 
   @override
   String get addSkills => 'Add Skills';
@@ -1145,11 +1145,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addBioDescription =>
-      'Add a few words about yourself to help employers understand who you are and what you do. We recommend keeping it concise, avoiding unnecessary filler, and highlighting key skills and experience.';
+      'Add a few words about yourself to help teams understand who you are and what you do. We recommend keeping it concise, avoiding unnecessary filler, and highlighting key skills and experience.';
 
   @override
   String get addVideoDescription =>
-      'Add a short video to introduce yourself to employers, highlight your experience, and showcase your skills. A video helps you stand out among other candidates.';
+      'Add a short video to introduce yourself to teams, highlight your experience, and showcase your skills. A video helps you stand out among other candidates.';
 
   @override
   String get uploadViaUrl => 'Upload via URL';
@@ -1621,7 +1621,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeProfileFillMissing =>
-      'Fill in the missing information to unlock your full experience on the platform. A complete profile helps you get better job matches and more employer invitations.';
+      'Fill in the missing information to unlock your full experience on the platform. A complete profile helps you get better job matches and more invitations.';
 
   @override
   String get homeProfileBenefitsTitle => 'Benefits of completing your profile';
@@ -1735,4 +1735,535 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quizNoResults => 'No results found';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get present => 'Present';
+
+  @override
+  String get cvCouldNotLoadTitle => 'Couldn\'t load your CV.';
+
+  @override
+  String get cvCouldNotLoadMessage =>
+      'Try refreshing your profile data and open it again.';
+
+  @override
+  String get goToProfile => 'Go to Profile';
+
+  @override
+  String get publishCv => 'Publish CV';
+
+  @override
+  String get downloadCv => 'Download CV';
+
+  @override
+  String get cvDownloadSoon => 'CV download will be available soon.';
+
+  @override
+  String get returnToProfileSetup => 'Return to Profile Setup';
+
+  @override
+  String get publishedBadge => 'Published';
+
+  @override
+  String get draftModeBadge => 'Draft Mode';
+
+  @override
+  String get cvDraftReviewTitle =>
+      'This is your CV - this is how companies see you.';
+
+  @override
+  String get cvDraftReviewBody =>
+      'Please review all information carefully and make any necessary changes before publishing your CV.\nIf your CV is not published, companies will not be able to review it.\nYou can update your information anytime via Profile. Your CV will be updated automatically.';
+
+  @override
+  String get contactVisibilityNote =>
+      'Your contact details stay hidden until you apply for a job or accept an invitation.';
+
+  @override
+  String get youBothShareSameValues => 'You both share the same values';
+
+  @override
+  String get learnMore => 'Learn More';
+
+  @override
+  String get greatJob => 'Great Job!';
+
+  @override
+  String get cvLevelLabel => 'Your CV Level:';
+
+  @override
+  String get strongLevel => 'STRONG';
+
+  @override
+  String get cvAssistantImprovementSummary =>
+      'The assistant found 4 areas you can improve to increase your chances of getting a job by about 15%.';
+
+  @override
+  String get careerAssistantTitle => 'Your Career Assistant';
+
+  @override
+  String get pathfinderName => 'Pathfinder';
+
+  @override
+  String get pathfinderAdviceText =>
+      'Hi! I\'m Pathfinder, your career assistant.\nI\'ve reviewed your profile and found a few quick improvements:\n\n- Critical: Your profile photo looks blurry. Upload a clear, professional one to make a stronger first impression.\n- Recommended: Add more detail to your work experience - specify what you built to show your real impact.\n- Minor: Record a short video intro. It helps teams connect with you and makes your profile stand out.\nThese small updates will noticeably boost your credibility and visibility.';
+
+  @override
+  String get askCareerPathHint => 'Ask me about your career path...';
+
+  @override
+  String get leaveWithoutPublishingTitle => 'Leave without publishing?';
+
+  @override
+  String get leaveWithoutPublishingMessage =>
+      'If you leave this page, your CV will not be published and companies will not be able to review it. You can always publish it later from your profile, but we recommend publishing now to increase your chances of landing jobs.';
+
+  @override
+  String get notSpecified => 'Not specified';
+
+  @override
+  String get workspaceLabel => 'Workspace';
+
+  @override
+  String get levelLabel => 'Level';
+
+  @override
+  String get desiredSalaryLabel => 'Desired Salary';
+
+  @override
+  String get jobPreferencesTabDescription =>
+      'This shows the job you are currently looking for. You can change this anytime.';
+
+  @override
+  String get preferencesSectionTitle => 'Preferences';
+
+  @override
+  String experienceAtCompany(String role, String company) {
+    return '$role  at  $company';
+  }
+
+  @override
+  String educationAtInstitution(String field, String institution) {
+    return '$field  at\n$institution';
+  }
+
+  @override
+  String periodWithDuration(String start, String end, String duration) {
+    return '$start - $end  ($duration)';
+  }
+
+  @override
+  String assessmentCategoryLabel(String category) {
+    return '$category Assessment';
+  }
+
+  @override
+  String get jobPreferencesUpdated => 'Your job preferences have been updated.';
+
+  @override
+  String get updateButton => 'Update';
+
+  @override
+  String get currentEmailLabel => 'Current Email';
+
+  @override
+  String get updateEmailDescription => 'Update your email address';
+
+  @override
+  String get deleteAccountDescription =>
+      'To permanently delete your account, please type delete in the field below.\nThis action cannot be undone - all your data will be removed forever.';
+
+  @override
+  String get communicationChannelTitle => 'Communication Channel';
+
+  @override
+  String get emailNewsletterTitle => 'Email Newsletter';
+
+  @override
+  String get emailNewsletterDescription =>
+      'Stay informed and make the most of your experience! Choose which types of updates and insights you\'d like to receive directly to your inbox.';
+
+  @override
+  String get newsletterActive => '(active)';
+
+  @override
+  String get newsletterInactive => '(inactive)';
+
+  @override
+  String get subscribe => 'Subscribe';
+
+  @override
+  String get settingsUpdatedSuccessfully => 'Settings updated successfully.';
+
+  @override
+  String get newsletterJobsTitle => 'Jobs Recommendations';
+
+  @override
+  String get newsletterJobsSubtitle =>
+      'Personalized job offers based on your skills and preferences';
+
+  @override
+  String get newsletterCareerTipsTitle => 'Career Tips';
+
+  @override
+  String get newsletterCareerTipsSubtitle =>
+      'Expert advice and resources to boost your professional growth';
+
+  @override
+  String get newsletterEventsTitle => 'Events & Webinars';
+
+  @override
+  String get newsletterEventsSubtitle =>
+      'Upcoming career events, workshops, and networking sessions';
+
+  @override
+  String get newsletterPlatformTitle => 'Platform Updates';
+
+  @override
+  String get newsletterPlatformSubtitle =>
+      'New features, tools, and product improvements';
+
+  @override
+  String get newsletterLearningTitle => 'Learning Opportunities';
+
+  @override
+  String get newsletterLearningSubtitle =>
+      'Online courses and certifications to enhance your skills';
+
+  @override
+  String get uploadFilesTitle => 'Upload Files';
+
+  @override
+  String get uploadMore => 'Upload More';
+
+  @override
+  String get uploadFileInstructions =>
+      'Tap button to browse\n(max 10 files, up to 5 MB each;\nsupported: .pdf, .doc, .png, .jpg)';
+
+  @override
+  String get documentUrlDescription =>
+      'Provide a link to a document to import it into the system.';
+
+  @override
+  String get documentUrlMustBeActive =>
+      'The link must be active and accessible without login.';
+
+  @override
+  String get documentUrlSupportedFormats =>
+      'The document must be in a supported format (PDF, DOC, DOCX).';
+
+  @override
+  String get documentUrlCommonServices =>
+      'Common services: Google Drive, Dropbox, iCloud.';
+
+  @override
+  String get documentLinkHint => 'Add Document\'s Link';
+
+  @override
+  String get fileComplete => 'Complete';
+
+  @override
+  String get fileUploading => 'Uploading...';
+
+  @override
+  String get fileFallbackLabel => 'FILE';
+
+  @override
+  String get profileMenuMyProfile => 'My Profile';
+
+  @override
+  String get profileMenuMyCv => 'My CV';
+
+  @override
+  String get logOut => 'Log Out';
+
+  @override
+  String get goToJobSearch => 'Go to Job Search';
+
+  @override
+  String get startProductTour => 'Start Product Tour';
+
+  @override
+  String get continueProductTour => 'Continue Product Tour';
+
+  @override
+  String get skipAndClose => 'Skip and Close';
+
+  @override
+  String get finish => 'Finish';
+
+  @override
+  String get nextButton => 'Next';
+
+  @override
+  String tourStepIndicator(int current, int total) {
+    return '$current Step / $total';
+  }
+
+  @override
+  String get tourReadyTitle => 'You\'re Ready!';
+
+  @override
+  String get tourReadyBody =>
+      'Now you know the main platform features. Complete your profile, take assessments, and apply for jobs that match you.';
+
+  @override
+  String get tourWelcomeTitle => 'Let\'s Get You Started!';
+
+  @override
+  String get tourWelcomeBody =>
+      'Here you can find a job that fits your skills and experience. Let\'s go step by step.';
+
+  @override
+  String get tourSkipTitle => 'Skip for now?';
+
+  @override
+  String get tourSkipBody =>
+      'You can always take the product tour later using the banner on the Home page.';
+
+  @override
+  String get tourStep1Title => 'Get on Track!';
+
+  @override
+  String get tourStep1Body =>
+      'Here you\'ll see jobs and courses selected for you, CV insights, and tools to help you start your job search.';
+
+  @override
+  String get tourStep2Title => 'Find a Job';
+
+  @override
+  String get tourStep2Body =>
+      'Search for jobs by name or choose from categories below. You can find work near your city, or set other parameters to find the job you need.';
+
+  @override
+  String get tourStep3Title => 'Job Post';
+
+  @override
+  String get tourStep3Body =>
+      'Each job card shows the main information - position, location, and salary. Tap the card to open full details and apply.';
+
+  @override
+  String get tourStep4Title => 'See how well this job fits for you';
+
+  @override
+  String get tourStep4Body =>
+      'This part shows how well your experience and skills match the job. The higher the match, the better your chances.';
+
+  @override
+  String get tourStep5Title => 'Job Details';
+
+  @override
+  String get tourStep5Body =>
+      'Read the full job description, requirements, and what the company offers before you apply.';
+
+  @override
+  String get tourStep6Title => 'Easy to Apply';
+
+  @override
+  String get tourStep6Body =>
+      'Application is easy! Select your CV format and add a few words about yourself in the Cover Letter to increase your chances.';
+
+  @override
+  String get tourStep7Title => 'Track the Progress';
+
+  @override
+  String get tourStep7Body =>
+      'Once you apply for a job, you can find your response in My Applications.';
+
+  @override
+  String get tourStep8Title => 'My Invitations';
+
+  @override
+  String get tourStep8Body =>
+      'Companies can invite you directly. You can review relevant invitations from teams interested in your profile.';
+
+  @override
+  String get tourStep9Title => 'Get on Track!';
+
+  @override
+  String get tourStep9Body =>
+      'You can open the invitation to read job details and accept the offer.';
+
+  @override
+  String get tourStep10Title => 'Build your Profile';
+
+  @override
+  String get tourStep10Body =>
+      'Your profile shows your experience, skills, and contact info. A complete profile helps you get better job matches. You can edit or update it anytime.';
+
+  @override
+  String get tourStep11Title => 'Meet your Career Assistant';
+
+  @override
+  String get tourStep11Body =>
+      'Pathfinder can help you improve your profile, find the right jobs, and answer your questions about work.';
+
+  @override
+  String get tourStep12Title => 'Learning Hub';
+
+  @override
+  String get tourStep12Body =>
+      'Access courses and resources tailored to your career goals and the skills companies are looking for.';
+
+  @override
+  String get tourStep13Title => 'Get to know yourself better';
+
+  @override
+  String get tourStep13Body =>
+      'Here you can take different assessments. Your results help highlight your strengths and working style.';
+
+  @override
+  String get changePasswordDescription =>
+      'Change your password to keep your account secure';
+
+  @override
+  String get passwordUpdated => 'Your password has been updated.';
+
+  @override
+  String get currentPhoneNumberLabel => 'Current Phone Number';
+
+  @override
+  String get makeProfileInvisibleDescription =>
+      'If you make your profile invisible, companies won\'t be able to find you in candidate searches. You\'ll still be able to apply for jobs you\'re interested in. You can change your profile visibility anytime in your account settings.';
+
+  @override
+  String get makeProfileInvisibleButton => 'Make Profile Invisible';
+
+  @override
+  String get switchLiteDescription =>
+      'The interface will become simpler and easier to use. We\'ll show you only the jobs that best match your job interests.\nYou can switch back to the full interface at any time.';
+
+  @override
+  String get switchLiteButton => 'Switch to Ithaki Lite';
+
+  @override
+  String get switchedToLite => 'Switched to Ithaki Lite.';
+
+  @override
+  String get submit => 'Submit';
+
+  @override
+  String newValueLabel(String type) {
+    return 'New $type';
+  }
+
+  @override
+  String codeSentToContact(String contact) {
+    return 'A 6-digit code was sent to your $contact.';
+  }
+
+  @override
+  String get phoneViaSms => 'phone via SMS';
+
+  @override
+  String get changedEmail => 'Your email has been changed.';
+
+  @override
+  String get changedPhone => 'Your phone number has been changed.';
+
+  @override
+  String get jobReportedMessage => 'Job post has been reported';
+
+  @override
+  String get copyLink => 'Copy Link';
+
+  @override
+  String get shareWhatsappSms => 'Share WhatsApp/SMS';
+
+  @override
+  String get shareInEmail => 'Share in Email';
+
+  @override
+  String get shareOnLinkedIn => 'Share on LinkedIn';
+
+  @override
+  String get industryLabel => 'Industry';
+
+  @override
+  String get travelLabel => 'Travel';
+
+  @override
+  String get reportJobDescription =>
+      'Reporting jobs helps us keep job postings at the highest quality levels.';
+
+  @override
+  String get tellUsMoreOptional => 'Tell us more (optional)';
+
+  @override
+  String get reportThisJobButton => 'Report this Job';
+
+  @override
+  String get setReminderButton => 'Set Reminder';
+
+  @override
+  String get reminderChoiceTitle => 'How would you like to be reminded?';
+
+  @override
+  String get reminderViaEmail => 'We\'ll send a reminder via email';
+
+  @override
+  String get reminderViaSmsWhatsappGeneric =>
+      'We\'ll send a reminder via SMS/WhatsApp';
+
+  @override
+  String get jobClosedButton => 'Job Closed';
+
+  @override
+  String get removeFromSaved => 'Remove from Saved';
+
+  @override
+  String get newFeatureBanner =>
+      'New on Ithaki! We just released a new feature that makes job search easier.';
+
+  @override
+  String get curiousWhyMatch => 'Curious why you match this job?';
+
+  @override
+  String get strongSkillsMatch => 'It\'s a Strong skills\nMatch!';
+
+  @override
+  String get goodSkillsMatch => 'It\'s a Good skills\nMatch!';
+
+  @override
+  String get partialSkillsMatch => 'It\'s a Partial skills\nMatch!';
+
+  @override
+  String get starterSkillsMatch => 'It\'s a Starter skills\nMatch!';
+
+  @override
+  String get deadlineBannerText =>
+      'This job has a deadline! Application\nopen till:';
+
+  @override
+  String get skillsRequired => 'Skills required';
+
+  @override
+  String get aboutRoleTitle => 'About the role';
+
+  @override
+  String get requirementsTitle => 'Requirements';
+
+  @override
+  String get niceToHaveTitle => 'Nice to have';
+
+  @override
+  String get weOfferTitle => 'We offer';
+
+  @override
+  String get shareJob => 'Share Job';
+
+  @override
+  String get notInterested => 'Not Interested';
+
+  @override
+  String get deleteReminder => 'Delete Reminder';
+
+  @override
+  String get salaryRangeLabel => 'Salary Range';
+
+  @override
+  String get responsibilitiesTitle => 'Responsibilities';
 }

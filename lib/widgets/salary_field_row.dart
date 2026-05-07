@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../l10n/app_localizations.dart';
+
 class SalaryFieldRow extends StatelessWidget {
   final TextEditingController controller;
   final bool preferNotToSpecify;
@@ -19,21 +21,23 @@ class SalaryFieldRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return IthakiSalaryInput(
       amountController: controller,
       paymentTerm: paymentTerm.isEmpty ? null : paymentTerm,
-      paymentTermOptions: const [
-        SearchItem(id: 'Monthly', label: 'Monthly'),
-        SearchItem(id: 'Yearly', label: 'Yearly'),
+      paymentTermOptions: [
+        SearchItem(id: 'Monthly', label: l.payMonthly),
+        SearchItem(id: 'Yearly', label: l.payYearly),
       ],
       onPaymentTermChanged: onPaymentTermChanged,
       preferNotToSpecify: preferNotToSpecify,
       onPreferNotToSpecifyChanged: onPreferNotToSpecifyChanged,
-      expectedPaymentLabel: 'Expected Payment',
-      fromLabel: 'From',
-      paymentTermLabel: 'Payment Term',
-      paymentTermPlaceholder: 'Select',
-      preferNotToSpecifyLabel: 'Prefer not to specify',
+      expectedPaymentLabel: l.expectedPaymentLabel,
+      fromLabel: l.fromLabel,
+      paymentTermLabel: l.paymentTermTitle,
+      paymentTermPlaceholder: l.selectAction,
+      preferNotToSpecifyLabel: l.preferNotToSpecify,
     );
   }
 }

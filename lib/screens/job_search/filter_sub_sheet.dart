@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../l10n/app_localizations.dart';
 
 class FilterSubSheet extends StatefulWidget {
   final String title;
@@ -38,6 +39,7 @@ class _FilterSubSheetState extends State<FilterSubSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final bottomPadding = MediaQuery.of(context).padding.bottom;
     final filtered = _query.isEmpty
         ? widget.options
@@ -80,7 +82,7 @@ class _FilterSubSheetState extends State<FilterSubSheet> {
               controller: _searchCtrl,
               onChanged: (v) => setState(() => _query = v),
               decoration: InputDecoration(
-                hintText: 'Search for ${widget.title}',
+                hintText: l.searchHint,
                 hintStyle: const TextStyle(
                     color: IthakiTheme.softGraphite, fontSize: 14),
                 prefixIcon:
@@ -113,8 +115,8 @@ class _FilterSubSheetState extends State<FilterSubSheet> {
                 CheckboxListTile(
                   value: _selected.isEmpty,
                   onChanged: (_) => setState(() => _selected.clear()),
-                  title: const Text('All',
-                      style: TextStyle(
+                  title: Text(l.filterAllLabel,
+                      style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: IthakiTheme.textPrimary)),
@@ -168,7 +170,7 @@ class _FilterSubSheetState extends State<FilterSubSheet> {
                         borderRadius: BorderRadius.circular(24)),
                     foregroundColor: IthakiTheme.textPrimary,
                   ),
-                  child: const Text('Clear'),
+                  child: Text(l.filterClear),
                 ),
               ),
               const SizedBox(width: 12),
@@ -186,8 +188,8 @@ class _FilterSubSheetState extends State<FilterSubSheet> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24)),
                   ),
-                  child: const Text('Apply Filter',
-                      style: TextStyle(fontWeight: FontWeight.w600)),
+                  child: Text(l.applyFilter,
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
                 ),
               ),
             ]),

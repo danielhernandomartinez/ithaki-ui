@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../l10n/app_localizations.dart';
+
 class SwitchLiteSheet extends StatelessWidget {
   final BuildContext parentContext;
   const SwitchLiteSheet({super.key, required this.parentContext});
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return BottomSheetBase(
-      title: 'Switch to Ithaki Lite?',
+      title: l.switchToLite,
       onClose: () => Navigator.pop(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "The interface will become simpler and easier to use. We'll show you only the jobs that best match your job interests.\nYou can switch back to the full interface at any time.",
-            style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
+            l.switchLiteDescription,
+            style:
+                const TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 24),
           SizedBox(
@@ -30,15 +35,15 @@ class SwitchLiteSheet extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 foregroundColor: IthakiTheme.textPrimary,
               ),
-              child: const Text('Cancel'),
+              child: Text(l.cancel),
             ),
           ),
           const SizedBox(height: 10),
           IthakiButton(
-            'Switch to Ithaki Lite',
+            l.switchLiteButton,
             onPressed: () {
               Navigator.pop(context);
-              SuccessBanner.show(parentContext, 'Switched to Ithaki Lite.');
+              SuccessBanner.show(parentContext, l.switchedToLite);
             },
           ),
           const SizedBox(height: 8),

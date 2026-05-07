@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/job_search_provider.dart';
 import '../filters_sheet.dart';
 
@@ -23,8 +24,8 @@ class JobSearchSearchBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final count =
-        ref.watch(jobSearchProvider).value?.activeFilterCount ?? 0;
+    final l = AppLocalizations.of(context)!;
+    final count = ref.watch(jobSearchProvider).value?.activeFilterCount ?? 0;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -42,11 +43,11 @@ class JobSearchSearchBar extends ConsumerWidget {
                 border: Border.all(color: IthakiTheme.lightGraphite),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: const TextField(
+              child: TextField(
                 decoration: InputDecoration(
-                  hintText: 'Search by job title',
-                  hintStyle: TextStyle(color: IthakiTheme.softGraphite),
-                  prefixIcon: Padding(
+                  hintText: l.searchByJobTitle,
+                  hintStyle: const TextStyle(color: IthakiTheme.softGraphite),
+                  prefixIcon: const Padding(
                     padding: EdgeInsets.all(12),
                     child: IthakiIcon('search',
                         size: 20, color: IthakiTheme.lightGraphite),
@@ -63,8 +64,8 @@ class JobSearchSearchBar extends ConsumerWidget {
               onTap: () => _openFilters(context, ref),
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
                   color: count > 0
                       ? IthakiTheme.backgroundViolet
@@ -88,7 +89,7 @@ class JobSearchSearchBar extends ConsumerWidget {
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        'Filters',
+                        l.filtersTitle,
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,

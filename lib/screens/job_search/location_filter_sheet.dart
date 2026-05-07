@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/countries.dart';
+import '../../l10n/app_localizations.dart';
 import '../../repositories/city_search_repository.dart';
 
 class LocationFilterSheet extends ConsumerStatefulWidget {
@@ -39,7 +40,11 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
   }
 
   void _pickCountry() {
-    SearchBottomSheet.show(context, 'Select Country', allCountries,
+    final l = AppLocalizations.of(context)!;
+    SearchBottomSheet.show(
+        context,
+        l.selectCountryTitle,
+        allCountries,
         (item) => setState(() {
               _country = item;
               _searchCtrl.clear();
@@ -53,8 +58,8 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
       setState(() => _results = []);
       return;
     }
-    _debounce = Timer(
-        const Duration(milliseconds: 400), () => _search(value.trim()));
+    _debounce =
+        Timer(const Duration(milliseconds: 400), () => _search(value.trim()));
   }
 
   Future<void> _search(String query) async {
@@ -62,7 +67,12 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
     final results = await ref
         .read(citySearchRepositoryProvider)
         .search(query, countryCode: _country?.id);
-    if (mounted) setState(() { _results = results; _loading = false; });
+    if (mounted) {
+      setState(() {
+        _results = results;
+        _loading = false;
+      });
+    }
   }
 
   void _toggle(String city) => setState(() =>
@@ -70,6 +80,7 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final bottomPadding = MediaQuery.viewInsetsOf(context).bottom;
 
     return Container(
@@ -91,8 +102,8 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
                     size: 22, color: IthakiTheme.textPrimary),
                 onPressed: () => Navigator.pop(context),
               ),
-              const Text('Location',
-                  style: TextStyle(
+              Text(l.locationHeading,
+                  style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: IthakiTheme.textPrimary)),
@@ -122,7 +133,7 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
                   ],
                   Expanded(
                     child: Text(
-                      _country?.label ?? 'Select a country first',
+                      _country?.label ?? l.selectCountry,
                       style: TextStyle(
                         fontSize: 14,
                         color: _country != null
@@ -147,9 +158,7 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
               enabled: _country != null,
               onChanged: _onSearchChanged,
               decoration: InputDecoration(
-                hintText: _country != null
-                    ? 'Search city in ${_country!.label}…'
-                    : 'Search for Location',
+                hintText: l.searchHint,
                 hintStyle: const TextStyle(
                     color: IthakiTheme.softGraphite, fontSize: 14),
                 prefixIcon:
@@ -176,8 +185,7 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
                         color: IthakiTheme.primaryPurple, width: 1.5)),
                 disabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
-                    borderSide:
-                        const BorderSide(color: Color(0xFFEEEEEE))),
+                    borderSide: const BorderSide(color: Color(0xFFEEEEEE))),
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 filled: _country == null,
@@ -196,8 +204,8 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
                 CheckboxListTile(
                   value: _selected.isEmpty,
                   onChanged: (_) => setState(() => _selected.clear()),
-                  title: const Text('All',
-                      style: TextStyle(
+                  title: Text(l.filterAllLabel,
+                      style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: IthakiTheme.textPrimary)),
@@ -220,14 +228,12 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
                                       fontSize: 14,
                                       fontWeight: FontWeight.w600,
                                       color: IthakiTheme.textPrimary)),
-                              controlAffinity:
-                                  ListTileControlAffinity.trailing,
+                              controlAffinity: ListTileControlAffinity.trailing,
                               activeColor: IthakiTheme.primaryPurple,
                               checkboxShape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4)),
                             ),
-                            const Divider(
-                                height: 1, color: Color(0xFFF0F0F0)),
+                            const Divider(height: 1, color: Color(0xFFF0F0F0)),
                           ],
                         )),
                 ..._results.map((r) {
@@ -278,7 +284,7 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
                         borderRadius: BorderRadius.circular(24)),
                     foregroundColor: IthakiTheme.textPrimary,
                   ),
-                  child: const Text('Clear'),
+                  child: Text(l.filterClear),
                 ),
               ),
               const SizedBox(width: 12),
@@ -296,8 +302,8 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24)),
                   ),
-                  child: const Text('Apply Filter',
-                      style: TextStyle(fontWeight: FontWeight.w600)),
+                  child: Text(l.applyFilter,
+                      style: const TextStyle(fontWeight: FontWeight.w600)),
                 ),
               ),
             ]),

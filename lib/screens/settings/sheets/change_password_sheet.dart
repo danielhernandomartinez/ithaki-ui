@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../utils/validators.dart';
 
 class ChangePasswordSheet extends StatefulWidget {
@@ -29,63 +30,66 @@ class _ChangePasswordSheetState extends State<ChangePasswordSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return BottomSheetBase(
-      title: 'Change Password',
+      title: l.changePasswordTitle,
       onClose: () => Navigator.pop(context),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          Text(
-            'Change your password to keep your account secure',
-            style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
-          ),
-          const SizedBox(height: 16),
-          IthakiPasswordField(
-            label: 'New Password',
-            hint: 'Enter your new password',
-            controller: _newCtrl,
-            onChanged: (_) => setState(() {}),
-          ),
-          const SizedBox(height: 12),
-          IthakiValidationRow(
-            text: 'Includes one uppercase and one lowercase letter',
-            valid: _pwVal.hasUpperAndLower,
-          ),
-          IthakiValidationRow(
-            text: 'At least 8 characters',
-            valid: _pwVal.hasMinLength,
-          ),
-          IthakiValidationRow(
-            text: 'Includes at least one number',
-            valid: _pwVal.hasNumber,
-          ),
-          IthakiValidationRow(
-            text: r'Includes one special character (like !@#$%^&)',
-            valid: _pwVal.hasSpecial,
-          ),
-          const SizedBox(height: 12),
-          IthakiPasswordField(
-            label: 'Repeat New Password',
-            hint: 'Repeat your new password',
-            controller: _confirmCtrl,
-            onChanged: (_) => setState(() {}),
-          ),
-          const SizedBox(height: 20),
-          IthakiButton(
-            'Update',
-            onPressed: _allRules && _passwordsMatch
-                ? () {
-                    Navigator.pop(context);
-                    SuccessBanner.show(
-                      widget.parentContext,
-                      'Your password has been updated.',
-                    );
-                  }
-                : null,
-          ),
-          const SizedBox(height: 8),
-        ],
+            Text(
+              l.changePasswordDescription,
+              style: const TextStyle(
+                  fontSize: 13, color: IthakiTheme.textSecondary),
+            ),
+            const SizedBox(height: 16),
+            IthakiPasswordField(
+              label: l.newPasswordLabel,
+              hint: l.newPasswordHint,
+              controller: _newCtrl,
+              onChanged: (_) => setState(() {}),
+            ),
+            const SizedBox(height: 12),
+            IthakiValidationRow(
+              text: l.passwordUpperLower,
+              valid: _pwVal.hasUpperAndLower,
+            ),
+            IthakiValidationRow(
+              text: l.passwordMinLength,
+              valid: _pwVal.hasMinLength,
+            ),
+            IthakiValidationRow(
+              text: l.passwordNumber,
+              valid: _pwVal.hasNumber,
+            ),
+            IthakiValidationRow(
+              text: l.passwordSpecial,
+              valid: _pwVal.hasSpecial,
+            ),
+            const SizedBox(height: 12),
+            IthakiPasswordField(
+              label: l.repeatNewPasswordLabel,
+              hint: l.repeatNewPasswordHint,
+              controller: _confirmCtrl,
+              onChanged: (_) => setState(() {}),
+            ),
+            const SizedBox(height: 20),
+            IthakiButton(
+              l.updateButton,
+              onPressed: _allRules && _passwordsMatch
+                  ? () {
+                      Navigator.pop(context);
+                      SuccessBanner.show(
+                        widget.parentContext,
+                        l.passwordUpdated,
+                      );
+                    }
+                  : null,
+            ),
+            const SizedBox(height: 8),
+          ],
         ),
       ),
     );

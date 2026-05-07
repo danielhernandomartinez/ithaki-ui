@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/profile_provider.dart';
 import '../../providers/reference_data_provider.dart';
 import '../../widgets/panel_scaffold.dart';
@@ -19,7 +20,8 @@ class EditLanguagesScreen extends ConsumerStatefulWidget {
   const EditLanguagesScreen({super.key});
 
   @override
-  ConsumerState<EditLanguagesScreen> createState() => _EditLanguagesScreenState();
+  ConsumerState<EditLanguagesScreen> createState() =>
+      _EditLanguagesScreenState();
 }
 
 class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
@@ -58,6 +60,7 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
   }
 
   void _showLanguagePicker(int index, List<String> availableLanguages) {
+    final l = AppLocalizations.of(context)!;
     final items = availableLanguages
         .where((name) => name.trim().isNotEmpty)
         .toSet()
@@ -73,11 +76,11 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
 
     SearchBottomSheet.show(
       context,
-      'Select Language',
+      l.selectLanguage,
       items,
       (item) => setState(() => _langs[index] = item.id),
-      searchHint: 'Search language',
-      selectLabel: 'Select',
+      searchHint: l.searchLanguage,
+      selectLabel: l.selectAction,
     );
   }
 
@@ -128,18 +131,19 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
     List<String> availableLanguages,
     bool isLoadingLanguages,
   ) {
+    final l = AppLocalizations.of(context)!;
     return IthakiTextField(
-      label: 'Language',
-      hint: 'Select language',
+      label: l.languageFieldLabel,
+      hint: l.selectLanguageHint,
       controller: TextEditingController(text: _langs[index]),
       readOnly: true,
       onTap: () {
         if (isLoadingLanguages) {
-          _showMessage('Loading languages...');
+          _showMessage(l.loadingLanguages);
           return;
         }
         if (availableLanguages.isEmpty) {
-          _showMessage('No languages available right now.');
+          _showMessage(l.noLanguagesAvailable);
           return;
         }
         _showLanguagePicker(index, availableLanguages);
@@ -171,7 +175,9 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: isSelected ? IthakiTheme.primaryPurple : IthakiTheme.borderLight,
+                color: isSelected
+                    ? IthakiTheme.primaryPurple
+                    : IthakiTheme.borderLight,
                 width: isSelected ? 2 : 1,
               ),
             ),
@@ -179,7 +185,8 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (isSelected) ...[
-                  const Icon(Icons.check, size: 14, color: IthakiTheme.primaryPurple),
+                  const Icon(Icons.check,
+                      size: 14, color: IthakiTheme.primaryPurple),
                   const SizedBox(width: 4),
                 ],
                 Text(
@@ -187,7 +194,9 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                    color: isSelected ? IthakiTheme.primaryPurple : IthakiTheme.textPrimary,
+                    color: isSelected
+                        ? IthakiTheme.primaryPurple
+                        : IthakiTheme.textPrimary,
                   ),
                 ),
               ],
@@ -200,12 +209,14 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final langsAsync = ref.watch(languagesListProvider);
-    final availableLanguages = langsAsync.value?.map((l) => l.name).toList() ?? const [];
+    final availableLanguages =
+        langsAsync.value?.map((l) => l.name).toList() ?? const [];
     final isLoadingLanguages = langsAsync.isLoading;
 
     return PanelScaffold(
-      title: 'Edit Languages',
+      title: l.editLanguagesTitle,
       onSave: _save,
       children: [
         _buildStatusBanner(langsAsync),
@@ -215,14 +226,16 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Expanded(
-                child: _buildLanguageField(i, availableLanguages, isLoadingLanguages),
+                child: _buildLanguageField(
+                    i, availableLanguages, isLoadingLanguages),
               ),
               if (_langs.length > 1) ...[
                 const SizedBox(width: 8),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 2),
                   child: IconButton(
-                    icon: const Icon(Icons.delete_outline, color: IthakiTheme.softGraphite),
+                    icon: const Icon(Icons.delete_outline,
+                        color: IthakiTheme.softGraphite),
                     onPressed: () => _removeEntry(i),
                   ),
                 ),
@@ -230,9 +243,9 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
             ],
           ),
           const SizedBox(height: 12),
-          const Text(
-            'Proficiency Level',
-            style: TextStyle(
+          Text(
+            l.proficiencyLevel,
+            style: const TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
               color: IthakiTheme.textPrimary,
@@ -245,10 +258,11 @@ class _EditLanguagesScreenState extends ConsumerState<EditLanguagesScreen> {
         OutlinedButton.icon(
           onPressed: _addEntry,
           icon: const IthakiIcon('plus', size: 16),
-          label: const Text('Add Another Language'),
+          label: Text(l.addAnotherLanguage),
           style: OutlinedButton.styleFrom(
             side: const BorderSide(color: IthakiTheme.softGraphite),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             foregroundColor: IthakiTheme.textPrimary,
           ),

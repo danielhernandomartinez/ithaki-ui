@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../models/job_detail_models.dart';
 import '../../../providers/tour_provider.dart';
 import '../../../routes.dart';
@@ -44,6 +45,8 @@ class JobDetailStickyBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
       child: ClipRRect(
@@ -61,12 +64,12 @@ class JobDetailStickyBar extends StatelessWidget {
             ),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
               IthakiButton(
-                isClosed ? 'Job Closed' : 'Apply Now',
+                isClosed ? l.jobClosedButton : l.applyNow,
                 onPressed: isClosed ? null : onApply,
               ),
               const SizedBox(height: 8),
               IthakiButton(
-                isSaved ? 'Remove from Saved' : 'Save Job',
+                isSaved ? l.removeFromSaved : l.saveJob,
                 variant: IthakiButtonVariant.outline,
                 onPressed: onSave,
               ),
@@ -205,6 +208,8 @@ class JobDetailAnnouncementBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -218,17 +223,16 @@ class JobDetailAnnouncementBanner extends StatelessWidget {
         Expanded(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text(
-                'New on Ithaki! We just released a new feature that makes job search easier.',
-                style: TextStyle(
+            Text(l.newFeatureBanner,
+                style: const TextStyle(
                   fontFamily: 'Noto Sans',
                   fontSize: 14,
                   color: IthakiTheme.textPrimary,
                   height: 1.4,
                 )),
             const SizedBox(height: 4),
-            const Text('Read more',
-                style: TextStyle(
+            Text(l.readMore,
+                style: const TextStyle(
                   fontFamily: 'Noto Sans',
                   fontSize: 13,
                   color: IthakiTheme.textSecondary,
@@ -267,15 +271,17 @@ class JobDetailMatchBanner extends StatelessWidget {
     return const Color(0xFFFF6B6B);
   }
 
-  String get _matchCopy {
-    if (percentage >= 80) return "It's a Strong skills\nMatch!";
-    if (percentage >= 60) return "It's a Good skills\nMatch!";
-    if (percentage >= 40) return "It's a Partial skills\nMatch!";
-    return "It's a Starter skills\nMatch!";
+  String _matchCopy(AppLocalizations l) {
+    if (percentage >= 80) return l.strongSkillsMatch;
+    if (percentage >= 60) return l.goodSkillsMatch;
+    if (percentage >= 40) return l.partialSkillsMatch;
+    return l.starterSkillsMatch;
   }
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(14, 18, 14, 18),
@@ -337,7 +343,7 @@ class JobDetailMatchBanner extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: Text(
-                _matchCopy,
+                _matchCopy(l),
                 style: const TextStyle(
                   fontFamily: 'Noto Sans',
                   fontSize: 24,
@@ -353,9 +359,9 @@ class JobDetailMatchBanner extends StatelessWidget {
         const SizedBox(height: 14),
         Divider(color: Colors.white.withValues(alpha: 0.18), height: 1),
         const SizedBox(height: 16),
-        const Text(
-          'Curious why you match this job?',
-          style: TextStyle(
+        Text(
+          l.curiousWhyMatch,
+          style: const TextStyle(
             fontFamily: 'Noto Sans',
             fontSize: 18,
             fontWeight: FontWeight.w700,
@@ -376,16 +382,16 @@ class JobDetailMatchBanner extends StatelessWidget {
                 width: 1.2,
               ),
             ),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IthakiIcon('ai', size: 18, color: Colors.white),
-                SizedBox(width: 10),
+                const IthakiIcon('ai', size: 18, color: Colors.white),
+                const SizedBox(width: 10),
                 Flexible(
                   child: Text(
-                    'Ask Career Assistant',
+                    l.askCareerAssistant,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'Noto Sans',
                       fontSize: 17,
                       fontWeight: FontWeight.w600,
@@ -428,6 +434,8 @@ class JobDetailMainJobCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Container(
       decoration: BoxDecoration(
         color: IthakiTheme.backgroundWhite,
@@ -438,7 +446,7 @@ class JobDetailMainJobCard extends StatelessWidget {
         // Posted + menu
         Row(children: [
           Expanded(
-            child: Text('Posted ${detail.postedDate}',
+            child: Text(l.jobPostedDate(detail.postedDate),
                 style: const TextStyle(
                   fontFamily: 'Noto Sans',
                   fontSize: 13,
@@ -452,8 +460,8 @@ class JobDetailMainJobCard extends StatelessWidget {
                 color: const Color(0xFFE8E8E8),
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: const Text('Closed',
-                  style: TextStyle(
+              child: Text(l.jobClosedLabel,
+                  style: const TextStyle(
                     fontFamily: 'Noto Sans',
                     fontSize: 13,
                     color: IthakiTheme.textPrimary,
@@ -478,9 +486,9 @@ class JobDetailMainJobCard extends StatelessWidget {
                 if (v == 'report') onReport();
               },
               itemBuilder: (_) => [
-                const PopupMenuItem(
-                    value: 'reminder', child: Text('Deadline Reminder')),
-                const PopupMenuItem(value: 'report', child: Text('Report')),
+                PopupMenuItem(
+                    value: 'reminder', child: Text(l.deadlineReminderLabel)),
+                PopupMenuItem(value: 'report', child: Text(l.reportLabel)),
               ],
             ),
         ]),
@@ -516,9 +524,9 @@ class JobDetailMainJobCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'This job has a deadline! Application\nopen till:',
-                        style: TextStyle(
+                      Text(
+                        l.deadlineBannerText,
+                        style: const TextStyle(
                           fontFamily: 'Noto Sans',
                           fontSize: 16,
                           height: 1.25,
@@ -604,27 +612,34 @@ class JobDetailMainJobCard extends StatelessWidget {
           Wrap(spacing: 0, runSpacing: 10, children: [
             if (detail.location.isNotEmpty)
               JobDetailCell(
-                  label: 'Location', icon: 'location', value: detail.location),
+                  label: l.locationInfoLabel,
+                  icon: 'location',
+                  value: detail.location),
             if (detail.jobType.isNotEmpty)
               JobDetailCell(
-                  label: 'Job Type', icon: 'clock', value: detail.jobType),
+                  label: l.jobTypeTitle, icon: 'clock', value: detail.jobType),
             if (detail.company.industry.isNotEmpty)
-              JobDetailCell(label: 'Industry', value: detail.company.industry),
+              JobDetailCell(
+                  label: l.industryLabel, value: detail.company.industry),
             if (detail.salaryRange.isNotEmpty)
               JobDetailCell(
-                  label: 'Salary Range', value: detail.salaryRange, bold: true),
+                  label: l.salaryRangeLabel,
+                  value: detail.salaryRange,
+                  bold: true),
             if (detail.workplace.isNotEmpty)
               JobDetailCell(
-                  label: 'Workplace', icon: 'profile', value: detail.workplace),
+                  label: l.workplaceLabel,
+                  icon: 'profile',
+                  value: detail.workplace),
             if (detail.experienceLevel.isNotEmpty)
               JobDetailCell(
-                label: 'Experience Level',
+                label: l.experienceLevelLabel,
                 icon: 'assessment',
                 value: detail.experienceLevel,
               ),
             if (detail.languages.isNotEmpty)
               JobDetailCell(
-                label: 'Language',
+                label: l.languageLabel,
                 icon: 'globe',
                 value: detail.languages,
                 wide: true,
@@ -635,9 +650,9 @@ class JobDetailMainJobCard extends StatelessWidget {
         // Skills
         if (detail.skills.isNotEmpty) ...[
           const SizedBox(height: 12),
-          const Text(
-            'Skills required',
-            style: TextStyle(
+          Text(
+            l.skillsRequired,
+            style: const TextStyle(
               fontFamily: 'Noto Sans',
               fontSize: 14,
               color: IthakiTheme.softGraphite,
@@ -654,14 +669,14 @@ class JobDetailMainJobCard extends StatelessWidget {
         // About the role
         if (detail.description.isNotEmpty) ...[
           const SizedBox(height: 24),
-          JobTextSection(title: 'About the role', body: detail.description),
+          JobTextSection(title: l.aboutRoleTitle, body: detail.description),
         ],
 
         // Responsibilities (communication field)
         if (detail.communication.isNotEmpty) ...[
           const SizedBox(height: 26),
           JobBulletSection(
-            title: 'Responsibilities',
+            title: l.responsibilitiesTitle,
             items: splitJobBullets(detail.communication),
           ),
         ],
@@ -669,13 +684,14 @@ class JobDetailMainJobCard extends StatelessWidget {
         // Requirements
         if (detail.requirements.isNotEmpty) ...[
           const SizedBox(height: 24),
-          JobBulletSection(title: 'Requirements', items: detail.requirements),
+          JobBulletSection(
+              title: l.requirementsTitle, items: detail.requirements),
         ],
 
         // Nice to have
         if (detail.niceToHave.isNotEmpty) ...[
           const SizedBox(height: 14),
-          JobDetailSection(title: 'Nice to have', body: detail.niceToHave),
+          JobDetailSection(title: l.niceToHaveTitle, body: detail.niceToHave),
           const SizedBox(height: 14),
           const Divider(height: 1, color: Color(0xFFE8E8E8)),
         ],
@@ -683,7 +699,7 @@ class JobDetailMainJobCard extends StatelessWidget {
         // We offer
         if (detail.whatWeOffer.isNotEmpty) ...[
           const SizedBox(height: 14),
-          JobDetailSection(title: 'We offer', body: detail.whatWeOffer),
+          JobDetailSection(title: l.weOfferTitle, body: detail.whatWeOffer),
           const SizedBox(height: 14),
           const Divider(height: 1, color: Color(0xFFE8E8E8)),
         ],
@@ -693,24 +709,24 @@ class JobDetailMainJobCard extends StatelessWidget {
         if (isNotInterested)
           Row(children: [
             Expanded(
-              child: IthakiButton('Share Job',
+              child: IthakiButton(l.shareJob,
                   variant: IthakiButtonVariant.outline, onPressed: onShare),
             ),
             const SizedBox(width: 8),
             Expanded(
-              child: IthakiButton('Job Removed',
+              child: IthakiButton(l.jobPostRemoved,
                   variant: IthakiButtonVariant.outline, onPressed: null),
             ),
           ])
         else
           Row(children: [
             Expanded(
-              child: IthakiButton('Share Job',
+              child: IthakiButton(l.shareJob,
                   variant: IthakiButtonVariant.outline, onPressed: onShare),
             ),
             const SizedBox(width: 8),
             Expanded(
-              child: IthakiButton('Not Interested',
+              child: IthakiButton(l.notInterested,
                   variant: IthakiButtonVariant.outline,
                   onPressed: onNotInterested),
             ),
@@ -729,9 +745,9 @@ class JobDetailMainJobCard extends StatelessWidget {
               const IthakiIcon('calendar',
                   size: 18, color: IthakiTheme.primaryPurple),
               const SizedBox(width: 8),
-              const Expanded(
-                child: Text('You have set a reminder for this job post',
-                    style: TextStyle(
+              Expanded(
+                child: Text(l.reminderSetNotification,
+                    style: const TextStyle(
                       fontFamily: 'Noto Sans',
                       fontSize: 13,
                       color: IthakiTheme.textPrimary,
@@ -740,7 +756,7 @@ class JobDetailMainJobCard extends StatelessWidget {
             ]),
           ),
           const SizedBox(height: 8),
-          IthakiButton('Delete Reminder',
+          IthakiButton(l.deleteReminder,
               variant: IthakiButtonVariant.outline,
               onPressed: onDeleteReminder),
         ],
@@ -768,6 +784,8 @@ class OdysseaReviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -776,8 +794,8 @@ class OdysseaReviewCard extends StatelessWidget {
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
-          const Text('Odyssea Review: ',
-              style: TextStyle(
+          Text(l.odysseaReviewLabel,
+              style: const TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
@@ -821,6 +839,8 @@ class RecommendedJobsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -828,8 +848,8 @@ class RecommendedJobsSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('Recommended for you',
-            style: TextStyle(
+        Text(l.recommendedForYouLabel,
+            style: const TextStyle(
               fontFamily: 'Noto Sans',
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -850,6 +870,8 @@ class RecommendedJobTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(children: [
         Container(
@@ -929,14 +951,14 @@ class RecommendedJobTile extends StatelessWidget {
       const SizedBox(height: 10),
       Row(children: [
         Expanded(
-          child: IthakiButton('Save Job',
+          child: IthakiButton(l.saveJob,
               variant: IthakiButtonVariant.outline,
               onPressed: () => context.go(Routes.jobSearch)),
         ),
         const SizedBox(width: 8),
         Expanded(
           child: IthakiButton(
-            'View Job',
+            l.viewJob,
             onPressed: () => context.go(Routes.jobSearch),
           ),
         ),
@@ -953,6 +975,8 @@ class JobDetailCompanyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -960,8 +984,8 @@ class JobDetailCompanyCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('About the Company',
-            style: TextStyle(
+        Text(l.aboutCompanyTitle,
+            style: const TextStyle(
               fontFamily: 'Noto Sans',
               fontSize: 16,
               fontWeight: FontWeight.w600,
@@ -1019,7 +1043,7 @@ class JobDetailCompanyCard extends StatelessWidget {
               )),
         ],
         const SizedBox(height: 12),
-        IthakiButton('Company Profile',
+        IthakiButton(l.companyProfile,
             variant: IthakiButtonVariant.outline,
             onPressed: company.id.isNotEmpty
                 ? () => context.push(Routes.companyProfileFor(company.id))

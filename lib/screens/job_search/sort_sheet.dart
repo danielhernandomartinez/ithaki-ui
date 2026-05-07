@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../l10n/app_localizations.dart';
 
 class SortSheet extends StatelessWidget {
   final String current;
@@ -17,13 +18,15 @@ class SortSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Container(
       decoration: const BoxDecoration(
         color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).padding.bottom + 16),
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -33,8 +36,8 @@ class SortSheet extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Sorting',
-                    style: TextStyle(
+                Text(l.sortingTitle,
+                    style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         color: IthakiTheme.textPrimary)),
@@ -53,8 +56,7 @@ class SortSheet extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ListTile(
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 20),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                     title: Text(option,
                         style: TextStyle(
                             fontSize: 15,

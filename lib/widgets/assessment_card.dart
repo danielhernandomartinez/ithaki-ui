@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../l10n/app_localizations.dart';
 import '../models/assessment_models.dart';
 
 class AssessmentCard extends StatelessWidget {
@@ -108,13 +109,14 @@ class _Meta extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Row(
       children: [
-        Text('${assessment.questionCount} questions',
+        Text(l.questionsCount(assessment.questionCount),
             style: IthakiTheme.bodySmall
                 .copyWith(color: IthakiTheme.textSecondary)),
         const SizedBox(width: 16),
-        Text('${assessment.durationMinutes} min',
+        Text(l.durationMinutes(assessment.durationMinutes),
             style: IthakiTheme.bodySmall
                 .copyWith(color: IthakiTheme.textSecondary)),
       ],
@@ -128,9 +130,10 @@ class _ScoreRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Row(
       children: [
-        Text('Your Score',
+        Text(l.assessmentYourScore,
             style: IthakiTheme.bodySmall
                 .copyWith(color: IthakiTheme.textSecondary)),
         const Spacer(),
@@ -160,18 +163,19 @@ class _Actions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return switch (assessment.status) {
       AssessmentStatus.notStarted => Row(
           children: [
             Expanded(
               child: IthakiOutlineButton(
-                'Test Details',
+                l.testDetails,
                 onPressed: onTestDetails,
               ),
             ),
             const SizedBox(width: 8),
             Expanded(
-              child: IthakiButton('Start Test', onPressed: onStartTest),
+              child: IthakiButton(l.startTest, onPressed: onStartTest),
             ),
           ],
         ),
@@ -179,13 +183,13 @@ class _Actions extends StatelessWidget {
           children: [
             Expanded(
               child: IthakiOutlineButton(
-                'Test Details',
+                l.testDetails,
                 onPressed: onTestDetails,
               ),
             ),
             const SizedBox(width: 8),
             Expanded(
-              child: IthakiButton('Continue', onPressed: onContinue),
+              child: IthakiButton(l.continueButton, onPressed: onContinue),
             ),
           ],
         ),
@@ -193,7 +197,7 @@ class _Actions extends StatelessWidget {
           children: [
             Expanded(
               child: IthakiOutlineButton(
-                'View Details',
+                l.viewDetails,
                 onPressed: onViewDetails,
               ),
             ),
@@ -201,8 +205,8 @@ class _Actions extends StatelessWidget {
             Expanded(
               child: IthakiButton(
                 assessment.lastResult?.shownInCV == true
-                    ? 'In CV'
-                    : 'Show in CV',
+                    ? l.inCv
+                    : l.showInCv,
                 onPressed: onShowInCV,
               ),
             ),

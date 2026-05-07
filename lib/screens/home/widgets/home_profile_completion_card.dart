@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../routes.dart';
@@ -66,7 +66,9 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                                     shape: BoxShape.circle,
                                   ),
                                   child: item.completed
-                                      ? const Icon(Icons.check, size: 14, color: IthakiTheme.backgroundWhite)
+                                      ? const Icon(Icons.check,
+                                          size: 14,
+                                          color: IthakiTheme.backgroundWhite)
                                       : null,
                                 ),
                                 const SizedBox(width: 10),

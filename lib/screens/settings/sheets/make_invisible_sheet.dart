@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/profile_provider.dart';
 
 class MakeInvisibleSheet extends ConsumerWidget {
@@ -9,15 +10,18 @@ class MakeInvisibleSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
+
     return BottomSheetBase(
-      title: 'Make your profile invisible?',
+      title: l.makeProfileInvisible,
       onClose: () => Navigator.pop(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "If you make your profile invisible, employers won't be able to find you in candidate searches. You'll still be able to apply for jobs you're interested in. You can change your profile visibility anytime in your account settings.",
-            style: TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
+            l.makeProfileInvisibleDescription,
+            style:
+                const TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 24),
           Row(
@@ -31,13 +35,13 @@ class MakeInvisibleSheet extends ConsumerWidget {
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 12),
                   ),
-                  child: const Text('Cancel'),
+                  child: Text(l.cancel),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: IthakiButton(
-                  'Make Profile Invisible',
+                  l.makeProfileInvisibleButton,
                   onPressed: () {
                     ref.read(profileVisibleProvider.notifier).toggle();
                     Navigator.pop(context);

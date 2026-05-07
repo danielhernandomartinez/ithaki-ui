@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../constants/nav_items.dart';
+import '../../l10n/app_localizations.dart';
 import '../../mixins/panel_menu_mixin.dart';
 import '../../providers/assessment_provider.dart';
 import '../../providers/cv_provider.dart';
@@ -79,6 +80,7 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final basicsAsync = ref.watch(profileBasicsProvider);
     final basics = basicsAsync.value;
     final aboutMe = ref.watch(profileAboutMeProvider).value;
@@ -113,25 +115,25 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
                   color: IthakiTheme.textSecondary,
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  "Couldn't load your CV.",
-                  style: TextStyle(
+                Text(
+                  l.cvCouldNotLoadTitle,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     color: IthakiTheme.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Try refreshing your profile data and open it again.',
+                Text(
+                  l.cvCouldNotLoadMessage,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: IthakiTheme.textSecondary,
                   ),
                 ),
                 const SizedBox(height: 20),
                 IthakiButton(
-                  'Retry',
+                  l.tryAgain,
                   onPressed: () => ref.invalidate(profileBasicsProvider),
                 ),
               ],
@@ -165,7 +167,7 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
         appBar: IthakiAppBar(
           showMenuAndAvatar: true,
           showBackButton: true,
-          title: 'Ithaki',
+          title: l.appBarTitleIthaki,
           menuOpen: false,
           profileOpen: _panels.profileOpen,
           avatarInitials: cvData.avatarInitials,
@@ -211,8 +213,8 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
                   ),
                   const SizedBox(height: 12),
                   CvSectionCard(
-                    title: 'About Me',
-                    actionLabel: isPublished ? null : 'Edit About Me',
+                    title: l.profileAboutMeTitle,
+                    actionLabel: isPublished ? null : l.editAboutMeVideo,
                     onActionPressed: isPublished
                         ? null
                         : () => context.push(Routes.profileAboutMe),
@@ -227,8 +229,8 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
                   ),
                   const SizedBox(height: 12),
                   CvSectionCard(
-                    title: 'Skills',
-                    actionLabel: isPublished ? null : 'Edit Skills',
+                    title: l.profileSkillsTitle,
+                    actionLabel: isPublished ? null : l.editSkillsTitle,
                     onActionPressed: isPublished
                         ? null
                         : () => context.push(Routes.profileSkills),
@@ -242,8 +244,8 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
                   ),
                   const SizedBox(height: 12),
                   CvSectionCard(
-                    title: 'Competencies',
-                    actionLabel: isPublished ? null : 'Edit Competencies',
+                    title: l.competenciesTitle,
+                    actionLabel: isPublished ? null : l.editCompetenciesTitle,
                     onActionPressed: isPublished
                         ? null
                         : () => context.push(Routes.profileCompetencies),
@@ -258,8 +260,8 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
                   ),
                   const SizedBox(height: 12),
                   CvSectionCard(
-                    title: 'Work Experience',
-                    actionLabel: isPublished ? null : 'Add Work Experience',
+                    title: l.profileWorkExperienceTitle,
+                    actionLabel: isPublished ? null : l.addWorkExperience,
                     onActionPressed: isPublished
                         ? null
                         : () => context.push(Routes.profileWorkExperience),
@@ -281,8 +283,8 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
                   ),
                   const SizedBox(height: 12),
                   CvSectionCard(
-                    title: 'Education',
-                    actionLabel: isPublished ? null : 'Add Education',
+                    title: l.profileEducationTitle,
+                    actionLabel: isPublished ? null : l.addEducation,
                     onActionPressed: isPublished
                         ? null
                         : () => context.push(Routes.profileEducation),
@@ -299,8 +301,8 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
                   ),
                   const SizedBox(height: 12),
                   CvSectionCard(
-                    title: 'Languages',
-                    actionLabel: isPublished ? null : 'Edit Languages',
+                    title: l.languagesTitle,
+                    actionLabel: isPublished ? null : l.editLanguagesTitle,
                     onActionPressed: isPublished
                         ? null
                         : () => context.push(Routes.profileLanguages),
@@ -312,7 +314,7 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
                   ),
                   const SizedBox(height: 12),
                   CvSectionCard(
-                    title: 'My Files',
+                    title: l.profileMyFilesTitle,
                     child: Column(
                       children: cvData.files
                           .map(
@@ -352,7 +354,7 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
                   if (isPublished && cvData.assessmentCards.isNotEmpty) ...[
                     const SizedBox(height: 12),
                     CvSectionCard(
-                      title: 'Assessments results',
+                      title: l.assessmentsResultsTitle,
                       child: Column(
                         children: cvData.assessmentCards.map((assessment) {
                           return Padding(
@@ -386,12 +388,12 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
                       width: double.infinity,
                       child: isPublished
                           ? IthakiOutlineButton(
-                              'Go to Profile',
+                              l.goToProfile,
                               onPressed: () => context.push(Routes.profile),
                               borderRadius: 24,
                             )
                           : IthakiButton(
-                              'Publish CV',
+                              l.publishCv,
                               onPressed: () => ref
                                   .read(cvPublishedProvider.notifier)
                                   .setPublished(true),
@@ -402,20 +404,19 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
                       width: double.infinity,
                       child: isPublished
                           ? IthakiOutlineButton(
-                              'Download CV',
+                              l.downloadCv,
                               icon: const IthakiIcon('resume', size: 18),
                               onPressed: () {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                        'CV download will be available soon.'),
+                                  SnackBar(
+                                    content: Text(l.cvDownloadSoon),
                                   ),
                                 );
                               },
                               borderRadius: 24,
                             )
                           : IthakiOutlineButton(
-                              'Return to Profile Setup',
+                              l.returnToProfileSetup,
                               icon: const IthakiIcon('edit-pencil', size: 18),
                               onPressed: () => context.push(Routes.profile),
                               borderRadius: 24,

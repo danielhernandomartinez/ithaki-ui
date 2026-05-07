@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
@@ -15,7 +15,8 @@ class HomeQuestionsSection extends StatelessWidget {
       children: [
         Row(
           children: [
-            const IthakiIcon('help', size: 24, color: IthakiTheme.accentPurpleLight),
+            const IthakiIcon('help',
+                size: 24, color: IthakiTheme.accentPurpleLight),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
@@ -34,7 +35,8 @@ class HomeQuestionsSection extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Text(
             l10n.homeQuestionsSubtitle,
-            style: const TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
+            style:
+                const TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
           ),
         ),
         const SizedBox(height: 16),

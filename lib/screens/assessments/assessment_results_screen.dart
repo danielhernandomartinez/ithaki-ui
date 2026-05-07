@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/assessment_provider.dart';
 import '../../routes.dart';
 import '../../widgets/assessment_card.dart';
@@ -24,18 +25,19 @@ class AssessmentResultsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final resultAsync = ref.watch(assessmentResultProvider(assessmentId));
     final assessmentsAsync = ref.watch(assessmentsListProvider);
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: IthakiAppBar(showBackButton: true, title: 'Ithaki'),
+      appBar: IthakiAppBar(showBackButton: true, title: l.appBarTitleIthaki),
       body: resultAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('Error: $e')),
+        error: (e, _) => Center(child: Text(l.errorMessage(e.toString()))),
         data: (result) {
           if (result == null) {
-            return const Center(child: Text('No results found'));
+            return Center(child: Text(l.quizNoResults));
           }
 
           final assessments = assessmentsAsync.value ?? [];
@@ -72,12 +74,12 @@ class AssessmentResultsScreen extends ConsumerWidget {
                   ],
                   if (recommended.isNotEmpty) ...[
                     const SizedBox(height: 20),
-                    Text('Assessments recommended for you',
+                    Text(l.assessmentsRecommendedForYou,
                         style: IthakiTheme.bodySmall
                             .copyWith(fontWeight: FontWeight.w700, fontSize: 16)),
                     const SizedBox(height: 4),
                     Text(
-                      'We recommend these assessments to help you validate your skills.',
+                      l.assessmentsRecommendedSubtitle,
                       style: IthakiTheme.bodySmall
                           .copyWith(color: IthakiTheme.textSecondary),
                     ),
@@ -115,6 +117,7 @@ class _AssessmentHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -142,7 +145,7 @@ class _AssessmentHeader extends StatelessWidget {
                   style: IthakiTheme.bodySmall
                       .copyWith(color: IthakiTheme.textSecondary)),
               Text(
-                'Taken: ${_formatDate(result.takenAt)}',
+                l.assessmentTakenLabel(_formatDate(result.takenAt)),
                 style: IthakiTheme.bodySmall
                     .copyWith(color: IthakiTheme.textSecondary),
               ),
@@ -160,6 +163,7 @@ class _ScoreCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -173,7 +177,7 @@ class _ScoreCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Your Score',
+                Text(l.assessmentYourScore,
                     style: IthakiTheme.bodySmall
                         .copyWith(color: IthakiTheme.textSecondary)),
                 Text('${result.score}/${result.maxScore}',
@@ -185,7 +189,7 @@ class _ScoreCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Level',
+              Text(l.assessmentLevel,
                   style: IthakiTheme.bodySmall
                       .copyWith(color: IthakiTheme.textSecondary)),
               Text(result.level,
@@ -205,6 +209,7 @@ class _SkillBreakdownSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -215,12 +220,12 @@ class _SkillBreakdownSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Skill breakdown',
+          Text(l.assessmentSkillBreakdown,
               style:
                   IthakiTheme.bodySmall.copyWith(fontWeight: FontWeight.w700)),
           const SizedBox(height: 4),
           Text(
-            'This breakdown shows how your results are distributed across key skill areas.',
+            l.assessmentSkillBreakdownSubtitle,
             style: IthakiTheme.bodySmall
                 .copyWith(color: IthakiTheme.textSecondary),
           ),
@@ -238,6 +243,7 @@ class _SkillRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Column(
@@ -284,7 +290,7 @@ class _KeyInsightsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Key insights',
+          Text(l.assessmentKeyInsights,
               style:
                   IthakiTheme.bodySmall.copyWith(fontWeight: FontWeight.w700)),
           const SizedBox(height: 12),
@@ -322,6 +328,7 @@ class _PreviousResultsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -332,7 +339,7 @@ class _PreviousResultsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Previous results',
+          Text(l.assessmentPreviousResults,
               style:
                   IthakiTheme.bodySmall.copyWith(fontWeight: FontWeight.w700)),
           const SizedBox(height: 8),
@@ -345,11 +352,11 @@ class _PreviousResultsSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('You improving!',
+                Text(l.assessmentYouImproving,
                     style: IthakiTheme.bodySmall
                         .copyWith(fontWeight: FontWeight.w600)),
                 Text(
-                  'Your results show steady improvement in how you approach and resolve work-related problems.',
+                  l.assessmentImprovingSubtitle,
                   style: IthakiTheme.bodySmall
                       .copyWith(color: IthakiTheme.textSecondary),
                 ),
@@ -369,7 +376,7 @@ class _PreviousResultsSection extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Your Score',
+                        Text(l.assessmentYourScore,
                             style: IthakiTheme.bodySmall),
                         Text('${prev.score}/${prev.maxScore}',
                             style: IthakiTheme.bodySmall
@@ -379,7 +386,7 @@ class _PreviousResultsSection extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Level', style: IthakiTheme.bodySmall),
+                        Text(l.assessmentLevel, style: IthakiTheme.bodySmall),
                         Text(prev.level,
                             style: IthakiTheme.bodySmall
                                 .copyWith(color: IthakiTheme.textSecondary)),
@@ -402,6 +409,7 @@ class _ProfileSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -412,18 +420,18 @@ class _ProfileSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('What this means for your profile',
+          Text(l.assessmentMeansForProfile,
               style:
                   IthakiTheme.bodySmall.copyWith(fontWeight: FontWeight.w700)),
           const SizedBox(height: 8),
           Text(
-            'This result confirms your skills, which are reflected in your job applications on the platform.',
+            l.assessmentResultsConfirmSkills,
             style: IthakiTheme.bodySmall
                 .copyWith(color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 16),
           IthakiOutlineButton(
-            result.shownInCV ? 'Hide from CV' : 'Show result in my CV',
+            result.shownInCV ? l.assessmentHideFromCV : l.assessmentShowInCV,
             onPressed: () => onToggle(!result.shownInCV),
           ),
         ],

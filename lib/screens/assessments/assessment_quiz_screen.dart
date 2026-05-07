@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/assessment_provider.dart';
 import '../../routes.dart';
 
@@ -54,6 +55,7 @@ class _AssessmentQuizScreenState extends ConsumerState<AssessmentQuizScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final quizState = ref.watch(quizProvider(widget.assessmentId));
 
     ref.listen(quizProvider(widget.assessmentId), (prev, next) {
@@ -69,7 +71,7 @@ class _AssessmentQuizScreenState extends ConsumerState<AssessmentQuizScreen> {
       },
       child: Scaffold(
         backgroundColor: IthakiTheme.backgroundViolet,
-        appBar: IthakiAppBar(showBackButton: false, title: 'Ithaki'),
+        appBar: IthakiAppBar(showBackButton: false, title: l.appBarTitleIthaki),
         body: quizState.isLoading
             ? const Center(child: CircularProgressIndicator())
             : _QuizBody(
@@ -136,7 +138,7 @@ class _QuizBody extends ConsumerWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  _subtitle(question),
+                  _subtitle(context, question),
                   style: IthakiTheme.bodySmall
                       .copyWith(color: IthakiTheme.textSecondary),
                 ),
@@ -163,14 +165,14 @@ class _QuizBody extends ConsumerWidget {
     );
   }
 
-  String _subtitle(Question q) {
+  String _subtitle(BuildContext context, Question q) {
+    final l = AppLocalizations.of(context)!;
     return switch (q) {
-      MultiSelectQuestion m => 'Select up to ${m.maxSelections} answers',
+      MultiSelectQuestion m => l.quizSelectUpToAnswers(m.maxSelections),
       RangeNumberQuestion r =>
-        'Select a number from ${r.min} to ${r.max}, where ${r.min} means "${r.minLabel}" and ${r.max} means "${r.maxLabel}".',
-      RangeSymbolQuestion() =>
-        'Select the option that best reflects how you usually feel.',
-      _ => 'Select only one answer',
+        l.rangeNumberSubtitle(r.min, r.max, r.minLabel, r.maxLabel),
+      RangeSymbolQuestion() => l.quizSelectBestReflects,
+      _ => l.quizSelectOneAnswer,
     };
   }
 }
@@ -532,16 +534,17 @@ class _BottomButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Row(
         children: [
           if (showBack) ...[
-            Expanded(child: IthakiOutlineButton('Back', onPressed: onBack)),
+            Expanded(child: IthakiOutlineButton(l.backButton, onPressed: onBack)),
             const SizedBox(width: 8),
           ],
           Expanded(
-            child: IthakiButton('Next', onPressed: canNext ? onNext : null),
+            child: IthakiButton(l.nextButton, onPressed: canNext ? onNext : null),
           ),
         ],
       ),
@@ -557,6 +560,7 @@ class _LeaveSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(24),
@@ -572,7 +576,7 @@ class _LeaveSheet extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Leave this page?',
+                  l.assessmentLeaveTitle,
                   style: IthakiTheme.bodySmall.copyWith(
                     fontWeight: FontWeight.w700,
                     fontSize: 18,
@@ -587,7 +591,7 @@ class _LeaveSheet extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            "You're about to leave this assessment. Your progress will be saved automatically, and you can continue later.",
+            l.assessmentLeaveSubtitle,
             style: IthakiTheme.bodySmall
                 .copyWith(color: IthakiTheme.textSecondary),
           ),
@@ -595,10 +599,10 @@ class _LeaveSheet extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                  child: IthakiOutlineButton('Leave', onPressed: onLeave)),
+                  child: IthakiOutlineButton(l.assessmentLeaveButton, onPressed: onLeave)),
               const SizedBox(width: 8),
               Expanded(
-                  child: IthakiButton('Continue', onPressed: onContinue)),
+                  child: IthakiButton(l.continueButton, onPressed: onContinue)),
             ],
           ),
         ],

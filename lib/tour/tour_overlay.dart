@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/applications_provider.dart';
 import '../providers/job_search_data_provider.dart';
 import '../providers/tour_provider.dart';
@@ -59,6 +60,7 @@ class _TourTooltip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final isLast = step.stepNumber == kTourTotalSteps;
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
@@ -71,7 +73,7 @@ class _TourTooltip extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            '${step.stepNumber} Step / $kTourTotalSteps',
+            l.tourStepIndicator(step.stepNumber, kTourTotalSteps),
             style: const TextStyle(
               fontFamily: 'Noto Sans',
               fontSize: 13,
@@ -103,14 +105,14 @@ class _TourTooltip extends StatelessWidget {
             children: [
               Expanded(
                 child: _OutlineButton(
-                  label: 'Skip and Close',
+                  label: l.skipAndClose,
                   onTap: onSkip,
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
                 child: IthakiButton(
-                  isLast ? 'Finish' : 'Next',
+                  isLast ? l.finish : l.nextButton,
                   onPressed: onNext,
                 ),
               ),
@@ -245,6 +247,7 @@ class _TourOverlayState extends ConsumerState<TourOverlay> {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final navContext = IthakiRouter.navigatorKey.currentContext;
     ref.listen<AsyncValue<TourState>>(tourProvider, (prev, next) {
       if (navContext == null) return;
@@ -278,7 +281,7 @@ class _TourOverlayState extends ConsumerState<TourOverlay> {
 
             if (!isActive) return widget.child;
 
-            final stepDef = tourSteps[step - 1];
+            final stepDef = tourSteps(l)[step - 1];
             final targetKey = widget.keys[step];
             final targetRect =
                 targetKey != null ? _getWidgetRect(targetKey) : Rect.zero;
@@ -302,9 +305,8 @@ class _TourOverlayState extends ConsumerState<TourOverlay> {
 
             // Place tooltip above the spotlight when the spotlight occupies the
             // lower half of the screen, otherwise place it below.
-            final spotlightMidY = targetRect == Rect.zero
-                ? screenHeight
-                : targetRect.center.dy;
+            final spotlightMidY =
+                targetRect == Rect.zero ? screenHeight : targetRect.center.dy;
             final tooltipAtTop = spotlightMidY > screenHeight / 2;
 
             final tooltip = Material(

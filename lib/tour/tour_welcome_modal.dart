@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/tour_provider.dart';
 
 /// Shows once on first launch. "Skip for Now" / "Start Product Tour".
@@ -19,6 +20,7 @@ class TourWelcomeModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final notifier = ref.read(tourProvider.notifier);
     return Container(
       margin: const EdgeInsets.all(16),
@@ -32,8 +34,8 @@ class TourWelcomeModal extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Logo placeholder — replace with actual IthakiLogo widget if available
-          const Text('Ithaki-logo',
-              style: TextStyle(
+          Text(l.ithakiLogo,
+              style: const TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
@@ -41,17 +43,17 @@ class TourWelcomeModal extends ConsumerWidget {
                 letterSpacing: -0.5,
               )),
           const SizedBox(height: 20),
-          const Text("Let's Get You Started!",
-              style: TextStyle(
+          Text(l.tourWelcomeTitle,
+              style: const TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
                 color: IthakiTheme.textPrimary,
               )),
           const SizedBox(height: 10),
-          const Text(
-            'Here you can find a job that fits your skills and experience. Let\'s go step by step.',
-            style: TextStyle(
+          Text(
+            l.tourWelcomeBody,
+            style: const TextStyle(
               fontFamily: 'Noto Sans',
               fontSize: 15,
               color: IthakiTheme.softGraphite,
@@ -60,7 +62,7 @@ class TourWelcomeModal extends ConsumerWidget {
           ),
           const SizedBox(height: 28),
           IthakiButton(
-            'Skip for Now',
+            l.skipForNow,
             variant: IthakiButtonVariant.outline,
             onPressed: () {
               Navigator.of(context).pop();
@@ -69,7 +71,7 @@ class TourWelcomeModal extends ConsumerWidget {
           ),
           const SizedBox(height: 10),
           IthakiButton(
-            'Start Product Tour',
+            l.startProductTour,
             onPressed: () {
               Navigator.of(context).pop();
               notifier.startTour();

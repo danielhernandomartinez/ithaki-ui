@@ -2,6 +2,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../l10n/app_localizations.dart';
 import '../models/profile_models.dart';
 import 'upload_file_tab.dart';
 import 'upload_url_tab.dart';
@@ -75,6 +76,7 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final mq = MediaQuery.of(context);
     final tabHeight = mq.size.height * 0.38;
     return Padding(
@@ -94,8 +96,8 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Upload Files',
-                      style: TextStyle(
+                  Text(l.uploadFilesTitle,
+                      style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                           color: IthakiTheme.textPrimary)),
@@ -113,9 +115,9 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
                 labelColor: IthakiTheme.primaryPurple,
                 unselectedLabelColor: IthakiTheme.textSecondary,
                 indicatorColor: IthakiTheme.primaryPurple,
-                tabs: const [
-                  Tab(text: 'Upload File'),
-                  Tab(text: 'Upload via URL'),
+                tabs: [
+                  Tab(text: l.uploadFile),
+                  Tab(text: l.uploadViaUrl),
                 ],
               ),
               const SizedBox(height: 16),
@@ -149,7 +151,7 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
               SizedBox(
                 width: double.infinity,
                 child: IthakiButton(
-                  'Continue',
+                  l.continueButton,
                   onPressed: _allComplete || _urlFile != null
                       ? () {
                           final result = [..._files];

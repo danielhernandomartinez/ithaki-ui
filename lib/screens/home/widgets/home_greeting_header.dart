@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../l10n/app_localizations.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/home_provider.dart';
 
@@ -15,7 +15,8 @@ class HomeGreetingHeader extends ConsumerWidget {
     if (homeData == null) return const SizedBox.shrink();
     final l10n = AppLocalizations.of(context)!;
     final name = homeData.userName.trim();
-    final greeting = name.isEmpty ? l10n.homeGreetingNoName : l10n.homeGreetingName(name);
+    final greeting =
+        name.isEmpty ? l10n.homeGreetingNoName : l10n.homeGreetingName(name);
     return Container(
       margin: EdgeInsets.only(
         top: topOffset + 12,

@@ -6,6 +6,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../../config/app_config.dart';
 import '../../../data/mock_profile_data.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../models/assessment_models.dart';
 import '../../../models/profile_models.dart';
 import '../../company/widgets/company_cultural_fit_gauge.dart';
@@ -168,6 +169,8 @@ class DraftReviewBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -194,23 +197,23 @@ class DraftReviewBanner extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'This is your CV — this is how employers see you.',
-                  style: TextStyle(
+                  l.cvDraftReviewTitle,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     height: 1.3,
                     color: IthakiTheme.textPrimary,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Text(
-                  'Please review all information carefully and make any necessary changes and Publish CV.\nIf your CV is not published, employers won’t be able to see you.\nYou can update your information anytime via Profile. CV will be updated automatically.',
-                  style: TextStyle(
+                  l.cvDraftReviewBody,
+                  style: const TextStyle(
                     fontSize: 15,
                     height: 1.45,
                     color: IthakiTheme.textPrimary,
@@ -243,7 +246,8 @@ class CvHeaderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final badgeLabel = isPublished ? 'Published' : 'Draft Mode';
+    final l = AppLocalizations.of(context)!;
+    final badgeLabel = isPublished ? l.publishedBadge : l.draftModeBadge;
 
     return Container(
       width: double.infinity,
@@ -311,9 +315,9 @@ class CvHeaderCard extends StatelessWidget {
           const SizedBox(height: 8),
           CvContactRow(icon: 'phone', value: data.phone),
           const SizedBox(height: 12),
-          const Text(
-            "Employers won’t see your contact details until you apply for a job or accept an invitation.",
-            style: TextStyle(
+          Text(
+            l.contactVisibilityNote,
+            style: const TextStyle(
               fontSize: 14,
               height: 1.35,
               color: IthakiTheme.textSecondary,
@@ -336,7 +340,7 @@ class CvHeaderCard extends StatelessWidget {
                 final gaugeHeight = gaugeWidth * 0.62;
 
                 final gauge = CompanyCulturalFitGauge(
-                  label: 'High',
+                  label: l.highLabel,
                   width: gaugeWidth.clamp(150.0, 186.0),
                   height: gaugeHeight.clamp(92.0, 112.0),
                   titleFontSize: 20,
@@ -349,9 +353,9 @@ class CvHeaderCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
-                      'You both share the same values',
-                      style: TextStyle(
+                    Text(
+                      l.youBothShareSameValues,
+                      style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                         height: 1.3,
@@ -361,9 +365,9 @@ class CvHeaderCard extends StatelessWidget {
                     const SizedBox(height: 6),
                     GestureDetector(
                       onTap: onLearnMorePressed,
-                      child: const Text(
-                        'Learn More',
-                        style: TextStyle(
+                      child: Text(
+                        l.learnMore,
+                        style: const TextStyle(
                           fontSize: 14,
                           color: IthakiTheme.textPrimary,
                           decoration: TextDecoration.underline,
@@ -390,9 +394,9 @@ class CvHeaderCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Text(
-                                'You both share the same values',
-                                style: TextStyle(
+                              Text(
+                                l.youBothShareSameValues,
+                                style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
                                   height: 1.3,
@@ -402,9 +406,9 @@ class CvHeaderCard extends StatelessWidget {
                               const SizedBox(height: 6),
                               GestureDetector(
                                 onTap: onLearnMorePressed,
-                                child: const Text(
-                                  'Learn More',
-                                  style: TextStyle(
+                                child: Text(
+                                  l.learnMore,
+                                  style: const TextStyle(
                                     fontSize: 14,
                                     color: IthakiTheme.textPrimary,
                                     decoration: TextDecoration.underline,
@@ -437,19 +441,23 @@ class CvHeaderCard extends StatelessWidget {
           const SizedBox(height: 14),
           Row(
             children: [
-              Expanded(child: CvInfoCell(label: 'Gender', value: data.gender)),
-              Expanded(child: CvInfoCell(label: 'Age', value: data.age)),
+              Expanded(
+                  child:
+                      CvInfoCell(label: l.genderInfoLabel, value: data.gender)),
+              Expanded(
+                  child: CvInfoCell(label: l.ageInfoLabel, value: data.age)),
             ],
           ),
           const SizedBox(height: 14),
           Row(
             children: [
               Expanded(
-                child:
-                    CvInfoCell(label: 'Citizenship', value: data.citizenship),
+                child: CvInfoCell(
+                    label: l.citizenshipLabel, value: data.citizenship),
               ),
               Expanded(
-                child: CvInfoCell(label: 'Location', value: data.location),
+                child: CvInfoCell(
+                    label: l.locationInfoLabel, value: data.location),
               ),
             ],
           ),
@@ -493,7 +501,7 @@ class CvHeaderCard extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: IthakiButton(
-                'Publish CV',
+                l.publishCv,
                 onPressed: onPublishPressed,
               ),
             ),
@@ -501,7 +509,7 @@ class CvHeaderCard extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: IthakiOutlineButton(
-                'Return to Profile Setup',
+                l.returnToProfileSetup,
                 icon: const IthakiIcon('edit-pencil', size: 18),
                 onPressed: onReturnToProfilePressed,
                 borderRadius: 24,
@@ -572,6 +580,8 @@ class CvAssistantCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 14),
@@ -590,9 +600,9 @@ class CvAssistantCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Great Job!',
-            style: TextStyle(
+          Text(
+            l.greatJob,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: IthakiTheme.backgroundWhite,
@@ -601,10 +611,10 @@ class CvAssistantCard extends StatelessWidget {
           const SizedBox(height: 16),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'You CV Level:',
-                  style: TextStyle(
+                  l.cvLevelLabel,
+                  style: const TextStyle(
                     fontSize: 15,
                     color: IthakiTheme.backgroundWhite,
                   ),
@@ -617,9 +627,9 @@ class CvAssistantCard extends StatelessWidget {
                   color: IthakiTheme.matchGreen,
                   borderRadius: BorderRadius.circular(999),
                 ),
-                child: const Text(
-                  'STRONG',
-                  style: TextStyle(
+                child: Text(
+                  l.strongLevel,
+                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                     color: IthakiTheme.textPrimary,
@@ -629,9 +639,9 @@ class CvAssistantCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          const Text(
-            'The assistant found 4 areas you can improve to increase your chances of getting a job by about 15%.',
-            style: TextStyle(
+          Text(
+            l.cvAssistantImprovementSummary,
+            style: const TextStyle(
               fontSize: 15,
               height: 1.45,
               color: IthakiTheme.backgroundWhite,
@@ -641,7 +651,7 @@ class CvAssistantCard extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: IthakiOutlineButton(
-              'Ask Career Assistant',
+              l.askCareerAssistant,
               icon: const IthakiIcon(
                 'ai',
                 size: 18,
@@ -673,8 +683,9 @@ class CvExperienceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final endDate =
-        experience.currentlyWorkHere ? 'Present' : experience.endDate ?? '';
+        experience.currentlyWorkHere ? l.present : experience.endDate ?? '';
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(14),
@@ -693,18 +704,19 @@ class CvExperienceCard extends StatelessWidget {
                 color: IthakiTheme.textPrimary,
                 height: 1.35,
               ),
-              children: [
-                TextSpan(
-                  text: experience.jobTitle,
-                  style: const TextStyle(fontWeight: FontWeight.w700),
-                ),
-                TextSpan(text: '  at  ${experience.companyName}'),
-              ],
+              text: l.experienceAtCompany(
+                experience.jobTitle,
+                experience.companyName,
+              ),
             ),
           ),
           const SizedBox(height: 10),
           Text(
-            '${experience.startDate} - $endDate  (${experience.duration})',
+            l.periodWithDuration(
+              experience.startDate,
+              endDate,
+              experience.duration,
+            ),
             style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w700,
@@ -759,7 +771,7 @@ class CvExperienceCard extends StatelessWidget {
           if (showEditButton && onEditPressed != null) ...[
             const SizedBox(height: 14),
             IthakiOutlineButton(
-              'Edit Work Experience',
+              l.editWorkExperience,
               icon: const IthakiIcon('edit-pencil', size: 18),
               onPressed: onEditPressed,
               borderRadius: 22,
@@ -785,8 +797,9 @@ class CvEducationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final endDate =
-        education.currentlyStudyHere ? 'Present' : education.endDate ?? '';
+        education.currentlyStudyHere ? l.present : education.endDate ?? '';
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(14),
@@ -805,18 +818,19 @@ class CvEducationCard extends StatelessWidget {
                 color: IthakiTheme.textPrimary,
                 height: 1.45,
               ),
-              children: [
-                TextSpan(
-                  text: education.fieldOfStudy,
-                  style: const TextStyle(fontWeight: FontWeight.w700),
-                ),
-                TextSpan(text: '  at\n${education.institutionName}'),
-              ],
+              text: l.educationAtInstitution(
+                education.fieldOfStudy,
+                education.institutionName,
+              ),
             ),
           ),
           const SizedBox(height: 10),
           Text(
-            '${education.startDate} - $endDate  (${education.duration})',
+            l.periodWithDuration(
+              education.startDate,
+              endDate,
+              education.duration,
+            ),
             style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w700,
@@ -840,7 +854,7 @@ class CvEducationCard extends StatelessWidget {
           if (showEditButton && onEditPressed != null) ...[
             const SizedBox(height: 14),
             IthakiOutlineButton(
-              'Edit Education',
+              l.editEducation,
               icon: const IthakiIcon('edit-pencil', size: 18),
               onPressed: onEditPressed,
               borderRadius: 22,
@@ -866,6 +880,8 @@ class CvFileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(14),
@@ -926,10 +942,10 @@ class CvFileCard extends StatelessWidget {
             children: [
               Expanded(
                 child: IthakiOutlineButton(
-                  'Open',
+                  l.open,
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Opening ${file.name}')),
+                      SnackBar(content: Text(l.openingFile(file.name))),
                     );
                   },
                   borderRadius: 22,
@@ -939,7 +955,7 @@ class CvFileCard extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: IthakiOutlineButton(
-                    'Delete',
+                    l.delete,
                     icon: const IthakiIcon('delete', size: 18),
                     onPressed: onDelete,
                     borderRadius: 22,
@@ -966,6 +982,7 @@ class CvAssessmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final result = assessment.lastResult;
     return Container(
       width: double.infinity,
@@ -1010,7 +1027,7 @@ class CvAssessmentCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '${assessment.category} Assessment',
+                      l.assessmentCategoryLabel(assessment.category),
                       style: const TextStyle(
                         fontSize: 14,
                         color: IthakiTheme.textSecondary,
@@ -1044,7 +1061,9 @@ class CvAssessmentCard extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: IthakiOutlineButton(
-                result.shownInCV ? 'Hide results in CV' : 'Show result in CV',
+                result.shownInCV
+                    ? l.assessmentHideFromCV
+                    : l.assessmentShowInCV,
                 icon: const IthakiIcon('eye-closed', size: 18),
                 onPressed: onToggle,
                 borderRadius: 22,
@@ -1062,6 +1081,8 @@ class CareerAssistantSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -1091,22 +1112,22 @@ class CareerAssistantSheet extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 12),
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Pathfinder',
-                        style: TextStyle(
+                        l.pathfinderName,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: IthakiTheme.textPrimary,
                         ),
                       ),
-                      SizedBox(height: 2),
+                      const SizedBox(height: 2),
                       Text(
-                        'Your Career Assistant',
-                        style: TextStyle(
+                        l.careerAssistantTitle,
+                        style: const TextStyle(
                           fontSize: 14,
                           color: IthakiTheme.textSecondary,
                         ),
@@ -1139,13 +1160,9 @@ class CareerAssistantSheet extends StatelessWidget {
                         IthakiTheme.primaryPurpleLight.withValues(alpha: 0.14),
                     borderRadius: BorderRadius.circular(22),
                   ),
-                  child: const Text(
-                    'Hi! I’m Pathfinder, your Career assistant.\nHi Christos! I’ve reviewed your profile and found a few quick improvements:\n\n'
-                    '● Critical: Your profile photo looks blurry. Upload a clear, professional one to make a stronger first impression.\n'
-                    '● Recommended: Add more detail to your work experience — specify what you built to show your real impact.\n'
-                    '● Minor: Record a short video intro. It helps employers connect with you and makes your profile stand out.\n'
-                    'These small updates will noticeably boost your credibility and visibility to recruiters.',
-                    style: TextStyle(
+                  child: Text(
+                    l.pathfinderAdviceText,
+                    style: const TextStyle(
                       fontSize: 15,
                       height: 1.5,
                       color: IthakiTheme.textPrimary,
@@ -1162,17 +1179,17 @@ class CareerAssistantSheet extends StatelessWidget {
                     border: Border.all(color: IthakiTheme.borderLight),
                   ),
                   child: Row(
-                    children: const [
+                    children: [
                       Expanded(
                         child: Text(
-                          'Ask me about your Career path..',
-                          style: TextStyle(
+                          l.askCareerPathHint,
+                          style: const TextStyle(
                             fontSize: 15,
                             color: IthakiTheme.textSecondary,
                           ),
                         ),
                       ),
-                      IthakiIcon(
+                      const IthakiIcon(
                         'rocket',
                         size: 20,
                         color: IthakiTheme.textSecondary,
@@ -1201,6 +1218,8 @@ class LeaveWithoutPublishingSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 20),
@@ -1214,10 +1233,10 @@ class LeaveWithoutPublishingSheet extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: Text(
-                  'Leave without publishing?',
-                  style: TextStyle(
+                  l.leaveWithoutPublishingTitle,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     color: IthakiTheme.textPrimary,
@@ -1235,9 +1254,9 @@ class LeaveWithoutPublishingSheet extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          const Text(
-            'If you leave this page, your CV will not be published and employers won’t be able to see it. You can always publish it later from your profile, but we recommend publishing now to increase your chances of landing jobs.',
-            style: TextStyle(
+          Text(
+            l.leaveWithoutPublishingMessage,
+            style: const TextStyle(
               fontSize: 15,
               height: 1.45,
               color: IthakiTheme.textPrimary,
@@ -1247,7 +1266,7 @@ class LeaveWithoutPublishingSheet extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: IthakiOutlineButton(
-              'Leave without saving',
+              l.leaveWithoutSaving,
               onPressed: onLeaveWithoutSaving,
               borderRadius: 24,
             ),
@@ -1256,7 +1275,7 @@ class LeaveWithoutPublishingSheet extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: IthakiButton(
-              'Save and Leave',
+              l.saveAndLeave,
               onPressed: onSaveAndLeave,
             ),
           ),

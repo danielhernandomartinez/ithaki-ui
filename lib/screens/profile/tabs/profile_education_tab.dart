@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../routes.dart';
 import '../../../widgets/profile_empty_state_card.dart';
@@ -11,13 +12,13 @@ class ProfileEducationTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final educations = ref.watch(profileEducationsProvider).value ?? const [];
     if (educations.isEmpty) {
       return ProfileEmptyStateCard(
-        title: 'Education',
-        description:
-            'Add information about your educational background, degree, and field of study.',
-        buttonLabel: 'Add Education',
+        title: l.profileEducationTitle,
+        description: l.profileEducationSubtitle,
+        buttonLabel: l.addEducation,
         buttonIcon: const IthakiIcon('plus', size: 16),
         onPressed: () => context.push(Routes.profileEducation),
       );
@@ -29,7 +30,7 @@ class ProfileEducationTab extends ConsumerWidget {
         ...educations.asMap().entries.map((entry) {
           final edu = entry.value;
           final endLabel =
-              edu.currentlyStudyHere ? 'Present' : (edu.endDate ?? '');
+              edu.currentlyStudyHere ? l.present : (edu.endDate ?? '');
           return Container(
             margin: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
             padding: const EdgeInsets.all(20),
@@ -54,7 +55,7 @@ class ProfileEducationTab extends ConsumerWidget {
                       fontSize: 12, color: IthakiTheme.softGraphite)),
               const SizedBox(height: 12),
               IthakiOutlineButton(
-                'Edit',
+                l.edit,
                 icon: const IthakiIcon('edit-pencil', size: 16),
                 onPressed: () => context.push(
                   Routes.profileEducationEdit,
@@ -70,7 +71,7 @@ class ProfileEducationTab extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: IthakiOutlineButton(
-            'Add Education',
+            l.addEducation,
             icon: const IthakiIcon('plus', size: 16),
             onPressed: () => context.push(Routes.profileEducation),
             borderRadius: 20,

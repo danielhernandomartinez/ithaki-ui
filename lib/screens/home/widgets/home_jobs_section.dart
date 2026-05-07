@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../../../l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/home_provider.dart';
@@ -18,7 +18,8 @@ class HomeJobsSection extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.homeSmartJobRecommendations, style: IthakiTheme.headingMedium),
+        Text(l10n.homeSmartJobRecommendations,
+            style: IthakiTheme.headingMedium),
         const SizedBox(height: 12),
         ...homeData.jobs.map(
           (job) => Padding(

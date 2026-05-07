@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/tour_provider.dart';
 import '../routes.dart';
 
@@ -20,6 +21,7 @@ class TourCompleteModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final notifier = ref.read(tourProvider.notifier);
     return Container(
       margin: const EdgeInsets.all(16),
@@ -32,8 +34,8 @@ class TourCompleteModal extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Ithaki-logo',
-              style: TextStyle(
+          Text(l.ithakiLogo,
+              style: const TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
@@ -41,17 +43,17 @@ class TourCompleteModal extends ConsumerWidget {
                 letterSpacing: -0.5,
               )),
           const SizedBox(height: 20),
-          const Text("You're Ready!",
-              style: TextStyle(
+          Text(l.tourReadyTitle,
+              style: const TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
                 color: IthakiTheme.textPrimary,
               )),
           const SizedBox(height: 10),
-          const Text(
-            'Now you know the main platform features. Complete your profile, take assessments, and apply for jobs that match you.',
-            style: TextStyle(
+          Text(
+            l.tourReadyBody,
+            style: const TextStyle(
               fontFamily: 'Noto Sans',
               fontSize: 15,
               color: IthakiTheme.softGraphite,
@@ -60,7 +62,7 @@ class TourCompleteModal extends ConsumerWidget {
           ),
           const SizedBox(height: 28),
           IthakiButton(
-            'Go to Job Search',
+            l.goToJobSearch,
             onPressed: () {
               notifier.completeTour();
               Navigator.of(context).pop();

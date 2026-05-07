@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../l10n/app_localizations.dart';
 import '../routes.dart';
 
 class ProfileMenuItem {
@@ -18,17 +19,20 @@ class ProfileMenuPanel extends StatelessWidget {
   final void Function(ProfileMenuItem item)? onItemTap;
   final VoidCallback? onLogOut;
 
-  static const _items = [
-    ProfileMenuItem(icon: 'profile', label: 'My Profile', route: '/profile'),
-    ProfileMenuItem(icon: 'resume', label: 'My CV', route: Routes.cv),
-    ProfileMenuItem(
-        icon: 'settings', label: 'Account Settings', route: '/settings'),
-  ];
+  static List<ProfileMenuItem> _items(AppLocalizations l) => [
+        ProfileMenuItem(
+            icon: 'profile', label: l.profileMenuMyProfile, route: '/profile'),
+        ProfileMenuItem(
+            icon: 'resume', label: l.profileMenuMyCv, route: Routes.cv),
+        ProfileMenuItem(
+            icon: 'settings', label: l.accountSettings, route: '/settings'),
+      ];
 
   const ProfileMenuPanel({super.key, this.onItemTap, this.onLogOut});
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     final bottomPadding = MediaQuery.of(context).padding.bottom;
 
     return Container(
@@ -43,7 +47,7 @@ class ProfileMenuPanel extends StatelessWidget {
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              children: _items
+              children: _items(l)
                   .map((item) => _ProfileTile(
                         item: item,
                         onTap: () => onItemTap?.call(item),
@@ -58,8 +62,8 @@ class ProfileMenuPanel extends StatelessWidget {
             child: Divider(height: 1, color: IthakiTheme.borderLight),
           ),
           _ProfileTile(
-            item: const ProfileMenuItem(
-                icon: 'log-out', label: 'Log Out', route: ''),
+            item: const ProfileMenuItem(icon: 'log-out', label: '', route: ''),
+            labelOverride: l.logOut,
             onTap: onLogOut ?? () {},
           ),
           SizedBox(height: bottomPadding + 16),
@@ -71,9 +75,11 @@ class ProfileMenuPanel extends StatelessWidget {
 
 class _ProfileTile extends StatelessWidget {
   final ProfileMenuItem item;
+  final String? labelOverride;
   final VoidCallback onTap;
 
-  const _ProfileTile({required this.item, required this.onTap});
+  const _ProfileTile(
+      {required this.item, this.labelOverride, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +98,7 @@ class _ProfileTile extends StatelessWidget {
               IthakiIcon(item.icon, size: 20, color: IthakiTheme.textPrimary),
               const SizedBox(width: 14),
               Text(
-                item.label,
+                labelOverride ?? item.label,
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w400,

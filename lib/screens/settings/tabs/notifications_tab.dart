@@ -2,40 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../providers/settings_provider.dart';
 
 class NotificationsTab extends ConsumerWidget {
   const NotificationsTab({super.key});
 
-  static const _newsletterTopics = [
-    (
-      'Jobs Recommendations',
-      'Personalized job offers based on your skills and preferences',
-    ),
-    (
-      'Career Tips',
-      'Expert advice and resources to boost your professional growth',
-    ),
-    (
-      'Events & Webinars',
-      'Upcoming career events, workshops, and networking sessions',
-    ),
-    (
-      'Platform Updates',
-      'New features, tools, and product improvements',
-    ),
-    (
-      'Learning Opportunities',
-      'Online courses and certifications to enhance your skills',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final settings = ref.watch(settingsProvider);
     final notifier = ref.read(settingsProvider.notifier);
     final profile = ref.watch(profileBasicsProvider).value;
+    final newsletterTopics = [
+      (l.newsletterJobsTitle, l.newsletterJobsSubtitle),
+      (l.newsletterCareerTipsTitle, l.newsletterCareerTipsSubtitle),
+      (l.newsletterEventsTitle, l.newsletterEventsSubtitle),
+      (l.newsletterPlatformTitle, l.newsletterPlatformSubtitle),
+      (l.newsletterLearningTitle, l.newsletterLearningSubtitle),
+    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,9 +31,9 @@ class NotificationsTab extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Communication Channel',
-                style: TextStyle(
+              Text(
+                l.communicationChannelTitle,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: IthakiTheme.textPrimary,
@@ -55,30 +41,32 @@ class NotificationsTab extends ConsumerWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                'Choose a channel to get notifications about new relevant job openings and responses to submitted applications. You can select multiple options and change them anytime.',
-                style:
-                    TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+                l.communicationDescription,
+                style: const TextStyle(
+                    fontSize: 13, color: IthakiTheme.textSecondary),
               ),
               const SizedBox(height: 16),
               IthakiOptionCard(
                 showLeadingCheckbox: true,
-                label: 'WhatsApp',
-                subtitle: (profile?.phone ?? '').isNotEmpty ? profile!.phone : null,
+                label: l.whatsapp,
+                subtitle:
+                    (profile?.phone ?? '').isNotEmpty ? profile!.phone : null,
                 isSelected: settings.whatsappEnabled,
                 onTap: () => notifier.toggleChannel('whatsapp'),
               ),
               const SizedBox(height: 8),
               IthakiOptionCard(
                 showLeadingCheckbox: true,
-                label: 'SMS',
-                subtitle: (profile?.phone ?? '').isNotEmpty ? profile!.phone : null,
+                label: l.sms,
+                subtitle:
+                    (profile?.phone ?? '').isNotEmpty ? profile!.phone : null,
                 isSelected: settings.smsEnabled,
                 onTap: () => notifier.toggleChannel('sms'),
               ),
               const SizedBox(height: 8),
               IthakiOptionCard(
                 showLeadingCheckbox: true,
-                label: 'Push Notifications',
+                label: l.pushNotifications,
                 isSelected: settings.pushEnabled,
                 onTap: () => notifier.toggleChannel('push'),
               ),
@@ -91,9 +79,9 @@ class NotificationsTab extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Email Newsletter',
-                style: TextStyle(
+              Text(
+                l.emailNewsletterTitle,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: IthakiTheme.textPrimary,
@@ -101,9 +89,9 @@ class NotificationsTab extends ConsumerWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                "Stay informed and make the most of your experience! Choose which types of updates and insights you'd like to receive directly to your inbox.",
-                style:
-                    TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+                l.emailNewsletterDescription,
+                style: const TextStyle(
+                    fontSize: 13, color: IthakiTheme.textSecondary),
               ),
               const SizedBox(height: 16),
 
@@ -136,7 +124,7 @@ class NotificationsTab extends ConsumerWidget {
                     ),
                     const SizedBox(width: 12),
                     Text(
-                      'Email Newsletter',
+                      l.emailNewsletterTitle,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 14,
@@ -148,8 +136,8 @@ class NotificationsTab extends ConsumerWidget {
                     const SizedBox(width: 8),
                     Text(
                       settings.emailNewsletterActive
-                          ? '(active)'
-                          : '(inactive)',
+                          ? l.newsletterActive
+                          : l.newsletterInactive,
                       style: const TextStyle(
                           fontSize: 12, color: IthakiTheme.textSecondary),
                     ),
@@ -168,21 +156,20 @@ class NotificationsTab extends ConsumerWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          side: const BorderSide(
-                              color: IthakiTheme.softGraphite),
+                          side:
+                              const BorderSide(color: IthakiTheme.softGraphite),
                           foregroundColor: IthakiTheme.textPrimary,
-                          padding:
-                              const EdgeInsets.symmetric(vertical: 14),
+                          padding: const EdgeInsets.symmetric(vertical: 14),
                         ),
-                        child: const Text('Unsubscribe'),
+                        child: Text(l.unsubscribe),
                       ),
                     )
                   : IthakiButton(
-                      'Subscribe',
+                      l.subscribe,
                       onPressed: () {
                         notifier.subscribeNewsletter();
                         SuccessBanner.show(
-                            context, 'Settings updated successfully.');
+                            context, l.settingsUpdatedSuccessfully);
                       },
                     ),
 
@@ -191,7 +178,7 @@ class NotificationsTab extends ConsumerWidget {
               const SizedBox(height: 16),
 
               // Newsletter topics
-              for (final (type, subtitle) in _newsletterTopics) ...[
+              for (final (type, subtitle) in newsletterTopics) ...[
                 IthakiOptionCard(
                   showLeadingCheckbox: true,
                   label: type,

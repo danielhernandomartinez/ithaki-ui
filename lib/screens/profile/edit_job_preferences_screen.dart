@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/profile_picker_field.dart';
 import '../../widgets/job_interest_tile.dart';
@@ -63,6 +64,7 @@ class _EditJobPreferencesScreenState
   }
 
   Future<void> _save() async {
+    final l = AppLocalizations.of(context)!;
     final salary = double.tryParse(_salaryCtrl.text.trim());
     try {
       await ref.read(profileJobPreferencesProvider.notifier).save(
@@ -76,7 +78,7 @@ class _EditJobPreferencesScreenState
             preferNotToSpecifySalary: _preferNotToSpecify,
           );
       if (!mounted) return;
-      SuccessBanner.show(context, 'Your Job Preferences has been updated.');
+      SuccessBanner.show(context, l.jobPreferencesUpdated);
       context.pop();
     } catch (e) {
       if (!mounted) return;
@@ -88,22 +90,23 @@ class _EditJobPreferencesScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
+
     return PanelScaffold(
-      title: 'Job Preferences',
+      title: l.editJobPreferencesTitle,
       onSave: _save,
       children: [
         // ── Header ──────────────────────────────────────────────
-        const Text('Job Preferences',
-            style: TextStyle(
+        Text(l.editJobPreferencesTitle,
+            style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
                 color: IthakiTheme.textPrimary)),
         const SizedBox(height: 6),
-        const Text(
-          'Set your desired salary, position level, contract type, '
-          'and work format (remote, on-site, or hybrid) to help us '
-          'match you with the most relevant opportunities.',
-          style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+        Text(
+          l.preferencesDescription,
+          style:
+              const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 24),
 
@@ -123,7 +126,7 @@ class _EditJobPreferencesScreenState
                 setState(() => _interests = [..._interests, interest]),
           ),
           icon: const Icon(Icons.add, size: 16),
-          label: const Text('Add Another Job Interest'),
+          label: Text(l.addAnotherJobInterest),
           style: OutlinedButton.styleFrom(
             side: const BorderSide(color: IthakiTheme.softGraphite),
             shape:
@@ -136,15 +139,15 @@ class _EditJobPreferencesScreenState
 
         // ── Position Level ───────────────────────────────────────
         ProfilePickerField(
-          label: 'Position Level (optional)',
-          hint: 'Select level',
+          label: l.positionLevelOptionalLabel,
+          hint: l.selectLevel,
           value: _positionLevel,
           fontSize: 14,
           verticalPadding: 11,
           arrowSize: 18,
           onTap: () => SearchBottomSheet.show(
             context,
-            'Position Level',
+            l.positionLevelLabel,
             _positionLevels.map((o) => SearchItem(id: o, label: o)).toList(),
             (item) => setState(() => _positionLevel = item.id),
           ),
@@ -152,16 +155,16 @@ class _EditJobPreferencesScreenState
         const SizedBox(height: 24),
 
         // ── Job Type ─────────────────────────────────────────────
-        const Text('Job Type',
-            style: TextStyle(
+        Text(l.jobTypeTitle,
+            style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
                 color: IthakiTheme.textPrimary)),
         const SizedBox(height: 4),
-        const Text(
-          'Choose the types of employment you\'re interested in. '
-          'You can select more than one option.',
-          style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+        Text(
+          l.jobTypeDescription,
+          style:
+              const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 10),
         Wrap(
@@ -184,16 +187,16 @@ class _EditJobPreferencesScreenState
         const SizedBox(height: 24),
 
         // ── Workplace Format ─────────────────────────────────────
-        const Text('Workplace Format',
-            style: TextStyle(
+        Text(l.workplaceFormatTitle,
+            style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
                 color: IthakiTheme.textPrimary)),
         const SizedBox(height: 4),
-        const Text(
-          'Select your preferred workplace formats. '
-          'You can select more than one option.',
-          style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+        Text(
+          l.workplaceFormatDescription,
+          style:
+              const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 10),
         Wrap(

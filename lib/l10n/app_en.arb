@@ -35,7 +35,7 @@
   "andText": " and ",
   "termsOfUse": "Terms of Use",
   "personalDetailsHeading": "Almost there!\nTell us about yourself",
-  "personalDetailsDescription": "Your name and phone number help employers reach you directly.",
+  "personalDetailsDescription": "Your name and phone number help teams contact you directly.",
   "nameLabel": "Name",
   "nameHint": "Enter your Name",
   "lastNameLabel": "Last Name",
@@ -215,10 +215,10 @@
   },
   "draftsTabLabel": "Drafts",
   "archiveTabLabel": "Archive",
-  "invitationsTabDescription": "Here you can find job opportunities you've been invited to explore. Review job invitations from employers or organizations who found your profile interesting.",
+  "invitationsTabDescription": "Here you can find job opportunities you've been invited to explore. Review invitations from companies or organizations who found your profile interesting.",
   "invitationsLoadError": "Failed to load invitations.",
   "invitationsEmptyTitle": "No invitations yet",
-  "invitationsEmptySubtitle": "When employers find your profile interesting\nthey will invite you here.",
+  "invitationsEmptySubtitle": "When companies find your profile interesting\nthey will invite you here.",
   "draftsTabDescription": "Here you can find applications you started but haven't submitted yet. Continue where you left off or discard them.",
   "draftsLoadError": "Failed to load drafts.",
   "draftsEmptyTitle": "No drafts yet",
@@ -237,7 +237,7 @@
   "invitationDismissedToast": "Invitation dismissed and moved to Archive",
   "invitationDeclinedToast": "Invitation declined and moved to Archive",
   "careerAssistantBannerTitle": "Don't know what to do next?",
-  "careerAssistantBannerSubtitle": "On average, employers review applications within the first week. You can always ask me for help with your next steps.",
+  "careerAssistantBannerSubtitle": "On average, applications are reviewed within the first week. You can always ask me for help with your next steps.",
   "askCareerAssistant": "Ask Career Assistant",
   "blogNewsTitle": "Blog & News",
   "blogNewsSubtitle": "Discover career tips, interview guides, and platform updates.",
@@ -421,15 +421,15 @@
   "videoIntroductionTitle": "Video Introduction",
   "editAboutMeVideo": "Edit About Me & Video Introduction",
   "addAboutMeInformation": "Add About Me Information",
-  "aboutMeEmptyDescription": "Add a few words about yourself to help employers understand who you are and what you do.",
+  "aboutMeEmptyDescription": "Add a few words about yourself to help teams understand who you are and what you do.",
   "addSkills": "Add Skills",
   "addCompetencies": "Add Competencies",
   "addLanguages": "Add Languages",
   "editLanguages": "Edit Languages",
   "languagesTitle": "Languages",
   "aboutMeEditDescription": "Please provide some basic information about yourself. This helps us set up your profile and personalize your experience. You can add information later or update this anytime in Profile.",
-  "addBioDescription": "Add a few words about yourself to help employers understand who you are and what you do. We recommend keeping it concise, avoiding unnecessary filler, and highlighting key skills and experience.",
-  "addVideoDescription": "Add a short video to introduce yourself to employers, highlight your experience, and showcase your skills. A video helps you stand out among other candidates.",
+  "addBioDescription": "Add a few words about yourself to help teams understand who you are and what you do. We recommend keeping it concise, avoiding unnecessary filler, and highlighting key skills and experience.",
+  "addVideoDescription": "Add a short video to introduce yourself to teams, highlight your experience, and showcase your skills. A video helps you stand out among other candidates.",
   "uploadViaUrl": "Upload via URL",
   "uploadInstructions": "tap button to browse (max 10 files, up to 5 MB\neach; supported formats: .pdf, .doc, .png, .jpg)",
   "selectCategory": "Select category",
@@ -504,8 +504,7 @@
   "eventAddressLabel": "Address",
   "eventRegistrationLink": "Registration Link",
   "companyLoadError": "Could not load company.",
-  "tryAgain": "Try Again"
-,
+  "tryAgain": "Try Again",
   "assessmentsRecommendedForYou": "Assessments recommended for you",
   "assessmentYourScore": "Your Score",
   "assessmentLevel": "Level",
@@ -618,53 +617,58 @@
   "roleMigrant": "Migrant",
   "roleRefugee": "Refugee",
   "roleAsylumSeeker": "Asylum Seeker",
-
   "homeGreetingName": "Hi, {name}!",
   "@homeGreetingName": {
-    "placeholders": { "name": { "type": "String" } }
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   },
   "homeGreetingNoName": "Hi!",
   "homeGreetingSubtitle": "Here's a quick overview of your latest job matches, updates, and helpful tips to move your career forward.",
-
   "homeRestartProductTourSubtitle": "Restart the product tour whenever you want from Home.",
   "homeRestartProductTour": "Restart Product Tour",
   "homeCareerAssistantBannerSubtitle": "Career Assistant can help if you're not sure where to start!",
   "homeCoursesSubtitle": "Boost your skills with courses that help you grow faster and stay aligned with today's industry standards. Learn at your own pace and strengthen the experience on your profile.",
-
   "homeProfileCompleteYourProfile": "Complete your profile",
   "homeProfileWelcomeTitle": "Welcome to Ithaki!",
-  "homeProfileFillMissing": "Fill in the missing information to unlock your full experience on the platform. A complete profile helps you get better job matches and more employer invitations.",
+  "homeProfileFillMissing": "Fill in the missing information to unlock your full experience on the platform. A complete profile helps you get better job matches and more invitations.",
   "homeProfileBenefitsTitle": "Benefits of completing your profile",
   "homeProfileFillButton": "Fill Profile",
-
   "homeQuestionsTitle": "Have questions?",
   "homeQuestionsSubtitle": "Let us help you!",
   "homeQuestionsButton": "Book Call with Counselor",
-
   "assessmentStartNew": "Start New Assessment",
   "assessmentsInProgressTitle": "Assessments in Progress ({count})",
   "@assessmentsInProgressTitle": {
-    "placeholders": { "count": { "type": "int" } }
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   },
   "assessmentsInProgressSubtitle": "You have assessments in progress. Complete them to see your results.",
   "assessmentsRecommendedSubtitle": "We recommend these assessments to help you validate your skills.",
   "assessmentsCompletedTitle": "Your Completed Assessments",
   "assessmentsCompletedSubtitle": "Here are your completed assessments and results.",
-
   "assessmentStartTitle": "Start the Assessment",
   "assessmentStartSubtitle": "You are about to start the following assessment",
   "assessmentStartNow": "Start now",
   "assessmentContinueTitle": "Continue your assessment?",
   "assessmentContinueSubtitle": "You've already started this assessment and have saved progress. Would you like to continue where you left off or start over?",
   "assessmentStartOver": "Start over",
-
   "assessmentSkillBreakdownSubtitle": "This breakdown shows how your results are distributed across key skill areas.",
   "assessmentResultsConfirmSkills": "This result confirms your skills, which are reflected in your job applications on the platform.",
   "assessmentShowInCV": "Show result in my CV",
   "assessmentHideFromCV": "Hide from CV",
   "assessmentTakenLabel": "Taken: {date}",
   "@assessmentTakenLabel": {
-    "placeholders": { "date": { "type": "String" } }
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   },
   "assessmentImprovingSubtitle": "Your results show steady improvement in how you approach and resolve work-related problems.",
   "assessmentProcessingTitle": "Processing your results!",
@@ -672,12 +676,284 @@
   "assessmentLeaveTitle": "Leave this page?",
   "assessmentLeaveSubtitle": "You're about to leave this assessment. Your progress will be saved automatically, and you can continue later.",
   "assessmentLeaveButton": "Leave",
-
   "quizSelectOneAnswer": "Select only one answer",
   "quizSelectUpToAnswers": "Select up to {max} answers",
   "@quizSelectUpToAnswers": {
-    "placeholders": { "max": { "type": "int" } }
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
   },
   "quizSelectBestReflects": "Select the option that best reflects how you usually feel.",
-  "quizNoResults": "No results found"
+  "quizNoResults": "No results found",
+  "edit": "Edit",
+  "present": "Present",
+  "cvCouldNotLoadTitle": "Couldn't load your CV.",
+  "cvCouldNotLoadMessage": "Try refreshing your profile data and open it again.",
+  "goToProfile": "Go to Profile",
+  "publishCv": "Publish CV",
+  "downloadCv": "Download CV",
+  "cvDownloadSoon": "CV download will be available soon.",
+  "returnToProfileSetup": "Return to Profile Setup",
+  "publishedBadge": "Published",
+  "draftModeBadge": "Draft Mode",
+  "cvDraftReviewTitle": "This is your CV - this is how companies see you.",
+  "cvDraftReviewBody": "Please review all information carefully and make any necessary changes before publishing your CV.\nIf your CV is not published, companies will not be able to review it.\nYou can update your information anytime via Profile. Your CV will be updated automatically.",
+  "contactVisibilityNote": "Your contact details stay hidden until you apply for a job or accept an invitation.",
+  "youBothShareSameValues": "You both share the same values",
+  "learnMore": "Learn More",
+  "greatJob": "Great Job!",
+  "cvLevelLabel": "Your CV Level:",
+  "strongLevel": "STRONG",
+  "cvAssistantImprovementSummary": "The assistant found 4 areas you can improve to increase your chances of getting a job by about 15%.",
+  "careerAssistantTitle": "Your Career Assistant",
+  "pathfinderName": "Pathfinder",
+  "pathfinderAdviceText": "Hi! I'm Pathfinder, your career assistant.\nI've reviewed your profile and found a few quick improvements:\n\n- Critical: Your profile photo looks blurry. Upload a clear, professional one to make a stronger first impression.\n- Recommended: Add more detail to your work experience - specify what you built to show your real impact.\n- Minor: Record a short video intro. It helps teams connect with you and makes your profile stand out.\nThese small updates will noticeably boost your credibility and visibility.",
+  "askCareerPathHint": "Ask me about your career path...",
+  "leaveWithoutPublishingTitle": "Leave without publishing?",
+  "leaveWithoutPublishingMessage": "If you leave this page, your CV will not be published and companies will not be able to review it. You can always publish it later from your profile, but we recommend publishing now to increase your chances of landing jobs.",
+  "notSpecified": "Not specified",
+  "workspaceLabel": "Workspace",
+  "levelLabel": "Level",
+  "desiredSalaryLabel": "Desired Salary",
+  "jobPreferencesTabDescription": "This shows the job you are currently looking for. You can change this anytime.",
+  "preferencesSectionTitle": "Preferences",
+  "experienceAtCompany": "{role}  at  {company}",
+  "@experienceAtCompany": {
+    "placeholders": {
+      "role": {
+        "type": "String"
+      },
+      "company": {
+        "type": "String"
+      }
+    }
+  },
+  "educationAtInstitution": "{field}  at\n{institution}",
+  "@educationAtInstitution": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      },
+      "institution": {
+        "type": "String"
+      }
+    }
+  },
+  "periodWithDuration": "{start} - {end}  ({duration})",
+  "@periodWithDuration": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      },
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "assessmentCategoryLabel": "{category} Assessment",
+  "@assessmentCategoryLabel": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "jobPreferencesUpdated": "Your job preferences have been updated.",
+  "updateButton": "Update",
+  "currentEmailLabel": "Current Email",
+  "updateEmailDescription": "Update your email address",
+  "deleteAccountDescription": "To permanently delete your account, please type delete in the field below.\nThis action cannot be undone - all your data will be removed forever.",
+  "communicationChannelTitle": "Communication Channel",
+  "emailNewsletterTitle": "Email Newsletter",
+  "emailNewsletterDescription": "Stay informed and make the most of your experience! Choose which types of updates and insights you'd like to receive directly to your inbox.",
+  "newsletterActive": "(active)",
+  "newsletterInactive": "(inactive)",
+  "subscribe": "Subscribe",
+  "settingsUpdatedSuccessfully": "Settings updated successfully.",
+  "newsletterJobsTitle": "Jobs Recommendations",
+  "newsletterJobsSubtitle": "Personalized job offers based on your skills and preferences",
+  "newsletterCareerTipsTitle": "Career Tips",
+  "newsletterCareerTipsSubtitle": "Expert advice and resources to boost your professional growth",
+  "newsletterEventsTitle": "Events & Webinars",
+  "newsletterEventsSubtitle": "Upcoming career events, workshops, and networking sessions",
+  "newsletterPlatformTitle": "Platform Updates",
+  "newsletterPlatformSubtitle": "New features, tools, and product improvements",
+  "newsletterLearningTitle": "Learning Opportunities",
+  "newsletterLearningSubtitle": "Online courses and certifications to enhance your skills",
+  "uploadFilesTitle": "Upload Files",
+  "uploadMore": "Upload More",
+  "uploadFileInstructions": "Tap button to browse\n(max 10 files, up to 5 MB each;\nsupported: .pdf, .doc, .png, .jpg)",
+  "documentUrlDescription": "Provide a link to a document to import it into the system.",
+  "documentUrlMustBeActive": "The link must be active and accessible without login.",
+  "documentUrlSupportedFormats": "The document must be in a supported format (PDF, DOC, DOCX).",
+  "documentUrlCommonServices": "Common services: Google Drive, Dropbox, iCloud.",
+  "documentLinkHint": "Add Document's Link",
+  "fileComplete": "Complete",
+  "fileUploading": "Uploading...",
+  "fileFallbackLabel": "FILE",
+  "profileMenuMyProfile": "My Profile",
+  "profileMenuMyCv": "My CV",
+  "logOut": "Log Out",
+  "goToJobSearch": "Go to Job Search",
+  "startProductTour": "Start Product Tour",
+  "continueProductTour": "Continue Product Tour",
+  "skipAndClose": "Skip and Close",
+  "finish": "Finish",
+  "nextButton": "Next",
+  "tourStepIndicator": "{current} Step / {total}",
+  "@tourStepIndicator": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "tourReadyTitle": "You're Ready!",
+  "tourReadyBody": "Now you know the main platform features. Complete your profile, take assessments, and apply for jobs that match you.",
+  "tourWelcomeTitle": "Let's Get You Started!",
+  "tourWelcomeBody": "Here you can find a job that fits your skills and experience. Let's go step by step.",
+  "tourSkipTitle": "Skip for now?",
+  "tourSkipBody": "You can always take the product tour later using the banner on the Home page.",
+  "tourStep1Title": "Get on Track!",
+  "tourStep1Body": "Here you'll see jobs and courses selected for you, CV insights, and tools to help you start your job search.",
+  "tourStep2Title": "Find a Job",
+  "tourStep2Body": "Search for jobs by name or choose from categories below. You can find work near your city, or set other parameters to find the job you need.",
+  "tourStep3Title": "Job Post",
+  "tourStep3Body": "Each job card shows the main information - position, location, and salary. Tap the card to open full details and apply.",
+  "tourStep4Title": "See how well this job fits for you",
+  "tourStep4Body": "This part shows how well your experience and skills match the job. The higher the match, the better your chances.",
+  "tourStep5Title": "Job Details",
+  "tourStep5Body": "Read the full job description, requirements, and what the company offers before you apply.",
+  "tourStep6Title": "Easy to Apply",
+  "tourStep6Body": "Application is easy! Select your CV format and add a few words about yourself in the Cover Letter to increase your chances.",
+  "tourStep7Title": "Track the Progress",
+  "tourStep7Body": "Once you apply for a job, you can find your response in My Applications.",
+  "tourStep8Title": "My Invitations",
+  "tourStep8Body": "Companies can invite you directly. You can review relevant invitations from teams interested in your profile.",
+  "tourStep9Title": "Get on Track!",
+  "tourStep9Body": "You can open the invitation to read job details and accept the offer.",
+  "tourStep10Title": "Build your Profile",
+  "tourStep10Body": "Your profile shows your experience, skills, and contact info. A complete profile helps you get better job matches. You can edit or update it anytime.",
+  "tourStep11Title": "Meet your Career Assistant",
+  "tourStep11Body": "Pathfinder can help you improve your profile, find the right jobs, and answer your questions about work.",
+  "tourStep12Title": "Learning Hub",
+  "tourStep12Body": "Access courses and resources tailored to your career goals and the skills companies are looking for.",
+  "tourStep13Title": "Get to know yourself better",
+  "tourStep13Body": "Here you can take different assessments. Your results help highlight your strengths and working style.",
+  "changePasswordDescription": "Change your password to keep your account secure",
+  "passwordUpdated": "Your password has been updated.",
+  "currentPhoneNumberLabel": "Current Phone Number",
+  "makeProfileInvisibleDescription": "If you make your profile invisible, companies won't be able to find you in candidate searches. You'll still be able to apply for jobs you're interested in. You can change your profile visibility anytime in your account settings.",
+  "makeProfileInvisibleButton": "Make Profile Invisible",
+  "switchLiteDescription": "The interface will become simpler and easier to use. We'll show you only the jobs that best match your job interests.\nYou can switch back to the full interface at any time.",
+  "switchLiteButton": "Switch to Ithaki Lite",
+  "switchedToLite": "Switched to Ithaki Lite.",
+  "submit": "Submit",
+  "newValueLabel": "New {type}",
+  "@newValueLabel": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "codeSentToContact": "A 6-digit code was sent to your {contact}.",
+  "@codeSentToContact": {
+    "placeholders": {
+      "contact": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneViaSms": "phone via SMS",
+  "changedEmail": "Your email has been changed.",
+  "changedPhone": "Your phone number has been changed.",
+  "jobReportedMessage": "Job post has been reported",
+  "copyLink": "Copy Link",
+  "shareWhatsappSms": "Share WhatsApp/SMS",
+  "shareInEmail": "Share in Email",
+  "shareOnLinkedIn": "Share on LinkedIn",
+  "industryLabel": "Industry",
+  "travelLabel": "Travel",
+  "reportJobDescription": "Reporting jobs helps us keep job postings at the highest quality levels.",
+  "tellUsMoreOptional": "Tell us more (optional)",
+  "reportThisJobButton": "Report this Job",
+  "setReminderButton": "Set Reminder",
+  "reminderChoiceTitle": "How would you like to be reminded?",
+  "reminderViaEmail": "We'll send a reminder via email",
+  "reminderViaSmsWhatsappGeneric": "We'll send a reminder via SMS/WhatsApp",
+  "jobClosedButton": "Job Closed",
+  "removeFromSaved": "Remove from Saved",
+  "newFeatureBanner": "New on Ithaki! We just released a new feature that makes job search easier.",
+  "curiousWhyMatch": "Curious why you match this job?",
+  "strongSkillsMatch": "It's a Strong skills\nMatch!",
+  "goodSkillsMatch": "It's a Good skills\nMatch!",
+  "partialSkillsMatch": "It's a Partial skills\nMatch!",
+  "starterSkillsMatch": "It's a Starter skills\nMatch!",
+  "deadlineBannerText": "This job has a deadline! Application\nopen till:",
+  "skillsRequired": "Skills required",
+  "aboutRoleTitle": "About the role",
+  "requirementsTitle": "Requirements",
+  "niceToHaveTitle": "Nice to have",
+  "weOfferTitle": "We offer",
+  "shareJob": "Share Job",
+  "notInterested": "Not Interested",
+  "deleteReminder": "Delete Reminder",
+  "salaryRangeLabel": "Salary Range",
+  "responsibilitiesTitle": "Responsibilities",
+  "errorMessage": "Error: {error}",
+  "@errorMessage": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "assessmentNotFound": "Assessment not found",
+  "testDetails": "Test Details",
+  "startTest": "Start Test",
+  "viewDetails": "View Details",
+  "inCv": "In CV",
+  "showInCv": "Show in CV",
+  "questionsCount": "{count} questions",
+  "@questionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "durationMinutes": "{count} min",
+  "@durationMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "rangeNumberSubtitle": "Select a number from {min} to {max}, where {min} means \"{minLabel}\" and {max} means \"{maxLabel}\".",
+  "@rangeNumberSubtitle": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      },
+      "minLabel": {
+        "type": "String"
+      },
+      "maxLabel": {
+        "type": "String"
+      }
+    }
+  }
 }
