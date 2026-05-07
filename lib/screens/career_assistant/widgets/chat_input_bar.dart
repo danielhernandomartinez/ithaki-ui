@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../l10n/app_localizations.dart';
+
 class ChatInputBar extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
@@ -14,6 +16,7 @@ class ChatInputBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
@@ -35,8 +38,8 @@ class ChatInputBar extends StatelessWidget {
                 fontSize: 14,
                 color: IthakiTheme.textPrimary,
               ),
-              decoration: const InputDecoration(
-                hintText: 'Ask me about your career path..',
+              decoration: InputDecoration(
+                hintText: l10n.askCareerPathHint,
                 hintStyle: TextStyle(
                   fontFamily: 'Noto Sans',
                   fontSize: 14,

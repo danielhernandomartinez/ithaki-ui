@@ -81,17 +81,16 @@ class _LocationScreenState extends ConsumerState<LocationScreen> {
     final l = AppLocalizations.of(context)!;
 
     final roles = [
-      const SearchItem(id: 'MIGRANT', label: 'Migrant'),
-      const SearchItem(id: 'REFUGEE', label: 'Refugee'),
-      const SearchItem(id: 'ASYLUM_SEEKER', label: 'Asylum Seeker'),
+      SearchItem(id: 'MIGRANT', label: l.roleMigrant),
+      SearchItem(id: 'REFUGEE', label: l.roleRefugee),
+      SearchItem(id: 'ASYLUM_SEEKER', label: l.roleAsylumSeeker),
     ];
 
     final relocationOptions = [
-      SearchItem(id: 'NEGATIVE', label: 'Not willing to relocate'),
-      SearchItem(id: 'LOCALLY', label: 'Willing to relocate locally'),
-      SearchItem(id: 'NATIONALLY', label: 'Willing to relocate nationally'),
-      SearchItem(
-          id: 'INTERNATIONALLY', label: 'Willing to relocate internationally'),
+      SearchItem(id: 'NEGATIVE', label: l.relocationNegative),
+      SearchItem(id: 'LOCALLY', label: l.relocationLocally),
+      SearchItem(id: 'NATIONALLY', label: l.relocationNationally),
+      SearchItem(id: 'INTERNATIONALLY', label: l.relocationInternationally),
     ];
 
     return IthakiScreenLayout(

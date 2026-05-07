@@ -2458,4 +2458,23 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get deleteAccountTabDescription =>
       'Permanently remove your account and all related data from the system. This action cannot be undone.';
+
+  @override
+  String get jobInterestsStillLoading =>
+      'Job interests are still loading. Try again in a moment.';
+
+  @override
+  String get failedToLoadJobInterests => 'Failed to load job interests.';
+
+  @override
+  String get relocationNegative => 'Not willing to relocate';
+
+  @override
+  String get relocationLocally => 'Willing to relocate locally';
+
+  @override
+  String get relocationNationally => 'Willing to relocate nationally';
+
+  @override
+  String get relocationInternationally => 'Willing to relocate internationally';
 }

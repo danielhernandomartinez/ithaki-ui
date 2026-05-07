@@ -1024,5 +1024,11 @@
   "digitalComfortDescription": "You're using our full experience right now — perfect for confident tech users. If you ever want a simpler, easier interface, you can switch to the light version whenever you like.",
   "tryIthakiLite": "Try Ithaki Lite",
   "deleteAnAccount": "Delete an Account",
-  "deleteAccountTabDescription": "Permanently remove your account and all related data from the system. This action cannot be undone."
+  "deleteAccountTabDescription": "Permanently remove your account and all related data from the system. This action cannot be undone.",
+  "jobInterestsStillLoading": "Job interests are still loading. Try again in a moment.",
+  "failedToLoadJobInterests": "Failed to load job interests.",
+  "relocationNegative": "Not willing to relocate",
+  "relocationLocally": "Willing to relocate locally",
+  "relocationNationally": "Willing to relocate nationally",
+  "relocationInternationally": "Willing to relocate internationally"
 }

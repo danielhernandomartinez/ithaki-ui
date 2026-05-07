@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../l10n/app_localizations.dart';
+import '../providers/locale_provider.dart';
 
 class NavItem {
   final String icon;
@@ -16,13 +18,16 @@ class NavItem {
   });
 }
 
-class AppNavDrawer extends StatelessWidget {
+const _kLanguages = [
+  (code: 'en', label: 'English', flag: 'GB'),
+  (code: 'el', label: 'Ελληνικά', flag: 'GR'),
+  (code: 'ar', label: 'العربية', flag: 'SA'),
+];
+
+class AppNavDrawer extends ConsumerWidget {
   final String currentRoute;
   final List<NavItem> items;
   final double profileProgress;
-  final String languageLabel;
-  final String languageFlagCode;
-  final VoidCallback? onLanguageTap;
   final void Function(NavItem item)? onItemTap;
 
   const AppNavDrawer({
@@ -30,15 +35,38 @@ class AppNavDrawer extends StatelessWidget {
     required this.currentRoute,
     required this.items,
     this.profileProgress = 0.25,
-    this.languageLabel = 'English',
-    this.languageFlagCode = 'gb',
-    this.onLanguageTap,
     this.onItemTap,
+    // legacy params kept for call-site compatibility — ignored
+    // ignore: avoid_unused_constructor_parameters
+    String languageLabel = 'English',
+    // ignore: avoid_unused_constructor_parameters
+    String languageFlagCode = 'gb',
+    // ignore: avoid_unused_constructor_parameters
+    VoidCallback? onLanguageTap,
   });
 
+  void _showLanguagePicker(BuildContext context, WidgetRef ref, String currentCode) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _LanguagePickerSheet(
+        currentCode: currentCode,
+        onSelect: (code) {
+          ref.read(localeProvider.notifier).setLocale(code);
+          Navigator.of(context).pop();
+        },
+      ),
+    );
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final localeCode = ref.watch(localeProvider)?.languageCode ?? 'en';
+    final lang = _kLanguages.firstWhere(
+      (l) => l.code == localeCode,
+      orElse: () => _kLanguages.first,
+    );
 
     return Container(
       decoration: BoxDecoration(
@@ -83,9 +111,9 @@ class AppNavDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: _LanguageTile(
-              flagCode: languageFlagCode,
-              label: languageLabel,
-              onTap: onLanguageTap,
+              flagCode: lang.flag,
+              label: lang.label,
+              onTap: () => _showLanguagePicker(context, ref, localeCode),
             ),
           ),
           SizedBox(height: bottomPadding + 16),
@@ -282,6 +310,92 @@ class _LanguageTile extends StatelessWidget {
           ),
           const Icon(Icons.keyboard_arrow_down, size: 20, color: IthakiTheme.textSecondary),
         ],
+      ),
+    );
+  }
+}
+
+// ─── Language Picker Sheet ────────────────────────────────────────────────────
+
+class _LanguagePickerSheet extends StatelessWidget {
+  final String currentCode;
+  final void Function(String code) onSelect;
+
+  const _LanguagePickerSheet({required this.currentCode, required this.onSelect});
+
+  @override
+  Widget build(BuildContext context) {
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      padding: EdgeInsets.only(bottom: bottomPadding),
+      decoration: BoxDecoration(
+        color: IthakiTheme.backgroundWhite,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const SizedBox(height: 12),
+          Container(
+            width: 40, height: 4,
+            decoration: BoxDecoration(
+              color: IthakiTheme.borderLight,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 16),
+          for (final lang in _kLanguages) ...[
+            _LangOption(
+              lang: lang,
+              selected: lang.code == currentCode,
+              onTap: () => onSelect(lang.code),
+            ),
+          ],
+          const SizedBox(height: 8),
+        ],
+      ),
+    );
+  }
+}
+
+class _LangOption extends StatelessWidget {
+  final ({String code, String label, String flag}) lang;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _LangOption({required this.lang, required this.selected, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 120),
+        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: selected ? IthakiTheme.badgeLime : Colors.transparent,
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: Row(
+          children: [
+            IthakiFlag(lang.flag, width: 28, height: 20, oval: true),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Text(
+                lang.label,
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                  color: IthakiTheme.textPrimary,
+                ),
+              ),
+            ),
+            if (selected)
+              const IthakiIcon('check', size: 18, color: IthakiTheme.textPrimary),
+          ],
+        ),
       ),
     );
   }

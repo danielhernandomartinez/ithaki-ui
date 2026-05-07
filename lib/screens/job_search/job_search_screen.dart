@@ -10,6 +10,7 @@ import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
 import '../../constants/nav_items.dart';
 import '../../mixins/panel_menu_mixin.dart';
+import '../../l10n/app_localizations.dart';
 import 'widgets/job_search_tab_bar.dart';
 import 'widgets/job_search_search_bar.dart';
 import 'widgets/job_search_list.dart';
@@ -39,6 +40,7 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
     final tourKeys = ref.watch(tourKeysProvider);
 
@@ -76,10 +78,9 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: IthakiGradientBanner(
-                    title: 'Not sure how to find the right job?',
-                    subtitle:
-                        "Career Assistant can help you if you're not sure where to start!",
-                    buttonLabel: 'Ask Career Assistant',
+                    title: l10n.bannerNotSureJob,
+                    subtitle: l10n.homeCareerAssistantBannerSubtitle,
+                    buttonLabel: l10n.askCareerAssistant,
                     buttonIcon: const IthakiIcon('ai',
                         size: 18, color: IthakiTheme.backgroundWhite),
                     onButtonPressed: () => context.go(Routes.careerAssistant),

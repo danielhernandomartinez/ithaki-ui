@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../constants/nav_items.dart';
+import '../../l10n/app_localizations.dart';
 import '../../mixins/panel_menu_mixin.dart';
 import '../../providers/home_provider.dart';
 import '../../providers/profile_provider.dart';
@@ -149,6 +150,7 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
 
   Future<void> _showMenu(BuildContext ctx) async {
     _inputFocus.unfocus();
+    final l10n = AppLocalizations.of(ctx)!;
     final overlay =
         Navigator.of(ctx).overlay!.context.findRenderObject() as RenderBox;
     final position = RelativeRect.fromRect(
@@ -160,18 +162,18 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
       context: ctx,
       position: position,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      items: const [
+      items: [
         PopupMenuItem(
           value: 'new',
-          child: ChatMenuItem(icon: 'edit-pencil', label: 'New Chat'),
+          child: ChatMenuItem(icon: 'edit-pencil', label: l10n.chatNewChat),
         ),
         PopupMenuItem(
           value: 'search',
-          child: ChatMenuItem(icon: 'search', label: 'Search in Chats'),
+          child: ChatMenuItem(icon: 'search', label: l10n.chatSearchInChats),
         ),
         PopupMenuItem(
           value: 'history',
-          child: ChatMenuItem(icon: 'resume', label: "Chat's History"),
+          child: ChatMenuItem(icon: 'resume', label: l10n.chatHistory),
         ),
       ],
     );

@@ -98,10 +98,9 @@ class _BlogNewsScreenState extends ConsumerState<BlogNewsScreen>
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: IthakiGradientBanner(
-                    title: 'Not sure how to find the right job?',
-                    subtitle:
-                        "Career Assistant can help you if you're not sure where to start!",
-                    buttonLabel: 'Ask Career Assistant',
+                    title: l10n.bannerNotSureJob,
+                    subtitle: l10n.homeCareerAssistantBannerSubtitle,
+                    buttonLabel: l10n.askCareerAssistant,
                     buttonIcon: const IthakiIcon('ai',
                         size: 18, color: IthakiTheme.backgroundWhite),
                     onButtonPressed: () => context.go(Routes.careerAssistant),

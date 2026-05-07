@@ -4606,6 +4606,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Permanently remove your account and all related data from the system. This action cannot be undone.'**
   String get deleteAccountTabDescription;
+
+  /// No description provided for @jobInterestsStillLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Job interests are still loading. Try again in a moment.'**
+  String get jobInterestsStillLoading;
+
+  /// No description provided for @failedToLoadJobInterests.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load job interests.'**
+  String get failedToLoadJobInterests;
+
+  /// No description provided for @relocationNegative.
+  ///
+  /// In en, this message translates to:
+  /// **'Not willing to relocate'**
+  String get relocationNegative;
+
+  /// No description provided for @relocationLocally.
+  ///
+  /// In en, this message translates to:
+  /// **'Willing to relocate locally'**
+  String get relocationLocally;
+
+  /// No description provided for @relocationNationally.
+  ///
+  /// In en, this message translates to:
+  /// **'Willing to relocate nationally'**
+  String get relocationNationally;
+
+  /// No description provided for @relocationInternationally.
+  ///
+  /// In en, this message translates to:
+  /// **'Willing to relocate internationally'**
+  String get relocationInternationally;
 }
 
 class _AppLocalizationsDelegate

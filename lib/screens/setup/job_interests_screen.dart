@@ -24,9 +24,7 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
     if (_selected.length >= 5) return;
     if (allItems.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text(
-                'Job interests are still loading. Try again in a moment.')),
+        SnackBar(content: Text(l.jobInterestsStillLoading)),
       );
       return;
     }
@@ -34,8 +32,7 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
         allItems.where((j) => !_selected.any((s) => s.id == j.id)).toList();
     if (available.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('No more job interests available to add.')),
+        SnackBar(content: Text(l.noMoreJobInterests)),
       );
       return;
     }
@@ -104,7 +101,7 @@ class _JobInterestsScreenState extends ConsumerState<JobInterestsScreen> {
                       border: Border.all(color: IthakiTheme.borderLight),
                     ),
                     child: Text(
-                      loadErrorText ?? 'Failed to load job interests.',
+                      loadErrorText ?? l.failedToLoadJobInterests,
                       style: IthakiTheme.captionRegular,
                     ),
                   ),
