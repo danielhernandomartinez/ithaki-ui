@@ -18,8 +18,7 @@ class ProfileFilesTab extends ConsumerWidget {
     if (files.isEmpty) {
       return ProfileEmptyStateCard(
         title: l.profileMyFilesTitle,
-        description:
-            'Upload certificates, CV, photos, or any other files that showcase your qualifications.',
+        description: l.profileFilesDescription,
         buttonLabel: l.uploadFile,
         buttonIcon: const IthakiIcon('upload-cloud', size: 16),
         onPressed: () => _openUpload(context, ref),

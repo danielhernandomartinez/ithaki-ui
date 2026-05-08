@@ -34,14 +34,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   late final PanelMenuController _panels;
   int _tabIndex = 0;
 
-  static const _tabs = [
-    'Job Preferences',
-    'About Me',
-    'Skills',
-    'Work Experience',
-    'Education',
-    'Files',
-    'Values',
+  List<String> _buildTabs(AppLocalizations l) => [
+    l.profileTabJobPreferences,
+    l.profileTabAboutMe,
+    l.profileTabSkills,
+    l.profileTabWorkExperience,
+    l.profileTabEducation,
+    l.profileTabFiles,
+    l.profileTabValues,
   ];
 
   @override
@@ -100,13 +100,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     size: 48, color: IthakiTheme.textSecondary),
                 const SizedBox(height: 16),
                 Text(
-                  'Couldn\'t load your profile.\nCheck your connection and try again.',
+                  l.profileLoadError,
                   textAlign: TextAlign.center,
                   style: TextStyle(color: IthakiTheme.textSecondary),
                 ),
                 const SizedBox(height: 24),
                 IthakiButton(
-                  'Retry',
+                  l.retryButton,
                   onPressed: () => ref.invalidate(profileBasicsProvider),
                 ),
               ],
@@ -160,7 +160,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        'Some profile data couldn\'t be loaded. Showing cached data.',
+                        l.profilePartialLoadWarning,
                         style: TextStyle(
                           color: Colors.amber.shade900,
                           fontSize: 13,
@@ -176,7 +176,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             ),
             const SizedBox(height: 12),
             ProfileTabBar(
-              tabs: _tabs,
+              tabs: _buildTabs(l),
               selectedIndex: _tabIndex,
               onTabSelected: (i) => setState(() => _tabIndex = i),
             ),
@@ -280,7 +280,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 child: AppNavDrawer(
                   currentRoute: Routes.profile,
                   profileProgress: ref.watch(profileCompletionProvider),
-                  items: kAppNavItems,
+                  items: buildNavItems(AppLocalizations.of(context)!),
                   onItemTap: (item) {
                     _panels.closeMenu();
                     context.go(item.route);

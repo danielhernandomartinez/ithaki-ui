@@ -145,7 +145,7 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen>
                   child: AppNavDrawer(
                     currentRoute: Routes.settingsNotifications,
                     profileProgress: ref.watch(profileCompletionProvider),
-                    items: kAppNavItems,
+                    items: buildNavItems(AppLocalizations.of(context)!),
                     onItemTap: (item) {
                       _panels.closeMenu();
                       context.go(item.route);

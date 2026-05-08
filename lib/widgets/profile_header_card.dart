@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/profile_provider.dart';
 import '../routes.dart';
 import '../utils/profile_photo_image.dart';
@@ -13,6 +14,7 @@ class ProfileHeaderCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l = AppLocalizations.of(context)!;
     final prefs = ref.watch(profileJobPreferencesProvider).value;
     final photoImage = profilePhotoImageProvider(basics.photoUrl);
     return Container(
@@ -52,7 +54,7 @@ class ProfileHeaderCard extends ConsumerWidget {
                   ? prefs.jobInterests.first.title
                   : prefs != null && prefs.jobType.isNotEmpty
                       ? prefs.jobType
-                      : 'Job Seeker',
+                      : l.roleJobSeeker,
               style: const TextStyle(
                   fontSize: 14, color: IthakiTheme.textSecondary),
             ),
@@ -63,23 +65,23 @@ class ProfileHeaderCard extends ConsumerWidget {
         const SizedBox(height: 4),
         _contactRow(const IthakiIcon('phone', size: 20), basics.phone),
         const SizedBox(height: 8),
-        const Text(
-          "Employers won't see your contact details until you apply for a job or accept an invitation.",
-          style: TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
+        Text(
+          l.contactVisibilityNote,
+          style: const TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
         ),
         const Divider(height: 24),
         Row(children: [
-          Expanded(child: _infoCell('Gender', basics.gender)),
-          Expanded(child: _infoCell('Age', _calcAge(basics.dateOfBirth))),
+          Expanded(child: _infoCell(l.genderLabel, basics.gender)),
+          Expanded(child: _infoCell(l.ageLabel, _calcAge(basics.dateOfBirth))),
         ]),
         const SizedBox(height: 8),
         Row(children: [
-          Expanded(child: _infoCell('Citizenship', basics.citizenship)),
-          Expanded(child: _infoCell('Location', basics.residence)),
+          Expanded(child: _infoCell(l.citizenshipLabel, basics.citizenship)),
+          Expanded(child: _infoCell(l.locationLabel, basics.residence)),
         ]),
         const SizedBox(height: 12),
         IthakiOutlineButton(
-          'Edit Profile Basics',
+          l.editProfileBasicsButton,
           icon: const IthakiIcon('edit-pencil', size: 16),
           onPressed: () => context.push(Routes.profileBasics),
           borderRadius: 20,

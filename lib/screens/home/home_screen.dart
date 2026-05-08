@@ -296,7 +296,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                         child: AppNavDrawer(
                           currentRoute: _selectedRoute,
                           profileProgress: ref.watch(profileCompletionProvider),
-                          items: kAppNavItems,
+                          items: buildNavItems(AppLocalizations.of(context)!),
                           onItemTap: (item) {
                             setState(() => _selectedRoute = item.route);
                             _panels.closeMenu();

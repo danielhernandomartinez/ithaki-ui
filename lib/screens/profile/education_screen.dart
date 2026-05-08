@@ -158,10 +158,9 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
                 fontWeight: FontWeight.w700,
                 color: IthakiTheme.textPrimary)),
         const SizedBox(height: 6),
-        const Text(
-          'Add information about your educational background, '
-          'degree, and field of study.',
-          style: TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+        Text(
+          l.profileEducationSubtitle,
+          style: const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 24),
 

@@ -245,7 +245,7 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
                 child: AppNavDrawer(
                   currentRoute: Routes.myApplications,
                   profileProgress: ref.watch(profileCompletionProvider),
-                  items: kAppNavItems,
+                  items: buildNavItems(AppLocalizations.of(context)!),
                   onItemTap: (item) {
                     _panels.closeMenu();
                     if (item.route != Routes.myApplications) {

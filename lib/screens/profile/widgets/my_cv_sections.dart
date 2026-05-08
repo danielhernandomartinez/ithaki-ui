@@ -4,8 +4,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
-import '../../../config/app_config.dart';
-import '../../../data/mock_profile_data.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/assessment_models.dart';
 import '../../../models/profile_models.dart';
@@ -70,83 +68,43 @@ class MyCvData {
     required ProfileJobPreferences jobPreferences,
     required List<Assessment> assessments,
   }) {
-    const fallbackEducations = [
-      Education(
-        institutionName: 'National Technical University of Athens',
-        fieldOfStudy: 'Computer Science',
-        location: 'Athens, Greece',
-        degreeType: 'Bachelor’s Degree',
-        startDate: '09-2017',
-        endDate: '07-2021',
-      ),
-    ];
-
-    final fullName = _value(
-      '${basics.firstName} ${basics.lastName}'.trim(),
-      'Christos Ioannides',
-    );
-    final avatarInitials = basics.initials == '??' ? 'CI' : basics.initials;
-    final combinedSkills = [
-      ...skills.hardSkills,
-      ...skills.softSkills,
-    ];
+    final fullName = '${basics.firstName} ${basics.lastName}'.trim();
+    final avatarInitials = basics.initials.isEmpty ? '' : basics.initials;
+    final combinedSkills = [...skills.hardSkills, ...skills.softSkills];
     final salaryValue = jobPreferences.preferNotToSpecifySalary
         ? ''
         : jobPreferences.expectedSalary == null
             ? ''
             : '${jobPreferences.expectedSalary!.toStringAsFixed(0)} € / month';
     final completedAssessments = assessments
-        .where((assessment) => assessment.status == AssessmentStatus.completed)
+        .where((a) => a.status == AssessmentStatus.completed)
         .take(3)
         .toList();
 
     return MyCvData(
       avatarInitials: avatarInitials,
       fullName: fullName,
-      jobTitle: _value(
-        jobPreferences.jobInterests.firstOrNull?.title,
-        'Frontend Developer',
-      ),
-      email: _value(basics.email, 'c.ioanidis@gmail.com'),
-      phone: _value(basics.phone, '+30 123 456 78 90'),
+      jobTitle: jobPreferences.jobInterests.firstOrNull?.title ?? '',
+      email: basics.email,
+      phone: basics.phone,
       photoPath: basics.photoUrl,
-      gender: _value(basics.gender, 'Male'),
-      age: _value(_ageFromDate(basics.dateOfBirth), '29'),
-      citizenship: _value(basics.citizenship, 'Greek'),
-      location: _value(basics.residence, 'Chalkidiki, Greece'),
-      workplace: _value(jobPreferences.workplace, 'On-site'),
-      jobType: _value(jobPreferences.jobType, 'Full-Time'),
-      experienceLevel: _value(jobPreferences.positionLevel, 'Middle (3 years)'),
-      salary: _value(salaryValue, '21,500 € / month'),
-      aboutMe: _value(
-        aboutMe.bio,
-        mockProfileAboutMe.bio,
-      ),
-      skills: combinedSkills.isEmpty ? mockCvSkills : combinedSkills,
-      competencies: skills.competencies.isEmpty
-          ? mockProfileCompetencies
-          : skills.competencies,
-      workExperiences: workExperiences.isEmpty
-          ? mockProfileWorkExperiences
-          : workExperiences,
-      educations: educations.isEmpty ? fallbackEducations : educations,
-      languages:
-          skills.languages.isEmpty ? mockProfileLanguages : skills.languages,
-      files: files.isEmpty ? mockProfileFiles : files,
+      gender: basics.gender,
+      age: _ageFromDate(basics.dateOfBirth),
+      citizenship: basics.citizenship,
+      location: basics.residence,
+      workplace: jobPreferences.workplace,
+      jobType: jobPreferences.jobType,
+      experienceLevel: jobPreferences.positionLevel,
+      salary: salaryValue,
+      aboutMe: aboutMe.bio,
+      skills: combinedSkills,
+      competencies: skills.competencies,
+      workExperiences: workExperiences,
+      educations: educations,
+      languages: skills.languages,
+      files: files,
       assessmentCards: completedAssessments,
     );
-  }
-
-  static String _value(String? current, String fallback) {
-    if (current != null && current.trim().isNotEmpty) {
-      return current.trim();
-    }
-
-    if (AppConfig.shouldUseMockData) {
-      return fallback;
-    }
-
-    return '';
   }
 
   static String _ageFromDate(String dateOfBirth) {

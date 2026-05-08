@@ -616,6 +616,7 @@ class _ProcessingOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context)!;
     return Dialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -646,7 +647,7 @@ class _ProcessingOverlay extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'Processing your results!',
+              l.assessmentProcessingTitle,
               style: IthakiTheme.bodySmall.copyWith(
                 fontWeight: FontWeight.w700,
                 fontSize: 18,
@@ -654,7 +655,7 @@ class _ProcessingOverlay extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              "You've successfully completed the assessment. We're now generating your results — this will only take a moment.",
+              l.assessmentProcessingSubtitle,
               style: IthakiTheme.bodySmall
                   .copyWith(color: IthakiTheme.textSecondary),
             ),

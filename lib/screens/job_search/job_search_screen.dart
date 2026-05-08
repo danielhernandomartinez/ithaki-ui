@@ -122,7 +122,7 @@ class _JobSearchScreenState extends ConsumerState<JobSearchScreen>
                   child: AppNavDrawer(
                     currentRoute: Routes.jobSearch,
                     profileProgress: ref.watch(profileCompletionProvider),
-                    items: kAppNavItems,
+                    items: buildNavItems(AppLocalizations.of(context)!),
                     onItemTap: (item) {
                       _panels.closeMenu();
                       if (item.route != Routes.jobSearch) {

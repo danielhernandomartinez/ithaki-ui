@@ -89,37 +89,43 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
 
           // Remember me + Forgot password
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: () => setState(() => _rememberMe = !_rememberMe),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      height: 24,
-                      width: 24,
-                      child: Checkbox(
-                        value: _rememberMe,
-                        activeColor: IthakiTheme.primaryPurple,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4),
+              Flexible(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => setState(() => _rememberMe = !_rememberMe),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: Checkbox(
+                          value: _rememberMe,
+                          activeColor: IthakiTheme.primaryPurple,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          onChanged: (bool? newValue) {
+                            setState(() {
+                              _rememberMe = newValue ?? false;
+                            });
+                          },
                         ),
-                        onChanged: (bool? newValue) {
-                          setState(() {
-                            _rememberMe = newValue ?? false;
-                          });
-                        },
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      l.rememberMe,
-                      style: IthakiTheme.bodyRegular,
-                    ),
-                  ],
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
+                          l.rememberMe,
+                          style: IthakiTheme.bodyRegular,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const Spacer(),
+              const SizedBox(width: 12),
               GestureDetector(
                 onTap: () => context.push(Routes.forgotPassword),
                 child: Container(

@@ -104,17 +104,17 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'We could not load this job right now.',
+            Text(
+              l.jobCouldNotLoad,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 color: IthakiTheme.textPrimary,
               ),
             ),
             const SizedBox(height: 16),
             IthakiButton(
-              'Try Again',
+              l.tryAgain,
               onPressed: () {
                 if (widget.isInvitation) {
                   ref.invalidate(invitationsProvider);
@@ -170,17 +170,17 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'We could not load this job right now.',
+            Text(
+              l.jobCouldNotLoad,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 color: IthakiTheme.textPrimary,
               ),
             ),
             const SizedBox(height: 16),
             IthakiButton(
-              'Try Again',
+              l.tryAgain,
               onPressed: () => ref.invalidate(jobDetailProvider(jobId)),
             ),
           ],
@@ -302,7 +302,7 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
                     child: AppNavDrawer(
                       currentRoute: Routes.myApplications,
                       profileProgress: ref.watch(profileCompletionProvider),
-                      items: kAppNavItems,
+                      items: buildNavItems(AppLocalizations.of(context)!),
                       onItemTap: (item) {
                         _panels.closeMenu();
                         context.go(item.route);

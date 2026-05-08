@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../constants/nav_items.dart';
+import '../../l10n/app_localizations.dart';
 import '../../mixins/panel_menu_mixin.dart';
 import '../../providers/application_detail_provider.dart';
 import '../../providers/home_provider.dart';
@@ -114,7 +115,7 @@ class _ApplicationDetailsScreenState
                   child: AppNavDrawer(
                     currentRoute: Routes.myApplications,
                     profileProgress: ref.watch(profileCompletionProvider),
-                    items: kAppNavItems,
+                    items: buildNavItems(AppLocalizations.of(context)!),
                     onItemTap: (item) {
                       _panels.closeMenu();
                       context.go(item.route);

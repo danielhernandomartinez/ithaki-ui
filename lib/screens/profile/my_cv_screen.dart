@@ -481,7 +481,7 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
                     child: AppNavDrawer(
                       currentRoute: Routes.cv,
                       profileProgress: ref.watch(profileCompletionProvider),
-                      items: kAppNavItems,
+                      items: buildNavItems(AppLocalizations.of(context)!),
                       onItemTap: (item) {
                         _panels.closeMenu();
                         context.go(item.route);

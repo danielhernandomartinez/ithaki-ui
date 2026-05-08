@@ -263,7 +263,7 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
                 child: AppNavDrawer(
                   currentRoute: Routes.assessments,
                   profileProgress: ref.watch(profileCompletionProvider),
-                  items: kAppNavItems,
+                  items: buildNavItems(AppLocalizations.of(context)!),
                   onItemTap: (item) {
                     _panels.closeMenu();
                     if (item.route != Routes.assessments) {

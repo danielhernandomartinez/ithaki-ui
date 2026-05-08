@@ -1,11 +1,12 @@
+import '../l10n/app_localizations.dart';
 import '../routes.dart';
 import '../widgets/app_nav_drawer.dart';
 
-const kAppNavItems = [
-  NavItem(icon: 'home',         label: 'Home',             route: Routes.home),
-  NavItem(icon: 'jobs',         label: 'Job Search',       route: Routes.jobSearch),
-  NavItem(icon: 'applications', label: 'My Applications',  route: Routes.myApplications),
-  NavItem(icon: 'ai',           label: 'Career Assistant', route: Routes.careerAssistant),
-  NavItem(icon: 'assessment',   label: 'My Assessments',   route: Routes.assessments),
-  NavItem(icon: 'blog',         label: 'Blog & News',      route: Routes.blogNews),
+List<NavItem> buildNavItems(AppLocalizations l) => [
+  NavItem(icon: 'home',         label: l.navHome,             route: Routes.home),
+  NavItem(icon: 'jobs',         label: l.navJobSearch,        route: Routes.jobSearch),
+  NavItem(icon: 'applications', label: l.navMyApplications,   route: Routes.myApplications),
+  NavItem(icon: 'ai',           label: l.navCareerAssistant,  route: Routes.careerAssistant),
+  NavItem(icon: 'assessment',   label: l.navMyAssessments,    route: Routes.assessments),
+  NavItem(icon: 'blog',         label: l.navBlogNews,         route: Routes.blogNews),
 ];

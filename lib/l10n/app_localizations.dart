@@ -4642,6 +4642,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Willing to relocate internationally'**
   String get relocationInternationally;
+
+  /// No description provided for @positionInternYears.
+  ///
+  /// In en, this message translates to:
+  /// **'0 years'**
+  String get positionInternYears;
+
+  /// No description provided for @positionJuniorYears.
+  ///
+  /// In en, this message translates to:
+  /// **'0–2 years'**
+  String get positionJuniorYears;
+
+  /// No description provided for @positionMidYears.
+  ///
+  /// In en, this message translates to:
+  /// **'2–5 years'**
+  String get positionMidYears;
+
+  /// No description provided for @positionSeniorYears.
+  ///
+  /// In en, this message translates to:
+  /// **'5–8 years'**
+  String get positionSeniorYears;
+
+  /// No description provided for @positionLeadYears.
+  ///
+  /// In en, this message translates to:
+  /// **'8–12 years'**
+  String get positionLeadYears;
+
+  /// No description provided for @positionManagerYears.
+  ///
+  /// In en, this message translates to:
+  /// **'10+ years'**
+  String get positionManagerYears;
+
+  /// No description provided for @positionDirectorYears.
+  ///
+  /// In en, this message translates to:
+  /// **'12+ years'**
+  String get positionDirectorYears;
+
+  /// No description provided for @jobCouldNotLoad.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not load this job right now.'**
+  String get jobCouldNotLoad;
+
+  /// No description provided for @navHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navHome;
+
+  /// No description provided for @navJobSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Search'**
+  String get navJobSearch;
+
+  /// No description provided for @navMyApplications.
+  ///
+  /// In en, this message translates to:
+  /// **'My Applications'**
+  String get navMyApplications;
+
+  /// No description provided for @navCareerAssistant.
+  ///
+  /// In en, this message translates to:
+  /// **'Career Assistant'**
+  String get navCareerAssistant;
+
+  /// No description provided for @navMyAssessments.
+  ///
+  /// In en, this message translates to:
+  /// **'My Assessments'**
+  String get navMyAssessments;
+
+  /// No description provided for @navBlogNews.
+  ///
+  /// In en, this message translates to:
+  /// **'Blog & News'**
+  String get navBlogNews;
+
+  /// No description provided for @profileTabJobPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Job Preferences'**
+  String get profileTabJobPreferences;
+
+  /// No description provided for @profileTabAboutMe.
+  ///
+  /// In en, this message translates to:
+  /// **'About Me'**
+  String get profileTabAboutMe;
+
+  /// No description provided for @profileTabSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'Skills'**
+  String get profileTabSkills;
+
+  /// No description provided for @profileTabWorkExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'Work Experience'**
+  String get profileTabWorkExperience;
+
+  /// No description provided for @profileTabEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get profileTabEducation;
+
+  /// No description provided for @profileTabFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Files'**
+  String get profileTabFiles;
+
+  /// No description provided for @profileTabValues.
+  ///
+  /// In en, this message translates to:
+  /// **'Values'**
+  String get profileTabValues;
+
+  /// No description provided for @profileLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load your profile.\nCheck your connection and try again.'**
+  String get profileLoadError;
+
+  /// No description provided for @retryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryButton;
+
+  /// No description provided for @profilePartialLoadWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Some profile data couldn\'t be loaded. Showing cached data.'**
+  String get profilePartialLoadWarning;
+
+  /// No description provided for @editProfileBasicsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile Basics'**
+  String get editProfileBasicsButton;
+
+  /// No description provided for @ageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get ageLabel;
+
+  /// No description provided for @locationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get locationLabel;
+
+  /// No description provided for @profileFilesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload certificates, CV, photos, or any other files that showcase your qualifications.'**
+  String get profileFilesDescription;
 }
 
 class _AppLocalizationsDelegate

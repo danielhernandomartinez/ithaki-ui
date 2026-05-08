@@ -328,7 +328,7 @@ class _BlogArticleScreenState extends ConsumerState<BlogArticleScreen>
                 child: AppNavDrawer(
                   currentRoute: Routes.blogNews,
                   profileProgress: ref.watch(profileCompletionProvider),
-                  items: kAppNavItems,
+                  items: buildNavItems(AppLocalizations.of(context)!),
                   onItemTap: (item) {
                     _panels.closeMenu();
                     context.go(item.route);

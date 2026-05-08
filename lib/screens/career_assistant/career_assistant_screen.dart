@@ -294,7 +294,7 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
                 child: AppNavDrawer(
                   currentRoute: Routes.careerAssistant,
                   profileProgress: ref.watch(profileCompletionProvider),
-                  items: kAppNavItems,
+                  items: buildNavItems(AppLocalizations.of(context)!),
                   onItemTap: (item) => _goFromMenu(item.route),
                 ),
               ),

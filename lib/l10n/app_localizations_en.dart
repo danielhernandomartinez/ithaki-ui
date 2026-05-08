@@ -2477,4 +2477,91 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get relocationInternationally => 'Willing to relocate internationally';
+
+  @override
+  String get positionInternYears => '0 years';
+
+  @override
+  String get positionJuniorYears => '0–2 years';
+
+  @override
+  String get positionMidYears => '2–5 years';
+
+  @override
+  String get positionSeniorYears => '5–8 years';
+
+  @override
+  String get positionLeadYears => '8–12 years';
+
+  @override
+  String get positionManagerYears => '10+ years';
+
+  @override
+  String get positionDirectorYears => '12+ years';
+
+  @override
+  String get jobCouldNotLoad => 'We could not load this job right now.';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navJobSearch => 'Job Search';
+
+  @override
+  String get navMyApplications => 'My Applications';
+
+  @override
+  String get navCareerAssistant => 'Career Assistant';
+
+  @override
+  String get navMyAssessments => 'My Assessments';
+
+  @override
+  String get navBlogNews => 'Blog & News';
+
+  @override
+  String get profileTabJobPreferences => 'Job Preferences';
+
+  @override
+  String get profileTabAboutMe => 'About Me';
+
+  @override
+  String get profileTabSkills => 'Skills';
+
+  @override
+  String get profileTabWorkExperience => 'Work Experience';
+
+  @override
+  String get profileTabEducation => 'Education';
+
+  @override
+  String get profileTabFiles => 'Files';
+
+  @override
+  String get profileTabValues => 'Values';
+
+  @override
+  String get profileLoadError =>
+      'Couldn\'t load your profile.\nCheck your connection and try again.';
+
+  @override
+  String get retryButton => 'Retry';
+
+  @override
+  String get profilePartialLoadWarning =>
+      'Some profile data couldn\'t be loaded. Showing cached data.';
+
+  @override
+  String get editProfileBasicsButton => 'Edit Profile Basics';
+
+  @override
+  String get ageLabel => 'Age';
+
+  @override
+  String get locationLabel => 'Location';
+
+  @override
+  String get profileFilesDescription =>
+      'Upload certificates, CV, photos, or any other files that showcase your qualifications.';
 }
