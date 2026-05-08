@@ -118,10 +118,10 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
     if (route != Routes.careerAssistant) context.go(route);
   }
 
-  void _pushFromProfile(String route) {
+  void _pushFromProfile(ProfileMenuItem item) {
     _inputFocus.unfocus();
     _panels.closeProfile();
-    if (route.isNotEmpty) context.push(route);
+    navigateToProfileMenuRoute(context, item);
   }
 
   void _newChat() {
@@ -307,7 +307,7 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
               SlideTransition(
                 position: _panels.profileSlideAnim,
                 child: ProfileMenuPanel(
-                  onItemTap: (item) => _pushFromProfile(item.route),
+                  onItemTap: _pushFromProfile,
                   onLogOut: () {
                     _inputFocus.unfocus();
                     _panels.closeProfile();

@@ -106,7 +106,9 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
           // ── Main content ────────────────────────────────────────────────────
           assessmentsAsync.when(
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => Center(child: Text(AppLocalizations.of(context)!.errorMessage(e.toString()))),
+            error: (e, _) => Center(
+                child: Text(
+                    AppLocalizations.of(context)!.errorMessage(e.toString()))),
             data: (assessments) {
               final inProgress = assessments
                   .where((a) => a.status == AssessmentStatus.inProgress)
@@ -140,14 +142,15 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
                     if (inProgress.isNotEmpty) ...[
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: _SectionHeader(
-                            AppLocalizations.of(context)!.assessmentsInProgressTitle(inProgress.length)),
+                        child: _SectionHeader(AppLocalizations.of(context)!
+                            .assessmentsInProgressTitle(inProgress.length)),
                       ),
                       const SizedBox(height: 4),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
-                          AppLocalizations.of(context)!.assessmentsInProgressSubtitle,
+                          AppLocalizations.of(context)!
+                              .assessmentsInProgressSubtitle,
                           style: IthakiTheme.bodySmall
                               .copyWith(color: IthakiTheme.textSecondary),
                         ),
@@ -171,14 +174,15 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
                       const SizedBox(height: 8),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: _SectionHeader(
-                            AppLocalizations.of(context)!.assessmentsRecommendedForYou),
+                        child: _SectionHeader(AppLocalizations.of(context)!
+                            .assessmentsRecommendedForYou),
                       ),
                       const SizedBox(height: 4),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
-                          AppLocalizations.of(context)!.assessmentsRecommendedSubtitle,
+                          AppLocalizations.of(context)!
+                              .assessmentsRecommendedSubtitle,
                           style: IthakiTheme.bodySmall
                               .copyWith(color: IthakiTheme.textSecondary),
                         ),
@@ -202,14 +206,15 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
                       const SizedBox(height: 8),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child:
-                            _SectionHeader(AppLocalizations.of(context)!.assessmentsCompletedTitle),
+                        child: _SectionHeader(AppLocalizations.of(context)!
+                            .assessmentsCompletedTitle),
                       ),
                       const SizedBox(height: 4),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
-                          AppLocalizations.of(context)!.assessmentsCompletedSubtitle,
+                          AppLocalizations.of(context)!
+                              .assessmentsCompletedSubtitle,
                           style: IthakiTheme.bodySmall
                               .copyWith(color: IthakiTheme.textSecondary),
                         ),
@@ -284,7 +289,7 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
                 child: ProfileMenuPanel(
                   onItemTap: (item) {
                     _panels.closeProfile();
-                    if (item.route.isNotEmpty) context.push(item.route);
+                    navigateToProfileMenuRoute(context, item);
                   },
                   onLogOut: () {
                     _panels.closeProfile();
@@ -566,7 +571,8 @@ class _ContinueAssessmentSheet extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: IthakiOutlineButton(l.assessmentStartOver, onPressed: onStartOver),
+                child: IthakiOutlineButton(l.assessmentStartOver,
+                    onPressed: onStartOver),
               ),
               const SizedBox(width: 8),
               Expanded(

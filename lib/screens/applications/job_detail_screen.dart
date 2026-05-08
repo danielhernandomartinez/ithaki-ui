@@ -319,9 +319,7 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
                     child: ProfileMenuPanel(
                       onItemTap: (item) {
                         _panels.closeProfile();
-                        if (item.route.isNotEmpty) {
-                          context.push(item.route);
-                        }
+                        navigateToProfileMenuRoute(context, item);
                       },
                       onLogOut: () {
                         _panels.closeProfile();

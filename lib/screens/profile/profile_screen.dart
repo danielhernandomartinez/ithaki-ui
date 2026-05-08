@@ -35,14 +35,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   int _tabIndex = 0;
 
   List<String> _buildTabs(AppLocalizations l) => [
-    l.profileTabJobPreferences,
-    l.profileTabAboutMe,
-    l.profileTabSkills,
-    l.profileTabWorkExperience,
-    l.profileTabEducation,
-    l.profileTabFiles,
-    l.profileTabValues,
-  ];
+        l.profileTabJobPreferences,
+        l.profileTabAboutMe,
+        l.profileTabSkills,
+        l.profileTabWorkExperience,
+        l.profileTabEducation,
+        l.profileTabFiles,
+        l.profileTabValues,
+      ];
 
   @override
   void initState() {
@@ -253,7 +253,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 child: ProfileMenuPanel(
                   onItemTap: (item) {
                     _panels.closeProfile();
-                    if (item.route.isNotEmpty) context.push(item.route);
+                    navigateToProfileMenuRoute(context, item);
                   },
                   onLogOut: () {
                     _panels.closeProfile();

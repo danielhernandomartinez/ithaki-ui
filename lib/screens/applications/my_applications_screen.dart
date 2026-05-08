@@ -266,7 +266,7 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
                 child: ProfileMenuPanel(
                   onItemTap: (item) {
                     _panels.closeProfile();
-                    if (item.route.isNotEmpty) context.push(item.route);
+                    navigateToProfileMenuRoute(context, item);
                   },
                   onLogOut: () {
                     _panels.closeProfile();

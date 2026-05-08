@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../l10n/app_localizations.dart';
 import '../routes.dart';
@@ -15,17 +16,26 @@ class ProfileMenuItem {
   });
 }
 
+void navigateToProfileMenuRoute(BuildContext context, ProfileMenuItem item) {
+  if (item.route.isEmpty) return;
+  if (GoRouterState.of(context).matchedLocation == item.route) return;
+
+  context.push(item.route);
+}
+
 class ProfileMenuPanel extends StatelessWidget {
   final void Function(ProfileMenuItem item)? onItemTap;
   final VoidCallback? onLogOut;
 
   static List<ProfileMenuItem> _items(AppLocalizations l) => [
         ProfileMenuItem(
-            icon: 'profile', label: l.profileMenuMyProfile, route: '/profile'),
+            icon: 'profile',
+            label: l.profileMenuMyProfile,
+            route: Routes.profile),
         ProfileMenuItem(
             icon: 'resume', label: l.profileMenuMyCv, route: Routes.cv),
         ProfileMenuItem(
-            icon: 'settings', label: l.accountSettings, route: '/settings'),
+            icon: 'settings', label: l.accountSettings, route: Routes.settings),
       ];
 
   const ProfileMenuPanel({super.key, this.onItemTap, this.onLogOut});
