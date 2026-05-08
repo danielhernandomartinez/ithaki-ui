@@ -18,7 +18,12 @@ import '../../routes.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
 import 'widgets/invitation_detail_widgets.dart';
-import 'widgets/job_detail_cards.dart';
+import 'widgets/job_detail_company_card.dart';
+import 'widgets/job_detail_sticky_bar.dart';
+import 'widgets/job_main_card.dart';
+import 'widgets/job_status_card.dart';
+import 'widgets/recommended_card.dart';
+import 'widgets/reviews_card.dart';
 
 class JobDetailScreen extends ConsumerStatefulWidget {
   final String applicationId;
