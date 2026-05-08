@@ -13,7 +13,13 @@ import '../../repositories/auth_repository.dart';
 import '../../routes.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
-import 'widgets/my_cv_sections.dart';
+import 'widgets/cv_assistant_card.dart';
+import 'widgets/cv_atoms.dart';
+import 'widgets/cv_data.dart';
+import 'widgets/cv_entry_cards.dart';
+import 'widgets/cv_header_card.dart';
+import 'widgets/cv_overlays.dart';
+import 'widgets/cv_section_card.dart';
 
 class MyCvScreen extends ConsumerStatefulWidget {
   const MyCvScreen({super.key});
