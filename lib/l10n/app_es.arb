@@ -1,0 +1,1060 @@
+{
+  "@@locale": "es",
+  "appTitle": "Ithaki",
+  "loginAction": "Iniciar sesión",
+  "signUpAction": "Registrarse",
+  "continueButton": "Continuar",
+  "skipButton": "Omitir",
+  "backButton": "Atrás",
+  "goBack": "Regresar",
+  "welcomeHeading": "¡Te damos la bienvenida a Ithaki!\n¡Vamos a crear una cuenta!",
+  "selectLanguageTitle": "Selecciona tu idioma",
+  "selectLanguageDescription": "Puedes cambiar el idioma de la interfaz en cualquier momento. Todo el contenido, incluida la descripción del empleo, tu currículum y la comunicación con los consultores y el chatbot, estará en inglés.",
+  "languageLabel": "Idioma",
+  "selectLanguagePlaceholder": "Selecciona tu idioma",
+  "techComfortTitle": "¿Qué tan cómodo te sientes con la tecnología?",
+  "techComfortDescription": "Usaremos tu respuesta para que la plataforma te resulte más cómoda.",
+  "techExperiencedLabel": "Tengo experiencia",
+  "techExperiencedSubtitle": "Me siento cómodo usando herramientas digitales y disfruto explorando nuevas tecnologías",
+  "techNewLabel": "Aún soy nuevo en esto",
+  "techNewSubtitle": "No me gustan las herramientas complejas; prefiero cuando la tecnología simplemente funciona sin problemas",
+  "signInWithGoogle": "Iniciar sesión con Google",
+  "emailLabel": "Correo electrónico",
+  "emailHint": "Ingresa tu correo electrónico",
+  "passwordLabel": "Contraseña",
+  "passwordHint": "Ingresa tu contraseña",
+  "confirmPasswordLabel": "Confirmar contraseña",
+  "confirmPasswordHint": "Repite tu contraseña",
+  "passwordUpperLower": "Incluye una letra mayúscula y una minúscula",
+  "passwordMinLength": "Al menos 8 caracteres",
+  "passwordNumber": "Incluye al menos un número",
+  "passwordSpecial": "Incluye un carácter especial (como !@#$%^&)",
+  "passwordsDoNotMatch": "Las contraseñas no coinciden",
+  "termsText": "Al continuar, reconoces que has leído y aceptado nuestra ",
+  "privacyPolicy": "Política de privacidad",
+  "andText": " y los ",
+  "termsOfUse": "Términos de uso",
+  "personalDetailsHeading": "¡Ya casi terminamos!\nCuéntanos sobre ti",
+  "personalDetailsDescription": "Tu nombre y número de teléfono ayudan a los equipos a contactarte directamente.",
+  "nameLabel": "Nombre",
+  "nameHint": "Ingresa tu nombre",
+  "lastNameLabel": "Apellido",
+  "lastNameHint": "Ingresa tu apellido",
+  "verifyEmailHeading": "Verifica tu dirección de correo electrónico",
+  "verifyEmailDescription": "Hemos enviado un enlace de verificación a tu dirección de correo electrónico.\nRevisa tu bandeja de entrada y sigue el enlace para completar la configuración de tu cuenta.",
+  "verifyEmailSpamHint": "¿No recibiste el correo? Revisa tu carpeta de spam o reenvíalo.",
+  "verifiedEmailButton": "He verificado mi correo electrónico",
+  "resendEmailLabel": "Reenviar enlace por correo electrónico",
+  "verifyPhoneHeading": "Verifica tu número de teléfono",
+  "verifyPhoneDescription": "Enviaremos un código de verificación a tu número de teléfono. Elige cómo te gustaría recibirlo.",
+  "selectMethodTitle": "Selecciona un método para recibir el código",
+  "sendViaSms": "Enviar código seguro por SMS",
+  "sendViaWhatsapp": "Enviar código seguro por WhatsApp",
+  "rememberChoice": "Recordar mi elección",
+  "verifyAccountTitle": "Vamos a verificar tu cuenta",
+  "verifyAccountSubtitle": "Hemos enviado un código de verificación a tu número de teléfono.",
+  "notYourPhone": "¿Este no es tu teléfono?",
+  "resendCode": "Reenviar código",
+  "loginHeading": "Iniciar sesión en Ithaki Talent",
+  "loginSubtitle": "Ingresa tu número de teléfono. Te enviaremos un código por SMS.",
+  "loginVerifySubtitle": "Hemos enviado un código de verificación al {phone}.",
+  "@loginVerifySubtitle": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "rememberMe": "Recordarme",
+  "sendCodeButton": "Enviar código",
+  "signInWithEmail": "Iniciar sesión con correo electrónico",
+  "preferEmail": "¿Prefieres el correo electrónico? Puedes iniciar sesión con tu correo en su lugar.",
+  "signInWithPhone": "Iniciar sesión con teléfono",
+  "preferPhone": "¿Prefieres el teléfono? Puedes iniciar sesión con tu teléfono en su lugar.",
+  "signInButton": "Iniciar sesión",
+  "forgotPassword": "¿Olvidaste tu contraseña?",
+  "forgotPasswordHeading": "Olvidaste tu contraseña",
+  "forgotPasswordDescription": "No te preocupes. Ingresa el correo electrónico de tu cuenta y te enviaremos un enlace para restablecer tu contraseña.",
+  "backToLogin": "Volver al inicio de sesión",
+  "sendResetLink": "Enviar enlace de restablecimiento",
+  "resetLinkSentHeading": "¡Enlace de restablecimiento de contraseña enviado!",
+  "resetLinkSentDescription": "Revisa tu bandeja de entrada. El correo incluye un enlace seguro para crear una nueva contraseña. ¿No recibiste el correo?",
+  "resendResetLinkEmail": "Reenviar enlace por correo",
+  "sendResetViaWhatsapp": "Enviar código seguro por WhatsApp",
+  "resetPasswordHeading": "Restablece tu contraseña",
+  "resetPasswordDescription": "Último paso. Crea una nueva contraseña para proteger tu cuenta.",
+  "newPasswordLabel": "Nueva contraseña",
+  "newPasswordHint": "Ingresa tu nueva contraseña",
+  "confirmNewPasswordLabel": "Confirmar nueva contraseña",
+  "confirmNewPasswordHint": "Ingresa tu nueva contraseña",
+  "resetPasswordButton": "Restablecer contraseña",
+  "welcomeModalHeading": "¡Te damos la bienvenida a bordo!\n¡Tu cuenta ha sido creada y verificada!",
+  "welcomeModalDescription": "Hagamos una breve configuración para poder conectarte con las mejores opciones de empleo.",
+  "skipForNow": "Omitir por ahora",
+  "startSetup": "Iniciar configuración",
+  "ithakiLogo": "Logo-Ithaki",
+  "stepLocation": "Ubicación",
+  "stepJobInterests": "Intereses laborales",
+  "stepPreferences": "Preferencias",
+  "stepValues": "Valores",
+  "stepCommunication": "Comunicación",
+  "locationHeading": "Ubicación",
+  "locationDescription": "Selecciona una ubicación para filtrar oportunidades de empleo relevantes.",
+  "citizenshipLabel": "Ciudadanía",
+  "citizenshipHint": "Selecciona un país o escribe para buscar",
+  "residenceLabel": "Residencia",
+  "residenceHint": "Selecciona un país o escribe para buscar",
+  "workAuthorizationLabel": "Autorización de trabajo",
+  "workAuthorizationHint": "Selecciona tu estado",
+  "relocationLabel": "Disposición para reubicarse",
+  "relocationHint": "Selecciona tu preferencia de reubicación",
+  "roleCitizen": "Ciudadano",
+  "roleResident": "Residente",
+  "roleWorkPermit": "Permiso de trabajo",
+  "roleStudent": "Estudiante",
+  "roleFreelancer": "Autónomo/Freelance",
+  "roleJobSeeker": "Buscador de empleo",
+  "roleExpat": "Expatriado",
+  "relocationYes": "Sí, dispuesto a reubicarme",
+  "relocationNo": "No, no busco reubicarme",
+  "relocationOpen": "Abierto a considerarlo",
+  "relocationRemote": "Solo trabajo remoto",
+  "relocationWithinCountry": "Solo dentro de mi país",
+  "jobInterestsHeading": "Intereses laborales",
+  "jobInterestsDescription": "Selecciona los tipos de empleo o campos que coincidan con tus intereses profesionales. Puedes agregar hasta 5 campos diferentes.",
+  "searchJobInterest": "Buscar y agregar interés laboral",
+  "addAnotherJobInterest": "Agregar otro interés laboral",
+  "selectJobInterest": "Seleccionar interés laboral",
+  "preferencesHeading": "Preferencias laborales",
+  "preferencesDescription": "Establece tu salario deseado, nivel del puesto, tipo de contrato y formato de trabajo (remoto, presencial o híbrido) para ayudarnos a conectarte con las oportunidades más relevantes.",
+  "positionLevelLabel": "Nivel del puesto",
+  "positionLevelHint": "Selecciona tu nivel",
+  "jobTypeTitle": "Tipo de empleo",
+  "jobTypeDescription": "Elige los tipos de empleo en los que estás interesado. Puedes seleccionar más de una opción.",
+  "workplaceFormatTitle": "Formato de trabajo",
+  "workplaceFormatDescription": "Selecciona tus formatos de trabajo preferidos. Puedes seleccionar más de una opción.",
+  "positionIntern": "Pasante",
+  "positionJunior": "Junior",
+  "positionMid": "Semi-Senior",
+  "positionSenior": "Senior",
+  "positionLead": "Líder",
+  "positionManager": "Gerente",
+  "positionDirector": "Director",
+  "jobFullTime": "Tiempo completo",
+  "jobPartTime": "Medio tiempo",
+  "jobContract": "Por contrato",
+  "jobFreelance": "Freelance",
+  "jobInternship": "Pasantía",
+  "workOnSite": "Presencial",
+  "workRemote": "Remoto",
+  "workHybrid": "Híbrido",
+  "payMonthly": "Mensual",
+  "payWeekly": "Semanal",
+  "payYearly": "Anual",
+  "payHourly": "Por hora",
+  "payDaily": "Diario",
+  "valuesHeading": "Valores",
+  "valuesDescription": "Elige los valores que más te representen. Puedes elegir hasta {max}.",
+  "@valuesDescription": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "valueIntegrity": "Integridad",
+  "valueResponsibility": "Responsabilidad",
+  "valueTeamwork": "Trabajo en equipo",
+  "valueRespect": "Respeto",
+  "valueGrowth": "Crecimiento y aprendizaje",
+  "valueInnovation": "Innovación",
+  "valueCreativity": "Creatividad",
+  "valueTransparency": "Transparencia",
+  "valueEmpathy": "Empatía",
+  "valueAccountability": "Rendición de cuentas",
+  "valueWorkLifeBalance": "Equilibrio trabajo-vida",
+  "valueOpenCommunication": "Comunicación abierta",
+  "valueReliability": "Confiabilidad",
+  "valueAdaptability": "Adaptabilidad",
+  "valueProblemSolving": "Resolución de problemas",
+  "valueOwnership": "Sentido de pertenencia",
+  "valueCustomerFocus": "Enfoque en el cliente",
+  "valueAmbition": "Ambición",
+  "valueInitiative": "Iniciativa",
+  "valueCollaboration": "Colaboración",
+  "communicationHeading": "Comunicación",
+  "communicationDescription": "Elige un canal para recibir notificaciones sobre nuevas ofertas de empleo relevantes y respuestas a las solicitudes enviadas. Puedes seleccionar múltiples opciones y cambiarlas en cualquier momento.",
+  "whatsapp": "WhatsApp",
+  "sms": "SMS",
+  "email": "Correo electrónico",
+  "receiveTips": "Recibir consejos sobre oportunidades de empleo, información sobre cursos y próximos eventos.",
+  "finishSetup": "Finalizar configuración",
+  "searchHint": "Buscar...",
+  "selectAction": "Seleccionar",
+  "expectedPaymentLabel": "Pago esperado",
+  "fromLabel": "Desde",
+  "paymentTermTitle": "Plazo de pago",
+  "paymentTermPlaceholder": "Mensual",
+  "currencySymbol": "€",
+  "preferNotToSpecify": "Prefiero no especificar",
+  "selectCountryTitle": "Seleccionar país",
+  "phoneValidationError": "Por favor, ingresa un número de teléfono válido",
+  "phoneNumberLabel": "Número de teléfono",
+  "myApplicationsTabLabel": "Mis solicitudes",
+  "myApplicationsTabDescription": "Haz un seguimiento de todos los empleos a los que te has postulado y consulta su estado actual. También puedes revisar las invitaciones que has aceptado o buscar solicitudes pasadas en tu archivo.",
+  "myApplicationsLoadError": "Error al cargar las solicitudes.",
+  "myApplicationsEmptyTitle": "Aún no hay solicitudes",
+  "myApplicationsEmptySubtitle": "Los empleos a los que te postules aparecerán aquí\npara que puedas seguir su estado.",
+  "myInvitationsTabLabel": "Mis invitaciones ({count})",
+  "@myInvitationsTabLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "draftsTabLabel": "Borradores",
+  "archiveTabLabel": "Archivo",
+  "invitationsTabDescription": "Aquí puedes encontrar oportunidades de empleo a las que te han invitado. Revisa invitaciones de empresas u organizaciones a las que les interesó tu perfil.",
+  "invitationsLoadError": "Error al cargar las invitaciones.",
+  "invitationsEmptyTitle": "Aún no hay invitaciones",
+  "invitationsEmptySubtitle": "Cuando a las empresas les interese tu perfil,\nte invitarán aquí.",
+  "draftsTabDescription": "Aquí puedes encontrar solicitudes que empezaste pero que aún no has enviado. Continúa donde lo dejaste o descártalas.",
+  "draftsLoadError": "Error al cargar los borradores.",
+  "draftsEmptyTitle": "Aún no hay borradores",
+  "draftsEmptySubtitle": "Las solicitudes que inicies pero no envíes\naparecerán aquí.",
+  "archiveTabDescription": "Aquí puedes encontrar todas las invitaciones rechazadas y las solicitudes cerradas. Se guardan para tu referencia y pueden verse en cualquier momento.",
+  "archiveEmptyTitle": "No hay nada en tu archivo",
+  "archiveEmptySubtitle": "Las invitaciones rechazadas y solicitudes cerradas\nse guardarán aquí.",
+  "invitationDeclinedLabel": "Invitación rechazada",
+  "viewJobDetails": "Ver detalles del empleo",
+  "dismissInvite": "Descartar invitación",
+  "declinedConfirmed": "Rechazada",
+  "viewJob": "Ver empleo",
+  "dismissBannerTitle": "Esta invitación se moverá al Archivo",
+  "dismissBannerCountdown": "Se auto-confirma en 5 segundos",
+  "undo": "Deshacer",
+  "invitationDismissedToast": "Invitación descartada y movida al Archivo",
+  "invitationDeclinedToast": "Invitación rechazada y movida al Archivo",
+  "careerAssistantBannerTitle": "¿No sabes qué hacer a continuación?",
+  "careerAssistantBannerSubtitle": "En promedio, las solicitudes se revisan dentro de la primera semana. Siempre puedes pedirme ayuda con tus próximos pasos.",
+  "askCareerAssistant": "Preguntar al Asistente de Carrera",
+  "blogNewsTitle": "Blog y Noticias",
+  "blogNewsSubtitle": "Descubre consejos de carrera, guías para entrevistas y actualizaciones de la plataforma.",
+  "blogSearchHint": "Buscar artículos y temas",
+  "blogAllCategories": "Todos",
+  "blogRelatedArticles": "Artículos relacionados",
+  "blogDiscoverAll": "Descubrir todas las noticias",
+  "blogArticleNotFound": "Artículo no encontrado.",
+  "blogArticleBy": "Por {author}",
+  "@blogArticleBy": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      }
+    }
+  },
+  "cardAppliedWithCv": "Te postulaste con tu CV de Ithaki",
+  "cardJobClosed": "El empleo está cerrado.",
+  "continueApplication": "Continuar",
+  "viewApplication": "Ver solicitud",
+  "applySheetTitle": "¿Listo para postularte a este puesto?",
+  "applySheetSubtitle": "Asegúrate de que los detalles de tu perfil estén actualizados antes de enviar tu solicitud. También puedes subir tu CV.",
+  "applyOptionIthakiCvTitle": "Usar CV de Ithaki",
+  "applyOptionIthakiCvSubtitle": "Usa tu CV guardado y los detalles de tu perfil para postularte.",
+  "applyOptionUploadTitle": "Sube tu CV",
+  "applyOptionUploadSubtitle": "Sube un archivo nuevo (PDF o DOC) para postularte.",
+  "applyNow": "Postularse ahora",
+  "declineSheetTitle": "Rechazar invitación",
+  "declineSheetSubtitle": "¿Estás seguro de que deseas rechazar esta invitación?",
+  "declineReasonLabel": "Por favor, selecciona un motivo",
+  "declineReasonHint": "Seleccionar motivo",
+  "declineReasonNotInterested": "No me interesa este puesto",
+  "declineReasonFoundJob": "Ya encontré un empleo",
+  "declineReasonSalary": "El salario no coincide con mis expectativas",
+  "declineReasonLocation": "La ubicación no me conviene",
+  "declineReasonOther": "Otro",
+  "declineButton": "Rechazar invitación",
+  "declinedButton": "✓ Rechazada",
+  "jobDetailNotFoundMessage": "Aún no pudimos encontrar los detalles del empleo para esta solicitud.",
+  "backToApplications": "Volver a Solicitudes",
+  "acceptInviteAndApply": "Aceptar invitación y postularse",
+  "jobDetailsTitle": "Detalles del empleo",
+  "save": "Guardar",
+  "cancel": "Cancelar",
+  "open": "Abrir",
+  "delete": "Eliminar",
+  "appBarTitleIthaki": "Ithaki",
+  "profileAboutMeTitle": "Acerca de mí",
+  "profileSkillsTitle": "Habilidades",
+  "hardSkillsTitle": "Habilidades técnicas",
+  "softSkillsTitle": "Habilidades blandas",
+  "competenciesTitle": "Competencias",
+  "computerSkillsTitle": "Conocimientos informáticos",
+  "drivingLicenseTitle": "Licencia de conducir",
+  "licenseCategoryTitle": "Categoría de licencia",
+  "editCompetenciesTitle": "Editar competencias",
+  "editSkillsTitle": "Editar habilidades",
+  "editLanguagesTitle": "Editar idiomas",
+  "editValuesTitle": "Valores",
+  "editAboutMeTitle": "Acerca de mí",
+  "addBioOptional": "Añadir biografía (opcional)",
+  "addVideoPresentationOptional": "Añadir presentación en video (opcional)",
+  "uploadFile": "Subir archivo",
+  "pasteVideoUrlHere": "Pega la URL del video aquí",
+  "noValuesAddedYet": "Aún no se han añadido valores.",
+  "profileMyFilesTitle": "Mis archivos",
+  "couldNotOpenVideoIntroduction": "No se pudo abrir el video de presentación.",
+  "openFileNoSource": "{fileName} no tiene un origen de archivo para abrir.",
+  "@openFileNoSource": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "couldNotOpenFile": "No se pudo abrir {fileName}.",
+  "@couldNotOpenFile": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "openingFile": "Abriendo {fileName}",
+  "@openingFile": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  },
+  "openCv": "Abrir CV",
+  "accountSettings": "Configuración de la cuenta",
+  "editJobPreferencesTitle": "Preferencias de empleo",
+  "positionLevelOptionalLabel": "Nivel del puesto (opcional)",
+  "selectLevel": "Seleccionar nivel",
+  "profileEducationTitle": "Educación",
+  "profileEducationSubtitle": "Añade información sobre tus antecedentes educativos, título y campo de estudio.",
+  "addEducation": "Añadir educación",
+  "editEducation": "Editar educación",
+  "institutionNameLabel": "Nombre de la institución",
+  "institutionNameHint": "Ej. Universidad de Atenas",
+  "fieldOfStudyLabel": "Campo de estudio",
+  "fieldOfStudyHint": "Ej. Ingeniería de Software",
+  "degreeTypeLabel": "Tipo de título",
+  "selectDegree": "Seleccionar título",
+  "startDateLabel": "Fecha de inicio",
+  "endDateLabel": "Fecha de finalización",
+  "mmYyyyHint": "MM-AAAA",
+  "currentlyStudyHere": "Actualmente estudio aquí",
+  "profileWorkExperienceTitle": "Experiencia laboral",
+  "profileWorkExperienceSubtitle": "Añade detalles sobre tus roles y empresas anteriores",
+  "addWorkExperience": "Añadir experiencia laboral",
+  "editWorkExperience": "Editar experiencia laboral",
+  "jobTitleLabel": "Título del puesto",
+  "jobTitleHint": "Ej. Desarrollador de Software",
+  "companyNameLabel": "Nombre de la empresa",
+  "companyNameHint": "Ej. Acme Corp",
+  "experienceSummaryOptional": "Resumen de experiencia (opcional)",
+  "experienceSummaryHint": "Describe tu rol y logros...",
+  "currentlyWorkHere": "Actualmente trabajo aquí",
+  "charactersCounter": "{current} / {max} caracteres",
+  "@charactersCounter": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "dateOfBirthLabel": "Fecha de nacimiento",
+  "yourFirstNameHint": "Tu nombre",
+  "yourLastNameHint": "Tu apellido",
+  "genderLabel": "Género",
+  "selectGender": "Seleccionar género",
+  "selectCountry": "Seleccionar país",
+  "statusLabel": "Estado",
+  "selectStatus": "Seleccionar estado",
+  "relocationReadinessLabel": "Disposición para reubicarse",
+  "selectOption": "Seleccionar opción",
+  "fileExceedsLimit": "El archivo supera el límite de 5 MB",
+  "leaveEditingTitle": "¿Abandonar la edición?",
+  "leaveEditingMessage": "Toda la información ingresada se perderá si sales de esta pantalla.",
+  "leaveWithoutSaving": "Salir sin guardar",
+  "saveAndLeave": "Guardar y salir",
+  "highLabel": "Alto",
+  "genderInfoLabel": "Género",
+  "ageInfoLabel": "Edad",
+  "locationInfoLabel": "Ubicación",
+  "showFullCv": "Mostrar CV completo",
+  "coverLetterTitle": "Carta de presentación",
+  "screeningQuestionsTitle": "Preguntas de preselección",
+  "aboutCompanyTitle": "Acerca de la empresa",
+  "teamTitle": "Equipo",
+  "companyProfile": "Perfil de la empresa",
+  "typeCityToSearch": "Escribe la ciudad para buscar",
+  "experienceLevelLabel": "Nivel de experiencia",
+  "workplaceLabel": "Lugar de trabajo",
+  "selectWorkplace": "Seleccionar lugar de trabajo",
+  "selectJobType": "Seleccionar tipo de empleo",
+  "skillsDescription": "Selecciona las habilidades que mejor representen tus calificaciones y experiencia profesional.",
+  "addSkillHint": "Empieza a escribir para añadir una habilidad",
+  "errorLoadingSkills": "Error al cargar habilidades: {error}",
+  "@errorLoadingSkills": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "chooseValuesDescription": "Elige hasta {max} valores que representen mejor lo que más te importa profesionalmente.",
+  "@chooseValuesDescription": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "videoIntroductionTitle": "Video de presentación",
+  "editAboutMeVideo": "Editar Acerca de mí y Video de presentación",
+  "addAboutMeInformation": "Añadir información de Acerca de mí",
+  "aboutMeEmptyDescription": "Añade unas palabras sobre ti para ayudar a los equipos a entender quién eres y qué haces.",
+  "addSkills": "Añadir habilidades",
+  "addCompetencies": "Añadir competencias",
+  "addLanguages": "Añadir idiomas",
+  "editLanguages": "Editar idiomas",
+  "languagesTitle": "Idiomas",
+  "aboutMeEditDescription": "Proporciona información básica sobre ti. Esto nos ayuda a configurar tu perfil y personalizar tu experiencia. Puedes añadir información más tarde o actualizarla en cualquier momento en tu Perfil.",
+  "addBioDescription": "Añade unas palabras sobre ti para ayudar a los equipos a entender quién eres y qué haces. Recomendamos que sea conciso, evitando el relleno innecesario y destacando habilidades y experiencia clave.",
+  "addVideoDescription": "Añade un video corto para presentarte a los equipos, destacar tu experiencia y mostrar tus habilidades. Un video te ayuda a sobresalir entre otros candidatos.",
+  "uploadViaUrl": "Subir a través de URL",
+  "uploadInstructions": "toca el botón para explorar (máximo 10 archivos, hasta 5 MB\ncada uno; formatos admitidos: .pdf, .doc, .png, .jpg)",
+  "selectCategory": "Seleccionar categoría",
+  "categoryLabel": "Categoría {category}",
+  "@categoryLabel": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "iHaveGreekLicense": "Tengo licencia griega",
+  "yes": "Sí",
+  "no": "No",
+  "selectLanguage": "Seleccionar idioma",
+  "languageFieldLabel": "Idioma",
+  "selectLanguageHint": "Seleccionar idioma",
+  "searchLanguage": "Buscar idioma",
+  "loadingLanguages": "Cargando idiomas...",
+  "noLanguagesAvailable": "No hay idiomas disponibles en este momento.",
+  "proficiencyLevel": "Nivel de dominio",
+  "addAnotherLanguage": "Añadir otro idioma",
+  "editJobsPreferences": "Editar preferencias de empleo",
+  "assessmentsResultsTitle": "Resultados de las evaluaciones",
+  "companyTabVacancies": "Vacantes",
+  "companyTabAboutCompany": "Acerca de la empresa",
+  "companyTabEvents": "Eventos",
+  "companyTabPosts": "Publicaciones",
+  "companyJobsFound": "{count} empleos encontrados",
+  "@companyJobsFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "companyNoVacancies": "No hay vacantes abiertas en este momento.",
+  "saveJob": "Guardar empleo",
+  "entryLevel": "Inicial",
+  "companyPerksTitle": "Beneficios y ventajas",
+  "companyGalleryTitle": "Galería de la empresa",
+  "companyNoEvents": "No hay próximos eventos.",
+  "companyEventsTitle": "Eventos de la empresa",
+  "companyPostsTitle": "Publicaciones de la empresa",
+  "companyPostsFound": "{count} publicaciones encontradas",
+  "@companyPostsFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "companyNoPostsYet": "Aún no hay publicaciones de la empresa.",
+  "shareButton": "Compartir",
+  "culturalMatchScore": "Puntuación de afinidad cultural",
+  "culturalMatchDescription": "Tú y esta empresa eligieron sus 5 valores y preferencias principales. Esta puntuación muestra qué tan bien se alinean.",
+  "culturalMatchYouBothCareAbout": "A ambos les importa:",
+  "companyTeamEmployees": "{teamSize} empleados",
+  "@companyTeamEmployees": {
+    "placeholders": {
+      "teamSize": {
+        "type": "String"
+      }
+    }
+  },
+  "companyLabelMainOffice": "Ubicación de la oficina principal",
+  "companyLabelOtherLocations": "Otras ubicaciones",
+  "companyLabelContactPhone": "Teléfono de contacto",
+  "companyLabelWebsite": "Sitio web",
+  "notAvailable": "N/D",
+  "eventDetailsTitle": "Detalles del evento",
+  "eventAddressLabel": "Dirección",
+  "eventRegistrationLink": "Enlace de registro",
+  "companyLoadError": "No se pudo cargar la empresa.",
+  "tryAgain": "Intentar de nuevo",
+  "assessmentsRecommendedForYou": "Evaluaciones recomendadas para ti",
+  "assessmentYourScore": "Tu puntuación",
+  "assessmentLevel": "Nivel",
+  "assessmentSkillBreakdown": "Desglose de habilidades",
+  "assessmentKeyInsights": "Conocimientos clave",
+  "assessmentPreviousResults": "Resultados anteriores",
+  "assessmentYouImproving": "¡Estás mejorando!",
+  "assessmentMeansForProfile": "Qué significa esto para tu perfil",
+  "assessmentAboutThis": "Acerca de esta evaluación",
+  "assessmentUsedFor": "Para qué se utiliza esta evaluación",
+  "assessmentBeforeStart": "Antes de empezar",
+  "assessmentApproxDuration": "Duración aproximada",
+  "assessmentQuestionsLabel": "Preguntas",
+  "bannerNotSureJob": "¿No estás seguro de cómo encontrar el empleo adecuado?",
+  "chatNewChat": "Nuevo chat",
+  "chatSearchInChats": "Buscar en los chats",
+  "chatHistory": "Historial de chat",
+  "homeNeedRefresher": "¿Necesitas un repaso rápido?",
+  "homeCvSuccess": "Éxito de tu CV",
+  "homeStatViews": "Vistas",
+  "homeStatInvitations": "Invitaciones",
+  "homeStatApplicationsSent": "Solicitudes enviadas",
+  "homeStatInterviews": "Entrevistas",
+  "homeRecommendedCourses": "Cursos recomendados",
+  "homeLatestNews": "Últimas noticias",
+  "homeSmartJobRecommendations": "Recomendaciones inteligentes de empleo",
+  "viewAll": "Ver todo",
+  "searchByJobTitle": "Buscar por título de empleo",
+  "jobLoadError": "No se pudo cargar el empleo.",
+  "jobRemovedFromSaved": "Eliminado de empleos guardados.",
+  "jobSavedMessage": "¡El empleo ha sido guardado! Revisa tus empleos guardados.",
+  "jobPostRemoved": "La publicación del empleo ha sido eliminada",
+  "deadlineReminderSet": "Se ha configurado el recordatorio de fecha límite. Te notificaremos una semana antes de que finalice.",
+  "readMore": "Leer más",
+  "jobPostedDate": "Publicado {date}",
+  "@jobPostedDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "jobClosedLabel": "Cerrado",
+  "deadlineReminderLabel": "Recordatorio de fecha límite",
+  "reportLabel": "Denunciar",
+  "reminderSetNotification": "Has configurado un recordatorio para este empleo",
+  "odysseaReviewLabel": "Revisión de Odyssea: ",
+  "recommendedForYouLabel": "Recomendado para ti",
+  "tabAllJobs": "Todos los empleos",
+  "tabSavedJobs": "Guardados ({count})",
+  "@tabSavedJobs": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sortingTitle": "Ordenar por",
+  "filtersTitle": "Filtros",
+  "resetFilters": "Restablecer filtros",
+  "applyFilters": "Aplicar filtros",
+  "filterAllLabel": "Todos",
+  "filterClear": "Borrar",
+  "applyFilter": "Aplicar filtro",
+  "salaryTitle": "Salario",
+  "tillLabel": "Hasta",
+  "reportJobTitle": "¿Denunciar este empleo?",
+  "selectReasonHint": "Seleccionar motivo",
+  "setReminderTitle": "Configurar un recordatorio",
+  "applicationOpenTill": "Solicitudes abiertas hasta:",
+  "whenShouldRemind": "¿Cuándo deberíamos recordarte?",
+  "reminderTomorrow": "Mañana",
+  "reminderTomorrowSub": "El recordatorio se enviará mañana a esta hora",
+  "reminderOneWeek": "En una semana",
+  "reminderOneWeekSub": "El recordatorio se enviará la próxima semana a esta hora",
+  "reminderOneDayBefore": "Un día antes de la fecha límite",
+  "reminderOneDayBeforeSub": "El recordatorio se enviará un día antes del cierre",
+  "reminderCustomDate": "Elegir una fecha personalizada",
+  "reminderCustomDateSub": "Elige una fecha personalizada para tu recordatorio",
+  "selectDateLabel": "Seleccionar fecha",
+  "selectTimeLabel": "Seleccionar hora",
+  "ddMmYyyyHint": "DD-MM-AAAA",
+  "reminderViaContactSub": "Enviaremos un recordatorio a:\n{contact}",
+  "@reminderViaContactSub": {
+    "placeholders": {
+      "contact": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderViaSmsWhatsapp": "SMS / WhatsApp",
+  "changeEmailTitle": "Cambiar correo electrónico",
+  "newEmailLabel": "Nuevo correo electrónico",
+  "newEmailHint": "Ingresa un nuevo correo electrónico",
+  "changePasswordTitle": "Cambiar contraseña",
+  "repeatNewPasswordLabel": "Repetir nueva contraseña",
+  "repeatNewPasswordHint": "Repite tu nueva contraseña",
+  "changePhoneTitle": "Cambiar número de teléfono",
+  "newPhoneNumberLabel": "Nuevo número de teléfono",
+  "confirmAccountDeletion": "Confirmar eliminación de la cuenta",
+  "typeDeleteToConfirm": "Escribe 'eliminar' para confirmar",
+  "enterDeleteHint": "Escribe \"eliminar\"",
+  "deleteAccountButton": "Eliminar cuenta",
+  "makeProfileInvisible": "¿Hacer que tu perfil sea invisible?",
+  "switchToLite": "¿Cambiar a Ithaki Lite?",
+  "verificationTitle": "Verificación",
+  "pushNotifications": "Notificaciones Push",
+  "unsubscribe": "Darse de baja",
+  "noMoreJobInterests": "No hay más intereses laborales disponibles para agregar.",
+  "roleMigrant": "Migrante",
+  "roleRefugee": "Refugiado",
+  "roleAsylumSeeker": "Solicitante de asilo",
+  "homeGreetingName": "¡Hola, {name}!",
+  "@homeGreetingName": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "homeGreetingNoName": "¡Hola!",
+  "homeGreetingSubtitle": "Aquí tienes un resumen rápido de tus últimas coincidencias de empleo, actualizaciones y consejos útiles para avanzar en tu carrera.",
+  "homeRestartProductTourSubtitle": "Reinicia el recorrido del producto cuando quieras desde el Inicio.",
+  "homeRestartProductTour": "Reiniciar recorrido del producto",
+  "homeCareerAssistantBannerSubtitle": "¡El Asistente de Carrera puede ayudarte si no estás seguro por dónde empezar!",
+  "homeCoursesSubtitle": "Mejora tus habilidades con cursos que te ayudan a crecer más rápido y a mantenerte alineado con los estándares actuales de la industria. Aprende a tu propio ritmo y refuerza la experiencia en tu perfil.",
+  "homeProfileCompleteYourProfile": "Completa tu perfil",
+  "homeProfileWelcomeTitle": "¡Te damos la bienvenida a Ithaki!",
+  "homeProfileFillMissing": "Completa la información faltante para desbloquear toda tu experiencia en la plataforma. Un perfil completo te ayuda a obtener mejores coincidencias de empleo y más invitaciones.",
+  "homeProfileBenefitsTitle": "Beneficios de completar tu perfil",
+  "homeProfileFillButton": "Completar perfil",
+  "homeQuestionsTitle": "¿Tienes preguntas?",
+  "homeQuestionsSubtitle": "¡Déjanos ayudarte!",
+  "homeQuestionsButton": "Programar llamada con un consejero",
+  "assessmentStartNew": "Iniciar nueva evaluación",
+  "assessmentsInProgressTitle": "Evaluaciones en progreso ({count})",
+  "@assessmentsInProgressTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "assessmentsInProgressSubtitle": "Tienes evaluaciones en progreso. Complétalas para ver tus resultados.",
+  "assessmentsRecommendedSubtitle": "Te recomendamos estas evaluaciones para ayudarte a validar tus habilidades.",
+  "assessmentsCompletedTitle": "Tus evaluaciones completadas",
+  "assessmentsCompletedSubtitle": "Aquí están tus evaluaciones completadas y los resultados.",
+  "assessmentStartTitle": "Iniciar la evaluación",
+  "assessmentStartSubtitle": "Estás a punto de comenzar la siguiente evaluación",
+  "assessmentStartNow": "Empezar ahora",
+  "assessmentContinueTitle": "¿Continuar tu evaluación?",
+  "assessmentContinueSubtitle": "Ya has iniciado esta evaluación y tienes el progreso guardado. ¿Te gustaría continuar donde lo dejaste o empezar de nuevo?",
+  "assessmentStartOver": "Empezar de nuevo",
+  "assessmentSkillBreakdownSubtitle": "Este desglose muestra cómo se distribuyen tus resultados en áreas de habilidades clave.",
+  "assessmentResultsConfirmSkills": "Este resultado confirma tus habilidades, las cuales se reflejan en tus solicitudes de empleo en la plataforma.",
+  "assessmentShowInCV": "Mostrar resultado en mi CV",
+  "assessmentHideFromCV": "Ocultar en mi CV",
+  "assessmentTakenLabel": "Tomado: {date}",
+  "@assessmentTakenLabel": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "assessmentImprovingSubtitle": "Tus resultados muestran una mejora constante en cómo abordas y resuelves problemas relacionados con el trabajo.",
+  "assessmentProcessingTitle": "¡Procesando tus resultados!",
+  "assessmentProcessingSubtitle": "Has completado la evaluación con éxito. Ahora estamos generando tus resultados, esto tomará solo un momento.",
+  "assessmentLeaveTitle": "¿Abandonar esta página?",
+  "assessmentLeaveSubtitle": "Estás a punto de salir de esta evaluación. Tu progreso se guardará automáticamente y podrás continuar más tarde.",
+  "assessmentLeaveButton": "Abandonar",
+  "quizSelectOneAnswer": "Selecciona solo una respuesta",
+  "quizSelectUpToAnswers": "Selecciona hasta {max} respuestas",
+  "@quizSelectUpToAnswers": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "quizSelectBestReflects": "Selecciona la opción que mejor refleje cómo te sientes usualmente.",
+  "quizNoResults": "No se encontraron resultados",
+  "edit": "Editar",
+  "present": "Presente",
+  "cvCouldNotLoadTitle": "No pudimos cargar tu CV.",
+  "cvCouldNotLoadMessage": "Intenta actualizar los datos de tu perfil y ábrelo nuevamente.",
+  "goToProfile": "Ir al Perfil",
+  "publishCv": "Publicar CV",
+  "downloadCv": "Descargar CV",
+  "cvDownloadSoon": "La descarga del CV estará disponible pronto.",
+  "returnToProfileSetup": "Volver a la configuración del perfil",
+  "publishedBadge": "Publicado",
+  "draftModeBadge": "Modo borrador",
+  "cvDraftReviewTitle": "Este es tu CV; así es como te ven las empresas.",
+  "cvDraftReviewBody": "Por favor, revisa toda la información cuidadosamente y realiza los cambios necesarios antes de publicar tu CV.\nSi tu CV no está publicado, las empresas no podrán revisarlo.\nPuedes actualizar tu información en cualquier momento desde el Perfil. Tu CV se actualizará automáticamente.",
+  "contactVisibilityNote": "Tus detalles de contacto permanecerán ocultos hasta que te postules a un empleo o aceptes una invitación.",
+  "youBothShareSameValues": "Ambos comparten los mismos valores",
+  "learnMore": "Más información",
+  "greatJob": "¡Buen trabajo!",
+  "cvLevelLabel": "Tu nivel de CV:",
+  "strongLevel": "SÓLIDO",
+  "cvAssistantImprovementSummary": "El asistente encontró 4 áreas que puedes mejorar para aumentar tus posibilidades de conseguir un empleo en aproximadamente un 15%.",
+  "careerAssistantTitle": "Tu Asistente de Carrera",
+  "pathfinderName": "Pathfinder",
+  "pathfinderAdviceText": "¡Hola! Soy Pathfinder, tu asistente de carrera.\nHe revisado tu perfil y he encontrado algunas mejoras rápidas:\n\n- Crítico: La foto de tu perfil se ve borrosa. Sube una clara y profesional para dar una mejor primera impresión.\n- Recomendado: Agrega más detalles a tu experiencia laboral: especifica qué lograste para mostrar tu impacto real.\n- Menor: Graba una breve introducción en video. Ayuda a los equipos a conectarse contigo y hace que tu perfil se destaque.\nEstas pequeñas actualizaciones aumentarán notablemente tu credibilidad y visibilidad.",
+  "askCareerPathHint": "Pregúntame sobre tu trayectoria profesional...",
+  "leaveWithoutPublishingTitle": "¿Salir sin publicar?",
+  "leaveWithoutPublishingMessage": "Si sales de esta página, tu CV no se publicará y las empresas no podrán revisarlo. Siempre puedes publicarlo más tarde desde tu perfil, pero te recomendamos publicarlo ahora para aumentar tus posibilidades de conseguir empleos.",
+  "notSpecified": "No especificado",
+  "workspaceLabel": "Lugar de trabajo",
+  "levelLabel": "Nivel",
+  "desiredSalaryLabel": "Salario deseado",
+  "jobPreferencesTabDescription": "Esto muestra el empleo que buscas actualmente. Puedes cambiar esto en cualquier momento.",
+  "preferencesSectionTitle": "Preferencias",
+  "experienceAtCompany": "{role} en {company}",
+  "@experienceAtCompany": {
+    "placeholders": {
+      "role": {
+        "type": "String"
+      },
+      "company": {
+        "type": "String"
+      }
+    }
+  },
+  "educationAtInstitution": "{field} en\n{institution}",
+  "@educationAtInstitution": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      },
+      "institution": {
+        "type": "String"
+      }
+    }
+  },
+  "periodWithDuration": "{start} - {end} ({duration})",
+  "@periodWithDuration": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      },
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "assessmentCategoryLabel": "Evaluación de {category}",
+  "@assessmentCategoryLabel": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "jobPreferencesUpdated": "Tus preferencias de empleo se han actualizado.",
+  "updateButton": "Actualizar",
+  "currentEmailLabel": "Correo electrónico actual",
+  "updateEmailDescription": "Actualiza tu dirección de correo electrónico",
+  "deleteAccountDescription": "Para eliminar tu cuenta permanentemente, escribe 'eliminar' en el campo a continuación.\nEsta acción no se puede deshacer: todos tus datos se eliminarán para siempre.",
+  "communicationChannelTitle": "Canal de comunicación",
+  "emailNewsletterTitle": "Boletín por correo electrónico",
+  "emailNewsletterDescription": "¡Mantente informado y aprovecha al máximo tu experiencia! Elige qué tipos de actualizaciones y perspectivas te gustaría recibir directamente en tu bandeja de entrada.",
+  "newsletterActive": "(activo)",
+  "newsletterInactive": "(inactivo)",
+  "subscribe": "Suscribirse",
+  "settingsUpdatedSuccessfully": "Configuración actualizada con éxito.",
+  "newsletterJobsTitle": "Recomendaciones de empleo",
+  "newsletterJobsSubtitle": "Ofertas de empleo personalizadas basadas en tus habilidades y preferencias",
+  "newsletterCareerTipsTitle": "Consejos de carrera",
+  "newsletterCareerTipsSubtitle": "Consejos de expertos y recursos para impulsar tu crecimiento profesional",
+  "newsletterEventsTitle": "Eventos y Webinars",
+  "newsletterEventsSubtitle": "Próximos eventos de carrera, talleres y sesiones de networking",
+  "newsletterPlatformTitle": "Actualizaciones de la plataforma",
+  "newsletterPlatformSubtitle": "Nuevas funciones, herramientas y mejoras de producto",
+  "newsletterLearningTitle": "Oportunidades de aprendizaje",
+  "newsletterLearningSubtitle": "Cursos en línea y certificaciones para mejorar tus habilidades",
+  "uploadFilesTitle": "Subir archivos",
+  "uploadMore": "Subir más",
+  "uploadFileInstructions": "Toca el botón para explorar\n(máximo 10 archivos, hasta 5 MB cada uno;\nsoportados: .pdf, .doc, .png, .jpg)",
+  "documentUrlDescription": "Proporciona un enlace a un documento para importarlo al sistema.",
+  "documentUrlMustBeActive": "El enlace debe estar activo y accesible sin iniciar sesión.",
+  "documentUrlSupportedFormats": "El documento debe estar en un formato admitido (PDF, DOC, DOCX).",
+  "documentUrlCommonServices": "Servicios comunes: Google Drive, Dropbox, iCloud.",
+  "documentLinkHint": "Añadir enlace del documento",
+  "fileComplete": "Completado",
+  "fileUploading": "Subiendo...",
+  "fileFallbackLabel": "ARCHIVO",
+  "profileMenuMyProfile": "Mi Perfil",
+  "profileMenuMyCv": "Mi CV",
+  "logOut": "Cerrar sesión",
+  "goToJobSearch": "Ir a Buscar empleo",
+  "startProductTour": "Iniciar recorrido del producto",
+  "continueProductTour": "Continuar recorrido del producto",
+  "skipAndClose": "Omitir y cerrar",
+  "finish": "Finalizar",
+  "nextButton": "Siguiente",
+  "tourStepIndicator": "Paso {current} / {total}",
+  "@tourStepIndicator": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "tourReadyTitle": "¡Estás listo!",
+  "tourReadyBody": "Ahora conoces las características principales de la plataforma. Completa tu perfil, realiza evaluaciones y postúlate a empleos que coincidan contigo.",
+  "tourWelcomeTitle": "¡Comencemos!",
+  "tourWelcomeBody": "Aquí puedes encontrar un empleo que se ajuste a tus habilidades y experiencia. Vamos paso a paso.",
+  "tourSkipTitle": "¿Omitir por ahora?",
+  "tourSkipBody": "Siempre puedes tomar el recorrido del producto más tarde usando el banner en la página de Inicio.",
+  "tourStep1Title": "¡Ponte en marcha!",
+  "tourStep1Body": "Aquí verás empleos y cursos seleccionados para ti, perspectivas sobre tu CV y herramientas que te ayudarán a comenzar a buscar empleo.",
+  "tourStep2Title": "Encontrar un empleo",
+  "tourStep2Body": "Busca empleos por nombre o elige de las categorías de abajo. Puedes encontrar trabajo cerca de tu ciudad o establecer otros parámetros para encontrar lo que necesitas.",
+  "tourStep3Title": "Publicación de empleo",
+  "tourStep3Body": "Cada tarjeta de empleo muestra la información principal: puesto, ubicación y salario. Toca la tarjeta para abrir los detalles completos y postularte.",
+  "tourStep4Title": "Mira qué tan bien se adapta este empleo a ti",
+  "tourStep4Body": "Esta parte muestra cómo tu experiencia y habilidades coinciden con el empleo. Cuanto mayor sea la coincidencia, mejores serán tus oportunidades.",
+  "tourStep5Title": "Detalles del empleo",
+  "tourStep5Body": "Lee la descripción completa del empleo, los requisitos y lo que ofrece la empresa antes de postularte.",
+  "tourStep6Title": "Fácil de postularse",
+  "tourStep6Body": "¡Postularse es fácil! Selecciona el formato de tu CV y añade unas palabras sobre ti en la Carta de presentación para aumentar tus posibilidades.",
+  "tourStep7Title": "Sigue tu progreso",
+  "tourStep7Body": "Una vez que te postules a un empleo, podrás encontrar la respuesta en Mis solicitudes.",
+  "tourStep8Title": "Mis invitaciones",
+  "tourStep8Body": "Las empresas pueden invitarte directamente. Puedes revisar invitaciones relevantes de equipos interesados en tu perfil.",
+  "tourStep9Title": "¡Ponte en marcha!",
+  "tourStep9Body": "Puedes abrir la invitación para leer los detalles del empleo y aceptar la oferta.",
+  "tourStep10Title": "Crea tu perfil",
+  "tourStep10Body": "Tu perfil muestra tu experiencia, habilidades e información de contacto. Un perfil completo te ayuda a conseguir mejores empleos. Puedes editarlo o actualizarlo en cualquier momento.",
+  "tourStep11Title": "Conoce a tu Asistente de Carrera",
+  "tourStep11Body": "Pathfinder puede ayudarte a mejorar tu perfil, encontrar los empleos adecuados y responder a tus preguntas sobre el trabajo.",
+  "tourStep12Title": "Centro de Aprendizaje",
+  "tourStep12Body": "Accede a cursos y recursos adaptados a tus objetivos profesionales y a las habilidades que buscan las empresas.",
+  "tourStep13Title": "Conócete mejor",
+  "tourStep13Body": "Aquí puedes realizar diferentes evaluaciones. Tus resultados ayudan a resaltar tus puntos fuertes y tu estilo de trabajo.",
+  "changePasswordDescription": "Cambia tu contraseña para mantener tu cuenta segura",
+  "passwordUpdated": "Tu contraseña ha sido actualizada.",
+  "currentPhoneNumberLabel": "Número de teléfono actual",
+  "makeProfileInvisibleDescription": "Si haces que tu perfil sea invisible, las empresas no podrán encontrarte en las búsquedas de candidatos. Seguirás pudiendo postularte a los empleos que te interesen. Puedes cambiar la visibilidad de tu perfil en cualquier momento en la configuración de tu cuenta.",
+  "makeProfileInvisibleButton": "Hacer perfil invisible",
+  "switchLiteDescription": "La interfaz será más simple y fácil de usar. Te mostraremos solo los empleos que mejor coincidan con tus intereses laborales.\nPuedes volver a la interfaz completa en cualquier momento.",
+  "switchLiteButton": "Cambiar a Ithaki Lite",
+  "switchedToLite": "Se ha cambiado a Ithaki Lite.",
+  "submit": "Enviar",
+  "newValueLabel": "Nuevo {type}",
+  "@newValueLabel": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "codeSentToContact": "Se ha enviado un código de 6 dígitos a tu {contact}.",
+  "@codeSentToContact": {
+    "placeholders": {
+      "contact": {
+        "type": "String"
+      }
+    }
+  },
+  "phoneViaSms": "teléfono por SMS",
+  "changedEmail": "Tu correo electrónico ha sido cambiado.",
+  "changedPhone": "Tu número de teléfono ha sido cambiado.",
+  "jobReportedMessage": "La publicación del empleo ha sido reportada",
+  "copyLink": "Copiar enlace",
+  "shareWhatsappSms": "Compartir por WhatsApp/SMS",
+  "shareInEmail": "Compartir por correo electrónico",
+  "shareOnLinkedIn": "Compartir en LinkedIn",
+  "industryLabel": "Industria",
+  "travelLabel": "Viajar",
+  "reportJobDescription": "Denunciar empleos nos ayuda a mantener las publicaciones con los más altos niveles de calidad.",
+  "tellUsMoreOptional": "Cuéntanos más (opcional)",
+  "reportThisJobButton": "Denunciar este empleo",
+  "setReminderButton": "Configurar recordatorio",
+  "reminderChoiceTitle": "¿Cómo te gustaría recibir el recordatorio?",
+  "reminderViaEmail": "Enviaremos un recordatorio por correo electrónico",
+  "reminderViaSmsWhatsappGeneric": "Enviaremos un recordatorio por SMS/WhatsApp",
+  "jobClosedButton": "Empleo cerrado",
+  "removeFromSaved": "Eliminar de Guardados",
+  "newFeatureBanner": "¡Nuevo en Ithaki! Acabamos de lanzar una nueva función que facilita la búsqueda de empleo.",
+  "curiousWhyMatch": "¿Tienes curiosidad por saber por qué coincides con este empleo?",
+  "strongSkillsMatch": "¡Es una coincidencia\nSólida de habilidades!",
+  "goodSkillsMatch": "¡Es una coincidencia\nBuena de habilidades!",
+  "partialSkillsMatch": "¡Es una coincidencia\nParcial de habilidades!",
+  "starterSkillsMatch": "¡Es una coincidencia\nBásica de habilidades!",
+  "deadlineBannerText": "¡Este empleo tiene una fecha límite! Solicitudes\nabiertas hasta:",
+  "skillsRequired": "Habilidades requeridas",
+  "aboutRoleTitle": "Acerca del puesto",
+  "requirementsTitle": "Requisitos",
+  "niceToHaveTitle": "Deseable",
+  "weOfferTitle": "Ofrecemos",
+  "shareJob": "Compartir empleo",
+  "notInterested": "No me interesa",
+  "deleteReminder": "Eliminar recordatorio",
+  "salaryRangeLabel": "Rango salarial",
+  "responsibilitiesTitle": "Responsabilidades",
+  "errorMessage": "Error: {error}",
+  "@errorMessage": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "assessmentNotFound": "Evaluación no encontrada",
+  "testDetails": "Detalles de la prueba",
+  "startTest": "Iniciar prueba",
+  "viewDetails": "Ver detalles",
+  "inCv": "En CV",
+  "showInCv": "Mostrar en CV",
+  "questionsCount": "{count} preguntas",
+  "@questionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "durationMinutes": "{count} min",
+  "@durationMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "rangeNumberSubtitle": "Selecciona un número del {min} al {max}, donde {min} significa \"{minLabel}\" y {max} significa \"{maxLabel}\".",
+  "@rangeNumberSubtitle": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      },
+      "minLabel": {
+        "type": "String"
+      },
+      "maxLabel": {
+        "type": "String"
+      }
+    }
+  },
+  "addJobInterestTitle": "Añadir interés laboral",
+  "searchCityTitle": "Buscar ciudad",
+  "typeCityHint": "Escribe el nombre de una ciudad...",
+  "citySearchTypeMore": "Escribe al menos 2 caracteres",
+  "citySearchNoResults": "No se encontraron ciudades",
+  "photoFileLimit": "5 MB máx. · PNG o JPG",
+  "photoRecommendation": "Te recomendamos una foto profesional que muestre tu rostro con claridad.",
+  "uploadPhoto": "Subir foto",
+  "replacePhoto": "Reemplazar foto",
+  "screeningQuestionsSubtitle": "Aquí están tus respuestas a algunas preguntas del empleador",
+  "toJobDetails": "A detalles del empleo",
+  "whatWeOfferTitle": "Lo que ofrecemos",
+  "employeeReviewsTitle": "Reseñas de empleados",
+  "applyButton": "Postularse",
+  "shareLabel": "Compartir:",
+  "readArticle": "Leer artículo",
+  "chatGetStartedHint": "Puedes empezar con un ejemplo a continuación",
+  "chatWithCareerAssistant": "Chatea con tu\nAsistente de Carrera",
+  "chatHistorySubtitle": "Puedes buscar en todos tus chats anteriores usando palabras clave o frases.",
+  "chatHistorySearchHint": "Escribe una palabra o frase para buscar mensajes...",
+  "chatHistoryToday": "Hoy",
+  "chatHistoryLast7Days": "Últimos 7 días",
+  "chatThinking": "Pensando...",
+  "chatSearchMessagesHint": "Buscar mensajes...",
+  "culturalFitLabel": "Afinidad cultural",
+  "savedJobsCountLabel": "{count} empleos guardados",
+  "@savedJobsCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "jobsFoundLabel": "{count} empleos encontrados",
+  "@jobsFoundLabel": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "noSavedJobsYet": "Aún no hay empleos guardados.",
+  "notificationsLabel": "Notificaciones",
+  "notificationsScreenSubtitle": "Aquí puedes ver todas tus novedades. Mantente al día con las actualizaciones importantes.",
+  "notificationsUnreadCount": "Tienes {count} notificaciones nuevas",
+  "@notificationsUnreadCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "markAllAsRead": "Marcar todo como leído",
+  "accountInformationTitle": "Información de la cuenta",
+  "accountInformationSubtitle": "Gestiona los detalles de tu cuenta para mantenerla segura y actualizada.",
+  "profileVisibilityTitle": "Visibilidad del perfil",
+  "profileVisibleForEmployers": "Perfil visible para empleadores",
+  "profileHiddenFromEmployers": "Perfil oculto a empleadores",
+  "profileVisibilityDescription": "En este momento, los empleadores pueden ver tu perfil y enviarte invitaciones. Si prefieres más privacidad, puedes ocultar tu perfil: solo será visible cuando te postules a un empleo.",
+  "hideProfileFromEmployers": "Ocultar perfil a los empleadores",
+  "showProfileToEmployers": "Mostrar perfil a los empleadores",
+  "digitalComfortTitle": "Comodidad digital",
+  "digitalComfortExperienced": "Eres un usuario con experiencia técnica",
+  "digitalComfortDescription": "Estás utilizando nuestra experiencia completa ahora mismo, ideal para usuarios seguros con la tecnología. Si en algún momento quieres una interfaz más sencilla, puedes cambiar a la versión ligera cuando lo desees.",
+  "tryIthakiLite": "Probar Ithaki Lite",
+  "deleteAnAccount": "Eliminar una cuenta",
+  "deleteAccountTabDescription": "Elimina de forma permanente tu cuenta y todos los datos relacionados del sistema. Esta acción no se puede deshacer.",
+  "jobInterestsStillLoading": "Los intereses laborales aún se están cargando. Inténtalo de nuevo en un momento.",
+  "failedToLoadJobInterests": "Error al cargar los intereses laborales.",
+  "relocationNegative": "Sin disposición a reubicarse",
+  "relocationLocally": "Dispuesto a reubicarse a nivel local",
+  "relocationNationally": "Dispuesto a reubicarse a nivel nacional",
+  "relocationInternationally": "Dispuesto a reubicarse a nivel internacional",
+  "positionInternYears": "0 años",
+  "positionJuniorYears": "0–2 años",
+  "positionMidYears": "2–5 años",
+  "positionSeniorYears": "5–8 años",
+  "positionLeadYears": "8–12 años",
+  "positionManagerYears": "10+ años",
+  "positionDirectorYears": "12+ años",
+  "jobCouldNotLoad": "No pudimos cargar este empleo en este momento.",
+  "navHome": "Inicio",
+  "navJobSearch": "Buscar empleo",
+  "navMyApplications": "Mis solicitudes",
+  "navCareerAssistant": "Asistente de Carrera",
+  "navMyAssessments": "Mis evaluaciones",
+  "navBlogNews": "Blog y Noticias",
+  "profileTabJobPreferences": "Preferencias de empleo",
+  "profileTabAboutMe": "Acerca de mí",
+  "profileTabSkills": "Habilidades",
+  "profileTabWorkExperience": "Experiencia laboral",
+  "profileTabEducation": "Educación",
+  "profileTabFiles": "Archivos",
+  "profileTabValues": "Valores",
+  "profileLoadError": "No se pudo cargar tu perfil.\nComprueba tu conexión e inténtalo de nuevo.",
+  "retryButton": "Reintentar",
+  "profilePartialLoadWarning": "No se pudieron cargar algunos datos del perfil. Mostrando datos en caché.",
+  "editProfileBasicsButton": "Editar información básica del perfil",
+  "ageLabel": "Edad",
+  "locationLabel": "Ubicación",
+  "profileFilesDescription": "Sube certificados, CV, fotos o cualquier otro archivo que muestre tus calificaciones."
+}

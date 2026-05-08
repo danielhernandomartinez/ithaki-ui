@@ -46,6 +46,7 @@ class IthakiApp extends ConsumerWidget {
         Locale('en'),
         Locale('el'),
         Locale('ar'),
+        Locale('es'),
       ],
       builder: (context, child) => TourOverlay(
         keys: tourKeys,

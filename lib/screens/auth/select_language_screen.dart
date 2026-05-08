@@ -15,6 +15,7 @@ final _languages = [
   SearchItem(id: 'en', label: 'English', leadingWidget: _flag('GB')),
   SearchItem(id: 'el', label: 'Ελληνικά (Greek)', leadingWidget: _flag('GR')),
   SearchItem(id: 'ar', label: 'العربية (Arabic)', leadingWidget: _flag('SA')),
+  SearchItem(id: 'es', label: 'Español (Spanish)', leadingWidget: _flag('ES')),
 ];
 
 class SelectLanguageScreen extends ConsumerStatefulWidget {
