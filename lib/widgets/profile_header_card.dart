@@ -31,6 +31,13 @@ class ProfileHeaderCard extends ConsumerWidget {
             radius: 24,
             backgroundColor: IthakiTheme.primaryPurple,
             backgroundImage: photoImage,
+            onBackgroundImageError: photoImage == null
+                ? null
+                : (error, _) {
+                    debugPrint(
+                      '[profilePhoto] header image failed to load: $error',
+                    );
+                  },
             child: photoImage == null
                 ? Text(
                     '${basics.firstName.isNotEmpty ? basics.firstName[0] : '?'}${basics.lastName.isNotEmpty ? basics.lastName[0] : '?'}',
@@ -67,7 +74,8 @@ class ProfileHeaderCard extends ConsumerWidget {
         const SizedBox(height: 8),
         Text(
           l.contactVisibilityNote,
-          style: const TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
+          style:
+              const TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
         ),
         const Divider(height: 24),
         Row(children: [

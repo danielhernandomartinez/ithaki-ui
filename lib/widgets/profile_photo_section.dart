@@ -26,6 +26,13 @@ class ProfilePhotoSection extends StatelessWidget {
             radius: 32,
             backgroundColor: IthakiTheme.primaryPurple,
             backgroundImage: photoImage,
+            onBackgroundImageError: photoImage == null
+                ? null
+                : (error, _) {
+                    debugPrint(
+                      '[profilePhoto] edit image failed to load: $error',
+                    );
+                  },
             child: photoImage == null
                 ? const IthakiIcon('profile',
                     size: 24, color: IthakiTheme.backgroundWhite)
@@ -38,14 +45,14 @@ class ProfilePhotoSection extends StatelessWidget {
               children: [
                 Text(
                   l.photoFileLimit,
-                  style:
-                      const TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
+                  style: const TextStyle(
+                      fontSize: 12, color: IthakiTheme.textSecondary),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   l.photoRecommendation,
-                  style:
-                      const TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
+                  style: const TextStyle(
+                      fontSize: 12, color: IthakiTheme.textSecondary),
                 ),
               ],
             ),

@@ -144,6 +144,149 @@ void main() {
       expect(skills.competencies['hasDrivingLicense'], 'true');
     });
 
+    test('refreshAll hydrates onboarding fields from user profile', () async {
+      final client = MockClient((request) async {
+        switch (request.url.path) {
+          case '/api/user/me':
+            return http.Response(
+              jsonEncode({
+                'firstName': 'Nadia',
+                'lastName': "O'Brien",
+                'email': 'nadia.obrien14@example.com',
+                'phone': '+30 6954689713',
+                'photo': 'https://cdn.test/avatar.png',
+                'phoneVerified': true,
+                'onboarding': {
+                  'location': {
+                    'citizenship': 144,
+                    'residence': 66,
+                    'status': null,
+                    'relocationReadiness': {
+                      'value': 'LOCALLY',
+                      'title': 'Willing to relocate locally',
+                    },
+                  },
+                  'jobInterests': [
+                    {'value': 117, 'title': 'Lawyer'},
+                    {'value': 130, 'title': 'Marketing Manager'},
+                  ],
+                  'preferences': {
+                    'positionLevel': {
+                      'value': 'SENIOR',
+                      'title': 'Senior (5+ years of experience)',
+                    },
+                    'jobTypes': [
+                      {'value': 'FULL_TIME', 'title': 'Full-Time'},
+                    ],
+                    'workplaceFormats': [
+                      {'value': 'HYBRID', 'title': 'Hybrid'},
+                      {'value': 'REMOTE', 'title': 'Remote'},
+                    ],
+                    'expectedPayment': 13,
+                    'paymentTerm': {'value': 'HOURLY', 'title': 'Hourly'},
+                    'preferNotToSpecify': false,
+                  },
+                  'values': [
+                    {'value': 1, 'title': 'Integrity'},
+                    {'value': 3, 'title': 'Teamwork'},
+                    {'value': 5, 'title': 'Growth & Learning'},
+                  ],
+                },
+              }),
+              200,
+            );
+          case '/api/job-seeker/me':
+            return http.Response(
+              jsonEncode({
+                'basics': {'photo': 'https://cdn.test/job-seeker-avatar.png'},
+              }),
+              200,
+            );
+        }
+        return http.Response('not found', 404);
+      });
+      final repository = ApiProfileRepository(
+        apiClient: ApiClient(client: client, baseUrl: 'http://localhost'),
+      );
+
+      final result = await repository.refreshAll();
+      final prefs = await repository.getJobPreferences();
+      final values = await repository.getValues();
+
+      expect(result.isPartial, isFalse);
+      expect(result.basics.firstName, 'Nadia');
+      expect(result.basics.citizenship, 'Russia');
+      expect(result.basics.citizenshipCode, 'ru');
+      expect(result.basics.residence, 'Greece');
+      expect(result.basics.residenceCode, 'gr');
+      expect(result.basics.relocationReadiness, 'Willing to relocate locally');
+      expect(result.basics.photoUrl, 'https://cdn.test/job-seeker-avatar.png');
+      expect(prefs.jobInterests.map((item) => item.title),
+          containsAll(['Lawyer', 'Marketing Manager']));
+      expect(prefs.positionLevel, 'Senior (5+ years of experience)');
+      expect(prefs.jobType, 'Full-Time');
+      expect(prefs.workplace, 'Hybrid');
+      expect(prefs.expectedSalary, 13);
+      expect(values, ['Integrity', 'Teamwork', 'Growth & Learning']);
+    });
+
+    test('refreshAll accepts enum maps in work and education fields', () async {
+      final client = MockClient((request) async {
+        switch (request.url.path) {
+          case '/api/user/me':
+            return http.Response(
+              jsonEncode({
+                'firstName': 'Nadia',
+                'lastName': "O'Brien",
+                'email': 'nadia.obrien14@example.com',
+                'phone': '+30 6954689713',
+              }),
+              200,
+            );
+          case '/api/job-seeker/me':
+            return http.Response(
+              jsonEncode({
+                'workExperience': [
+                  {
+                    'title': {'value': 117, 'title': 'Lawyer'},
+                    'companyName': {'title': 'Ithaki Legal'},
+                    'description': {'title': 'Employment law cases'},
+                    'current': {'value': true, 'title': 'Yes'},
+                  }
+                ],
+                'education': [
+                  {
+                    'institution': {'title': 'University of Athens'},
+                    'fieldOfStudy': {'title': 'Law'},
+                    'degree': {'title': 'Bachelor'},
+                    'currentlyStudying': {'value': false, 'title': 'No'},
+                  }
+                ],
+              }),
+              200,
+            );
+        }
+        return http.Response('not found', 404);
+      });
+      final repository = ApiProfileRepository(
+        apiClient: ApiClient(client: client, baseUrl: 'http://localhost'),
+      );
+
+      final result = await repository.refreshAll();
+      final work = await repository.getWorkExperiences();
+      final education = await repository.getEducations();
+
+      expect(result.isPartial, isFalse);
+      expect(work.single.jobTitle, 'Lawyer');
+      expect(work.single.companyName, 'Ithaki Legal');
+      expect(work.single.summary, 'Employment law cases');
+      expect(work.single.currentlyWorkHere, isTrue);
+      expect(education.single.institutionName, 'University of Athens');
+      expect(education.single.fieldOfStudy, 'Law');
+      expect(education.single.degreeType, 'Bachelor');
+      expect(education.single.currentlyStudyHere, isFalse);
+    });
+
     test('saveBasics persists user fields and onboarding location', () async {
       final requests = <String, Object?>{};
       final client = MockClient((request) async {
