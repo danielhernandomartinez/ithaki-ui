@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../config/app_config.dart';
 import '../models/home_models.dart';
 import '../services/api_client.dart';
+import '../utils/api_mappers.dart' as mapper;
 
 class HomeData {
   final String userName;
@@ -153,36 +156,89 @@ class MockHomeRepository implements HomeRepository {
 }
 
 // ─── API implementation ────────────────────────────────────────────────────────
-// TODO: wire real endpoints when available:
-//   GET /api/job-seeker/me/applications → cvStats
-//   GET /api/jobs (recommended) → jobs
-//   courses and news endpoints TBD
+// Courses and news stay empty until backend endpoints are available.
 class ApiHomeRepository implements HomeRepository {
   ApiHomeRepository({required ApiClient apiClient}) : _api = apiClient;
 
-  // ignore: unused_field — will be used once home endpoints are wired
   final ApiClient _api;
+
+  static JobRecommendation _parseJob(Map<String, dynamic> json) {
+    final title = json['title'] as String? ?? '';
+    final companyRaw = json['company'];
+    final companyName = companyRaw is Map
+        ? (companyRaw['name'] as String? ?? '')
+        : (json['companyName'] as String? ?? '');
+    final companyKey = companyName.isNotEmpty ? companyName : title;
+
+    return JobRecommendation(
+      companyName: companyName,
+      companyInitials: mapper.initials(companyKey),
+      companyColor: mapper.colorFromString(companyKey),
+      jobTitle: title,
+      salary: mapper.formatSalary(
+        json['salaryMin'],
+        json['salaryMax'],
+        json['paymentTerm'],
+      ),
+      matchPercentage: (json['matchPercentage'] as num?)?.toInt() ?? 0,
+      matchLabel: json['matchLabel'] as String? ?? '',
+      location: json['location'] as String? ?? '',
+      workMode: mapper.enumTitle(json['workArrangement']),
+      employmentType: mapper.enumTitle(json['employmentType']),
+      level: mapper.enumTitle(json['experienceLevel']),
+    );
+  }
+
+  static List<JobRecommendation> _parseJobs(String body) {
+    if (body.trim().isEmpty) return const [];
+    final decoded = jsonDecode(body);
+    return mapper
+        .extractList(decoded)
+        .whereType<Map>()
+        .map((job) => _parseJob(Map<String, dynamic>.from(job)))
+        .toList();
+  }
+
+  static int _applicationCount(String body) {
+    if (body.trim().isEmpty) return 0;
+    return mapper.extractList(jsonDecode(body)).length;
+  }
 
   @override
   Future<HomeData> getData() async {
-    // userName / userInitials are overlaid by home_provider.dart via profileBasicsProvider.
-    // Return empty collections until dedicated home endpoints are available.
-    return const HomeData(
+    final responses = await Future.wait([
+      _api.get('/jobs', params: const {'page': '0', 'size': '3'}),
+      _api.get('/job-seeker/me/applications'),
+    ]);
+    final jobsResponse = responses[0];
+    final applicationsResponse = responses[1];
+
+    if (jobsResponse.statusCode != 200) {
+      throw Exception('Home jobs failed: ${jobsResponse.statusCode}');
+    }
+    if (applicationsResponse.statusCode != 200) {
+      throw Exception(
+        'Home applications failed: ${applicationsResponse.statusCode}',
+      );
+    }
+
+    // userName / userInitials are overlaid by home_provider.dart.
+    return HomeData(
       userName: '',
       userInitials: '',
       cvStats: CvStats(
         views: 0,
         invitations: 0,
-        applicationsSent: 0,
+        applicationsSent: _applicationCount(applicationsResponse.body),
         interviews: 0,
       ),
-      jobs: [],
-      courses: [],
-      news: [],
+      jobs: _parseJobs(jobsResponse.body),
+      courses: const [],
+      news: const [],
       isNewUser: false,
-      profileItems: [],
-      profileBenefits: [],
-      filterChips: [],
+      profileItems: const [],
+      profileBenefits: const [],
+      filterChips: const [],
     );
   }
 }
