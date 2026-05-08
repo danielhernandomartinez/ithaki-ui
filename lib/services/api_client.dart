@@ -247,6 +247,17 @@ class ApiClient {
     Map<String, String>? params,
     Duration? timeout,
   }) async {
+    await postJsonResponse(path, body, params: params, timeout: timeout);
+  }
+
+  /// Authenticated JSON POST that returns the raw HTTP response for callers
+  /// that need to inspect/log successful response bodies.
+  Future<http.Response> postJsonResponse(
+    String path,
+    Object body, {
+    Map<String, String>? params,
+    Duration? timeout,
+  }) async {
     final t = timeout ?? ApiClient.timeout;
     Future<http.Response> doPost(String tok) => _client
         .post(uri(path, params),
@@ -264,6 +275,33 @@ class ApiClient {
     if (!_okStatuses.contains(res.statusCode)) {
       throw Exception(readErrorBody(res));
     }
+    return res;
+  }
+
+  /// Authenticated DELETE. Throws [Exception] on non-2xx responses.
+  /// Automatically refreshes the access token once on 401 and retries.
+  Future<http.Response> delete(
+    String path, {
+    Map<String, String>? params,
+    Duration? timeout,
+  }) async {
+    final t = timeout ?? ApiClient.timeout;
+    Future<http.Response> doDelete(String tok) => _client
+        .delete(uri(path, params), headers: jsonHeaders(token: tok))
+        .timeout(t);
+
+    var token = await requireToken();
+    var res = await doDelete(token);
+    if (res.statusCode == 401) {
+      await refreshAccessToken();
+      token = await requireToken();
+      res = await doDelete(token);
+    }
+    log('DELETE', uri(path, params), res.statusCode);
+    if (!_okStatuses.contains(res.statusCode)) {
+      throw Exception(readErrorBody(res));
+    }
+    return res;
   }
 
   /// Multipart file upload with Bearer auth. Returns the raw response body on
@@ -289,6 +327,44 @@ class ApiClient {
       throw Exception(readErrorBody(res));
     }
     return res.body;
+  }
+
+  /// Multipart upload with multiple files under the same field name.
+  Future<http.Response> uploadMultipartFiles(
+    String path,
+    String fileField,
+    List<String> filePaths, {
+    Duration? timeout,
+  }) async {
+    Future<http.Response> doUpload(String tok) async {
+      final request = http.MultipartRequest('POST', uri(path))
+        ..headers.addAll({
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $tok',
+        });
+      for (final filePath in filePaths) {
+        request.files.add(await http.MultipartFile.fromPath(
+          fileField,
+          filePath,
+        ));
+      }
+      final streamed =
+          await _client.send(request).timeout(timeout ?? uploadTimeout);
+      return http.Response.fromStream(streamed);
+    }
+
+    var token = await requireToken();
+    var res = await doUpload(token);
+    if (res.statusCode == 401) {
+      await refreshAccessToken();
+      token = await requireToken();
+      res = await doUpload(token);
+    }
+    log('POST', uri(path), res.statusCode);
+    if (res.statusCode < 200 || res.statusCode >= 300) {
+      throw Exception(readErrorBody(res));
+    }
+    return res;
   }
 }
 

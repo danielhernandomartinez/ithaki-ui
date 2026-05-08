@@ -126,8 +126,10 @@ class ProfileLocalStore {
         )
         .toList();
     return ProfileSkills(
-      hardSkills: (map['hardSkills'] as List? ?? []).whereType<String>().toList(),
-      softSkills: (map['softSkills'] as List? ?? []).whereType<String>().toList(),
+      hardSkills:
+          (map['hardSkills'] as List? ?? []).whereType<String>().toList(),
+      softSkills:
+          (map['softSkills'] as List? ?? []).whereType<String>().toList(),
       languages: langs,
       competencies: (map['competencies'] as Map? ?? {})
           .map((k, v) => MapEntry(k.toString(), v.toString())),
@@ -229,9 +231,12 @@ class ProfileLocalStore {
         values
             .map(
               (e) => {
+                'id': e.id,
                 'name': e.name,
                 'size': e.size,
                 'url': e.url,
+                'type': e.type,
+                'uploadedAt': e.uploadedAt,
                 'uploadProgress': e.uploadProgress,
               },
             )
@@ -248,9 +253,12 @@ class ProfileLocalStore {
         .map((e) => e.cast<String, dynamic>())
         .map(
           (j) => UploadedFile(
+            id: (j['id'] as num?)?.toInt(),
             name: j['name'] as String? ?? '',
             size: j['size'] as String? ?? '',
             url: j['url'] as String?,
+            type: j['type'] as String?,
+            uploadedAt: j['uploadedAt'] as String?,
             uploadProgress: (j['uploadProgress'] as num?)?.toDouble() ?? 1.0,
           ),
         )

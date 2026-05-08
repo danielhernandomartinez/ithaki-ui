@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:ithaki_ui/l10n/app_localizations.dart';
 import 'package:ithaki_ui/providers/profile_provider.dart';
 import 'package:ithaki_ui/screens/profile/tabs/profile_skills_tab.dart';
 
@@ -27,7 +28,11 @@ Widget _wrap(Widget child) => ProviderScope(
         profileSkillsProvider.overrideWith(_CompetenciesNotifier.new),
         profileBasicsProvider.overrideWith(_BasicsNotifier.new),
       ],
-      child: MaterialApp(home: Scaffold(body: child)),
+      child: MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(body: child),
+      ),
     );
 
 void main() {

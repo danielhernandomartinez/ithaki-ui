@@ -54,13 +54,21 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
       type: FileType.custom,
       allowedExtensions: ['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg'],
     );
-    if (result == null || !mounted) return;
+    if (result == null || !mounted) {
+      debugPrint('[uploadFiles] picker cancelled');
+      return;
+    }
+    debugPrint('[uploadFiles] picker selected ${result.files.length} file(s)');
     setState(() {
       for (final file in result.files) {
         final sizeKb = file.size / 1024;
         final sizeStr = sizeKb >= 1024
             ? '${(sizeKb / 1024).toStringAsFixed(1)} MB'
             : '${sizeKb.toStringAsFixed(0)} KB';
+        debugPrint(
+          '[uploadFiles] selected -> name=${file.name}, size=${file.size}, '
+          'extension=${file.extension}, path=${file.path}',
+        );
         _files.add(UploadedFile(
           name: file.name,
           size: sizeStr,
@@ -156,6 +164,10 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
                       ? () {
                           final result = [..._files];
                           if (_urlFile != null) result.add(_urlFile!);
+                          debugPrint(
+                            '[uploadFiles] continue with ${result.length} file(s): '
+                            '${result.map((f) => '${f.name}|${f.size}|${f.url}').join(', ')}',
+                          );
                           widget.onContinue(result);
                           Navigator.of(context).pop();
                         }

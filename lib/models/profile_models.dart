@@ -31,9 +31,9 @@ class WorkExperience {
   final String location;
   final String experienceLevel;
   final String workplace; // On-site / Remote / Hybrid
-  final String jobType;   // Full time / Part time / Contract
+  final String jobType; // Full time / Part time / Contract
   final String startDate; // MM-YYYY
-  final String? endDate;  // null if currentlyWorkHere
+  final String? endDate; // null if currentlyWorkHere
   final bool currentlyWorkHere;
   final String? summary;
 
@@ -54,22 +54,29 @@ class WorkExperience {
       _calcDuration(startDate, currentlyWorkHere ? null : endDate);
 
   WorkExperience copyWith({
-    String? jobTitle, String? companyName, String? location,
-    String? experienceLevel, String? workplace, String? jobType,
-    String? startDate, String? endDate, bool? currentlyWorkHere,
+    String? jobTitle,
+    String? companyName,
+    String? location,
+    String? experienceLevel,
+    String? workplace,
+    String? jobType,
+    String? startDate,
+    String? endDate,
+    bool? currentlyWorkHere,
     String? summary,
-  }) => WorkExperience(
-    jobTitle: jobTitle ?? this.jobTitle,
-    companyName: companyName ?? this.companyName,
-    location: location ?? this.location,
-    experienceLevel: experienceLevel ?? this.experienceLevel,
-    workplace: workplace ?? this.workplace,
-    jobType: jobType ?? this.jobType,
-    startDate: startDate ?? this.startDate,
-    endDate: endDate ?? this.endDate,
-    currentlyWorkHere: currentlyWorkHere ?? this.currentlyWorkHere,
-    summary: summary ?? this.summary,
-  );
+  }) =>
+      WorkExperience(
+        jobTitle: jobTitle ?? this.jobTitle,
+        companyName: companyName ?? this.companyName,
+        location: location ?? this.location,
+        experienceLevel: experienceLevel ?? this.experienceLevel,
+        workplace: workplace ?? this.workplace,
+        jobType: jobType ?? this.jobType,
+        startDate: startDate ?? this.startDate,
+        endDate: endDate ?? this.endDate,
+        currentlyWorkHere: currentlyWorkHere ?? this.currentlyWorkHere,
+        summary: summary ?? this.summary,
+      );
 }
 
 class Education {
@@ -95,30 +102,36 @@ class Education {
       _calcDuration(startDate, currentlyStudyHere ? null : endDate);
 
   Education copyWith({
-    String? institutionName, String? fieldOfStudy, String? location,
-    String? degreeType, String? startDate, String? endDate,
+    String? institutionName,
+    String? fieldOfStudy,
+    String? location,
+    String? degreeType,
+    String? startDate,
+    String? endDate,
     bool? currentlyStudyHere,
-  }) => Education(
-    institutionName: institutionName ?? this.institutionName,
-    fieldOfStudy: fieldOfStudy ?? this.fieldOfStudy,
-    location: location ?? this.location,
-    degreeType: degreeType ?? this.degreeType,
-    startDate: startDate ?? this.startDate,
-    endDate: endDate ?? this.endDate,
-    currentlyStudyHere: currentlyStudyHere ?? this.currentlyStudyHere,
-  );
+  }) =>
+      Education(
+        institutionName: institutionName ?? this.institutionName,
+        fieldOfStudy: fieldOfStudy ?? this.fieldOfStudy,
+        location: location ?? this.location,
+        degreeType: degreeType ?? this.degreeType,
+        startDate: startDate ?? this.startDate,
+        endDate: endDate ?? this.endDate,
+        currentlyStudyHere: currentlyStudyHere ?? this.currentlyStudyHere,
+      );
 }
 
 class Language {
   final String language;
-  final String proficiency; // Native / Fluent / Advanced / Conversational / Basic
+  final String
+      proficiency; // Native / Fluent / Advanced / Conversational / Basic
 
   const Language({required this.language, required this.proficiency});
 
   Language copyWith({String? language, String? proficiency}) => Language(
-    language: language ?? this.language,
-    proficiency: proficiency ?? this.proficiency,
-  );
+        language: language ?? this.language,
+        proficiency: proficiency ?? this.proficiency,
+      );
 }
 
 class JobInterest {
@@ -127,32 +140,52 @@ class JobInterest {
   final String category;
   final String? iconName; // IthakiIcon name, optional
 
-  const JobInterest({this.id = '', required this.title, required this.category, this.iconName});
+  const JobInterest(
+      {this.id = '',
+      required this.title,
+      required this.category,
+      this.iconName});
 }
 
 class UploadedFile {
+  final int? id;
   final String name;
   final String size;
   final String? url;
+  final String? type;
+  final String? uploadedAt;
   final double uploadProgress; // 0.0–1.0
 
   const UploadedFile({
+    this.id,
     required this.name,
     required this.size,
     this.url,
+    this.type,
+    this.uploadedAt,
     this.uploadProgress = 1.0,
   });
 
   bool get isComplete => uploadProgress >= 1.0;
 
   UploadedFile copyWith({
-    String? name, String? size, String? url, double? uploadProgress,
-  }) => UploadedFile(
-    name: name ?? this.name,
-    size: size ?? this.size,
-    url: url ?? this.url,
-    uploadProgress: uploadProgress ?? this.uploadProgress,
-  );
+    int? id,
+    String? name,
+    String? size,
+    String? url,
+    String? type,
+    String? uploadedAt,
+    double? uploadProgress,
+  }) =>
+      UploadedFile(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        size: size ?? this.size,
+        url: url ?? this.url,
+        type: type ?? this.type,
+        uploadedAt: uploadedAt ?? this.uploadedAt,
+        uploadProgress: uploadProgress ?? this.uploadProgress,
+      );
 }
 
 // ─── Profile State Classes ───────────────────────────────────────────────────
@@ -194,28 +227,37 @@ class ProfileBasics {
       '${firstName.isNotEmpty ? firstName[0] : '?'}${lastName.isNotEmpty ? lastName[0] : '?'}';
 
   ProfileBasics copyWith({
-    String? firstName, String? lastName, String? email, String? phone,
-    String? photoUrl, String? dateOfBirth, String? gender,
-    String? citizenship, String? citizenshipCode,
-    String? residence, String? residenceCode,
-    String? status, String? relocationReadiness,
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? phone,
+    String? photoUrl,
+    String? dateOfBirth,
+    String? gender,
+    String? citizenship,
+    String? citizenshipCode,
+    String? residence,
+    String? residenceCode,
+    String? status,
+    String? relocationReadiness,
     bool? phoneVerified,
-  }) => ProfileBasics(
-    firstName: firstName ?? this.firstName,
-    lastName: lastName ?? this.lastName,
-    email: email ?? this.email,
-    phone: phone ?? this.phone,
-    photoUrl: photoUrl ?? this.photoUrl,
-    dateOfBirth: dateOfBirth ?? this.dateOfBirth,
-    gender: gender ?? this.gender,
-    citizenship: citizenship ?? this.citizenship,
-    citizenshipCode: citizenshipCode ?? this.citizenshipCode,
-    residence: residence ?? this.residence,
-    residenceCode: residenceCode ?? this.residenceCode,
-    status: status ?? this.status,
-    relocationReadiness: relocationReadiness ?? this.relocationReadiness,
-    phoneVerified: phoneVerified ?? this.phoneVerified,
-  );
+  }) =>
+      ProfileBasics(
+        firstName: firstName ?? this.firstName,
+        lastName: lastName ?? this.lastName,
+        email: email ?? this.email,
+        phone: phone ?? this.phone,
+        photoUrl: photoUrl ?? this.photoUrl,
+        dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+        gender: gender ?? this.gender,
+        citizenship: citizenship ?? this.citizenship,
+        citizenshipCode: citizenshipCode ?? this.citizenshipCode,
+        residence: residence ?? this.residence,
+        residenceCode: residenceCode ?? this.residenceCode,
+        status: status ?? this.status,
+        relocationReadiness: relocationReadiness ?? this.relocationReadiness,
+        phoneVerified: phoneVerified ?? this.phoneVerified,
+      );
 }
 
 class ProfileAboutMe {
@@ -225,9 +267,9 @@ class ProfileAboutMe {
   const ProfileAboutMe({this.bio = '', this.videoUrl});
 
   ProfileAboutMe copyWith({String? bio, String? videoUrl}) => ProfileAboutMe(
-    bio: bio ?? this.bio,
-    videoUrl: videoUrl ?? this.videoUrl,
-  );
+        bio: bio ?? this.bio,
+        videoUrl: videoUrl ?? this.videoUrl,
+      );
 }
 
 class ProfileSkills {
@@ -244,14 +286,17 @@ class ProfileSkills {
   });
 
   ProfileSkills copyWith({
-    List<String>? hardSkills, List<String>? softSkills,
-    List<Language>? languages, Map<String, String>? competencies,
-  }) => ProfileSkills(
-    hardSkills: hardSkills ?? this.hardSkills,
-    softSkills: softSkills ?? this.softSkills,
-    languages: languages ?? this.languages,
-    competencies: competencies ?? this.competencies,
-  );
+    List<String>? hardSkills,
+    List<String>? softSkills,
+    List<Language>? languages,
+    Map<String, String>? competencies,
+  }) =>
+      ProfileSkills(
+        hardSkills: hardSkills ?? this.hardSkills,
+        softSkills: softSkills ?? this.softSkills,
+        languages: languages ?? this.languages,
+        competencies: competencies ?? this.competencies,
+      );
 }
 
 class ProfileJobPreferences {
@@ -272,16 +317,20 @@ class ProfileJobPreferences {
   });
 
   ProfileJobPreferences copyWith({
-    List<JobInterest>? jobInterests, String? positionLevel,
-    String? jobType, String? workplace,
-    double? expectedSalary, bool? preferNotToSpecifySalary,
-  }) => ProfileJobPreferences(
-    jobInterests: jobInterests ?? this.jobInterests,
-    positionLevel: positionLevel ?? this.positionLevel,
-    jobType: jobType ?? this.jobType,
-    workplace: workplace ?? this.workplace,
-    expectedSalary: expectedSalary ?? this.expectedSalary,
-    preferNotToSpecifySalary:
-        preferNotToSpecifySalary ?? this.preferNotToSpecifySalary,
-  );
+    List<JobInterest>? jobInterests,
+    String? positionLevel,
+    String? jobType,
+    String? workplace,
+    double? expectedSalary,
+    bool? preferNotToSpecifySalary,
+  }) =>
+      ProfileJobPreferences(
+        jobInterests: jobInterests ?? this.jobInterests,
+        positionLevel: positionLevel ?? this.positionLevel,
+        jobType: jobType ?? this.jobType,
+        workplace: workplace ?? this.workplace,
+        expectedSalary: expectedSalary ?? this.expectedSalary,
+        preferNotToSpecifySalary:
+            preferNotToSpecifySalary ?? this.preferNotToSpecifySalary,
+      );
 }

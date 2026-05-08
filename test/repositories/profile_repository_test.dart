@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -355,6 +356,54 @@ void main() {
         'value': 'NEGATIVE',
         'title': 'Not willing to relocate',
       });
+    });
+
+    test('saveFiles uploads local documents and hydrates remote list',
+        () async {
+      final tempFile = await File(
+        '${Directory.systemTemp.path}/ithaki_profile_document_test.png',
+      ).writeAsString('fake image bytes');
+      var uploadedDocuments = false;
+      final client = MockClient((request) async {
+        switch (request.url.path) {
+          case '/api/files/me/upload/documents':
+            uploadedDocuments = true;
+            expect(request.method, 'POST');
+            return http.Response('', 200);
+          case '/api/files/me/documents':
+            return http.Response(
+              jsonEncode([
+                {
+                  'id': 7,
+                  'name': 'ithaki_profile_document_test.png',
+                  'type': 'DOCUMENT',
+                  'uploadedAt': '2026-05-08T10:00:00Z',
+                }
+              ]),
+              200,
+            );
+        }
+        return http.Response('not found', 404);
+      });
+      final repository = ApiProfileRepository(
+        apiClient: ApiClient(client: client, baseUrl: 'http://localhost'),
+      );
+
+      await repository.saveFiles([
+        UploadedFile(
+          name: 'ithaki_profile_document_test.png',
+          size: '16 B',
+          url: tempFile.path,
+        ),
+      ]);
+      final files = await repository.getFiles();
+
+      expect(uploadedDocuments, isTrue);
+      expect(files.single.id, 7);
+      expect(files.single.name, 'ithaki_profile_document_test.png');
+      expect(files.single.type, 'DOCUMENT');
+      expect(files.single.uploadedAt, '2026-05-08T10:00:00Z');
+      await tempFile.delete();
     });
   });
 }

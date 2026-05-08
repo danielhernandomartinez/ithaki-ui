@@ -408,6 +408,68 @@ class ApiProfileRepository implements ProfileRepository {
 
   String _textValue(dynamic value) => ProfileApiMapper.titleOrText(value);
 
+  bool _isLocalFilePath(String? value) {
+    final text = value?.trim();
+    if (text == null || text.isEmpty) return false;
+    final uri = Uri.tryParse(text);
+    if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
+      return false;
+    }
+    return File(text).existsSync() ||
+        (uri != null &&
+            uri.isScheme('file') &&
+            File(uri.toFilePath()).existsSync());
+  }
+
+  String? _localFilePath(String? value) {
+    final text = value?.trim();
+    if (text == null || text.isEmpty) return null;
+    final uri = Uri.tryParse(text);
+    if (uri != null && uri.isScheme('file')) return uri.toFilePath();
+    return text;
+  }
+
+  UploadedFile _documentFromJson(Map<String, dynamic> json) {
+    final idRaw = json['id'];
+    final id = idRaw is num ? idRaw.toInt() : int.tryParse('$idRaw');
+    final name = _textValue(json['name']);
+    final type = _textValue(json['type']);
+    final uploadedAt = _textValue(json['uploadedAt']);
+    final date =
+        uploadedAt.contains('T') ? uploadedAt.split('T').first : uploadedAt;
+    return UploadedFile(
+      id: id,
+      name: name.isEmpty ? 'Document' : name,
+      size: date.isNotEmpty ? date : (type.isNotEmpty ? type : 'Uploaded'),
+      type: type.isEmpty ? null : type,
+      uploadedAt: uploadedAt.isEmpty ? null : uploadedAt,
+    );
+  }
+
+  Future<List<UploadedFile>> _fetchRemoteDocuments() async {
+    final response = await _api.get('/files/me/documents');
+    debugPrint('[documents] list status -> ${response.statusCode}');
+    debugPrint('[documents] list body -> ${response.body}');
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load documents: ${response.statusCode}');
+    }
+    final decoded = jsonDecode(response.body);
+    final raw = decoded is List
+        ? decoded
+        : decoded is Map
+            ? decoded['content'] ?? decoded['data'] ?? const []
+            : const [];
+    return (raw as List)
+        .whereType<Map>()
+        .map((item) => _documentFromJson(item.cast<String, dynamic>()))
+        .toList();
+  }
+
+  Future<void> _refreshRemoteDocuments() async {
+    _files = await _fetchRemoteDocuments();
+    await ProfileLocalStore.saveFiles(_files);
+  }
+
   ProfileJobPreferences? _parseJobPreferences(
     dynamic preferences,
     dynamic interests,
@@ -812,6 +874,12 @@ class ApiProfileRepository implements ProfileRepository {
             basics: _basics, isPartial: true, partialError: e);
       }
 
+      try {
+        await _refreshRemoteDocuments();
+      } catch (e) {
+        debugPrint('[refreshAll] documents load skipped -> $e');
+      }
+
       _basics = basics;
       await ProfileLocalStore.saveBasics(_basics);
       return ProfileLoadResult(basics: _basics);
@@ -1063,13 +1131,59 @@ class ApiProfileRepository implements ProfileRepository {
   Future<void> saveFiles(List<UploadedFile> files) async {
     await _syncSession();
     await _ensureLoaded();
-    // Metadata only. Real file upload must use multipart /files endpoints.
-    await _api.postJson('/job-seeker/me', {
-      'documents': files
-          .map((f) => {'name': f.name, 'size': f.size, 'url': f.url})
-          .toList(),
-    });
-    _files = files;
+
+    final incomingIds =
+        files.where((file) => file.id != null).map((file) => file.id).toSet();
+    final removedIds = _files
+        .where((file) => file.id != null && !incomingIds.contains(file.id))
+        .map((file) => file.id!)
+        .toList();
+    for (final id in removedIds) {
+      debugPrint('[saveFiles] deleting remote document id=$id');
+      final response = await _api.delete('/files/me/documents/$id');
+      debugPrint(
+          '[saveFiles] delete response status -> ${response.statusCode}');
+      debugPrint('[saveFiles] delete response body -> ${response.body}');
+    }
+
+    final localFiles = files
+        .where((file) => file.id == null && _isLocalFilePath(file.url))
+        .toList();
+    final localPaths = localFiles
+        .map((file) => _localFilePath(file.url))
+        .whereType<String>()
+        .toList();
+    if (localPaths.isNotEmpty) {
+      debugPrint('[saveFiles] uploading ${localPaths.length} document(s)');
+      for (final file in localFiles) {
+        debugPrint(
+            '[saveFiles] upload candidate -> ${file.name} | ${file.url}');
+      }
+      final response = await _api.uploadMultipartFiles(
+        '/files/me/upload/documents',
+        'uploadedFiles',
+        localPaths,
+      );
+      debugPrint(
+          '[saveFiles] upload response status -> ${response.statusCode}');
+      debugPrint('[saveFiles] upload response body -> ${response.body}');
+    }
+
+    final unsupported = files.where(
+      (file) => file.id == null && !_isLocalFilePath(file.url),
+    );
+    for (final file in unsupported) {
+      debugPrint(
+        '[saveFiles] skipped unsupported document source -> ${file.name} | ${file.url}',
+      );
+    }
+
+    try {
+      await _refreshRemoteDocuments();
+    } catch (e) {
+      debugPrint('[saveFiles] remote refresh failed -> $e');
+      _files = files;
+    }
     await ProfileLocalStore.saveFiles(_files);
   }
 

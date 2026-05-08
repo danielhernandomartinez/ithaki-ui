@@ -110,9 +110,7 @@ class ProfileFilesTab extends ConsumerWidget {
 
   void _openUpload(BuildContext context, WidgetRef ref) =>
       UploadFilesSheet.show(context, onContinue: (files) {
-        for (final f in files) {
-          ref.read(profileFilesProvider.notifier).add(f);
-        }
+        ref.read(profileFilesProvider.notifier).addAll(files);
       });
 
   Future<void> _openFile(BuildContext context, UploadedFile file) async {

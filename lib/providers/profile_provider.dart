@@ -187,15 +187,25 @@ class ProfileFilesNotifier extends AsyncNotifier<List<UploadedFile>> {
 
   Future<void> add(UploadedFile file) async {
     final updated = [...state.requireValue, file];
-    await ref.read(profileRepositoryProvider).saveFiles(updated);
-    state = AsyncData(updated);
+    final repository = ref.read(profileRepositoryProvider);
+    await repository.saveFiles(updated);
+    state = AsyncData(await repository.getFiles());
+  }
+
+  Future<void> addAll(List<UploadedFile> files) async {
+    if (files.isEmpty) return;
+    final updated = [...state.requireValue, ...files];
+    final repository = ref.read(profileRepositoryProvider);
+    await repository.saveFiles(updated);
+    state = AsyncData(await repository.getFiles());
   }
 
   Future<void> delete(int index) async {
     final list = [...state.requireValue];
     list.removeAt(index);
-    await ref.read(profileRepositoryProvider).saveFiles(list);
-    state = AsyncData(list);
+    final repository = ref.read(profileRepositoryProvider);
+    await repository.saveFiles(list);
+    state = AsyncData(await repository.getFiles());
   }
 }
 
