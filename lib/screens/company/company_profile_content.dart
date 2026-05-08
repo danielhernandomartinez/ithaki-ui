@@ -6,7 +6,7 @@ import '../../l10n/app_localizations.dart';
 import '../../models/company_models.dart';
 import '../../providers/job_search_provider.dart';
 import '../../routes.dart';
-import 'widgets/company_profile_components.dart';
+import 'widgets/company_profile_atoms.dart';
 import 'widgets/company_profile_header.dart';
 import 'widgets/company_profile_tabs.dart';
 

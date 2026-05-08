@@ -4,7 +4,12 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/company_models.dart';
 import '../../../utils/match_colors.dart';
-import 'company_profile_components.dart';
+import 'company_cultural_match_card.dart';
+import 'company_gallery_grid.dart';
+import 'company_profile_atoms.dart';
+import 'company_profile_styles.dart';
+import 'company_surface_card.dart';
+import 'company_visual_placeholder.dart';
 
 class CompanyVacanciesTab extends StatelessWidget {
   const CompanyVacanciesTab({

@@ -7,7 +7,11 @@ import '../../l10n/app_localizations.dart';
 import '../../providers/company_provider.dart';
 import '../../providers/home_provider.dart';
 import '../../routes.dart';
-import 'widgets/company_profile_components.dart';
+import 'widgets/company_cultural_match_card.dart';
+import 'widgets/company_profile_atoms.dart';
+import 'widgets/company_profile_styles.dart';
+import 'widgets/company_surface_card.dart';
+import 'widgets/company_visual_placeholder.dart';
 
 class CompanyEventDetailScreen extends ConsumerWidget {
   const CompanyEventDetailScreen({
