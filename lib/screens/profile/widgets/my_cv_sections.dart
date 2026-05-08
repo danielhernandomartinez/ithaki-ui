@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/assessment_models.dart';
 import '../../../models/profile_models.dart';
+import '../../../utils/profile_photo_image.dart';
 import '../../company/widgets/company_cultural_fit_gauge.dart';
 
 class MyCvData {
@@ -1285,12 +1285,17 @@ class CvAvatarBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasPhoto = photoPath != null && photoPath!.trim().isNotEmpty;
+    final photoImage = profilePhotoImageProvider(photoPath);
     return CircleAvatar(
       radius: 24,
       backgroundColor: IthakiTheme.softGraphite,
-      backgroundImage: hasPhoto ? FileImage(File(photoPath!)) : null,
-      child: hasPhoto
+      backgroundImage: photoImage,
+      onBackgroundImageError: photoImage == null
+          ? null
+          : (error, _) {
+              debugPrint('[cvPhoto] avatar image failed to load: $error');
+            },
+      child: photoImage != null
           ? null
           : Text(
               initials,
