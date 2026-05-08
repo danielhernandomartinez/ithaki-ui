@@ -19,7 +19,9 @@ import '../../widgets/profile_menu_panel.dart';
 import '../applications/widgets/invitation_detail_widgets.dart';
 import 'widgets/report_job_sheet.dart';
 import 'widgets/set_reminder_sheet.dart';
-import 'widgets/job_search_detail_sections.dart';
+import 'widgets/job_detail_body.dart';
+import 'widgets/job_detail_primitives.dart';
+import 'widgets/job_detail_sticky_bar.dart';
 
 class JobSearchDetailScreen extends ConsumerStatefulWidget {
   final String jobId;
