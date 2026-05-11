@@ -19,11 +19,49 @@ class AssessmentsListNotifier extends AsyncNotifier<List<Assessment>> {
       () => ref.read(assessmentRepositoryProvider).getAssessments(),
     );
   }
+
+  Future<void> toggleCV(String assessmentId) async {
+    final all = state.value;
+    if (all == null) return;
+    final idx = all.indexWhere((x) => x.id == assessmentId);
+    if (idx == -1) return;
+    final show = !(all[idx].lastResult?.shownInCV ?? false);
+    await ref
+        .read(assessmentRepositoryProvider)
+        .toggleShowInCV(assessmentId, show: show);
+    ref.invalidate(assessmentResultProvider(assessmentId));
+    state = AsyncData(
+      all.map((x) => x.id == assessmentId
+          ? x.copyWith(lastResult: x.lastResult?.copyWith(shownInCV: show))
+          : x).toList(),
+    );
+  }
 }
 
 final assessmentsListProvider =
     AsyncNotifierProvider<AssessmentsListNotifier, List<Assessment>>(
         AssessmentsListNotifier.new);
+
+typedef AssessmentsGrouped = ({
+  List<Assessment> inProgress,
+  List<Assessment> recommended,
+  List<Assessment> completed,
+});
+
+final assessmentsGroupedProvider = Provider<AssessmentsGrouped>((ref) {
+  final all = ref.watch(assessmentsListProvider).value ?? [];
+  return (
+    inProgress: all
+        .where((a) => a.status == AssessmentStatus.inProgress)
+        .toList(),
+    recommended: all
+        .where((a) => a.status == AssessmentStatus.notStarted)
+        .toList(),
+    completed: all
+        .where((a) => a.status == AssessmentStatus.completed)
+        .toList(),
+  );
+});
 
 // ─── Quiz ──────────────────────────────────────────────────────────────────────
 

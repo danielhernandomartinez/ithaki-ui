@@ -16,6 +16,8 @@ import '../../routes.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/assessment_card.dart';
 import '../../widgets/profile_menu_panel.dart';
+import 'continue_assessment_sheet.dart';
+import 'start_assessment_sheet.dart';
 
 class MyAssessmentsScreen extends ConsumerStatefulWidget {
   const MyAssessmentsScreen({super.key});
@@ -46,7 +48,7 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => _StartAssessmentSheet(
+      builder: (_) => StartAssessmentSheet(
         assessment: assessment,
         onStart: () {
           Navigator.pop(context);
@@ -61,7 +63,7 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => _ContinueAssessmentSheet(
+      builder: (_) => ContinueAssessmentSheet(
         assessment: assessment,
         onContinue: () {
           Navigator.pop(context);
@@ -80,6 +82,7 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
   Widget build(BuildContext context) {
     final homeAsync = ref.watch(homeProvider);
     final assessmentsAsync = ref.watch(assessmentsListProvider);
+    final grouped = ref.watch(assessmentsGroupedProvider);
     final tourState = ref.watch(tourProvider).maybeWhen(
           data: (value) => value,
           orElse: () => null,
@@ -109,141 +112,130 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen>
             error: (e, _) => Center(
                 child: Text(
                     AppLocalizations.of(context)!.errorMessage(e.toString()))),
-            data: (assessments) {
-              final inProgress = assessments
-                  .where((a) => a.status == AssessmentStatus.inProgress)
-                  .toList();
-              final recommended = assessments
-                  .where((a) => a.status == AssessmentStatus.notStarted)
-                  .toList();
-              final completed = assessments
-                  .where((a) => a.status == AssessmentStatus.completed)
-                  .toList();
-
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: topOffset),
+            data: (_) => SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: topOffset),
+                  const SizedBox(height: 8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: KeyedSubtree(
+                      key: tourState?.currentStep == 13 ? tourKeys[13] : null,
+                      child: IthakiButton(
+                        AppLocalizations.of(context)!.assessmentStartNew,
+                        onPressed: grouped.recommended.isNotEmpty
+                            ? () =>
+                                _onStartTest(context, grouped.recommended.first)
+                            : null,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  if (grouped.inProgress.isNotEmpty) ...[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: _SectionHeader(
+                          AppLocalizations.of(context)!
+                              .assessmentsInProgressTitle(
+                                  grouped.inProgress.length)),
+                    ),
+                    const SizedBox(height: 4),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        AppLocalizations.of(context)!
+                            .assessmentsInProgressSubtitle,
+                        style: IthakiTheme.bodySmall
+                            .copyWith(color: IthakiTheme.textSecondary),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        children: grouped.inProgress
+                            .map((a) => AssessmentCard(
+                                  assessment: a,
+                                  onTestDetails: () => context
+                                      .push(Routes.assessmentDetailFor(a.id)),
+                                  onContinue: () => _onContinue(context, a),
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                  ],
+                  if (grouped.recommended.isNotEmpty) ...[
                     const SizedBox(height: 8),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: KeyedSubtree(
-                        key: tourState?.currentStep == 13 ? tourKeys[13] : null,
-                        child: IthakiButton(
-                          AppLocalizations.of(context)!.assessmentStartNew,
-                          onPressed: recommended.isNotEmpty
-                              ? () => _onStartTest(context, recommended.first)
-                              : null,
-                        ),
+                      child: _SectionHeader(AppLocalizations.of(context)!
+                          .assessmentsRecommendedForYou),
+                    ),
+                    const SizedBox(height: 4),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        AppLocalizations.of(context)!
+                            .assessmentsRecommendedSubtitle,
+                        style: IthakiTheme.bodySmall
+                            .copyWith(color: IthakiTheme.textSecondary),
                       ),
                     ),
-                    const SizedBox(height: 24),
-                    if (inProgress.isNotEmpty) ...[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: _SectionHeader(AppLocalizations.of(context)!
-                            .assessmentsInProgressTitle(inProgress.length)),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        children: grouped.recommended
+                            .map((a) => AssessmentCard(
+                                  assessment: a,
+                                  onTestDetails: () => context
+                                      .push(Routes.assessmentDetailFor(a.id)),
+                                  onStartTest: () => _onStartTest(context, a),
+                                ))
+                            .toList(),
                       ),
-                      const SizedBox(height: 4),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Text(
-                          AppLocalizations.of(context)!
-                              .assessmentsInProgressSubtitle,
-                          style: IthakiTheme.bodySmall
-                              .copyWith(color: IthakiTheme.textSecondary),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          children: inProgress
-                              .map((a) => AssessmentCard(
-                                    assessment: a,
-                                    onTestDetails: () => context
-                                        .push(Routes.assessmentDetailFor(a.id)),
-                                    onContinue: () => _onContinue(context, a),
-                                  ))
-                              .toList(),
-                        ),
-                      ),
-                    ],
-                    if (recommended.isNotEmpty) ...[
-                      const SizedBox(height: 8),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: _SectionHeader(AppLocalizations.of(context)!
-                            .assessmentsRecommendedForYou),
-                      ),
-                      const SizedBox(height: 4),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Text(
-                          AppLocalizations.of(context)!
-                              .assessmentsRecommendedSubtitle,
-                          style: IthakiTheme.bodySmall
-                              .copyWith(color: IthakiTheme.textSecondary),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          children: recommended
-                              .map((a) => AssessmentCard(
-                                    assessment: a,
-                                    onTestDetails: () => context
-                                        .push(Routes.assessmentDetailFor(a.id)),
-                                    onStartTest: () => _onStartTest(context, a),
-                                  ))
-                              .toList(),
-                        ),
-                      ),
-                    ],
-                    if (completed.isNotEmpty) ...[
-                      const SizedBox(height: 8),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: _SectionHeader(AppLocalizations.of(context)!
-                            .assessmentsCompletedTitle),
-                      ),
-                      const SizedBox(height: 4),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Text(
-                          AppLocalizations.of(context)!
-                              .assessmentsCompletedSubtitle,
-                          style: IthakiTheme.bodySmall
-                              .copyWith(color: IthakiTheme.textSecondary),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          children: completed
-                              .map((a) => AssessmentCard(
-                                    assessment: a,
-                                    onViewDetails: () => context.push(
-                                        Routes.assessmentResultsFor(a.id)),
-                                    onShowInCV: () => ref
-                                        .read(assessmentResultProvider(a.id)
-                                            .notifier)
-                                        .toggleCV(
-                                            show: !(a.lastResult?.shownInCV ??
-                                                false)),
-                                  ))
-                              .toList(),
-                        ),
-                      ),
-                    ],
-                    SizedBox(height: MediaQuery.paddingOf(context).bottom + 32),
+                    ),
                   ],
-                ),
-              );
-            },
+                  if (grouped.completed.isNotEmpty) ...[
+                    const SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: _SectionHeader(AppLocalizations.of(context)!
+                          .assessmentsCompletedTitle),
+                    ),
+                    const SizedBox(height: 4),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        AppLocalizations.of(context)!
+                            .assessmentsCompletedSubtitle,
+                        style: IthakiTheme.bodySmall
+                            .copyWith(color: IthakiTheme.textSecondary),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Column(
+                        children: grouped.completed
+                            .map((a) => AssessmentCard(
+                                  assessment: a,
+                                  onViewDetails: () => context
+                                      .push(Routes.assessmentResultsFor(a.id)),
+                                  onShowInCV: () => ref
+                                      .read(assessmentsListProvider.notifier)
+                                      .toggleCV(a.id),
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                  ],
+                  SizedBox(
+                      height: MediaQuery.paddingOf(context).bottom + 32),
+                ],
+              ),
+            ),
           ),
 
           // ── Dim overlay ─────────────────────────────────────────────────────
@@ -329,259 +321,6 @@ class _SectionHeader extends StatelessWidget {
     return Text(
       text,
       style: IthakiTheme.headingMedium.copyWith(fontWeight: FontWeight.w700),
-    );
-  }
-}
-
-// ─── Start Assessment Sheet ────────────────────────────────────────────────────
-
-class _StartAssessmentSheet extends StatelessWidget {
-  final Assessment assessment;
-  final VoidCallback onStart;
-
-  const _StartAssessmentSheet(
-      {required this.assessment, required this.onStart});
-
-  @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context)!;
-    return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: IthakiTheme.backgroundWhite,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  l.assessmentStartTitle,
-                  style: IthakiTheme.headingMedium
-                      .copyWith(fontWeight: FontWeight.w700),
-                ),
-              ),
-              GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: const IthakiIcon('x-close',
-                    size: 22, color: IthakiTheme.textSecondary),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Text(
-            l.assessmentStartSubtitle,
-            style: IthakiTheme.bodySmall
-                .copyWith(color: IthakiTheme.textSecondary),
-          ),
-          const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              border: Border.all(color: IthakiTheme.borderLight),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: IthakiTheme.accentPurpleLight,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: IthakiIcon(assessment.iconName,
-                            size: 22, color: IthakiTheme.primaryPurple),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            assessment.title,
-                            style: IthakiTheme.bodySmallSemiBold,
-                          ),
-                          Text(
-                            assessment.category,
-                            style: IthakiTheme.bodySmall
-                                .copyWith(color: IthakiTheme.textSecondary),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const Divider(height: 24),
-                Row(
-                  children: [
-                    _MetaItem(
-                      icon: 'clock',
-                      label: l.assessmentApproxDuration,
-                      value: l.durationMinutes(assessment.durationMinutes),
-                    ),
-                    const SizedBox(width: 24),
-                    _MetaItem(
-                      icon: 'assessment',
-                      label: l.assessmentQuestionsLabel,
-                      value: l.questionsCount(assessment.questionCount),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                _MetaItem(
-                  icon: 'flag',
-                  label: l.languageFieldLabel,
-                  value: assessment.language,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            l.assessmentBeforeStart,
-            style: IthakiTheme.bodySmallSemiBold,
-          ),
-          const SizedBox(height: 8),
-          ...assessment.beforeYouStart.map(
-            (item) => Padding(
-              padding: const EdgeInsets.only(bottom: 6),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 6, right: 8),
-                    width: 5,
-                    height: 5,
-                    decoration: BoxDecoration(
-                      color: IthakiTheme.textSecondary,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      item,
-                      style: IthakiTheme.bodySmall
-                          .copyWith(color: IthakiTheme.textSecondary),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          IthakiButton(l.assessmentStartNow, onPressed: onStart),
-          const SizedBox(height: 8),
-        ],
-      ),
-    );
-  }
-}
-
-class _MetaItem extends StatelessWidget {
-  final String icon;
-  final String label;
-  final String value;
-
-  const _MetaItem(
-      {required this.icon, required this.label, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: IthakiTheme.bodySmall
-              .copyWith(color: IthakiTheme.textSecondary, fontSize: 11),
-        ),
-        const SizedBox(height: 4),
-        Row(
-          children: [
-            IthakiIcon(icon, size: 14, color: IthakiTheme.textSecondary),
-            const SizedBox(width: 4),
-            Text(value, style: IthakiTheme.bodySmall),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-// ─── Continue Assessment Sheet ─────────────────────────────────────────────────
-
-class _ContinueAssessmentSheet extends StatelessWidget {
-  final Assessment assessment;
-  final VoidCallback onContinue;
-  final VoidCallback onStartOver;
-
-  const _ContinueAssessmentSheet({
-    required this.assessment,
-    required this.onContinue,
-    required this.onStartOver,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context)!;
-    return Container(
-      margin: const EdgeInsets.all(16),
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: IthakiTheme.backgroundWhite,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  l.assessmentContinueTitle,
-                  style: IthakiTheme.headingMedium
-                      .copyWith(fontWeight: FontWeight.w700),
-                ),
-              ),
-              GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: const IthakiIcon('x-close',
-                    size: 22, color: IthakiTheme.textSecondary),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            l.assessmentContinueSubtitle,
-            style: IthakiTheme.bodySmall
-                .copyWith(color: IthakiTheme.textSecondary),
-          ),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(
-                child: IthakiOutlineButton(l.assessmentStartOver,
-                    onPressed: onStartOver),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: IthakiButton(l.continueButton, onPressed: onContinue),
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }
