@@ -19,7 +19,12 @@ import 'widgets/invitations_tab.dart';
 import 'widgets/my_applications_tab.dart';
 
 class MyApplicationsScreen extends ConsumerStatefulWidget {
-  const MyApplicationsScreen({super.key});
+  final bool showInvitationDeclined;
+
+  const MyApplicationsScreen({
+    super.key,
+    this.showInvitationDeclined = false,
+  });
 
   @override
   ConsumerState<MyApplicationsScreen> createState() =>
@@ -44,6 +49,11 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
       ..addListener(() {
         if (mounted) setState(() {});
       });
+    if (widget.showInvitationDeclined) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _showInvitationDeclinedBanner();
+      });
+    }
   }
 
   @override
@@ -80,6 +90,15 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
     setState(() => _pendingDismissId = null);
   }
 
+  void _showInvitationDeclinedBanner() {
+    _declinedTimer?.cancel();
+    setState(() => _showDeclinedBanner = true);
+    _tabController.animateTo(3);
+    _declinedTimer = Timer(const Duration(seconds: 5), () {
+      if (mounted) setState(() => _showDeclinedBanner = false);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
@@ -106,20 +125,6 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
 
     final invitationsCount =
         invitationsAsync.value?.where((i) => !i.isDismissed).length ?? 0;
-
-    ref.listen<bool>(invitationDeclinedProvider, (_, next) {
-      if (next && mounted) {
-        ref.read(invitationDeclinedProvider.notifier).set(false);
-        _declinedTimer?.cancel();
-        setState(() {
-          _showDeclinedBanner = true;
-          _tabController.animateTo(3);
-        });
-        _declinedTimer = Timer(const Duration(seconds: 5), () {
-          if (mounted) setState(() => _showDeclinedBanner = false);
-        });
-      }
-    });
 
     return MainPanelScaffold(
       currentRoute: Routes.myApplications,

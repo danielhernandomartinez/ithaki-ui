@@ -99,6 +99,16 @@ abstract final class Routes {
       '$verifyPhone?phone=${Uri.encodeComponent(phone)}&method=$method';
 }
 
+/// Type-safe extras for [Routes.myApplications].
+class MyApplicationsExtra {
+  final bool showInvitationDeclined;
+  const MyApplicationsExtra({this.showInvitationDeclined = false});
+
+  factory MyApplicationsExtra.fromExtra(Object? extra) {
+    return extra is MyApplicationsExtra ? extra : const MyApplicationsExtra();
+  }
+}
+
 /// Type-safe extras for [Routes.profileWorkExperienceEdit].
 class WorkExperienceEditExtra {
   final int? index;

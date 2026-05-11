@@ -130,7 +130,6 @@ class InvitationsNotifier extends AsyncNotifier<List<Invitation>> {
           }).toList() ??
           [],
     );
-    ref.read(invitationDeclinedProvider.notifier).set(true);
   }
 
   static String _nowLabel() {
@@ -140,21 +139,6 @@ class InvitationsNotifier extends AsyncNotifier<List<Invitation>> {
     return 'Today, $h:$m';
   }
 }
-
-/// One-shot flag: set to `true` by the Decline Invitation dialog after the
-/// user confirms. [MyApplicationsScreen] consumes it once and resets to false.
-class InvitationDeclinedNotifier extends Notifier<bool> {
-  @override
-  bool build() => false;
-
-  // ignore: use_setters_to_change_properties
-  void set(bool value) => state = value;
-}
-
-final invitationDeclinedProvider =
-    NotifierProvider<InvitationDeclinedNotifier, bool>(
-  InvitationDeclinedNotifier.new,
-);
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 

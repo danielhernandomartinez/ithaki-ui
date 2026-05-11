@@ -313,7 +313,12 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen> {
       context: outerContext,
       builder: (_) => DeclineInviteSheet(invitationId: widget.applicationId),
     );
-    if (declined == true && mounted) context.go(Routes.myApplications);
+    if (declined == true && mounted) {
+      context.go(
+        Routes.myApplications,
+        extra: const MyApplicationsExtra(showInvitationDeclined: true),
+      );
+    }
   }
 
   // ── layout helpers ─────────────────────────────────────────────────────────

@@ -294,7 +294,12 @@ class IthakiRouter {
       ),
       GoRoute(
         path: Routes.myApplications,
-        builder: (context, state) => const MyApplicationsScreen(),
+        builder: (context, state) {
+          final extra = MyApplicationsExtra.fromExtra(state.extra);
+          return MyApplicationsScreen(
+            showInvitationDeclined: extra.showInvitationDeclined,
+          );
+        },
         routes: [
           GoRoute(
             path: ':id',
