@@ -20,7 +20,7 @@ class ApiCompanyRepository implements CompanyRepository {
 
   @override
   Future<CompanyProfile> getCompany(String companyId) async {
-    final response = await _api.getOptionalAuth('/companies/$companyId');
+    final response = await _api.getOptionalAuth('/company/$companyId');
     if (response.statusCode != 200) {
       throw Exception('Failed to load company: ${response.statusCode}');
     }
@@ -28,11 +28,35 @@ class ApiCompanyRepository implements CompanyRepository {
     if (body is! Map<String, dynamic>) {
       throw Exception('Unexpected company response');
     }
-    return _parse(body);
+
+    final vacanciesResponse = await _api.getOptionalAuth(
+      '/company/$companyId/vacancies',
+    );
+    if (vacanciesResponse.statusCode != 200 &&
+        vacanciesResponse.statusCode != 204) {
+      throw Exception(
+        'Failed to load company vacancies: ${vacanciesResponse.statusCode}',
+      );
+    }
+
+    final vacancies = vacanciesResponse.statusCode == 204
+        ? const <CompanyVacancy>[]
+        : _parseVacancies(jsonDecode(vacanciesResponse.body));
+    return _parse(body, vacancies: vacancies);
   }
 
-  static CompanyProfile _parse(Map<String, dynamic> c) {
-    final name = c['name'] as String? ?? '';
+  static CompanyProfile _parse(
+    Map<String, dynamic> c, {
+    List<CompanyVacancy> vacancies = const [],
+  }) {
+    final companyDetails = _asMap(c['companyDetails']);
+    final contacts = _asMap(c['contacts']);
+    final profileBranding = _asMap(c['profileBranding']);
+    final name = _text(c['name']) ??
+        _text(c['legalName']) ??
+        _text(c['companyName']) ??
+        _text(companyDetails['legalName']) ??
+        '';
 
     List<String> toList(dynamic v) {
       if (v is List) {
@@ -51,62 +75,6 @@ class ApiCompanyRepository implements CompanyRepository {
       return const [];
     }
 
-    final events = <CompanyEvent>[];
-    if (c['events'] is List) {
-      for (final e in (c['events'] as List)) {
-        if (e is Map<String, dynamic>) {
-          events.add(CompanyEvent(
-            id: e['id']?.toString() ?? '',
-            title: e['title'] as String? ?? '',
-            date: e['date'] as String? ?? '',
-            time: e['time'] as String? ?? '',
-            detailTime: e['detailTime'] as String? ?? '',
-            location: e['location'] as String? ?? '',
-            description: e['description'] as String? ?? '',
-            address: e['address'] as String? ?? '',
-            registrationLink: e['registrationLink'] as String? ?? '',
-            imageAssets: toList(e['imageAssets']),
-          ));
-        }
-      }
-    }
-
-    final posts = <CompanyPost>[];
-    if (c['posts'] is List) {
-      for (final p in (c['posts'] as List)) {
-        if (p is Map<String, dynamic>) {
-          posts.add(CompanyPost(
-            id: p['id']?.toString() ?? '',
-            content: p['content'] as String? ?? '',
-            postedAgo: p['postedAgo'] as String? ?? '',
-            likes: (p['likes'] as num?)?.toInt() ?? 0,
-            imageAsset: p['imageAsset'] as String? ?? '',
-          ));
-        }
-      }
-    }
-
-    final vacancies = <CompanyVacancy>[];
-    if (c['vacancies'] is List) {
-      for (final v in (c['vacancies'] as List)) {
-        if (v is Map<String, dynamic>) {
-          vacancies.add(CompanyVacancy(
-            id: v['id']?.toString() ?? '',
-            jobTitle: v['title'] as String? ?? '',
-            salary: mapper.formatSalary(
-                v['salaryMin'], v['salaryMax'], v['paymentTerm']),
-            matchPercentage: (v['matchPercentage'] as num?)?.toInt() ?? 0,
-            matchLabel: v['matchLabel'] as String? ?? '',
-            location: v['location'] as String? ?? '',
-            workMode: mapper.enumTitle(v['workArrangement']),
-            employmentType: mapper.enumTitle(v['employmentType']),
-            category: mapper.enumTitle(v['industry']),
-            postedAgo: mapper.postedAgo(v['postedAt'] ?? v['createdAt']),
-          ));
-        }
-      }
-    }
-
     CulturalMatch? culturalMatch;
     final cm = c['culturalMatch'];
     if (cm is Map<String, dynamic>) {
@@ -120,27 +88,84 @@ class ApiCompanyRepository implements CompanyRepository {
     return CompanyProfile(
       id: c['id']?.toString() ?? '',
       name: name,
-      industry: mapper.enumTitle(c['industry']),
+      industry: mapper.enumTitle(c['industry'] ?? companyDetails['industry']),
       logoColor: mapper.colorFromString(name),
       logoInitials: mapper.initials(name),
-      teamSize:
-          c['teamSize'] as String? ?? c['employeeCount']?.toString() ?? '',
-      location: c['location'] as String? ?? c['city'] as String? ?? '',
-      phone: c['phone'] as String? ?? '',
-      email: c['email'] as String? ?? '',
-      website: c['website'] as String? ?? '',
-      platformDomain: c['platformDomain'] as String? ?? '',
-      otherLocations: c['otherLocations'] as String? ?? '',
-      aboutText: c['description'] as String? ?? c['about'] as String? ?? '',
+      teamSize: _text(c['teamSize']) ??
+          _text(c['employeeCount']) ??
+          _text(c['size']) ??
+          _text(companyDetails['size']) ??
+          '',
+      location: _text(c['location']) ??
+          _text(c['city']) ??
+          _text(contacts['city']) ??
+          _text(contacts['address']) ??
+          '',
+      phone: _text(c['phone']) ?? _text(contacts['phone']) ?? '',
+      email: _text(c['email']) ?? _text(contacts['email']) ?? '',
+      website: _text(c['website']) ?? _text(contacts['website']) ?? '',
+      platformDomain: _text(c['platformDomain']) ?? '',
+      otherLocations: _text(c['otherLocations']) ?? '',
+      aboutText: _text(c['description']) ??
+          _text(c['about']) ??
+          _text(profileBranding['description']) ??
+          '',
       perks: toList(c['perks'] ?? c['benefits']),
       odysseaRating: c['odysseaRating'] as String? ?? '',
       culturalMatch: culturalMatch,
-      events: events,
-      posts: posts,
       vacancies: vacancies,
       heroImageAsset: c['heroImageAsset'] as String? ?? '',
       galleryImageAssets: toList(c['galleryImageAssets']),
     );
+  }
+
+  static Map<String, dynamic> _asMap(dynamic value) {
+    if (value is Map<String, dynamic>) return value;
+    if (value is Map) return value.cast<String, dynamic>();
+    return const {};
+  }
+
+  static String? _text(dynamic value) {
+    if (value == null) return null;
+    if (value is String) return value.isEmpty ? null : value;
+    if (value is Map<String, dynamic>) {
+      return _text(value['title']) ??
+          _text(value['name']) ??
+          _text(value['value']);
+    }
+    if (value is Map) {
+      return _text(value.cast<String, dynamic>());
+    }
+    final text = value.toString();
+    return text.isEmpty ? null : text;
+  }
+
+  static List<CompanyVacancy> _parseVacancies(dynamic body) {
+    final rawItems = switch (body) {
+      {'content': final List content} => content,
+      {'data': final List data} => data,
+      List items => items,
+      _ => const [],
+    };
+
+    return rawItems.whereType<Map<String, dynamic>>().map((v) {
+      return CompanyVacancy(
+        id: v['id']?.toString() ?? '',
+        jobTitle: v['title'] as String? ?? '',
+        salary: mapper.formatSalary(
+          v['salaryMin'],
+          v['salaryMax'],
+          v['paymentTerm'],
+        ),
+        matchPercentage: (v['matchPercentage'] as num?)?.toInt() ?? 0,
+        matchLabel: v['matchLabel'] as String? ?? '',
+        location: v['location'] as String? ?? '',
+        workMode: mapper.enumTitle(v['workArrangement']),
+        employmentType: mapper.enumTitle(v['employmentType']),
+        category: mapper.enumTitle(v['industry']),
+        postedAgo: mapper.postedAgo(v['postedAt'] ?? v['createdAt']),
+      );
+    }).toList();
   }
 }
 

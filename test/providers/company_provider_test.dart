@@ -18,13 +18,35 @@ void main() {
 
   test('company profile uses optional auth to avoid session-expired redirects',
       () async {
-    when(() => api.getOptionalAuth('/companies/company-1')).thenAnswer(
+    when(() => api.getOptionalAuth('/company/company-1')).thenAnswer(
       (_) async => http.Response('Unauthorized', 401),
     );
 
     await expectLater(repo.getCompany('company-1'), throwsA(anything));
 
-    verify(() => api.getOptionalAuth('/companies/company-1')).called(1);
-    verifyNever(() => api.get('/companies/company-1'));
+    verify(() => api.getOptionalAuth('/company/company-1')).called(1);
+    verifyNever(() => api.get('/company/company-1'));
+  });
+
+  test('company profile loads vacancies from the dedicated endpoint', () async {
+    when(() => api.getOptionalAuth('/company/company-1')).thenAnswer(
+      (_) async => http.Response('{"id":"company-1","name":"Acme Corp"}', 200),
+    );
+    when(() => api.getOptionalAuth('/company/company-1/vacancies')).thenAnswer(
+      (_) async => http.Response(
+        '{"content":[{"id":7,"title":"Backend Developer"}]}',
+        200,
+      ),
+    );
+
+    final company = await repo.getCompany('company-1');
+
+    expect(company.name, 'Acme Corp');
+    expect(company.vacancies.single.id, '7');
+    expect(company.vacancies.single.jobTitle, 'Backend Developer');
+    expect(company.events, isEmpty);
+    expect(company.posts, isEmpty);
+    verify(() => api.getOptionalAuth('/company/company-1')).called(1);
+    verify(() => api.getOptionalAuth('/company/company-1/vacancies')).called(1);
   });
 }
