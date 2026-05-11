@@ -12,10 +12,12 @@ class ChooseVerifyMethodScreen extends ConsumerStatefulWidget {
   const ChooseVerifyMethodScreen({super.key});
 
   @override
-  ConsumerState<ChooseVerifyMethodScreen> createState() => _ChooseVerifyMethodScreenState();
+  ConsumerState<ChooseVerifyMethodScreen> createState() =>
+      _ChooseVerifyMethodScreenState();
 }
 
-class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScreen> {
+class _ChooseVerifyMethodScreenState
+    extends ConsumerState<ChooseVerifyMethodScreen> {
   String? _selectedMethod;
   bool _rememberChoice = false;
   bool _isLoading = false;
@@ -74,7 +76,8 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
                     setState(() => _isLoading = true);
                     try {
                       final method = _selectedMethod!;
-                      ref.read(registrationProvider.notifier)
+                      ref
+                          .read(registrationProvider.notifier)
                           .setVerifyMethod(method, remember: _rememberChoice);
                       final regState = ref.read(registrationProvider);
                       final repo = ref.read(authRepositoryProvider);
@@ -88,7 +91,9 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
                           phone: regState.phone,
                           verifyMethod: method,
                           techComfort: regState.techLevel,
-                          systemLanguage: regState.language.isNotEmpty ? regState.language : 'en',
+                          systemLanguage: regState.language.isNotEmpty
+                              ? regState.language
+                              : 'en',
                         );
                       } catch (signupError) {
                         // Account already created in a previous attempt.
@@ -96,7 +101,9 @@ class _ChooseVerifyMethodScreenState extends ConsumerState<ChooseVerifyMethodScr
                         final detail = signupError is AuthException
                             ? (signupError.internalDetail ?? '').toLowerCase()
                             : signupError.toString().toLowerCase();
-                        if (detail.contains('already') || detail.contains('exists') || detail.contains('duplicate')) {
+                        if (detail.contains('already') ||
+                            detail.contains('exists') ||
+                            detail.contains('duplicate')) {
                           await repo.updatePhone(regState.phone);
                           // Best-effort — user can resend from the OTP screen.
                           try {

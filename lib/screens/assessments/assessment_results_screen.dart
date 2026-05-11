@@ -10,13 +10,39 @@ import '../../routes.dart';
 import '../../widgets/assessment_card.dart';
 
 String _formatDate(DateTime dt) {
-  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  return '${dt.day.toString().padLeft(2,'0')}-${months[dt.month-1]}-${dt.year}';
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+  return '${dt.day.toString().padLeft(2, '0')}-${months[dt.month - 1]}-${dt.year}';
 }
 
 String _formatMonthYear(DateTime dt) {
-  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  return '${months[dt.month-1]} ${dt.year}';
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+  return '${months[dt.month - 1]} ${dt.year}';
 }
 
 class AssessmentResultsScreen extends ConsumerWidget {
@@ -75,8 +101,8 @@ class AssessmentResultsScreen extends ConsumerWidget {
                   if (recommended.isNotEmpty) ...[
                     const SizedBox(height: 20),
                     Text(l.assessmentsRecommendedForYou,
-                        style: IthakiTheme.bodySmall
-                            .copyWith(fontWeight: FontWeight.w700, fontSize: 16)),
+                        style: IthakiTheme.bodySmall.copyWith(
+                            fontWeight: FontWeight.w700, fontSize: 16)),
                     const SizedBox(height: 4),
                     Text(
                       l.assessmentsRecommendedSubtitle,
@@ -252,7 +278,8 @@ class _SkillRow extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(skill.name, style: IthakiTheme.bodySmall),
-              Text('${skill.score.toStringAsFixed(skill.score % 1 == 0 ? 0 : 1)}/${skill.maxScore.toInt()}',
+              Text(
+                  '${skill.score.toStringAsFixed(skill.score % 1 == 0 ? 0 : 1)}/${skill.maxScore.toInt()}',
                   style: IthakiTheme.bodySmall
                       .copyWith(fontWeight: FontWeight.w600)),
             ],

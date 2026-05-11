@@ -3,25 +3,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
-import '../../constants/nav_items.dart';
 import '../../l10n/app_localizations.dart';
-import '../../mixins/panel_menu_mixin.dart';
 import '../../models/job_detail_models.dart';
 import '../../providers/home_provider.dart';
 import '../../providers/job_detail_provider.dart';
 import '../../providers/job_search_provider.dart';
-import '../../providers/profile_provider.dart';
 import '../../providers/tour_provider.dart';
-import '../../repositories/auth_repository.dart';
 import '../../routes.dart';
-import '../../widgets/app_nav_drawer.dart';
-import '../../widgets/profile_menu_panel.dart';
+import '../../utils/ithaki_bottom_sheet.dart';
+import '../../widgets/main_panel_scaffold.dart';
 import '../applications/widgets/apply_bottom_sheet.dart';
-import 'widgets/report_job_sheet.dart';
-import 'widgets/set_reminder_sheet.dart';
 import 'widgets/job_detail_body.dart';
 import 'widgets/job_detail_primitives.dart';
 import 'widgets/job_detail_sticky_bar.dart';
+import 'widgets/report_job_sheet.dart';
+import 'widgets/set_reminder_sheet.dart';
 
 class JobSearchDetailScreen extends ConsumerStatefulWidget {
   final String jobId;
@@ -32,24 +28,10 @@ class JobSearchDetailScreen extends ConsumerStatefulWidget {
       _JobSearchDetailScreenState();
 }
 
-class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
-    with TickerProviderStateMixin {
-  late final PanelMenuController _panels;
+class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen> {
   bool _announcementDismissed = false;
   int? _lastAutoOpenedTourStep;
   final _shareKey = GlobalKey();
-
-  @override
-  void initState() {
-    super.initState();
-    _panels = PanelMenuController(setState)..init(this);
-  }
-
-  @override
-  void dispose() {
-    _panels.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,162 +48,117 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
     final interactionState = ref.watch(
       jobDetailInteractionProvider(widget.jobId),
     );
-    final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
     _syncTourApplySheet(tourState, tourKeys);
 
     return detailAsync.when(
-      loading: () => _shell(context, homeData, topOffset, isSaved,
-          child: const Center(child: CircularProgressIndicator())),
-      error: (_, __) => _shell(context, homeData, topOffset, isSaved,
-          child: Center(
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-              Text(l.jobLoadError,
-                  style: const TextStyle(
-                      color: IthakiTheme.textPrimary, fontSize: 16)),
+      loading: () => _shell(
+        context,
+        homeData,
+        isSaved,
+        child: const Center(child: CircularProgressIndicator()),
+      ),
+      error: (_, __) => _shell(
+        context,
+        homeData,
+        isSaved,
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                l.jobLoadError,
+                style: const TextStyle(
+                  color: IthakiTheme.textPrimary,
+                  fontSize: 16,
+                ),
+              ),
               const SizedBox(height: 16),
-              IthakiButton(l.tryAgain,
-                  onPressed: () =>
-                      ref.invalidate(jobDetailProvider(widget.jobId))),
-            ]),
-          )),
-      data: (detail) => _shell(context, homeData, topOffset, isSaved,
+              IthakiButton(
+                l.tryAgain,
+                onPressed: () =>
+                    ref.invalidate(jobDetailProvider(widget.jobId)),
+              ),
+            ],
+          ),
+        ),
+      ),
+      data: (detail) => _shell(
+        context,
+        homeData,
+        isSaved,
+        detail: detail,
+        child: JobDetailBody(
           detail: detail,
-          child: JobDetailBody(
-            detail: detail,
-            tourState: tourState,
-            tourKeys: tourKeys,
-            isSaved: isSaved,
-            hasReminder: interactionState.hasReminder,
-            isNotInterested: interactionState.isNotInterested,
-            announcementDismissed: _announcementDismissed,
-            onDismissAnnouncement: () =>
-                setState(() => _announcementDismissed = true),
-            onSave: () => _toggleSave(context, isSaved),
-            onApply: () => _showApplySheet(context),
-            onNotInterested: () => _onNotInterested(context),
-            onUndoNotInterested: () => ref
-                .read(jobDetailInteractionProvider(widget.jobId).notifier)
-                .undoNotInterested(),
-            onDeadlineReminder: () => _showReminderSheet(context, detail),
-            onDeleteReminder: () => ref
-                .read(jobDetailInteractionProvider(widget.jobId).notifier)
-                .deleteReminder(),
-            onReport: () => _showReportSheet(context),
-            onShare: () => _showShareMenu(context),
-            onAskCareerAssistant: () => context.push(Routes.careerAssistant),
-          )),
+          tourState: tourState,
+          tourKeys: tourKeys,
+          isSaved: isSaved,
+          hasReminder: interactionState.hasReminder,
+          isNotInterested: interactionState.isNotInterested,
+          announcementDismissed: _announcementDismissed,
+          onDismissAnnouncement: () =>
+              setState(() => _announcementDismissed = true),
+          onSave: () => _toggleSave(context, isSaved),
+          onApply: () => _showApplySheet(context),
+          onNotInterested: () => _onNotInterested(context),
+          onUndoNotInterested: () => ref
+              .read(jobDetailInteractionProvider(widget.jobId).notifier)
+              .undoNotInterested(),
+          onDeadlineReminder: () => _showReminderSheet(context, detail),
+          onDeleteReminder: () => ref
+              .read(jobDetailInteractionProvider(widget.jobId).notifier)
+              .deleteReminder(),
+          onReport: () => _showReportSheet(context),
+          onShare: () => _showShareMenu(context),
+          onAskCareerAssistant: () => context.push(Routes.careerAssistant),
+        ),
+      ),
     );
   }
 
   Widget _shell(
     BuildContext context,
     dynamic homeData,
-    double topOffset,
     bool isSaved, {
     JobDetail? detail,
     required Widget child,
   }) {
-    return Scaffold(
-      backgroundColor: IthakiTheme.backgroundViolet,
-      extendBodyBehindAppBar: true,
-      appBar: IthakiAppBar(
-        showMenuAndAvatar: true,
-        showBackButton: true,
-        menuOpen: _panels.menuOpen,
-        profileOpen: _panels.profileOpen,
-        avatarInitials: homeData?.userInitials ?? 'CI',
-        avatarUrl: homeData?.userPhotoUrl,
-        onNotificationsPressed: () =>
-            context.push(Routes.settingsNotifications),
-        onMenuPressed: _panels.toggleMenu,
-        onAvatarPressed: _panels.toggleProfile,
-      ),
-      body: Stack(children: [
-        child,
-        if (detail != null)
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: SafeArea(
-              top: false,
-              child: JobDetailStickyBar(
-                isSaved: isSaved,
-                isClosed: detail.isClosed,
-                onApply: () => _showApplySheet(context),
-                onSave: () => _toggleSave(context, isSaved),
-              ),
-            ),
-          ),
-        if (_panels.menuOpen || _panels.profileOpen)
-          Positioned.fill(
-            child: GestureDetector(
-              onTap: () {
-                _panels.closeMenu();
-                _panels.closeProfile();
-              },
-              child: const ColoredBox(color: Colors.transparent),
-            ),
-          ),
-        if (_panels.menuOpen ||
-            _panels.menuCtrl.status != AnimationStatus.dismissed)
-          _panel(
-              topOffset,
-              SlideTransition(
-                position: _panels.slideAnim,
-                child: AppNavDrawer(
-                  currentRoute: Routes.jobSearch,
-                  profileProgress: ref.watch(profileCompletionProvider),
-                  items: buildNavItems(AppLocalizations.of(context)!),
-                  onItemTap: (item) {
-                    _panels.closeMenu();
-                    context.go(item.route);
-                  },
+    return MainPanelScaffold(
+      currentRoute: Routes.jobSearch,
+      showBackButton: true,
+      avatarInitials: homeData?.userInitials ?? 'CI',
+      avatarUrl: homeData?.userPhotoUrl,
+      bodyBuilder: (context, ref, topOffset) => child,
+      overlayBuilder: detail == null
+          ? null
+          : (context, ref, topOffset) => [
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: SafeArea(
+                    top: false,
+                    child: JobDetailStickyBar(
+                      isSaved: isSaved,
+                      isClosed: detail.isClosed,
+                      onApply: () => _showApplySheet(context),
+                      onSave: () => _toggleSave(context, isSaved),
+                    ),
+                  ),
                 ),
-              )),
-        if (_panels.profileOpen ||
-            _panels.profileCtrl.status != AnimationStatus.dismissed)
-          _panel(
-              topOffset,
-              SlideTransition(
-                position: _panels.profileSlideAnim,
-                child: ProfileMenuPanel(
-                  onItemTap: (item) {
-                    _panels.closeProfile();
-                    navigateToProfileMenuRoute(context, item);
-                  },
-                  onLogOut: () {
-                    _panels.closeProfile();
-                    ref.read(authRepositoryProvider).logout().whenComplete(() {
-                      resetProfileProviders(ref);
-                      if (context.mounted) context.go(Routes.root);
-                    });
-                  },
-                ),
-              )),
-      ]),
+              ],
     );
   }
-
-  Positioned _panel(double topOffset, Widget child) => Positioned(
-        top: topOffset - 14,
-        left: 16,
-        right: 16,
-        bottom: 40,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(30),
-          child: child,
-        ),
-      );
 
   void _toggleSave(BuildContext context, bool isSaved) {
     final l = AppLocalizations.of(context)!;
     ref.read(jobSearchProvider.notifier).toggleSaved(widget.jobId);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(isSaved ? l.jobRemovedFromSaved : l.jobSavedMessage),
-      duration: const Duration(seconds: 3),
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(isSaved ? l.jobRemovedFromSaved : l.jobSavedMessage),
+        duration: const Duration(seconds: 3),
+      ),
+    );
   }
 
   void _syncTourApplySheet(TourState? tourState, Map<int, GlobalKey> tourKeys) {
@@ -230,9 +167,7 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
       _lastAutoOpenedTourStep = null;
       return;
     }
-    if (_lastAutoOpenedTourStep == step) {
-      return;
-    }
+    if (_lastAutoOpenedTourStep == step) return;
     _lastAutoOpenedTourStep = step;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
@@ -242,10 +177,8 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
 
   Future<void> _showApplySheet(BuildContext context,
       {Key? highlightKey}) async {
-    await showModalBottomSheet<void>(
+    await showIthakiBottomSheet<void>(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (_) => KeyedSubtree(
         key: highlightKey,
         child: const ApplyBottomSheet(),
@@ -258,24 +191,26 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
     ref
         .read(jobDetailInteractionProvider(widget.jobId).notifier)
         .markNotInterested();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(l.jobPostRemoved),
-      duration: const Duration(seconds: 5),
-      action: SnackBarAction(
-        label: l.undo,
-        onPressed: () => ref
-            .read(jobDetailInteractionProvider(widget.jobId).notifier)
-            .undoNotInterested(),
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(l.jobPostRemoved),
+        duration: const Duration(seconds: 5),
+        action: SnackBarAction(
+          label: l.undo,
+          onPressed: () => ref
+              .read(jobDetailInteractionProvider(widget.jobId).notifier)
+              .undoNotInterested(),
+        ),
       ),
-    ));
+    );
   }
 
   Future<void> _showReminderSheet(
-      BuildContext context, JobDetail detail) async {
-    final set = await showModalBottomSheet<bool>(
+    BuildContext context,
+    JobDetail detail,
+  ) async {
+    final set = await showIthakiBottomSheet<bool>(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (_) => SetReminderSheet(
         jobTitle: detail.jobTitle,
         salary: detail.salary,
@@ -288,25 +223,27 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
       ref
           .read(jobDetailInteractionProvider(widget.jobId).notifier)
           .setReminder();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(l.deadlineReminderSet),
-        duration: const Duration(seconds: 4),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l.deadlineReminderSet),
+          duration: const Duration(seconds: 4),
+        ),
+      );
     }
   }
 
   Future<void> _showReportSheet(BuildContext context) async {
-    final reported = await showModalBottomSheet<bool>(
+    final reported = await showIthakiBottomSheet<bool>(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (_) => const ReportJobSheet(),
     );
     if (reported == true && context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(AppLocalizations.of(context)!.jobReportedMessage),
-        duration: const Duration(seconds: 3),
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.jobReportedMessage),
+          duration: const Duration(seconds: 3),
+        ),
+      );
     }
   }
 
@@ -325,20 +262,21 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen>
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       items: [
         PopupMenuItem(
-            value: 'link',
-            child: JobDetailShareOption(icon: 'resume', label: l.copyLink)),
+          value: 'link',
+          child: JobDetailShareOption(icon: 'resume', label: l.copyLink),
+        ),
         PopupMenuItem(
-            value: 'whatsapp',
-            child:
-                JobDetailShareOption(icon: 'phone', label: l.shareWhatsappSms)),
+          value: 'whatsapp',
+          child: JobDetailShareOption(icon: 'phone', label: l.shareWhatsappSms),
+        ),
         PopupMenuItem(
-            value: 'email',
-            child:
-                JobDetailShareOption(icon: 'envelope', label: l.shareInEmail)),
+          value: 'email',
+          child: JobDetailShareOption(icon: 'envelope', label: l.shareInEmail),
+        ),
         PopupMenuItem(
-            value: 'linkedin',
-            child:
-                JobDetailShareOption(icon: 'team', label: l.shareOnLinkedIn)),
+          value: 'linkedin',
+          child: JobDetailShareOption(icon: 'team', label: l.shareOnLinkedIn),
+        ),
       ],
     );
   }

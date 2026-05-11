@@ -85,8 +85,8 @@ class InvitationTopCard extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const IthakiIcon('calendar', size: 16,
-                      color: IthakiTheme.primaryPurple),
+                  const IthakiIcon('calendar',
+                      size: 16, color: IthakiTheme.primaryPurple),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(

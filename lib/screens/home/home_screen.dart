@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+
+import '../../l10n/app_localizations.dart';
 import '../../providers/home_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../providers/tour_provider.dart';
-import '../../repositories/auth_repository.dart';
-import '../../widgets/app_nav_drawer.dart';
-import '../../widgets/profile_menu_panel.dart';
-import '../../constants/nav_items.dart';
-import '../../mixins/panel_menu_mixin.dart';
+import '../../routes.dart';
 import '../../tour/tour_welcome_modal.dart';
-import 'widgets/home_greeting_header.dart';
-import 'widgets/home_search_section.dart';
-import 'widgets/home_jobs_section.dart';
+import '../../widgets/app_nav_drawer.dart';
+import '../../widgets/main_panel_scaffold.dart';
 import 'widgets/home_courses_section.dart';
+import 'widgets/home_greeting_header.dart';
+import 'widgets/home_jobs_section.dart';
 import 'widgets/home_news_section.dart';
-import 'widgets/home_questions_section.dart';
 import 'widgets/home_profile_completion_card.dart';
+import 'widgets/home_questions_section.dart';
+import 'widgets/home_search_section.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -28,24 +26,15 @@ class HomeScreen extends ConsumerStatefulWidget {
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen>
-    with TickerProviderStateMixin {
-  late final PanelMenuController _panels;
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   final _scrollController = ScrollController();
-  String _selectedRoute = '/home';
+  String _selectedRoute = Routes.home;
   bool _welcomeModalScheduled = false;
   int? _lastTourScrollStep;
 
   @override
-  void initState() {
-    super.initState();
-    _panels = PanelMenuController(setState)..init(this);
-  }
-
-  @override
   void dispose() {
     _scrollController.dispose();
-    _panels.dispose();
     super.dispose();
   }
 
@@ -54,9 +43,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         !tourState.tourCompleted &&
         tourState.currentStep == 0 &&
         tourState.welcomeVisible;
-    if (!shouldShow || _welcomeModalScheduled) {
-      return;
-    }
+    if (!shouldShow || _welcomeModalScheduled) return;
     _welcomeModalScheduled = true;
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) return;
@@ -75,9 +62,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       _lastTourScrollStep = null;
       return;
     }
-    if (_lastTourScrollStep == step) {
-      return;
-    }
+    if (_lastTourScrollStep == step) return;
     _lastTourScrollStep = step;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
@@ -111,8 +96,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   Widget _buildError(Object error) => Scaffold(
         backgroundColor: IthakiTheme.backgroundViolet,
         body: Center(
-          child: Text(error.toString(),
-              style: const TextStyle(color: IthakiTheme.textPrimary)),
+          child: Text(
+            error.toString(),
+            style: const TextStyle(color: IthakiTheme.textPrimary),
+          ),
         ),
       );
 
@@ -124,7 +111,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           orElse: () => null,
         );
     final tourKeys = ref.watch(tourKeysProvider);
-    final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
     final l10n = AppLocalizations.of(context)!;
 
     _maybeShowWelcomeModal(tourState);
@@ -133,214 +119,143 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     return ref.watch(homeProvider).when(
           loading: _buildLoading,
           error: (e, _) => _buildError(e),
-          data: (homeData) => Scaffold(
-            backgroundColor: IthakiTheme.backgroundViolet,
-            extendBodyBehindAppBar: true,
-            appBar: IthakiAppBar(
-              showMenuAndAvatar: true,
-              menuOpen: _panels.menuOpen,
-              profileOpen: _panels.profileOpen,
-              avatarInitials: homeData.userInitials,
-              avatarUrl: homeData.userPhotoUrl,
-              onNotificationsPressed: () =>
-                  context.push(Routes.settingsNotifications),
-              onMenuPressed: _panels.toggleMenu,
-              onAvatarPressed: _panels.toggleProfile,
-            ),
-            body: Stack(
-              children: [
-                // ─── Main content ─────────────────────────────────────
-                SingleChildScrollView(
-                  controller: _scrollController,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      HomeGreetingHeader(topOffset: topOffset),
-                      const SizedBox(height: 12),
-                      if (tourState?.tourCompleted ?? false) ...[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: IthakiGradientBanner(
-                            title: l10n.homeNeedRefresher,
-                            subtitle: l10n.homeRestartProductTourSubtitle,
-                            buttonLabel: l10n.homeRestartProductTour,
-                            buttonIcon: const IthakiIcon(
-                              'rocket',
-                              size: 18,
-                              color: IthakiTheme.backgroundWhite,
-                            ),
-                            onButtonPressed: () =>
-                                ref.read(tourProvider.notifier).startTour(),
-                            backgroundImage: const DecorationImage(
-                              image:
-                                  AssetImage('assets/images/ai_banner_bg.png'),
-                              fit: BoxFit.cover,
-                            ),
+          data: (homeData) => MainPanelScaffold(
+            currentRoute: _selectedRoute,
+            avatarInitials: homeData.userInitials,
+            avatarUrl: homeData.userPhotoUrl,
+            onNavItemTap: (context, NavItem item) {
+              setState(() => _selectedRoute = item.route);
+              if (item.route != Routes.home) context.go(item.route);
+            },
+            bodyBuilder: (context, ref, topOffset) => SingleChildScrollView(
+              controller: _scrollController,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  HomeGreetingHeader(topOffset: topOffset),
+                  const SizedBox(height: 12),
+                  if (tourState?.tourCompleted ?? false) ...[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: IthakiGradientBanner(
+                        title: l10n.homeNeedRefresher,
+                        subtitle: l10n.homeRestartProductTourSubtitle,
+                        buttonLabel: l10n.homeRestartProductTour,
+                        buttonIcon: const IthakiIcon(
+                          'rocket',
+                          size: 18,
+                          color: IthakiTheme.backgroundWhite,
+                        ),
+                        onButtonPressed: () =>
+                            ref.read(tourProvider.notifier).startTour(),
+                        backgroundImage: const DecorationImage(
+                          image: AssetImage('assets/images/ai_banner_bg.png'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                  ],
+                  if (profileCompletion < 1.0) ...[
+                    const HomeProfileCompletionCard(),
+                    const SizedBox(height: 12),
+                  ],
+                  IthakiCard(
+                    key: tourKeys[1],
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    child: const HomeSearchSection(),
+                  ),
+                  const SizedBox(height: 12),
+                  IthakiCard(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    child: const HomeJobsSection(),
+                  ),
+                  const SizedBox(height: 12),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: IthakiGradientBanner(
+                      title: l10n.bannerNotSureJob,
+                      subtitle: l10n.homeCareerAssistantBannerSubtitle,
+                      buttonLabel: l10n.askCareerAssistant,
+                      buttonIcon: const IthakiIcon(
+                        'ai',
+                        size: 18,
+                        color: IthakiTheme.backgroundWhite,
+                      ),
+                      onButtonPressed: () => context.go(Routes.careerAssistant),
+                      backgroundImage: const DecorationImage(
+                        image: AssetImage('assets/images/ai_banner_bg.png'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  IthakiCard(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    child: IthakiStatCard(
+                      title: l10n.homeCvSuccess,
+                      rows: [
+                        IthakiStatRowData(
+                          icon: const IthakiIcon(
+                            'eye',
+                            size: 18,
+                            color: IthakiTheme.primaryPurple,
                           ),
+                          label: l10n.homeStatViews,
+                          value: homeData.cvStats.views,
+                          change: homeData.cvStats.viewsChange,
                         ),
-                        const SizedBox(height: 12),
-                      ],
-                      if (profileCompletion < 1.0) ...[
-                        const HomeProfileCompletionCard(),
-                        const SizedBox(height: 12),
-                      ],
-                      IthakiCard(
-                        key: tourKeys[1],
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        child: const HomeSearchSection(),
-                      ),
-                      const SizedBox(height: 12),
-                      IthakiCard(
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        child: const HomeJobsSection(),
-                      ),
-                      const SizedBox(height: 12),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: IthakiGradientBanner(
-                          title: l10n.bannerNotSureJob,
-                          subtitle: l10n.homeCareerAssistantBannerSubtitle,
-                          buttonLabel: l10n.askCareerAssistant,
-                          buttonIcon: const IthakiIcon('ai',
-                              size: 18, color: IthakiTheme.backgroundWhite),
-                          onButtonPressed: () =>
-                              context.go(Routes.careerAssistant),
-                          backgroundImage: const DecorationImage(
-                            image: AssetImage('assets/images/ai_banner_bg.png'),
-                            fit: BoxFit.cover,
+                        IthakiStatRowData(
+                          icon: const IthakiIcon(
+                            'envelope',
+                            size: 18,
+                            color: IthakiTheme.primaryPurple,
                           ),
+                          label: l10n.homeStatInvitations,
+                          value: homeData.cvStats.invitations,
+                          change: homeData.cvStats.invitationsChange,
                         ),
-                      ),
-                      const SizedBox(height: 12),
-                      IthakiCard(
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        child: IthakiStatCard(
-                          title: l10n.homeCvSuccess,
-                          rows: [
-                            IthakiStatRowData(
-                              icon: const IthakiIcon('eye',
-                                  size: 18, color: IthakiTheme.primaryPurple),
-                              label: l10n.homeStatViews,
-                              value: homeData.cvStats.views,
-                              change: homeData.cvStats.viewsChange,
-                            ),
-                            IthakiStatRowData(
-                              icon: const IthakiIcon('envelope',
-                                  size: 18, color: IthakiTheme.primaryPurple),
-                              label: l10n.homeStatInvitations,
-                              value: homeData.cvStats.invitations,
-                              change: homeData.cvStats.invitationsChange,
-                            ),
-                            IthakiStatRowData(
-                              icon: const IthakiIcon('applications',
-                                  size: 22, color: IthakiTheme.primaryPurple),
-                              label: l10n.homeStatApplicationsSent,
-                              value: homeData.cvStats.applicationsSent,
-                            ),
-                            IthakiStatRowData(
-                              icon: const IthakiIcon('rocket',
-                                  size: 22, color: IthakiTheme.primaryPurple),
-                              label: l10n.homeStatInterviews,
-                              value: homeData.cvStats.interviews,
-                            ),
-                          ],
+                        IthakiStatRowData(
+                          icon: const IthakiIcon(
+                            'applications',
+                            size: 22,
+                            color: IthakiTheme.primaryPurple,
+                          ),
+                          label: l10n.homeStatApplicationsSent,
+                          value: homeData.cvStats.applicationsSent,
                         ),
-                      ),
-                      const SizedBox(height: 12),
-                      IthakiCard(
-                        key: tourKeys[12],
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        child: const HomeCoursesSection(),
-                      ),
-                      const SizedBox(height: 12),
-                      IthakiCard(
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        child: const HomeNewsSection(),
-                      ),
-                      const SizedBox(height: 12),
-                      IthakiCard(
-                        margin: const EdgeInsets.symmetric(horizontal: 16),
-                        child: const HomeQuestionsSection(),
-                      ),
-                      const SizedBox(height: 12),
-                      SizedBox(
-                          height: MediaQuery.paddingOf(context).bottom + 16),
-                    ],
-                  ),
-                ),
-
-                // ─── Dim overlay ──────────────────────────────────────
-                if (_panels.menuOpen || _panels.profileOpen)
-                  Positioned.fill(
-                    child: GestureDetector(
-                      onTap: () {
-                        _panels.closeMenu();
-                        _panels.closeProfile();
-                      },
-                      child: const ColoredBox(color: Colors.transparent),
+                        IthakiStatRowData(
+                          icon: const IthakiIcon(
+                            'rocket',
+                            size: 22,
+                            color: IthakiTheme.primaryPurple,
+                          ),
+                          label: l10n.homeStatInterviews,
+                          value: homeData.cvStats.interviews,
+                        ),
+                      ],
                     ),
                   ),
-
-                // ─── Nav menu panel ───────────────────────────────────
-                if (_panels.menuOpen ||
-                    _panels.menuCtrl.status != AnimationStatus.dismissed)
-                  Positioned(
-                    top: topOffset - 14,
-                    left: 16,
-                    right: 16,
-                    bottom: 40,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: SlideTransition(
-                        position: _panels.slideAnim,
-                        child: AppNavDrawer(
-                          currentRoute: _selectedRoute,
-                          profileProgress: ref.watch(profileCompletionProvider),
-                          items: buildNavItems(AppLocalizations.of(context)!),
-                          onItemTap: (item) {
-                            setState(() => _selectedRoute = item.route);
-                            _panels.closeMenu();
-                            if (item.route != Routes.home) {
-                              context.go(item.route);
-                            }
-                          },
-                        ),
-                      ),
-                    ),
+                  const SizedBox(height: 12),
+                  IthakiCard(
+                    key: tourKeys[12],
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    child: const HomeCoursesSection(),
                   ),
-
-                // ─── Profile menu panel ───────────────────────────────
-                if (_panels.profileOpen ||
-                    _panels.profileCtrl.status != AnimationStatus.dismissed)
-                  Positioned(
-                    top: topOffset - 14,
-                    left: 16,
-                    right: 16,
-                    bottom: 40,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: SlideTransition(
-                        position: _panels.profileSlideAnim,
-                        child: ProfileMenuPanel(
-                          onItemTap: (item) {
-                            _panels.closeProfile();
-                            navigateToProfileMenuRoute(context, item);
-                          },
-                          onLogOut: () {
-                            _panels.closeProfile();
-                            ref
-                                .read(authRepositoryProvider)
-                                .logout()
-                                .whenComplete(() {
-                              resetProfileProviders(ref);
-                              if (context.mounted) context.go(Routes.root);
-                            });
-                          },
-                        ),
-                      ),
-                    ),
+                  const SizedBox(height: 12),
+                  IthakiCard(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    child: const HomeNewsSection(),
                   ),
-              ],
+                  const SizedBox(height: 12),
+                  IthakiCard(
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
+                    child: const HomeQuestionsSection(),
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(height: MediaQuery.paddingOf(context).bottom + 16),
+                ],
+              ),
             ),
           ),
         );

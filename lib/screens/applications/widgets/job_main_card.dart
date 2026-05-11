@@ -76,7 +76,8 @@ class JobMainCard extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _SectionContent(title: l.aboutRoleTitle, body: detail.description),
+                _SectionContent(
+                    title: l.aboutRoleTitle, body: detail.description),
                 const _Divider(),
                 _SectionTitle(l.requirementsTitle),
                 const SizedBox(height: 8),
@@ -87,14 +88,18 @@ class JobMainCard extends StatelessWidget {
                 Wrap(
                   spacing: 6,
                   runSpacing: 6,
-                  children: detail.skills.map((s) => _SkillChip(label: s)).toList(),
+                  children:
+                      detail.skills.map((s) => _SkillChip(label: s)).toList(),
                 ),
                 const _Divider(),
-                _SectionContent(title: l.communicationHeading, body: detail.communication),
+                _SectionContent(
+                    title: l.communicationHeading, body: detail.communication),
                 const _Divider(),
-                _SectionContent(title: l.niceToHaveTitle, body: detail.niceToHave),
+                _SectionContent(
+                    title: l.niceToHaveTitle, body: detail.niceToHave),
                 const _Divider(),
-                _SectionContent(title: l.whatWeOfferTitle, body: detail.whatWeOffer),
+                _SectionContent(
+                    title: l.whatWeOfferTitle, body: detail.whatWeOffer),
               ],
             );
           }),

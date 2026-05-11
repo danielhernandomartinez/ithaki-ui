@@ -62,13 +62,19 @@ class ApplicationDetailCompanyCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          const Divider(height: 1, thickness: 1, color: IthakiTheme.borderLight),
+          const Divider(
+              height: 1, thickness: 1, color: IthakiTheme.borderLight),
           const SizedBox(height: 12),
-          _CompanyInfoRow(label: l.teamTitle, icon: 'team', value: company.teamSize),
+          _CompanyInfoRow(
+              label: l.teamTitle, icon: 'team', value: company.teamSize),
           const SizedBox(height: 8),
-          _CompanyInfoRow(label: l.locationInfoLabel, icon: 'location', value: company.location),
+          _CompanyInfoRow(
+              label: l.locationInfoLabel,
+              icon: 'location',
+              value: company.location),
           const SizedBox(height: 12),
-          const Divider(height: 1, thickness: 1, color: IthakiTheme.borderLight),
+          const Divider(
+              height: 1, thickness: 1, color: IthakiTheme.borderLight),
           const SizedBox(height: 12),
           Text(company.description,
               style: const TextStyle(

@@ -106,7 +106,8 @@ JobDetail enrichJobDetail(
       logoColor: apiDetail.company.name.isNotEmpty
           ? apiDetail.company.logoColor
           : companyColor,
-      logoInitials: _pickString(apiDetail.company.logoInitials, companyInitials),
+      logoInitials:
+          _pickString(apiDetail.company.logoInitials, companyInitials),
       totalReviews: apiDetail.company.totalReviews,
       averageRating: apiDetail.company.averageRating,
       description: apiDetail.company.description,

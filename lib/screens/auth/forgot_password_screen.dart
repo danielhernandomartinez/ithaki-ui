@@ -57,7 +57,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             controller: _emailController,
             suffixIcon: const Padding(
               padding: EdgeInsets.all(12),
-              child: IthakiIcon('envelope', size: 18, color: IthakiTheme.softGraphite),
+              child: IthakiIcon('envelope',
+                  size: 18, color: IthakiTheme.softGraphite),
             ),
             keyboardType: TextInputType.emailAddress,
             onChanged: (_) => setState(() {}),
@@ -66,9 +67,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           IthakiButton(
             l.sendResetLink,
             isEnabled: _emailValid,
-            onPressed: _emailValid
-                ? () => context.push(Routes.resetLinkSent)
-                : null,
+            onPressed:
+                _emailValid ? () => context.push(Routes.resetLinkSent) : null,
           ),
           const SizedBox(height: 32),
         ],

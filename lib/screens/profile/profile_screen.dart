@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+
 import '../../l10n/app_localizations.dart';
 import '../../providers/profile_provider.dart';
 import '../../providers/tour_provider.dart';
-import '../../repositories/auth_repository.dart';
-import '../../constants/nav_items.dart';
-import '../../widgets/app_nav_drawer.dart';
-import '../../widgets/profile_menu_panel.dart';
-import '../../mixins/panel_menu_mixin.dart';
+import '../../routes.dart';
+import '../../widgets/main_panel_scaffold.dart';
 import '../../widgets/profile_header_card.dart';
 import '../../widgets/profile_tab_bar.dart';
-
-import 'tabs/profile_job_preferences_tab.dart';
 import 'tabs/profile_about_me_tab.dart';
-import 'tabs/profile_skills_tab.dart';
-import 'tabs/profile_work_experience_tab.dart';
 import 'tabs/profile_education_tab.dart';
 import 'tabs/profile_files_tab.dart';
+import 'tabs/profile_job_preferences_tab.dart';
+import 'tabs/profile_skills_tab.dart';
 import 'tabs/profile_values_tab.dart';
+import 'tabs/profile_work_experience_tab.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -29,9 +25,7 @@ class ProfileScreen extends ConsumerStatefulWidget {
   ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends ConsumerState<ProfileScreen>
-    with TickerProviderStateMixin {
-  late final PanelMenuController _panels;
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   int _tabIndex = 0;
 
   List<String> _buildTabs(AppLocalizations l) => [
@@ -43,18 +37,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         l.profileTabFiles,
         l.profileTabValues,
       ];
-
-  @override
-  void initState() {
-    super.initState();
-    _panels = PanelMenuController(setState)..init(this);
-  }
-
-  @override
-  void dispose() {
-    _panels.dispose();
-    super.dispose();
-  }
 
   Widget _buildTabContent() {
     switch (_tabIndex) {
@@ -159,8 +141,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.cloud_off_rounded,
-                    size: 48, color: IthakiTheme.textSecondary),
+                Icon(
+                  Icons.cloud_off_rounded,
+                  size: 48,
+                  color: IthakiTheme.textSecondary,
+                ),
                 const SizedBox(height: 16),
                 Text(
                   l.profileLoadError,
@@ -178,33 +163,22 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         ),
       );
     }
+
     final basics = basicsAsync.requireValue;
     final tourState = ref.watch(tourProvider).maybeWhen(
           data: (value) => value,
           orElse: () => null,
         );
     final tourKeys = ref.watch(tourKeysProvider);
-    final topOffset = MediaQuery.of(context).padding.top + kToolbarHeight + 16;
-
     final isPartial = ref.watch(profilePartialLoadProvider);
 
-    return Scaffold(
-      backgroundColor: IthakiTheme.backgroundViolet,
-      extendBodyBehindAppBar: true,
-      appBar: IthakiAppBar(
-        showMenuAndAvatar: true,
-        menuOpen: _panels.menuOpen,
-        avatarInitials: basics.initials,
-        avatarUrl: basics.photoUrl,
-        onNotificationsPressed: () =>
-            context.push(Routes.settingsNotifications),
-        onMenuPressed: _panels.toggleMenu,
-        profileOpen: _panels.profileOpen,
-        onAvatarPressed: _panels.toggleProfile,
-      ),
-      body: Stack(children: [
-        SingleChildScrollView(
-          child: Column(children: [
+    return MainPanelScaffold(
+      currentRoute: Routes.profile,
+      avatarInitials: basics.initials,
+      avatarUrl: basics.photoUrl,
+      bodyBuilder: (context, ref, topOffset) => SingleChildScrollView(
+        child: Column(
+          children: [
             SizedBox(height: topOffset - 14),
             if (isPartial)
               Container(
@@ -218,8 +192,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.warning_amber_rounded,
-                        color: Colors.amber.shade800, size: 20),
+                    Icon(
+                      Icons.warning_amber_rounded,
+                      color: Colors.amber.shade800,
+                      size: 20,
+                    ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
@@ -256,69 +233,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               child: _buildProfileActions(l),
             ),
             SizedBox(height: MediaQuery.viewPaddingOf(context).bottom + 32),
-          ]),
+          ],
         ),
-        if (_panels.menuOpen || _panels.profileOpen)
-          Positioned.fill(
-            child: GestureDetector(
-              onTap: () {
-                _panels.closeMenu();
-                _panels.closeProfile();
-              },
-              child: Container(color: Colors.transparent),
-            ),
-          ),
-        if (_panels.profileOpen ||
-            _panels.profileCtrl.status != AnimationStatus.dismissed)
-          Positioned(
-            top: topOffset - 14,
-            left: 16,
-            right: 16,
-            bottom: 40,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: SlideTransition(
-                position: _panels.profileSlideAnim,
-                child: ProfileMenuPanel(
-                  onItemTap: (item) {
-                    _panels.closeProfile();
-                    navigateToProfileMenuRoute(context, item);
-                  },
-                  onLogOut: () {
-                    _panels.closeProfile();
-                    ref.read(authRepositoryProvider).logout().whenComplete(() {
-                      resetProfileProviders(ref);
-                      if (context.mounted) context.go(Routes.root);
-                    });
-                  },
-                ),
-              ),
-            ),
-          ),
-        if (_panels.menuOpen ||
-            _panels.menuCtrl.status != AnimationStatus.dismissed)
-          Positioned(
-            top: topOffset - 14,
-            left: 16,
-            right: 16,
-            bottom: 40,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: SlideTransition(
-                position: _panels.slideAnim,
-                child: AppNavDrawer(
-                  currentRoute: Routes.profile,
-                  profileProgress: ref.watch(profileCompletionProvider),
-                  items: buildNavItems(AppLocalizations.of(context)!),
-                  onItemTap: (item) {
-                    _panels.closeMenu();
-                    context.go(item.route);
-                  },
-                ),
-              ),
-            ),
-          ),
-      ]),
+      ),
     );
   }
 }

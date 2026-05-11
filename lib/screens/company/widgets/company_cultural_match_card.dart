@@ -29,7 +29,8 @@ class CulturalMatchCard extends StatelessWidget {
             style: companyProfileBodyStyle,
           ),
           const SizedBox(height: 14),
-          Text(l10n.culturalMatchYouBothCareAbout, style: companyProfileBodyStyle),
+          Text(l10n.culturalMatchYouBothCareAbout,
+              style: companyProfileBodyStyle),
           const SizedBox(height: 8),
           ...match.sharedValues.map(_CompanyMatchBullet.new),
           if (match.description.isNotEmpty) ...[

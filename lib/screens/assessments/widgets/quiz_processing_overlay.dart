@@ -30,7 +30,8 @@ class QuizProcessingOverlay extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
               child: Center(
-                child: IthakiIcon('assessment', size: 22, color: IthakiTheme.primaryPurple),
+                child: IthakiIcon('assessment',
+                    size: 22, color: IthakiTheme.primaryPurple),
               ),
             ),
             const SizedBox(height: 16),
@@ -44,7 +45,8 @@ class QuizProcessingOverlay extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               l.assessmentProcessingSubtitle,
-              style: IthakiTheme.bodySmall.copyWith(color: IthakiTheme.textSecondary),
+              style: IthakiTheme.bodySmall
+                  .copyWith(color: IthakiTheme.textSecondary),
             ),
             const SizedBox(height: 20),
             ClipRRect(

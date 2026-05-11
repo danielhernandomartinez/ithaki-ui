@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../l10n/app_localizations.dart';
 import '../providers/locale_provider.dart';
+import '../utils/ithaki_bottom_sheet.dart';
 
 class NavItem {
   final String icon;
@@ -48,9 +49,10 @@ class AppNavDrawer extends ConsumerWidget {
 
   void _showLanguagePicker(
       BuildContext context, WidgetRef ref, String currentCode) {
-    showModalBottomSheet(
+    showIthakiBottomSheet<void>(
       context: context,
       backgroundColor: Colors.transparent,
+      isScrollControlled: false,
       builder: (_) => _LanguagePickerSheet(
         currentCode: currentCode,
         onSelect: (code) {

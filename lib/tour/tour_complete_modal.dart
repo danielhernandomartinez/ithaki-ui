@@ -5,16 +5,15 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../l10n/app_localizations.dart';
 import '../providers/tour_provider.dart';
 import '../routes.dart';
+import '../utils/ithaki_bottom_sheet.dart';
 
 class TourCompleteModal extends ConsumerWidget {
   const TourCompleteModal({super.key});
 
   static Future<void> show(BuildContext context) async {
-    await showModalBottomSheet<void>(
+    await showIthakiBottomSheet<void>(
       context: context,
-      isScrollControlled: true,
       isDismissible: false,
-      backgroundColor: Colors.transparent,
       builder: (_) => const TourCompleteModal(),
     );
   }

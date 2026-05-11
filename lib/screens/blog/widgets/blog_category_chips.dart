@@ -27,8 +27,7 @@ class BlogCategoryChips extends ConsumerWidget {
           final label = cat ?? allLabel;
           final isActive = cat == activeCategory;
           return GestureDetector(
-            onTap: () =>
-                ref.read(blogProvider.notifier).setCategory(cat),
+            onTap: () => ref.read(blogProvider.notifier).setCategory(cat),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
@@ -46,8 +45,7 @@ class BlogCategoryChips extends ConsumerWidget {
                 label,
                 style: TextStyle(
                   fontSize: 13,
-                  fontWeight:
-                      isActive ? FontWeight.w600 : FontWeight.w400,
+                  fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
                   color: isActive
                       ? IthakiTheme.primaryPurple
                       : IthakiTheme.textPrimary,

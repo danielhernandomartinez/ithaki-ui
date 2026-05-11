@@ -17,15 +17,20 @@ class SettingsState {
   });
 
   SettingsState copyWith({
-    bool? whatsappEnabled, bool? smsEnabled, bool? pushEnabled,
-    bool? emailNewsletterActive, Set<String>? newsletterTypes,
-  }) => SettingsState(
-    whatsappEnabled: whatsappEnabled ?? this.whatsappEnabled,
-    smsEnabled: smsEnabled ?? this.smsEnabled,
-    pushEnabled: pushEnabled ?? this.pushEnabled,
-    emailNewsletterActive: emailNewsletterActive ?? this.emailNewsletterActive,
-    newsletterTypes: newsletterTypes ?? this.newsletterTypes,
-  );
+    bool? whatsappEnabled,
+    bool? smsEnabled,
+    bool? pushEnabled,
+    bool? emailNewsletterActive,
+    Set<String>? newsletterTypes,
+  }) =>
+      SettingsState(
+        whatsappEnabled: whatsappEnabled ?? this.whatsappEnabled,
+        smsEnabled: smsEnabled ?? this.smsEnabled,
+        pushEnabled: pushEnabled ?? this.pushEnabled,
+        emailNewsletterActive:
+            emailNewsletterActive ?? this.emailNewsletterActive,
+        newsletterTypes: newsletterTypes ?? this.newsletterTypes,
+      );
 }
 
 class SettingsNotifier extends Notifier<SettingsState> {
@@ -34,9 +39,12 @@ class SettingsNotifier extends Notifier<SettingsState> {
 
   void toggleChannel(String channel) {
     switch (channel) {
-      case 'whatsapp': state = state.copyWith(whatsappEnabled: !state.whatsappEnabled);
-      case 'sms':      state = state.copyWith(smsEnabled: !state.smsEnabled);
-      case 'push':     state = state.copyWith(pushEnabled: !state.pushEnabled);
+      case 'whatsapp':
+        state = state.copyWith(whatsappEnabled: !state.whatsappEnabled);
+      case 'sms':
+        state = state.copyWith(smsEnabled: !state.smsEnabled);
+      case 'push':
+        state = state.copyWith(pushEnabled: !state.pushEnabled);
     }
   }
 

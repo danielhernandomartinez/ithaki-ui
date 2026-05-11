@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 
 enum AssessmentStatus { notStarted, inProgress, completed }
 
-enum QuestionType { singleSelect, multiSelect, rangeNumber, rangeSymbol, imageSelect }
+enum QuestionType {
+  singleSelect,
+  multiSelect,
+  rangeNumber,
+  rangeSymbol,
+  imageSelect
+}
 
 class Assessment {
   final String id;
@@ -112,7 +118,8 @@ class SymbolOption {
   final String emoji;
   final String label;
   final Color color;
-  const SymbolOption({required this.emoji, required this.label, required this.color});
+  const SymbolOption(
+      {required this.emoji, required this.label, required this.color});
 }
 
 class RangeSymbolQuestion extends Question {
@@ -163,7 +170,8 @@ class SkillBreakdown {
   final String name;
   final double score;
   final double maxScore;
-  const SkillBreakdown({required this.name, required this.score, required this.maxScore});
+  const SkillBreakdown(
+      {required this.name, required this.score, required this.maxScore});
 }
 
 class AssessmentResult {

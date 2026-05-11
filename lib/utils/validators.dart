@@ -31,5 +31,6 @@ class PasswordValidation {
         hasSpecial: _special.hasMatch(password),
       );
 
-  bool get isValid => hasUpperAndLower && hasMinLength && hasNumber && hasSpecial;
+  bool get isValid =>
+      hasUpperAndLower && hasMinLength && hasNumber && hasSpecial;
 }

@@ -69,9 +69,11 @@ class SetupState {
       workplaceFormats: workplaceFormats ?? this.workplaceFormats,
       salary: salary ?? this.salary,
       paymentTerm: paymentTerm ?? this.paymentTerm,
-      preferNotToSpecifySalary: preferNotToSpecifySalary ?? this.preferNotToSpecifySalary,
+      preferNotToSpecifySalary:
+          preferNotToSpecifySalary ?? this.preferNotToSpecifySalary,
       values: values ?? this.values,
-      communicationChannels: communicationChannels ?? this.communicationChannels,
+      communicationChannels:
+          communicationChannels ?? this.communicationChannels,
       receiveTips: receiveTips ?? this.receiveTips,
     );
   }
@@ -117,7 +119,8 @@ class SetupNotifier extends Notifier<SetupState> {
       workplaceFormats: workplaceFormats ?? state.workplaceFormats,
       salary: salary ?? state.salary,
       paymentTerm: paymentTerm ?? state.paymentTerm,
-      preferNotToSpecifySalary: preferNotToSpecifySalary ?? state.preferNotToSpecifySalary,
+      preferNotToSpecifySalary:
+          preferNotToSpecifySalary ?? state.preferNotToSpecifySalary,
     );
   }
 

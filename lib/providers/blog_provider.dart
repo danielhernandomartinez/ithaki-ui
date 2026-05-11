@@ -2,7 +2,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/blog_models.dart';
 
-
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
 const _kCategories = [
@@ -76,13 +75,16 @@ List<BlogArticle> _buildMockArticles() {
       readTime: '${3 + (i % 5)} min read',
       tags: isNetworking
           ? ['#interview', '#networking']
-          : ['#career', '#${_kCategories[i % _kCategories.length].replaceAll('#', '').toLowerCase().replaceAll(' ', '-').replaceAll('&', 'and')}'],
+          : [
+              '#career',
+              '#${_kCategories[i % _kCategories.length].replaceAll('#', '').toLowerCase().replaceAll(' ', '-').replaceAll('&', 'and')}'
+            ],
       body: isNetworking
           ? [
               BlogSection(paragraphs: [
                 'Many job offers never reach public listings. '
-                'They\'re shared within communities, through recommendations, or among colleagues. '
-                'That\'s why staying connected with professionals in your industry can lead you to roles you might never see online.',
+                    'They\'re shared within communities, through recommendations, or among colleagues. '
+                    'That\'s why staying connected with professionals in your industry can lead you to roles you might never see online.',
                 'Networking also helps you learn from others\' experiences, discover brands, and gain insights that no online course can teach.',
               ]),
               BlogSection(heading: 'Why Networking Matters', paragraphs: [

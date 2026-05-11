@@ -22,7 +22,8 @@ class SelectLanguageScreen extends ConsumerStatefulWidget {
   const SelectLanguageScreen({super.key});
 
   @override
-  ConsumerState<SelectLanguageScreen> createState() => _SelectLanguageScreenState();
+  ConsumerState<SelectLanguageScreen> createState() =>
+      _SelectLanguageScreenState();
 }
 
 class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
@@ -68,88 +69,92 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     return IthakiScreenLayout(
-      appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go(Routes.loginPhone)),
+      appBar: IthakiAppBar(
+          actionLabel: l.loginAction,
+          onActionPressed: () => context.go(Routes.loginPhone)),
       horizontalPadding: 24,
       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              l.welcomeHeading,
-              style: IthakiTheme.headingLarge,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            l.welcomeHeading,
+            style: IthakiTheme.headingLarge,
+          ),
+          const SizedBox(height: 20),
+          Text(l.selectLanguageTitle, style: IthakiTheme.sectionTitle),
+          const SizedBox(height: 8),
+          Text(
+            l.selectLanguageDescription,
+            style: IthakiTheme.bodyRegular,
+          ),
+          const SizedBox(height: 24),
+          Text(
+            l.languageLabel,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: IthakiTheme.textPrimary,
             ),
-            const SizedBox(height: 20),
-            Text(l.selectLanguageTitle, style: IthakiTheme.sectionTitle),
-            const SizedBox(height: 8),
-            Text(
-              l.selectLanguageDescription,
-              style: IthakiTheme.bodyRegular,
-            ),
-            const SizedBox(height: 24),
-            Text(
-              l.languageLabel,
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: IthakiTheme.textPrimary,
-              ),
-            ),
-            const SizedBox(height: 6),
-            GestureDetector(
-              onTap: _openPicker,
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: IthakiTheme.lightGraphite,
-                  ),
+          ),
+          const SizedBox(height: 6),
+          GestureDetector(
+            onTap: _openPicker,
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: IthakiTheme.lightGraphite,
                 ),
-                child: Row(
-                  children: [
-                    if (_selected != null) ...[
-                      _selected!.leadingWidget!,
-                      const SizedBox(width: 10),
-                    ],
-                    Expanded(
-                      child: Text(
-                        _selected?.label ?? l.selectLanguagePlaceholder,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: _selected != null
-                              ? IthakiTheme.textPrimary
-                              : IthakiTheme.softGraphite,
-                        ),
+              ),
+              child: Row(
+                children: [
+                  if (_selected != null) ...[
+                    _selected!.leadingWidget!,
+                    const SizedBox(width: 10),
+                  ],
+                  Expanded(
+                    child: Text(
+                      _selected?.label ?? l.selectLanguagePlaceholder,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: _selected != null
+                            ? IthakiTheme.textPrimary
+                            : IthakiTheme.softGraphite,
                       ),
                     ),
-                    const IthakiIcon(
-                      'arrow-down',
-                      size: 20,
-                      color: IthakiTheme.softGraphite,
-                    ),
-                  ],
-                ),
+                  ),
+                  const IthakiIcon(
+                    'arrow-down',
+                    size: 20,
+                    color: IthakiTheme.softGraphite,
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 40),
-            IthakiButton(
-              l.continueButton,
-              isEnabled: _selected != null,
-              onPressed: _selected != null
-                  ? () {
-                      ref.read(registrationProvider.notifier).setLanguage(_selected!.id);
-                      context.push(Routes.techComfort);
-                    }
-                  : null,
-            ),
-            const SizedBox(height: 12),
-            IthakiButton(
-              l.skipButton,
-              variant: IthakiButtonVariant.outline,
-              onPressed: () => context.push(Routes.techComfort),
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 40),
+          IthakiButton(
+            l.continueButton,
+            isEnabled: _selected != null,
+            onPressed: _selected != null
+                ? () {
+                    ref
+                        .read(registrationProvider.notifier)
+                        .setLanguage(_selected!.id);
+                    context.push(Routes.techComfort);
+                  }
+                : null,
+          ),
+          const SizedBox(height: 12),
+          IthakiButton(
+            l.skipButton,
+            variant: IthakiButtonVariant.outline,
+            onPressed: () => context.push(Routes.techComfort),
+          ),
+        ],
+      ),
     );
   }
 }

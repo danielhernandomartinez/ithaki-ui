@@ -33,7 +33,8 @@ class JobCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Center(
-                  child: IthakiIcon('jobs', size: 20, color: IthakiTheme.softGraphite),
+                  child: IthakiIcon('jobs',
+                      size: 20, color: IthakiTheme.softGraphite),
                 ),
               ),
               const SizedBox(width: 10),
@@ -76,7 +77,10 @@ class JobCard extends StatelessWidget {
               gradient: LinearGradient(
                 colors: isStrong
                     ? [IthakiTheme.matchGreen, IthakiTheme.matchGreen]
-                    : [IthakiTheme.matchGradientWeakStart, IthakiTheme.matchGradientWeakEnd],
+                    : [
+                        IthakiTheme.matchGradientWeakStart,
+                        IthakiTheme.matchGradientWeakEnd
+                      ],
               ),
               borderRadius: BorderRadius.circular(8),
             ),

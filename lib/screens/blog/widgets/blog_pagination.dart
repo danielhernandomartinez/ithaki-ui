@@ -30,9 +30,8 @@ class BlogPagination extends ConsumerWidget {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: isActive
-                      ? IthakiTheme.primaryPurple
-                      : Colors.transparent,
+                  color:
+                      isActive ? IthakiTheme.primaryPurple : Colors.transparent,
                   borderRadius: BorderRadius.circular(18),
                 ),
                 alignment: Alignment.center,

@@ -44,8 +44,8 @@ class StartAssessmentSheet extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             l.assessmentStartSubtitle,
-            style:
-                IthakiTheme.bodySmall.copyWith(color: IthakiTheme.textSecondary),
+            style: IthakiTheme.bodySmall
+                .copyWith(color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 16),
           Container(

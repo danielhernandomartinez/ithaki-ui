@@ -46,7 +46,9 @@ Color colorFromString(String s) {
 String formatSalary(dynamic salaryMin, dynamic salaryMax, dynamic paymentTerm) {
   if (salaryMin == null && salaryMax == null) return '';
   final term = enumTitle(paymentTerm);
-  final suffix = term.toLowerCase().contains('month') ? '/ month' : '/ ${term.toLowerCase()}';
+  final suffix = term.toLowerCase().contains('month')
+      ? '/ month'
+      : '/ ${term.toLowerCase()}';
   if (salaryMin != null && salaryMax != null && salaryMin != salaryMax) {
     return '€${salaryMin.toString()} – €${salaryMax.toString()} $suffix';
   }
@@ -63,7 +65,9 @@ String postedAgo(dynamic dateStr) {
     if (diff.inDays == 1) return 'Posted 1 day ago';
     if (diff.inDays < 7) return 'Posted ${diff.inDays} days ago';
     final weeks = diff.inDays ~/ 7;
-    if (diff.inDays < 30) return 'Posted $weeks week${weeks != 1 ? 's' : ''} ago';
+    if (diff.inDays < 30) {
+      return 'Posted $weeks week${weeks != 1 ? 's' : ''} ago';
+    }
     final months = diff.inDays ~/ 30;
     return 'Posted $months month${months != 1 ? 's' : ''} ago';
   } catch (_) {
@@ -82,8 +86,18 @@ String appliedAt(dynamic dateStr) {
     if (diff.inDays == 0) return 'Applied today $time';
     if (diff.inDays == 1) return 'Applied yesterday $time';
     const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
     ];
     return 'Applied on ${date.day} ${months[date.month - 1]}, $time';
   } catch (_) {

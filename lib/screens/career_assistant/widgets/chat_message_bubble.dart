@@ -90,9 +90,11 @@ class AiBubble extends StatelessWidget {
               height: 1.6,
             ),
           ),
-          if (msg.variant == AiVariant.textWithChips && msg.chips.isNotEmpty) ...[
+          if (msg.variant == AiVariant.textWithChips &&
+              msg.chips.isNotEmpty) ...[
             const SizedBox(height: 10),
-            ...msg.chips.map((chip) => ChatActionChip(label: chip, onTap: () => onChip(chip))),
+            ...msg.chips.map((chip) =>
+                ChatActionChip(label: chip, onTap: () => onChip(chip))),
           ],
           if (msg.variant == AiVariant.articles) ...[
             const SizedBox(height: 10),

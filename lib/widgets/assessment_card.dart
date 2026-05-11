@@ -40,7 +40,8 @@ class AssessmentCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             assessment.description,
-            style: IthakiTheme.bodySmall.copyWith(color: IthakiTheme.textSecondary),
+            style: IthakiTheme.bodySmall
+                .copyWith(color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 8),
           _Meta(assessment: assessment),
@@ -90,8 +91,7 @@ class _Header extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(assessment.title,
-                  style: IthakiTheme.bodySmallSemiBold),
+              Text(assessment.title, style: IthakiTheme.bodySmallSemiBold),
               Text(assessment.category,
                   style: IthakiTheme.bodySmall
                       .copyWith(color: IthakiTheme.textSecondary)),
@@ -204,9 +204,7 @@ class _Actions extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(
               child: IthakiButton(
-                assessment.lastResult?.shownInCV == true
-                    ? l.inCv
-                    : l.showInCv,
+                assessment.lastResult?.shownInCV == true ? l.inCv : l.showInCv,
                 onPressed: onShowInCV,
               ),
             ),

@@ -16,14 +16,17 @@ class PanelMenuController {
   PanelMenuController(this._setState);
 
   void init(TickerProvider vsync) {
-    menuCtrl = AnimationController(vsync: vsync, duration: const Duration(milliseconds: 250));
+    menuCtrl = AnimationController(
+        vsync: vsync, duration: const Duration(milliseconds: 250));
     menuCtrl.addStatusListener((_) => _setState(() {}));
     slideAnim = Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero)
         .animate(CurvedAnimation(parent: menuCtrl, curve: Curves.easeOut));
 
-    profileCtrl = AnimationController(vsync: vsync, duration: const Duration(milliseconds: 250));
+    profileCtrl = AnimationController(
+        vsync: vsync, duration: const Duration(milliseconds: 250));
     profileCtrl.addStatusListener((_) => _setState(() {}));
-    profileSlideAnim = Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero)
+    profileSlideAnim = Tween<Offset>(
+            begin: const Offset(0, -1), end: Offset.zero)
         .animate(CurvedAnimation(parent: profileCtrl, curve: Curves.easeOut));
   }
 

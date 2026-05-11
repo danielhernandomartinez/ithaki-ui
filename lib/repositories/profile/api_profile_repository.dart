@@ -113,9 +113,11 @@ class ApiProfileRepository implements ProfileRepository {
         await ProfileLocalStore.savePhoneVerified(true);
       }
 
-      ProfileBasics basics = ProfileResponseParser.parseBasicsFromUser(userData);
+      ProfileBasics basics =
+          ProfileResponseParser.parseBasicsFromUser(userData);
 
-      final onboarding = ProfileResponseParser.stringMap(userData['onboarding']);
+      final onboarding =
+          ProfileResponseParser.stringMap(userData['onboarding']);
       final onboardingPrefs = ProfileResponseParser.parseJobPreferences(
         onboarding?['preferences'],
         onboarding?['jobInterests'],
@@ -149,8 +151,7 @@ class ApiProfileRepository implements ProfileRepository {
               ProfileResponseParser.applyProfileBasics(basics, profileData);
 
           // Parse all sections before mutating state.
-          final parsedAboutMe =
-              ProfileResponseParser.parseAboutMe(profileData);
+          final parsedAboutMe = ProfileResponseParser.parseAboutMe(profileData);
           final parsedSkills =
               ProfileResponseParser.parseSkills(profileData, _skills);
           final parsedWork =
@@ -278,7 +279,9 @@ class ApiProfileRepository implements ProfileRepository {
     final residence = countryPayload(basics.residenceCode, basics.residence);
     final uploadedPhotoUrl = await uploadPhotoIfNeeded(basics.photoUrl);
     final photoForPayload =
-        ProfileResponseParser.isRemotePhoto(uploadedPhotoUrl) ? null : uploadedPhotoUrl;
+        ProfileResponseParser.isRemotePhoto(uploadedPhotoUrl)
+            ? null
+            : uploadedPhotoUrl;
     final locationStatus = ProfileApiMapper.locationStatusDto(basics.status);
 
     final jobSeekerPayload = {
@@ -466,8 +469,8 @@ class ApiProfileRepository implements ProfileRepository {
     }
 
     final localFiles = files
-        .where(
-            (file) => file.id == null && ProfileResponseParser.isLocalFilePath(file.url))
+        .where((file) =>
+            file.id == null && ProfileResponseParser.isLocalFilePath(file.url))
         .toList();
     final localPaths = localFiles
         .map((file) => ProfileResponseParser.localFilePath(file.url))

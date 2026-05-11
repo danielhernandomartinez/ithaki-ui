@@ -12,7 +12,8 @@ class ResetPasswordScreen extends ConsumerStatefulWidget {
   const ResetPasswordScreen({super.key});
 
   @override
-  ConsumerState<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
+  ConsumerState<ResetPasswordScreen> createState() =>
+      _ResetPasswordScreenState();
 }
 
 class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
@@ -88,10 +89,14 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
           ),
           if (_passwordFocused || _passwordController.text.isNotEmpty) ...[
             const SizedBox(height: 12),
-            IthakiValidationRow(valid: _pwVal.hasUpperAndLower, text: l.passwordUpperLower),
-            IthakiValidationRow(valid: _pwVal.hasMinLength, text: l.passwordMinLength),
-            IthakiValidationRow(valid: _pwVal.hasNumber, text: l.passwordNumber),
-            IthakiValidationRow(valid: _pwVal.hasSpecial, text: l.passwordSpecial),
+            IthakiValidationRow(
+                valid: _pwVal.hasUpperAndLower, text: l.passwordUpperLower),
+            IthakiValidationRow(
+                valid: _pwVal.hasMinLength, text: l.passwordMinLength),
+            IthakiValidationRow(
+                valid: _pwVal.hasNumber, text: l.passwordNumber),
+            IthakiValidationRow(
+                valid: _pwVal.hasSpecial, text: l.passwordSpecial),
           ],
           const SizedBox(height: 16),
           IthakiPasswordField(
@@ -100,7 +105,8 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
             controller: _confirmPasswordController,
             onChanged: (_) => setState(() {}),
           ),
-          if (_confirmPasswordController.text.isNotEmpty && !_passwordsMatch) ...[
+          if (_confirmPasswordController.text.isNotEmpty &&
+              !_passwordsMatch) ...[
             const SizedBox(height: 8),
             Text(l.passwordsDoNotMatch,
                 style: const TextStyle(fontSize: 13, color: Colors.red)),

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/job_search_provider.dart';
+import '../../../utils/ithaki_bottom_sheet.dart';
 import '../filters_sheet.dart';
 
 class JobSearchSearchBar extends ConsumerWidget {
@@ -10,10 +11,8 @@ class JobSearchSearchBar extends ConsumerWidget {
 
   void _openFilters(BuildContext context, WidgetRef ref) {
     final filters = ref.read(jobSearchProvider).value?.filters ?? const {};
-    showModalBottomSheet(
+    showIthakiBottomSheet<void>(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (_) => FiltersSheet(
         filters: filters,
         onApply: (updated) =>

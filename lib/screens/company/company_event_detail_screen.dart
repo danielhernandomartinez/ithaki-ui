@@ -7,6 +7,7 @@ import '../../l10n/app_localizations.dart';
 import '../../providers/company_provider.dart';
 import '../../providers/home_provider.dart';
 import '../../routes.dart';
+import '../../utils/layout_offsets.dart';
 import 'widgets/company_cultural_match_card.dart';
 import 'widgets/company_profile_atoms.dart';
 import 'widgets/company_profile_styles.dart';
@@ -27,7 +28,7 @@ class CompanyEventDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final companyAsync = ref.watch(companyProvider(companyId));
     final homeData = ref.watch(homeProvider).value;
-    final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
+    final topOffset = context.ithakiTopOffset;
 
     return Scaffold(
       backgroundColor: IthakiTheme.backgroundViolet,
@@ -113,7 +114,8 @@ class CompanyEventDetailScreen extends ConsumerWidget {
                         children: [
                           CompanySectionTitle(l10n.eventDetailsTitle),
                           const SizedBox(height: 14),
-                          Text(event.description, style: companyProfileBodyStyle),
+                          Text(event.description,
+                              style: companyProfileBodyStyle),
                           if (event.address.isNotEmpty) ...[
                             const SizedBox(height: 20),
                             CompanySectionTitle(l10n.eventAddressLabel),

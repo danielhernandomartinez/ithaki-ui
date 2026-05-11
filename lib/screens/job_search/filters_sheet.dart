@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../l10n/app_localizations.dart';
+import '../../utils/ithaki_bottom_sheet.dart';
 import 'filter_sub_sheet.dart';
 import 'location_filter_sheet.dart';
 import 'salary_filter_sheet.dart';
@@ -62,10 +63,8 @@ class _FiltersSheetState extends State<FiltersSheet> {
   void _openSubSheet(String filterName) {
     final l = AppLocalizations.of(context)!;
     if (filterName == 'Location') {
-      showModalBottomSheet(
+      showIthakiBottomSheet<void>(
         context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
         builder: (_) => LocationFilterSheet(
           selected: Set.from(_local['Location'] ?? {}),
           onConfirm: (selected) =>
@@ -75,10 +74,8 @@ class _FiltersSheetState extends State<FiltersSheet> {
       return;
     }
     if (filterName == 'Salary') {
-      showModalBottomSheet(
+      showIthakiBottomSheet<void>(
         context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
         builder: (_) => SalaryFilterSheet(
           selected: Set.from(_local['Salary'] ?? {}),
           onConfirm: (selected) => setState(() => _local['Salary'] = selected),
@@ -87,10 +84,8 @@ class _FiltersSheetState extends State<FiltersSheet> {
       return;
     }
     final options = kFilterOptions[filterName] ?? [];
-    showModalBottomSheet(
+    showIthakiBottomSheet<void>(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (_) => FilterSubSheet(
         title: _filterLabel(l, filterName),
         options: options,

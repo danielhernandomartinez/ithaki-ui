@@ -23,7 +23,9 @@ class _TechComfortScreenState extends ConsumerState<TechComfortScreen> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     return IthakiScreenLayout(
-      appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go(Routes.loginPhone)),
+      appBar: IthakiAppBar(
+          actionLabel: l.loginAction,
+          onActionPressed: () => context.go(Routes.loginPhone)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -55,7 +57,9 @@ class _TechComfortScreenState extends ConsumerState<TechComfortScreen> {
             isEnabled: _selected != null,
             onPressed: _selected != null
                 ? () {
-                    ref.read(registrationProvider.notifier).setTechLevel(_selected!.name);
+                    ref
+                        .read(registrationProvider.notifier)
+                        .setTechLevel(_selected!.name);
                     context.push(Routes.register);
                   }
                 : null,

@@ -7,6 +7,7 @@ import '../../../providers/job_search_data_provider.dart';
 import '../../../providers/job_search_provider.dart';
 import '../../../providers/tour_provider.dart';
 import '../../../routes.dart';
+import '../../../utils/ithaki_bottom_sheet.dart';
 import '../../../utils/match_colors.dart';
 import '../../../utils/number_utils.dart';
 import '../sort_sheet.dart';
@@ -17,9 +18,9 @@ class JobSearchList extends ConsumerWidget {
   void _openSort(BuildContext context, WidgetRef ref) {
     final current =
         ref.read(jobSearchProvider).value?.sortOption ?? 'Date: Recent';
-    showModalBottomSheet(
+    showIthakiBottomSheet<void>(
       context: context,
-      backgroundColor: Colors.transparent,
+      isScrollControlled: false,
       builder: (_) => SortSheet(
         current: current,
         onSelect: (v) => ref.read(jobSearchProvider.notifier).setSort(v),

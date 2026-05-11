@@ -12,7 +12,8 @@ class VerifyEmailScreen extends StatefulWidget {
   State<VerifyEmailScreen> createState() => _VerifyEmailScreenState();
 }
 
-class _VerifyEmailScreenState extends State<VerifyEmailScreen> with CountdownMixin {
+class _VerifyEmailScreenState extends State<VerifyEmailScreen>
+    with CountdownMixin {
   @override
   void initState() {
     super.initState();
@@ -23,7 +24,9 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> with CountdownMix
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     return IthakiScreenLayout(
-      appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go(Routes.loginPhone)),
+      appBar: IthakiAppBar(
+          actionLabel: l.loginAction,
+          onActionPressed: () => context.go(Routes.loginPhone)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

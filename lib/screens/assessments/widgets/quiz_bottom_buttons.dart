@@ -25,11 +25,13 @@ class QuizBottomButtons extends StatelessWidget {
       child: Row(
         children: [
           if (showBack) ...[
-            Expanded(child: IthakiOutlineButton(l.backButton, onPressed: onBack)),
+            Expanded(
+                child: IthakiOutlineButton(l.backButton, onPressed: onBack)),
             const SizedBox(width: 8),
           ],
           Expanded(
-            child: IthakiButton(l.nextButton, onPressed: canNext ? onNext : null),
+            child:
+                IthakiButton(l.nextButton, onPressed: canNext ? onNext : null),
           ),
         ],
       ),

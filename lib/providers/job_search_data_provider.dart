@@ -9,10 +9,10 @@ class JobSearchDataNotifier extends AsyncNotifier<JobSearchResult> {
   Future<JobSearchResult> build() {
     final searchState = ref.watch(jobSearchProvider).value;
     return ref.read(jobSearchRepositoryProvider).search(
-      filters: searchState?.filters ?? const {},
-      sort: searchState?.sortOption ?? 'Date: Recent',
-      page: searchState?.currentPage ?? 1,
-    );
+          filters: searchState?.filters ?? const {},
+          sort: searchState?.sortOption ?? 'Date: Recent',
+          page: searchState?.currentPage ?? 1,
+        );
   }
 }
 

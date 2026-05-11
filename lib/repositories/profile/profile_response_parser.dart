@@ -226,15 +226,13 @@ class ProfileResponseParser {
 
     final b = stringMap(profileData['basics']);
     if (b != null) {
-      final dateOfBirth =
-          ProfileApiMapper.isoDateToDdMmYyyy(b['dateOfBirth']);
+      final dateOfBirth = ProfileApiMapper.isoDateToDdMmYyyy(b['dateOfBirth']);
       final gender = ProfileApiMapper.enumTitle(b['gender']);
       final citizenship =
           ProfileCountryResolver.countryNameFor(b['citizenship']);
       final citizenshipCode =
           ProfileCountryResolver.countryCodeFor(b['citizenship']);
-      final residence =
-          ProfileCountryResolver.countryNameFor(b['residence']);
+      final residence = ProfileCountryResolver.countryNameFor(b['residence']);
       final residenceCode =
           ProfileCountryResolver.countryCodeFor(b['residence']);
       debugPrint('[refreshAll] basics.photo → ${b['photo']}');
@@ -242,11 +240,9 @@ class ProfileResponseParser {
         phone: textValue(b['phone']).isNotEmpty
             ? textValue(b['phone'])
             : result.phone,
-        dateOfBirth:
-            dateOfBirth.isNotEmpty ? dateOfBirth : result.dateOfBirth,
+        dateOfBirth: dateOfBirth.isNotEmpty ? dateOfBirth : result.dateOfBirth,
         gender: gender.isNotEmpty ? gender : result.gender,
-        citizenship:
-            citizenship.isNotEmpty ? citizenship : result.citizenship,
+        citizenship: citizenship.isNotEmpty ? citizenship : result.citizenship,
         citizenshipCode: citizenshipCode.isNotEmpty
             ? citizenshipCode
             : result.citizenshipCode,
@@ -279,8 +275,7 @@ class ProfileResponseParser {
     final bio = textValue(about['bio']);
     final text = textValue(about['text']);
     final video = textValue(about['video']);
-    final videoUrl =
-        video.isNotEmpty ? video : textValue(about['videoUrl']);
+    final videoUrl = video.isNotEmpty ? video : textValue(about['videoUrl']);
     return ProfileAboutMe(
       bio: bio.isNotEmpty ? bio : text,
       videoUrl: videoUrl.isEmpty ? null : videoUrl,
@@ -304,14 +299,12 @@ class ProfileResponseParser {
       languages: mapList(languageList)
           .map(
             (l) => Language(
-              language:
-                  ProfileApiMapper.titleOrText(l['language']).isNotEmpty
-                      ? ProfileApiMapper.titleOrText(l['language'])
-                      : ProfileApiMapper.titleOrText(l['languageName']),
-              proficiency:
-                  ProfileApiMapper.titleOrText(l['level']).isNotEmpty
-                      ? ProfileApiMapper.titleOrText(l['level'])
-                      : ProfileApiMapper.titleOrText(l['proficiency']),
+              language: ProfileApiMapper.titleOrText(l['language']).isNotEmpty
+                  ? ProfileApiMapper.titleOrText(l['language'])
+                  : ProfileApiMapper.titleOrText(l['languageName']),
+              proficiency: ProfileApiMapper.titleOrText(l['level']).isNotEmpty
+                  ? ProfileApiMapper.titleOrText(l['level'])
+                  : ProfileApiMapper.titleOrText(l['proficiency']),
             ),
           )
           .where((l) => l.language.isNotEmpty)
@@ -335,8 +328,7 @@ class ProfileResponseParser {
             companyName: textValue(item['companyName']),
             location: ProfileApiMapper.titleOrText(item['city']),
             experienceLevel: ProfileApiMapper.titleOrText(item['level']),
-            workplace:
-                ProfileApiMapper.titleOrText(item['employmentType']),
+            workplace: ProfileApiMapper.titleOrText(item['employmentType']),
             jobType: ProfileApiMapper.titleOrText(item['workType']),
             startDate:
                 ProfileApiMapper.isoDateToMmYyyy(item['startDate']) ?? '',
@@ -351,8 +343,7 @@ class ProfileResponseParser {
         .toList();
   }
 
-  static List<Education> parseEducations(
-      Map<String, dynamic> profileData) {
+  static List<Education> parseEducations(Map<String, dynamic> profileData) {
     return mapList(profileData['education'] ?? profileData['educations'])
         .map(
           (item) => Education(
@@ -370,8 +361,7 @@ class ProfileResponseParser {
             currentlyStudyHere: boolValue(item['currentlyStudying']),
           ),
         )
-        .where(
-            (e) => e.institutionName.isNotEmpty || e.fieldOfStudy.isNotEmpty)
+        .where((e) => e.institutionName.isNotEmpty || e.fieldOfStudy.isNotEmpty)
         .toList();
   }
 }

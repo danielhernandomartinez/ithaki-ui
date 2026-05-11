@@ -53,13 +53,29 @@ class _PreferencesScreenState extends ConsumerState<PreferencesScreen> {
     final l = AppLocalizations.of(context)!;
 
     final positionLevels = [
-      SearchItem(id: 'intern', label: l.positionIntern, subtitle: l.positionInternYears),
-      SearchItem(id: 'junior', label: l.positionJunior, subtitle: l.positionJuniorYears),
+      SearchItem(
+          id: 'intern',
+          label: l.positionIntern,
+          subtitle: l.positionInternYears),
+      SearchItem(
+          id: 'junior',
+          label: l.positionJunior,
+          subtitle: l.positionJuniorYears),
       SearchItem(id: 'mid', label: l.positionMid, subtitle: l.positionMidYears),
-      SearchItem(id: 'senior', label: l.positionSenior, subtitle: l.positionSeniorYears),
-      SearchItem(id: 'lead', label: l.positionLead, subtitle: l.positionLeadYears),
-      SearchItem(id: 'manager', label: l.positionManager, subtitle: l.positionManagerYears),
-      SearchItem(id: 'director', label: l.positionDirector, subtitle: l.positionDirectorYears),
+      SearchItem(
+          id: 'senior',
+          label: l.positionSenior,
+          subtitle: l.positionSeniorYears),
+      SearchItem(
+          id: 'lead', label: l.positionLead, subtitle: l.positionLeadYears),
+      SearchItem(
+          id: 'manager',
+          label: l.positionManager,
+          subtitle: l.positionManagerYears),
+      SearchItem(
+          id: 'director',
+          label: l.positionDirector,
+          subtitle: l.positionDirectorYears),
     ];
 
     final paymentTermOptions = [

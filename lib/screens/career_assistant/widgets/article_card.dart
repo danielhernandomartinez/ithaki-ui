@@ -77,7 +77,8 @@ class ArticleCard extends StatelessWidget {
               width: double.infinity,
               child: IthakiButton(
                 AppLocalizations.of(context)!.readArticle,
-                onPressed: () => context.push(Routes.blogArticleFor('article_1')),
+                onPressed: () =>
+                    context.push(Routes.blogArticleFor('article_1')),
               ),
             ),
           ),

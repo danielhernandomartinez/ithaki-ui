@@ -67,19 +67,37 @@ class JobPostBasicsCard extends StatelessWidget {
             backgroundColor: getMatchBgColor(detail.matchLabel),
           ),
           const SizedBox(height: 12),
-          const Divider(height: 1, thickness: 1, color: IthakiTheme.borderLight),
+          const Divider(
+              height: 1, thickness: 1, color: IthakiTheme.borderLight),
           const SizedBox(height: 12),
           Wrap(
             spacing: 0,
             runSpacing: 12,
             children: [
-              _DetailCell(label: l.locationInfoLabel, icon: 'location', value: detail.location),
-              _DetailCell(label: l.jobTypeTitle, icon: 'clock', value: detail.jobType),
+              _DetailCell(
+                  label: l.locationInfoLabel,
+                  icon: 'location',
+                  value: detail.location),
+              _DetailCell(
+                  label: l.jobTypeTitle, icon: 'clock', value: detail.jobType),
               _DetailCell(label: l.industryLabel, value: detail.industry),
-              _DetailCell(label: l.salaryRangeLabel, value: detail.salaryRange, valueSemibold: true),
-              _DetailCell(label: l.workplaceLabel, icon: 'company-profile', value: detail.workplace),
-              _DetailCell(label: l.experienceLevelLabel, icon: 'level', value: detail.experienceLevel),
-              _DetailCell(label: l.languageFieldLabel, icon: 'globe', value: detail.languages, wide: true),
+              _DetailCell(
+                  label: l.salaryRangeLabel,
+                  value: detail.salaryRange,
+                  valueSemibold: true),
+              _DetailCell(
+                  label: l.workplaceLabel,
+                  icon: 'company-profile',
+                  value: detail.workplace),
+              _DetailCell(
+                  label: l.experienceLevelLabel,
+                  icon: 'level',
+                  value: detail.experienceLevel),
+              _DetailCell(
+                  label: l.languageFieldLabel,
+                  icon: 'globe',
+                  value: detail.languages,
+                  wide: true),
             ],
           ),
         ],

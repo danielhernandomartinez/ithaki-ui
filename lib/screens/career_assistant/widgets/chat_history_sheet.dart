@@ -73,7 +73,8 @@ class _ChatHistorySheetState extends State<ChatHistorySheet> {
               ),
               GestureDetector(
                 onTap: () => Navigator.pop(context),
-                child: const IthakiIcon('delete', size: 22, color: IthakiTheme.softGraphite),
+                child: const IthakiIcon('delete',
+                    size: 22, color: IthakiTheme.softGraphite),
               ),
             ],
           ),
@@ -93,13 +94,16 @@ class _ChatHistorySheetState extends State<ChatHistorySheet> {
             onChanged: (v) => setState(() => _query = v.toLowerCase()),
             decoration: InputDecoration(
               hintText: l.chatHistorySearchHint,
-              hintStyle: const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+              hintStyle: const TextStyle(
+                  fontSize: 13, color: IthakiTheme.textSecondary),
               prefixIcon: const Padding(
                 padding: EdgeInsets.only(left: 12, right: 8),
-                child: IthakiIcon('search', size: 18, color: IthakiTheme.softGraphite),
+                child: IthakiIcon('search',
+                    size: 18, color: IthakiTheme.softGraphite),
               ),
               prefixIconConstraints: const BoxConstraints(),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: const BorderSide(color: IthakiTheme.borderLight),
@@ -122,7 +126,8 @@ class _ChatHistorySheetState extends State<ChatHistorySheet> {
                   if (todayItems.isNotEmpty) ...[
                     Text(
                       l.chatHistoryToday,
-                      style: const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+                      style: const TextStyle(
+                          fontSize: 13, color: IthakiTheme.textSecondary),
                     ),
                     const SizedBox(height: 8),
                     ...todayItems.map((item) => ChatHistoryItem(label: item)),
@@ -131,7 +136,8 @@ class _ChatHistorySheetState extends State<ChatHistorySheet> {
                   if (lastItems.isNotEmpty) ...[
                     Text(
                       l.chatHistoryLast7Days,
-                      style: const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+                      style: const TextStyle(
+                          fontSize: 13, color: IthakiTheme.textSecondary),
                     ),
                     const SizedBox(height: 8),
                     ...lastItems.map((item) => ChatHistoryItem(label: item)),
@@ -160,7 +166,8 @@ class ChatHistoryItem extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         children: [
-          const IthakiIcon('applications', size: 18, color: IthakiTheme.softGraphite),
+          const IthakiIcon('applications',
+              size: 18, color: IthakiTheme.softGraphite),
           const SizedBox(width: 10),
           Expanded(
             child: Text(

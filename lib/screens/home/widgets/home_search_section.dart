@@ -24,10 +24,12 @@ class HomeSearchSection extends ConsumerWidget {
               hintStyle: TextStyle(color: IthakiTheme.softGraphite),
               prefixIcon: Padding(
                 padding: EdgeInsets.all(12),
-                child: IthakiIcon('search', size: 20, color: IthakiTheme.softGraphite),
+                child: IthakiIcon('search',
+                    size: 20, color: IthakiTheme.softGraphite),
               ),
               border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             ),
           ),
         ),
@@ -37,7 +39,8 @@ class HomeSearchSection extends ConsumerWidget {
           runSpacing: 8,
           children: homeData.filterChips
               .map((label) => Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
                       border: Border.all(color: IthakiTheme.borderLight),
                       borderRadius: BorderRadius.circular(16),

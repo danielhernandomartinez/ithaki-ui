@@ -7,6 +7,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/assessment_provider.dart';
 import '../../routes.dart';
+import '../../utils/ithaki_bottom_sheet.dart';
 import 'widgets/quiz_bottom_buttons.dart';
 import 'widgets/quiz_leave_sheet.dart';
 import 'widgets/quiz_processing_overlay.dart';
@@ -26,10 +27,8 @@ class _AssessmentQuizScreenState extends ConsumerState<AssessmentQuizScreen> {
   bool _overlayShown = false;
 
   Future<void> _showLeaveDialog() async {
-    await showModalBottomSheet(
+    await showIthakiBottomSheet<void>(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (_) => QuizLeaveSheet(
         onLeave: () async {
           Navigator.pop(context);
@@ -59,8 +58,8 @@ class _AssessmentQuizScreenState extends ConsumerState<AssessmentQuizScreen> {
       }
       if (_overlayShown && next.isSubmitted) {
         Navigator.of(context, rootNavigator: true).pop();
-        context.pushReplacement(
-            Routes.assessmentResultsFor(widget.assessmentId));
+        context
+            .pushReplacement(Routes.assessmentResultsFor(widget.assessmentId));
       }
     });
 

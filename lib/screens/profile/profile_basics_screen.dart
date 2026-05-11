@@ -6,6 +6,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/countries.dart';
 import '../../l10n/app_localizations.dart';
 import '../../routes.dart';
+import '../../utils/ithaki_bottom_sheet.dart';
 import '../../utils/validators.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/panel_scaffold.dart';
@@ -187,10 +188,8 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
   }
 
   void _showLeaveSheet() {
-    showModalBottomSheet(
+    showIthakiBottomSheet<void>(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (_) => BottomSheetBase(
         title: AppLocalizations.of(context)!.leaveEditingTitle,
         child: Column(

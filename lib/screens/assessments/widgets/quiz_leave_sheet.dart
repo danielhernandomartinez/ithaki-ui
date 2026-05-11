@@ -7,7 +7,8 @@ class QuizLeaveSheet extends StatelessWidget {
   final VoidCallback onLeave;
   final VoidCallback onContinue;
 
-  const QuizLeaveSheet({super.key, required this.onLeave, required this.onContinue});
+  const QuizLeaveSheet(
+      {super.key, required this.onLeave, required this.onContinue});
 
   @override
   Widget build(BuildContext context) {
@@ -36,20 +37,23 @@ class QuizLeaveSheet extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: onContinue,
-                child: IthakiIcon('delete', size: 24, color: IthakiTheme.textSecondary),
+                child: IthakiIcon('delete',
+                    size: 24, color: IthakiTheme.textSecondary),
               ),
             ],
           ),
           const SizedBox(height: 8),
           Text(
             l.assessmentLeaveSubtitle,
-            style: IthakiTheme.bodySmall.copyWith(color: IthakiTheme.textSecondary),
+            style: IthakiTheme.bodySmall
+                .copyWith(color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 20),
           Row(
             children: [
               Expanded(
-                child: IthakiOutlineButton(l.assessmentLeaveButton, onPressed: onLeave),
+                child: IthakiOutlineButton(l.assessmentLeaveButton,
+                    onPressed: onLeave),
               ),
               const SizedBox(width: 8),
               Expanded(

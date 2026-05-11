@@ -27,7 +27,8 @@ class QuizOptionTile extends StatelessWidget {
           color: IthakiTheme.backgroundWhite,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: selected ? IthakiTheme.primaryPurple : IthakiTheme.borderLight,
+            color:
+                selected ? IthakiTheme.primaryPurple : IthakiTheme.borderLight,
             width: selected ? 2 : 1,
           ),
         ),
@@ -151,7 +152,9 @@ class _MultiSelectOptions extends StatelessWidget {
                     width: 1.5,
                   ),
                   borderRadius: BorderRadius.circular(4),
-                  color: isSelected ? IthakiTheme.primaryPurple : Colors.transparent,
+                  color: isSelected
+                      ? IthakiTheme.primaryPurple
+                      : Colors.transparent,
                 ),
                 child: isSelected
                     ? const Center(
@@ -195,7 +198,8 @@ class _RangeNumberOptions extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 4),
           child: Text(
             question.minLabel,
-            style: IthakiTheme.bodySmall.copyWith(color: IthakiTheme.textSecondary),
+            style: IthakiTheme.bodySmall
+                .copyWith(color: IthakiTheme.textSecondary),
           ),
         ),
         ...List.generate(
@@ -208,7 +212,8 @@ class _RangeNumberOptions extends StatelessWidget {
               child: Center(
                 child: Text(
                   '$value',
-                  style: IthakiTheme.bodySmall.copyWith(fontWeight: FontWeight.w500),
+                  style: IthakiTheme.bodySmall
+                      .copyWith(fontWeight: FontWeight.w500),
                 ),
               ),
             );
@@ -218,7 +223,8 @@ class _RangeNumberOptions extends StatelessWidget {
           padding: const EdgeInsets.only(top: 4),
           child: Text(
             question.maxLabel,
-            style: IthakiTheme.bodySmall.copyWith(color: IthakiTheme.textSecondary),
+            style: IthakiTheme.bodySmall
+                .copyWith(color: IthakiTheme.textSecondary),
           ),
         ),
       ],
@@ -250,7 +256,8 @@ class _RangeSymbolOptions extends StatelessWidget {
             children: [
               Text(opt.emoji, style: const TextStyle(fontSize: 28)),
               const SizedBox(height: 4),
-              Text(opt.label, style: IthakiTheme.bodySmall.copyWith(color: opt.color)),
+              Text(opt.label,
+                  style: IthakiTheme.bodySmall.copyWith(color: opt.color)),
             ],
           ),
         );
@@ -285,7 +292,8 @@ class _ImageSelectOptions extends StatelessWidget {
               height: 180,
               color: IthakiTheme.placeholderBg,
               child: Center(
-                child: IthakiIcon('upload-cloud', size: 40, color: IthakiTheme.textSecondary),
+                child: IthakiIcon('upload-cloud',
+                    size: 40, color: IthakiTheme.textSecondary),
               ),
             ),
           ),

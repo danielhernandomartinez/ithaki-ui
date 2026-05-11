@@ -2,19 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:ithaki_design_system/ithaki_design_system.dart';
 
-import '../../constants/nav_items.dart';
 import '../../l10n/app_localizations.dart';
-import '../../mixins/panel_menu_mixin.dart';
 import '../../providers/home_provider.dart';
-import '../../providers/profile_provider.dart';
 import '../../providers/tour_provider.dart';
-import '../../repositories/auth_repository.dart';
 import '../../routes.dart';
-import '../../widgets/app_nav_drawer.dart';
-import '../../widgets/profile_menu_panel.dart';
+import '../../utils/ithaki_bottom_sheet.dart';
+import '../../widgets/main_panel_scaffold.dart';
 import 'models/chat_message.dart';
 import 'models/chat_mock_data.dart';
 import 'widgets/chat_action_chip.dart';
@@ -23,7 +17,6 @@ import 'widgets/chat_history_sheet.dart';
 import 'widgets/chat_input_bar.dart';
 import 'widgets/chat_menu_item.dart';
 import 'widgets/chat_message_bubble.dart';
-
 import 'widgets/search_in_chats_sheet.dart';
 
 class CareerAssistantScreen extends ConsumerStatefulWidget {
@@ -34,9 +27,7 @@ class CareerAssistantScreen extends ConsumerStatefulWidget {
       _CareerAssistantScreenState();
 }
 
-class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
-    with TickerProviderStateMixin {
-  late final PanelMenuController _panels;
+class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen> {
   final _scrollController = ScrollController();
   final _inputController = TextEditingController();
   final _inputFocus = FocusNode();
@@ -48,22 +39,16 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
   @override
   void initState() {
     super.initState();
-    _panels = PanelMenuController(setState)..init(this);
     _messages.add(const ChatMessage(type: MsgType.ai, text: kInitialAiText));
   }
 
   @override
   void dispose() {
-    _panels.dispose();
     _scrollController.dispose();
     _inputController.dispose();
     _inputFocus.dispose();
     super.dispose();
   }
-
-  // ---------------------------------------------------------------------------
-  // Scroll
-  // ---------------------------------------------------------------------------
 
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -76,10 +61,6 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
       }
     });
   }
-
-  // ---------------------------------------------------------------------------
-  // Chat actions
-  // ---------------------------------------------------------------------------
 
   Future<void> _sendMessage(String text) async {
     final trimmed = text.trim();
@@ -101,29 +82,6 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
     _scrollToBottom();
   }
 
-  void _toggleMenu() {
-    _inputFocus.unfocus();
-    _panels.toggleMenu();
-  }
-
-  void _toggleProfile() {
-    _inputFocus.unfocus();
-    _panels.toggleProfile();
-  }
-
-  void _goFromMenu(String route) {
-    _inputFocus.unfocus();
-    _panels.closeMenu();
-    _panels.closeProfile();
-    if (route != Routes.careerAssistant) context.go(route);
-  }
-
-  void _pushFromProfile(ProfileMenuItem item) {
-    _inputFocus.unfocus();
-    _panels.closeProfile();
-    navigateToProfileMenuRoute(context, item);
-  }
-
   void _newChat() {
     setState(() {
       _messages
@@ -134,17 +92,13 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
     });
   }
 
-  void _showHistory() => showModalBottomSheet(
+  void _showHistory() => showIthakiBottomSheet<void>(
         context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
         builder: (_) => const ChatHistorySheet(),
       );
 
-  void _showSearchInChats() => showModalBottomSheet(
+  void _showSearchInChats() => showIthakiBottomSheet<void>(
         context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
         builder: (_) => const SearchInChatsSheet(),
       );
 
@@ -155,7 +109,11 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
         Navigator.of(ctx).overlay!.context.findRenderObject() as RenderBox;
     final position = RelativeRect.fromRect(
       Rect.fromLTWH(
-          MediaQuery.of(ctx).size.width - 60, kToolbarHeight + 80, 1, 1),
+        MediaQuery.of(ctx).size.width - 60,
+        kToolbarHeight + 80,
+        1,
+        1,
+      ),
       Offset.zero & overlay.size,
     );
     final result = await showMenu<String>(
@@ -188,21 +146,6 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
     }
   }
 
-  // ---------------------------------------------------------------------------
-  // Build
-  // ---------------------------------------------------------------------------
-
-  Widget _panel(double topOffset, Widget child) => Positioned(
-        top: topOffset - 14,
-        left: 16,
-        right: 16,
-        bottom: 40,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(30),
-          child: child,
-        ),
-      );
-
   Widget _buildChatList() {
     final extraCount = (_showInitialChips ? 1 : 0) + (_thinking ? 1 : 0);
     final totalCount = _messages.length + extraCount;
@@ -212,7 +155,6 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
       itemCount: totalCount,
       itemBuilder: (context, index) {
-        // Show initial chips after the first AI message
         if (_showInitialChips && index == 1) {
           return ChatInitialChipsRow(
             chips: kInitialChips,
@@ -228,7 +170,9 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
 
         if (msgIndex >= _messages.length) return const SizedBox.shrink();
         return ChatMessageBubble(
-            msg: _messages[msgIndex], onChip: _sendMessage);
+          msg: _messages[msgIndex],
+          onChip: _sendMessage,
+        );
       },
     );
   }
@@ -241,84 +185,25 @@ class _CareerAssistantScreenState extends ConsumerState<CareerAssistantScreen>
           orElse: () => null,
         );
     final tourKeys = ref.watch(tourKeysProvider);
-    final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
-    return Scaffold(
-      backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: IthakiAppBar(
-        showMenuAndAvatar: true,
-        menuOpen: _panels.menuOpen,
-        profileOpen: _panels.profileOpen,
-        avatarInitials: homeData?.userInitials ?? 'CI',
-        avatarUrl: homeData?.userPhotoUrl,
-        onNotificationsPressed: () =>
-            context.push(Routes.settingsNotifications),
-        onMenuPressed: _toggleMenu,
-        onAvatarPressed: _toggleProfile,
-      ),
-      body: Stack(
+    return MainPanelScaffold(
+      currentRoute: Routes.careerAssistant,
+      extendBodyBehindAppBar: false,
+      avatarInitials: homeData?.userInitials ?? 'CI',
+      avatarUrl: homeData?.userPhotoUrl,
+      onBeforePanelAction: _inputFocus.unfocus,
+      bodyBuilder: (context, ref, topOffset) => Column(
         children: [
-          Column(
-            children: [
-              KeyedSubtree(
-                key: tourState?.currentStep == 11 ? tourKeys[11] : null,
-                child: ChatHeaderCard(onMenu: () => _showMenu(context)),
-              ),
-              Expanded(child: _buildChatList()),
-              ChatInputBar(
-                controller: _inputController,
-                focusNode: _inputFocus,
-                onSend: _sendMessage,
-              ),
-            ],
+          KeyedSubtree(
+            key: tourState?.currentStep == 11 ? tourKeys[11] : null,
+            child: ChatHeaderCard(onMenu: () => _showMenu(context)),
           ),
-          // Dismiss overlay sits behind the panels so menu items remain tappable.
-          if (_panels.menuOpen || _panels.profileOpen)
-            Positioned.fill(
-              child: GestureDetector(
-                onTap: () {
-                  _panels.closeMenu();
-                  _panels.closeProfile();
-                },
-                behavior: HitTestBehavior.translucent,
-                child: const ColoredBox(color: Colors.transparent),
-              ),
-            ),
-          // Nav drawer
-          if (_panels.menuOpen ||
-              _panels.menuCtrl.status != AnimationStatus.dismissed)
-            _panel(
-              topOffset,
-              SlideTransition(
-                position: _panels.slideAnim,
-                child: AppNavDrawer(
-                  currentRoute: Routes.careerAssistant,
-                  profileProgress: ref.watch(profileCompletionProvider),
-                  items: buildNavItems(AppLocalizations.of(context)!),
-                  onItemTap: (item) => _goFromMenu(item.route),
-                ),
-              ),
-            ),
-          // Profile panel
-          if (_panels.profileOpen ||
-              _panels.profileCtrl.status != AnimationStatus.dismissed)
-            _panel(
-              topOffset,
-              SlideTransition(
-                position: _panels.profileSlideAnim,
-                child: ProfileMenuPanel(
-                  onItemTap: _pushFromProfile,
-                  onLogOut: () {
-                    _inputFocus.unfocus();
-                    _panels.closeProfile();
-                    ref.read(authRepositoryProvider).logout().whenComplete(() {
-                      resetProfileProviders(ref);
-                      if (context.mounted) context.go(Routes.root);
-                    });
-                  },
-                ),
-              ),
-            ),
+          Expanded(child: _buildChatList()),
+          ChatInputBar(
+            controller: _inputController,
+            focusNode: _inputFocus,
+            onSend: _sendMessage,
+          ),
         ],
       ),
     );

@@ -3,16 +3,15 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../../../utils/ithaki_bottom_sheet.dart';
 
 void showVerificationSheet(
   BuildContext context, {
   required String newValue,
   required bool isEmail,
 }) {
-  showModalBottomSheet(
+  showIthakiBottomSheet<void>(
     context: context,
-    isScrollControlled: true,
-    backgroundColor: Colors.transparent,
     builder: (_) => VerificationSheet(
       newValue: newValue,
       isEmail: isEmail,

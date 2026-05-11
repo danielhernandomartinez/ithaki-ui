@@ -4,8 +4,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../models/applications_models.dart';
-import '../../../providers/invitations_provider.dart'
-    show invitationsProvider;
+import '../../../providers/invitations_provider.dart' show invitationsProvider;
 
 class DeclineInviteSheet extends ConsumerStatefulWidget {
   final String invitationId;
@@ -49,7 +48,10 @@ class _DeclineInviteSheetState extends ConsumerState<DeclineInviteSheet> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       ),
       padding: EdgeInsets.fromLTRB(
-        24, 20, 24, MediaQuery.paddingOf(context).bottom + 24,
+        24,
+        20,
+        24,
+        MediaQuery.paddingOf(context).bottom + 24,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -69,8 +71,8 @@ class _DeclineInviteSheetState extends ConsumerState<DeclineInviteSheet> {
               ),
               GestureDetector(
                 onTap: () => Navigator.of(context).pop(false),
-                child: const IthakiIcon('x-close', size: 20,
-                    color: IthakiTheme.softGraphite),
+                child: const IthakiIcon('x-close',
+                    size: 20, color: IthakiTheme.softGraphite),
               ),
             ],
           ),
@@ -244,7 +246,8 @@ class _InvitationPreview extends StatelessWidget {
           ),
           child: Text(
             invitation.category,
-            style: const TextStyle(fontSize: 13, color: IthakiTheme.textPrimary),
+            style:
+                const TextStyle(fontSize: 13, color: IthakiTheme.textPrimary),
           ),
         ),
       ],
@@ -312,7 +315,8 @@ class _ReasonDropdown extends StatelessWidget {
           isExpanded: true,
           hint: Text(
             hint,
-            style: const TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
+            style:
+                const TextStyle(fontSize: 14, color: IthakiTheme.textSecondary),
           ),
           items: reasons
               .map((r) => DropdownMenuItem(

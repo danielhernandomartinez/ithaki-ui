@@ -49,8 +49,8 @@ class ContinueAssessmentSheet extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             l.assessmentContinueSubtitle,
-            style:
-                IthakiTheme.bodySmall.copyWith(color: IthakiTheme.textSecondary),
+            style: IthakiTheme.bodySmall
+                .copyWith(color: IthakiTheme.textSecondary),
           ),
           const SizedBox(height: 20),
           Row(

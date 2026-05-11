@@ -44,7 +44,10 @@ class ApiDiagnosticResult {
   final String responsePreview;
 
   bool get hasError =>
-      error != null || statusCode == null || statusCode! < 200 || statusCode! >= 300;
+      error != null ||
+      statusCode == null ||
+      statusCode! < 200 ||
+      statusCode! >= 300;
 
   String get statusLabel => statusCode?.toString() ?? 'ERR';
 }
@@ -138,15 +141,13 @@ class ApiDiagnosticsRepository {
     final stopwatch = Stopwatch()..start();
     try {
       final token = await _api.readTokenOrNull();
-      final response = await _api.client
-          .get(
-            _api.uri(endpoint.path, endpoint.params),
-            headers: {
-              'Accept': 'application/json',
-              if (token != null) 'Authorization': 'Bearer $token',
-            },
-          )
-          .timeout(timeout);
+      final response = await _api.client.get(
+        _api.uri(endpoint.path, endpoint.params),
+        headers: {
+          'Accept': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
+        },
+      ).timeout(timeout);
       stopwatch.stop();
       return ApiDiagnosticResult(
         endpoint: endpoint,

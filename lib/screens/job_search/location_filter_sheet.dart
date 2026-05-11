@@ -81,7 +81,10 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
-    final bottomPadding = MediaQuery.viewInsetsOf(context).bottom;
+    final mediaQuery = MediaQuery.of(context);
+    final keyboardInset = mediaQuery.viewInsets.bottom;
+    final bottomPadding =
+        keyboardInset > 0 ? keyboardInset : mediaQuery.padding.bottom;
 
     return Container(
       height: MediaQuery.sizeOf(context).height * 0.85,

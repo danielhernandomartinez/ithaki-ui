@@ -40,7 +40,8 @@ class ChatHeaderCard extends StatelessWidget {
               child: const Center(
                 child: Text(
                   '...',
-                  style: TextStyle(fontSize: 18, color: IthakiTheme.softGraphite),
+                  style:
+                      TextStyle(fontSize: 18, color: IthakiTheme.softGraphite),
                 ),
               ),
             ),

@@ -6,6 +6,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/job_detail_models.dart';
 import '../../../routes.dart';
+import '../../../utils/ithaki_bottom_sheet.dart';
 import 'apply_bottom_sheet.dart';
 
 class JobDetailStickyBar extends StatelessWidget {
@@ -60,10 +61,8 @@ class JobDetailStickyBar extends StatelessWidget {
                         child: IthakiButton(
                           AppLocalizations.of(context)!.applyButton,
                           onPressed: () {
-                            showModalBottomSheet(
+                            showIthakiBottomSheet<void>(
                               context: context,
-                              isScrollControlled: true,
-                              backgroundColor: Colors.transparent,
                               builder: (_) => const ApplyBottomSheet(),
                             );
                           },

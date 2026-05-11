@@ -21,6 +21,7 @@ final jobInterestsListProvider = FutureProvider<List<JobInterestItem>>(
   (ref) => ref.read(referenceDataRepositoryProvider).getJobInterests(),
 );
 
-final personalityValuesListProvider = FutureProvider<List<PersonalityValueItem>>(
+final personalityValuesListProvider =
+    FutureProvider<List<PersonalityValueItem>>(
   (ref) => ref.read(referenceDataRepositoryProvider).getPersonalityValues(),
 );

@@ -5,6 +5,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../models/profile_models.dart';
 import '../providers/reference_data_provider.dart';
+import '../utils/ithaki_bottom_sheet.dart';
 
 class AddJobInterestSheet extends ConsumerStatefulWidget {
   final void Function(JobInterest) onAdd;
@@ -15,9 +16,8 @@ class AddJobInterestSheet extends ConsumerStatefulWidget {
     BuildContext context, {
     required void Function(JobInterest) onAdd,
   }) {
-    showModalBottomSheet(
+    showIthakiBottomSheet<void>(
       context: context,
-      isScrollControlled: true,
       backgroundColor: IthakiTheme.backgroundWhite,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),

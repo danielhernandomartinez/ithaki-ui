@@ -61,11 +61,10 @@ class InvitationCard extends ConsumerWidget {
             _ActionButtons(
               isDismissing: isDismissing,
               onDismiss: onDismissRequested,
-              onViewJob: () =>
-                  context.push(
-                    Routes.invitationJobDetailFor(invitation.id),
-                    extra: invitation,
-                  ),
+              onViewJob: () => context.push(
+                Routes.invitationJobDetailFor(invitation.id),
+                extra: invitation,
+              ),
             ),
           ] else ...[
             const SizedBox(height: 12),
@@ -277,11 +276,14 @@ class _JobSection extends StatelessWidget {
             if (invitation.location.isNotEmpty)
               JobCardDetailItem(icon: 'location', label: invitation.location),
             if (invitation.workplaceType.isNotEmpty)
-              JobCardDetailItem(icon: 'company-profile', label: invitation.workplaceType),
+              JobCardDetailItem(
+                  icon: 'company-profile', label: invitation.workplaceType),
             if (invitation.employmentType.isNotEmpty)
-              JobCardDetailItem(icon: 'clock', label: invitation.employmentType),
+              JobCardDetailItem(
+                  icon: 'clock', label: invitation.employmentType),
             if (invitation.experienceLevel.isNotEmpty)
-              JobCardDetailItem(icon: 'level', label: invitation.experienceLevel),
+              JobCardDetailItem(
+                  icon: 'level', label: invitation.experienceLevel),
           ],
         ),
       ],

@@ -157,9 +157,7 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
                       if (_isLoading) return;
                       setState(() => _isLoading = true);
                       try {
-                        await ref
-                            .read(authRepositoryProvider)
-                            .loginWithEmail(
+                        await ref.read(authRepositoryProvider).loginWithEmail(
                               _emailController.text,
                               _passwordController.text,
                             );

@@ -3,22 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
-import '../../constants/nav_items.dart';
 import '../../l10n/app_localizations.dart';
-import '../../mixins/panel_menu_mixin.dart';
 import '../../models/applications_models.dart';
 import '../../models/job_detail_models.dart';
 import '../../providers/applications_provider.dart';
 import '../../providers/invitations_provider.dart';
 import '../../providers/home_provider.dart';
 import '../../providers/job_detail_provider.dart';
-import '../../providers/profile_provider.dart';
 import '../../providers/tour_provider.dart';
-import '../../repositories/auth_repository.dart';
 import '../../routes.dart';
+import '../../utils/ithaki_bottom_sheet.dart';
 import '../../utils/job_detail_enricher.dart';
-import '../../widgets/app_nav_drawer.dart';
-import '../../widgets/profile_menu_panel.dart';
+import '../../widgets/main_panel_scaffold.dart';
 import 'widgets/invitation_top_card.dart';
 import 'widgets/invitation_sticky_bar.dart';
 import 'widgets/apply_bottom_sheet.dart';
@@ -48,22 +44,7 @@ class JobDetailScreen extends ConsumerStatefulWidget {
   ConsumerState<JobDetailScreen> createState() => _JobDetailScreenState();
 }
 
-class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
-    with TickerProviderStateMixin {
-  late final PanelMenuController _panels;
-
-  @override
-  void initState() {
-    super.initState();
-    _panels = PanelMenuController(setState)..init(this);
-  }
-
-  @override
-  void dispose() {
-    _panels.dispose();
-    super.dispose();
-  }
-
+class _JobDetailScreenState extends ConsumerState<JobDetailScreen> {
   // ── build ──────────────────────────────────────────────────────────────────
 
   @override
@@ -152,71 +133,22 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
           orElse: () => null,
         );
     final tourKeys = ref.watch(tourKeysProvider);
-    final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
-
-    return Scaffold(
-      backgroundColor: IthakiTheme.backgroundViolet,
-      extendBodyBehindAppBar: true,
-      appBar: IthakiAppBar(
-        showMenuAndAvatar: true,
-        menuOpen: _panels.menuOpen,
-        profileOpen: _panels.profileOpen,
-        avatarInitials: homeData?.userInitials ?? 'CI',
-        avatarUrl: homeData?.userPhotoUrl,
-        onNotificationsPressed: () =>
-            context.push(Routes.settingsNotifications),
-        onMenuPressed: _panels.toggleMenu,
-        onAvatarPressed: _panels.toggleProfile,
+    return MainPanelScaffold(
+      currentRoute: Routes.myApplications,
+      avatarInitials: homeData?.userInitials ?? 'CI',
+      avatarUrl: homeData?.userPhotoUrl,
+      bodyBuilder: (context, ref, topOffset) => _scrollableContent(
+        context,
+        detail,
+        invitation,
+        tourState,
+        tourKeys,
+        topOffset,
+        l,
       ),
-      body: Stack(
-        children: [
-          _scrollableContent(context, detail, invitation, tourState, tourKeys,
-              topOffset, l),
-          _stickyBar(context, detail, invitation),
-          if (_panels.menuOpen || _panels.profileOpen) _dismissOverlay(),
-          if (_panels.menuOpen ||
-              _panels.menuCtrl.status != AnimationStatus.dismissed)
-            _panel(
-              topOffset,
-              SlideTransition(
-                position: _panels.slideAnim,
-                child: AppNavDrawer(
-                  currentRoute: Routes.myApplications,
-                  profileProgress: ref.watch(profileCompletionProvider),
-                  items: buildNavItems(AppLocalizations.of(context)!),
-                  onItemTap: (item) {
-                    _panels.closeMenu();
-                    context.go(item.route);
-                  },
-                ),
-              ),
-            ),
-          if (_panels.profileOpen ||
-              _panels.profileCtrl.status != AnimationStatus.dismissed)
-            _panel(
-              topOffset,
-              SlideTransition(
-                position: _panels.profileSlideAnim,
-                child: ProfileMenuPanel(
-                  onItemTap: (item) {
-                    _panels.closeProfile();
-                    navigateToProfileMenuRoute(context, item);
-                  },
-                  onLogOut: () {
-                    _panels.closeProfile();
-                    ref
-                        .read(authRepositoryProvider)
-                        .logout()
-                        .whenComplete(() {
-                      resetProfileProviders(ref);
-                      if (context.mounted) context.go(Routes.root);
-                    });
-                  },
-                ),
-              ),
-            ),
-        ],
-      ),
+      overlayBuilder: (context, ref, topOffset) => [
+        _stickyBar(context, detail, invitation),
+      ],
     );
   }
 
@@ -241,8 +173,8 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
                 child: InvitationTopCard(
                   senderInitials: invitation?.senderInitials ?? '',
                   senderName: invitation?.senderName ?? '',
-                  senderAvatarColor:
-                      invitation?.senderAvatarColor ?? IthakiTheme.primaryPurple,
+                  senderAvatarColor: invitation?.senderAvatarColor ??
+                      IthakiTheme.primaryPurple,
                   companyName: invitation?.companyName ?? '',
                   message: invitation?.message ?? '',
                   deadline: detail.deadline,
@@ -304,18 +236,6 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
     );
   }
 
-  Widget _dismissOverlay() {
-    return Positioned.fill(
-      child: GestureDetector(
-        onTap: () {
-          _panels.closeMenu();
-          _panels.closeProfile();
-        },
-        child: const ColoredBox(color: Colors.transparent),
-      ),
-    );
-  }
-
   // ── state scaffolds ────────────────────────────────────────────────────────
 
   Widget _stateScaffold(BuildContext context, {required Widget child}) {
@@ -364,8 +284,7 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
         Text(
           message,
           textAlign: TextAlign.center,
-          style:
-              const TextStyle(fontSize: 16, color: IthakiTheme.textPrimary),
+          style: const TextStyle(fontSize: 16, color: IthakiTheme.textPrimary),
         ),
         const SizedBox(height: 16),
         IthakiButton(
@@ -379,10 +298,8 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
   // ── actions ────────────────────────────────────────────────────────────────
 
   void _showApplySheet(BuildContext context) {
-    showModalBottomSheet(
+    showIthakiBottomSheet<void>(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (_) => const ApplyBottomSheet(),
     );
   }
@@ -392,10 +309,8 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
   }
 
   Future<void> _showDeclineInviteSheet(BuildContext outerContext) async {
-    final declined = await showModalBottomSheet<bool>(
+    final declined = await showIthakiBottomSheet<bool>(
       context: outerContext,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (_) => DeclineInviteSheet(invitationId: widget.applicationId),
     );
     if (declined == true && mounted) context.go(Routes.myApplications);
@@ -406,16 +321,5 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen>
   Widget _pad(Widget child) => Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
         child: child,
-      );
-
-  Positioned _panel(double topOffset, Widget child) => Positioned(
-        top: topOffset - 14,
-        left: 16,
-        right: 16,
-        bottom: 40,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(30),
-          child: child,
-        ),
       );
 }

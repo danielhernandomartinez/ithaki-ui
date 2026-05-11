@@ -49,9 +49,8 @@ class ApiApplicationsRepository implements ApplicationsRepository {
     final id = a['id']?.toString() ?? '';
     final status = _parseStatus(a['status']);
     final applied = mapper.appliedAt(a['createdAt'] ?? a['appliedAt']);
-    final j = a['job'] is Map<String, dynamic>
-        ? a['job'] as Map<String, dynamic>
-        : a;
+    final j =
+        a['job'] is Map<String, dynamic> ? a['job'] as Map<String, dynamic> : a;
     final posted = mapper.postedAgo(j['postedAt'] ?? j['createdAt']);
     final f = mapper.parseJobFields(a);
 

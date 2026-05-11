@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/profile_provider.dart';
+import '../../../utils/ithaki_bottom_sheet.dart';
 import '../sheets/change_email_sheet.dart';
 import '../sheets/change_password_sheet.dart';
 import '../sheets/change_phone_sheet.dart';
@@ -244,10 +245,8 @@ class AccountSettingsTab extends ConsumerWidget {
   }
 
   void _showSheet(BuildContext context, Widget sheet) {
-    showModalBottomSheet(
+    showIthakiBottomSheet<void>(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (_) => sheet,
     );
   }

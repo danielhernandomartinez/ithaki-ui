@@ -55,8 +55,7 @@ class RegistrationNotifier extends Notifier<RegistrationState> {
   void setLanguage(String language) =>
       state = state.copyWith(language: language);
 
-  void setTechLevel(String level) =>
-      state = state.copyWith(techLevel: level);
+  void setTechLevel(String level) => state = state.copyWith(techLevel: level);
 
   void setCredentials(String email, String password) =>
       state = state.copyWith(email: email, password: password);
@@ -64,8 +63,8 @@ class RegistrationNotifier extends Notifier<RegistrationState> {
   void setPersonalDetails(String name, String lastName, String phone) =>
       state = state.copyWith(name: name, lastName: lastName, phone: phone);
 
-  void setVerifyMethod(String method, {bool remember = false}) =>
-      state = state.copyWith(verifyMethod: method, rememberVerifyChoice: remember);
+  void setVerifyMethod(String method, {bool remember = false}) => state =
+      state.copyWith(verifyMethod: method, rememberVerifyChoice: remember);
 
   void reset() => state = const RegistrationState();
 }

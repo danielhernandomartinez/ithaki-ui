@@ -36,10 +36,12 @@ class ProfileTabBar extends StatelessWidget {
                   onTap: () => onTabSelected(e.key),
                   child: Container(
                     height: 40,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                     decoration: BoxDecoration(
-                      color: selected ? IthakiTheme.backgroundWhite : Colors.transparent,
+                      color: selected
+                          ? IthakiTheme.backgroundWhite
+                          : Colors.transparent,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     alignment: Alignment.center,

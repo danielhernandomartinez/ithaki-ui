@@ -71,7 +71,8 @@ class _SearchInChatsSheetState extends State<SearchInChatsSheet> {
               ),
               GestureDetector(
                 onTap: () => Navigator.pop(context),
-                child: const IthakiIcon('delete', size: 22, color: IthakiTheme.softGraphite),
+                child: const IthakiIcon('delete',
+                    size: 22, color: IthakiTheme.softGraphite),
               ),
             ],
           ),
@@ -82,13 +83,16 @@ class _SearchInChatsSheetState extends State<SearchInChatsSheet> {
             onChanged: (v) => setState(() => _query = v.toLowerCase()),
             decoration: InputDecoration(
               hintText: l.chatSearchMessagesHint,
-              hintStyle: const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+              hintStyle: const TextStyle(
+                  fontSize: 13, color: IthakiTheme.textSecondary),
               prefixIcon: const Padding(
                 padding: EdgeInsets.only(left: 12, right: 8),
-                child: IthakiIcon('search', size: 18, color: IthakiTheme.softGraphite),
+                child: IthakiIcon('search',
+                    size: 18, color: IthakiTheme.softGraphite),
               ),
               prefixIconConstraints: const BoxConstraints(),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: const BorderSide(color: IthakiTheme.borderLight),
@@ -107,7 +111,9 @@ class _SearchInChatsSheetState extends State<SearchInChatsSheet> {
               ),
               child: SingleChildScrollView(
                 child: Column(
-                  children: results.map((item) => ChatHistoryItem(label: item)).toList(),
+                  children: results
+                      .map((item) => ChatHistoryItem(label: item))
+                      .toList(),
                 ),
               ),
             ),

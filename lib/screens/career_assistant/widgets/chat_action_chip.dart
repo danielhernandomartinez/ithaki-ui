@@ -43,7 +43,8 @@ class ChatActionChip extends StatelessWidget {
 class ChatInitialChipsRow extends StatelessWidget {
   final List<String> chips;
   final void Function(String) onChip;
-  const ChatInitialChipsRow({super.key, required this.chips, required this.onChip});
+  const ChatInitialChipsRow(
+      {super.key, required this.chips, required this.onChip});
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +62,8 @@ class ChatInitialChipsRow extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          ...chips.map((chip) => ChatActionChip(label: chip, onTap: () => onChip(chip))),
+          ...chips.map(
+              (chip) => ChatActionChip(label: chip, onTap: () => onChip(chip))),
         ],
       ),
     );

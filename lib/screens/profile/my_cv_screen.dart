@@ -3,16 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
-import '../../constants/nav_items.dart';
 import '../../l10n/app_localizations.dart';
-import '../../mixins/panel_menu_mixin.dart';
 import '../../providers/assessment_provider.dart';
 import '../../providers/cv_provider.dart';
 import '../../providers/profile_provider.dart';
-import '../../repositories/auth_repository.dart';
 import '../../routes.dart';
-import '../../widgets/app_nav_drawer.dart';
-import '../../widgets/profile_menu_panel.dart';
+import '../../utils/ithaki_bottom_sheet.dart';
+import '../../widgets/main_panel_scaffold.dart';
 import 'widgets/cv_assistant_card.dart';
 import 'widgets/cv_data.dart';
 import 'widgets/cv_floating_shelf.dart';
@@ -26,22 +23,7 @@ class MyCvScreen extends ConsumerStatefulWidget {
   ConsumerState<MyCvScreen> createState() => _MyCvScreenState();
 }
 
-class _MyCvScreenState extends ConsumerState<MyCvScreen>
-    with TickerProviderStateMixin {
-  late final PanelMenuController _panels;
-
-  @override
-  void initState() {
-    super.initState();
-    _panels = PanelMenuController(setState)..init(this);
-  }
-
-  @override
-  void dispose() {
-    _panels.dispose();
-    super.dispose();
-  }
-
+class _MyCvScreenState extends ConsumerState<MyCvScreen> {
   Future<bool> _handleBack(bool isPublished) async {
     if (isPublished) return true;
     _showLeaveWithoutPublishingSheet();
@@ -49,10 +31,8 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
   }
 
   void _showLeaveWithoutPublishingSheet() {
-    showModalBottomSheet<void>(
+    showIthakiBottomSheet<void>(
       context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
       builder: (sheetContext) => LeaveWithoutPublishingSheet(
         onLeaveWithoutSaving: () {
           Navigator.of(sheetContext).pop();
@@ -67,10 +47,8 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
   }
 
   void _showCareerAssistantSheet() {
-    showModalBottomSheet<void>(
+    showIthakiBottomSheet<void>(
       context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
       builder: (sheetContext) => const CareerAssistantSheet(),
     );
   }
@@ -121,70 +99,6 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
     );
   }
 
-  List<Widget> _buildPanelOverlays(double topOffset) => [
-        if (_panels.profileOpen)
-          Positioned.fill(
-            child: GestureDetector(
-              onTap: _panels.closeProfile,
-              child: const ColoredBox(color: Colors.transparent),
-            ),
-          ),
-        if (_panels.profileOpen ||
-            _panels.profileCtrl.status != AnimationStatus.dismissed)
-          Positioned(
-            top: topOffset - 14,
-            left: 16,
-            right: 16,
-            bottom: 40,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: SlideTransition(
-                position: _panels.profileSlideAnim,
-                child: ProfileMenuPanel(
-                  onItemTap: (item) {
-                    _panels.closeProfile();
-                    navigateToProfileMenuRoute(context, item);
-                  },
-                  onLogOut: () {
-                    _panels.closeProfile();
-                    final router = GoRouter.of(context);
-                    ref
-                        .read(authRepositoryProvider)
-                        .logout()
-                        .whenComplete(() {
-                      resetProfileProviders(ref);
-                      if (mounted) router.go(Routes.root);
-                    });
-                  },
-                ),
-              ),
-            ),
-          ),
-        if (_panels.menuOpen ||
-            _panels.menuCtrl.status != AnimationStatus.dismissed)
-          Positioned(
-            top: topOffset - 14,
-            left: 16,
-            right: 16,
-            bottom: 40,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: SlideTransition(
-                position: _panels.slideAnim,
-                child: AppNavDrawer(
-                  currentRoute: Routes.cv,
-                  profileProgress: ref.watch(profileCompletionProvider),
-                  items: buildNavItems(AppLocalizations.of(context)!),
-                  onItemTap: (item) {
-                    _panels.closeMenu();
-                    context.go(item.route);
-                  },
-                ),
-              ),
-            ),
-          ),
-      ];
-
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
@@ -212,44 +126,33 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
       jobPreferences: jobPreferences ?? const ProfileJobPreferences(),
       assessments: assessments ?? const <Assessment>[],
     );
-    final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
     return PopScope(
       canPop: isPublished,
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop && !isPublished) _showLeaveWithoutPublishingSheet();
       },
-      child: Scaffold(
-        backgroundColor: IthakiTheme.backgroundViolet,
-        extendBodyBehindAppBar: true,
-        appBar: IthakiAppBar(
-          showMenuAndAvatar: true,
-          showBackButton: true,
-          title: l.appBarTitleIthaki,
-          menuOpen: false,
-          profileOpen: _panels.profileOpen,
-          avatarInitials: cvData.avatarInitials,
-          avatarUrl: basicsAsync.value?.photoUrl,
-          onNotificationsPressed: () =>
-              context.push(Routes.settingsNotifications),
-          onMenuPressed: () async {
-            final shouldPop = await _handleBack(isPublished);
+      child: MainPanelScaffold(
+        currentRoute: Routes.cv,
+        enableNavDrawer: false,
+        showBackButton: true,
+        title: l.appBarTitleIthaki,
+        avatarInitials: cvData.avatarInitials,
+        avatarUrl: basicsAsync.value?.photoUrl,
+        onMenuPressed: () {
+          _handleBack(isPublished).then((shouldPop) {
             if (shouldPop && context.mounted) context.pop();
-          },
-          onAvatarPressed: _panels.toggleProfile,
+          });
+        },
+        bodyBuilder: (context, ref, topOffset) => CvScrollBody(
+          cvData: cvData,
+          isPublished: isPublished,
+          topOffset: topOffset,
+          onAskCareerAssistant: _showCareerAssistantSheet,
         ),
-        body: Stack(
-          children: [
-            CvScrollBody(
-              cvData: cvData,
-              isPublished: isPublished,
-              topOffset: topOffset,
-              onAskCareerAssistant: _showCareerAssistantSheet,
-            ),
-            CvFloatingShelf(isPublished: isPublished),
-            ..._buildPanelOverlays(topOffset),
-          ],
-        ),
+        overlayBuilder: (context, ref, topOffset) => [
+          CvFloatingShelf(isPublished: isPublished),
+        ],
       ),
     );
   }

@@ -83,8 +83,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         duration: const Duration(milliseconds: 180),
         height: 40,
         decoration: BoxDecoration(
-          color:
-              selected ? IthakiTheme.backgroundWhite : Colors.transparent,
+          color: selected ? IthakiTheme.backgroundWhite : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 8),

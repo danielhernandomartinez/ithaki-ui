@@ -11,7 +11,8 @@ class PersonalDetailsScreen extends ConsumerStatefulWidget {
   const PersonalDetailsScreen({super.key});
 
   @override
-  ConsumerState<PersonalDetailsScreen> createState() => _PersonalDetailsScreenState();
+  ConsumerState<PersonalDetailsScreen> createState() =>
+      _PersonalDetailsScreenState();
 }
 
 class _PersonalDetailsScreenState extends ConsumerState<PersonalDetailsScreen> {
@@ -44,7 +45,9 @@ class _PersonalDetailsScreenState extends ConsumerState<PersonalDetailsScreen> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     return IthakiScreenLayout(
-      appBar: IthakiAppBar(actionLabel: l.loginAction, onActionPressed: () => context.go(Routes.loginPhone)),
+      appBar: IthakiAppBar(
+          actionLabel: l.loginAction,
+          onActionPressed: () => context.go(Routes.loginPhone)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -85,10 +88,10 @@ class _PersonalDetailsScreenState extends ConsumerState<PersonalDetailsScreen> {
             onPressed: _canContinue
                 ? () {
                     ref.read(registrationProvider.notifier).setPersonalDetails(
-                      _nameController.text.trim(),
-                      _lastNameController.text.trim(),
-                      _phoneController.text.trim(),
-                    );
+                          _nameController.text.trim(),
+                          _lastNameController.text.trim(),
+                          _phoneController.text.trim(),
+                        );
                     context.push(Routes.chooseVerifyMethod);
                   }
                 : null,

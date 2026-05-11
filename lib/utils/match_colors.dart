@@ -7,11 +7,20 @@ List<Color> getMatchGradientColors(String matchLabel) {
     case 'GREAT MATCH':
       return [IthakiTheme.matchGradientHighStart, IthakiTheme.matchGreen];
     case 'GOOD MATCH':
-      return [IthakiTheme.matchGradientGoodStart, IthakiTheme.matchGradientGoodEnd];
+      return [
+        IthakiTheme.matchGradientGoodStart,
+        IthakiTheme.matchGradientGoodEnd
+      ];
     case 'WEAK MATCH':
-      return [IthakiTheme.matchGradientWeakStart, IthakiTheme.matchGradientWeakEnd];
+      return [
+        IthakiTheme.matchGradientWeakStart,
+        IthakiTheme.matchGradientWeakEnd
+      ];
     case 'NO BENEFICIARIES MATCH':
-      return [IthakiTheme.matchGradientNoneStart, IthakiTheme.matchGradientNoneEnd];
+      return [
+        IthakiTheme.matchGradientNoneStart,
+        IthakiTheme.matchGradientNoneEnd
+      ];
     default:
       return [IthakiTheme.matchGradientHighStart, IthakiTheme.matchGreen];
   }

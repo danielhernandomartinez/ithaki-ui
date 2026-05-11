@@ -28,7 +28,8 @@ class ApplicationCard extends StatelessWidget {
         children: [
           _AppliedHeader(application: application),
           const SizedBox(height: 10),
-          const Divider(height: 1, thickness: 1, color: IthakiTheme.borderLight),
+          const Divider(
+              height: 1, thickness: 1, color: IthakiTheme.borderLight),
           const SizedBox(height: 12),
           _JobInfo(
             application: application,
@@ -116,7 +117,8 @@ class _StatusBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: isArchived ? IthakiTheme.lightGray : IthakiTheme.accentPurpleLight,
+        color:
+            isArchived ? IthakiTheme.lightGray : IthakiTheme.accentPurpleLight,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Text(
@@ -125,7 +127,8 @@ class _StatusBadge extends StatelessWidget {
           fontFamily: 'Noto Sans',
           fontSize: 16,
           fontWeight: FontWeight.w400,
-          color: isArchived ? IthakiTheme.textSecondary : IthakiTheme.textPrimary,
+          color:
+              isArchived ? IthakiTheme.textSecondary : IthakiTheme.textPrimary,
           height: 1.5,
           letterSpacing: -0.32,
         ),
@@ -229,11 +232,14 @@ class _JobInfo extends StatelessWidget {
             if (application.location.isNotEmpty)
               JobCardDetailItem(icon: 'location', label: application.location),
             if (application.workplaceType.isNotEmpty)
-              JobCardDetailItem(icon: 'company-profile', label: application.workplaceType),
+              JobCardDetailItem(
+                  icon: 'company-profile', label: application.workplaceType),
             if (application.employmentType.isNotEmpty)
-              JobCardDetailItem(icon: 'clock', label: application.employmentType),
+              JobCardDetailItem(
+                  icon: 'clock', label: application.employmentType),
             if (application.experienceLevel.isNotEmpty)
-              JobCardDetailItem(icon: 'level', label: application.experienceLevel),
+              JobCardDetailItem(
+                  icon: 'level', label: application.experienceLevel),
           ],
         ),
         const SizedBox(height: 12),

@@ -160,7 +160,8 @@ class _EducationFormScreenState extends ConsumerState<EducationFormScreen> {
         const SizedBox(height: 6),
         Text(
           l.profileEducationSubtitle,
-          style: const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+          style:
+              const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 24),
 

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../l10n/app_localizations.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../repositories/city_search_repository.dart';
+import '../utils/ithaki_bottom_sheet.dart';
 
 class CitySearchBottomSheet extends ConsumerStatefulWidget {
   final void Function(String city) onSelected;
@@ -11,16 +12,15 @@ class CitySearchBottomSheet extends ConsumerStatefulWidget {
   const CitySearchBottomSheet({super.key, required this.onSelected});
 
   static void show(BuildContext context, void Function(String) onSelected) {
-    showModalBottomSheet(
+    showIthakiBottomSheet<void>(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
       builder: (_) => CitySearchBottomSheet(onSelected: onSelected),
     );
   }
 
   @override
-  ConsumerState<CitySearchBottomSheet> createState() => _CitySearchBottomSheetState();
+  ConsumerState<CitySearchBottomSheet> createState() =>
+      _CitySearchBottomSheetState();
 }
 
 class _CitySearchBottomSheetState extends ConsumerState<CitySearchBottomSheet> {
@@ -47,7 +47,8 @@ class _CitySearchBottomSheetState extends ConsumerState<CitySearchBottomSheet> {
       return;
     }
     _lastQuery = trimmed;
-    _debounce = Timer(const Duration(milliseconds: 400), () => _search(trimmed));
+    _debounce =
+        Timer(const Duration(milliseconds: 400), () => _search(trimmed));
   }
 
   Future<void> _search(String query) async {
@@ -55,7 +56,10 @@ class _CitySearchBottomSheetState extends ConsumerState<CitySearchBottomSheet> {
     final repo = ref.read(citySearchRepositoryProvider);
     final results = await repo.search(query);
     if (!mounted || _lastQuery != query) return;
-    setState(() { _results = results; _loading = false; });
+    setState(() {
+      _results = results;
+      _loading = false;
+    });
   }
 
   @override
@@ -76,7 +80,8 @@ class _CitySearchBottomSheetState extends ConsumerState<CitySearchBottomSheet> {
           // ── Handle ──────────────────────────────────────────
           Center(
             child: Container(
-              width: 40, height: 4,
+              width: 40,
+              height: 4,
               margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
                 color: IthakiTheme.placeholderBg,
@@ -102,12 +107,14 @@ class _CitySearchBottomSheetState extends ConsumerState<CitySearchBottomSheet> {
               hintText: l.typeCityHint,
               hintStyle: const TextStyle(
                   color: IthakiTheme.softGraphite, fontSize: 14),
-              prefixIcon: const Icon(Icons.search, color: IthakiTheme.softGraphite),
+              prefixIcon:
+                  const Icon(Icons.search, color: IthakiTheme.softGraphite),
               suffixIcon: _loading
                   ? const Padding(
                       padding: EdgeInsets.all(12),
                       child: SizedBox(
-                          width: 20, height: 20,
+                          width: 20,
+                          height: 20,
                           child: CircularProgressIndicator(strokeWidth: 2)))
                   : null,
               border: OutlineInputBorder(
@@ -152,8 +159,8 @@ class _CitySearchBottomSheetState extends ConsumerState<CitySearchBottomSheet> {
                     itemBuilder: (_, i) {
                       final r = _results[i];
                       return ListTile(
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 4, vertical: 2),
                         leading: const Icon(Icons.location_on_outlined,
                             color: IthakiTheme.softGraphite, size: 20),
                         title: Text(r.city,

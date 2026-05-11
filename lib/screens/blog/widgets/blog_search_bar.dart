@@ -25,7 +25,8 @@ class BlogSearchBar extends ConsumerWidget {
             hintStyle: const TextStyle(color: IthakiTheme.softGraphite),
             prefixIcon: const Padding(
               padding: EdgeInsets.all(12),
-              child: IthakiIcon('search', size: 20, color: IthakiTheme.lightGraphite),
+              child: IthakiIcon('search',
+                  size: 20, color: IthakiTheme.lightGraphite),
             ),
             border: InputBorder.none,
             contentPadding:

@@ -12,8 +12,7 @@ const kInitialChips = [
   'I want to speak with real Ithaki counselor',
 ];
 
-const _kGuideResponse =
-    'Sure — here\'s how things work here 👇\n\n'
+const _kGuideResponse = 'Sure — here\'s how things work here 👇\n\n'
     '1. Build your Talent Profile. Add your skills, interests, and experience.\n'
     '2. Explore Jobs. Browse open roles or let me recommend ones that fit your profile.\n'
     '3. Apply in one click. Use your saved CV or upload a new one each time.\n'
@@ -128,7 +127,9 @@ ChatMessage buildAiResponse(String trigger) {
       articles: kArticleCards,
     );
   }
-  if (t.contains('analyze') || t.contains('complete') || t.contains('profile')) {
+  if (t.contains('analyze') ||
+      t.contains('complete') ||
+      t.contains('profile')) {
     return const ChatMessage(
       type: MsgType.ai,
       text: _kAnalyzeResponse,

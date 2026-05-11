@@ -3,17 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../l10n/app_localizations.dart';
 import '../providers/tour_provider.dart';
+import '../utils/ithaki_bottom_sheet.dart';
 
 class TourSkipModal extends ConsumerWidget {
   const TourSkipModal({super.key});
 
   static Future<void> show(BuildContext context) async {
-    await showModalBottomSheet<void>(
+    await showIthakiBottomSheet<void>(
       context: context,
-      isScrollControlled: true,
       isDismissible: false,
       enableDrag: false,
-      backgroundColor: Colors.transparent,
       builder: (_) => const TourSkipModal(),
     );
   }

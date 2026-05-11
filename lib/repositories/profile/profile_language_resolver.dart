@@ -53,18 +53,14 @@ class ProfileLanguageResolver {
     final body = jsonDecode(res.body);
     final List raw = body is List
         ? body
-        : (body as Map<String, dynamic>)['content'] ??
-            body['data'] ??
-            const [];
+        : (body as Map<String, dynamic>)['content'] ?? body['data'] ?? const [];
 
     final map = <String, int>{};
     for (final item in raw.whereType<Map>()) {
       final j = item.cast<String, dynamic>();
-      final name =
-          (j['title'] as String? ?? j['name'] as String? ?? '').trim();
+      final name = (j['title'] as String? ?? j['name'] as String? ?? '').trim();
       final idRaw = j['value'] ?? j['id'];
-      final id =
-          idRaw is num ? idRaw.toInt() : int.tryParse(idRaw.toString());
+      final id = idRaw is num ? idRaw.toInt() : int.tryParse(idRaw.toString());
       if (name.isEmpty || id == null) continue;
       map[_normalize(name)] = id;
       map[_normalizeLoose(name)] = id;

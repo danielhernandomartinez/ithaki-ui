@@ -4,7 +4,8 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 class QuizProgressBar extends StatelessWidget {
   final int current;
   final int total;
-  const QuizProgressBar({super.key, required this.current, required this.total});
+  const QuizProgressBar(
+      {super.key, required this.current, required this.total});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,8 @@ class QuizProgressBar extends StatelessWidget {
       children: [
         Text(
           '$current/$total',
-          style: IthakiTheme.bodySmall.copyWith(color: IthakiTheme.textSecondary),
+          style:
+              IthakiTheme.bodySmall.copyWith(color: IthakiTheme.textSecondary),
         ),
         const SizedBox(height: 4),
         ClipRRect(

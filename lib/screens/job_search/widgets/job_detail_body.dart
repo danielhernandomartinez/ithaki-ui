@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../models/job_detail_models.dart';
 import '../../../providers/tour_provider.dart';
+import '../../../utils/layout_offsets.dart';
 import 'job_detail_announcement_banner.dart';
 import 'job_detail_company_card.dart';
 import 'job_detail_main_card.dart';
@@ -51,7 +52,7 @@ class JobDetailBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
+    final topOffset = context.ithakiTopOffset;
 
     return SingleChildScrollView(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

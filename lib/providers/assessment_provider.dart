@@ -31,9 +31,11 @@ class AssessmentsListNotifier extends AsyncNotifier<List<Assessment>> {
         .toggleShowInCV(assessmentId, show: show);
     ref.invalidate(assessmentResultProvider(assessmentId));
     state = AsyncData(
-      all.map((x) => x.id == assessmentId
-          ? x.copyWith(lastResult: x.lastResult?.copyWith(shownInCV: show))
-          : x).toList(),
+      all
+          .map((x) => x.id == assessmentId
+              ? x.copyWith(lastResult: x.lastResult?.copyWith(shownInCV: show))
+              : x)
+          .toList(),
     );
   }
 }
@@ -51,15 +53,12 @@ typedef AssessmentsGrouped = ({
 final assessmentsGroupedProvider = Provider<AssessmentsGrouped>((ref) {
   final all = ref.watch(assessmentsListProvider).value ?? [];
   return (
-    inProgress: all
-        .where((a) => a.status == AssessmentStatus.inProgress)
-        .toList(),
-    recommended: all
-        .where((a) => a.status == AssessmentStatus.notStarted)
-        .toList(),
-    completed: all
-        .where((a) => a.status == AssessmentStatus.completed)
-        .toList(),
+    inProgress:
+        all.where((a) => a.status == AssessmentStatus.inProgress).toList(),
+    recommended:
+        all.where((a) => a.status == AssessmentStatus.notStarted).toList(),
+    completed:
+        all.where((a) => a.status == AssessmentStatus.completed).toList(),
   );
 });
 
@@ -200,9 +199,8 @@ class QuizNotifier extends Notifier<QuizState> {
   }
 }
 
-final quizProvider =
-    NotifierProvider.family<QuizNotifier, QuizState, String>(
-        (arg) => QuizNotifier(arg));
+final quizProvider = NotifierProvider.family<QuizNotifier, QuizState, String>(
+    (arg) => QuizNotifier(arg));
 
 // ─── Results ───────────────────────────────────────────────────────────────────
 

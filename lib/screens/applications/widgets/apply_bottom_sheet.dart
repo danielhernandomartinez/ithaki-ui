@@ -15,7 +15,10 @@ class ApplyBottomSheet extends StatelessWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       ),
       padding: EdgeInsets.fromLTRB(
-        24, 16, 24, MediaQuery.paddingOf(context).bottom + 24,
+        24,
+        16,
+        24,
+        MediaQuery.paddingOf(context).bottom + 24,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -48,8 +51,8 @@ class ApplyBottomSheet extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () => Navigator.of(context).pop(),
-                child: const IthakiIcon('x-close', size: 20,
-                    color: IthakiTheme.softGraphite),
+                child: const IthakiIcon('x-close',
+                    size: 20, color: IthakiTheme.softGraphite),
               ),
             ],
           ),

@@ -87,7 +87,8 @@ class TalentProfileCard extends StatelessWidget {
           const SizedBox(height: 8),
           _ContactRow(icon: 'phone', value: candidate.phone),
           const SizedBox(height: 12),
-          const Divider(height: 1, thickness: 1, color: IthakiTheme.borderLight),
+          const Divider(
+              height: 1, thickness: 1, color: IthakiTheme.borderLight),
           const SizedBox(height: 12),
           Wrap(spacing: 0, runSpacing: 12, children: [
             _InfoCell(label: l.genderInfoLabel, value: candidate.gender),
@@ -96,7 +97,8 @@ class TalentProfileCard extends StatelessWidget {
             _InfoCell(label: l.locationInfoLabel, value: candidate.location),
           ]),
           const SizedBox(height: 12),
-          const Divider(height: 1, thickness: 1, color: IthakiTheme.borderLight),
+          const Divider(
+              height: 1, thickness: 1, color: IthakiTheme.borderLight),
           const SizedBox(height: 12),
           Wrap(spacing: 0, runSpacing: 12, children: [
             _IconInfoCell(
