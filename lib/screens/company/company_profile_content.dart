@@ -8,7 +8,10 @@ import '../../providers/job_search_provider.dart';
 import '../../routes.dart';
 import 'widgets/company_profile_atoms.dart';
 import 'widgets/company_profile_header.dart';
-import 'widgets/company_profile_tabs.dart';
+import 'widgets/company_about_tab.dart';
+import 'widgets/company_events_tab.dart';
+import 'widgets/company_posts_tab.dart';
+import 'widgets/company_vacancies_tab.dart';
 
 const kCompanyTabCount = 4;
 
