@@ -22,6 +22,7 @@ const _kLanguages = [
   (code: 'en', label: 'English', flag: 'GB'),
   (code: 'el', label: 'Ελληνικά', flag: 'GR'),
   (code: 'ar', label: 'العربية', flag: 'SA'),
+  (code: 'es', label: 'Español', flag: 'ES'),
 ];
 
 class AppNavDrawer extends ConsumerWidget {
@@ -45,7 +46,8 @@ class AppNavDrawer extends ConsumerWidget {
     VoidCallback? onLanguageTap,
   });
 
-  void _showLanguagePicker(BuildContext context, WidgetRef ref, String currentCode) {
+  void _showLanguagePicker(
+      BuildContext context, WidgetRef ref, String currentCode) {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -130,7 +132,8 @@ class _NavTile extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
-  const _NavTile({required this.item, required this.selected, required this.onTap});
+  const _NavTile(
+      {required this.item, required this.selected, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -273,7 +276,8 @@ class _HatchPainter extends CustomPainter {
       ..strokeWidth = 1.5;
     const spacing = 8.0;
     for (double x = -size.height; x < size.width + size.height; x += spacing) {
-      canvas.drawLine(Offset(x, size.height), Offset(x + size.height, 0), paint);
+      canvas.drawLine(
+          Offset(x, size.height), Offset(x + size.height, 0), paint);
     }
   }
 
@@ -288,7 +292,8 @@ class _LanguageTile extends StatelessWidget {
   final String label;
   final VoidCallback? onTap;
 
-  const _LanguageTile({required this.flagCode, required this.label, this.onTap});
+  const _LanguageTile(
+      {required this.flagCode, required this.label, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -308,7 +313,8 @@ class _LanguageTile extends StatelessWidget {
               ),
             ),
           ),
-          const Icon(Icons.keyboard_arrow_down, size: 20, color: IthakiTheme.textSecondary),
+          const IthakiIcon('arrow-down',
+              size: 20, color: IthakiTheme.textSecondary),
         ],
       ),
     );
@@ -321,7 +327,8 @@ class _LanguagePickerSheet extends StatelessWidget {
   final String currentCode;
   final void Function(String code) onSelect;
 
-  const _LanguagePickerSheet({required this.currentCode, required this.onSelect});
+  const _LanguagePickerSheet(
+      {required this.currentCode, required this.onSelect});
 
   @override
   Widget build(BuildContext context) {
@@ -338,7 +345,8 @@ class _LanguagePickerSheet extends StatelessWidget {
         children: [
           const SizedBox(height: 12),
           Container(
-            width: 40, height: 4,
+            width: 40,
+            height: 4,
             decoration: BoxDecoration(
               color: IthakiTheme.borderLight,
               borderRadius: BorderRadius.circular(2),
@@ -364,7 +372,8 @@ class _LangOption extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
-  const _LangOption({required this.lang, required this.selected, required this.onTap});
+  const _LangOption(
+      {required this.lang, required this.selected, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -393,7 +402,8 @@ class _LangOption extends StatelessWidget {
               ),
             ),
             if (selected)
-              const IthakiIcon('check', size: 18, color: IthakiTheme.textPrimary),
+              const IthakiIcon('check',
+                  size: 18, color: IthakiTheme.textPrimary),
           ],
         ),
       ),

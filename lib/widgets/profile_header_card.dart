@@ -48,24 +48,31 @@ class ProfileHeaderCard extends ConsumerWidget {
                 : null,
           ),
           const SizedBox(width: 12),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              '${basics.firstName} ${basics.lastName}',
-              style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: IthakiTheme.textPrimary),
-            ),
-            Text(
-              prefs != null && prefs.jobInterests.isNotEmpty
-                  ? prefs.jobInterests.first.title
-                  : prefs != null && prefs.jobType.isNotEmpty
-                      ? prefs.jobType
-                      : l.roleJobSeeker,
-              style: const TextStyle(
-                  fontSize: 14, color: IthakiTheme.textSecondary),
-            ),
-          ]),
+          Expanded(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(
+                '${basics.firstName} ${basics.lastName}',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: IthakiTheme.textPrimary),
+              ),
+              Text(
+                prefs != null && prefs.jobInterests.isNotEmpty
+                    ? prefs.jobInterests.first.title
+                    : prefs != null && prefs.jobType.isNotEmpty
+                        ? prefs.jobType
+                        : l.roleJobSeeker,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                    fontSize: 14, color: IthakiTheme.textSecondary),
+              ),
+            ]),
+          ),
         ]),
         const SizedBox(height: 12),
         _contactRow(const IthakiIcon('envelope', size: 16), basics.email),
@@ -88,12 +95,25 @@ class ProfileHeaderCard extends ConsumerWidget {
           Expanded(child: _infoCell(l.locationLabel, basics.residence)),
         ]),
         const SizedBox(height: 12),
-        IthakiOutlineButton(
-          l.editProfileBasicsButton,
-          icon: const IthakiIcon('edit-pencil', size: 16),
-          onPressed: () => context.push(Routes.profileBasics),
-          borderRadius: 20,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: () => context.push(Routes.profileBasics),
+            icon: const IthakiIcon('edit-pencil', size: 16),
+            label: Text(
+              l.editProfileBasicsButton,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
+            style: OutlinedButton.styleFrom(
+              side: BorderSide(color: Colors.grey.shade300),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              foregroundColor: IthakiTheme.textPrimary,
+            ),
+          ),
         ),
       ]),
     );
@@ -102,19 +122,29 @@ class ProfileHeaderCard extends ConsumerWidget {
   Widget _contactRow(Widget icon, String text) => Row(children: [
         icon,
         const SizedBox(width: 6),
-        Text(text,
-            style: const TextStyle(
-                fontSize: 13, color: IthakiTheme.textSecondary)),
+        Expanded(
+          child: Text(
+            text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style:
+                const TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
+          ),
+        ),
       ]);
 
   Widget _infoCell(String label, String value) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                   fontSize: 11, color: IthakiTheme.textSecondary)),
           const SizedBox(height: 2),
           Text(value,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,

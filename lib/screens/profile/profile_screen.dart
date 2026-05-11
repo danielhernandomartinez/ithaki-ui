@@ -77,6 +77,69 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     }
   }
 
+  ButtonStyle _profileActionButtonStyle() {
+    return OutlinedButton.styleFrom(
+      side: BorderSide(color: Colors.grey.shade300),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      foregroundColor: IthakiTheme.textPrimary,
+    );
+  }
+
+  Widget _profileActionButton({
+    required String label,
+    required String icon,
+    required VoidCallback onPressed,
+  }) {
+    return OutlinedButton.icon(
+      onPressed: onPressed,
+      icon: IthakiIcon(icon, size: 16),
+      label: Text(
+        label,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        textAlign: TextAlign.center,
+      ),
+      style: _profileActionButtonStyle(),
+    );
+  }
+
+  Widget _buildProfileActions(AppLocalizations l) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final openCvButton = _profileActionButton(
+          label: l.openCv,
+          icon: 'resume',
+          onPressed: () => context.push(Routes.cv),
+        );
+        final settingsButton = _profileActionButton(
+          label: l.accountSettings,
+          icon: 'settings',
+          onPressed: () => context.push(Routes.settings),
+        );
+
+        if (constraints.maxWidth < 460) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              openCvButton,
+              const SizedBox(height: 8),
+              settingsButton,
+            ],
+          );
+        }
+
+        return Row(
+          children: [
+            Expanded(child: openCvButton),
+            const SizedBox(width: 8),
+            Expanded(child: settingsButton),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
@@ -190,41 +253,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 color: IthakiTheme.backgroundWhite,
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton.icon(
-                      onPressed: () => context.push(Routes.cv),
-                      icon: const IthakiIcon('resume', size: 16),
-                      label: Text(l.openCv),
-                      style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: Colors.grey.shade300),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 10),
-                        foregroundColor: IthakiTheme.textPrimary,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: OutlinedButton.icon(
-                      onPressed: () => context.push(Routes.settings),
-                      icon: const IthakiIcon('settings', size: 16),
-                      label: Text(l.accountSettings),
-                      style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: Colors.grey.shade300),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 10),
-                        foregroundColor: IthakiTheme.textPrimary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              child: _buildProfileActions(l),
             ),
             SizedBox(height: MediaQuery.viewPaddingOf(context).bottom + 32),
           ]),
