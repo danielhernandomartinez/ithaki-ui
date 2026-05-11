@@ -149,6 +149,7 @@ class InvitationsNotifier extends AsyncNotifier<List<Invitation>> {
           }).toList() ??
           [],
     );
+    ref.read(invitationDeclinedProvider.notifier).set(true);
   }
 
   static String _nowLabel() {

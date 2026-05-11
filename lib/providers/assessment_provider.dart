@@ -71,6 +71,7 @@ class QuizState {
   final Map<String, dynamic> answers;
   final bool isLoading;
   final bool isProcessing;
+  final bool isSubmitted;
 
   const QuizState({
     this.questions = const [],
@@ -78,6 +79,7 @@ class QuizState {
     this.answers = const {},
     this.isLoading = true,
     this.isProcessing = false,
+    this.isSubmitted = false,
   });
 
   Question? get currentQuestion =>
@@ -101,6 +103,7 @@ class QuizState {
     Map<String, dynamic>? answers,
     bool? isLoading,
     bool? isProcessing,
+    bool? isSubmitted,
   }) {
     return QuizState(
       questions: questions ?? this.questions,
@@ -108,6 +111,7 @@ class QuizState {
       answers: answers ?? this.answers,
       isLoading: isLoading ?? this.isLoading,
       isProcessing: isProcessing ?? this.isProcessing,
+      isSubmitted: isSubmitted ?? this.isSubmitted,
     );
   }
 }
@@ -192,6 +196,7 @@ class QuizNotifier extends Notifier<QuizState> {
         .submitAnswers(assessmentId, state.answers);
     ref.invalidate(assessmentsListProvider);
     ref.invalidate(assessmentResultProvider(assessmentId));
+    state = state.copyWith(isSubmitted: true);
   }
 }
 

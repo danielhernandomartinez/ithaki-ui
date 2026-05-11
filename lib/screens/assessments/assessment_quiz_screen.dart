@@ -23,7 +23,7 @@ class AssessmentQuizScreen extends ConsumerStatefulWidget {
 }
 
 class _AssessmentQuizScreenState extends ConsumerState<AssessmentQuizScreen> {
-  bool _processingNavigated = false;
+  bool _overlayShown = false;
 
   Future<void> _showLeaveDialog() async {
     await showModalBottomSheet(
@@ -43,29 +43,24 @@ class _AssessmentQuizScreenState extends ConsumerState<AssessmentQuizScreen> {
     );
   }
 
-  Future<void> _showProcessingAndNavigate() async {
-    if (_processingNavigated) return;
-    _processingNavigated = true;
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => const QuizProcessingOverlay(),
-    );
-    await Future.delayed(const Duration(seconds: 3));
-    if (mounted) {
-      Navigator.of(context, rootNavigator: true).pop();
-      context.pushReplacement(Routes.assessmentResultsFor(widget.assessmentId));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     final quizState = ref.watch(quizProvider(widget.assessmentId));
 
     ref.listen(quizProvider(widget.assessmentId), (prev, next) {
-      if (!_processingNavigated && next.isProcessing) {
-        _showProcessingAndNavigate();
+      if (!_overlayShown && next.isProcessing) {
+        _overlayShown = true;
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) => const QuizProcessingOverlay(),
+        );
+      }
+      if (_overlayShown && next.isSubmitted) {
+        Navigator.of(context, rootNavigator: true).pop();
+        context.pushReplacement(
+            Routes.assessmentResultsFor(widget.assessmentId));
       }
     });
 

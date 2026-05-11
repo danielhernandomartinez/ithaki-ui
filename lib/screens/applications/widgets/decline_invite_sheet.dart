@@ -4,7 +4,8 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../models/applications_models.dart';
-import '../../../providers/invitations_provider.dart';
+import '../../../providers/invitations_provider.dart'
+    show invitationsProvider;
 
 class DeclineInviteSheet extends ConsumerStatefulWidget {
   final String invitationId;
@@ -22,7 +23,6 @@ class _DeclineInviteSheetState extends ConsumerState<DeclineInviteSheet> {
     if (_selectedReason == null || _declining) return;
     setState(() => _declining = true);
     await ref.read(invitationsProvider.notifier).dismiss(widget.invitationId);
-    ref.read(invitationDeclinedProvider.notifier).set(true);
     if (mounted) Navigator.of(context).pop(true);
   }
 
