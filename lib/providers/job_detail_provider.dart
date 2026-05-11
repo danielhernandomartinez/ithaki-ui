@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
@@ -21,6 +22,20 @@ class ApiJobDetailRepository implements JobDetailRepository {
   @override
   Future<JobDetail> getJobDetail(String jobId) async {
     final response = await _api.get('/jobs/$jobId');
+    if (kDebugMode) {
+      String formattedBody;
+      try {
+        formattedBody = const JsonEncoder.withIndent(
+          '  ',
+        ).convert(jsonDecode(response.body));
+      } catch (_) {
+        formattedBody = response.body;
+      }
+      debugPrint(
+        '[API] GET /jobs/$jobId response ${response.statusCode}:\n'
+        '$formattedBody',
+      );
+    }
     if (response.statusCode != 200) {
       throw Exception('Failed to load job detail: ${response.statusCode}');
     }
