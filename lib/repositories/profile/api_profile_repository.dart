@@ -8,13 +8,19 @@ import '../../models/profile_models.dart';
 import '../../services/api_client.dart';
 import '../profile_repository.dart';
 import 'profile_api_mapper.dart';
+import 'profile_language_resolver.dart';
 import 'profile_local_store.dart';
+import 'profile_response_parser.dart';
 
 class ApiProfileRepository implements ProfileRepository {
   ApiProfileRepository({ApiClient? apiClient})
-      : _api = apiClient ?? ApiClient();
+      : _api = apiClient ?? ApiClient() {
+    _languageResolver = ProfileLanguageResolver(_api);
+  }
 
   final ApiClient _api;
+  late final ProfileLanguageResolver _languageResolver;
+
   Future<void>? _initFuture;
   Future<void>? _syncFuture;
   String? _sessionToken;
@@ -29,9 +35,7 @@ class ApiProfileRepository implements ProfileRepository {
   ProfileJobPreferences _jobPreferences = const ProfileJobPreferences();
   bool _profileVisible = true;
 
-  Map<String, int>? _languageIdByName;
-
-  String _prettyJson(Object value) {
+  static String _prettyJson(Object value) {
     const encoder = JsonEncoder.withIndent('  ');
     return encoder.convert(value);
   }
@@ -57,7 +61,7 @@ class ApiProfileRepository implements ProfileRepository {
     if (_sessionToken == token) return;
     _sessionToken = token;
     _initFuture = null;
-    _languageIdByName = null;
+    _languageResolver.invalidate();
     _resetInMemory();
   }
 
@@ -75,294 +79,9 @@ class ApiProfileRepository implements ProfileRepository {
     _profileVisible = await ProfileLocalStore.loadVisible() ?? _profileVisible;
   }
 
-  String _normalize(String value) => value.trim().toLowerCase();
-
-  String _normalizeLoose(String value) => value
-      .trim()
-      .toLowerCase()
-      .replaceAll(RegExp(r'\(.*?\)'), '')
-      .replaceAll(RegExp(r'[^a-z0-9,\s-]'), ' ')
-      .replaceAll('-', ' ')
-      .replaceAll(RegExp(r'\s+'), ' ')
-      .trim();
-
-  String _countryCodeFor(dynamic field) {
-    final apiCode = ProfileApiMapper.countryCode(field);
-    if (apiCode.isNotEmpty) return apiCode;
-
-    final idRaw = field is Map ? field['id'] ?? field['value'] : field;
-    final id = idRaw is num ? idRaw.toInt() : int.tryParse(idRaw.toString());
-    if (id == null) return '';
-
-    for (final entry in countryIdByCode.entries) {
-      if (entry.value == id) return entry.key.toLowerCase();
-    }
-    return '';
-  }
-
-  String _countryNameFor(dynamic field) {
-    final apiName = field is Map || field is String
-        ? ProfileApiMapper.countryName(field)
-        : '';
-    if (apiName.isNotEmpty) return apiName;
-
-    final code = _countryCodeFor(field);
-    if (code.isEmpty) return '';
-    for (final country in allCountries) {
-      if (country.id.toLowerCase() == code) return country.label;
-    }
-    return '';
-  }
-
-  Map<String, dynamic>? _stringMap(dynamic value) =>
-      value is Map ? value.cast<String, dynamic>() : null;
-
-  List<Map<String, dynamic>> _mapList(dynamic value) => value is List
-      ? value
-          .whereType<Map>()
-          .map((item) => item.cast<String, dynamic>())
-          .toList()
-      : const [];
-
-  List<String> _titleList(dynamic value) => value is List
-      ? value
-          .map((item) => ProfileApiMapper.titleOrText(item))
-          .where((item) => item.isNotEmpty)
-          .toList()
-      : const [];
-
-  String _firstTitle(dynamic value) {
-    if (value is List) {
-      for (final item in value) {
-        final title = ProfileApiMapper.titleOrText(item);
-        if (title.isNotEmpty) return title;
-      }
-      return '';
-    }
-    return ProfileApiMapper.titleOrText(value);
-  }
-
-  double? _doubleValue(dynamic value) {
-    if (value is num) return value.toDouble();
-    return double.tryParse((value ?? '').toString());
-  }
-
-  bool _boolValue(dynamic value) {
-    if (value is bool) return value;
-    if (value is num) return value != 0;
-    final text = ProfileApiMapper.titleOrText(value).toLowerCase();
-    return text == 'true' || text == 'yes' || text == '1';
-  }
-
-  String _textValue(dynamic value) => ProfileApiMapper.titleOrText(value);
-
-  bool _isLocalFilePath(String? value) {
-    final text = value?.trim();
-    if (text == null || text.isEmpty) return false;
-    final uri = Uri.tryParse(text);
-    if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
-      return false;
-    }
-    return File(text).existsSync() ||
-        (uri != null &&
-            uri.isScheme('file') &&
-            File(uri.toFilePath()).existsSync());
-  }
-
-  String? _localFilePath(String? value) {
-    final text = value?.trim();
-    if (text == null || text.isEmpty) return null;
-    final uri = Uri.tryParse(text);
-    if (uri != null && uri.isScheme('file')) return uri.toFilePath();
-    return text;
-  }
-
-  UploadedFile _documentFromJson(Map<String, dynamic> json) {
-    final idRaw = json['id'];
-    final id = idRaw is num ? idRaw.toInt() : int.tryParse('$idRaw');
-    final name = _textValue(json['name']);
-    final type = _textValue(json['type']);
-    final uploadedAt = _textValue(json['uploadedAt']);
-    final date =
-        uploadedAt.contains('T') ? uploadedAt.split('T').first : uploadedAt;
-    return UploadedFile(
-      id: id,
-      name: name.isEmpty ? 'Document' : name,
-      size: date.isNotEmpty ? date : (type.isNotEmpty ? type : 'Uploaded'),
-      type: type.isEmpty ? null : type,
-      uploadedAt: uploadedAt.isEmpty ? null : uploadedAt,
-    );
-  }
-
-  Future<List<UploadedFile>> _fetchRemoteDocuments() async {
-    final response = await _api.get('/files/me/documents');
-    debugPrint('[documents] list status -> ${response.statusCode}');
-    debugPrint('[documents] list body -> ${response.body}');
-    if (response.statusCode != 200) {
-      throw Exception('Failed to load documents: ${response.statusCode}');
-    }
-    final decoded = jsonDecode(response.body);
-    final raw = decoded is List
-        ? decoded
-        : decoded is Map
-            ? decoded['content'] ?? decoded['data'] ?? const []
-            : const [];
-    return (raw as List)
-        .whereType<Map>()
-        .map((item) => _documentFromJson(item.cast<String, dynamic>()))
-        .toList();
-  }
-
   Future<void> _refreshRemoteDocuments() async {
-    _files = await _fetchRemoteDocuments();
+    _files = await ProfileResponseParser.fetchRemoteDocuments(_api);
     await ProfileLocalStore.saveFiles(_files);
-  }
-
-  ProfileJobPreferences? _parseJobPreferences(
-    dynamic preferences,
-    dynamic interests,
-  ) {
-    final prefs = _stringMap(preferences);
-    if (prefs == null) return null;
-
-    final parsed = ProfileJobPreferences(
-      jobInterests: _mapList(interests)
-          .map(
-            (item) => JobInterest(
-              id: (item['value'] ?? item['id'] ?? '').toString(),
-              title: _firstTitle(
-                ProfileApiMapper.titleOrText(item['title']).isNotEmpty
-                    ? item['title']
-                    : item,
-              ),
-              category: ProfileApiMapper.titleOrText(item['category']),
-            ),
-          )
-          .where((item) => item.title.isNotEmpty)
-          .toList(),
-      positionLevel:
-          _firstTitle(prefs['experienceLevel'] ?? prefs['positionLevel']),
-      jobType: _firstTitle(
-        prefs['employmentType'] ?? prefs['jobType'] ?? prefs['jobTypes'],
-      ),
-      workplace: _firstTitle(
-        prefs['workLocation'] ??
-            prefs['workplace'] ??
-            prefs['workplaceFormats'],
-      ),
-      expectedSalary:
-          _doubleValue(prefs['salaryExpected'] ?? prefs['expectedPayment']),
-      preferNotToSpecifySalary: prefs['preferNotToSpecify'] as bool? ?? false,
-    );
-
-    final hasData = parsed.jobInterests.isNotEmpty ||
-        parsed.positionLevel.isNotEmpty ||
-        parsed.jobType.isNotEmpty ||
-        parsed.workplace.isNotEmpty ||
-        parsed.expectedSalary != null ||
-        parsed.preferNotToSpecifySalary;
-    return hasData ? parsed : null;
-  }
-
-  String? _normalizePhotoUrl(dynamic raw) {
-    final value = raw is Map
-        ? _textValue(raw['url'] ?? raw['signedUrl'] ?? raw['photo'])
-        : _textValue(raw);
-    if (value.isEmpty) return null;
-
-    for (final marker in const [
-      'https%3A//',
-      'https%3A%2F%2F',
-      'http%3A//',
-      'http%3A%2F%2F',
-    ]) {
-      final start = value.indexOf(marker);
-      if (start <= 0) continue;
-      final outerQueryStart = value.indexOf('?Expires=', start);
-      final encoded = outerQueryStart == -1
-          ? value.substring(start)
-          : value.substring(start, outerQueryStart);
-      final decoded = Uri.decodeFull(encoded);
-      final uri = Uri.tryParse(decoded);
-      if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
-        return decoded;
-      }
-    }
-
-    return value;
-  }
-
-  bool _isRemotePhoto(String? value) {
-    final uri = Uri.tryParse(value?.trim() ?? '');
-    return uri != null && (uri.isScheme('http') || uri.isScheme('https'));
-  }
-
-  Future<Map<String, int>> _getLanguageIdByName() async {
-    if (_languageIdByName != null) return _languageIdByName!;
-    final res = await _api.get('/list/languages');
-    if (res.statusCode != 200) {
-      _languageIdByName = <String, int>{};
-      return _languageIdByName!;
-    }
-    final body = jsonDecode(res.body);
-    final List raw = body is List
-        ? body
-        : (body as Map<String, dynamic>)['content'] ?? body['data'] ?? const [];
-
-    final map = <String, int>{};
-    for (final item in raw.whereType<Map>()) {
-      final j = item.cast<String, dynamic>();
-      final name = (j['title'] as String? ?? j['name'] as String? ?? '').trim();
-      final idRaw = j['value'] ?? j['id'];
-      final id = idRaw is num ? idRaw.toInt() : int.tryParse(idRaw.toString());
-      if (name.isEmpty || id == null) continue;
-      map[_normalize(name)] = id;
-      map[_normalizeLoose(name)] = id;
-    }
-    _languageIdByName = map;
-    return map;
-  }
-
-  Map<String, String> _proficiencyEnum(String proficiency) {
-    final normalized = _normalize(proficiency);
-    switch (normalized) {
-      case 'native':
-        return const {'value': 'C2', 'title': 'Native/Proficiency'};
-      case 'fluent':
-        return const {'value': 'C1', 'title': 'Fluent'};
-      case 'advanced':
-        return const {'value': 'B2', 'title': 'Upper Intermediate'};
-      case 'conversational':
-        return const {'value': 'B1', 'title': 'Intermediate'};
-      case 'basic':
-        return const {'value': 'A1', 'title': 'Basic'};
-      default:
-        return {
-          'value': ProfileApiMapper.slug(proficiency),
-          'title': proficiency
-        };
-    }
-  }
-
-  Future<void> _saveLanguagesReplace(List<Language> languages) async {
-    final languageMap = await _getLanguageIdByName();
-    final payloadEnumDto = <Map<String, dynamic>>[];
-
-    for (final lang in languages) {
-      final id = languageMap[_normalize(lang.language)] ??
-          languageMap[_normalizeLoose(lang.language)];
-      if (id == null) continue;
-      payloadEnumDto.add({
-        'languageId': id,
-        'level': _proficiencyEnum(lang.proficiency),
-      });
-    }
-
-    if (languages.isNotEmpty && payloadEnumDto.isEmpty) {
-      throw Exception('Could not map languages to backend IDs');
-    }
-
-    await _api.postJson('/job-seeker/me/languages/replace', payloadEnumDto);
   }
 
   @override
@@ -384,6 +103,7 @@ class ApiProfileRepository implements ProfileRepository {
             'Failed to load user: server returned non-JSON response');
       }
       debugPrint('[refreshAll] userInfo →\n${_prettyJson(userData)}');
+
       final phoneVerified = userData['phoneVerified'] as bool? ?? false;
       // Only persist `true` from the API — the `false` value is written
       // exclusively during signup to gate the OTP verification screen.
@@ -393,33 +113,10 @@ class ApiProfileRepository implements ProfileRepository {
         await ProfileLocalStore.savePhoneVerified(true);
       }
 
-      ProfileBasics basics = ProfileBasics(
-        firstName: _textValue(userData['firstName']),
-        lastName: _textValue(userData['lastName']),
-        email: _textValue(userData['email']),
-        phone: _textValue(userData['phone']),
-        photoUrl: _normalizePhotoUrl(userData['photo']),
-        phoneVerified: phoneVerified,
-      );
+      ProfileBasics basics = ProfileResponseParser.parseBasicsFromUser(userData);
 
-      final onboarding = _stringMap(userData['onboarding']);
-      final onboardingLocation = _stringMap(onboarding?['location']);
-      if (onboardingLocation != null) {
-        final citizenship = onboardingLocation['citizenship'];
-        final residence = onboardingLocation['residence'];
-        basics = basics.copyWith(
-          citizenship: _countryNameFor(citizenship),
-          citizenshipCode: _countryCodeFor(citizenship),
-          residence: _countryNameFor(residence),
-          residenceCode: _countryCodeFor(residence),
-          status: ProfileApiMapper.enumTitle(onboardingLocation['status']),
-          relocationReadiness: ProfileApiMapper.enumTitle(
-            onboardingLocation['relocationReadiness'],
-          ),
-        );
-      }
-
-      final onboardingPrefs = _parseJobPreferences(
+      final onboarding = ProfileResponseParser.stringMap(userData['onboarding']);
+      final onboardingPrefs = ProfileResponseParser.parseJobPreferences(
         onboarding?['preferences'],
         onboarding?['jobInterests'],
       );
@@ -428,7 +125,8 @@ class ApiProfileRepository implements ProfileRepository {
         await ProfileLocalStore.savePrefs(_jobPreferences);
       }
 
-      final onboardingValues = _titleList(onboarding?['values']);
+      final onboardingValues =
+          ProfileResponseParser.titleList(onboarding?['values']);
       if (onboardingValues.isNotEmpty) {
         _values = onboardingValues;
         await ProfileLocalStore.saveValues(_values);
@@ -447,153 +145,29 @@ class ApiProfileRepository implements ProfileRepository {
                 'Failed to load profile: server returned non-JSON response');
           }
 
-          // ── 1. Parse basics fields ────────────────────────────────────────
-          final b = _stringMap(profileData['basics']);
-          if (b != null) {
-            final dateOfBirth =
-                ProfileApiMapper.isoDateToDdMmYyyy(b['dateOfBirth']);
-            final gender = ProfileApiMapper.enumTitle(b['gender']);
-            final citizenship = _countryNameFor(b['citizenship']);
-            final citizenshipCode = _countryCodeFor(b['citizenship']);
-            final residence = _countryNameFor(b['residence']);
-            final residenceCode = _countryCodeFor(b['residence']);
-            debugPrint('[refreshAll] basics.photo → ${b['photo']}');
-            basics = basics.copyWith(
-              phone: _textValue(b['phone']).isNotEmpty
-                  ? _textValue(b['phone'])
-                  : basics.phone,
-              dateOfBirth:
-                  dateOfBirth.isNotEmpty ? dateOfBirth : basics.dateOfBirth,
-              gender: gender.isNotEmpty ? gender : basics.gender,
-              citizenship:
-                  citizenship.isNotEmpty ? citizenship : basics.citizenship,
-              citizenshipCode: citizenshipCode.isNotEmpty
-                  ? citizenshipCode
-                  : basics.citizenshipCode,
-              residence: residence.isNotEmpty ? residence : basics.residence,
-              residenceCode: residenceCode.isNotEmpty
-                  ? residenceCode
-                  : basics.residenceCode,
-              photoUrl: _normalizePhotoUrl(b['photo']),
-            );
-          }
-          final loc = _stringMap(profileData['location']);
-          if (loc != null) {
-            final status = ProfileApiMapper.enumTitle(loc['status']);
-            final relocationReadiness =
-                ProfileApiMapper.enumTitle(loc['relocationReadiness']);
-            basics = basics.copyWith(
-              status: status.isNotEmpty ? status : basics.status,
-              relocationReadiness: relocationReadiness.isNotEmpty
-                  ? relocationReadiness
-                  : basics.relocationReadiness,
-            );
-          }
+          basics =
+              ProfileResponseParser.applyProfileBasics(basics, profileData);
 
-          // ── 2. Parse all other sections into local vars (no mutation yet) ─
-          ProfileAboutMe? parsedAboutMe;
-          final about = _stringMap(profileData['aboutMe']);
-          if (about != null) {
-            final bio = _textValue(about['bio']);
-            final text = _textValue(about['text']);
-            final video = _textValue(about['video']);
-            final videoUrl =
-                video.isNotEmpty ? video : _textValue(about['videoUrl']);
-            parsedAboutMe = ProfileAboutMe(
-              bio: bio.isNotEmpty ? bio : text,
-              videoUrl: videoUrl.isEmpty ? null : videoUrl,
-            );
-          }
-
-          final skillsMap = _stringMap(profileData['skills']);
-          final competencies = profileData['competencies'];
-          final languageList = profileData['languages'];
-          final parsedSkills = ProfileSkills(
-            hardSkills: skillsMap != null
-                ? ProfileApiMapper.stringList(skillsMap['hardSkills'])
-                : _skills.hardSkills,
-            softSkills: skillsMap != null
-                ? ProfileApiMapper.stringList(skillsMap['softSkills'])
-                : _skills.softSkills,
-            languages: _mapList(languageList)
-                .map(
-                  (l) => Language(
-                    language:
-                        ProfileApiMapper.titleOrText(l['language']).isNotEmpty
-                            ? ProfileApiMapper.titleOrText(l['language'])
-                            : ProfileApiMapper.titleOrText(l['languageName']),
-                    proficiency:
-                        ProfileApiMapper.titleOrText(l['level']).isNotEmpty
-                            ? ProfileApiMapper.titleOrText(l['level'])
-                            : ProfileApiMapper.titleOrText(l['proficiency']),
-                  ),
-                )
-                .where((l) => l.language.isNotEmpty)
-                .toList(),
-            competencies: competencies is Map
-                ? competencies.cast<String, dynamic>().map(
-                      (key, value) =>
-                          MapEntry(key, ProfileApiMapper.titleOrText(value)),
-                    )
-                : _skills.competencies,
-          );
-
-          final parsedWork = _mapList(profileData['workExperience'] ??
-                  profileData['workExperiences'])
-              .map(
-                (item) => WorkExperience(
-                  jobTitle: _textValue(item['title']),
-                  companyName: _textValue(item['companyName']),
-                  location: ProfileApiMapper.titleOrText(item['city']),
-                  experienceLevel: ProfileApiMapper.titleOrText(item['level']),
-                  workplace:
-                      ProfileApiMapper.titleOrText(item['employmentType']),
-                  jobType: ProfileApiMapper.titleOrText(item['workType']),
-                  startDate:
-                      ProfileApiMapper.isoDateToMmYyyy(item['startDate']) ?? '',
-                  endDate: ProfileApiMapper.isoDateToMmYyyy(item['endDate']),
-                  currentlyWorkHere: _boolValue(item['current']),
-                  summary: _textValue(item['description']).isEmpty
-                      ? null
-                      : _textValue(item['description']),
-                ),
-              )
-              .where((e) => e.jobTitle.isNotEmpty || e.companyName.isNotEmpty)
-              .toList();
-
-          final parsedEducations = _mapList(
-                  profileData['education'] ?? profileData['educations'])
-              .map(
-                (item) => Education(
-                  institutionName: _textValue(item['institution']).isNotEmpty
-                      ? _textValue(item['institution'])
-                      : _textValue(item['institutionName']),
-                  fieldOfStudy: _textValue(item['fieldOfStudy']),
-                  location: ProfileApiMapper.titleOrText(item['city']),
-                  degreeType: _textValue(item['degree']).isNotEmpty
-                      ? _textValue(item['degree'])
-                      : _textValue(item['degreeType']),
-                  startDate:
-                      ProfileApiMapper.isoDateToMmYyyy(item['startDate']) ?? '',
-                  endDate: ProfileApiMapper.isoDateToMmYyyy(item['endDate']),
-                  currentlyStudyHere: _boolValue(item['currentlyStudying']),
-                ),
-              )
-              .where((e) =>
-                  e.institutionName.isNotEmpty || e.fieldOfStudy.isNotEmpty)
-              .toList();
-
-          final parsedPrefs = _parseJobPreferences(
+          // Parse all sections before mutating state.
+          final parsedAboutMe =
+              ProfileResponseParser.parseAboutMe(profileData);
+          final parsedSkills =
+              ProfileResponseParser.parseSkills(profileData, _skills);
+          final parsedWork =
+              ProfileResponseParser.parseWorkExperiences(profileData);
+          final parsedEducations =
+              ProfileResponseParser.parseEducations(profileData);
+          final parsedPrefs = ProfileResponseParser.parseJobPreferences(
                 profileData['jobPreferences'] ?? profileData['preferences'],
                 profileData['jobInterests'],
               ) ??
               onboardingPrefs;
-
-          final profileValues = _titleList(profileData['values']);
+          final profileValues =
+              ProfileResponseParser.titleList(profileData['values']);
           final parsedValues =
               profileValues.isNotEmpty ? profileValues : onboardingValues;
 
-          // ── 3. All parsing succeeded — apply mutations in one block ───────
+          // All parsing succeeded — apply mutations in one block.
           if (parsedAboutMe != null) {
             _aboutMe = parsedAboutMe;
             await ProfileLocalStore.saveAboutMe(_aboutMe);
@@ -641,11 +215,6 @@ class ApiProfileRepository implements ProfileRepository {
     await _syncSession();
     await _ensureLoaded();
 
-    String prettyJson(Object value) {
-      const encoder = JsonEncoder.withIndent('  ');
-      return encoder.convert(value);
-    }
-
     String readUploadedPhoto(String body) {
       final trimmed = body.trim();
       if (trimmed.isEmpty) {
@@ -668,8 +237,10 @@ class ApiProfileRepository implements ProfileRepository {
     }
 
     Future<String?> uploadPhotoIfNeeded(String? photoUrl) async {
-      final localPath = _normalizePhotoUrl(photoUrl);
-      if (localPath == null || localPath.isEmpty || _isRemotePhoto(localPath)) {
+      final localPath = ProfileResponseParser.normalizePhotoUrl(photoUrl);
+      if (localPath == null ||
+          localPath.isEmpty ||
+          ProfileResponseParser.isRemotePhoto(localPath)) {
         return localPath;
       }
 
@@ -707,7 +278,7 @@ class ApiProfileRepository implements ProfileRepository {
     final residence = countryPayload(basics.residenceCode, basics.residence);
     final uploadedPhotoUrl = await uploadPhotoIfNeeded(basics.photoUrl);
     final photoForPayload =
-        _isRemotePhoto(uploadedPhotoUrl) ? null : uploadedPhotoUrl;
+        ProfileResponseParser.isRemotePhoto(uploadedPhotoUrl) ? null : uploadedPhotoUrl;
     final locationStatus = ProfileApiMapper.locationStatusDto(basics.status);
 
     final jobSeekerPayload = {
@@ -729,7 +300,7 @@ class ApiProfileRepository implements ProfileRepository {
               basics.relocationReadiness),
       },
     };
-    debugPrint('[saveBasics] payload →\n${prettyJson(jobSeekerPayload)}');
+    debugPrint('[saveBasics] payload →\n${_prettyJson(jobSeekerPayload)}');
     await _api.postJson('/user/me', {
       'firstName': basics.firstName,
       'lastName': basics.lastName,
@@ -841,7 +412,7 @@ class ApiProfileRepository implements ProfileRepository {
       },
       'competencies': skills.competencies,
     });
-    await _saveLanguagesReplace(skills.languages);
+    await _languageResolver.saveLanguagesReplace(skills.languages);
     _skills = skills;
     await ProfileLocalStore.saveSkills(_skills);
   }
@@ -850,7 +421,7 @@ class ApiProfileRepository implements ProfileRepository {
   Future<void> saveLanguages(List<Language> languages) async {
     await _syncSession();
     await _ensureLoaded();
-    await _saveLanguagesReplace(languages);
+    await _languageResolver.saveLanguagesReplace(languages);
     _skills = _skills.copyWith(languages: languages);
     await ProfileLocalStore.saveSkills(_skills);
   }
@@ -895,10 +466,11 @@ class ApiProfileRepository implements ProfileRepository {
     }
 
     final localFiles = files
-        .where((file) => file.id == null && _isLocalFilePath(file.url))
+        .where(
+            (file) => file.id == null && ProfileResponseParser.isLocalFilePath(file.url))
         .toList();
     final localPaths = localFiles
-        .map((file) => _localFilePath(file.url))
+        .map((file) => ProfileResponseParser.localFilePath(file.url))
         .whereType<String>()
         .toList();
     if (localPaths.isNotEmpty) {
@@ -918,7 +490,8 @@ class ApiProfileRepository implements ProfileRepository {
     }
 
     final unsupported = files.where(
-      (file) => file.id == null && !_isLocalFilePath(file.url),
+      (file) =>
+          file.id == null && !ProfileResponseParser.isLocalFilePath(file.url),
     );
     for (final file in unsupported) {
       debugPrint(
