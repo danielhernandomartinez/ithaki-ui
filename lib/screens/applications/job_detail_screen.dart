@@ -9,6 +9,7 @@ import '../../mixins/panel_menu_mixin.dart';
 import '../../models/applications_models.dart';
 import '../../models/job_detail_models.dart';
 import '../../providers/applications_provider.dart';
+import '../../providers/invitations_provider.dart';
 import '../../providers/home_provider.dart';
 import '../../providers/job_detail_provider.dart';
 import '../../providers/profile_provider.dart';

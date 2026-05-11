@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../l10n/app_localizations.dart';
-import '../providers/applications_provider.dart';
+import '../providers/invitations_provider.dart';
 import '../providers/job_search_data_provider.dart';
 import '../providers/tour_provider.dart';
 import '../routes.dart';

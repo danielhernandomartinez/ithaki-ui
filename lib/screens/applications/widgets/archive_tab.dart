@@ -5,6 +5,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/applications_models.dart';
 import '../../../providers/applications_provider.dart';
+import '../../../providers/invitations_provider.dart';
 import 'application_card.dart';
 import 'invitation_card.dart';
 import 'tab_empty_state.dart';

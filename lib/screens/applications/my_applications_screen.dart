@@ -9,7 +9,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../constants/nav_items.dart';
 import '../../mixins/panel_menu_mixin.dart';
-import '../../providers/applications_provider.dart';
+import '../../providers/invitations_provider.dart';
 import '../../providers/home_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../providers/tour_provider.dart';

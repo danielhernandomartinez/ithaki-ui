@@ -4,7 +4,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../models/applications_models.dart';
-import '../../../providers/applications_provider.dart';
+import '../../../providers/invitations_provider.dart';
 
 class DeclineInviteSheet extends ConsumerStatefulWidget {
   final String invitationId;

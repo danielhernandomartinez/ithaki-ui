@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../../l10n/app_localizations.dart';
-import '../../../providers/applications_provider.dart';
+import '../../../providers/invitations_provider.dart';
 import 'invitation_card.dart';
 import 'tab_empty_state.dart';
 
