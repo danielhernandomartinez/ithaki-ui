@@ -17,6 +17,8 @@ import '../../repositories/auth_repository.dart';
 import '../../routes.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
+import 'widgets/application_banners.dart';
+import 'widgets/applications_tab_bar.dart';
 import 'widgets/archive_tab.dart';
 import 'widgets/drafts_tab.dart';
 import 'widgets/invitations_tab.dart';
@@ -160,7 +162,7 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: _ApplicationsTabBar(
+                  child: ApplicationsTabBar(
                     controller: _tabController,
                     invitationsCount: invitationsCount,
                   ),
@@ -202,11 +204,11 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
 
           // ── Banners ───────────────────────────────────────────────────────
           if (_pendingDismissId != null)
-            _banner(topOffset, _DismissBanner(onUndo: _onUndo)),
+            _banner(topOffset, DismissBanner(onUndo: _onUndo)),
           if (_showSuccessBanner)
             _banner(
               topOffset,
-              _ToastBanner(
+              ToastBanner(
                 message: l.invitationDismissedToast,
                 onClose: () => setState(() => _showSuccessBanner = false),
               ),
@@ -214,7 +216,7 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
           if (_showDeclinedBanner)
             _banner(
               topOffset,
-              _ToastBanner(
+              ToastBanner(
                 message: l.invitationDeclinedToast,
                 onClose: () {
                   _declinedTimer?.cancel();
@@ -322,197 +324,3 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
       );
 }
 
-// ─── Tab bar ──────────────────────────────────────────────────────────────────
-
-class _ApplicationsTabBar extends StatefulWidget {
-  final TabController controller;
-  final int invitationsCount;
-
-  const _ApplicationsTabBar({
-    required this.controller,
-    required this.invitationsCount,
-  });
-
-  @override
-  State<_ApplicationsTabBar> createState() => _ApplicationsTabBarState();
-}
-
-class _ApplicationsTabBarState extends State<_ApplicationsTabBar> {
-  @override
-  void initState() {
-    super.initState();
-    widget.controller.addListener(() {
-      if (mounted) setState(() {});
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context)!;
-    final tabs = [
-      l.myApplicationsTabLabel,
-      l.myInvitationsTabLabel(widget.invitationsCount),
-      l.draftsTabLabel,
-      l.archiveTabLabel,
-    ];
-
-    return Container(
-      height: 48,
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: List.generate(tabs.length, (i) {
-              final isActive = widget.controller.index == i;
-              return Padding(
-                padding: EdgeInsets.only(left: i == 0 ? 0 : 6),
-                child: GestureDetector(
-                  onTap: () => widget.controller.animateTo(i),
-                  child: Container(
-                    height: 40,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: isActive
-                          ? IthakiTheme.backgroundWhite
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      tabs[i],
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight:
-                            isActive ? FontWeight.w600 : FontWeight.w400,
-                        color: isActive
-                            ? IthakiTheme.textPrimary
-                            : IthakiTheme.textSecondary,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            }),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ─── Dismiss banner (with undo) ───────────────────────────────────────────────
-
-class _DismissBanner extends StatelessWidget {
-  final VoidCallback onUndo;
-  const _DismissBanner({required this.onUndo});
-
-  @override
-  Widget build(BuildContext context) {
-    final l = AppLocalizations.of(context)!;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: IthakiTheme.textPrimary,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  l.dismissBannerTitle,
-                  style: const TextStyle(
-                    fontFamily: 'Noto Sans',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: IthakiTheme.backgroundWhite,
-                    height: 1.4,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  l.dismissBannerCountdown,
-                  style: const TextStyle(
-                    fontFamily: 'Noto Sans',
-                    fontSize: 12,
-                    color: IthakiTheme.lightGraphite,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 12),
-          GestureDetector(
-            onTap: onUndo,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(
-                color: IthakiTheme.primaryPurple,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Text(
-                l.undo,
-                style: const TextStyle(
-                  fontFamily: 'Noto Sans',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: IthakiTheme.backgroundWhite,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// ─── Toast banner ─────────────────────────────────────────────────────────────
-
-class _ToastBanner extends StatelessWidget {
-  final String message;
-  final VoidCallback onClose;
-  const _ToastBanner({required this.message, required this.onClose});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      decoration: BoxDecoration(
-        color: IthakiTheme.textPrimary,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              message,
-              style: const TextStyle(
-                fontFamily: 'Noto Sans',
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: IthakiTheme.backgroundWhite,
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: onClose,
-            child: const IthakiIcon('x-close',
-                size: 20, color: IthakiTheme.lightGraphite),
-          ),
-        ],
-      ),
-    );
-  }
-}
