@@ -18,12 +18,21 @@ class ApplicationsTabBar extends StatefulWidget {
 }
 
 class _ApplicationsTabBarState extends State<ApplicationsTabBar> {
+  late final VoidCallback _listener;
+
   @override
   void initState() {
     super.initState();
-    widget.controller.addListener(() {
+    _listener = () {
       if (mounted) setState(() {});
-    });
+    };
+    widget.controller.addListener(_listener);
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(_listener);
+    super.dispose();
   }
 
   @override

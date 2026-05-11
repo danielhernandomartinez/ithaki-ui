@@ -272,9 +272,10 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
                   },
                   onLogOut: () {
                     _panels.closeProfile();
+                    final router = GoRouter.of(context);
                     ref.read(authRepositoryProvider).logout().whenComplete(() {
                       resetProfileProviders(ref);
-                      if (context.mounted) context.go(Routes.root);
+                      if (mounted) router.go(Routes.root);
                     });
                   },
                 ),

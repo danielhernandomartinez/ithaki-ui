@@ -14,12 +14,10 @@ import '../../routes.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
 import 'widgets/cv_assistant_card.dart';
-import 'widgets/cv_atoms.dart';
 import 'widgets/cv_data.dart';
-import 'widgets/cv_entry_cards.dart';
-import 'widgets/cv_header_card.dart';
+import 'widgets/cv_floating_shelf.dart';
 import 'widgets/cv_overlays.dart';
-import 'widgets/cv_section_card.dart';
+import 'widgets/cv_scroll_body.dart';
 
 class MyCvScreen extends ConsumerStatefulWidget {
   const MyCvScreen({super.key});
@@ -45,10 +43,7 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
   }
 
   Future<bool> _handleBack(bool isPublished) async {
-    if (isPublished) {
-      return true;
-    }
-
+    if (isPublished) return true;
     _showLeaveWithoutPublishingSheet();
     return false;
   }
@@ -61,15 +56,11 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
       builder: (sheetContext) => LeaveWithoutPublishingSheet(
         onLeaveWithoutSaving: () {
           Navigator.of(sheetContext).pop();
-          if (mounted) {
-            context.pop();
-          }
+          if (mounted) context.pop();
         },
         onSaveAndLeave: () {
           Navigator.of(sheetContext).pop();
-          if (mounted) {
-            context.pop();
-          }
+          if (mounted) context.pop();
         },
       ),
     );
@@ -84,6 +75,116 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
     );
   }
 
+  Widget _buildLoadingScaffold() => const Scaffold(
+        backgroundColor: IthakiTheme.backgroundViolet,
+        body: Center(child: CircularProgressIndicator()),
+      );
+
+  Widget _buildErrorScaffold(AppLocalizations l) {
+    return Scaffold(
+      backgroundColor: IthakiTheme.backgroundViolet,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const IthakiIcon(
+                'profile',
+                size: 40,
+                color: IthakiTheme.textSecondary,
+              ),
+              const SizedBox(height: 16),
+              Text(
+                l.cvCouldNotLoadTitle,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: IthakiTheme.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                l.cvCouldNotLoadMessage,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: IthakiTheme.textSecondary),
+              ),
+              const SizedBox(height: 20),
+              IthakiButton(
+                l.tryAgain,
+                onPressed: () => ref.invalidate(profileBasicsProvider),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _buildPanelOverlays(double topOffset) => [
+        if (_panels.profileOpen)
+          Positioned.fill(
+            child: GestureDetector(
+              onTap: _panels.closeProfile,
+              child: const ColoredBox(color: Colors.transparent),
+            ),
+          ),
+        if (_panels.profileOpen ||
+            _panels.profileCtrl.status != AnimationStatus.dismissed)
+          Positioned(
+            top: topOffset - 14,
+            left: 16,
+            right: 16,
+            bottom: 40,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: SlideTransition(
+                position: _panels.profileSlideAnim,
+                child: ProfileMenuPanel(
+                  onItemTap: (item) {
+                    _panels.closeProfile();
+                    navigateToProfileMenuRoute(context, item);
+                  },
+                  onLogOut: () {
+                    _panels.closeProfile();
+                    final router = GoRouter.of(context);
+                    ref
+                        .read(authRepositoryProvider)
+                        .logout()
+                        .whenComplete(() {
+                      resetProfileProviders(ref);
+                      if (mounted) router.go(Routes.root);
+                    });
+                  },
+                ),
+              ),
+            ),
+          ),
+        if (_panels.menuOpen ||
+            _panels.menuCtrl.status != AnimationStatus.dismissed)
+          Positioned(
+            top: topOffset - 14,
+            left: 16,
+            right: 16,
+            bottom: 40,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(30),
+              child: SlideTransition(
+                position: _panels.slideAnim,
+                child: AppNavDrawer(
+                  currentRoute: Routes.cv,
+                  profileProgress: ref.watch(profileCompletionProvider),
+                  items: buildNavItems(AppLocalizations.of(context)!),
+                  onItemTap: (item) {
+                    _panels.closeMenu();
+                    context.go(item.route);
+                  },
+                ),
+              ),
+            ),
+          ),
+      ];
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
@@ -97,57 +198,9 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
     final jobPreferences = ref.watch(profileJobPreferencesProvider).value;
     final assessments = ref.watch(assessmentsListProvider).value;
     final isPublished = ref.watch(cvPublishedProvider);
-    final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
-    if (basicsAsync.isLoading && basics == null) {
-      return const Scaffold(
-        backgroundColor: IthakiTheme.backgroundViolet,
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    if (basicsAsync.hasError && basics == null) {
-      return Scaffold(
-        backgroundColor: IthakiTheme.backgroundViolet,
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const IthakiIcon(
-                  'profile',
-                  size: 40,
-                  color: IthakiTheme.textSecondary,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  l.cvCouldNotLoadTitle,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: IthakiTheme.textPrimary,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  l.cvCouldNotLoadMessage,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: IthakiTheme.textSecondary,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                IthakiButton(
-                  l.tryAgain,
-                  onPressed: () => ref.invalidate(profileBasicsProvider),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
+    if (basicsAsync.isLoading && basics == null) return _buildLoadingScaffold();
+    if (basicsAsync.hasError && basics == null) return _buildErrorScaffold(l);
 
     final cvData = MyCvData.fromSources(
       basics: basics ?? const ProfileBasics(),
@@ -159,13 +212,12 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
       jobPreferences: jobPreferences ?? const ProfileJobPreferences(),
       assessments: assessments ?? const <Assessment>[],
     );
+    final topOffset = MediaQuery.paddingOf(context).top + kToolbarHeight + 16;
 
     return PopScope(
       canPop: isPublished,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop && !isPublished) {
-          _showLeaveWithoutPublishingSheet();
-        }
+        if (!didPop && !isPublished) _showLeaveWithoutPublishingSheet();
       },
       child: Scaffold(
         backgroundColor: IthakiTheme.backgroundViolet,
@@ -182,318 +234,20 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen>
               context.push(Routes.settingsNotifications),
           onMenuPressed: () async {
             final shouldPop = await _handleBack(isPublished);
-            if (shouldPop && context.mounted) {
-              context.pop();
-            }
+            if (shouldPop && context.mounted) context.pop();
           },
           onAvatarPressed: _panels.toggleProfile,
         ),
         body: Stack(
           children: [
-            SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(
-                16,
-                topOffset + 8,
-                16,
-                MediaQuery.viewPaddingOf(context).bottom + 148,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (!isPublished) ...[
-                    const DraftReviewBanner(),
-                    const SizedBox(height: 12),
-                  ] else ...[
-                    CvAssistantCard(onAskPressed: _showCareerAssistantSheet),
-                    const SizedBox(height: 12),
-                  ],
-                  CvHeaderCard(
-                    data: cvData,
-                    isPublished: isPublished,
-                    onLearnMorePressed: _showCareerAssistantSheet,
-                    onPublishPressed: () => ref
-                        .read(cvPublishedProvider.notifier)
-                        .setPublished(true),
-                    onReturnToProfilePressed: () =>
-                        context.push(Routes.profile),
-                  ),
-                  const SizedBox(height: 12),
-                  CvSectionCard(
-                    title: l.profileAboutMeTitle,
-                    actionLabel: isPublished ? null : l.editAboutMeVideo,
-                    onActionPressed: isPublished
-                        ? null
-                        : () => context.push(Routes.profileAboutMe),
-                    child: Text(
-                      cvData.aboutMe,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        height: 1.5,
-                        color: IthakiTheme.textPrimary,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  CvSectionCard(
-                    title: l.profileSkillsTitle,
-                    actionLabel: isPublished ? null : l.editSkillsTitle,
-                    onActionPressed: isPublished
-                        ? null
-                        : () => context.push(Routes.profileSkills),
-                    child: Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: cvData.skills
-                          .map((skill) => CvSkillChip(label: skill))
-                          .toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  CvSectionCard(
-                    title: l.competenciesTitle,
-                    actionLabel: isPublished ? null : l.editCompetenciesTitle,
-                    onActionPressed: isPublished
-                        ? null
-                        : () => context.push(Routes.profileCompetencies),
-                    child: Column(
-                      children: cvData.competencies.entries
-                          .map((entry) => CvKeyValueRow(
-                                label: entry.key,
-                                value: entry.value,
-                              ))
-                          .toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  CvSectionCard(
-                    title: l.profileWorkExperienceTitle,
-                    actionLabel: isPublished ? null : l.addWorkExperience,
-                    onActionPressed: isPublished
-                        ? null
-                        : () => context.push(Routes.profileWorkExperience),
-                    child: Column(
-                      children: [
-                        ...cvData.workExperiences.map(
-                          (experience) => Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: CvExperienceCard(
-                              experience: experience,
-                              showEditButton: !isPublished,
-                              onEditPressed: () =>
-                                  context.push(Routes.profileWorkExperience),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  CvSectionCard(
-                    title: l.profileEducationTitle,
-                    actionLabel: isPublished ? null : l.addEducation,
-                    onActionPressed: isPublished
-                        ? null
-                        : () => context.push(Routes.profileEducation),
-                    child: Column(
-                      children: cvData.educations.map((education) {
-                        return CvEducationCard(
-                          education: education,
-                          showEditButton: !isPublished,
-                          onEditPressed: () =>
-                              context.push(Routes.profileEducation),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  CvSectionCard(
-                    title: l.languagesTitle,
-                    actionLabel: isPublished ? null : l.editLanguagesTitle,
-                    onActionPressed: isPublished
-                        ? null
-                        : () => context.push(Routes.profileLanguages),
-                    child: Column(
-                      children: cvData.languages
-                          .map((language) => CvLanguageRow(language: language))
-                          .toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  CvSectionCard(
-                    title: l.profileMyFilesTitle,
-                    child: Column(
-                      children: cvData.files
-                          .map(
-                            (file) => Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: CvFileCard(
-                                file: file,
-                                isPublished: isPublished,
-                                onDelete: isPublished
-                                    ? null
-                                    : () {
-                                        final current = ref
-                                                .read(profileFilesProvider)
-                                                .value ??
-                                            const <UploadedFile>[];
-                                        final index = current.indexWhere(
-                                          (currentFile) =>
-                                              currentFile.name == file.name,
-                                        );
-                                        if (index != -1) {
-                                          ref
-                                              .read(
-                                                  profileFilesProvider.notifier)
-                                              .delete(index);
-                                        }
-                                      },
-                              ),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                  if (!isPublished) ...[
-                    const SizedBox(height: 12),
-                    CvAssistantCard(onAskPressed: _showCareerAssistantSheet),
-                  ],
-                  if (isPublished && cvData.assessmentCards.isNotEmpty) ...[
-                    const SizedBox(height: 12),
-                    CvSectionCard(
-                      title: l.assessmentsResultsTitle,
-                      child: Column(
-                        children: cvData.assessmentCards.map((assessment) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
-                            child: CvAssessmentCard(
-                              assessment: assessment,
-                              onToggle: () => ref
-                                  .read(assessmentResultProvider(assessment.id)
-                                      .notifier)
-                                  .toggleCV(
-                                    show: !(assessment.lastResult?.shownInCV ??
-                                        false),
-                                  ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ],
-                ],
-              ),
+            CvScrollBody(
+              cvData: cvData,
+              isPublished: isPublished,
+              topOffset: topOffset,
+              onAskCareerAssistant: _showCareerAssistantSheet,
             ),
-            Positioned(
-              left: 16,
-              right: 16,
-              bottom: MediaQuery.viewPaddingOf(context).bottom + 16,
-              child: FloatingActionShelf(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: isPublished
-                          ? IthakiOutlineButton(
-                              l.goToProfile,
-                              onPressed: () => context.push(Routes.profile),
-                              borderRadius: 24,
-                            )
-                          : IthakiButton(
-                              l.publishCv,
-                              onPressed: () => ref
-                                  .read(cvPublishedProvider.notifier)
-                                  .setPublished(true),
-                            ),
-                    ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      width: double.infinity,
-                      child: isPublished
-                          ? IthakiOutlineButton(
-                              l.downloadCv,
-                              icon: const IthakiIcon('resume', size: 18),
-                              onPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(l.cvDownloadSoon),
-                                  ),
-                                );
-                              },
-                              borderRadius: 24,
-                            )
-                          : IthakiOutlineButton(
-                              l.returnToProfileSetup,
-                              icon: const IthakiIcon('edit-pencil', size: 18),
-                              onPressed: () => context.push(Routes.profile),
-                              borderRadius: 24,
-                            ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            if (_panels.profileOpen)
-              Positioned.fill(
-                child: GestureDetector(
-                  onTap: _panels.closeProfile,
-                  child: const ColoredBox(color: Colors.transparent),
-                ),
-              ),
-            if (_panels.profileOpen ||
-                _panels.profileCtrl.status != AnimationStatus.dismissed)
-              Positioned(
-                top: topOffset - 14,
-                left: 16,
-                right: 16,
-                bottom: 40,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: SlideTransition(
-                    position: _panels.profileSlideAnim,
-                    child: ProfileMenuPanel(
-                      onItemTap: (item) {
-                        _panels.closeProfile();
-                        navigateToProfileMenuRoute(context, item);
-                      },
-                      onLogOut: () {
-                        _panels.closeProfile();
-                        ref
-                            .read(authRepositoryProvider)
-                            .logout()
-                            .whenComplete(() {
-                          resetProfileProviders(ref);
-                          if (context.mounted) {
-                            context.go(Routes.root);
-                          }
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              ),
-            if (_panels.menuOpen ||
-                _panels.menuCtrl.status != AnimationStatus.dismissed)
-              Positioned(
-                top: topOffset - 14,
-                left: 16,
-                right: 16,
-                bottom: 40,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: SlideTransition(
-                    position: _panels.slideAnim,
-                    child: AppNavDrawer(
-                      currentRoute: Routes.cv,
-                      profileProgress: ref.watch(profileCompletionProvider),
-                      items: buildNavItems(AppLocalizations.of(context)!),
-                      onItemTap: (item) {
-                        _panels.closeMenu();
-                        context.go(item.route);
-                      },
-                    ),
-                  ),
-                ),
-              ),
+            CvFloatingShelf(isPublished: isPublished),
+            ..._buildPanelOverlays(topOffset),
           ],
         ),
       ),
