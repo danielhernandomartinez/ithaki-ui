@@ -117,6 +117,18 @@ class _MainPanelScaffoldState extends ConsumerState<MainPanelScaffold>
     navigateToProfileMenuRoute(context, item);
   }
 
+  void _handleNotificationsPressed() {
+    widget.onBeforePanelAction?.call();
+    _panels.closeMenu();
+    _panels.closeProfile();
+    if (widget.currentRoute == Routes.settingsNotifications) return;
+    if (widget.onNotificationsPressed != null) {
+      widget.onNotificationsPressed!.call();
+      return;
+    }
+    context.push(Routes.settingsNotifications);
+  }
+
   void _handleLogOut() {
     widget.onBeforePanelAction?.call();
     _panels.closeProfile();
@@ -144,8 +156,7 @@ class _MainPanelScaffoldState extends ConsumerState<MainPanelScaffold>
         profileOpen: _panels.profileOpen,
         avatarInitials: widget.avatarInitials,
         avatarUrl: widget.avatarUrl,
-        onNotificationsPressed: widget.onNotificationsPressed ??
-            () => context.push(Routes.settingsNotifications),
+        onNotificationsPressed: _handleNotificationsPressed,
         onMenuPressed: _toggleMenu,
         onAvatarPressed: _toggleProfile,
       ),
