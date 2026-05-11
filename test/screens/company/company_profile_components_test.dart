@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ithaki_ui/screens/company/widgets/company_profile_components.dart';
+import 'package:ithaki_ui/screens/company/widgets/company_visual_placeholder.dart';
 
 Widget _wrap(Widget child) => MaterialApp(
       home: Scaffold(body: Center(child: child)),
