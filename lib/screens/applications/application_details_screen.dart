@@ -12,7 +12,13 @@ import '../../repositories/auth_repository.dart';
 import '../../routes.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
-import 'widgets/application_detail_cards.dart';
+import 'widgets/application_status_card.dart';
+import 'widgets/job_post_basics_card.dart';
+import 'widgets/talent_profile_card.dart';
+import 'widgets/cover_letter_card.dart';
+import 'widgets/screening_questions_card.dart';
+import 'widgets/application_detail_company_card.dart';
+import 'widgets/application_detail_sticky_bar.dart';
 
 class ApplicationDetailsScreen extends ConsumerStatefulWidget {
   final String applicationId;

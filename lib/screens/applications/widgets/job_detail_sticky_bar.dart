@@ -6,7 +6,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/job_detail_models.dart';
 import '../../../routes.dart';
-import 'invitation_detail_widgets.dart';
+import 'apply_bottom_sheet.dart';
 
 class JobDetailStickyBar extends StatelessWidget {
   final JobDetail detail;

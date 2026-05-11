@@ -16,7 +16,7 @@ import '../../repositories/auth_repository.dart';
 import '../../routes.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/profile_menu_panel.dart';
-import '../applications/widgets/invitation_detail_widgets.dart';
+import '../applications/widgets/apply_bottom_sheet.dart';
 import 'widgets/report_job_sheet.dart';
 import 'widgets/set_reminder_sheet.dart';
 import 'widgets/job_detail_body.dart';
