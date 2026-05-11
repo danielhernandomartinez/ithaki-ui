@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:ithaki_ui/models/profile_models.dart';
 import 'package:ithaki_ui/repositories/profile_repository.dart';
+import 'package:ithaki_ui/repositories/profile/mock_profile_repository.dart';
+import 'package:ithaki_ui/repositories/profile/api_profile_repository.dart';
 import 'package:ithaki_ui/services/api_client.dart';
 
 void main() {
