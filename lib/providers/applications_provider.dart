@@ -49,47 +49,30 @@ class ApiApplicationsRepository implements ApplicationsRepository {
     final id = a['id']?.toString() ?? '';
     final status = _parseStatus(a['status']);
     final applied = mapper.appliedAt(a['createdAt'] ?? a['appliedAt']);
-
-    // Job can be nested under 'job' or flat
-    final jobRaw = a['job'];
-    final j = jobRaw is Map<String, dynamic> ? jobRaw : a;
-    final jobId = (j['id'] ?? a['jobId'])?.toString() ?? '';
-
-    final jobTitle = j['title'] as String? ?? '';
-    final companyRaw = j['company'];
-    final companyName = companyRaw is Map
-        ? (companyRaw['name'] as String? ?? '')
-        : (j['companyName'] as String? ?? '');
-    final salary =
-        mapper.formatSalary(j['salaryMin'], j['salaryMax'], j['paymentTerm']);
-    final location = j['location'] as String? ?? '';
-    final workplaceType = mapper.enumTitle(j['workArrangement']);
-    final employmentType = mapper.enumTitle(j['employmentType']);
-    final experienceLevel = mapper.enumTitle(j['experienceLevel']);
-    final category = mapper.enumTitle(j['industry']);
+    final j = a['job'] is Map<String, dynamic>
+        ? a['job'] as Map<String, dynamic>
+        : a;
     final posted = mapper.postedAgo(j['postedAt'] ?? j['createdAt']);
-
-    final matchPct = (a['matchPercentage'] as num?)?.toInt() ?? 0;
-    final matchLabel = a['matchLabel'] as String? ?? '';
+    final f = mapper.parseJobFields(a);
 
     return Application(
       id: id,
-      jobId: jobId,
+      jobId: f.jobId,
       appliedAt: applied,
       status: status,
       postedAgo: posted,
-      jobTitle: jobTitle,
-      companyName: companyName,
-      companyInitials: mapper.initials(companyName),
-      companyLogoColor: mapper.colorFromString(companyName),
-      salary: salary,
-      matchPercentage: matchPct,
-      matchLabel: matchLabel,
-      category: category,
-      location: location,
-      workplaceType: workplaceType,
-      employmentType: employmentType,
-      experienceLevel: experienceLevel,
+      jobTitle: f.jobTitle,
+      companyName: f.companyName,
+      companyInitials: f.companyInitials,
+      companyLogoColor: f.companyLogoColor,
+      salary: f.salary,
+      matchPercentage: f.matchPercentage,
+      matchLabel: f.matchLabel,
+      category: f.category,
+      location: f.location,
+      workplaceType: f.workplaceType,
+      employmentType: f.employmentType,
+      experienceLevel: f.experienceLevel,
     );
   }
 

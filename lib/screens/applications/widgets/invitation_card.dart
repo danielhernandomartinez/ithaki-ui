@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../models/applications_models.dart';
 import '../../../routes.dart';
-import '../../../utils/match_colors.dart';
+import 'job_card_shared.dart';
 
 class InvitationCard extends ConsumerWidget {
   final Invitation invitation;
@@ -209,7 +209,10 @@ class _JobSection extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _CompanyLogo(invitation: invitation),
+            JobCardCompanyLogo(
+              initials: invitation.companyInitials,
+              logoColor: invitation.companyLogoColor,
+            ),
             const SizedBox(width: 8),
             Expanded(
               child: Column(
@@ -258,200 +261,30 @@ class _JobSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        _MatchBadge(invitation: invitation),
+        JobCardMatchBadge(
+          matchPercentage: invitation.matchPercentage,
+          matchLabel: invitation.matchLabel,
+        ),
         const SizedBox(height: 8),
         const Divider(height: 1, thickness: 1, color: IthakiTheme.borderLight),
         const SizedBox(height: 12),
-        _CategoryTag(category: invitation.category),
+        JobCardCategoryTag(category: invitation.category),
         const SizedBox(height: 12),
-        _DetailsGrid(invitation: invitation),
-      ],
-    );
-  }
-}
-
-class _CompanyLogo extends StatelessWidget {
-  final Invitation invitation;
-  const _CompanyLogo({required this.invitation});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 72,
-      height: 72,
-      decoration: BoxDecoration(
-        color: invitation.companyLogoColor.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: IthakiTheme.borderLight),
-      ),
-      alignment: Alignment.center,
-      child: Text(
-        invitation.companyInitials,
-        style: TextStyle(
-          fontFamily: 'Noto Sans',
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: invitation.companyLogoColor,
-          letterSpacing: -0.4,
+        Wrap(
+          spacing: 5,
+          runSpacing: 12,
+          children: [
+            if (invitation.location.isNotEmpty)
+              JobCardDetailItem(icon: 'location', label: invitation.location),
+            if (invitation.workplaceType.isNotEmpty)
+              JobCardDetailItem(icon: 'company-profile', label: invitation.workplaceType),
+            if (invitation.employmentType.isNotEmpty)
+              JobCardDetailItem(icon: 'clock', label: invitation.employmentType),
+            if (invitation.experienceLevel.isNotEmpty)
+              JobCardDetailItem(icon: 'level', label: invitation.experienceLevel),
+          ],
         ),
-      ),
-    );
-  }
-}
-
-class _MatchBadge extends StatelessWidget {
-  final Invitation invitation;
-  const _MatchBadge({required this.invitation});
-
-  @override
-  Widget build(BuildContext context) {
-    final bgColor = getMatchBgColor(invitation.matchLabel);
-    final gradientColors = getMatchGradientColors(invitation.matchLabel);
-    final pct = invitation.matchPercentage;
-
-    return Container(
-      width: double.infinity,
-      height: 36,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: bgColor,
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Stack(
-        children: [
-          const SizedBox.expand(),
-          FractionallySizedBox(
-            widthFactor: pct / 100,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                gradient: LinearGradient(colors: gradientColors),
-              ),
-            ),
-          ),
-          Positioned.fill(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                children: [
-                  Container(
-                    width: 28,
-                    height: 28,
-                    decoration: const BoxDecoration(
-                      color: IthakiTheme.backgroundWhite,
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      '$pct%',
-                      style: const TextStyle(
-                        fontSize: 9,
-                        fontWeight: FontWeight.bold,
-                        color: IthakiTheme.textPrimary,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 6),
-                  Flexible(
-                    child: Text(
-                      invitation.matchLabel,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                        color: IthakiTheme.textPrimary,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _CategoryTag extends StatelessWidget {
-  final String category;
-  const _CategoryTag({required this.category});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-      decoration: BoxDecoration(
-        color: IthakiTheme.badgeLime,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Text(
-        category,
-        style: const TextStyle(
-          fontFamily: 'DM Sans',
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-          color: IthakiTheme.textPrimary,
-          height: 1.45,
-        ),
-      ),
-    );
-  }
-}
-
-class _DetailsGrid extends StatelessWidget {
-  final Invitation invitation;
-  const _DetailsGrid({required this.invitation});
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 5,
-      runSpacing: 12,
-      children: [
-        if (invitation.location.isNotEmpty)
-          _DetailItem(icon: 'location', label: invitation.location),
-        if (invitation.workplaceType.isNotEmpty)
-          _DetailItem(icon: 'company-profile', label: invitation.workplaceType),
-        if (invitation.employmentType.isNotEmpty)
-          _DetailItem(icon: 'clock', label: invitation.employmentType),
-        if (invitation.experienceLevel.isNotEmpty)
-          _DetailItem(icon: 'level', label: invitation.experienceLevel),
       ],
-    );
-  }
-}
-
-class _DetailItem extends StatelessWidget {
-  final String icon;
-  final String label;
-  const _DetailItem({required this.icon, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 150,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IthakiIcon(icon, size: 20, color: IthakiTheme.textPrimary),
-          const SizedBox(width: 4),
-          Flexible(
-            child: Text(
-              label,
-              style: const TextStyle(
-                fontFamily: 'Noto Sans',
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: IthakiTheme.textPrimary,
-                height: 1.5,
-                letterSpacing: -0.32,
-              ),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

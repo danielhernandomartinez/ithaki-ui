@@ -32,50 +32,31 @@ class ApiInvitationsRepository implements InvitationsRepository {
     final senderRole =
         senderRaw['role'] as String? ?? inv['senderRole'] as String? ?? '';
 
-    final companyRaw = inv['company'] is Map ? inv['company'] as Map : null;
-    final companyName =
-        companyRaw?['name'] as String? ?? inv['companyName'] as String? ?? '';
-
     final message = inv['message'] as String? ?? '';
     final posted = mapper.postedAgo(inv['createdAt'] ?? inv['postedAt']);
-
-    final jobRaw = inv['job'] is Map<String, dynamic>
-        ? inv['job'] as Map<String, dynamic>
-        : inv;
-    final jobId = (jobRaw['id'] ?? inv['jobId'])?.toString() ?? '';
-    final jobTitle = jobRaw['title'] as String? ?? '';
-    final salary = mapper.formatSalary(
-        jobRaw['salaryMin'], jobRaw['salaryMax'], jobRaw['paymentTerm']);
-    final location = jobRaw['location'] as String? ?? '';
-    final workplaceType = mapper.enumTitle(jobRaw['workArrangement']);
-    final employmentType = mapper.enumTitle(jobRaw['employmentType']);
-    final experienceLevel = mapper.enumTitle(jobRaw['experienceLevel']);
-    final category = mapper.enumTitle(jobRaw['industry']);
-
-    final matchPct = (inv['matchPercentage'] as num?)?.toInt() ?? 0;
-    final matchLabel = inv['matchLabel'] as String? ?? '';
+    final f = mapper.parseJobFields(inv);
 
     return Invitation(
       id: id,
-      jobId: jobId,
+      jobId: f.jobId,
       senderName: senderName,
       senderRole: senderRole,
       senderInitials: mapper.initials(senderName),
       senderAvatarColor: mapper.colorFromString(senderName),
-      companyName: companyName,
+      companyName: f.companyName,
       message: message,
       postedAgo: posted,
-      jobTitle: jobTitle,
-      companyInitials: mapper.initials(companyName),
-      companyLogoColor: mapper.colorFromString(companyName),
-      salary: salary,
-      matchPercentage: matchPct,
-      matchLabel: matchLabel,
-      category: category,
-      location: location,
-      workplaceType: workplaceType,
-      employmentType: employmentType,
-      experienceLevel: experienceLevel,
+      jobTitle: f.jobTitle,
+      companyInitials: f.companyInitials,
+      companyLogoColor: f.companyLogoColor,
+      salary: f.salary,
+      matchPercentage: f.matchPercentage,
+      matchLabel: f.matchLabel,
+      category: f.category,
+      location: f.location,
+      workplaceType: f.workplaceType,
+      employmentType: f.employmentType,
+      experienceLevel: f.experienceLevel,
     );
   }
 

@@ -91,6 +91,69 @@ String appliedAt(dynamic dateStr) {
   }
 }
 
+/// Shared job + match fields parsed from an application or invitation envelope.
+typedef JobFields = ({
+  String jobId,
+  String jobTitle,
+  String companyName,
+  String companyInitials,
+  Color companyLogoColor,
+  String salary,
+  String location,
+  String workplaceType,
+  String employmentType,
+  String experienceLevel,
+  String category,
+  int matchPercentage,
+  String matchLabel,
+});
+
+/// Extracts job and match fields from an API envelope that may carry a nested
+/// `job` object (applications) or a flat/top-level `company` (invitations).
+JobFields parseJobFields(Map<String, dynamic> envelope) {
+  final jobRaw = envelope['job'];
+  final j = jobRaw is Map<String, dynamic> ? jobRaw : envelope;
+
+  final jobId = (j['id'] ?? envelope['jobId'])?.toString() ?? '';
+  final jobTitle = j['title'] as String? ?? '';
+
+  final companyFromJob = j['company'];
+  final companyFromEnvelope = envelope['company'];
+  final companyRaw = companyFromJob is Map
+      ? companyFromJob
+      : (companyFromEnvelope is Map ? companyFromEnvelope : null);
+  final companyName = companyRaw != null
+      ? (companyRaw['name'] as String? ?? '')
+      : (j['companyName'] as String? ??
+          envelope['companyName'] as String? ??
+          '');
+
+  final salary = formatSalary(j['salaryMin'], j['salaryMax'], j['paymentTerm']);
+  final location = j['location'] as String? ?? '';
+  final workplaceType = enumTitle(j['workArrangement']);
+  final employmentType = enumTitle(j['employmentType']);
+  final experienceLevel = enumTitle(j['experienceLevel']);
+  final category = enumTitle(j['industry']);
+  final matchPct = (envelope['matchPercentage'] as num?)?.toInt() ?? 0;
+  final matchLabel = envelope['matchLabel'] as String? ?? '';
+
+  return (
+    jobId: jobId,
+    jobTitle: jobTitle,
+    companyName: companyName,
+    companyInitials: initials(companyName),
+    companyLogoColor: colorFromString(companyName),
+    salary: salary,
+    location: location,
+    workplaceType: workplaceType,
+    employmentType: employmentType,
+    experienceLevel: experienceLevel,
+    category: category,
+    matchPercentage: matchPct,
+    matchLabel: matchLabel,
+  );
+}
+
 /// Extracts a list from either a raw JSON array or a Spring Page { content: [] }.
 List<dynamic> extractList(dynamic json) {
   if (json is List) return json;
