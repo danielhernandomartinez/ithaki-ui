@@ -603,6 +603,8 @@ class ApiProfileRepository implements ProfileRepository {
     }
 
     // Fall back to ID-based endpoint.
+    // TODO(backend): GET /files/me/documents/$id/download returns 500 — backend
+    // needs a download route for JOB_SEEKER role. Update path when available.
     final id = file.id;
     if (id != null) {
       final res = await _api.get(
