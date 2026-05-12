@@ -18,6 +18,8 @@ dependencies:
   flutter_secure_storage: ^10.0.0
   file_picker: ^10.3.10
   url_launcher: ^6.3.2
+  open_filex: ^4.7.0
+  path_provider: ^2.1.4
   http: ^1.6.0
   ithaki_design_system:
     git:
