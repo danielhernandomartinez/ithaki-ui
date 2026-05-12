@@ -108,6 +108,34 @@ void main() {
     expect(find.text('Español'), findsNWidgets(2));
   });
 
+  testWidgets('language picker clears the bottom system bar', (tester) async {
+    tester.view.physicalSize = const Size(390, 900);
+    tester.view.devicePixelRatio = 1;
+    tester.view.padding = FakeViewPadding.zero;
+    tester.view.viewPadding = const FakeViewPadding(bottom: 34);
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.view.resetPadding);
+    addTearDown(tester.view.resetViewPadding);
+
+    await tester.pumpWidget(
+      _localizedApp(
+        const AppNavDrawer(
+          currentRoute: Routes.home,
+          items: [],
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Español'));
+    await tester.pumpAndSettle();
+
+    final sheetBottom = tester
+        .getBottomLeft(find.byKey(const ValueKey('language-picker-sheet')))
+        .dy;
+    expect(sheetBottom, lessThanOrEqualTo(900 - 34 - 16));
+  });
+
   testWidgets('Spanish profile actions fit on a narrow phone width',
       (tester) async {
     tester.view.physicalSize = const Size(320, 900);

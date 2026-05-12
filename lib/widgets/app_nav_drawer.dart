@@ -339,36 +339,38 @@ class _LanguagePickerSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottomPadding = MediaQuery.of(context).padding.bottom;
-    return Container(
-      margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-      padding: EdgeInsets.only(bottom: bottomPadding),
-      decoration: BoxDecoration(
-        color: IthakiTheme.backgroundWhite,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 12),
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: IthakiTheme.borderLight,
-              borderRadius: BorderRadius.circular(2),
+    final bottomPadding = MediaQuery.viewPaddingOf(context).bottom;
+    return Padding(
+      padding: EdgeInsets.fromLTRB(16, 0, 16, bottomPadding + 16),
+      child: Container(
+        key: const ValueKey('language-picker-sheet'),
+        decoration: BoxDecoration(
+          color: IthakiTheme.backgroundWhite,
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 12),
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: IthakiTheme.borderLight,
+                borderRadius: BorderRadius.circular(2),
+              ),
             ),
-          ),
-          const SizedBox(height: 16),
-          for (final lang in _kLanguages) ...[
-            _LangOption(
-              lang: lang,
-              selected: lang.code == currentCode,
-              onTap: () => onSelect(lang.code),
-            ),
+            const SizedBox(height: 16),
+            for (final lang in _kLanguages) ...[
+              _LangOption(
+                lang: lang,
+                selected: lang.code == currentCode,
+                onTap: () => onSelect(lang.code),
+              ),
+            ],
+            const SizedBox(height: 8),
           ],
-          const SizedBox(height: 8),
-        ],
+        ),
       ),
     );
   }
