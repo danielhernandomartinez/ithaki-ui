@@ -27,7 +27,7 @@ class IthakiApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final locale = ref.watch(localeProvider);
+    final locale = ref.watch(localeProvider).value;
     final tourKeys = ref.watch(tourKeysProvider);
 
     return MaterialApp.router(

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:ithaki_ui/l10n/app_localizations.dart';
 import 'package:ithaki_ui/providers/profile_provider.dart';
@@ -83,7 +84,13 @@ Widget _profileApp() {
 }
 
 void main() {
-  testWidgets('drawer language picker offers Spanish', (tester) async {
+  setUp(() {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences.setMockInitialValues({});
+  });
+
+  testWidgets('drawer uses resolved Spanish locale when no locale is saved',
+      (tester) async {
     await tester.pumpWidget(
       _localizedApp(
         const AppNavDrawer(
@@ -93,10 +100,40 @@ void main() {
       ),
     );
 
-    await tester.tap(find.text('English'));
+    expect(find.text('Español'), findsOneWidget);
+
+    await tester.tap(find.text('Español'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Español'), findsOneWidget);
+    expect(find.text('Español'), findsNWidgets(2));
+  });
+
+  testWidgets('language picker clears the bottom system bar', (tester) async {
+    tester.view.physicalSize = const Size(390, 900);
+    tester.view.devicePixelRatio = 1;
+    tester.view.padding = FakeViewPadding.zero;
+    tester.view.viewPadding = const FakeViewPadding(bottom: 34);
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.view.resetPadding);
+    addTearDown(tester.view.resetViewPadding);
+
+    await tester.pumpWidget(
+      _localizedApp(
+        const AppNavDrawer(
+          currentRoute: Routes.home,
+          items: [],
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Español'));
+    await tester.pumpAndSettle();
+
+    final sheetBottom = tester
+        .getBottomLeft(find.byKey(const ValueKey('language-picker-sheet')))
+        .dy;
+    expect(sheetBottom, lessThanOrEqualTo(900 - 34 - 16));
   });
 
   testWidgets('Spanish profile actions fit on a narrow phone width',
