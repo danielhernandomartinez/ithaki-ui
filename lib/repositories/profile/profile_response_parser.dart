@@ -125,7 +125,7 @@ class ProfileResponseParser {
   }
 
   static String? _parseDocumentUrl(Map<String, dynamic> json) {
-    for (final key in ['url', 'fileUrl', 'downloadUrl', 'path', 'filePath']) {
+    for (final key in ['url', 'fileUrl', 'downloadUrl']) {
       final value = json[key];
       if (value is String && value.trim().isNotEmpty) {
         return value.trim();

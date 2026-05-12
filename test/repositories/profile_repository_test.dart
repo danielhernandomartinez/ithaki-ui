@@ -486,6 +486,35 @@ void main() {
     });
   });
 
+  group('ApiProfileRepository.downloadFile', () {
+    test('downloads from ID-based endpoint when url is null', () async {
+      final client = MockClient((request) async {
+        if (request.url.path == '/api/files/me/documents/42/download') {
+          return http.Response.bytes([1, 2, 3], 200);
+        }
+        return http.Response('not found', 404);
+      });
+      final repo = ApiProfileRepository(
+        apiClient: ApiClient(client: client, baseUrl: 'https://api.example.com'),
+      );
+      final file = UploadedFile(id: 42, name: 'cv.pdf', size: '2024-01-15');
+      final bytes = await repo.downloadFile(file);
+      expect(bytes, [1, 2, 3]);
+    });
+
+    test('throws when both url and id are null', () async {
+      final client = MockClient((_) async => http.Response('not found', 404));
+      final repo = ApiProfileRepository(
+        apiClient: ApiClient(client: client, baseUrl: 'https://api.example.com'),
+      );
+      final file = UploadedFile(name: 'cv.pdf', size: '2024-01-15');
+      expect(
+        () => repo.downloadFile(file),
+        throwsA(isA<Exception>()),
+      );
+    });
+  });
+
   group('ProfileResponseParser.documentFromJson URL parsing', () {
     test('parses url field', () {
       final file = ProfileResponseParser.documentFromJson({

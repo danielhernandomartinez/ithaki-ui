@@ -130,11 +130,11 @@ class ProfileFilesTab extends ConsumerWidget {
       final bytes =
           await ref.read(profileRepositoryProvider).downloadFile(file);
       final dir = await getTemporaryDirectory();
-      final tempFile = File('${dir.path}/${file.name}');
+      final tempFile = File('${dir.path}/${file.id ?? 'f'}_${file.name}');
       await tempFile.writeAsBytes(bytes, flush: true);
 
       if (!context.mounted) return;
-      Navigator.of(context).pop();
+      if (Navigator.of(context).canPop()) Navigator.of(context).pop();
 
       final result = await OpenFilex.open(tempFile.path);
       if (!context.mounted) return;

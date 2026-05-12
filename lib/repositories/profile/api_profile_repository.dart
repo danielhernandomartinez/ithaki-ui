@@ -590,9 +590,13 @@ class ApiProfileRepository implements ProfileRepository {
     if (url != null) {
       final uri = Uri.tryParse(url);
       if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
-        final token = await _api.requireToken();
+        final apiHost = Uri.parse(_api.base).host;
+        final isSameOrigin = uri.host == apiHost;
+        final headers = isSameOrigin
+            ? {'Authorization': 'Bearer ${await _api.requireToken()}'}
+            : <String, String>{};
         final res = await _api.client
-            .get(uri, headers: {'Authorization': 'Bearer $token'})
+            .get(uri, headers: headers)
             .timeout(ApiClient.uploadTimeout);
         if (res.statusCode == 200) return res.bodyBytes;
       }
