@@ -1,10 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:open_filex/open_filex.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/profile_provider.dart';
-import '../../../utils/open_resource.dart';
+import '../../../repositories/profile_repository.dart';
 import '../../../widgets/profile_empty_state_card.dart';
 import '../../../widgets/upload_files_sheet.dart';
 
@@ -83,7 +86,7 @@ class ProfileFilesTab extends ConsumerWidget {
                     ]),
               ),
               TextButton(
-                onPressed: () => _openFile(context, f),
+                onPressed: () => _openFile(context, ref, f),
                 child: Text(l.open,
                     style: const TextStyle(color: IthakiTheme.primaryPurple)),
               ),
@@ -113,24 +116,39 @@ class ProfileFilesTab extends ConsumerWidget {
         ref.read(profileFilesProvider.notifier).addAll(files);
       });
 
-  Future<void> _openFile(BuildContext context, UploadedFile file) async {
-    final uri = uriForUploadedFile(file);
-    if (uri == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text(
-                AppLocalizations.of(context)!.openFileNoSource(file.name))),
-      );
-      return;
-    }
+  Future<void> _openFile(
+      BuildContext context, WidgetRef ref, UploadedFile file) async {
+    final l = AppLocalizations.of(context)!;
 
-    final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
-    if (!context.mounted || opened) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          content:
-              Text(AppLocalizations.of(context)!.couldNotOpenFile(file.name))),
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
     );
+
+    try {
+      final bytes =
+          await ref.read(profileRepositoryProvider).downloadFile(file);
+      final dir = await getTemporaryDirectory();
+      final tempFile = File('${dir.path}/${file.name}');
+      await tempFile.writeAsBytes(bytes, flush: true);
+
+      if (!context.mounted) return;
+      Navigator.of(context).pop();
+
+      final result = await OpenFilex.open(tempFile.path);
+      if (!context.mounted) return;
+      if (result.type != ResultType.done) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l.couldNotOpenFile(file.name))),
+        );
+      }
+    } catch (_) {
+      if (!context.mounted) return;
+      if (Navigator.of(context).canPop()) Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l.couldNotOpenFile(file.name))),
+      );
+    }
   }
 }
