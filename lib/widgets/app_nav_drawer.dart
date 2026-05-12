@@ -66,7 +66,12 @@ class AppNavDrawer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
-    final localeCode = ref.watch(localeProvider)?.languageCode ?? 'en';
+    final selectedLocaleCode = ref.watch(localeProvider).value?.languageCode;
+    final resolvedLocaleCode =
+        selectedLocaleCode ?? Localizations.localeOf(context).languageCode;
+    final localeCode = _kLanguages.any((l) => l.code == resolvedLocaleCode)
+        ? resolvedLocaleCode
+        : 'en';
     final lang = _kLanguages.firstWhere(
       (l) => l.code == localeCode,
       orElse: () => _kLanguages.first,

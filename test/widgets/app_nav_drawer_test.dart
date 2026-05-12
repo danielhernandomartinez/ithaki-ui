@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:ithaki_ui/l10n/app_localizations.dart';
 import 'package:ithaki_ui/providers/profile_provider.dart';
@@ -83,7 +84,13 @@ Widget _profileApp() {
 }
 
 void main() {
-  testWidgets('drawer language picker offers Spanish', (tester) async {
+  setUp(() {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences.setMockInitialValues({});
+  });
+
+  testWidgets('drawer uses resolved Spanish locale when no locale is saved',
+      (tester) async {
     await tester.pumpWidget(
       _localizedApp(
         const AppNavDrawer(
@@ -93,10 +100,12 @@ void main() {
       ),
     );
 
-    await tester.tap(find.text('English'));
+    expect(find.text('Español'), findsOneWidget);
+
+    await tester.tap(find.text('Español'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Español'), findsOneWidget);
+    expect(find.text('Español'), findsNWidgets(2));
   });
 
   testWidgets('Spanish profile actions fit on a narrow phone width',
