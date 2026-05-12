@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import '../../data/mock_profile_data.dart';
 import '../../models/profile_models.dart';
 import '../profile_repository.dart';
@@ -189,6 +191,11 @@ class MockProfileRepository implements ProfileRepository {
     await _ensureLoaded();
     _files = files;
     await _persist(() => ProfileLocalStore.saveFiles(_files));
+  }
+
+  @override
+  Future<Uint8List> downloadFile(UploadedFile file) async {
+    return Uint8List(0);
   }
 
   @override

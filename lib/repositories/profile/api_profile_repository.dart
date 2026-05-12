@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 
@@ -580,6 +581,35 @@ class ApiProfileRepository implements ProfileRepository {
       _files = files;
     }
     await ProfileLocalStore.saveFiles(_files);
+  }
+
+  @override
+  Future<Uint8List> downloadFile(UploadedFile file) async {
+    // Try the URL from the API response first (may be a signed/CDN URL).
+    final url = file.url;
+    if (url != null) {
+      final uri = Uri.tryParse(url);
+      if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
+        final token = await _api.requireToken();
+        final res = await _api.client
+            .get(uri, headers: {'Authorization': 'Bearer $token'})
+            .timeout(ApiClient.uploadTimeout);
+        if (res.statusCode == 200) return res.bodyBytes;
+      }
+    }
+
+    // Fall back to ID-based endpoint.
+    final id = file.id;
+    if (id != null) {
+      final res = await _api.get(
+        '/files/me/documents/$id/download',
+        timeout: ApiClient.uploadTimeout,
+      );
+      if (res.statusCode == 200) return res.bodyBytes;
+      throw Exception('Download failed: HTTP ${res.statusCode}');
+    }
+
+    throw Exception('No download source for: ${file.name}');
   }
 
   @override

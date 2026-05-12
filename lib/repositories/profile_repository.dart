@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../config/app_config.dart';
@@ -40,6 +42,7 @@ abstract class ProfileRepository {
   Future<void> saveWorkExperiences(List<WorkExperience> experiences);
   Future<void> saveEducations(List<Education> educations);
   Future<void> saveFiles(List<UploadedFile> files);
+  Future<Uint8List> downloadFile(UploadedFile file);
   Future<void> saveValues(List<String> values);
   Future<void> saveJobPreferences(ProfileJobPreferences prefs);
   Future<void> saveProfileVisible(bool visible);

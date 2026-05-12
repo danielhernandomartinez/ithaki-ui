@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -67,6 +68,17 @@ void main() {
           'National Technical University of Athens');
       expect(files.first.name, 'CV_Christos.pdf');
       expect(jobPreferences.jobInterests.first.title, 'Frontend Developer');
+    });
+
+    test('downloadFile returns Uint8List', () async {
+      final repo = MockProfileRepository();
+      final file = UploadedFile(
+        id: 1,
+        name: 'cv.pdf',
+        size: '2024-01-15',
+      );
+      final bytes = await repo.downloadFile(file);
+      expect(bytes, isA<Uint8List>());
     });
   });
 
