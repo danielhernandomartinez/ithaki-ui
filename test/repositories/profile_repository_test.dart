@@ -141,9 +141,74 @@ void main() {
       );
       expect(result.basics.citizenshipCode, 'al');
       expect(result.basics.residenceCode, 'af');
-      expect(skills.hardSkills, containsAll(['1', 'Dart']));
-      expect(skills.softSkills, ['true']);
+      expect(skills.hardSkills, ['Dart']);
+      expect(skills.softSkills, isEmpty);
       expect(skills.competencies['hasDrivingLicense'], 'true');
+    });
+
+    test('refreshAll resolves numeric skill IDs to reference names', () async {
+      final client = MockClient((request) async {
+        switch (request.url.path) {
+          case '/api/user/me':
+            return http.Response(
+              jsonEncode({
+                'firstName': 'Kostas',
+                'lastName': 'Papadopoulos',
+                'email': 'kostas@example.com',
+                'phone': '123',
+              }),
+              200,
+            );
+          case '/api/job-seeker/me':
+            return http.Response(
+              jsonEncode({
+                'skills': {
+                  'hardSkills': [
+                    {'value': 180},
+                    {'value': 155},
+                    {'value': 999},
+                  ],
+                  'softSkills': [
+                    {'value': 65},
+                    {'value': 8},
+                  ],
+                },
+                'languages': [],
+                'workExperience': [],
+                'education': [],
+              }),
+              200,
+            );
+          case '/api/skills/hard':
+            return http.Response(
+              jsonEncode([
+                {'id': 180, 'name': 'Flutter'},
+                {'id': 155, 'name': 'Dart'},
+              ]),
+              200,
+            );
+          case '/api/skills/soft':
+            return http.Response(
+              jsonEncode([
+                {'id': 65, 'name': 'Teamwork'},
+                {'id': 8, 'name': 'Communication'},
+              ]),
+              200,
+            );
+        }
+        return http.Response('not found', 404);
+      });
+      final repository = ApiProfileRepository(
+        apiClient: ApiClient(client: client, baseUrl: 'http://localhost'),
+      );
+
+      await repository.refreshAll();
+      final skills = await repository.getSkills();
+
+      expect(skills.hardSkills, ['Flutter', 'Dart']);
+      expect(skills.softSkills, ['Teamwork', 'Communication']);
+      expect(skills.hardSkills, isNot(contains('180')));
+      expect(skills.softSkills, isNot(contains('65')));
     });
 
     test('refreshAll hydrates onboarding fields from user profile', () async {

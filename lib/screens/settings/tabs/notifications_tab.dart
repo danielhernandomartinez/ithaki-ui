@@ -114,6 +114,7 @@ class NotificationsTab extends ConsumerWidget {
                   ),
                 ),
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     IthakiIcon(
                       'envelope',
@@ -123,23 +124,33 @@ class NotificationsTab extends ConsumerWidget {
                           : IthakiTheme.textSecondary,
                     ),
                     const SizedBox(width: 12),
-                    Text(
-                      l.emailNewsletterTitle,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                        color: settings.emailNewsletterActive
-                            ? IthakiTheme.primaryPurple
-                            : IthakiTheme.textPrimary,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l.emailNewsletterTitle,
+                            softWrap: true,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              color: settings.emailNewsletterActive
+                                  ? IthakiTheme.primaryPurple
+                                  : IthakiTheme.textPrimary,
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            settings.emailNewsletterActive
+                                ? l.newsletterActive
+                                : l.newsletterInactive,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: IthakiTheme.textSecondary,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      settings.emailNewsletterActive
-                          ? l.newsletterActive
-                          : l.newsletterInactive,
-                      style: const TextStyle(
-                          fontSize: 12, color: IthakiTheme.textSecondary),
                     ),
                   ],
                 ),

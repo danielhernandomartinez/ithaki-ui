@@ -999,6 +999,17 @@
       }
     }
   },
+  "jobSearchPageStatus": "Σελίδα {current} από {total}",
+  "@jobSearchPageStatus": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "noSavedJobsYet": "Δεν υπάρχουν αποθηκευμένες θέσεις ακόμα.",
   "notificationsLabel": "Ειδοποιήσεις",
   "notificationsScreenSubtitle": "Εδώ μπορείτε να δείτε όλα τα νέα σας. Μείνετε ενημερωμένοι με σημαντικές ενημερώσεις.",

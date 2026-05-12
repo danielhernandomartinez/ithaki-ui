@@ -8,6 +8,7 @@ import '../../providers/profile_provider.dart';
 import '../../providers/tour_provider.dart';
 import '../../routes.dart';
 import '../../widgets/main_panel_scaffold.dart';
+import '../../widgets/responsive_gradient_banner.dart';
 import 'widgets/job_search_list.dart';
 import 'widgets/job_search_search_bar.dart';
 import 'widgets/job_search_tab_bar.dart';
@@ -41,7 +42,7 @@ class JobSearchScreen extends ConsumerWidget {
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: IthakiGradientBanner(
+              child: ResponsiveGradientBanner(
                 title: l10n.bannerNotSureJob,
                 subtitle: l10n.homeCareerAssistantBannerSubtitle,
                 buttonLabel: l10n.askCareerAssistant,

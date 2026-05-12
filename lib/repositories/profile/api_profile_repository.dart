@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import '../../data/countries.dart';
 import '../../models/profile_models.dart';
 import '../../services/api_client.dart';
+import '../reference_data_repository.dart';
 import '../profile_repository.dart';
 import 'profile_api_mapper.dart';
 import 'profile_language_resolver.dart';
@@ -84,6 +85,75 @@ class ApiProfileRepository implements ProfileRepository {
     await ProfileLocalStore.saveFiles(_files);
   }
 
+  bool _needsSkillResolution(List<String> skills) {
+    return skills.any((skill) =>
+        int.tryParse(skill.trim()) != null ||
+        skill.trim().toLowerCase() == 'true' ||
+        skill.trim().toLowerCase() == 'false');
+  }
+
+  Future<Map<int, String>> _skillNameById(String path) async {
+    try {
+      final response = await _api.getOptionalAuth(path);
+      if (response.statusCode != 200 || response.body.trim().isEmpty) {
+        return const {};
+      }
+      final decoded = jsonDecode(response.body);
+      final raw = decoded is List
+          ? decoded
+          : decoded is Map
+              ? decoded['content'] ?? decoded['data'] ?? const []
+              : const [];
+      final result = <int, String>{};
+      for (final item in raw) {
+        if (item is! Map) continue;
+        final skill = SkillItem.fromJson(item.cast<String, dynamic>());
+        if (skill.name.trim().isNotEmpty) {
+          result[skill.id] = skill.name.trim();
+        }
+      }
+      return result;
+    } catch (_) {
+      return const {};
+    }
+  }
+
+  List<String> _resolveSkillList(List<String> skills, Map<int, String> names) {
+    final resolved = <String>[];
+    for (final skill in skills) {
+      final text = skill.trim();
+      if (text.isEmpty) continue;
+      final id = int.tryParse(text);
+      if (id != null) {
+        final name = names[id];
+        if (name != null && name.isNotEmpty) resolved.add(name);
+        continue;
+      }
+      final lower = text.toLowerCase();
+      if (lower == 'true' || lower == 'false') continue;
+      resolved.add(text);
+    }
+    return resolved;
+  }
+
+  Future<ProfileSkills> _resolveSkillNames(ProfileSkills skills) async {
+    final needsHard = _needsSkillResolution(skills.hardSkills);
+    final needsSoft = _needsSkillResolution(skills.softSkills);
+    if (!needsHard && !needsSoft) return skills;
+
+    final hardNames = needsHard
+        ? await _skillNameById('/skills/hard')
+        : const <int, String>{};
+    final softNames = needsSoft
+        ? await _skillNameById('/skills/soft')
+        : const <int, String>{};
+
+    return skills.copyWith(
+      hardSkills: _resolveSkillList(skills.hardSkills, hardNames),
+      softSkills: _resolveSkillList(skills.softSkills, softNames),
+    );
+  }
+
   @override
   Future<ProfileLoadResult> refreshAll() async {
     await _syncSession();
@@ -152,8 +222,9 @@ class ApiProfileRepository implements ProfileRepository {
 
           // Parse all sections before mutating state.
           final parsedAboutMe = ProfileResponseParser.parseAboutMe(profileData);
-          final parsedSkills =
-              ProfileResponseParser.parseSkills(profileData, _skills);
+          final parsedSkills = await _resolveSkillNames(
+            ProfileResponseParser.parseSkills(profileData, _skills),
+          );
           final parsedWork =
               ProfileResponseParser.parseWorkExperiences(profileData);
           final parsedEducations =

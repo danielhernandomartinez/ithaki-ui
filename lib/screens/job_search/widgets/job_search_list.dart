@@ -71,8 +71,11 @@ class JobSearchList extends ConsumerWidget {
               ),
               GestureDetector(
                 onTap: () => _openSort(context, ref),
-                child: const Icon(Icons.sort,
-                    size: 22, color: IthakiTheme.textPrimary),
+                child: const IthakiIcon(
+                  'sorting',
+                  size: 22,
+                  color: IthakiTheme.textPrimary,
+                ),
               ),
             ],
           ),
@@ -136,52 +139,90 @@ class JobSearchPagination extends ConsumerWidget {
     final totalPages = ref.watch(jobSearchDataProvider).value?.totalPages ?? 0;
     final currentPage = ref.watch(jobSearchProvider).value?.currentPage ?? 1;
     final notifier = ref.read(jobSearchProvider.notifier);
+    final l = AppLocalizations.of(context)!;
 
-    final pages = <int>[];
-    if (totalPages <= 5) {
-      for (int i = 1; i <= totalPages; i++) {
-        pages.add(i);
-      }
-    } else {
-      pages.addAll([1, 2, 3]);
-    }
+    if (totalPages <= 1) return const SizedBox.shrink();
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+    final pages = _visiblePages(currentPage, totalPages);
+
+    return Column(
       children: [
-        for (final page in pages) ...[
-          _PageButton(page: page, currentPage: currentPage),
-          const SizedBox(width: 6),
-        ],
-        if (totalPages > 5) ...[
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4),
-            child: Text('...',
-                style:
-                    TextStyle(fontSize: 15, color: IthakiTheme.textSecondary)),
+        Text(
+          l.jobSearchPageStatus(currentPage, totalPages),
+          style: IthakiTheme.bodySmall.copyWith(
+            color: IthakiTheme.textSecondary,
+            fontWeight: FontWeight.w600,
           ),
-          const SizedBox(width: 6),
-          _PageButton(page: totalPages, currentPage: currentPage),
-          const SizedBox(width: 6),
-        ],
-        GestureDetector(
-          onTap: currentPage < totalPages
-              ? () => notifier.nextPage(totalPages)
-              : null,
-          child: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              border: Border.all(color: IthakiTheme.borderLight),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            alignment: Alignment.center,
-            child: const Icon(Icons.chevron_right,
-                size: 20, color: IthakiTheme.textPrimary),
+        ),
+        const SizedBox(height: 10),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              for (int i = 0; i < pages.length; i++) ...[
+                if (i > 0)
+                  if (pages[i] - pages[i - 1] > 1) ...[
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 4),
+                      child: Text(
+                        '...',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: IthakiTheme.textSecondary,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                  ] else
+                    const SizedBox(width: 6),
+                _PageButton(page: pages[i], currentPage: currentPage),
+              ],
+              const SizedBox(width: 6),
+              GestureDetector(
+                onTap: currentPage < totalPages
+                    ? () => notifier.nextPage(totalPages)
+                    : null,
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: IthakiTheme.borderLight),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  alignment: Alignment.center,
+                  child: Transform.rotate(
+                    angle: -1.5708,
+                    child: const IthakiIcon(
+                      'arrow-down',
+                      size: 20,
+                      color: IthakiTheme.textPrimary,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
     );
+  }
+
+  List<int> _visiblePages(int currentPage, int totalPages) {
+    if (totalPages <= 5) {
+      return [for (int page = 1; page <= totalPages; page++) page];
+    }
+
+    final pages = <int>{1, totalPages};
+    if (currentPage <= 3) {
+      pages.addAll([2, 3]);
+    } else if (currentPage >= totalPages - 2) {
+      pages.addAll([totalPages - 2, totalPages - 1]);
+    } else {
+      pages.addAll([currentPage - 1, currentPage, currentPage + 1]);
+    }
+
+    return pages.toList()..sort();
   }
 }
 

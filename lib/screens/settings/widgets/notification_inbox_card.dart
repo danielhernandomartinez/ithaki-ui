@@ -55,7 +55,7 @@ class NotificationInboxCard extends StatelessWidget {
           Text(
             item.message,
             style: IthakiTheme.bodyRegular.copyWith(
-              color: const Color(0xFF454545),
+              color: IthakiTheme.textPrimary,
               height: 1.45,
             ),
           ),

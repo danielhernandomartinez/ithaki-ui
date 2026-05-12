@@ -11,6 +11,7 @@ import '../../routes.dart';
 import '../../tour/tour_welcome_modal.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/main_panel_scaffold.dart';
+import '../../widgets/responsive_gradient_banner.dart';
 import 'widgets/home_courses_section.dart';
 import 'widgets/home_greeting_header.dart';
 import 'widgets/home_jobs_section.dart';
@@ -18,6 +19,7 @@ import 'widgets/home_news_section.dart';
 import 'widgets/home_profile_completion_card.dart';
 import 'widgets/home_questions_section.dart';
 import 'widgets/home_search_section.dart';
+import 'widgets/home_stats_card.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -137,7 +139,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   if (tourState?.tourCompleted ?? false) ...[
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: IthakiGradientBanner(
+                      child: ResponsiveGradientBanner(
                         title: l10n.homeNeedRefresher,
                         subtitle: l10n.homeRestartProductTourSubtitle,
                         buttonLabel: l10n.homeRestartProductTour,
@@ -173,7 +175,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   const SizedBox(height: 12),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: IthakiGradientBanner(
+                    child: ResponsiveGradientBanner(
                       title: l10n.bannerNotSureJob,
                       subtitle: l10n.homeCareerAssistantBannerSubtitle,
                       buttonLabel: l10n.askCareerAssistant,
@@ -192,7 +194,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   const SizedBox(height: 12),
                   IthakiCard(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
-                    child: IthakiStatCard(
+                    child: HomeStatsCard(
                       title: l10n.homeCvSuccess,
                       rows: [
                         IthakiStatRowData(

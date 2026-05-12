@@ -1001,6 +1001,17 @@
       }
     }
   },
+  "jobSearchPageStatus": "الصفحة {current} من {total}",
+  "@jobSearchPageStatus": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "noSavedJobsYet": "لا توجد وظائف محفوظة بعد.",
   "notificationsLabel": "الإشعارات",
   "notificationsScreenSubtitle": "هنا يمكنك رؤية جميع أخبارك. ابقَ على اطلاع دائم.",

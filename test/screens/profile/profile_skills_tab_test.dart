@@ -10,10 +10,10 @@ class _CompetenciesNotifier extends ProfileSkillsNotifier {
   @override
   Future<ProfileSkills> build() async => const ProfileSkills(
         competencies: {
-          'computerSkills': 'Professional',
-          'drivingLicense': 'Yes',
-          'licenseCategory': 'B',
-          'greekLicense': 'false',
+          'computerSkills': 'Intermediate',
+          'hasDrivingLicense': 'false',
+          'drivingLicenseCategories': '[]',
+          'hasGreekLicense': 'false',
         },
       );
 }
@@ -36,20 +36,22 @@ Widget _wrap(Widget child) => ProviderScope(
     );
 
 void main() {
-  testWidgets('competencies card renders stored keys and values',
+  testWidgets('competencies card renders user-facing labels and hides flags',
       (tester) async {
     await tester.pumpWidget(_wrap(const ProfileSkillsTab()));
     await tester.pumpAndSettle();
 
     expect(find.text('Competencies'), findsOneWidget);
-    expect(find.text('computerSkills'), findsOneWidget);
-    expect(find.text('Professional'), findsOneWidget);
-    expect(find.text('drivingLicense'), findsOneWidget);
-    expect(find.text('Yes'), findsOneWidget);
-    expect(find.text('licenseCategory'), findsOneWidget);
-    expect(find.text('B'), findsOneWidget);
-    expect(find.text('greekLicense'), findsOneWidget);
-    expect(find.text('false'), findsOneWidget);
+    expect(find.text('Computer Skills'), findsOneWidget);
+    expect(find.text('Intermediate'), findsOneWidget);
+    expect(find.text('Driving License'), findsOneWidget);
+    expect(find.text('No'), findsOneWidget);
+    expect(find.text('computerSkills'), findsNothing);
+    expect(find.text('hasDrivingLicense'), findsNothing);
+    expect(find.text('drivingLicenseCategories'), findsNothing);
+    expect(find.text('hasGreekLicense'), findsNothing);
+    expect(find.text('false'), findsNothing);
+    expect(find.text('[]'), findsNothing);
     expect(find.text('Edit Competencies'), findsOneWidget);
     expect(find.text('Work Permit'), findsNothing);
   });

@@ -2377,6 +2377,11 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String jobSearchPageStatus(int current, int total) {
+    return 'الصفحة $current من $total';
+  }
+
+  @override
   String get noSavedJobsYet => 'لا توجد وظائف محفوظة بعد.';
 
   @override

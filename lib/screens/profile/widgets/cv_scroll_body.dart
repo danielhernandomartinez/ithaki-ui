@@ -8,6 +8,7 @@ import '../../../providers/assessment_provider.dart';
 import '../../../providers/cv_provider.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../routes.dart';
+import '../../../utils/profile_competency_display.dart';
 import 'cv_assistant_card.dart';
 import 'cv_atoms.dart';
 import 'cv_data.dart';
@@ -95,8 +96,8 @@ class CvScrollBody extends ConsumerWidget {
                 ? null
                 : () => context.push(Routes.profileCompetencies),
             child: Column(
-              children: cvData.competencies.entries
-                  .map((e) => CvKeyValueRow(label: e.key, value: e.value))
+              children: profileCompetencyDisplayRows(cvData.competencies, l)
+                  .map((e) => CvKeyValueRow(label: e.label, value: e.value))
                   .toList(),
             ),
           ),

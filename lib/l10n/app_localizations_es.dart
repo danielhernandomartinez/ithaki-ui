@@ -2424,6 +2424,11 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String jobSearchPageStatus(int current, int total) {
+    return 'Página $current de $total';
+  }
+
+  @override
   String get noSavedJobsYet => 'Aún no hay empleos guardados.';
 
   @override

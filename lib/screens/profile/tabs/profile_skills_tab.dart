@@ -5,12 +5,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../routes.dart';
-
-class _CompRow {
-  final String label;
-  final String value;
-  const _CompRow(this.label, this.value);
-}
+import '../../../utils/profile_competency_display.dart';
 
 class ProfileSkillsTab extends ConsumerWidget {
   const ProfileSkillsTab({super.key});
@@ -98,7 +93,7 @@ class ProfileSkillsTab extends ConsumerWidget {
   Widget _competenciesCard(
       BuildContext context, ProfileSkills skills, AppLocalizations l) {
     final comp = skills.competencies;
-    final rows = _competencyRows(comp);
+    final rows = profileCompetencyDisplayRows(comp, l);
     final hasData = rows.isNotEmpty;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -158,32 +153,6 @@ class ProfileSkillsTab extends ConsumerWidget {
         ],
       ]),
     );
-  }
-
-  List<_CompRow> _competencyRows(Map<String, String> competencies) {
-    const preferredOrder = [
-      'computerSkills',
-      'drivingLicense',
-      'licenseCategory',
-      'greekLicense',
-    ];
-    final rows = <_CompRow>[];
-    final used = <String>{};
-
-    for (final key in preferredOrder) {
-      final value = competencies[key]?.trim();
-      if (value == null || value.isEmpty) continue;
-      rows.add(_CompRow(key, value));
-      used.add(key);
-    }
-
-    for (final entry in competencies.entries) {
-      final value = entry.value.trim();
-      if (used.contains(entry.key) || value.isEmpty) continue;
-      rows.add(_CompRow(entry.key, value));
-    }
-
-    return rows;
   }
 
   Widget _languagesCard(

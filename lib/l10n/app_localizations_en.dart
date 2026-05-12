@@ -2396,6 +2396,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String jobSearchPageStatus(int current, int total) {
+    return 'Page $current of $total';
+  }
+
+  @override
   String get noSavedJobsYet => 'No saved jobs yet.';
 
   @override

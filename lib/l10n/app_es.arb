@@ -997,6 +997,17 @@
       }
     }
   },
+  "jobSearchPageStatus": "Página {current} de {total}",
+  "@jobSearchPageStatus": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "noSavedJobsYet": "Aún no hay empleos guardados.",
   "notificationsLabel": "Notificaciones",
   "notificationsScreenSubtitle": "Aquí puedes ver todas tus novedades. Mantente al día con las actualizaciones importantes.",

@@ -14,7 +14,7 @@ class NotificationsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifications = ref.watch(notificationsProvider);
+    final notificationsAsync = ref.watch(notificationsProvider);
     final unreadCount = ref.watch(unreadNotificationsCountProvider);
     final notifier = ref.read(notificationsProvider.notifier);
     final homeData = ref.watch(homeProvider).value;
@@ -38,14 +38,37 @@ class NotificationsScreen extends ConsumerWidget {
           children: [
             _SummaryCard(
               unreadCount: unreadCount,
-              onMarkAllAsRead: unreadCount == 0 ? null : notifier.markAllAsRead,
+              onMarkAllAsRead: unreadCount == 0
+                  ? null
+                  : () {
+                      notifier.markAllAsRead();
+                    },
               l10n: AppLocalizations.of(context)!,
             ),
-            const SizedBox(height: 14),
-            ...notifications.map(
-              (item) => Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: NotificationInboxCard(item: item),
+            notificationsAsync.when(
+              loading: () => const Padding(
+                padding: EdgeInsets.symmetric(vertical: 32),
+                child: Center(child: CircularProgressIndicator()),
+              ),
+              error: (error, _) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24),
+                child: Text(
+                  AppLocalizations.of(context)!.errorMessage(error.toString()),
+                  style: IthakiTheme.bodyRegular.copyWith(
+                    color: IthakiTheme.textPrimary,
+                  ),
+                ),
+              ),
+              data: (notifications) => Column(
+                children: [
+                  const SizedBox(height: 14),
+                  ...notifications.map(
+                    (item) => Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: NotificationInboxCard(item: item),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

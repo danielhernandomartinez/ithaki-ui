@@ -4495,6 +4495,12 @@ abstract class AppLocalizations {
   /// **'{count} jobs found'**
   String jobsFoundLabel(String count);
 
+  /// No description provided for @jobSearchPageStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {current} of {total}'**
+  String jobSearchPageStatus(int current, int total);
+
   /// No description provided for @noSavedJobsYet.
   ///
   /// In en, this message translates to:

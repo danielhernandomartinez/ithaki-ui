@@ -2415,6 +2415,11 @@ class AppLocalizationsEl extends AppLocalizations {
   }
 
   @override
+  String jobSearchPageStatus(int current, int total) {
+    return 'Σελίδα $current από $total';
+  }
+
+  @override
   String get noSavedJobsYet => 'Δεν υπάρχουν αποθηκευμένες θέσεις ακόμα.';
 
   @override
