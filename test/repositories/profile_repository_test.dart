@@ -8,6 +8,7 @@ import 'package:http/testing.dart';
 import 'package:ithaki_ui/models/profile_models.dart';
 import 'package:ithaki_ui/repositories/profile/mock_profile_repository.dart';
 import 'package:ithaki_ui/repositories/profile/api_profile_repository.dart';
+import 'package:ithaki_ui/repositories/profile/profile_response_parser.dart';
 import 'package:ithaki_ui/services/api_client.dart';
 
 void main() {
@@ -470,6 +471,55 @@ void main() {
       expect(files.single.type, 'DOCUMENT');
       expect(files.single.uploadedAt, '2026-05-08T10:00:00Z');
       await tempFile.delete();
+    });
+  });
+
+  group('ProfileResponseParser.documentFromJson URL parsing', () {
+    test('parses url field', () {
+      final file = ProfileResponseParser.documentFromJson({
+        'id': 5,
+        'name': 'cv.pdf',
+        'type': 'PDF',
+        'uploadedAt': '2024-01-15T10:00:00',
+        'url': 'https://example.com/files/cv.pdf',
+      });
+      expect(file.url, 'https://example.com/files/cv.pdf');
+    });
+
+    test('parses fileUrl when url absent', () {
+      final file = ProfileResponseParser.documentFromJson({
+        'id': 6,
+        'name': 'photo.jpg',
+        'fileUrl': 'https://example.com/files/photo.jpg',
+      });
+      expect(file.url, 'https://example.com/files/photo.jpg');
+    });
+
+    test('parses downloadUrl when url and fileUrl absent', () {
+      final file = ProfileResponseParser.documentFromJson({
+        'id': 7,
+        'name': 'doc.pdf',
+        'downloadUrl': 'https://s3.amazonaws.com/bucket/doc.pdf',
+      });
+      expect(file.url, 'https://s3.amazonaws.com/bucket/doc.pdf');
+    });
+
+    test('url is null when no url fields present', () {
+      final file = ProfileResponseParser.documentFromJson({
+        'id': 8,
+        'name': 'doc.pdf',
+      });
+      expect(file.url, isNull);
+    });
+
+    test('prefers url over fileUrl when both present', () {
+      final file = ProfileResponseParser.documentFromJson({
+        'id': 9,
+        'name': 'doc.pdf',
+        'url': 'https://primary.com/doc.pdf',
+        'fileUrl': 'https://secondary.com/doc.pdf',
+      });
+      expect(file.url, 'https://primary.com/doc.pdf');
     });
   });
 }

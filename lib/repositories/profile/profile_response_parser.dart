@@ -113,13 +113,25 @@ class ProfileResponseParser {
     final uploadedAt = textValue(json['uploadedAt']);
     final date =
         uploadedAt.contains('T') ? uploadedAt.split('T').first : uploadedAt;
+    final url = _parseDocumentUrl(json);
     return UploadedFile(
       id: id,
       name: name.isEmpty ? 'Document' : name,
       size: date.isNotEmpty ? date : (type.isNotEmpty ? type : 'Uploaded'),
       type: type.isEmpty ? null : type,
       uploadedAt: uploadedAt.isEmpty ? null : uploadedAt,
+      url: url,
     );
+  }
+
+  static String? _parseDocumentUrl(Map<String, dynamic> json) {
+    for (final key in ['url', 'fileUrl', 'downloadUrl', 'path', 'filePath']) {
+      final value = json[key];
+      if (value is String && value.trim().isNotEmpty) {
+        return value.trim();
+      }
+    }
+    return null;
   }
 
   static Future<List<UploadedFile>> fetchRemoteDocuments(ApiClient api) async {
