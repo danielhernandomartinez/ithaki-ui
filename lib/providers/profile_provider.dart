@@ -22,6 +22,7 @@ class ProfileBasicsNotifier extends AsyncNotifier<ProfileBasics> {
   Future<ProfileBasics> build() async {
     final result = await ref.read(profileRepositoryProvider).refreshAll();
     ref.read(profilePartialLoadProvider.notifier).set(result.isPartial);
+    _invalidateHydratedProfileSections();
     return result.basics;
   }
 
@@ -54,7 +55,19 @@ class ProfileBasicsNotifier extends AsyncNotifier<ProfileBasics> {
     await ref.read(profileRepositoryProvider).saveBasics(updated);
     final result = await ref.read(profileRepositoryProvider).refreshAll();
     ref.read(profilePartialLoadProvider.notifier).set(result.isPartial);
+    _invalidateHydratedProfileSections();
     state = AsyncData(result.basics);
+  }
+
+  void _invalidateHydratedProfileSections() {
+    ref.invalidate(profileAboutMeProvider);
+    ref.invalidate(profileSkillsProvider);
+    ref.invalidate(profileWorkExperiencesProvider);
+    ref.invalidate(profileEducationsProvider);
+    ref.invalidate(profileFilesProvider);
+    ref.invalidate(profileValuesProvider);
+    ref.invalidate(profileJobPreferencesProvider);
+    ref.invalidate(profileVisibleProvider);
   }
 }
 
