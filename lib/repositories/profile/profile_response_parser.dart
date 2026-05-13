@@ -114,6 +114,12 @@ class ProfileResponseParser {
     final date =
         uploadedAt.contains('T') ? uploadedAt.split('T').first : uploadedAt;
     final url = _parseDocumentUrl(json);
+    debugPrint(
+      '[documents] parsed document -> id=$id, name=${name.isEmpty ? 'Document' : name}, '
+      'type=${type.isEmpty ? '<none>' : type}, '
+      'uploadedAt=${uploadedAt.isEmpty ? '<none>' : uploadedAt}, '
+      'url=${url ?? '<none>'}',
+    );
     return UploadedFile(
       id: id,
       name: name.isEmpty ? 'Document' : name,
@@ -127,6 +133,7 @@ class ProfileResponseParser {
   static String? _parseDocumentUrl(Map<String, dynamic> json) {
     for (final key in ['url', 'fileUrl', 'downloadUrl']) {
       final value = json[key];
+      debugPrint('[documents] url field $key -> ${value ?? '<missing>'}');
       if (value is String && value.trim().isNotEmpty) {
         return value.trim();
       }

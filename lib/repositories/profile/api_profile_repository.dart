@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 
@@ -585,11 +584,33 @@ class ApiProfileRepository implements ProfileRepository {
 
   @override
   Future<Uint8List> downloadFile(UploadedFile file) async {
-    // Try the URL from the API response first (may be a signed/CDN URL).
+    // The documents list normally returns id + name; use the backend download
+    // route as the primary source. URL fields are kept as a legacy/future
+    // fallback for signed/CDN links.
+    final id = file.id;
     final url = file.url;
+    debugPrint(
+      '[downloadFile] requested -> id=${file.id}, name=${file.name}, url=${url ?? '<none>'}',
+    );
+
+    if (id != null) {
+      debugPrint('[downloadFile] using document id endpoint -> $id');
+      final res = await _api.get(
+        '/files/me/documents/$id/download',
+        timeout: ApiClient.uploadTimeout,
+      );
+      debugPrint('[downloadFile] id endpoint status -> ${res.statusCode}');
+      if (res.statusCode == 200) return res.bodyBytes;
+      if (url == null) {
+        throw Exception('Download failed: HTTP ${res.statusCode}');
+      }
+      debugPrint('[downloadFile] id endpoint failed, trying url fallback');
+    }
+
     if (url != null) {
       final uri = Uri.tryParse(url);
       if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
+        debugPrint('[downloadFile] trying remote url -> $url');
         final apiHost = Uri.parse(_api.base).host;
         final isSameOrigin = uri.host == apiHost;
         final headers = isSameOrigin
@@ -598,21 +619,12 @@ class ApiProfileRepository implements ProfileRepository {
         final res = await _api.client
             .get(uri, headers: headers)
             .timeout(ApiClient.uploadTimeout);
+        debugPrint('[downloadFile] remote url status -> ${res.statusCode}');
         if (res.statusCode == 200) return res.bodyBytes;
+      } else {
+        debugPrint(
+            '[downloadFile] url is not http(s), skipping direct download');
       }
-    }
-
-    // Fall back to ID-based endpoint.
-    // TODO(backend): GET /files/me/documents/$id/download returns 500 — backend
-    // needs a download route for JOB_SEEKER role. Update path when available.
-    final id = file.id;
-    if (id != null) {
-      final res = await _api.get(
-        '/files/me/documents/$id/download',
-        timeout: ApiClient.uploadTimeout,
-      );
-      if (res.statusCode == 200) return res.bodyBytes;
-      throw Exception('Download failed: HTTP ${res.statusCode}');
     }
 
     throw Exception('No download source for: ${file.name}');
