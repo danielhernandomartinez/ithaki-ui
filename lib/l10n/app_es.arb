@@ -432,6 +432,9 @@
   "addVideoDescription": "Añade un video corto para presentarte a los equipos, destacar tu experiencia y mostrar tus habilidades. Un video te ayuda a sobresalir entre otros candidatos.",
   "uploadViaUrl": "Subir a través de URL",
   "uploadInstructions": "toca el botón para explorar (máximo 10 archivos, hasta 5 MB\ncada uno; formatos admitidos: .pdf, .doc, .png, .jpg)",
+  "uploadVideoInstructions": "toca el botón para subir un video (formatos admitidos: .mp4, .mov, .avi, .mkv, .webm)",
+  "playVideo": "Reproducir video",
+  "pauseVideo": "Pausar video",
   "selectCategory": "Seleccionar categoría",
   "categoryLabel": "Categoría {category}",
   "@categoryLabel": {

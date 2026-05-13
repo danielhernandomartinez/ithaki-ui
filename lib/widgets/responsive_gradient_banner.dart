@@ -10,6 +10,7 @@ class ResponsiveGradientBanner extends StatelessWidget {
     required this.buttonIcon,
     required this.onButtonPressed,
     this.backgroundImage,
+    this.onDismiss,
   });
 
   final String title;
@@ -18,6 +19,7 @@ class ResponsiveGradientBanner extends StatelessWidget {
   final Widget buttonIcon;
   final VoidCallback onButtonPressed;
   final DecorationImage? backgroundImage;
+  final VoidCallback? onDismiss;
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +36,45 @@ class ResponsiveGradientBanner extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              title,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: IthakiTheme.sectionTitle.copyWith(
-                color: IthakiTheme.backgroundWhite,
-                height: 1.18,
-              ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Text(
+                    title,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: IthakiTheme.sectionTitle.copyWith(
+                      color: IthakiTheme.backgroundWhite,
+                      height: 1.18,
+                    ),
+                  ),
+                ),
+                if (onDismiss != null) ...[
+                  const SizedBox(width: 8),
+                  Semantics(
+                    button: true,
+                    label: MaterialLocalizations.of(context).closeButtonTooltip,
+                    child: InkWell(
+                      onTap: onDismiss,
+                      borderRadius: BorderRadius.circular(16),
+                      child: Container(
+                        width: 28,
+                        height: 28,
+                        alignment: Alignment.center,
+                        child: Text(
+                          '×',
+                          style: IthakiTheme.bodyRegular.copyWith(
+                            color: IthakiTheme.backgroundWhite,
+                            fontWeight: FontWeight.w700,
+                            height: 1,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ],
             ),
             const SizedBox(height: 8),
             Text(

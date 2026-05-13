@@ -96,8 +96,9 @@ class ProfileAboutMeNotifier extends AsyncNotifier<ProfileAboutMe> {
 
   Future<void> save(String bio, {String? videoUrl}) async {
     final updated = state.requireValue.copyWith(bio: bio, videoUrl: videoUrl);
-    await ref.read(profileRepositoryProvider).saveAboutMe(updated);
-    state = AsyncData(updated);
+    final repository = ref.read(profileRepositoryProvider);
+    await repository.saveAboutMe(updated);
+    state = AsyncData(await repository.getAboutMe());
   }
 }
 

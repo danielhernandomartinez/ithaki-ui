@@ -432,6 +432,9 @@
   "addVideoDescription": "Add a short video to introduce yourself to teams, highlight your experience, and showcase your skills. A video helps you stand out among other candidates.",
   "uploadViaUrl": "Upload via URL",
   "uploadInstructions": "tap button to browse (max 10 files, up to 5 MB\neach; supported formats: .pdf, .doc, .png, .jpg)",
+  "uploadVideoInstructions": "tap button to upload a video (supported formats: .mp4, .mov, .avi, .mkv, .webm)",
+  "playVideo": "Play video",
+  "pauseVideo": "Pause video",
   "selectCategory": "Select category",
   "categoryLabel": "Category {category}",
   "@categoryLabel": {

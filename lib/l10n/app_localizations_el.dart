@@ -1166,6 +1166,16 @@ class AppLocalizationsEl extends AppLocalizations {
       'πατήστε για αναζήτηση (μέγ. 10 αρχεία, έως 5 MB\nέκαστο· υποστηριζόμενες μορφές: .pdf, .doc, .png, .jpg)';
 
   @override
+  String get uploadVideoInstructions =>
+      'πατήστε το κουμπί για να ανεβάσετε βίντεο (υποστηριζόμενες μορφές: .mp4, .mov, .avi, .mkv, .webm)';
+
+  @override
+  String get playVideo => 'Αναπαραγωγή βίντεο';
+
+  @override
+  String get pauseVideo => 'Παύση βίντεο';
+
+  @override
   String get selectCategory => 'Επιλέξτε κατηγορία';
 
   @override

@@ -1,4 +1,3 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -6,8 +5,8 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../providers/profile_provider.dart';
-import '../../widgets/dotted_border_box.dart';
 import '../../widgets/panel_scaffold.dart';
+import '../../widgets/profile_video_player.dart';
 
 class EditAboutMeScreen extends ConsumerStatefulWidget {
   const EditAboutMeScreen({super.key});
@@ -20,7 +19,6 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
   late TextEditingController _bioCtrl;
   late TextEditingController _videoUrlCtrl;
   String? _videoUrl;
-  int _activeTab = 0; // 0 = Upload File, 1 = Upload via URL
 
   @override
   void initState() {
@@ -52,23 +50,6 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
         SnackBar(content: Text(e.toString())),
       );
     }
-  }
-
-  Widget _tab(String label, int index) {
-    final selected = _activeTab == index;
-    return GestureDetector(
-      onTap: () => setState(() => _activeTab = index),
-      child: Text(
-        label,
-        style: TextStyle(
-          fontSize: 14,
-          fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-          color: selected ? IthakiTheme.textPrimary : IthakiTheme.textSecondary,
-          decoration: selected ? TextDecoration.underline : TextDecoration.none,
-          decorationColor: IthakiTheme.textPrimary,
-        ),
-      ),
-    );
   }
 
   @override
@@ -157,106 +138,32 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
         ),
         const SizedBox(height: 12),
 
-        // Tab row
-        Row(
-          children: [
-            _tab(l.uploadFile, 0),
-            const SizedBox(width: 20),
-            _tab(l.uploadViaUrl, 1),
-          ],
-        ),
-        const SizedBox(height: 12),
-
-        // Tab content
-        if (_activeTab == 0)
-          DottedBorderBox(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.upload_rounded,
-                    size: 32, color: IthakiTheme.softGraphite),
-                const SizedBox(height: 8),
-                Text(
-                  l.uploadInstructions,
-                  textAlign: TextAlign.center,
-                  style:
-                      TextStyle(fontSize: 12, color: IthakiTheme.textSecondary),
-                ),
-                const SizedBox(height: 12),
-                OutlinedButton.icon(
-                  onPressed: () async {
-                    final result = await FilePicker.platform.pickFiles(
-                      type: FileType.custom,
-                      allowedExtensions: [
-                        'mp4',
-                        'mov',
-                        'avi',
-                        'mkv',
-                        'pdf',
-                        'doc',
-                        'docx',
-                      ],
-                    );
-                    final path = result?.files.single.path;
-                    if (path == null || !mounted) return;
-                    setState(() {
-                      _videoUrl = path;
-                      _videoUrlCtrl.text = path;
-                    });
-                  },
-                  icon: const Icon(Icons.upload_rounded, size: 16),
-                  label: Text(l.uploadFile),
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: IthakiTheme.softGraphite),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
-                    foregroundColor: IthakiTheme.textPrimary,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                  ),
-                ),
-              ],
+        TextField(
+          controller: _videoUrlCtrl,
+          onChanged: (v) =>
+              setState(() => _videoUrl = v.trim().isNotEmpty ? v.trim() : null),
+          decoration: InputDecoration(
+            hintText: l.pasteVideoUrlHere,
+            hintStyle:
+                const TextStyle(color: IthakiTheme.softGraphite, fontSize: 14),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: const BorderSide(color: IthakiTheme.borderLight),
             ),
-          )
-        else
-          TextField(
-            controller: _videoUrlCtrl,
-            onChanged: (v) => setState(
-                () => _videoUrl = v.trim().isNotEmpty ? v.trim() : null),
-            decoration: InputDecoration(
-              hintText: l.pasteVideoUrlHere,
-              hintStyle: const TextStyle(
-                  color: IthakiTheme.softGraphite, fontSize: 14),
-              prefixIcon:
-                  const Icon(Icons.link, color: IthakiTheme.softGraphite),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(color: IthakiTheme.borderLight),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16),
-                borderSide: const BorderSide(
-                    color: IthakiTheme.primaryPurple, width: 1.5),
-              ),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+              borderSide: const BorderSide(
+                  color: IthakiTheme.primaryPurple, width: 1.5),
             ),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           ),
+        ),
 
         if (_videoUrl != null) ...[
           const SizedBox(height: 12),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(16),
-            child: Container(
-              height: 180,
-              color: Colors.black54,
-              alignment: Alignment.center,
-              child: const Icon(Icons.play_circle_filled_rounded,
-                  size: 56, color: IthakiTheme.backgroundWhite),
-            ),
-          ),
+          ProfileVideoPreview(source: _videoUrl!),
         ],
       ],
     );

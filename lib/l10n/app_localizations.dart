@@ -2256,6 +2256,24 @@ abstract class AppLocalizations {
   /// **'tap button to browse (max 10 files, up to 5 MB\neach; supported formats: .pdf, .doc, .png, .jpg)'**
   String get uploadInstructions;
 
+  /// No description provided for @uploadVideoInstructions.
+  ///
+  /// In en, this message translates to:
+  /// **'tap button to upload a video (supported formats: .mp4, .mov, .avi, .mkv, .webm)'**
+  String get uploadVideoInstructions;
+
+  /// No description provided for @playVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Play video'**
+  String get playVideo;
+
+  /// No description provided for @pauseVideo.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause video'**
+  String get pauseVideo;
+
   /// No description provided for @selectCategory.
   ///
   /// In en, this message translates to:

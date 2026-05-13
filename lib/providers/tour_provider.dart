@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const _kTourCompleted = 'tour_completed';
 const _kTourStep = 'tour_step';
+const _kTourRestartBannerDismissed = 'tour_restart_banner_dismissed';
 
 class TourState {
   final bool tourCompleted;
@@ -12,6 +13,7 @@ class TourState {
   final bool welcomeVisible;
   final bool skipConfirmVisible;
   final bool completionVisible;
+  final bool restartBannerDismissed;
 
   const TourState({
     this.tourCompleted = false,
@@ -19,6 +21,7 @@ class TourState {
     this.welcomeVisible = false,
     this.skipConfirmVisible = false,
     this.completionVisible = false,
+    this.restartBannerDismissed = false,
   });
 
   TourState copyWith({
@@ -27,6 +30,7 @@ class TourState {
     bool? welcomeVisible,
     bool? skipConfirmVisible,
     bool? completionVisible,
+    bool? restartBannerDismissed,
   }) =>
       TourState(
         tourCompleted: tourCompleted ?? this.tourCompleted,
@@ -34,6 +38,8 @@ class TourState {
         welcomeVisible: welcomeVisible ?? this.welcomeVisible,
         skipConfirmVisible: skipConfirmVisible ?? this.skipConfirmVisible,
         completionVisible: completionVisible ?? this.completionVisible,
+        restartBannerDismissed:
+            restartBannerDismissed ?? this.restartBannerDismissed,
       );
 }
 
@@ -43,10 +49,13 @@ class TourNotifier extends AsyncNotifier<TourState> {
     final prefs = await SharedPreferences.getInstance();
     final completed = prefs.getBool(_kTourCompleted) ?? false;
     final step = prefs.getInt(_kTourStep) ?? 0;
+    final restartBannerDismissed =
+        prefs.getBool(_kTourRestartBannerDismissed) ?? false;
     return TourState(
       tourCompleted: completed,
       currentStep: step,
       welcomeVisible: !completed && step == 0,
+      restartBannerDismissed: restartBannerDismissed,
     );
   }
 
@@ -54,10 +63,12 @@ class TourNotifier extends AsyncNotifier<TourState> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_kTourCompleted, false);
     await prefs.setInt(_kTourStep, 1);
+    await prefs.setBool(_kTourRestartBannerDismissed, false);
     state = AsyncData(state.requireValue.copyWith(
       tourCompleted: false,
       welcomeVisible: false,
       currentStep: 1,
+      restartBannerDismissed: false,
     ));
   }
 
@@ -103,6 +114,14 @@ class TourNotifier extends AsyncNotifier<TourState> {
       currentStep: 0,
       completionVisible: false,
     ));
+  }
+
+  Future<void> dismissRestartBanner() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_kTourRestartBannerDismissed, true);
+    state = AsyncData(
+      state.requireValue.copyWith(restartBannerDismissed: true),
+    );
   }
 }
 

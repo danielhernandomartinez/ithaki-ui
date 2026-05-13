@@ -25,6 +25,7 @@ dependencies:
     git:
       url: https://github.com/danielhernandomartinez/ithaki_design_system
       ref: v0.10.16
+  video_player: ^2.11.1
 
 dependency_overrides:
   ithaki_design_system:

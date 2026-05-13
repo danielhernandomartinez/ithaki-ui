@@ -1159,6 +1159,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'tap button to browse (max 10 files, up to 5 MB\neach; supported formats: .pdf, .doc, .png, .jpg)';
 
   @override
+  String get uploadVideoInstructions =>
+      'tap button to upload a video (supported formats: .mp4, .mov, .avi, .mkv, .webm)';
+
+  @override
+  String get playVideo => 'Play video';
+
+  @override
+  String get pauseVideo => 'Pause video';
+
+  @override
   String get selectCategory => 'Select category';
 
   @override

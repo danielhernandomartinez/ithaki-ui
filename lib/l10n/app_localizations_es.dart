@@ -1168,6 +1168,16 @@ class AppLocalizationsEs extends AppLocalizations {
       'toca el botón para explorar (máximo 10 archivos, hasta 5 MB\ncada uno; formatos admitidos: .pdf, .doc, .png, .jpg)';
 
   @override
+  String get uploadVideoInstructions =>
+      'toca el botón para subir un video (formatos admitidos: .mp4, .mov, .avi, .mkv, .webm)';
+
+  @override
+  String get playVideo => 'Reproducir video';
+
+  @override
+  String get pauseVideo => 'Pausar video';
+
+  @override
   String get selectCategory => 'Seleccionar categoría';
 
   @override

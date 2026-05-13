@@ -136,7 +136,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 children: [
                   HomeGreetingHeader(topOffset: topOffset),
                   const SizedBox(height: 12),
-                  if (tourState?.tourCompleted ?? false) ...[
+                  if ((tourState?.tourCompleted ?? false) &&
+                      !(tourState?.restartBannerDismissed ?? false)) ...[
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: ResponsiveGradientBanner(
@@ -150,6 +151,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         onButtonPressed: () =>
                             ref.read(tourProvider.notifier).startTour(),
+                        onDismiss: () => ref
+                            .read(tourProvider.notifier)
+                            .dismissRestartBanner(),
                         backgroundImage: const DecorationImage(
                           image: AssetImage('assets/images/ai_banner_bg.png'),
                           fit: BoxFit.cover,

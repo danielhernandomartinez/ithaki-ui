@@ -436,6 +436,64 @@ void main() {
       });
     });
 
+    test('saveAboutMe persists remote video URL without upload endpoint',
+        () async {
+      Map<String, dynamic>? savedProfile;
+      final client = MockClient((request) async {
+        switch (request.url.path) {
+          case '/api/job-seeker/me':
+            savedProfile = jsonDecode(request.body) as Map<String, dynamic>;
+            return http.Response('{}', 200);
+        }
+        return http.Response('not found', 404);
+      });
+      final repository = ApiProfileRepository(
+        apiClient: ApiClient(client: client, baseUrl: 'http://localhost'),
+      );
+
+      await repository.saveAboutMe(
+        const ProfileAboutMe(
+          bio: 'Hello',
+          videoUrl: 'https://cdn.test/videos/intro.mp4',
+        ),
+      );
+      final aboutMe = await repository.getAboutMe();
+
+      expect(
+        savedProfile?['aboutMe']?['video'],
+        'https://cdn.test/videos/intro.mp4',
+      );
+      expect(aboutMe.videoUrl, 'https://cdn.test/videos/intro.mp4');
+    });
+
+    test('saveAboutMe ignores local video paths when no upload endpoint exists',
+        () async {
+      final tempFile = await File(
+        '${Directory.systemTemp.path}/ithaki_intro_video_test.mp4',
+      ).writeAsString('fake video bytes');
+      Map<String, dynamic>? savedProfile;
+      final client = MockClient((request) async {
+        expect(request.url.path, isNot('/api/files/me/upload/video'));
+        if (request.url.path == '/api/job-seeker/me') {
+          savedProfile = jsonDecode(request.body) as Map<String, dynamic>;
+          return http.Response('{}', 200);
+        }
+        return http.Response('not found', 404);
+      });
+      final repository = ApiProfileRepository(
+        apiClient: ApiClient(client: client, baseUrl: 'http://localhost'),
+      );
+
+      await repository.saveAboutMe(
+        ProfileAboutMe(bio: 'Hello', videoUrl: tempFile.path),
+      );
+      final aboutMe = await repository.getAboutMe();
+
+      expect(savedProfile?['aboutMe']?['video'], isNull);
+      expect(aboutMe.videoUrl, isNull);
+      await tempFile.delete();
+    });
+
     test('saveFiles uploads local documents and hydrates remote list',
         () async {
       final tempFile = await File(
@@ -494,7 +552,8 @@ void main() {
         return http.Response('not found', 404);
       });
       final repo = ApiProfileRepository(
-        apiClient: ApiClient(client: client, baseUrl: 'https://api.example.com'),
+        apiClient:
+            ApiClient(client: client, baseUrl: 'https://api.example.com'),
       );
       final file = UploadedFile(id: 42, name: 'cv.pdf', size: '2024-01-15');
       final bytes = await repo.downloadFile(file);
@@ -504,7 +563,8 @@ void main() {
     test('throws when both url and id are null', () async {
       final client = MockClient((_) async => http.Response('not found', 404));
       final repo = ApiProfileRepository(
-        apiClient: ApiClient(client: client, baseUrl: 'https://api.example.com'),
+        apiClient:
+            ApiClient(client: client, baseUrl: 'https://api.example.com'),
       );
       final file = UploadedFile(name: 'cv.pdf', size: '2024-01-15');
       expect(

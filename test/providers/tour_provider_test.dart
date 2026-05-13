@@ -33,6 +33,17 @@ void main() {
       final s = await c.read(tourProvider.future);
       expect(s.tourCompleted, true);
       expect(s.welcomeVisible, false);
+      expect(s.restartBannerDismissed, false);
+    });
+
+    test('dismissed restart banner is restored on init', () async {
+      SharedPreferences.setMockInitialValues({
+        'tour_completed': true,
+        'tour_restart_banner_dismissed': true,
+      });
+      final c = ProviderContainer.test();
+      final s = await c.read(tourProvider.future);
+      expect(s.restartBannerDismissed, true);
     });
 
     test('saved step is restored on init', () async {
@@ -153,6 +164,41 @@ void main() {
   });
 
   // ─── tourKeysProvider ─────────────────────────────────────────────────────
+
+  group('tourProvider restart banner', () {
+    test('dismissRestartBanner hides the restart banner', () async {
+      SharedPreferences.setMockInitialValues({'tour_completed': true});
+      final c = ProviderContainer.test();
+      await c.read(tourProvider.future);
+      await c.read(tourProvider.notifier).dismissRestartBanner();
+
+      expect(c.read(tourProvider).requireValue.restartBannerDismissed, true);
+    });
+
+    test('dismissRestartBanner persists to SharedPreferences', () async {
+      SharedPreferences.setMockInitialValues({'tour_completed': true});
+      final c = ProviderContainer.test();
+      await c.read(tourProvider.future);
+      await c.read(tourProvider.notifier).dismissRestartBanner();
+
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.getBool('tour_restart_banner_dismissed'), true);
+    });
+
+    test('startTour makes the restart banner available again later', () async {
+      SharedPreferences.setMockInitialValues({
+        'tour_completed': true,
+        'tour_restart_banner_dismissed': true,
+      });
+      final c = ProviderContainer.test();
+      await c.read(tourProvider.future);
+      await c.read(tourProvider.notifier).startTour();
+
+      final prefs = await SharedPreferences.getInstance();
+      expect(c.read(tourProvider).requireValue.restartBannerDismissed, false);
+      expect(prefs.getBool('tour_restart_banner_dismissed'), false);
+    });
+  });
 
   group('tourKeysProvider', () {
     test('provides exactly 13 keys', () {

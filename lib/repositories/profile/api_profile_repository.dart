@@ -464,14 +464,34 @@ class ApiProfileRepository implements ProfileRepository {
   Future<void> saveAboutMe(ProfileAboutMe aboutMe) async {
     await _syncSession();
     await _ensureLoaded();
+    bool isRemoteResource(String value) {
+      final uri = Uri.tryParse(value);
+      return uri != null && (uri.isScheme('http') || uri.isScheme('https'));
+    }
+
+    String? remoteVideoUrlOrNull(String? videoUrl) {
+      final value = videoUrl?.trim();
+      if (value == null || value.isEmpty) {
+        return null;
+      }
+      if (isRemoteResource(value)) return value;
+      debugPrint(
+          '[saveAboutMe] local video ignored; no upload endpoint -> $value');
+      return null;
+    }
+
+    final updated = ProfileAboutMe(
+      bio: aboutMe.bio,
+      videoUrl: remoteVideoUrlOrNull(aboutMe.videoUrl),
+    );
     await _api.postJson('/job-seeker/me', {
       'aboutMe': {
-        'bio': aboutMe.bio,
-        'text': aboutMe.bio,
-        'video': aboutMe.videoUrl,
+        'bio': updated.bio,
+        'text': updated.bio,
+        'video': updated.videoUrl,
       },
     });
-    _aboutMe = aboutMe;
+    _aboutMe = updated;
     await ProfileLocalStore.saveAboutMe(_aboutMe);
   }
 

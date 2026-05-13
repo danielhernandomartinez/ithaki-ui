@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../routes.dart';
-import '../../../utils/open_resource.dart';
 import '../../../widgets/profile_empty_state_card.dart';
+import '../../../widgets/profile_video_player.dart';
 
 class ProfileAboutMeTab extends ConsumerWidget {
   const ProfileAboutMeTab({super.key});
@@ -17,7 +16,10 @@ class ProfileAboutMeTab extends ConsumerWidget {
     final l = AppLocalizations.of(context)!;
     final aboutMe =
         ref.watch(profileAboutMeProvider).value ?? const ProfileAboutMe();
-    if (aboutMe.bio.isEmpty) {
+    final hasBio = aboutMe.bio.trim().isNotEmpty;
+    final hasVideo = aboutMe.videoUrl?.trim().isNotEmpty ?? false;
+
+    if (!hasBio && !hasVideo) {
       return ProfileEmptyStateCard(
         title: l.profileAboutMeTitle,
         description: l.aboutMeEmptyDescription,
@@ -41,13 +43,15 @@ class ProfileAboutMeTab extends ConsumerWidget {
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: IthakiTheme.textPrimary)),
-          const SizedBox(height: 12),
-          Text(aboutMe.bio,
-              style: const TextStyle(
-                  fontSize: 16, color: IthakiTheme.textPrimary, height: 1.5)),
+          if (hasBio) ...[
+            const SizedBox(height: 12),
+            Text(aboutMe.bio,
+                style: const TextStyle(
+                    fontSize: 16, color: IthakiTheme.textPrimary, height: 1.5)),
+          ],
         ]),
         const SizedBox(height: 20),
-        if (aboutMe.videoUrl != null) ...[
+        if (hasVideo) ...[
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(l.videoIntroductionTitle,
                 style: const TextStyle(
@@ -55,28 +59,7 @@ class ProfileAboutMeTab extends ConsumerWidget {
                     fontWeight: FontWeight.w600,
                     color: IthakiTheme.textPrimary)),
             const SizedBox(height: 8),
-            GestureDetector(
-              onTap: () => _openVideo(context, aboutMe.videoUrl),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  width: double.infinity,
-                  height: 190,
-                  color: const Color(0xFF040404),
-                  alignment: Alignment.center,
-                  child: Container(
-                    width: 48,
-                    height: 48,
-                    decoration: BoxDecoration(
-                      color: const Color(0x801E1E1E),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: const Icon(Icons.play_arrow_rounded,
-                        size: 28, color: IthakiTheme.backgroundWhite),
-                  ),
-                ),
-              ),
-            ),
+            ProfileVideoPreview(source: aboutMe.videoUrl!),
           ]),
           const SizedBox(height: 20),
         ],
@@ -94,20 +77,6 @@ class ProfileAboutMeTab extends ConsumerWidget {
           ),
         ),
       ]),
-    );
-  }
-
-  Future<void> _openVideo(BuildContext context, String? source) async {
-    final uri = uriForResourceSource(source);
-    if (uri == null) return;
-
-    final opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
-    if (!context.mounted || opened) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          content: Text(
-              AppLocalizations.of(context)!.couldNotOpenVideoIntroduction)),
     );
   }
 }
