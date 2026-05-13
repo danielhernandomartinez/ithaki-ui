@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class JobRecommendation {
+  final String id;
   final String companyName;
   final String companyInitials;
   final Color companyColor;
@@ -14,6 +15,7 @@ class JobRecommendation {
   final String level;
 
   const JobRecommendation({
+    required this.id,
     required this.companyName,
     required this.companyInitials,
     required this.companyColor,

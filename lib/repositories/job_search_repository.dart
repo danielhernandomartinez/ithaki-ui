@@ -23,6 +23,7 @@ class JobSearchResult {
 
 abstract class JobSearchRepository {
   Future<JobSearchResult> search({
+    String query,
     Map<String, Set<String>> filters,
     String sort,
     int page,
@@ -201,13 +202,26 @@ class MockJobSearchRepository implements JobSearchRepository {
 
   @override
   Future<JobSearchResult> search({
+    String query = '',
     Map<String, Set<String>> filters = const {},
     String sort = 'Date: Recent',
     int page = 1,
   }) async {
-    return const JobSearchResult(
-      jobs: _allJobs,
-      totalJobs: 1500,
+    final q = query.trim().toLowerCase();
+    final filteredJobs = q.isEmpty
+        ? _allJobs
+        : _allJobs
+            .where(
+              (job) =>
+                  job.jobTitle.toLowerCase().contains(q) ||
+                  job.companyName.toLowerCase().contains(q) ||
+                  job.category.toLowerCase().contains(q),
+            )
+            .toList();
+
+    return JobSearchResult(
+      jobs: filteredJobs,
+      totalJobs: filteredJobs.length,
       totalPages: 25,
     );
   }
@@ -243,41 +257,42 @@ class ApiJobSearchRepository implements JobSearchRepository {
   static JobListing _parseJob(Map<String, dynamic> j) {
     final id = j['id']?.toString() ?? '';
     final title = j['title'] as String? ?? '';
-    final companyRaw = j['company'];
-    final companyName = companyRaw is Map
-        ? (companyRaw['name'] as String? ?? '')
-        : (j['companyName'] as String? ?? '');
-    final salary =
-        mapper.formatSalary(j['salaryMin'], j['salaryMax'], j['paymentTerm']);
+    final companyName = j['company'] as String? ?? '';
+    final companyKey = companyName.isNotEmpty ? companyName : title;
+    final companyInitials =
+        j['logoInitials'] as String? ?? mapper.initials(companyKey);
+    final salary = j['salary'] as String? ?? '';
     final location = j['location'] as String?;
-    final workMode = mapper.enumTitle(j['workArrangement']);
-    final employmentType = mapper.enumTitle(j['employmentType']);
-    final level = mapper.enumTitle(j['experienceLevel']);
-    final category = mapper.enumTitle(j['industry']);
-    final posted = mapper.postedAgo(j['postedAt'] ?? j['createdAt']);
-    final matchPct = (j['matchPercentage'] as num?)?.toInt() ?? 0;
-    final matchLabel = j['matchLabel'] as String? ?? '';
+    final workMode = j['workType'] as String?;
+    final employmentType = j['schedule'] as String?;
+    final level = j['level'] as String?;
+    final category = j['category'] as String? ?? '';
+    final posted = j['postedAgo'] as String? ?? '';
+    final matchPct = (j['matchPercent'] as num?)?.toInt() ?? 0;
+    final matchLabel =
+        j['matchLabel'] as String? ?? mapper.matchLabel(matchPct);
 
     return JobListing(
       id: id,
       jobTitle: title,
       companyName: companyName,
-      companyInitials: mapper.initials(companyName),
-      companyColor: mapper.colorFromString(companyName),
+      companyInitials: companyInitials,
+      companyColor: mapper.colorFromString(companyKey),
       salary: salary,
       matchPercentage: matchPct,
       matchLabel: matchLabel,
       category: category,
       location: location,
-      workMode: workMode.isNotEmpty ? workMode : null,
-      employmentType: employmentType.isNotEmpty ? employmentType : null,
-      level: level.isNotEmpty ? level : null,
+      workMode: workMode,
+      employmentType: employmentType,
+      level: level,
       postedAgo: posted,
     );
   }
 
   @override
   Future<JobSearchResult> search({
+    String query = '',
     Map<String, Set<String>> filters = const {},
     String sort = 'Date: Recent',
     int page = 1,
@@ -286,6 +301,12 @@ class ApiJobSearchRepository implements JobSearchRepository {
       'page': (page - 1).toString(),
       'size': '10'
     };
+
+    final q = query.trim();
+    if (q.isNotEmpty) {
+      params['q'] = q;
+      params['sort'] = 'relevant';
+    }
 
     final location = filters['Location'];
     if (location != null && location.isNotEmpty) {
@@ -297,7 +318,7 @@ class ApiJobSearchRepository implements JobSearchRepository {
     }
     final jobType = filters['Job Type'];
     if (jobType != null && jobType.isNotEmpty) {
-      params['employmentType'] = jobType.first;
+      params['jobType'] = jobType.first;
     }
     final workplace = filters['Workplace'];
     if (workplace != null && workplace.isNotEmpty) {

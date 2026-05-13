@@ -36,6 +36,9 @@ class HomeJobsSection extends ConsumerWidget {
               workMode: job.workMode,
               employmentType: job.employmentType,
               level: job.level,
+              onTap: job.id.isNotEmpty
+                  ? () => context.push(Routes.jobSearchDetailFor(job.id))
+                  : null,
             ),
           ),
         ),

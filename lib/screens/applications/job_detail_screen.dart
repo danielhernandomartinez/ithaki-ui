@@ -50,8 +50,28 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
+    final homeData = ref.watch(homeProvider).value;
 
-    // Resolve the entity for this screen (application or invitation).
+    return MainPanelScaffold(
+      currentRoute: Routes.myApplications,
+      showBackButton: true,
+      enableNavDrawer: false,
+      onMenuPressed: () => context.pop(),
+      avatarInitials: homeData?.userInitials ?? 'CI',
+      avatarUrl: homeData?.userPhotoUrl,
+      bodyBuilder: (context, ref, topOffset) =>
+          _buildBody(context, ref, topOffset, l),
+      overlayBuilder: (context, ref, topOffset) =>
+          _buildOverlay(context, ref, topOffset),
+    );
+  }
+
+  Widget _buildBody(
+    BuildContext context,
+    WidgetRef ref,
+    double topOffset,
+    AppLocalizations l,
+  ) {
     final applications = ref.watch(applicationsProvider);
     final invitations = ref.watch(invitationsProvider);
 
@@ -68,22 +88,20 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen> {
                 .firstOrNull
         : null;
 
-    // Guard: entity list still loading.
     final entityLoading = widget.isInvitation
         ? invitations.isLoading && widget.initialInvitation == null
         : applications.isLoading && widget.initialApplication == null;
     if (entityLoading) {
-      return _stateScaffold(context, child: const CircularProgressIndicator());
+      return _centeredState(topOffset, const CircularProgressIndicator());
     }
 
-    // Guard: entity list errored.
     final entityError = widget.isInvitation
         ? invitations.hasError && widget.initialInvitation == null
         : applications.hasError && widget.initialApplication == null;
     if (entityError) {
-      return _stateScaffold(
-        context,
-        child: _retryColumn(l.jobCouldNotLoad, onRetry: () {
+      return _centeredState(
+        topOffset,
+        _retryColumn(l.jobCouldNotLoad, onRetry: () {
           if (widget.isInvitation) {
             ref.invalidate(invitationsProvider);
           } else {
@@ -95,62 +113,81 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen> {
 
     final jobId = widget.isInvitation ? invitation?.jobId : application?.jobId;
     if (jobId == null || jobId.isEmpty) {
-      return _notFoundScaffold(context, l);
+      return _centeredState(
+        topOffset,
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              l.jobDetailNotFoundMessage,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16, color: IthakiTheme.textPrimary),
+            ),
+            const SizedBox(height: 16),
+            IthakiButton(
+              l.backToApplications,
+              onPressed: () => context.go(Routes.myApplications),
+            ),
+          ],
+        ),
+      );
     }
 
-    // Fetch job detail; the remaining build is delegated to _buildLoaded.
     return ref.watch(jobDetailProvider(jobId)).when(
           loading: () =>
-              _stateScaffold(context, child: const CircularProgressIndicator()),
-          error: (_, __) => _stateScaffold(
-            context,
-            child: _retryColumn(l.jobCouldNotLoad,
+              _centeredState(topOffset, const CircularProgressIndicator()),
+          error: (_, __) => _centeredState(
+            topOffset,
+            _retryColumn(l.jobCouldNotLoad,
                 onRetry: () => ref.invalidate(jobDetailProvider(jobId))),
           ),
-          data: (apiDetail) => _buildLoaded(
-            context,
-            detail: enrichJobDetail(
+          data: (apiDetail) {
+            final detail = enrichJobDetail(
               apiDetail,
               application: application,
               invitation: invitation,
-            ),
-            invitation: invitation,
-          ),
+            );
+            return _scrollableContent(
+                context, detail, invitation,
+                ref.watch(tourProvider).maybeWhen(data: (v) => v, orElse: () => null),
+                ref.watch(tourKeysProvider),
+                topOffset, l);
+          },
         );
   }
 
-  // ── loaded scaffold ────────────────────────────────────────────────────────
-
-  Widget _buildLoaded(
-    BuildContext context, {
-    required JobDetail detail,
-    required Invitation? invitation,
-  }) {
-    final l = AppLocalizations.of(context)!;
-    final homeData = ref.watch(homeProvider).value;
-    final tourState = ref.watch(tourProvider).maybeWhen(
-          data: (v) => v,
-          orElse: () => null,
+  List<Widget> _buildOverlay(
+      BuildContext context, WidgetRef ref, double topOffset) {
+    final applications = ref.watch(applicationsProvider);
+    final invitations = ref.watch(invitationsProvider);
+    final application = widget.isInvitation
+        ? null
+        : widget.initialApplication ??
+            applications.value
+                ?.where((a) => a.id == widget.applicationId)
+                .firstOrNull;
+    final invitation = widget.isInvitation
+        ? widget.initialInvitation ??
+            invitations.value
+                ?.where((i) => i.id == widget.applicationId)
+                .firstOrNull
+        : null;
+    final jobId = widget.isInvitation ? invitation?.jobId : application?.jobId;
+    if (jobId == null) return [];
+    return ref.watch(jobDetailProvider(jobId)).maybeWhen(
+          data: (apiDetail) {
+            final detail = enrichJobDetail(apiDetail,
+                application: application, invitation: invitation);
+            return [_stickyBar(context, detail, invitation)];
+          },
+          orElse: () => [],
         );
-    final tourKeys = ref.watch(tourKeysProvider);
-    return MainPanelScaffold(
-      currentRoute: Routes.myApplications,
-      avatarInitials: homeData?.userInitials ?? 'CI',
-      avatarUrl: homeData?.userPhotoUrl,
-      bodyBuilder: (context, ref, topOffset) => _scrollableContent(
-        context,
-        detail,
-        invitation,
-        tourState,
-        tourKeys,
-        topOffset,
-        l,
-      ),
-      overlayBuilder: (context, ref, topOffset) => [
-        _stickyBar(context, detail, invitation),
-      ],
-    );
   }
+
+  Widget _centeredState(double topOffset, Widget child) => Padding(
+        padding: EdgeInsets.only(top: topOffset),
+        child: Center(child: child),
+      );
 
   Widget _scrollableContent(
     BuildContext context,
@@ -232,47 +269,6 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen> {
                 onMore: (value) => _handleInvitationMenu(context, value),
               )
             : JobDetailStickyBar(detail: detail),
-      ),
-    );
-  }
-
-  // ── state scaffolds ────────────────────────────────────────────────────────
-
-  Widget _stateScaffold(BuildContext context, {required Widget child}) {
-    final l = AppLocalizations.of(context)!;
-    return Scaffold(
-      backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: IthakiAppBar(showBackButton: true, title: l.jobDetailsTitle),
-      body: Center(
-        child: Padding(padding: const EdgeInsets.all(24), child: child),
-      ),
-    );
-  }
-
-  Widget _notFoundScaffold(BuildContext context, AppLocalizations l) {
-    return Scaffold(
-      backgroundColor: IthakiTheme.backgroundViolet,
-      appBar: IthakiAppBar(showBackButton: true, title: l.jobDetailsTitle),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                l.jobDetailNotFoundMessage,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 16, color: IthakiTheme.textPrimary),
-              ),
-              const SizedBox(height: 16),
-              IthakiButton(
-                l.backToApplications,
-                onPressed: () => context.go(Routes.myApplications),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

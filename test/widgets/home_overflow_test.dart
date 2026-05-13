@@ -24,6 +24,7 @@ class _HomeRepository implements HomeRepository {
         ),
         jobs: [
           JobRecommendation(
+            id: 'job-1',
             companyName: 'TechWave',
             companyInitials: 'TW',
             companyColor: IthakiTheme.primaryPurple,

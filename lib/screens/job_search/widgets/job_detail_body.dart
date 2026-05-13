@@ -5,6 +5,7 @@ import '../../../providers/tour_provider.dart';
 import '../../../utils/layout_offsets.dart';
 import 'job_detail_announcement_banner.dart';
 import 'job_detail_company_card.dart';
+import 'job_detail_deadline_card.dart';
 import 'job_detail_main_card.dart';
 import 'job_detail_match_banner.dart';
 import 'job_detail_odyssea_review_card.dart';
@@ -78,6 +79,13 @@ class JobDetailBody extends StatelessWidget {
                 onAskCareerAssistant: onAskCareerAssistant,
               ),
             ),
+          ),
+
+        // Deadline card
+        if (detail.deadline.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: JobDetailDeadlineCard(deadline: detail.deadline),
           ),
 
         // Main job card

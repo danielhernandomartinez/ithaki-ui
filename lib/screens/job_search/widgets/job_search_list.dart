@@ -33,7 +33,9 @@ class JobSearchList extends ConsumerWidget {
     final l = AppLocalizations.of(context)!;
     final notifier = ref.read(jobSearchProvider.notifier);
     final searchState = ref.watch(jobSearchProvider).value;
-    final searchResult = ref.watch(jobSearchDataProvider).value;
+    final searchResultAsync = ref.watch(jobSearchDataProvider);
+    final searchResult = searchResultAsync.value;
+    final isLoading = searchResultAsync.isLoading;
     final tourKeys = ref.watch(tourKeysProvider);
     if (searchState == null || searchResult == null) {
       return const Center(child: CircularProgressIndicator());
@@ -55,6 +57,16 @@ class JobSearchList extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // ── Loading indicator ─────────────────────────────
+          if (isLoading)
+            const Padding(
+              padding: EdgeInsets.only(bottom: 8),
+              child: LinearProgressIndicator(
+                minHeight: 2,
+                borderRadius: BorderRadius.all(Radius.circular(2)),
+              ),
+            ),
+
           // ── Header ────────────────────────────────────────
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,13 +114,30 @@ class JobSearchList extends ConsumerWidget {
                 child: IthakiJobSearchCard(
                   jobTitle: jobs[i].jobTitle,
                   companyName: jobs[i].companyName,
+                  companyLogo: Container(
+                    width: 72,
+                    height: 72,
+                    decoration: BoxDecoration(
+                      color: jobs[i].companyColor,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      jobs[i].companyInitials,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                   salary: jobs[i].salary,
                   matchPercentage: jobs[i].matchPercentage,
                   matchLabel: jobs[i].matchLabel,
                   matchGradientColors:
                       getMatchGradientColors(jobs[i].matchLabel),
                   matchBackgroundColor: getMatchBgColor(jobs[i].matchLabel),
-                  category: jobs[i].category,
+                  category: jobs[i].category.isNotEmpty ? jobs[i].category : null,
                   location: jobs[i].location,
                   workMode: jobs[i].workMode,
                   employmentType: jobs[i].employmentType,

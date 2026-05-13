@@ -17,6 +17,7 @@ class _JobSearchRepository implements JobSearchRepository {
 
   @override
   Future<JobSearchResult> search({
+    String query = '',
     Map<String, Set<String>> filters = const {},
     String sort = 'Date: Recent',
     int page = 1,

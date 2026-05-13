@@ -7,6 +7,7 @@ class JobSearchState {
   final String sortOption;
   final Set<String> savedJobIds;
   final Map<String, Set<String>> filters;
+  final String query;
 
   const JobSearchState({
     this.selectedTab = 0,
@@ -23,6 +24,7 @@ class JobSearchState {
       'Salary': {},
       'Travel': {},
     },
+    this.query = '',
   });
 
   int get activeFilterCount =>
@@ -38,6 +40,7 @@ class JobSearchState {
     String? sortOption,
     Set<String>? savedJobIds,
     Map<String, Set<String>>? filters,
+    String? query,
   }) =>
       JobSearchState(
         selectedTab: selectedTab ?? this.selectedTab,
@@ -45,6 +48,7 @@ class JobSearchState {
         sortOption: sortOption ?? this.sortOption,
         savedJobIds: savedJobIds ?? this.savedJobIds,
         filters: filters ?? this.filters,
+        query: query ?? this.query,
       );
 }
 
@@ -85,19 +89,27 @@ class JobSearchNotifier extends AsyncNotifier<JobSearchState> {
     state = AsyncData(current.copyWith(savedJobIds: updated));
   }
 
+  void setQuery(String query) {
+    final current = state.requireValue;
+    state = AsyncData(current.copyWith(query: query, currentPage: 1));
+  }
+
   void applyFilters(Map<String, Set<String>> updated) {
     final current = state.requireValue;
     final merged = Map<String, Set<String>>.from(current.filters);
     for (final e in updated.entries) {
       merged[e.key] = e.value;
     }
-    state = AsyncData(current.copyWith(filters: merged));
+    state = AsyncData(current.copyWith(filters: merged, currentPage: 1));
   }
 
   void resetFilters() {
     final current = state.requireValue;
     state = AsyncData(
-      current.copyWith(filters: {for (final k in current.filters.keys) k: {}}),
+      current.copyWith(
+        filters: {for (final k in current.filters.keys) k: {}},
+        currentPage: 1,
+      ),
     );
   }
 }

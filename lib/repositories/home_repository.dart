@@ -55,6 +55,7 @@ class MockHomeRepository implements HomeRepository {
         ),
         jobs: [
           JobRecommendation(
+            id: '',
             companyName: 'TechWave',
             companyInitials: 'TW',
             companyColor: IthakiTheme.primaryPurple,
@@ -68,6 +69,7 @@ class MockHomeRepository implements HomeRepository {
             level: 'Entry',
           ),
           JobRecommendation(
+            id: '',
             companyName: 'TechWave',
             companyInitials: 'DS',
             companyColor: IthakiTheme.matchGreen,
@@ -81,6 +83,7 @@ class MockHomeRepository implements HomeRepository {
             level: 'Entry',
           ),
           JobRecommendation(
+            id: '',
             companyName: 'TechWave',
             companyInitials: 'FT',
             companyColor: IthakiTheme.softGraphite,
@@ -165,27 +168,43 @@ class ApiHomeRepository implements HomeRepository {
   static JobRecommendation _parseJob(Map<String, dynamic> json) {
     final title = json['title'] as String? ?? '';
     final companyRaw = json['company'];
-    final companyName = companyRaw is Map
-        ? (companyRaw['name'] as String? ?? '')
-        : (json['companyName'] as String? ?? '');
+    final companyName = companyRaw is String
+        ? companyRaw
+        : (json['companyName'] as String? ??
+            (companyRaw is Map ? (companyRaw['name'] as String? ?? '') : ''));
     final companyKey = companyName.isNotEmpty ? companyName : title;
+    final companyInitials =
+        json['logoInitials'] as String? ?? mapper.initials(companyKey);
+    final matchPct = (json['matchPercent'] as num?)?.toInt() ??
+        (json['matchPercentage'] as num?)?.toInt() ??
+        0;
+
+    final salaryRange = json['salaryRange'] as String?;
+    final salary = json['salary'] as String? ??
+        (salaryRange != null && salaryRange.isNotEmpty
+            ? salaryRange
+            : mapper.formatSalary(
+                json['salaryMin'],
+                json['salaryMax'],
+                json['paymentTerm'],
+              ));
 
     return JobRecommendation(
+      id: json['id']?.toString() ?? '',
       companyName: companyName,
-      companyInitials: mapper.initials(companyKey),
+      companyInitials: companyInitials,
       companyColor: mapper.colorFromString(companyKey),
       jobTitle: title,
-      salary: mapper.formatSalary(
-        json['salaryMin'],
-        json['salaryMax'],
-        json['paymentTerm'],
-      ),
-      matchPercentage: (json['matchPercentage'] as num?)?.toInt() ?? 0,
-      matchLabel: json['matchLabel'] as String? ?? '',
+      salary: salary,
+      matchPercentage: matchPct,
+      matchLabel: json['matchLabel'] as String? ?? mapper.matchLabel(matchPct),
       location: json['location'] as String? ?? '',
-      workMode: mapper.enumTitle(json['workArrangement']),
-      employmentType: mapper.enumTitle(json['employmentType']),
-      level: mapper.enumTitle(json['experienceLevel']),
+      workMode: json['workType'] as String? ??
+          mapper.enumTitle(json['workArrangement']),
+      employmentType:
+          json['schedule'] as String? ?? mapper.enumTitle(json['jobType']),
+      level:
+          json['level'] as String? ?? mapper.enumTitle(json['experienceLevel']),
     );
   }
 

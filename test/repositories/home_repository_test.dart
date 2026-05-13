@@ -28,29 +28,17 @@ void main() {
               'content': [
                 {
                   'id': 1,
-                  'title': 'Senior Backend Developer',
-                  'companyName': 'Acme Corp',
-                  'location': 'Athens, Greece',
-                  'employmentType': {
-                    'value': 'FULL_TIME',
-                    'title': 'Full Time',
-                  },
-                  'workArrangement': {
-                    'value': 'HYBRID',
-                    'title': 'Hybrid',
-                  },
-                  'experienceLevel': {
-                    'value': 'SENIOR',
-                    'title': 'Senior',
-                  },
-                  'salaryMin': 2000,
-                  'salaryMax': 3500,
-                  'paymentTerm': {
-                    'value': 'MONTHLY',
-                    'title': 'Monthly',
-                  },
-                  'matchPercentage': 88,
-                  'matchLabel': 'GREAT MATCH',
+                  'title': 'HR Specialist',
+                  'company': 'Meridian Analytics Inc',
+                  'logoInitials': 'MA',
+                  'salary': '1100 - 1863 EUR / Yearly',
+                  'category': 'HR',
+                  'location': 'Vienna',
+                  'workType': 'On site',
+                  'schedule': 'Full-Time',
+                  'level': 'Entry',
+                  'matchPercent': 100,
+                  'postedAgo': '3 weeks ago',
                 },
               ],
             }),
@@ -81,12 +69,17 @@ void main() {
     expect(data.cvStats.invitations, 0);
     expect(data.cvStats.interviews, 0);
     expect(data.jobs, hasLength(1));
-    expect(data.jobs.single.companyName, 'Acme Corp');
-    expect(data.jobs.single.jobTitle, 'Senior Backend Developer');
-    expect(data.jobs.single.workMode, 'Hybrid');
-    expect(data.jobs.single.employmentType, 'Full Time');
-    expect(data.jobs.single.level, 'Senior');
-    expect(data.jobs.single.matchPercentage, 88);
+    expect(data.jobs.single.id, '1');
+    expect(data.jobs.single.companyName, 'Meridian Analytics Inc');
+    expect(data.jobs.single.companyInitials, 'MA');
+    expect(data.jobs.single.jobTitle, 'HR Specialist');
+    expect(data.jobs.single.salary, '1100 - 1863 EUR / Yearly');
+    expect(data.jobs.single.location, 'Vienna');
+    expect(data.jobs.single.workMode, 'On site');
+    expect(data.jobs.single.employmentType, 'Full-Time');
+    expect(data.jobs.single.level, 'Entry');
+    expect(data.jobs.single.matchPercentage, 100);
+    expect(data.jobs.single.matchLabel, 'STRONG MATCH');
     expect(data.courses, isEmpty);
     expect(data.news, isEmpty);
   });

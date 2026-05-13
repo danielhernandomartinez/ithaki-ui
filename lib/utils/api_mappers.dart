@@ -5,6 +5,14 @@ import 'package:flutter/material.dart';
 String enumTitle(dynamic field) =>
     field is Map ? (field['title'] as String? ?? '') : (field as String? ?? '');
 
+String matchLabel(int pct) {
+  if (pct >= 90) return 'STRONG MATCH';
+  if (pct >= 75) return 'GREAT MATCH';
+  if (pct >= 50) return 'GOOD MATCH';
+  if (pct > 0) return 'WEAK MATCH';
+  return 'NO MATCH';
+}
+
 String enumValue(dynamic field) =>
     field is Map ? (field['value'] as String? ?? '') : (field as String? ?? '');
 
