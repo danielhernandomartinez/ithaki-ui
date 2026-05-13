@@ -144,62 +144,78 @@ class _MainPanelScaffoldState extends ConsumerState<MainPanelScaffold>
     final topOffset = context.ithakiTopOffset;
     final title =
         widget.title ?? AppLocalizations.of(context)!.appBarTitleIthaki;
+    final router = GoRouter.of(context);
+    final shouldReturnHomeOnBack =
+        widget.currentRoute != Routes.home && !router.canPop();
+    final shouldHandleBack =
+        _panels.menuOpen || _panels.profileOpen || shouldReturnHomeOnBack;
 
-    return Scaffold(
-      backgroundColor: IthakiTheme.backgroundViolet,
-      extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
-      appBar: IthakiAppBar(
-        showMenuAndAvatar: true,
-        showBackButton: widget.showBackButton,
-        title: title,
-        menuOpen: widget.enableNavDrawer && _panels.menuOpen,
-        profileOpen: _panels.profileOpen,
-        avatarInitials: widget.avatarInitials,
-        avatarUrl: widget.avatarUrl,
-        onNotificationsPressed: _handleNotificationsPressed,
-        onMenuPressed: _toggleMenu,
-        onAvatarPressed: _toggleProfile,
-      ),
-      body: Stack(
-        children: [
-          widget.bodyBuilder(context, ref, topOffset),
-          ...?widget.overlayBuilder?.call(context, ref, topOffset),
-          if (_panels.menuOpen || _panels.profileOpen)
-            Positioned.fill(
-              child: GestureDetector(
-                onTap: _closePanels,
-                behavior: HitTestBehavior.translucent,
-                child: const ColoredBox(color: Colors.transparent),
-              ),
-            ),
-          if (widget.enableNavDrawer &&
-              (_panels.menuOpen ||
-                  _panels.menuCtrl.status != AnimationStatus.dismissed))
-            _Panel(
-              topOffset: topOffset,
-              child: SlideTransition(
-                position: _panels.slideAnim,
-                child: AppNavDrawer(
-                  currentRoute: widget.currentRoute,
-                  profileProgress: ref.watch(profileCompletionProvider),
-                  items: buildNavItems(AppLocalizations.of(context)!),
-                  onItemTap: _handleNavItemTap,
+    return PopScope(
+      canPop: !shouldHandleBack,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) return;
+        if (_panels.menuOpen || _panels.profileOpen) {
+          _closePanels();
+          return;
+        }
+        if (shouldReturnHomeOnBack) context.go(Routes.home);
+      },
+      child: Scaffold(
+        backgroundColor: IthakiTheme.backgroundViolet,
+        extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
+        appBar: IthakiAppBar(
+          showMenuAndAvatar: true,
+          showBackButton: widget.showBackButton,
+          title: title,
+          menuOpen: widget.enableNavDrawer && _panels.menuOpen,
+          profileOpen: _panels.profileOpen,
+          avatarInitials: widget.avatarInitials,
+          avatarUrl: widget.avatarUrl,
+          onNotificationsPressed: _handleNotificationsPressed,
+          onMenuPressed: _toggleMenu,
+          onAvatarPressed: _toggleProfile,
+        ),
+        body: Stack(
+          children: [
+            widget.bodyBuilder(context, ref, topOffset),
+            ...?widget.overlayBuilder?.call(context, ref, topOffset),
+            if (_panels.menuOpen || _panels.profileOpen)
+              Positioned.fill(
+                child: GestureDetector(
+                  onTap: _closePanels,
+                  behavior: HitTestBehavior.translucent,
+                  child: const ColoredBox(color: Colors.transparent),
                 ),
               ),
-            ),
-          if (_panels.profileOpen ||
-              _panels.profileCtrl.status != AnimationStatus.dismissed)
-            _Panel(
-              topOffset: topOffset,
-              child: SlideTransition(
-                position: _panels.profileSlideAnim,
-                child: ProfileMenuPanel(
-                  onItemTap: _handleProfileItemTap,
-                  onLogOut: _handleLogOut,
+            if (widget.enableNavDrawer &&
+                (_panels.menuOpen ||
+                    _panels.menuCtrl.status != AnimationStatus.dismissed))
+              _Panel(
+                topOffset: topOffset,
+                child: SlideTransition(
+                  position: _panels.slideAnim,
+                  child: AppNavDrawer(
+                    currentRoute: widget.currentRoute,
+                    profileProgress: ref.watch(profileCompletionProvider),
+                    items: buildNavItems(AppLocalizations.of(context)!),
+                    onItemTap: _handleNavItemTap,
+                  ),
                 ),
               ),
-            ),
-        ],
+            if (_panels.profileOpen ||
+                _panels.profileCtrl.status != AnimationStatus.dismissed)
+              _Panel(
+                topOffset: topOffset,
+                child: SlideTransition(
+                  position: _panels.profileSlideAnim,
+                  child: ProfileMenuPanel(
+                    onItemTap: _handleProfileItemTap,
+                    onLogOut: _handleLogOut,
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
