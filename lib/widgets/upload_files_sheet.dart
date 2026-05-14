@@ -5,6 +5,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../l10n/app_localizations.dart';
 import '../models/profile_models.dart';
 import '../utils/ithaki_bottom_sheet.dart';
+import '../utils/parse_utils.dart';
 import 'upload_file_tab.dart';
 import 'upload_url_tab.dart';
 
@@ -182,9 +183,6 @@ class _UploadFilesSheetState extends State<UploadFilesSheet>
   }
 
   String _nameFromUrl(String value) {
-    final uri = Uri.tryParse(value);
-    final lastSegment =
-        uri?.pathSegments.where((segment) => segment.isNotEmpty).lastOrNull;
-    return lastSegment == null || lastSegment.isEmpty ? value : lastSegment;
+    return lastPathSegmentOrValue(value);
   }
 }

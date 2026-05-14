@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import '../../models/profile_models.dart';
 import '../../services/api_client.dart';
+import '../../utils/parse_utils.dart';
 import 'profile_api_mapper.dart';
 
 class ProfileLanguageResolver {
@@ -60,7 +61,7 @@ class ProfileLanguageResolver {
       final j = item.cast<String, dynamic>();
       final name = (j['title'] as String? ?? j['name'] as String? ?? '').trim();
       final idRaw = j['value'] ?? j['id'];
-      final id = idRaw is num ? idRaw.toInt() : int.tryParse(idRaw.toString());
+      final id = intFromDynamic(idRaw);
       if (name.isEmpty || id == null) continue;
       map[_normalize(name)] = id;
       map[_normalizeLoose(name)] = id;

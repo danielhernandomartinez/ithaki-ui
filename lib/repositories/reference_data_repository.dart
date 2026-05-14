@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../services/api_client.dart';
+import '../utils/parse_utils.dart';
 
 // ─── Models ───────────────────────────────────────────────────────────────────
 
@@ -12,7 +13,7 @@ class SkillItem {
   const SkillItem({required this.id, required this.name});
 
   factory SkillItem.fromJson(Map<String, dynamic> j) => SkillItem(
-        id: ((j['id'] ?? j['value']) as num).toInt(),
+        id: intFromDynamic(j['id'] ?? j['value']) ?? 0,
         name: j['name'] as String? ?? j['title'] as String? ?? '',
       );
 }
@@ -24,8 +25,7 @@ class LanguageItem {
 
   factory LanguageItem.fromJson(Map<String, dynamic> j) {
     final rawId = j['id'] ?? j['value'] ?? j['languageId'] ?? 0;
-    final id =
-        rawId is num ? rawId.toInt() : int.tryParse(rawId.toString()) ?? 0;
+    final id = intFromDynamic(rawId) ?? 0;
     final name = (j['name'] as String?) ??
         (j['title'] as String?) ??
         (j['language'] as String?) ??
@@ -46,7 +46,7 @@ class JobInterestItem {
   });
 
   factory JobInterestItem.fromJson(Map<String, dynamic> j) => JobInterestItem(
-        id: ((j['id'] ?? j['value']) as num).toInt(),
+        id: intFromDynamic(j['id'] ?? j['value']) ?? 0,
         title: j['title'] as String? ?? j['name'] as String? ?? '',
         category: j['category'] as String? ?? j['subtitle'] as String? ?? '',
       );
@@ -62,7 +62,7 @@ class PersonalityValueItem {
 
   factory PersonalityValueItem.fromJson(Map<String, dynamic> j) =>
       PersonalityValueItem(
-        id: ((j['id'] ?? j['value']) as num).toInt(),
+        id: intFromDynamic(j['id'] ?? j['value']) ?? 0,
         title: j['title'] as String? ?? j['name'] as String? ?? '',
       );
 }

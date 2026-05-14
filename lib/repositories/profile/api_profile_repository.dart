@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../models/profile_models.dart';
 import '../../services/api_client.dart';
+import '../../utils/parse_utils.dart';
 import '../profile_repository.dart';
 import 'profile_api_mapper.dart';
 import 'profile_basics_service.dart';
@@ -306,17 +307,12 @@ class ApiProfileRepository implements ProfileRepository {
     await _cache.saveProfileVisible(visible);
   }
 
-  static bool _isRemoteResource(String value) {
-    final uri = Uri.tryParse(value);
-    return uri != null && (uri.isScheme('http') || uri.isScheme('https'));
-  }
-
   static String? _remoteVideoUrlOrNull(String? videoUrl) {
     final value = videoUrl?.trim();
     if (value == null || value.isEmpty) {
       return null;
     }
-    if (_isRemoteResource(value)) return value;
+    if (isHttpUrl(value)) return value;
     debugPrint(
         '[saveAboutMe] local video ignored; no upload endpoint -> $value');
     return null;

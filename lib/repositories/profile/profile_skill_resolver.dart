@@ -3,6 +3,7 @@ import 'dart:convert';
 import '../../models/profile_models.dart';
 import '../../repositories/reference_data_repository.dart';
 import '../../services/api_client.dart';
+import '../../utils/parse_utils.dart';
 
 class ProfileSkillResolver {
   ProfileSkillResolver(this._api);
@@ -30,7 +31,7 @@ class ProfileSkillResolver {
   static bool _needsResolution(List<String> skills) {
     return skills.any((skill) {
       final text = skill.trim().toLowerCase();
-      return int.tryParse(text) != null || text == 'true' || text == 'false';
+      return intFromDynamic(text) != null || text == 'true' || text == 'false';
     });
   }
 
@@ -66,7 +67,7 @@ class ProfileSkillResolver {
     for (final skill in skills) {
       final text = skill.trim();
       if (text.isEmpty) continue;
-      final id = int.tryParse(text);
+      final id = intFromDynamic(text);
       if (id != null) {
         final name = names[id];
         if (name != null && name.isNotEmpty) resolved.add(name);

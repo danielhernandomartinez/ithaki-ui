@@ -1,5 +1,6 @@
 import '../../../models/assessment_models.dart';
 import '../../../models/profile_models.dart';
+import '../../../utils/parse_utils.dart';
 
 class MyCvData {
   const MyCvData({
@@ -100,16 +101,6 @@ class MyCvData {
   }
 
   static String _ageFromDate(String dateOfBirth) {
-    final parts = dateOfBirth.split('-');
-    if (parts.length < 3) {
-      return '';
-    }
-
-    final year = int.tryParse(parts[2]);
-    if (year == null) {
-      return '';
-    }
-
-    return '${DateTime.now().year - year}';
+    return yearDifferenceFromDdMmYyyy(dateOfBirth);
   }
 }

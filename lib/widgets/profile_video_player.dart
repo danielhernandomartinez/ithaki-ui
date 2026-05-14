@@ -5,7 +5,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import 'package:video_player/video_player.dart';
 
 import '../l10n/app_localizations.dart';
-import '../utils/open_resource.dart';
+import '../utils/parse_utils.dart';
 
 class ProfileVideoPreview extends StatelessWidget {
   const ProfileVideoPreview({super.key, required this.source});

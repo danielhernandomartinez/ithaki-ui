@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../models/profile_models.dart';
 import '../../services/api_client.dart';
+import '../../utils/parse_utils.dart';
 import 'profile_response_parser.dart';
 
 class ProfileDocumentsService {
@@ -98,8 +99,8 @@ class ProfileDocumentsService {
     }
 
     if (url != null) {
-      final uri = Uri.tryParse(url);
-      if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
+      final uri = trimmedUri(url);
+      if (isHttpUrl(url) && uri != null) {
         debugPrint('[downloadFile] trying remote url -> $url');
         final apiHost = Uri.parse(_api.base).host;
         final isSameOrigin = uri.host == apiHost;

@@ -1,4 +1,5 @@
 import '../../data/countries.dart';
+import '../../utils/parse_utils.dart';
 import 'profile_api_mapper.dart';
 
 class ProfileCountryResolver {
@@ -16,7 +17,7 @@ class ProfileCountryResolver {
     if (apiCode.isNotEmpty) return apiCode;
 
     final idRaw = field is Map ? field['id'] ?? field['value'] : field;
-    final id = idRaw is num ? idRaw.toInt() : int.tryParse(idRaw.toString());
+    final id = intFromDynamic(idRaw);
     if (id == null) return '';
 
     return _getCodeById()[id] ?? '';

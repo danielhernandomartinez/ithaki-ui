@@ -1,4 +1,5 @@
 import '../../models/profile_models.dart';
+import '../../utils/parse_utils.dart' as parse;
 
 class ProfileApiMapper {
   static String enumTitle(dynamic field) => field is Map
@@ -81,70 +82,19 @@ class ProfileApiMapper {
 
   /// Converts DD-MM-YYYY or MM-YYYY display formats to YYYY-MM-DD for the API.
   static String? dobToIsoDate(String value) {
-    final raw = value.trim();
-    if (raw.isEmpty) return null;
-    final parts = raw.split('-');
-    if (parts.length == 3) {
-      // Already in API format.
-      if (parts[0].length == 4) {
-        final yyyy = int.tryParse(parts[0]);
-        final mm = int.tryParse(parts[1]);
-        final dd = int.tryParse(parts[2]);
-        if (yyyy != null && mm != null && dd != null) {
-          return '${yyyy.toString().padLeft(4, '0')}-${mm.toString().padLeft(2, '0')}-${dd.toString().padLeft(2, '0')}';
-        }
-      }
-      // DD-MM-YYYY
-      final dd = int.tryParse(parts[0]);
-      final mm = int.tryParse(parts[1]);
-      final yyyy = int.tryParse(parts[2]);
-      if (dd != null &&
-          mm != null &&
-          yyyy != null &&
-          dd >= 1 &&
-          dd <= 31 &&
-          mm >= 1 &&
-          mm <= 12) {
-        return '${yyyy.toString().padLeft(4, '0')}-${mm.toString().padLeft(2, '0')}-${dd.toString().padLeft(2, '0')}';
-      }
-    } else if (parts.length == 2) {
-      // MM-YYYY
-      final mm = int.tryParse(parts[0]);
-      final yyyy = int.tryParse(parts[1]);
-      if (mm != null && yyyy != null) {
-        return '${yyyy.toString().padLeft(4, '0')}-${mm.toString().padLeft(2, '0')}-01';
-      }
-    }
-    return raw;
+    return parse.dobToIsoDate(value);
   }
 
   static String isoDateToDdMmYyyy(dynamic raw) {
-    if (raw == null) return '';
-    final text = raw.toString().trim();
-    if (text.isEmpty) return '';
-    final parsed = DateTime.tryParse(text);
-    if (parsed == null) return text;
-    return '${parsed.day.toString().padLeft(2, '0')}-${parsed.month.toString().padLeft(2, '0')}-${parsed.year.toString().padLeft(4, '0')}';
+    return parse.isoDateToDdMmYyyy(raw);
   }
 
   static String? mmYyyyToIsoDate(String value) {
-    final raw = value.trim();
-    if (raw.isEmpty) return null;
-    final parts = raw.split('-');
-    if (parts.length != 2) return raw;
-    final mm = int.tryParse(parts[0]);
-    final yyyy = int.tryParse(parts[1]);
-    if (mm == null || yyyy == null || mm < 1 || mm > 12) return raw;
-    return '${yyyy.toString().padLeft(4, '0')}-${mm.toString().padLeft(2, '0')}-01';
+    return parse.mmYyyyToIsoDate(value);
   }
 
   static String? isoDateToMmYyyy(dynamic raw) {
-    if (raw == null) return null;
-    final text = raw.toString().trim();
-    if (text.isEmpty) return null;
-    final parsed = DateTime.tryParse(text);
-    if (parsed == null) return text;
-    return '${parsed.month.toString().padLeft(2, '0')}-${parsed.year.toString().padLeft(4, '0')}';
+    return parse.isoDateToMmYyyy(raw);
   }
 
   static List<String> stringList(dynamic field) => (field as List? ?? [])
@@ -172,7 +122,7 @@ class ProfileApiMapper {
       ProfileJobPreferences prefs) {
     return {
       'jobInterests': prefs.jobInterests.asMap().entries.map((entry) {
-        final id = int.tryParse(entry.value.id);
+        final id = parse.intFromDynamic(entry.value.id);
         return {
           'value': id ?? (entry.key + 1),
           'title': entry.value.title,

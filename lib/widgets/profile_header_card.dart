@@ -5,6 +5,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../l10n/app_localizations.dart';
 import '../providers/profile_provider.dart';
 import '../routes.dart';
+import '../utils/parse_utils.dart';
 import '../utils/profile_photo_image.dart';
 
 class ProfileHeaderCard extends ConsumerWidget {
@@ -153,10 +154,6 @@ class ProfileHeaderCard extends ConsumerWidget {
       );
 
   String _calcAge(String dob) {
-    final parts = dob.split('-');
-    if (parts.length < 3) return '';
-    final year = int.tryParse(parts[2]);
-    if (year == null) return '';
-    return '${DateTime.now().year - year}';
+    return yearDifferenceFromDdMmYyyy(dob);
   }
 }

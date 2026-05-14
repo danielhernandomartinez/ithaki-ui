@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 
 import '../../models/profile_models.dart';
 import '../../services/api_client.dart';
+import '../../utils/parse_utils.dart';
 import 'profile_api_mapper.dart';
 import 'profile_country_resolver.dart';
 
@@ -38,8 +39,7 @@ class ProfileResponseParser {
   }
 
   static double? doubleValue(dynamic value) {
-    if (value is num) return value.toDouble();
-    return double.tryParse((value ?? '').toString());
+    return doubleFromDynamic(value);
   }
 
   static bool boolValue(dynamic value) {
@@ -54,22 +54,13 @@ class ProfileResponseParser {
   static bool isLocalFilePath(String? value) {
     final text = value?.trim();
     if (text == null || text.isEmpty) return false;
-    final uri = Uri.tryParse(text);
-    if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
-      return false;
-    }
-    return File(text).existsSync() ||
-        (uri != null &&
-            uri.isScheme('file') &&
-            File(uri.toFilePath()).existsSync());
+    if (isHttpUrl(text)) return false;
+    final path = localFilePath(text);
+    return path != null && File(path).existsSync();
   }
 
   static String? localFilePath(String? value) {
-    final text = value?.trim();
-    if (text == null || text.isEmpty) return null;
-    final uri = Uri.tryParse(text);
-    if (uri != null && uri.isScheme('file')) return uri.toFilePath();
-    return text;
+    return localFilePathFromSource(value);
   }
 
   static String? normalizePhotoUrl(dynamic raw) {
@@ -91,8 +82,7 @@ class ProfileResponseParser {
           ? value.substring(start)
           : value.substring(start, outerQueryStart);
       final decoded = Uri.decodeFull(encoded);
-      final uri = Uri.tryParse(decoded);
-      if (uri != null && (uri.isScheme('http') || uri.isScheme('https'))) {
+      if (isHttpUrl(decoded)) {
         return decoded;
       }
     }
@@ -101,13 +91,12 @@ class ProfileResponseParser {
   }
 
   static bool isRemotePhoto(String? value) {
-    final uri = Uri.tryParse(value?.trim() ?? '');
-    return uri != null && (uri.isScheme('http') || uri.isScheme('https'));
+    return isHttpUrl(value);
   }
 
   static UploadedFile documentFromJson(Map<String, dynamic> json) {
     final idRaw = json['id'];
-    final id = idRaw is num ? idRaw.toInt() : int.tryParse('$idRaw');
+    final id = intFromDynamic(idRaw);
     final name = textValue(json['name']);
     final type = textValue(json['type']);
     final uploadedAt = textValue(json['uploadedAt']);
