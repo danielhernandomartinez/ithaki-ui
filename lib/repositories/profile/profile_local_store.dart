@@ -17,6 +17,16 @@ class ProfileLocalStore {
   static const _kValues = 'profile_values_v1';
   static const _kPrefs = 'profile_job_prefs_v1';
   static const _kVisible = 'profile_visible_v1';
+  static const _kSession = 'profile_session_key_v1';
+
+  static Future<void> saveSessionKey(String value) async {
+    await _storage.write(key: _kSession, value: value);
+  }
+
+  static Future<String?> loadSessionKey() async {
+    final raw = await _storage.read(key: _kSession);
+    return raw == null || raw.isEmpty ? null : raw;
+  }
 
   static Future<void> savePhoneVerified(bool value) async {
     await _storage.write(key: _kPhoneVerified, value: value.toString());
@@ -347,6 +357,7 @@ class ProfileLocalStore {
       _storage.delete(key: _kPrefs),
       _storage.delete(key: _kVisible),
       _storage.delete(key: _kPhoneVerified),
+      _storage.delete(key: _kSession),
     ]);
   }
 }
