@@ -54,9 +54,11 @@ class ApiJobDetailRepository implements JobDetailRepository {
         companyRaw is Map<String, dynamic> ? companyRaw : <String, dynamic>{};
     final companyName =
         company['name'] as String? ?? job['companyName'] as String? ?? '';
-    final companyDescription = company['description'] as String? ??
-        job['companyDescription'] as String? ??
-        '';
+    final companyDescription = _normalizedText(
+      company['description'] as String? ??
+          job['companyDescription'] as String? ??
+          '',
+    );
     final industry = mapper.enumTitle(job['industry']);
     final salary = mapper.formatSalary(
       job['salaryMin'],
@@ -82,15 +84,15 @@ class ApiJobDetailRepository implements JobDetailRepository {
       workplace: mapper.enumTitle(job['workArrangement']),
       experienceLevel: mapper.enumTitle(job['experienceLevel']),
       languages: _languageLabel(job),
-      description: job['description'] as String? ?? '',
+      description: _normalizedText(job['description'] as String? ?? ''),
       requirements: _stringList(job['requirements']),
       skills: {
         ..._stringList(job['hardSkills']),
         ..._stringList(job['softSkills']),
       }.toList(),
-      communication: job['responsibilities'] as String? ?? '',
-      niceToHave: job['niceToHave'] as String? ?? '',
-      whatWeOffer: job['benefits'] as String? ?? '',
+      communication: _normalizedText(job['responsibilities'] as String? ?? ''),
+      niceToHave: _normalizedText(job['niceToHave'] as String? ?? ''),
+      whatWeOffer: _normalizedText(job['benefits'] as String? ?? ''),
       isClosed: job['status'] == 'closed' || job['isClosed'] == true,
       odysseaRating: job['odysseaRating'] as String? ?? '',
       odysseaPoints: _stringList(job['odysseaPoints']),
@@ -147,12 +149,19 @@ class ApiJobDetailRepository implements JobDetailRepository {
   static List<String> _stringList(dynamic value) {
     if (value is List) {
       return value
-          .map((item) => item?.toString().trim() ?? '')
+          .expand(
+            (item) => _normalizedText(item?.toString() ?? '').split(
+              RegExp(r'[\r\n]+'),
+            ),
+          )
+          .map(
+            (line) => line.replaceFirst(RegExp(r'^[\s\-\u2022]+'), '').trim(),
+          )
           .where((item) => item.isNotEmpty)
           .toList();
     }
     if (value is String) {
-      return value
+      return _normalizedText(value)
           .split(RegExp(r'[\r\n]+'))
           .map(
             (line) => line.replaceFirst(RegExp(r'^[\s\-\u2022]+'), '').trim(),
@@ -162,6 +171,9 @@ class ApiJobDetailRepository implements JobDetailRepository {
     }
     return const [];
   }
+
+  static String _normalizedText(String value) =>
+      mapper.normalizeEscapedLineBreaks(value);
 
   static String _languageLabel(Map<String, dynamic> job) {
     final language = job['language'];

@@ -22,6 +22,11 @@ String countryName(dynamic field) =>
 String countryCode(dynamic field) =>
     field is Map ? ((field['code'] as String? ?? '')).toLowerCase() : '';
 
+String normalizeEscapedLineBreaks(String value) => value
+    .replaceAll('\r\n', '\n')
+    .replaceAll('\r', '\n')
+    .replaceAll(RegExp(r'\\r\\n|\\n|\\r|/n'), '\n');
+
 // ─── Derived display values ───────────────────────────────────────────────────
 
 /// Generates initials from a company/person name.
