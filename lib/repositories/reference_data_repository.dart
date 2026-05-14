@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
-import '../config/app_config.dart';
 import '../services/api_client.dart';
 
 // ─── Models ───────────────────────────────────────────────────────────────────
@@ -210,9 +208,3 @@ class MockReferenceDataRepository extends ReferenceDataRepository {
         PersonalityValueItem(id: 5, title: 'Independence'),
       ];
 }
-
-final referenceDataRepositoryProvider = Provider<ReferenceDataRepository>(
-  (ref) => AppConfig.useMockData
-      ? MockReferenceDataRepository()
-      : ReferenceDataRepository(apiClient: ref.watch(apiClientProvider)),
-);

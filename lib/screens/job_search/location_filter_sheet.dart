@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../data/countries.dart';
 import '../../l10n/app_localizations.dart';
-import '../../repositories/city_search_repository.dart';
+import '../../providers/city_search_provider.dart';
 
 class LocationFilterSheet extends ConsumerStatefulWidget {
   final Set<String> selected;

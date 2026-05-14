@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../providers/api_diagnostics_provider.dart';
+import '../../repositories/api_diagnostics_repository.dart';
 
 class ApiDiagnosticsScreen extends ConsumerStatefulWidget {
   const ApiDiagnosticsScreen({super.key});

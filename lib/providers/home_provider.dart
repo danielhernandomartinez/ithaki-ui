@@ -1,8 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../config/app_config.dart';
 import '../repositories/home_repository.dart';
+import '../services/api_client.dart';
 import 'profile_provider.dart';
 
 export '../repositories/home_repository.dart' show HomeData;
+
+final homeRepositoryProvider = Provider<HomeRepository>(
+  (ref) => AppConfig.useMockData
+      ? MockHomeRepository()
+      : ApiHomeRepository(apiClient: ref.watch(apiClientProvider)),
+);
 
 class HomeNotifier extends AsyncNotifier<HomeData> {
   @override

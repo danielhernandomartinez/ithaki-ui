@@ -5,9 +5,9 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../constants/nav_items.dart';
 import '../l10n/app_localizations.dart';
+import '../providers/auth_provider.dart';
 import '../mixins/panel_menu_mixin.dart';
 import '../providers/profile_provider.dart';
-import '../repositories/auth_repository.dart';
 import '../routes.dart';
 import '../utils/layout_offsets.dart';
 import 'app_nav_drawer.dart';

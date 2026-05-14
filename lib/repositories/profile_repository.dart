@@ -1,12 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../config/app_config.dart';
 import '../models/profile_models.dart';
-import '../services/api_client.dart';
-import 'profile/api_profile_repository.dart';
-import 'profile/mock_profile_repository.dart';
 
 class ProfileLoadResult {
   final ProfileBasics basics;
@@ -47,9 +41,3 @@ abstract class ProfileRepository {
   Future<void> saveJobPreferences(ProfileJobPreferences prefs);
   Future<void> saveProfileVisible(bool visible);
 }
-
-final profileRepositoryProvider = Provider<ProfileRepository>(
-  (ref) => AppConfig.shouldUseMockData
-      ? MockProfileRepository(persistLocal: true)
-      : ApiProfileRepository(apiClient: ref.watch(apiClientProvider)),
-);

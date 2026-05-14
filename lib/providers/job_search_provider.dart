@@ -1,5 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../config/app_config.dart';
 import '../repositories/job_search_repository.dart';
+import '../services/api_client.dart';
+
+final jobSearchRepositoryProvider = Provider<JobSearchRepository>(
+  (ref) => AppConfig.useMockData
+      ? MockJobSearchRepository()
+      : ApiJobSearchRepository(apiClient: ref.watch(apiClientProvider)),
+);
 
 class JobSearchState {
   final int selectedTab;

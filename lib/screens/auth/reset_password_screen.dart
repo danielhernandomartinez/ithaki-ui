@@ -5,7 +5,7 @@ import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
-import '../../repositories/auth_repository.dart';
+import '../../providers/auth_provider.dart';
 import '../../utils/validators.dart';
 
 class ResetPasswordScreen extends ConsumerStatefulWidget {

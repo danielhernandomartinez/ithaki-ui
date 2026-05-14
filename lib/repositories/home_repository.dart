@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
-import '../config/app_config.dart';
 import '../models/home_models.dart';
 import '../services/api_client.dart';
 import '../utils/api_mappers.dart' as mapper;
@@ -263,9 +261,3 @@ class ApiHomeRepository implements HomeRepository {
 }
 
 // ─── Provider ─────────────────────────────────────────────────────────────────
-
-final homeRepositoryProvider = Provider<HomeRepository>(
-  (ref) => AppConfig.useMockData
-      ? MockHomeRepository()
-      : ApiHomeRepository(apiClient: ref.watch(apiClientProvider)),
-);

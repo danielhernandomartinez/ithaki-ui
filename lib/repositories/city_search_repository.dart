@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
-import '../config/app_config.dart';
 import '../services/api_client.dart';
 
 class CityResult {
@@ -155,9 +153,3 @@ class MockCitySearchRepository implements CitySearchRepository {
         .toList();
   }
 }
-
-final citySearchRepositoryProvider = Provider<CitySearchRepository>(
-  (ref) => AppConfig.useMockData
-      ? MockCitySearchRepository()
-      : ApiCitySearchRepository(ref.watch(apiClientProvider)),
-);

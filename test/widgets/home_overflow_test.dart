@@ -6,6 +6,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import 'package:ithaki_ui/l10n/app_localizations.dart';
 import 'package:ithaki_ui/models/home_models.dart';
+import 'package:ithaki_ui/providers/home_provider.dart';
 import 'package:ithaki_ui/providers/profile_provider.dart';
 import 'package:ithaki_ui/repositories/home_repository.dart';
 import 'package:ithaki_ui/routes.dart';

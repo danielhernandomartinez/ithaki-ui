@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mocktail/mocktail.dart';
 
-import 'package:ithaki_ui/providers/company_provider.dart';
+import 'package:ithaki_ui/repositories/company_repository.dart';
 import 'package:ithaki_ui/services/api_client.dart';
 
 class _MockApiClient extends Mock implements ApiClient {}

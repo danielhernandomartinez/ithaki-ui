@@ -5,8 +5,8 @@ import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';
-import '../../repositories/auth_repository.dart';
 
 class LoginEmailScreen extends ConsumerStatefulWidget {
   const LoginEmailScreen({super.key});

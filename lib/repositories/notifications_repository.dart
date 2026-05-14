@@ -1,8 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../config/app_config.dart';
 import '../models/notifications_models.dart';
 import '../services/api_client.dart';
 import '../utils/api_mappers.dart' as mapper;
@@ -119,9 +116,3 @@ class ApiNotificationsRepository implements NotificationsRepository {
     return NotificationKind.applicationViewed;
   }
 }
-
-final notificationsRepositoryProvider = Provider<NotificationsRepository>(
-  (ref) => AppConfig.useMockData
-      ? MockNotificationsRepository()
-      : ApiNotificationsRepository(apiClient: ref.watch(apiClientProvider)),
-);

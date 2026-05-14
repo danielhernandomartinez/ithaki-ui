@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../l10n/app_localizations.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
-import '../repositories/city_search_repository.dart';
+import '../providers/city_search_provider.dart';
 import '../utils/ithaki_bottom_sheet.dart';
 
 class CitySearchBottomSheet extends ConsumerStatefulWidget {

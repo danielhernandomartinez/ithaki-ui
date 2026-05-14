@@ -5,6 +5,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import 'package:ithaki_ui/l10n/app_localizations.dart';
 import 'package:ithaki_ui/models/job_search_models.dart';
+import 'package:ithaki_ui/providers/job_search_provider.dart';
 import 'package:ithaki_ui/repositories/job_search_repository.dart';
 import 'package:ithaki_ui/screens/job_search/widgets/job_search_list.dart';
 

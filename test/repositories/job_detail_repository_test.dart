@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 
-import 'package:ithaki_ui/providers/job_detail_provider.dart';
+import 'package:ithaki_ui/repositories/job_detail_repository.dart';
 import 'package:ithaki_ui/services/api_client.dart';
 
 void main() {

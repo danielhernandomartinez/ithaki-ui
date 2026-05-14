@@ -1,10 +1,20 @@
 // lib/providers/assessment_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../config/app_config.dart';
 import '../models/assessment_models.dart';
+import '../repositories/assessment/api_assessment_repository.dart';
+import '../repositories/assessment/mock_assessment_repository.dart';
 import '../repositories/assessment_repository.dart';
+import '../services/api_client.dart';
 
 export '../models/assessment_models.dart';
+
+final assessmentRepositoryProvider = Provider<AssessmentRepository>(
+  (ref) => AppConfig.shouldUseMockData
+      ? MockAssessmentRepository()
+      : ApiAssessmentRepository(apiClient: ref.watch(apiClientProvider)),
+);
 
 // ─── Assessments List ──────────────────────────────────────────────────────────
 

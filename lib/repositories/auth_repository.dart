@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'profile/profile_local_store.dart';
 
-import '../config/app_config.dart';
 import '../services/api_client.dart';
 
 class AuthException implements Exception {
@@ -350,9 +348,3 @@ class ApiAuthRepository implements AuthRepository {
     await ProfileLocalStore.clearAll();
   }
 }
-
-final authRepositoryProvider = Provider<AuthRepository>(
-  (ref) => AppConfig.useMockData
-      ? MockAuthRepository()
-      : ApiAuthRepository(apiClient: ref.watch(apiClientProvider)),
-);

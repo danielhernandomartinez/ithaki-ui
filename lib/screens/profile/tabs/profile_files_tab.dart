@@ -7,7 +7,6 @@ import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/profile_provider.dart';
-import '../../../repositories/profile_repository.dart';
 import '../../../widgets/profile_empty_state_card.dart';
 import '../../../widgets/upload_files_sheet.dart';
 

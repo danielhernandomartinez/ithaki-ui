@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 
 import 'package:ithaki_ui/providers/api_diagnostics_provider.dart';
+import 'package:ithaki_ui/repositories/api_diagnostics_repository.dart';
 import 'package:ithaki_ui/screens/debug/api_diagnostics_screen.dart';
 import 'package:ithaki_ui/services/api_client.dart';
 

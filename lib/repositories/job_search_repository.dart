@@ -1,10 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../config/app_config.dart';
 import '../models/job_search_models.dart';
 import '../services/api_client.dart';
 import '../utils/api_mappers.dart' as mapper;
@@ -369,9 +367,3 @@ class ApiJobSearchRepository implements JobSearchRepository {
 }
 
 // ─── Provider ─────────────────────────────────────────────────────────────────
-
-final jobSearchRepositoryProvider = Provider<JobSearchRepository>(
-  (ref) => AppConfig.useMockData
-      ? MockJobSearchRepository()
-      : ApiJobSearchRepository(apiClient: ref.watch(apiClientProvider)),
-);

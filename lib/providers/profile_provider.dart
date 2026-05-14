@@ -1,9 +1,19 @@
 // lib/providers/profile_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../config/app_config.dart';
 import '../models/profile_models.dart';
+import '../repositories/profile/api_profile_repository.dart';
+import '../repositories/profile/mock_profile_repository.dart';
 import '../repositories/profile_repository.dart';
+import '../services/api_client.dart';
 
 export '../models/profile_models.dart';
+
+final profileRepositoryProvider = Provider<ProfileRepository>(
+  (ref) => AppConfig.shouldUseMockData
+      ? MockProfileRepository(persistLocal: true)
+      : ApiProfileRepository(apiClient: ref.watch(apiClientProvider)),
+);
 
 class ProfileCompletionItem {
   final String label;

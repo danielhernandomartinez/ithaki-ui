@@ -1,7 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../config/app_config.dart';
 import '../models/notifications_models.dart';
 import '../repositories/notifications_repository.dart';
+import '../services/api_client.dart';
+
+final notificationsRepositoryProvider = Provider<NotificationsRepository>(
+  (ref) => AppConfig.useMockData
+      ? MockNotificationsRepository()
+      : ApiNotificationsRepository(apiClient: ref.watch(apiClientProvider)),
+);
 
 class NotificationsNotifier extends AsyncNotifier<List<NotificationItem>> {
   @override
