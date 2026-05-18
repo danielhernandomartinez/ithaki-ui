@@ -6,7 +6,6 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../constants/nav_items.dart';
 import '../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
-import '../mixins/panel_menu_mixin.dart';
 import '../providers/profile_provider.dart';
 import '../routes.dart';
 import '../utils/layout_offsets.dart';
@@ -61,20 +60,20 @@ class MainPanelScaffold extends ConsumerStatefulWidget {
   ConsumerState<MainPanelScaffold> createState() => _MainPanelScaffoldState();
 }
 
-class _MainPanelScaffoldState extends ConsumerState<MainPanelScaffold>
-    with TickerProviderStateMixin {
-  late final PanelMenuController _panels;
+enum _OpenPanel { menu, profile }
 
-  @override
-  void initState() {
-    super.initState();
-    _panels = PanelMenuController(setState)..init(this);
-  }
+class _MainPanelScaffoldState extends ConsumerState<MainPanelScaffold> {
+  static const _panelAnimationDuration = Duration(milliseconds: 250);
 
-  @override
-  void dispose() {
-    _panels.dispose();
-    super.dispose();
+  _OpenPanel? _openPanel;
+
+  bool get _menuOpen => _openPanel == _OpenPanel.menu;
+  bool get _profileOpen => _openPanel == _OpenPanel.profile;
+  bool get _hasOpenPanel => _openPanel != null;
+
+  void _setOpenPanel(_OpenPanel? panel) {
+    if (_openPanel == panel) return;
+    setState(() => _openPanel = panel);
   }
 
   void _toggleMenu() {
@@ -85,23 +84,34 @@ class _MainPanelScaffoldState extends ConsumerState<MainPanelScaffold>
     }
     if (!widget.enableNavDrawer) return;
     widget.onBeforePanelAction?.call();
-    _panels.toggleMenu();
+    _setOpenPanel(_menuOpen ? null : _OpenPanel.menu);
   }
 
   void _toggleProfile() {
     widget.onBeforePanelAction?.call();
-    _panels.toggleProfile();
+    _setOpenPanel(_profileOpen ? null : _OpenPanel.profile);
   }
 
   void _closePanels() {
     widget.onBeforePanelAction?.call();
-    _panels.closeMenu();
-    _panels.closeProfile();
+    _setOpenPanel(null);
+  }
+
+  void _clearPanels() {
+    _setOpenPanel(null);
+  }
+
+  void _closeMenu() {
+    if (_menuOpen) _setOpenPanel(null);
+  }
+
+  void _closeProfile() {
+    if (_profileOpen) _setOpenPanel(null);
   }
 
   void _handleNavItemTap(NavItem item) {
     widget.onBeforePanelAction?.call();
-    _panels.closeMenu();
+    _closeMenu();
     if (widget.onNavItemTap != null) {
       widget.onNavItemTap!(context, item);
       return;
@@ -113,14 +123,13 @@ class _MainPanelScaffoldState extends ConsumerState<MainPanelScaffold>
 
   void _handleProfileItemTap(ProfileMenuItem item) {
     widget.onBeforePanelAction?.call();
-    _panels.closeProfile();
+    _closeProfile();
     navigateToProfileMenuRoute(context, item);
   }
 
   void _handleNotificationsPressed() {
     widget.onBeforePanelAction?.call();
-    _panels.closeMenu();
-    _panels.closeProfile();
+    _clearPanels();
     if (widget.currentRoute == Routes.settingsNotifications) return;
     if (widget.onNotificationsPressed != null) {
       widget.onNotificationsPressed!.call();
@@ -131,12 +140,45 @@ class _MainPanelScaffoldState extends ConsumerState<MainPanelScaffold>
 
   void _handleLogOut() {
     widget.onBeforePanelAction?.call();
-    _panels.closeProfile();
+    _closeProfile();
     final router = GoRouter.of(context);
     ref.read(authRepositoryProvider).logout().whenComplete(() {
       resetProfileProviders(ref);
       if (mounted) router.go(Routes.root);
     });
+  }
+
+  Widget _activePanel(BuildContext context) {
+    switch (_openPanel) {
+      case _OpenPanel.menu:
+        if (!widget.enableNavDrawer) {
+          return const SizedBox.shrink(key: ValueKey('no-panel'));
+        }
+        return AppNavDrawer(
+          key: const ValueKey('menu-panel'),
+          currentRoute: widget.currentRoute,
+          profileProgress: ref.watch(profileCompletionProvider),
+          items: buildNavItems(AppLocalizations.of(context)!),
+          onItemTap: _handleNavItemTap,
+        );
+      case _OpenPanel.profile:
+        return ProfileMenuPanel(
+          key: const ValueKey('profile-panel'),
+          onItemTap: _handleProfileItemTap,
+          onLogOut: _handleLogOut,
+        );
+      case null:
+        return const SizedBox.shrink(key: ValueKey('no-panel'));
+    }
+  }
+
+  Widget _buildPanelTransition(Widget child, Animation<double> animation) {
+    final position = Tween<Offset>(
+      begin: const Offset(0, -1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOut));
+
+    return SlideTransition(position: position, child: child);
   }
 
   @override
@@ -147,14 +189,13 @@ class _MainPanelScaffoldState extends ConsumerState<MainPanelScaffold>
     final router = GoRouter.of(context);
     final shouldReturnHomeOnBack =
         widget.currentRoute != Routes.home && !router.canPop();
-    final shouldHandleBack =
-        _panels.menuOpen || _panels.profileOpen || shouldReturnHomeOnBack;
+    final shouldHandleBack = _hasOpenPanel || shouldReturnHomeOnBack;
 
     return PopScope(
       canPop: !shouldHandleBack,
       onPopInvokedWithResult: (didPop, _) {
         if (didPop) return;
-        if (_panels.menuOpen || _panels.profileOpen) {
+        if (_hasOpenPanel) {
           _closePanels();
           return;
         }
@@ -167,8 +208,8 @@ class _MainPanelScaffoldState extends ConsumerState<MainPanelScaffold>
           showMenuAndAvatar: true,
           showBackButton: widget.showBackButton,
           title: title,
-          menuOpen: widget.enableNavDrawer && _panels.menuOpen,
-          profileOpen: _panels.profileOpen,
+          menuOpen: widget.enableNavDrawer && _menuOpen,
+          profileOpen: _profileOpen,
           avatarInitials: widget.avatarInitials,
           avatarUrl: widget.avatarUrl,
           onNotificationsPressed: _handleNotificationsPressed,
@@ -179,7 +220,7 @@ class _MainPanelScaffoldState extends ConsumerState<MainPanelScaffold>
           children: [
             widget.bodyBuilder(context, ref, topOffset),
             ...?widget.overlayBuilder?.call(context, ref, topOffset),
-            if (_panels.menuOpen || _panels.profileOpen)
+            if (_hasOpenPanel)
               Positioned.fill(
                 child: GestureDetector(
                   onTap: _closePanels,
@@ -187,33 +228,16 @@ class _MainPanelScaffoldState extends ConsumerState<MainPanelScaffold>
                   child: const ColoredBox(color: Colors.transparent),
                 ),
               ),
-            if (widget.enableNavDrawer &&
-                (_panels.menuOpen ||
-                    _panels.menuCtrl.status != AnimationStatus.dismissed))
-              _Panel(
-                topOffset: topOffset,
-                child: SlideTransition(
-                  position: _panels.slideAnim,
-                  child: AppNavDrawer(
-                    currentRoute: widget.currentRoute,
-                    profileProgress: ref.watch(profileCompletionProvider),
-                    items: buildNavItems(AppLocalizations.of(context)!),
-                    onItemTap: _handleNavItemTap,
-                  ),
-                ),
+            _Panel(
+              topOffset: topOffset,
+              child: AnimatedSwitcher(
+                duration: _panelAnimationDuration,
+                switchInCurve: Curves.easeOut,
+                switchOutCurve: Curves.easeOut,
+                transitionBuilder: _buildPanelTransition,
+                child: _activePanel(context),
               ),
-            if (_panels.profileOpen ||
-                _panels.profileCtrl.status != AnimationStatus.dismissed)
-              _Panel(
-                topOffset: topOffset,
-                child: SlideTransition(
-                  position: _panels.profileSlideAnim,
-                  child: ProfileMenuPanel(
-                    onItemTap: _handleProfileItemTap,
-                    onLogOut: _handleLogOut,
-                  ),
-                ),
-              ),
+            ),
           ],
         ),
       ),
