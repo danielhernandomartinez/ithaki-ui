@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
 import 'profile/profile_local_store.dart';
 
 import '../services/api_client.dart';
+import '../services/session_service.dart';
 
 class AuthException implements Exception {
   const AuthException(this.userMessage, {this.internalDetail});
@@ -41,12 +40,14 @@ abstract class AuthRepository {
 }
 
 class MockAuthRepository implements AuthRepository {
+  MockAuthRepository({SessionService? sessionService})
+      : _sessionService = sessionService ?? SessionService();
+
+  final SessionService _sessionService;
+
   @override
   Future<LoginSession> loginWithEmail(String email, String password) async {
-    await ApiAuthRepository._storage.write(
-      key: 'jwt_token',
-      value: 'mock-token',
-    );
+    await _sessionService.saveTokens(accessToken: 'mock-token');
     await ProfileLocalStore.savePhoneVerified(true);
     return const LoginSession();
   }
@@ -62,19 +63,13 @@ class MockAuthRepository implements AuthRepository {
     required String techComfort,
     required String systemLanguage,
   }) async {
-    await ApiAuthRepository._storage.write(
-      key: 'jwt_token',
-      value: 'mock-token',
-    );
+    await _sessionService.saveTokens(accessToken: 'mock-token');
     await ProfileLocalStore.savePhoneVerified(true);
   }
 
   @override
   Future<void> verifyOtp(String otp) async {
-    await ApiAuthRepository._storage.write(
-      key: 'jwt_token',
-      value: 'mock-token',
-    );
+    await _sessionService.saveTokens(accessToken: 'mock-token');
     await ProfileLocalStore.savePhoneVerified(true);
   }
 
@@ -89,19 +84,19 @@ class MockAuthRepository implements AuthRepository {
 
   @override
   Future<void> logout() async {
-    await ApiAuthRepository._storage.delete(key: 'jwt_token');
-    await ApiAuthRepository._storage.delete(key: 'jwt_refresh_token');
+    await _sessionService.clearTokens();
     await ProfileLocalStore.clearAll();
   }
 }
 
 class ApiAuthRepository implements AuthRepository {
-  ApiAuthRepository({ApiClient? apiClient}) : _api = apiClient ?? ApiClient();
+  ApiAuthRepository({ApiClient? apiClient, SessionService? sessionService})
+      : _api = apiClient ?? ApiClient(sessionService: sessionService),
+        _sessionService =
+            sessionService ?? apiClient?.sessionService ?? SessionService();
 
   final ApiClient _api;
-
-  // Storage is kept here because auth is the only place that *writes* tokens.
-  static const _storage = FlutterSecureStorage();
+  final SessionService _sessionService;
 
   String? _extractToken(Map<String, dynamic> data) {
     final direct = data['accessToken'] ?? data['token'];
@@ -120,14 +115,11 @@ class ApiAuthRepository implements AuthRepository {
     await ProfileLocalStore.clearAll();
 
     final accessToken = _extractToken(data);
-    if (accessToken != null) {
-      await _storage.write(key: 'jwt_token', value: accessToken);
-    }
-
     final refreshToken = data['refreshToken'] ?? data['data']?['refreshToken'];
-    if (refreshToken is String && refreshToken.isNotEmpty) {
-      await _storage.write(key: 'jwt_refresh_token', value: refreshToken);
-    }
+    await _sessionService.saveTokens(
+      accessToken: accessToken,
+      refreshToken: refreshToken is String ? refreshToken : null,
+    );
   }
 
   Future<void> _triggerOtpSms(String token) async {
@@ -343,8 +335,7 @@ class ApiAuthRepository implements AuthRepository {
 
   @override
   Future<void> logout() async {
-    await _storage.delete(key: 'jwt_token');
-    await _storage.delete(key: 'jwt_refresh_token');
+    await _sessionService.clearTokens();
     await ProfileLocalStore.clearAll();
   }
 }

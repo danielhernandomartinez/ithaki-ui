@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'config/app_config.dart';
 import 'l10n/app_localizations.dart';
 import 'repositories/profile/profile_local_store.dart';
+import 'services/session_service.dart';
 import 'screens/auth/select_language_screen.dart';
 import 'routes.dart';
 import 'screens/auth/tech_comfort_screen.dart';
@@ -57,8 +58,6 @@ import 'screens/debug/api_diagnostics_screen.dart';
 class IthakiRouter {
   static final navigatorKey = GlobalKey<NavigatorState>();
 
-  static const _storage = FlutterSecureStorage();
-
   // Routes that are accessible without phone verification.
   static const _unguardedRoutes = {
     Routes.root,
@@ -81,12 +80,12 @@ class IthakiRouter {
     Routes.apiDiagnostics,
   };
 
-  static Future<String?> _redirect(
+  static Future<String?> _redirect(SessionService sessionService,
       BuildContext context, GoRouterState state) async {
     if (AppConfig.useMockData) return null;
 
-    final token = await _storage.read(key: 'jwt_token');
-    if (token == null || token.isEmpty) return null;
+    final token = await sessionService.readAccessToken();
+    if (token == null) return null;
 
     if (_unguardedRoutes.contains(state.matchedLocation)) return null;
 
@@ -99,294 +98,302 @@ class IthakiRouter {
     return Routes.verifyOtp;
   }
 
-  static final router = GoRouter(
-    navigatorKey: navigatorKey,
-    initialLocation: Routes.root,
-    redirect: _redirect,
-    routes: [
-      GoRoute(
-        path: Routes.root,
-        builder: (context, state) => const SelectLanguageScreen(),
-      ),
-      GoRoute(
-        path: Routes.techComfort,
-        builder: (context, state) => const TechComfortScreen(),
-      ),
-      GoRoute(
-        path: Routes.register,
-        builder: (context, state) => const RegisterScreen(),
-      ),
-      GoRoute(
-        path: Routes.personalDetails,
-        builder: (context, state) => const PersonalDetailsScreen(),
-      ),
-      GoRoute(
-        path: Routes.verifyEmail,
-        builder: (context, state) => const VerifyEmailScreen(),
-      ),
-      GoRoute(
-        path: Routes.chooseVerifyMethod,
-        builder: (context, state) => const ChooseVerifyMethodScreen(),
-      ),
-      GoRoute(
-        path: Routes.verifyOtp,
-        builder: (context, state) {
-          final method = state.uri.queryParameters['method'] ?? 'sms';
-          return VerifyOtpScreen(method: method);
-        },
-      ),
-      GoRoute(
-        path: Routes.verifyPhone,
-        builder: (context, state) {
-          final l = AppLocalizations.of(context)!;
-          final phone = state.uri.queryParameters['phone'] ?? '';
-          final method = state.uri.queryParameters['method'] ?? 'sms';
-          return VerifyOtpScreen(
-            method: method,
-            title: l.loginHeading,
-            subtitle: l.loginVerifySubtitle(phone),
-            backLabel: l.notYourPhone,
-            backRoute: Routes.loginPhone,
-            actionLabel: l.signUpAction,
-            actionRoute: Routes.root,
-            successRoute: Routes.home,
-          );
-        },
-      ),
-      GoRoute(
-        path: Routes.loginEmail,
-        builder: (context, state) => const LoginEmailScreen(),
-      ),
-      GoRoute(
-        path: Routes.forgotPassword,
-        builder: (context, state) => const ForgotPasswordScreen(),
-      ),
-      GoRoute(
-        path: Routes.resetLinkSent,
-        builder: (context, state) => const ResetLinkSentScreen(),
-      ),
-      GoRoute(
-        path: Routes.resetPassword,
-        builder: (context, state) => const ResetPasswordScreen(),
-      ),
-      GoRoute(
-        path: Routes.loginPhone,
-        builder: (context, state) => const LoginPhoneScreen(),
-      ),
-      GoRoute(
-        path: Routes.welcome,
-        pageBuilder: (context, state) => CustomTransitionPage(
-          opaque: false,
-          barrierColor: Colors.transparent,
-          child: const WelcomeModalScreen(),
-          transitionsBuilder: (context, animation, _, child) =>
-              FadeTransition(opacity: animation, child: child),
-        ),
-      ),
-      GoRoute(
-        path: Routes.setupLocation,
-        builder: (context, state) => const LocationScreen(),
-      ),
-      GoRoute(
-        path: Routes.setupJobInterests,
-        builder: (context, state) => const JobInterestsScreen(),
-      ),
-      GoRoute(
-        path: Routes.setupPreferences,
-        builder: (context, state) => const PreferencesScreen(),
-      ),
-      GoRoute(
-        path: Routes.setupValues,
-        builder: (context, state) => const ValuesScreen(),
-      ),
-      GoRoute(
-        path: Routes.setupCommunication,
-        builder: (context, state) => const CommunicationScreen(),
-      ),
-      GoRoute(
-        path: Routes.home,
-        builder: (context, state) => const HomeScreen(),
-      ),
-      GoRoute(
-        path: Routes.jobSearch,
-        builder: (context, state) => const JobSearchScreen(),
-      ),
-      GoRoute(
-        path: Routes.jobSearchDetail,
-        builder: (context, state) => JobSearchDetailScreen(
-          jobId: state.pathParameters['id']!,
-        ),
-      ),
-      GoRoute(
-        path: Routes.companyProfile,
-        builder: (context, state) => CompanyProfileScreen(
-          companyId: state.pathParameters['id']!,
-        ),
-      ),
-      GoRoute(
-        path: Routes.companyEventDetail,
-        builder: (context, state) => CompanyEventDetailScreen(
-          companyId: state.pathParameters['id']!,
-          eventId: state.pathParameters['eventId']!,
-        ),
-      ),
-      GoRoute(
-        path: Routes.profile,
-        builder: (context, state) => const ProfileScreen(),
-      ),
-      GoRoute(
-        path: Routes.cv,
-        builder: (context, state) => const MyCvScreen(),
-      ),
-      GoRoute(
-        path: Routes.profileBasics,
-        builder: (context, state) => const ProfileBasicsScreen(),
-      ),
-      GoRoute(
-        path: Routes.profileSkills,
-        builder: (context, state) => const EditSkillsScreen(),
-      ),
-      GoRoute(
-        path: Routes.profileCompetencies,
-        builder: (context, state) => const EditCompetenciesScreen(),
-      ),
-      GoRoute(
-        path: Routes.profileLanguages,
-        builder: (context, state) => const EditLanguagesScreen(),
-      ),
-      GoRoute(
-        path: Routes.profileAboutMe,
-        builder: (context, state) => const EditAboutMeScreen(),
-      ),
-      GoRoute(
-        path: Routes.profileJobPreferences,
-        builder: (context, state) => const EditJobPreferencesScreen(),
-      ),
-      GoRoute(
-        path: Routes.profileWorkExperience,
-        builder: (context, state) => const WorkExperienceScreen(),
-      ),
-      GoRoute(
-        path: Routes.profileWorkExperienceEdit,
-        builder: (context, state) {
-          final extra = WorkExperienceEditExtra.fromExtra(state.extra);
-          return WorkExperienceFormScreen(
-            editIndex: extra.index,
-            initial: extra.exp,
-          );
-        },
-      ),
-      GoRoute(
-        path: Routes.profileEducation,
-        builder: (context, state) => const EducationScreen(),
-      ),
-      GoRoute(
-        path: Routes.profileValues,
-        builder: (context, state) => const EditValuesScreen(),
-      ),
-      GoRoute(
-        path: Routes.profileEducationEdit,
-        builder: (context, state) {
-          final extra = EducationEditExtra.fromExtra(state.extra);
-          return EducationFormScreen(
-            editIndex: extra.index,
-            initial: extra.edu,
-          );
-        },
-      ),
-      GoRoute(
-        path: Routes.myApplications,
-        builder: (context, state) {
-          final extra = MyApplicationsExtra.fromExtra(state.extra);
-          return MyApplicationsScreen(
-            showInvitationDeclined: extra.showInvitationDeclined,
-          );
-        },
+  static GoRouter createRouter(SessionService sessionService) => GoRouter(
+        navigatorKey: navigatorKey,
+        initialLocation: Routes.root,
+        refreshListenable: sessionService,
+        redirect: (context, state) => _redirect(sessionService, context, state),
         routes: [
           GoRoute(
-            path: ':id',
+            path: Routes.root,
+            builder: (context, state) => const SelectLanguageScreen(),
+          ),
+          GoRoute(
+            path: Routes.techComfort,
+            builder: (context, state) => const TechComfortScreen(),
+          ),
+          GoRoute(
+            path: Routes.register,
+            builder: (context, state) => const RegisterScreen(),
+          ),
+          GoRoute(
+            path: Routes.personalDetails,
+            builder: (context, state) => const PersonalDetailsScreen(),
+          ),
+          GoRoute(
+            path: Routes.verifyEmail,
+            builder: (context, state) => const VerifyEmailScreen(),
+          ),
+          GoRoute(
+            path: Routes.chooseVerifyMethod,
+            builder: (context, state) => const ChooseVerifyMethodScreen(),
+          ),
+          GoRoute(
+            path: Routes.verifyOtp,
             builder: (context, state) {
-              final id = state.pathParameters['id'] ?? '';
-              return ApplicationDetailsScreen(applicationId: id);
+              final method = state.uri.queryParameters['method'] ?? 'sms';
+              return VerifyOtpScreen(method: method);
             },
           ),
           GoRoute(
-            path: ':id/job',
+            path: Routes.verifyPhone,
+            builder: (context, state) {
+              final l = AppLocalizations.of(context)!;
+              final phone = state.uri.queryParameters['phone'] ?? '';
+              final method = state.uri.queryParameters['method'] ?? 'sms';
+              return VerifyOtpScreen(
+                method: method,
+                title: l.loginHeading,
+                subtitle: l.loginVerifySubtitle(phone),
+                backLabel: l.notYourPhone,
+                backRoute: Routes.loginPhone,
+                actionLabel: l.signUpAction,
+                actionRoute: Routes.root,
+                successRoute: Routes.home,
+              );
+            },
+          ),
+          GoRoute(
+            path: Routes.loginEmail,
+            builder: (context, state) => const LoginEmailScreen(),
+          ),
+          GoRoute(
+            path: Routes.forgotPassword,
+            builder: (context, state) => const ForgotPasswordScreen(),
+          ),
+          GoRoute(
+            path: Routes.resetLinkSent,
+            builder: (context, state) => const ResetLinkSentScreen(),
+          ),
+          GoRoute(
+            path: Routes.resetPassword,
+            builder: (context, state) => const ResetPasswordScreen(),
+          ),
+          GoRoute(
+            path: Routes.loginPhone,
+            builder: (context, state) => const LoginPhoneScreen(),
+          ),
+          GoRoute(
+            path: Routes.welcome,
+            pageBuilder: (context, state) => CustomTransitionPage(
+              opaque: false,
+              barrierColor: Colors.transparent,
+              child: const WelcomeModalScreen(),
+              transitionsBuilder: (context, animation, _, child) =>
+                  FadeTransition(opacity: animation, child: child),
+            ),
+          ),
+          GoRoute(
+            path: Routes.setupLocation,
+            builder: (context, state) => const LocationScreen(),
+          ),
+          GoRoute(
+            path: Routes.setupJobInterests,
+            builder: (context, state) => const JobInterestsScreen(),
+          ),
+          GoRoute(
+            path: Routes.setupPreferences,
+            builder: (context, state) => const PreferencesScreen(),
+          ),
+          GoRoute(
+            path: Routes.setupValues,
+            builder: (context, state) => const ValuesScreen(),
+          ),
+          GoRoute(
+            path: Routes.setupCommunication,
+            builder: (context, state) => const CommunicationScreen(),
+          ),
+          GoRoute(
+            path: Routes.home,
+            builder: (context, state) => const HomeScreen(),
+          ),
+          GoRoute(
+            path: Routes.jobSearch,
+            builder: (context, state) => const JobSearchScreen(),
+          ),
+          GoRoute(
+            path: Routes.jobSearchDetail,
+            builder: (context, state) => JobSearchDetailScreen(
+              jobId: state.pathParameters['id']!,
+            ),
+          ),
+          GoRoute(
+            path: Routes.companyProfile,
+            builder: (context, state) => CompanyProfileScreen(
+              companyId: state.pathParameters['id']!,
+            ),
+          ),
+          GoRoute(
+            path: Routes.companyEventDetail,
+            builder: (context, state) => CompanyEventDetailScreen(
+              companyId: state.pathParameters['id']!,
+              eventId: state.pathParameters['eventId']!,
+            ),
+          ),
+          GoRoute(
+            path: Routes.profile,
+            builder: (context, state) => const ProfileScreen(),
+          ),
+          GoRoute(
+            path: Routes.cv,
+            builder: (context, state) => const MyCvScreen(),
+          ),
+          GoRoute(
+            path: Routes.profileBasics,
+            builder: (context, state) => const ProfileBasicsScreen(),
+          ),
+          GoRoute(
+            path: Routes.profileSkills,
+            builder: (context, state) => const EditSkillsScreen(),
+          ),
+          GoRoute(
+            path: Routes.profileCompetencies,
+            builder: (context, state) => const EditCompetenciesScreen(),
+          ),
+          GoRoute(
+            path: Routes.profileLanguages,
+            builder: (context, state) => const EditLanguagesScreen(),
+          ),
+          GoRoute(
+            path: Routes.profileAboutMe,
+            builder: (context, state) => const EditAboutMeScreen(),
+          ),
+          GoRoute(
+            path: Routes.profileJobPreferences,
+            builder: (context, state) => const EditJobPreferencesScreen(),
+          ),
+          GoRoute(
+            path: Routes.profileWorkExperience,
+            builder: (context, state) => const WorkExperienceScreen(),
+          ),
+          GoRoute(
+            path: Routes.profileWorkExperienceEdit,
+            builder: (context, state) {
+              final extra = WorkExperienceEditExtra.fromExtra(state.extra);
+              return WorkExperienceFormScreen(
+                editIndex: extra.index,
+                initial: extra.exp,
+              );
+            },
+          ),
+          GoRoute(
+            path: Routes.profileEducation,
+            builder: (context, state) => const EducationScreen(),
+          ),
+          GoRoute(
+            path: Routes.profileValues,
+            builder: (context, state) => const EditValuesScreen(),
+          ),
+          GoRoute(
+            path: Routes.profileEducationEdit,
+            builder: (context, state) {
+              final extra = EducationEditExtra.fromExtra(state.extra);
+              return EducationFormScreen(
+                editIndex: extra.index,
+                initial: extra.edu,
+              );
+            },
+          ),
+          GoRoute(
+            path: Routes.myApplications,
+            builder: (context, state) {
+              final extra = MyApplicationsExtra.fromExtra(state.extra);
+              return MyApplicationsScreen(
+                showInvitationDeclined: extra.showInvitationDeclined,
+              );
+            },
+            routes: [
+              GoRoute(
+                path: ':id',
+                builder: (context, state) {
+                  final id = state.pathParameters['id'] ?? '';
+                  return ApplicationDetailsScreen(applicationId: id);
+                },
+              ),
+              GoRoute(
+                path: ':id/job',
+                builder: (context, state) {
+                  final id = state.pathParameters['id'] ?? '';
+                  return JobDetailScreen(
+                    applicationId: id,
+                    initialApplication: state.extra is Application
+                        ? state.extra as Application
+                        : null,
+                  );
+                },
+              ),
+            ],
+          ),
+          GoRoute(
+            path: Routes.invitationJobDetail,
             builder: (context, state) {
               final id = state.pathParameters['id'] ?? '';
               return JobDetailScreen(
                 applicationId: id,
-                initialApplication: state.extra is Application
-                    ? state.extra as Application
+                isInvitation: true,
+                initialInvitation: state.extra is Invitation
+                    ? state.extra as Invitation
                     : null,
               );
             },
           ),
-        ],
-      ),
-      GoRoute(
-        path: Routes.invitationJobDetail,
-        builder: (context, state) {
-          final id = state.pathParameters['id'] ?? '';
-          return JobDetailScreen(
-            applicationId: id,
-            isInvitation: true,
-            initialInvitation:
-                state.extra is Invitation ? state.extra as Invitation : null,
-          );
-        },
-      ),
-      GoRoute(
-        path: Routes.settings,
-        builder: (context, state) => const SettingsScreen(),
-      ),
-      GoRoute(
-        path: Routes.settingsNotifications,
-        builder: (context, state) => const NotificationsScreen(),
-      ),
-      GoRoute(
-        path: Routes.careerAssistant,
-        builder: (context, state) => const CareerAssistantScreen(),
-      ),
-      GoRoute(
-        path: Routes.assessments,
-        builder: (context, state) => const MyAssessmentsScreen(),
-      ),
-      GoRoute(
-        path: Routes.assessmentDetail,
-        builder: (context, state) => AssessmentDetailScreen(
-          assessmentId: state.pathParameters['id']!,
-        ),
-      ),
-      GoRoute(
-        path: Routes.assessmentQuiz,
-        builder: (context, state) => AssessmentQuizScreen(
-          assessmentId: state.pathParameters['id']!,
-        ),
-      ),
-      GoRoute(
-        path: Routes.assessmentResults,
-        builder: (context, state) => AssessmentResultsScreen(
-          assessmentId: state.pathParameters['id']!,
-        ),
-      ),
-      GoRoute(
-        path: Routes.apiDiagnostics,
-        builder: (context, state) => const ApiDiagnosticsScreen(),
-      ),
-      GoRoute(
-        path: Routes.blogNews,
-        builder: (context, state) => const BlogNewsScreen(),
-        routes: [
           GoRoute(
-            path: ':id',
-            builder: (context, state) {
-              final id = state.pathParameters['id'] ?? '';
-              return BlogArticleScreen(articleId: id);
-            },
+            path: Routes.settings,
+            builder: (context, state) => const SettingsScreen(),
+          ),
+          GoRoute(
+            path: Routes.settingsNotifications,
+            builder: (context, state) => const NotificationsScreen(),
+          ),
+          GoRoute(
+            path: Routes.careerAssistant,
+            builder: (context, state) => const CareerAssistantScreen(),
+          ),
+          GoRoute(
+            path: Routes.assessments,
+            builder: (context, state) => const MyAssessmentsScreen(),
+          ),
+          GoRoute(
+            path: Routes.assessmentDetail,
+            builder: (context, state) => AssessmentDetailScreen(
+              assessmentId: state.pathParameters['id']!,
+            ),
+          ),
+          GoRoute(
+            path: Routes.assessmentQuiz,
+            builder: (context, state) => AssessmentQuizScreen(
+              assessmentId: state.pathParameters['id']!,
+            ),
+          ),
+          GoRoute(
+            path: Routes.assessmentResults,
+            builder: (context, state) => AssessmentResultsScreen(
+              assessmentId: state.pathParameters['id']!,
+            ),
+          ),
+          GoRoute(
+            path: Routes.apiDiagnostics,
+            builder: (context, state) => const ApiDiagnosticsScreen(),
+          ),
+          GoRoute(
+            path: Routes.blogNews,
+            builder: (context, state) => const BlogNewsScreen(),
+            routes: [
+              GoRoute(
+                path: ':id',
+                builder: (context, state) {
+                  final id = state.pathParameters['id'] ?? '';
+                  return BlogArticleScreen(articleId: id);
+                },
+              ),
+            ],
           ),
         ],
-      ),
-    ],
-  );
+      );
 }
+
+final routerProvider = Provider<GoRouter>((ref) {
+  final router = IthakiRouter.createRouter(ref.watch(sessionServiceProvider));
+  ref.onDispose(router.dispose);
+  return router;
+});

@@ -3,8 +3,9 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
+
+import 'session_service.dart';
 
 typedef SessionExpiredHandler = void Function();
 
@@ -16,8 +17,13 @@ typedef SessionExpiredHandler = void Function();
 /// [onSessionExpired] is called (after tokens are cleared) whenever a token
 /// refresh fails, allowing the caller to redirect the user to the login flow.
 class ApiClient {
-  ApiClient({http.Client? client, String? baseUrl, this.onSessionExpired})
-      : _client = client ?? http.Client(),
+  ApiClient({
+    http.Client? client,
+    String? baseUrl,
+    SessionService? sessionService,
+    this.onSessionExpired,
+  })  : sessionService = sessionService ?? SessionService(),
+        _client = client ?? http.Client(),
         _baseUrl = baseUrl ?? _resolveBaseUrl();
 
   static String _resolveBaseUrl() {
@@ -39,9 +45,8 @@ class ApiClient {
 
   final http.Client _client;
   final String _baseUrl;
+  final SessionService sessionService;
   final void Function()? onSessionExpired;
-
-  static const _storage = FlutterSecureStorage();
 
   /// Default timeout for standard API calls.
   static const timeout = Duration(seconds: 20);
@@ -78,19 +83,15 @@ class ApiClient {
   }
 
   Future<void> _clearTokens() async {
-    await _storage.delete(key: 'jwt_token');
-    await _storage.delete(key: 'jwt_refresh_token');
+    await sessionService.clearTokens();
   }
 
   Future<String> requireToken() async {
-    final token = await _storage.read(key: 'jwt_token');
-    if (token == null || token.isEmpty) throw Exception('Missing auth token');
-    return token;
+    return sessionService.requireAccessToken();
   }
 
   Future<String?> readTokenOrNull() async {
-    final token = await _storage.read(key: 'jwt_token');
-    return (token == null || token.isEmpty) ? null : token;
+    return sessionService.readAccessToken();
   }
 
   /// Exchanges the stored refresh token for a new access token.
@@ -111,7 +112,7 @@ class ApiClient {
   }
 
   Future<void> _doRefresh({bool notifySessionExpired = true}) async {
-    final refreshToken = await _storage.read(key: 'jwt_refresh_token');
+    final refreshToken = await sessionService.readRefreshToken();
     if (refreshToken == null || refreshToken.isEmpty) {
       await _clearTokens();
       if (notifySessionExpired) onSessionExpired?.call();
@@ -152,13 +153,12 @@ class ApiClient {
       throw Exception(
           'Refresh response missing access token — please log in again');
     }
-    await _storage.write(key: 'jwt_token', value: newAccess);
-
     final newRefresh =
         data['refreshToken'] ?? (nested is Map ? nested['refreshToken'] : null);
-    if (newRefresh is String && newRefresh.isNotEmpty) {
-      await _storage.write(key: 'jwt_refresh_token', value: newRefresh);
-    }
+    await sessionService.saveTokens(
+      accessToken: newAccess,
+      refreshToken: newRefresh is String ? newRefresh : null,
+    );
   }
 
   /// JSON + optional Bearer auth headers.
@@ -374,5 +374,6 @@ final sessionExpiredHandlerProvider =
 
 final apiClientProvider = Provider<ApiClient>((ref) => ApiClient(
       baseUrl: ref.watch(apiBaseUrlProvider),
+      sessionService: ref.watch(sessionServiceProvider),
       onSessionExpired: ref.watch(sessionExpiredHandlerProvider),
     ));

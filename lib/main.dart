@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
@@ -24,7 +25,7 @@ void main() {
   runApp(ProviderScope(
     overrides: [
       sessionExpiredHandlerProvider.overrideWithValue(
-        () => IthakiRouter.router.go(Routes.root),
+        () => IthakiRouter.navigatorKey.currentContext?.go(Routes.root),
       ),
     ],
     child: const IthakiApp(),
@@ -38,12 +39,13 @@ class IthakiApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = ref.watch(localeProvider).value;
     final tourKeys = ref.watch(tourKeysProvider);
+    final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
       title: 'Ithaki',
       debugShowCheckedModeBanner: false,
       theme: IthakiTheme.light,
-      routerConfig: IthakiRouter.router,
+      routerConfig: router,
       locale: locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,

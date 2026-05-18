@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../l10n/app_localizations.dart';
 import '../providers/invitations_provider.dart';
@@ -197,37 +198,36 @@ class _TourOverlayState extends ConsumerState<TourOverlay> {
   }
 
   void _goToStep(int step) {
+    final router = GoRouter.of(context);
     switch (step) {
       case 1:
       case 12:
-        IthakiRouter.router.go(Routes.home);
+        router.go(Routes.home);
         return;
       case 2:
       case 3:
-        IthakiRouter.router.go(Routes.jobSearch);
+        router.go(Routes.jobSearch);
         return;
       case 4:
       case 5:
       case 6:
-        IthakiRouter.router
-            .go(Routes.jobSearchDetailFor(_jobSearchTourJobId()));
+        router.go(Routes.jobSearchDetailFor(_jobSearchTourJobId()));
         return;
       case 7:
       case 8:
-        IthakiRouter.router.go(Routes.myApplications);
+        router.go(Routes.myApplications);
         return;
       case 9:
-        IthakiRouter.router
-            .go(Routes.invitationJobDetailFor(_tourInvitationId()));
+        router.go(Routes.invitationJobDetailFor(_tourInvitationId()));
         return;
       case 10:
-        IthakiRouter.router.go(Routes.profile);
+        router.go(Routes.profile);
         return;
       case 11:
-        IthakiRouter.router.go(Routes.careerAssistant);
+        router.go(Routes.careerAssistant);
         return;
       case 13:
-        IthakiRouter.router.go(Routes.assessments);
+        router.go(Routes.assessments);
         return;
     }
   }
