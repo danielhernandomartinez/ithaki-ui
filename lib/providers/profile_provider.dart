@@ -27,6 +27,88 @@ const _profileValuesCacheKey = '${_profileCachePrefix}values';
 const _profileJobPreferencesCacheKey = '${_profileCachePrefix}jobPreferences';
 const _profileVisibleCacheKey = '${_profileCachePrefix}visible';
 
+typedef _ProfileProviderInvalidator = void Function(Ref ref);
+
+class _ProfileProviderRegistration {
+  const _ProfileProviderRegistration({
+    required this.cacheKey,
+    required this.invalidate,
+    this.hydratedByRefreshAll = true,
+  });
+
+  final String cacheKey;
+  final _ProfileProviderInvalidator invalidate;
+  final bool hydratedByRefreshAll;
+}
+
+class _ProfileInvalidation {
+  const _ProfileInvalidation(this.ref);
+
+  final Ref ref;
+
+  static final _registrations = <_ProfileProviderRegistration>[
+    _ProfileProviderRegistration(
+      cacheKey: _profileBasicsCacheKey,
+      invalidate: (ref) => ref.invalidate(profileBasicsProvider),
+      hydratedByRefreshAll: false,
+    ),
+    _ProfileProviderRegistration(
+      cacheKey: _profileAboutMeCacheKey,
+      invalidate: (ref) => ref.invalidate(profileAboutMeProvider),
+    ),
+    _ProfileProviderRegistration(
+      cacheKey: _profileSkillsCacheKey,
+      invalidate: (ref) => ref.invalidate(profileSkillsProvider),
+    ),
+    _ProfileProviderRegistration(
+      cacheKey: _profileWorkExperiencesCacheKey,
+      invalidate: (ref) => ref.invalidate(profileWorkExperiencesProvider),
+    ),
+    _ProfileProviderRegistration(
+      cacheKey: _profileEducationsCacheKey,
+      invalidate: (ref) => ref.invalidate(profileEducationsProvider),
+    ),
+    _ProfileProviderRegistration(
+      cacheKey: _profileFilesCacheKey,
+      invalidate: (ref) => ref.invalidate(profileFilesProvider),
+    ),
+    _ProfileProviderRegistration(
+      cacheKey: _profileValuesCacheKey,
+      invalidate: (ref) => ref.invalidate(profileValuesProvider),
+    ),
+    _ProfileProviderRegistration(
+      cacheKey: _profileJobPreferencesCacheKey,
+      invalidate: (ref) => ref.invalidate(profileJobPreferencesProvider),
+    ),
+    _ProfileProviderRegistration(
+      cacheKey: _profileVisibleCacheKey,
+      invalidate: (ref) => ref.invalidate(profileVisibleProvider),
+    ),
+  ];
+
+  void invalidateHydratedSections() {
+    final cache = ref.read(swrCacheProvider);
+    for (final registration in _registrations) {
+      if (!registration.hydratedByRefreshAll) continue;
+      cache.invalidate(registration.cacheKey);
+      registration.invalidate(ref);
+    }
+  }
+
+  void resetAll() {
+    ref.read(swrCacheProvider).invalidatePrefix(_profileCachePrefix);
+    for (final registration in _registrations) {
+      registration.invalidate(ref);
+    }
+    ref.invalidate(profileCompletionItemsProvider);
+    ref.invalidate(profileCompletionProvider);
+  }
+}
+
+final _profileInvalidationProvider = Provider<_ProfileInvalidation>(
+  (ref) => _ProfileInvalidation(ref),
+);
+
 enum ProfileCompletionSection {
   aboutMe,
   photo,
@@ -56,7 +138,7 @@ class ProfileBasicsNotifier extends SwrAsyncNotifier<ProfileBasics> {
   Future<ProfileBasics> load() async {
     final result = await ref.read(profileRepositoryProvider).refreshAll();
     ref.read(profilePartialLoadProvider.notifier).set(result.isPartial);
-    _invalidateHydratedProfileSections();
+    ref.read(_profileInvalidationProvider).invalidateHydratedSections();
     return result.basics;
   }
 
@@ -89,29 +171,9 @@ class ProfileBasicsNotifier extends SwrAsyncNotifier<ProfileBasics> {
     await ref.read(profileRepositoryProvider).saveBasics(updated);
     final result = await ref.read(profileRepositoryProvider).refreshAll();
     ref.read(profilePartialLoadProvider.notifier).set(result.isPartial);
-    _invalidateHydratedProfileSections();
+    ref.read(_profileInvalidationProvider).invalidateHydratedSections();
     cacheValue(result.basics);
     state = AsyncData(result.basics);
-  }
-
-  void _invalidateHydratedProfileSections() {
-    final cache = ref.read(swrCacheProvider);
-    cache.invalidate(_profileAboutMeCacheKey);
-    cache.invalidate(_profileSkillsCacheKey);
-    cache.invalidate(_profileWorkExperiencesCacheKey);
-    cache.invalidate(_profileEducationsCacheKey);
-    cache.invalidate(_profileFilesCacheKey);
-    cache.invalidate(_profileValuesCacheKey);
-    cache.invalidate(_profileJobPreferencesCacheKey);
-    cache.invalidate(_profileVisibleCacheKey);
-    ref.invalidate(profileAboutMeProvider);
-    ref.invalidate(profileSkillsProvider);
-    ref.invalidate(profileWorkExperiencesProvider);
-    ref.invalidate(profileEducationsProvider);
-    ref.invalidate(profileFilesProvider);
-    ref.invalidate(profileValuesProvider);
-    ref.invalidate(profileJobPreferencesProvider);
-    ref.invalidate(profileVisibleProvider);
   }
 }
 
@@ -427,16 +489,5 @@ final profileCompletionProvider = Provider<double>((ref) {
 });
 
 void resetProfileProviders(WidgetRef ref) {
-  ref.read(swrCacheProvider).invalidatePrefix(_profileCachePrefix);
-  ref.invalidate(profileBasicsProvider);
-  ref.invalidate(profileAboutMeProvider);
-  ref.invalidate(profileSkillsProvider);
-  ref.invalidate(profileWorkExperiencesProvider);
-  ref.invalidate(profileEducationsProvider);
-  ref.invalidate(profileFilesProvider);
-  ref.invalidate(profileValuesProvider);
-  ref.invalidate(profileJobPreferencesProvider);
-  ref.invalidate(profileVisibleProvider);
-  ref.invalidate(profileCompletionItemsProvider);
-  ref.invalidate(profileCompletionProvider);
+  ref.read(_profileInvalidationProvider).resetAll();
 }
