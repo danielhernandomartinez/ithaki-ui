@@ -25,23 +25,16 @@ class InvitationsNotifier extends SwrAsyncNotifier<List<Invitation>> {
   Future<List<Invitation>> load() =>
       ref.read(invitationsRepositoryProvider).getInvitations();
 
-  Future<void> dismiss(String invitationId) async {
+  Future<void> dismiss(String invitationId, String dismissedAt) async {
     await ref
         .read(invitationsRepositoryProvider)
         .dismissInvitation(invitationId);
     final updated = state.value?.map((i) {
           if (i.id != invitationId) return i;
-          return i.copyWith(isDismissed: true, dismissedAt: _nowLabel());
+          return i.copyWith(isDismissed: true, dismissedAt: dismissedAt);
         }).toList() ??
         [];
     state = AsyncData(updated);
     cacheValue(updated);
-  }
-
-  static String _nowLabel() {
-    final now = DateTime.now();
-    final h = now.hour.toString().padLeft(2, '0');
-    final m = now.minute.toString().padLeft(2, '0');
-    return 'Today, $h:$m';
   }
 }

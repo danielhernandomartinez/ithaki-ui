@@ -231,6 +231,14 @@
   "archiveEmptyTitle": "لا يوجد شيء في أرشيفك",
   "archiveEmptySubtitle": "الدعوات المرفوضة والطلبات المغلقة\nستُخزَّن هنا.",
   "invitationDeclinedLabel": "تم رفض الدعوة",
+  "dismissedTodayAt": "اليوم، {time}",
+  "@dismissedTodayAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "viewJobDetails": "عرض تفاصيل الوظيفة",
   "dismissInvite": "رفض الدعوة",
   "declinedConfirmed": "مرفوضة",

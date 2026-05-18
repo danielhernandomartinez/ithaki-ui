@@ -681,6 +681,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get invitationDeclinedLabel => 'Invitación rechazada';
 
   @override
+  String dismissedTodayAt(String time) {
+    return 'Today, $time';
+  }
+
+  @override
   String get viewJobDetails => 'Ver detalles del empleo';
 
   @override

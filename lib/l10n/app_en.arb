@@ -229,6 +229,14 @@
   "archiveEmptyTitle": "Nothing in your archive",
   "archiveEmptySubtitle": "Declined invitations and closed applications\nwill be stored here.",
   "invitationDeclinedLabel": "Invitation declined",
+  "dismissedTodayAt": "Today, {time}",
+  "@dismissedTodayAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "viewJobDetails": "View Job Details",
   "dismissInvite": "Dismiss Invite",
   "declinedConfirmed": "Declined",

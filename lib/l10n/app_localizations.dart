@@ -1350,6 +1350,12 @@ abstract class AppLocalizations {
   /// **'Invitation declined'**
   String get invitationDeclinedLabel;
 
+  /// No description provided for @dismissedTodayAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Today, {time}'**
+  String dismissedTodayAt(String time);
+
   /// No description provided for @viewJobDetails.
   ///
   /// In en, this message translates to:

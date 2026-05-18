@@ -73,7 +73,14 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
     });
     _dismissTimer = Timer(const Duration(seconds: 5), () async {
       if (!mounted) return;
-      await ref.read(invitationsProvider.notifier).dismiss(invitationId);
+      final now = DateTime.now();
+      final time =
+          '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}';
+      final dismissedAt =
+          AppLocalizations.of(context)!.dismissedTodayAt(time);
+      await ref
+          .read(invitationsProvider.notifier)
+          .dismiss(invitationId, dismissedAt);
       if (!mounted) return;
       setState(() {
         _pendingDismissId = null;

@@ -676,6 +676,11 @@ class AppLocalizationsEl extends AppLocalizations {
   String get invitationDeclinedLabel => 'Η πρόσκληση απορρίφθηκε';
 
   @override
+  String dismissedTodayAt(String time) {
+    return 'Σήμερα, $time';
+  }
+
+  @override
   String get viewJobDetails => 'Προβολή Λεπτομερειών Θέσης';
 
   @override

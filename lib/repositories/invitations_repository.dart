@@ -85,18 +85,7 @@ class MockInvitationsRepository implements InvitationsRepository {
   Future<List<Invitation>> getInvitations() async => List.from(_invitations);
 
   @override
-  Future<void> dismissInvitation(String invitationId) async {
-    final idx = _invitations.indexWhere((i) => i.id == invitationId);
-    if (idx != -1) {
-      final now = DateTime.now();
-      final h = now.hour.toString().padLeft(2, '0');
-      final m = now.minute.toString().padLeft(2, '0');
-      _invitations[idx] = _invitations[idx].copyWith(
-        isDismissed: true,
-        dismissedAt: 'Today, $h:$m',
-      );
-    }
-  }
+  Future<void> dismissInvitation(String invitationId) async {}
 }
 
 // ─── Notifiers ────────────────────────────────────────────────────────────────

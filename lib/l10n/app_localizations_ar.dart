@@ -670,6 +670,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get invitationDeclinedLabel => 'تم رفض الدعوة';
 
   @override
+  String dismissedTodayAt(String time) {
+    return 'اليوم، $time';
+  }
+
+  @override
   String get viewJobDetails => 'عرض تفاصيل الوظيفة';
 
   @override

@@ -229,6 +229,14 @@
   "archiveEmptyTitle": "Το αρχείο σου είναι άδειο",
   "archiveEmptySubtitle": "Απορριφθείσες προσκλήσεις και κλειστές αιτήσεις\nθα αποθηκευτούν εδώ.",
   "invitationDeclinedLabel": "Η πρόσκληση απορρίφθηκε",
+  "dismissedTodayAt": "Σήμερα, {time}",
+  "@dismissedTodayAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "viewJobDetails": "Δες Λεπτομέρειες Θέσης",
   "dismissInvite": "Απόρριψη Πρόσκλησης",
   "declinedConfirmed": "Απορρίφθηκε",
