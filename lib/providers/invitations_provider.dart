@@ -4,6 +4,7 @@ import '../config/app_config.dart';
 import '../models/applications_models.dart';
 import '../repositories/invitations_repository.dart';
 import '../services/api_client.dart';
+import 'swr_async_notifier.dart';
 
 final invitationsRepositoryProvider = Provider<InvitationsRepository>(
   (ref) => AppConfig.useMockData
@@ -16,22 +17,25 @@ final invitationsProvider =
   InvitationsNotifier.new,
 );
 
-class InvitationsNotifier extends AsyncNotifier<List<Invitation>> {
+class InvitationsNotifier extends SwrAsyncNotifier<List<Invitation>> {
   @override
-  Future<List<Invitation>> build() =>
+  String get cacheKey => 'invitations';
+
+  @override
+  Future<List<Invitation>> load() =>
       ref.read(invitationsRepositoryProvider).getInvitations();
 
   Future<void> dismiss(String invitationId) async {
     await ref
         .read(invitationsRepositoryProvider)
         .dismissInvitation(invitationId);
-    state = AsyncData(
-      state.value?.map((i) {
-            if (i.id != invitationId) return i;
-            return i.copyWith(isDismissed: true, dismissedAt: _nowLabel());
-          }).toList() ??
-          [],
-    );
+    final updated = state.value?.map((i) {
+          if (i.id != invitationId) return i;
+          return i.copyWith(isDismissed: true, dismissedAt: _nowLabel());
+        }).toList() ??
+        [];
+    state = AsyncData(updated);
+    cacheValue(updated);
   }
 
   static String _nowLabel() {

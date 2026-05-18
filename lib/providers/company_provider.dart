@@ -4,6 +4,7 @@ import '../config/app_config.dart';
 import '../models/company_models.dart';
 import '../repositories/company_repository.dart';
 import '../services/api_client.dart';
+import 'swr_async_notifier.dart';
 
 final companyRepositoryProvider = Provider<CompanyRepository>(
   (ref) => AppConfig.shouldUseMockData
@@ -13,13 +14,21 @@ final companyRepositoryProvider = Provider<CompanyRepository>(
 
 final companyProvider = FutureProvider.family<CompanyProfile, String>(
   (ref, companyId) async {
-    try {
-      return await ref.watch(companyRepositoryProvider).getCompany(companyId);
-    } catch (_) {
-      if (AppConfig.shouldUseMockData) {
-        return mockCompanyProfile(companyId);
-      }
-      rethrow;
-    }
+    return ref.read(swrCacheProvider).getOrRefresh(
+          key: 'company.$companyId',
+          ttl: const Duration(minutes: 10),
+          load: () async {
+            try {
+              return await ref
+                  .watch(companyRepositoryProvider)
+                  .getCompany(companyId);
+            } catch (_) {
+              if (AppConfig.shouldUseMockData) {
+                return mockCompanyProfile(companyId);
+              }
+              rethrow;
+            }
+          },
+        );
   },
 );

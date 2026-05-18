@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../config/app_config.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../providers/registration_provider.dart';
 
@@ -24,7 +25,7 @@ class SetupAppBar extends ConsumerWidget implements PreferredSizeWidget {
       );
     }
 
-    final basics = ref.watch(profileBasicsProvider).value;
+    final basics = _profileBasicsOrNull(ref);
 
     final firstName = _firstNonEmpty(basics?.firstName, null);
     final lastName = _firstNonEmpty(basics?.lastName, null);
@@ -34,6 +35,19 @@ class SetupAppBar extends ConsumerWidget implements PreferredSizeWidget {
       avatarInitials: _initials(firstName, lastName),
       avatarUrl: basics?.photoUrl,
     );
+  }
+}
+
+ProfileBasics? _profileBasicsOrNull(WidgetRef ref) {
+  if (!ref.exists(profileBasicsProvider) &&
+      !AppConfig.shouldUseMockData &&
+      AppConfig.apiBaseUrl.isEmpty) {
+    return null;
+  }
+  try {
+    return ref.watch(profileBasicsProvider).value;
+  } catch (_) {
+    return null;
   }
 }
 

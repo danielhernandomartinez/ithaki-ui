@@ -6,6 +6,7 @@ import '../repositories/profile/api_profile_repository.dart';
 import '../repositories/profile/mock_profile_repository.dart';
 import '../repositories/profile_repository.dart';
 import '../services/api_client.dart';
+import 'swr_async_notifier.dart';
 
 export '../models/profile_models.dart';
 
@@ -14,6 +15,17 @@ final profileRepositoryProvider = Provider<ProfileRepository>(
       ? MockProfileRepository(persistLocal: true)
       : ApiProfileRepository(apiClient: ref.watch(apiClientProvider)),
 );
+
+const _profileCachePrefix = 'profile.';
+const _profileBasicsCacheKey = '${_profileCachePrefix}basics';
+const _profileAboutMeCacheKey = '${_profileCachePrefix}aboutMe';
+const _profileSkillsCacheKey = '${_profileCachePrefix}skills';
+const _profileWorkExperiencesCacheKey = '${_profileCachePrefix}workExperiences';
+const _profileEducationsCacheKey = '${_profileCachePrefix}educations';
+const _profileFilesCacheKey = '${_profileCachePrefix}files';
+const _profileValuesCacheKey = '${_profileCachePrefix}values';
+const _profileJobPreferencesCacheKey = '${_profileCachePrefix}jobPreferences';
+const _profileVisibleCacheKey = '${_profileCachePrefix}visible';
 
 enum ProfileCompletionSection {
   aboutMe,
@@ -36,9 +48,12 @@ class ProfileCompletionItem {
 
 // ─── Profile Basics ──────────────────────────────────────────────────────────
 
-class ProfileBasicsNotifier extends AsyncNotifier<ProfileBasics> {
+class ProfileBasicsNotifier extends SwrAsyncNotifier<ProfileBasics> {
   @override
-  Future<ProfileBasics> build() async {
+  String get cacheKey => _profileBasicsCacheKey;
+
+  @override
+  Future<ProfileBasics> load() async {
     final result = await ref.read(profileRepositoryProvider).refreshAll();
     ref.read(profilePartialLoadProvider.notifier).set(result.isPartial);
     _invalidateHydratedProfileSections();
@@ -75,10 +90,20 @@ class ProfileBasicsNotifier extends AsyncNotifier<ProfileBasics> {
     final result = await ref.read(profileRepositoryProvider).refreshAll();
     ref.read(profilePartialLoadProvider.notifier).set(result.isPartial);
     _invalidateHydratedProfileSections();
+    cacheValue(result.basics);
     state = AsyncData(result.basics);
   }
 
   void _invalidateHydratedProfileSections() {
+    final cache = ref.read(swrCacheProvider);
+    cache.invalidate(_profileAboutMeCacheKey);
+    cache.invalidate(_profileSkillsCacheKey);
+    cache.invalidate(_profileWorkExperiencesCacheKey);
+    cache.invalidate(_profileEducationsCacheKey);
+    cache.invalidate(_profileFilesCacheKey);
+    cache.invalidate(_profileValuesCacheKey);
+    cache.invalidate(_profileJobPreferencesCacheKey);
+    cache.invalidate(_profileVisibleCacheKey);
     ref.invalidate(profileAboutMeProvider);
     ref.invalidate(profileSkillsProvider);
     ref.invalidate(profileWorkExperiencesProvider);
@@ -108,16 +133,21 @@ final profileBasicsProvider =
 
 // ─── About Me ─────────────────────────────────────────────────────────────────
 
-class ProfileAboutMeNotifier extends AsyncNotifier<ProfileAboutMe> {
+class ProfileAboutMeNotifier extends SwrAsyncNotifier<ProfileAboutMe> {
   @override
-  Future<ProfileAboutMe> build() =>
+  String get cacheKey => _profileAboutMeCacheKey;
+
+  @override
+  Future<ProfileAboutMe> load() =>
       ref.read(profileRepositoryProvider).getAboutMe();
 
   Future<void> save(String bio, {String? videoUrl}) async {
     final updated = state.requireValue.copyWith(bio: bio, videoUrl: videoUrl);
     final repository = ref.read(profileRepositoryProvider);
     await repository.saveAboutMe(updated);
-    state = AsyncData(await repository.getAboutMe());
+    final saved = await repository.getAboutMe();
+    cacheValue(saved);
+    state = AsyncData(saved);
   }
 }
 
@@ -128,27 +158,33 @@ final profileAboutMeProvider =
 
 // ─── Skills ───────────────────────────────────────────────────────────────────
 
-class ProfileSkillsNotifier extends AsyncNotifier<ProfileSkills> {
+class ProfileSkillsNotifier extends SwrAsyncNotifier<ProfileSkills> {
   @override
-  Future<ProfileSkills> build() =>
+  String get cacheKey => _profileSkillsCacheKey;
+
+  @override
+  Future<ProfileSkills> load() =>
       ref.read(profileRepositoryProvider).getSkills();
 
   Future<void> updateSkills(List<String> hard, List<String> soft) async {
     final updated =
         state.requireValue.copyWith(hardSkills: hard, softSkills: soft);
     await ref.read(profileRepositoryProvider).saveSkills(updated);
+    cacheValue(updated);
     state = AsyncData(updated);
   }
 
   Future<void> updateLanguages(List<Language> langs) async {
     final updated = state.requireValue.copyWith(languages: langs);
     await ref.read(profileRepositoryProvider).saveLanguages(langs);
+    cacheValue(updated);
     state = AsyncData(updated);
   }
 
   Future<void> updateCompetencies(Map<String, String> comp) async {
     final updated = state.requireValue.copyWith(competencies: comp);
     await ref.read(profileRepositoryProvider).saveSkills(updated);
+    cacheValue(updated);
     state = AsyncData(updated);
   }
 }
@@ -161,14 +197,18 @@ final profileSkillsProvider =
 // ─── Work Experiences ─────────────────────────────────────────────────────────
 
 class ProfileWorkExperiencesNotifier
-    extends AsyncNotifier<List<WorkExperience>> {
+    extends SwrAsyncNotifier<List<WorkExperience>> {
   @override
-  Future<List<WorkExperience>> build() =>
+  String get cacheKey => _profileWorkExperiencesCacheKey;
+
+  @override
+  Future<List<WorkExperience>> load() =>
       ref.read(profileRepositoryProvider).getWorkExperiences();
 
   Future<void> add(WorkExperience exp) async {
     final updated = [...state.requireValue, exp];
     await ref.read(profileRepositoryProvider).saveWorkExperiences(updated);
+    cacheValue(updated);
     state = AsyncData(updated);
   }
 
@@ -176,6 +216,7 @@ class ProfileWorkExperiencesNotifier
     final list = [...state.requireValue];
     list[index] = exp;
     await ref.read(profileRepositoryProvider).saveWorkExperiences(list);
+    cacheValue(list);
     state = AsyncData(list);
   }
 }
@@ -187,14 +228,18 @@ final profileWorkExperiencesProvider =
 
 // ─── Educations ───────────────────────────────────────────────────────────────
 
-class ProfileEducationsNotifier extends AsyncNotifier<List<Education>> {
+class ProfileEducationsNotifier extends SwrAsyncNotifier<List<Education>> {
   @override
-  Future<List<Education>> build() =>
+  String get cacheKey => _profileEducationsCacheKey;
+
+  @override
+  Future<List<Education>> load() =>
       ref.read(profileRepositoryProvider).getEducations();
 
   Future<void> add(Education edu) async {
     final updated = [...state.requireValue, edu];
     await ref.read(profileRepositoryProvider).saveEducations(updated);
+    cacheValue(updated);
     state = AsyncData(updated);
   }
 
@@ -202,6 +247,7 @@ class ProfileEducationsNotifier extends AsyncNotifier<List<Education>> {
     final list = [...state.requireValue];
     list[index] = edu;
     await ref.read(profileRepositoryProvider).saveEducations(list);
+    cacheValue(list);
     state = AsyncData(list);
   }
 }
@@ -213,16 +259,21 @@ final profileEducationsProvider =
 
 // ─── Files ────────────────────────────────────────────────────────────────────
 
-class ProfileFilesNotifier extends AsyncNotifier<List<UploadedFile>> {
+class ProfileFilesNotifier extends SwrAsyncNotifier<List<UploadedFile>> {
   @override
-  Future<List<UploadedFile>> build() =>
+  String get cacheKey => _profileFilesCacheKey;
+
+  @override
+  Future<List<UploadedFile>> load() =>
       ref.read(profileRepositoryProvider).getFiles();
 
   Future<void> add(UploadedFile file) async {
     final updated = [...state.requireValue, file];
     final repository = ref.read(profileRepositoryProvider);
     await repository.saveFiles(updated);
-    state = AsyncData(await repository.getFiles());
+    final saved = await repository.getFiles();
+    cacheValue(saved);
+    state = AsyncData(saved);
   }
 
   Future<void> addAll(List<UploadedFile> files) async {
@@ -230,7 +281,9 @@ class ProfileFilesNotifier extends AsyncNotifier<List<UploadedFile>> {
     final updated = [...state.requireValue, ...files];
     final repository = ref.read(profileRepositoryProvider);
     await repository.saveFiles(updated);
-    state = AsyncData(await repository.getFiles());
+    final saved = await repository.getFiles();
+    cacheValue(saved);
+    state = AsyncData(saved);
   }
 
   Future<void> delete(int index) async {
@@ -238,7 +291,9 @@ class ProfileFilesNotifier extends AsyncNotifier<List<UploadedFile>> {
     list.removeAt(index);
     final repository = ref.read(profileRepositoryProvider);
     await repository.saveFiles(list);
-    state = AsyncData(await repository.getFiles());
+    final saved = await repository.getFiles();
+    cacheValue(saved);
+    state = AsyncData(saved);
   }
 }
 
@@ -249,13 +304,17 @@ final profileFilesProvider =
 
 // ─── Values ───────────────────────────────────────────────────────────────────
 
-class ProfileValuesNotifier extends AsyncNotifier<List<String>> {
+class ProfileValuesNotifier extends SwrAsyncNotifier<List<String>> {
   @override
-  Future<List<String>> build() =>
+  String get cacheKey => _profileValuesCacheKey;
+
+  @override
+  Future<List<String>> load() =>
       ref.read(profileRepositoryProvider).getValues();
 
   Future<void> save(List<String> values) async {
     await ref.read(profileRepositoryProvider).saveValues(values);
+    cacheValue(values);
     state = AsyncData(values);
   }
 }
@@ -268,9 +327,12 @@ final profileValuesProvider =
 // ─── Job Preferences ──────────────────────────────────────────────────────────
 
 class ProfileJobPreferencesNotifier
-    extends AsyncNotifier<ProfileJobPreferences> {
+    extends SwrAsyncNotifier<ProfileJobPreferences> {
   @override
-  Future<ProfileJobPreferences> build() =>
+  String get cacheKey => _profileJobPreferencesCacheKey;
+
+  @override
+  Future<ProfileJobPreferences> load() =>
       ref.read(profileRepositoryProvider).getJobPreferences();
 
   Future<void> save({
@@ -290,6 +352,7 @@ class ProfileJobPreferencesNotifier
       preferNotToSpecifySalary: preferNotToSpecifySalary,
     );
     await ref.read(profileRepositoryProvider).saveJobPreferences(updated);
+    cacheValue(updated);
     state = AsyncData(updated);
   }
 }
@@ -301,14 +364,18 @@ final profileJobPreferencesProvider =
 
 // ─── Profile Visible ──────────────────────────────────────────────────────────
 
-class ProfileVisibleNotifier extends AsyncNotifier<bool> {
+class ProfileVisibleNotifier extends SwrAsyncNotifier<bool> {
   @override
-  Future<bool> build() =>
+  String get cacheKey => _profileVisibleCacheKey;
+
+  @override
+  Future<bool> load() =>
       ref.read(profileRepositoryProvider).getProfileVisible();
 
   Future<void> toggle() async {
     final updated = !state.requireValue;
     await ref.read(profileRepositoryProvider).saveProfileVisible(updated);
+    cacheValue(updated);
     state = AsyncData(updated);
   }
 }
@@ -360,6 +427,7 @@ final profileCompletionProvider = Provider<double>((ref) {
 });
 
 void resetProfileProviders(WidgetRef ref) {
+  ref.read(swrCacheProvider).invalidatePrefix(_profileCachePrefix);
   ref.invalidate(profileBasicsProvider);
   ref.invalidate(profileAboutMeProvider);
   ref.invalidate(profileSkillsProvider);

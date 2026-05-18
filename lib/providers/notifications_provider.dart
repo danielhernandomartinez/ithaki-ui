@@ -4,6 +4,7 @@ import '../config/app_config.dart';
 import '../models/notifications_models.dart';
 import '../repositories/notifications_repository.dart';
 import '../services/api_client.dart';
+import 'swr_async_notifier.dart';
 
 final notificationsRepositoryProvider = Provider<NotificationsRepository>(
   (ref) => AppConfig.useMockData
@@ -11,17 +12,21 @@ final notificationsRepositoryProvider = Provider<NotificationsRepository>(
       : ApiNotificationsRepository(apiClient: ref.watch(apiClientProvider)),
 );
 
-class NotificationsNotifier extends AsyncNotifier<List<NotificationItem>> {
+class NotificationsNotifier extends SwrAsyncNotifier<List<NotificationItem>> {
   @override
-  Future<List<NotificationItem>> build() {
-    return ref.read(notificationsRepositoryProvider).getNotifications();
-  }
+  String get cacheKey => 'notifications';
+
+  @override
+  Future<List<NotificationItem>> load() =>
+      ref.read(notificationsRepositoryProvider).getNotifications();
 
   Future<void> markAllAsRead() async {
     final current = state.value ?? const <NotificationItem>[];
-    state = AsyncData([
+    final updated = [
       for (final item in current) item.copyWith(isUnread: false),
-    ]);
+    ];
+    state = AsyncData(updated);
+    cacheValue(updated);
     await ref.read(notificationsRepositoryProvider).markAllAsRead();
   }
 }

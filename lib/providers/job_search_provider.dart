@@ -3,6 +3,7 @@ import '../config/app_config.dart';
 import '../models/job_search_filters.dart';
 import '../repositories/job_search_repository.dart';
 import '../services/api_client.dart';
+import 'swr_async_notifier.dart';
 
 final jobSearchRepositoryProvider = Provider<JobSearchRepository>(
   (ref) => AppConfig.useMockData
@@ -52,29 +53,32 @@ class JobSearchState {
       );
 }
 
-class JobSearchNotifier extends AsyncNotifier<JobSearchState> {
+class JobSearchNotifier extends SwrAsyncNotifier<JobSearchState> {
   @override
-  Future<JobSearchState> build() async {
+  String get cacheKey => 'job-search.state';
+
+  @override
+  Future<JobSearchState> load() async {
     final savedIds =
         await ref.read(jobSearchRepositoryProvider).getSavedJobIds();
     return JobSearchState(savedJobIds: savedIds);
   }
 
   void selectTab(int tab) =>
-      state = AsyncData(state.requireValue.copyWith(selectedTab: tab));
+      _set(state.requireValue.copyWith(selectedTab: tab));
 
   void changePage(int page) =>
-      state = AsyncData(state.requireValue.copyWith(currentPage: page));
+      _set(state.requireValue.copyWith(currentPage: page));
 
   void nextPage(int totalPages) {
     final current = state.requireValue;
     if (current.currentPage < totalPages) {
-      state = AsyncData(current.copyWith(currentPage: current.currentPage + 1));
+      _set(current.copyWith(currentPage: current.currentPage + 1));
     }
   }
 
   void setSort(JobSearchSort option) =>
-      state = AsyncData(state.requireValue.copyWith(sortOption: option));
+      _set(state.requireValue.copyWith(sortOption: option));
 
   Future<void> toggleSaved(String jobId) async {
     final current = state.requireValue;
@@ -86,12 +90,12 @@ class JobSearchNotifier extends AsyncNotifier<JobSearchState> {
       updated.add(jobId);
       await ref.read(jobSearchRepositoryProvider).saveJob(jobId);
     }
-    state = AsyncData(current.copyWith(savedJobIds: updated));
+    _set(current.copyWith(savedJobIds: updated));
   }
 
   void setQuery(String query) {
     final current = state.requireValue;
-    state = AsyncData(current.copyWith(query: query, currentPage: 1));
+    _set(current.copyWith(query: query, currentPage: 1));
   }
 
   void applyFilters(Map<JobSearchFilter, Set<String>> updated) {
@@ -100,17 +104,22 @@ class JobSearchNotifier extends AsyncNotifier<JobSearchState> {
     for (final e in updated.entries) {
       merged[e.key] = e.value;
     }
-    state = AsyncData(current.copyWith(filters: merged, currentPage: 1));
+    _set(current.copyWith(filters: merged, currentPage: 1));
   }
 
   void resetFilters() {
     final current = state.requireValue;
-    state = AsyncData(
+    _set(
       current.copyWith(
         filters: {for (final k in current.filters.keys) k: {}},
         currentPage: 1,
       ),
     );
+  }
+
+  void _set(JobSearchState updated) {
+    state = AsyncData(updated);
+    cacheValue(updated);
   }
 }
 

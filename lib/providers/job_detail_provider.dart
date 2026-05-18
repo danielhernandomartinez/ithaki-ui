@@ -4,6 +4,7 @@ import '../config/app_config.dart';
 import '../models/job_detail_models.dart';
 import '../repositories/job_detail_repository.dart';
 import '../services/api_client.dart';
+import 'swr_async_notifier.dart';
 
 final jobDetailRepositoryProvider = Provider<JobDetailRepository>(
   (ref) => AppConfig.shouldUseMockData
@@ -13,14 +14,22 @@ final jobDetailRepositoryProvider = Provider<JobDetailRepository>(
 
 final jobDetailProvider = FutureProvider.family<JobDetail, String>(
   (ref, jobId) async {
-    try {
-      return await ref.watch(jobDetailRepositoryProvider).getJobDetail(jobId);
-    } catch (_) {
-      if (AppConfig.shouldUseMockData) {
-        return MockJobDetailRepository().getJobDetail(jobId);
-      }
-      rethrow;
-    }
+    return ref.read(swrCacheProvider).getOrRefresh(
+          key: 'job-detail.$jobId',
+          ttl: const Duration(minutes: 10),
+          load: () async {
+            try {
+              return await ref
+                  .watch(jobDetailRepositoryProvider)
+                  .getJobDetail(jobId);
+            } catch (_) {
+              if (AppConfig.shouldUseMockData) {
+                return MockJobDetailRepository().getJobDetail(jobId);
+              }
+              rethrow;
+            }
+          },
+        );
   },
 );
 

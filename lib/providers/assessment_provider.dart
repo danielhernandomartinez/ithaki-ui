@@ -7,6 +7,7 @@ import '../repositories/assessment/api_assessment_repository.dart';
 import '../repositories/assessment/mock_assessment_repository.dart';
 import '../repositories/assessment_repository.dart';
 import '../services/api_client.dart';
+import 'swr_async_notifier.dart';
 
 export '../models/assessment_models.dart';
 
@@ -18,17 +19,13 @@ final assessmentRepositoryProvider = Provider<AssessmentRepository>(
 
 // ─── Assessments List ──────────────────────────────────────────────────────────
 
-class AssessmentsListNotifier extends AsyncNotifier<List<Assessment>> {
+class AssessmentsListNotifier extends SwrAsyncNotifier<List<Assessment>> {
   @override
-  Future<List<Assessment>> build() =>
-      ref.watch(assessmentRepositoryProvider).getAssessments();
+  String get cacheKey => 'assessments.list';
 
-  Future<void> refresh() async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(
-      () => ref.read(assessmentRepositoryProvider).getAssessments(),
-    );
-  }
+  @override
+  Future<List<Assessment>> load() =>
+      ref.watch(assessmentRepositoryProvider).getAssessments();
 
   Future<void> toggleCV(String assessmentId) async {
     final all = state.value;
@@ -40,13 +37,13 @@ class AssessmentsListNotifier extends AsyncNotifier<List<Assessment>> {
         .read(assessmentRepositoryProvider)
         .toggleShowInCV(assessmentId, show: show);
     ref.invalidate(assessmentResultProvider(assessmentId));
-    state = AsyncData(
-      all
-          .map((x) => x.id == assessmentId
-              ? x.copyWith(lastResult: x.lastResult?.copyWith(shownInCV: show))
-              : x)
-          .toList(),
-    );
+    final updated = all
+        .map((x) => x.id == assessmentId
+            ? x.copyWith(lastResult: x.lastResult?.copyWith(shownInCV: show))
+            : x)
+        .toList();
+    state = AsyncData(updated);
+    cacheValue(updated);
   }
 }
 
@@ -214,20 +211,25 @@ final quizProvider = NotifierProvider.family<QuizNotifier, QuizState, String>(
 
 // ─── Results ───────────────────────────────────────────────────────────────────
 
-class ResultNotifier extends AsyncNotifier<AssessmentResult?> {
+class ResultNotifier extends SwrAsyncNotifier<AssessmentResult?> {
   final String assessmentId;
 
   ResultNotifier(this.assessmentId);
 
   @override
-  Future<AssessmentResult?> build() =>
+  String get cacheKey => 'assessments.result.$assessmentId';
+
+  @override
+  Future<AssessmentResult?> load() =>
       ref.watch(assessmentRepositoryProvider).getResult(assessmentId);
 
   Future<void> toggleCV({required bool show}) async {
     await ref
         .read(assessmentRepositoryProvider)
         .toggleShowInCV(assessmentId, show: show);
-    state = AsyncData(state.value?.copyWith(shownInCV: show));
+    final updated = state.value?.copyWith(shownInCV: show);
+    state = AsyncData(updated);
+    cacheValue(updated);
     ref.invalidate(assessmentsListProvider);
   }
 }
