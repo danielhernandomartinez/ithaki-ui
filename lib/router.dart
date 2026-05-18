@@ -84,6 +84,22 @@ class IthakiRouter {
   // Authenticated users can access these without phone verification.
   static const _phoneVerificationExemptRoutes = _publicRoutes;
 
+  static const _validOtpMethods = {'sms', 'whatsapp'};
+  static final _phoneQueryPattern = RegExp(r'^\+?[0-9 ]+$');
+
+  @visibleForTesting
+  static String normalizeOtpMethod(String? method) {
+    final normalized = method?.trim().toLowerCase();
+    return _validOtpMethods.contains(normalized) ? normalized! : 'sms';
+  }
+
+  @visibleForTesting
+  static String? sanitizePhoneQuery(String? phone) {
+    final normalized = phone?.trim().replaceAll(RegExp(r'\s+'), ' ');
+    if (normalized == null || normalized.isEmpty) return null;
+    return _phoneQueryPattern.hasMatch(normalized) ? normalized : null;
+  }
+
   static Future<String?> _redirect(SessionService sessionService,
       BuildContext context, GoRouterState state) async {
     if (AppConfig.useMockData) return null;
@@ -137,7 +153,9 @@ class IthakiRouter {
           GoRoute(
             path: Routes.verifyOtp,
             builder: (context, state) {
-              final method = state.uri.queryParameters['method'] ?? 'sms';
+              final method = normalizeOtpMethod(
+                state.uri.queryParameters['method'],
+              );
               return VerifyOtpScreen(method: method);
             },
           ),
@@ -145,12 +163,18 @@ class IthakiRouter {
             path: Routes.verifyPhone,
             builder: (context, state) {
               final l = AppLocalizations.of(context)!;
-              final phone = state.uri.queryParameters['phone'] ?? '';
-              final method = state.uri.queryParameters['method'] ?? 'sms';
+              final phone = sanitizePhoneQuery(
+                state.uri.queryParameters['phone'],
+              );
+              final method = normalizeOtpMethod(
+                state.uri.queryParameters['method'],
+              );
               return VerifyOtpScreen(
                 method: method,
                 title: l.loginHeading,
-                subtitle: l.loginVerifySubtitle(phone),
+                subtitle: phone == null
+                    ? l.verifyAccountSubtitle
+                    : l.loginVerifySubtitle(phone),
                 backLabel: l.notYourPhone,
                 backRoute: Routes.loginPhone,
                 actionLabel: l.signUpAction,
