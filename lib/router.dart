@@ -59,8 +59,8 @@ import 'screens/debug/api_diagnostics_screen.dart';
 class IthakiRouter {
   static final navigatorKey = GlobalKey<NavigatorState>();
 
-  // Routes that are accessible without phone verification.
-  static const _unguardedRoutes = {
+  // Routes that are accessible without authentication.
+  static const _publicRoutes = {
     Routes.root,
     Routes.techComfort,
     Routes.register,
@@ -81,18 +81,23 @@ class IthakiRouter {
     if (kDebugMode) Routes.apiDiagnostics,
   };
 
+  // Authenticated users can access these without phone verification.
+  static const _phoneVerificationExemptRoutes = _publicRoutes;
+
   static Future<String?> _redirect(SessionService sessionService,
       BuildContext context, GoRouterState state) async {
     if (AppConfig.useMockData) return null;
 
     final token = await sessionService.readAccessToken();
-    if (token == null) return null;
+    final matchedLocation = state.matchedLocation;
+    if (token == null) {
+      return _publicRoutes.contains(matchedLocation) ? null : Routes.root;
+    }
 
-    if (_unguardedRoutes.contains(state.matchedLocation)) return null;
+    if (_phoneVerificationExemptRoutes.contains(matchedLocation)) return null;
 
     final phoneVerified = await ProfileLocalStore.loadPhoneVerified();
-    debugPrint(
-        '[guard] phoneVerified=$phoneVerified route=${state.matchedLocation}');
+    debugPrint('[guard] phoneVerified=$phoneVerified route=$matchedLocation');
     // null = pre-existing session before this feature — don't block.
     if (phoneVerified != false) return null;
 
