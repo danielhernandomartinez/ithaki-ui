@@ -6,8 +6,10 @@ import 'l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import 'providers/locale_provider.dart';
+import 'routes.dart';
 import 'providers/tour_provider.dart';
 import 'router.dart';
+import 'services/api_client.dart';
 import 'tour/tour_overlay.dart';
 
 void main() {
@@ -19,7 +21,14 @@ void main() {
     debugPrint('Unhandled error: $error\n$stack');
     return true;
   };
-  runApp(const ProviderScope(child: IthakiApp()));
+  runApp(ProviderScope(
+    overrides: [
+      sessionExpiredHandlerProvider.overrideWithValue(
+        () => IthakiRouter.router.go(Routes.root),
+      ),
+    ],
+    child: const IthakiApp(),
+  ));
 }
 
 class IthakiApp extends ConsumerWidget {

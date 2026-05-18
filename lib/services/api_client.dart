@@ -6,8 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
-import '../router.dart';
-import '../routes.dart';
+typedef SessionExpiredHandler = void Function();
 
 /// Shared HTTP layer for all Ithaki API repositories.
 ///
@@ -368,11 +367,12 @@ class ApiClient {
   }
 }
 
-final apiClientProvider = Provider<ApiClient>((_) => ApiClient(
-      onSessionExpired: () {
-        // Tokens already cleared by _clearTokens(). Navigate to root so the user
-        // can log in again. This fires outside the widget tree, so we use the
-        // router directly rather than context.go().
-        IthakiRouter.router.go(Routes.root);
-      },
+final apiBaseUrlProvider = Provider<String>((_) => ApiClient._resolveBaseUrl());
+
+final sessionExpiredHandlerProvider =
+    Provider<SessionExpiredHandler?>((_) => null);
+
+final apiClientProvider = Provider<ApiClient>((ref) => ApiClient(
+      baseUrl: ref.watch(apiBaseUrlProvider),
+      onSessionExpired: ref.watch(sessionExpiredHandlerProvider),
     ));
