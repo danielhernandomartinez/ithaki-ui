@@ -4,6 +4,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/job_detail_models.dart';
 import '../../../routes.dart';
+import '../../../utils/localized_dates.dart';
 import '../../../utils/match_colors.dart';
 
 class JobMainCard extends StatelessWidget {
@@ -25,7 +26,7 @@ class JobMainCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(detail.postedDate,
+              Text(formatPostedDate(context, detail.postedDate),
                   style: const TextStyle(
                     fontFamily: 'Noto Sans',
                     fontSize: 14,

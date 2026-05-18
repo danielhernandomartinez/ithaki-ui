@@ -15,12 +15,21 @@ final profileRepositoryProvider = Provider<ProfileRepository>(
       : ApiProfileRepository(apiClient: ref.watch(apiClientProvider)),
 );
 
+enum ProfileCompletionSection {
+  aboutMe,
+  photo,
+  experience,
+  education,
+  skills,
+  documents,
+}
+
 class ProfileCompletionItem {
-  final String label;
+  final ProfileCompletionSection section;
   final bool completed;
 
   const ProfileCompletionItem({
-    required this.label,
+    required this.section,
     required this.completed,
   });
 }
@@ -329,12 +338,18 @@ final profileCompletionItemsProvider =
   final hasDocuments = files.isNotEmpty;
 
   return [
-    ProfileCompletionItem(label: 'About Me', completed: hasAboutMe),
-    ProfileCompletionItem(label: 'Photo', completed: hasPhoto),
-    ProfileCompletionItem(label: 'My Experience', completed: hasExperience),
-    ProfileCompletionItem(label: 'My Education', completed: hasEducation),
-    ProfileCompletionItem(label: 'My Skills', completed: hasSkills),
-    ProfileCompletionItem(label: 'Documents', completed: hasDocuments),
+    ProfileCompletionItem(
+        section: ProfileCompletionSection.aboutMe, completed: hasAboutMe),
+    ProfileCompletionItem(
+        section: ProfileCompletionSection.photo, completed: hasPhoto),
+    ProfileCompletionItem(
+        section: ProfileCompletionSection.experience, completed: hasExperience),
+    ProfileCompletionItem(
+        section: ProfileCompletionSection.education, completed: hasEducation),
+    ProfileCompletionItem(
+        section: ProfileCompletionSection.skills, completed: hasSkills),
+    ProfileCompletionItem(
+        section: ProfileCompletionSection.documents, completed: hasDocuments),
   ];
 });
 

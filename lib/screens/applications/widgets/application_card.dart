@@ -4,6 +4,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/applications_models.dart';
 import '../../../routes.dart';
+import '../../../utils/localized_dates.dart';
 import 'job_card_shared.dart';
 
 class ApplicationCard extends StatelessWidget {
@@ -70,7 +71,7 @@ class _AppliedHeader extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                application.appliedAt,
+                formatAppliedAt(context, application.appliedAt),
                 style: const TextStyle(
                   fontFamily: 'Noto Sans',
                   fontSize: 16,
@@ -150,7 +151,7 @@ class _JobInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          application.postedAgo,
+          formatPostedAgo(context, application.postedAgo),
           style: const TextStyle(
             fontFamily: 'Noto Sans',
             fontSize: 12,

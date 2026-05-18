@@ -5,6 +5,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/applications_models.dart';
 import '../../../providers/invitations_provider.dart' show invitationsProvider;
+import '../../../utils/localized_dates.dart';
 
 class DeclineInviteSheet extends ConsumerStatefulWidget {
   final String invitationId;
@@ -175,7 +176,7 @@ class _InvitationPreview extends StatelessWidget {
         const Divider(height: 1, thickness: 1, color: IthakiTheme.borderLight),
         const SizedBox(height: 10),
         Text(
-          invitation.postedAgo,
+          formatPostedAgo(context, invitation.postedAgo),
           style: const TextStyle(fontSize: 12, color: IthakiTheme.softGraphite),
         ),
         const SizedBox(height: 8),

@@ -3,6 +3,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../models/company_models.dart';
+import '../../../utils/localized_dates.dart';
 import '../../../utils/match_colors.dart';
 import 'company_cultural_match_card.dart';
 import 'company_profile_atoms.dart';
@@ -89,7 +90,8 @@ class _VacancyCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(vacancy.postedAgo, style: companyProfilePostMetaStyle),
+            Text(formatPostedAgo(context, vacancy.postedAgo),
+                style: companyProfilePostMetaStyle),
             const SizedBox(height: 8),
             Row(
               children: [

@@ -7,43 +7,8 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/assessment_provider.dart';
 import '../../routes.dart';
+import '../../utils/localized_dates.dart';
 import '../../widgets/assessment_card.dart';
-
-String _formatDate(DateTime dt) {
-  const months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ];
-  return '${dt.day.toString().padLeft(2, '0')}-${months[dt.month - 1]}-${dt.year}';
-}
-
-String _formatMonthYear(DateTime dt) {
-  const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-  ];
-  return '${months[dt.month - 1]} ${dt.year}';
-}
 
 class AssessmentResultsScreen extends ConsumerWidget {
   final String assessmentId;
@@ -171,7 +136,9 @@ class _AssessmentHeader extends StatelessWidget {
                   style: IthakiTheme.bodySmall
                       .copyWith(color: IthakiTheme.textSecondary)),
               Text(
-                l.assessmentTakenLabel(_formatDate(result.takenAt)),
+                l.assessmentTakenLabel(
+                  formatAssessmentDate(context, result.takenAt),
+                ),
                 style: IthakiTheme.bodySmall
                     .copyWith(color: IthakiTheme.textSecondary),
               ),
@@ -396,7 +363,7 @@ class _PreviousResultsSection extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(_formatMonthYear(prev.takenAt),
+                    Text(formatAssessmentMonthYear(context, prev.takenAt),
                         style: IthakiTheme.bodySmall
                             .copyWith(fontWeight: FontWeight.w600)),
                     const SizedBox(height: 4),

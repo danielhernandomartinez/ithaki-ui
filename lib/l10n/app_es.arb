@@ -550,6 +550,59 @@
       }
     }
   },
+  "postedToday": "Publicado hoy",
+  "postedOneDayAgo": "Publicado hace 1 día",
+  "postedDaysAgo": "Publicado hace {count} días",
+  "@postedDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "postedWeeksAgo": "Publicado hace {count} semanas",
+  "@postedWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "postedMonthsAgo": "Publicado hace {count} meses",
+  "@postedMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "appliedToday": "Solicitud enviada hoy {time}",
+  "@appliedToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "appliedYesterday": "Solicitud enviada ayer {time}",
+  "@appliedYesterday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "appliedOnDate": "Solicitud enviada el {date}, {time}",
+  "@appliedOnDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "jobClosedLabel": "Cerrado",
   "deadlineReminderLabel": "Recordatorio de fecha límite",
   "reportLabel": "Denunciar",
@@ -566,6 +619,11 @@
     }
   },
   "sortingTitle": "Ordenar por",
+  "sortMostRelevant": "Más relevantes",
+  "sortSalaryHighToLow": "Salario: de mayor a menor",
+  "sortSalaryLowToHigh": "Salario: de menor a mayor",
+  "sortDateRecent": "Fecha: reciente",
+  "sortDateLatest": "Fecha: última",
   "filtersTitle": "Filtros",
   "resetFilters": "Restablecer filtros",
   "applyFilters": "Aplicar filtros",
@@ -638,6 +696,12 @@
   "homeProfileWelcomeTitle": "¡Te damos la bienvenida a Ithaki!",
   "homeProfileFillMissing": "Completa la información faltante para desbloquear toda tu experiencia en la plataforma. Un perfil completo te ayuda a obtener mejores coincidencias de empleo y más invitaciones.",
   "homeProfileBenefitsTitle": "Beneficios de completar tu perfil",
+  "profileCompletionAboutMe": "Acerca de mí",
+  "profileCompletionPhoto": "Foto",
+  "profileCompletionExperience": "Mi experiencia",
+  "profileCompletionEducation": "Mi educación",
+  "profileCompletionSkills": "Mis habilidades",
+  "profileCompletionDocuments": "Documentos",
   "homeProfileFillButton": "Completar perfil",
   "homeQuestionsTitle": "¿Tienes preguntas?",
   "homeQuestionsSubtitle": "¡Déjanos ayudarte!",

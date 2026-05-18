@@ -74,7 +74,7 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: Text(
-                                    item.label,
+                                    _completionLabel(l10n, item.section),
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: item.completed
@@ -165,3 +165,16 @@ class HomeProfileCompletionCard extends ConsumerWidget {
     );
   }
 }
+
+String _completionLabel(
+  AppLocalizations l,
+  ProfileCompletionSection section,
+) =>
+    switch (section) {
+      ProfileCompletionSection.aboutMe => l.profileCompletionAboutMe,
+      ProfileCompletionSection.photo => l.profileCompletionPhoto,
+      ProfileCompletionSection.experience => l.profileCompletionExperience,
+      ProfileCompletionSection.education => l.profileCompletionEducation,
+      ProfileCompletionSection.skills => l.profileCompletionSkills,
+      ProfileCompletionSection.documents => l.profileCompletionDocuments,
+    };

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'config/app_config.dart';
+import 'l10n/app_localizations.dart';
 import 'repositories/profile/profile_local_store.dart';
 import 'screens/auth/select_language_screen.dart';
 import 'routes.dart';
@@ -137,15 +138,16 @@ class IthakiRouter {
       GoRoute(
         path: Routes.verifyPhone,
         builder: (context, state) {
+          final l = AppLocalizations.of(context)!;
           final phone = state.uri.queryParameters['phone'] ?? '';
           final method = state.uri.queryParameters['method'] ?? 'sms';
           return VerifyOtpScreen(
             method: method,
-            title: 'Login to Ithaki Talent',
-            subtitle: "We've sent a verification code to $phone.",
-            backLabel: 'This is not your phone?',
+            title: l.loginHeading,
+            subtitle: l.loginVerifySubtitle(phone),
+            backLabel: l.notYourPhone,
             backRoute: Routes.loginPhone,
-            actionLabel: 'Sign Up',
+            actionLabel: l.signUpAction,
             actionRoute: Routes.root,
             successRoute: Routes.home,
           );

@@ -31,7 +31,7 @@ class JobListing {
     this.workMode,
     this.employmentType,
     this.level,
-    this.postedAgo = 'Posted 1 day ago',
+    this.postedAgo = '',
     this.isSaved = false,
   });
 }

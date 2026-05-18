@@ -1433,6 +1433,42 @@ class AppLocalizationsEl extends AppLocalizations {
   }
 
   @override
+  String get postedToday => 'Δημοσιεύτηκε σήμερα';
+
+  @override
+  String get postedOneDayAgo => 'Δημοσιεύτηκε πριν από 1 ημέρα';
+
+  @override
+  String postedDaysAgo(int count) {
+    return 'Δημοσιεύτηκε πριν από $count ημέρες';
+  }
+
+  @override
+  String postedWeeksAgo(int count) {
+    return 'Δημοσιεύτηκε πριν από $count εβδομάδες';
+  }
+
+  @override
+  String postedMonthsAgo(int count) {
+    return 'Δημοσιεύτηκε πριν από $count μήνες';
+  }
+
+  @override
+  String appliedToday(String time) {
+    return 'Αίτηση σήμερα $time';
+  }
+
+  @override
+  String appliedYesterday(String time) {
+    return 'Αίτηση χθες $time';
+  }
+
+  @override
+  String appliedOnDate(String date, String time) {
+    return 'Αίτηση στις $date, $time';
+  }
+
+  @override
   String get jobClosedLabel => 'Κλειστή';
 
   @override
@@ -1461,6 +1497,21 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get sortingTitle => 'Ταξινόμηση';
+
+  @override
+  String get sortMostRelevant => 'Πιο σχετικά';
+
+  @override
+  String get sortSalaryHighToLow => 'Μισθός: από υψηλό σε χαμηλό';
+
+  @override
+  String get sortSalaryLowToHigh => 'Μισθός: από χαμηλό σε υψηλό';
+
+  @override
+  String get sortDateRecent => 'Ημερομηνία: πρόσφατα';
+
+  @override
+  String get sortDateLatest => 'Ημερομηνία: νεότερα';
 
   @override
   String get filtersTitle => 'Φίλτρα';
@@ -1648,6 +1699,24 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get homeProfileBenefitsTitle => 'Πλεονεκτήματα ενός πλήρους προφίλ';
+
+  @override
+  String get profileCompletionAboutMe => 'Σχετικά με μένα';
+
+  @override
+  String get profileCompletionPhoto => 'Φωτογραφία';
+
+  @override
+  String get profileCompletionExperience => 'Η εμπειρία μου';
+
+  @override
+  String get profileCompletionEducation => 'Η εκπαίδευσή μου';
+
+  @override
+  String get profileCompletionSkills => 'Οι δεξιότητές μου';
+
+  @override
+  String get profileCompletionDocuments => 'Έγγραφα';
 
   @override
   String get homeProfileFillButton => 'Συμπλήρωση Προφίλ';

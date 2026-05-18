@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/job_search_filters.dart';
 import '../models/job_search_models.dart';
 import '../services/api_client.dart';
 import '../utils/api_mappers.dart' as mapper;
@@ -22,8 +23,8 @@ class JobSearchResult {
 abstract class JobSearchRepository {
   Future<JobSearchResult> search({
     String query,
-    Map<String, Set<String>> filters,
-    String sort,
+    Map<JobSearchFilter, Set<String>> filters,
+    JobSearchSort sort,
     int page,
   });
 
@@ -201,8 +202,8 @@ class MockJobSearchRepository implements JobSearchRepository {
   @override
   Future<JobSearchResult> search({
     String query = '',
-    Map<String, Set<String>> filters = const {},
-    String sort = 'Date: Recent',
+    Map<JobSearchFilter, Set<String>> filters = const {},
+    JobSearchSort sort = JobSearchSort.dateRecent,
     int page = 1,
   }) async {
     final q = query.trim().toLowerCase();
@@ -265,7 +266,8 @@ class ApiJobSearchRepository implements JobSearchRepository {
     final employmentType = j['schedule'] as String?;
     final level = j['level'] as String?;
     final category = j['category'] as String? ?? '';
-    final posted = j['postedAgo'] as String? ?? '';
+    final posted = j['postedAgo'] as String? ??
+        mapper.apiDateString(j['postedAt'] ?? j['createdAt']);
     final matchPct = (j['matchPercent'] as num?)?.toInt() ?? 0;
     final matchLabel =
         j['matchLabel'] as String? ?? mapper.matchLabel(matchPct);
@@ -291,8 +293,8 @@ class ApiJobSearchRepository implements JobSearchRepository {
   @override
   Future<JobSearchResult> search({
     String query = '',
-    Map<String, Set<String>> filters = const {},
-    String sort = 'Date: Recent',
+    Map<JobSearchFilter, Set<String>> filters = const {},
+    JobSearchSort sort = JobSearchSort.dateRecent,
     int page = 1,
   }) async {
     final params = <String, String>{
@@ -306,23 +308,23 @@ class ApiJobSearchRepository implements JobSearchRepository {
       params['sort'] = 'relevant';
     }
 
-    final location = filters['Location'];
+    final location = filters[JobSearchFilter.location];
     if (location != null && location.isNotEmpty) {
       params['location'] = location.first;
     }
-    final industry = filters['Industry'];
+    final industry = filters[JobSearchFilter.industry];
     if (industry != null && industry.isNotEmpty) {
       params['industry'] = industry.first;
     }
-    final jobType = filters['Job Type'];
+    final jobType = filters[JobSearchFilter.jobType];
     if (jobType != null && jobType.isNotEmpty) {
       params['jobType'] = jobType.first;
     }
-    final workplace = filters['Workplace'];
+    final workplace = filters[JobSearchFilter.workplace];
     if (workplace != null && workplace.isNotEmpty) {
       params['workArrangement'] = workplace.first;
     }
-    final experience = filters['Experience Level'];
+    final experience = filters[JobSearchFilter.experienceLevel];
     if (experience != null && experience.isNotEmpty) {
       params['experienceLevel'] = experience.first;
     }

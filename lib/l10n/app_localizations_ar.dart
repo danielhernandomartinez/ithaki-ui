@@ -1413,6 +1413,42 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get postedToday => 'نشر اليوم';
+
+  @override
+  String get postedOneDayAgo => 'نشر منذ يوم واحد';
+
+  @override
+  String postedDaysAgo(int count) {
+    return 'نشر منذ $count أيام';
+  }
+
+  @override
+  String postedWeeksAgo(int count) {
+    return 'نشر منذ $count أسابيع';
+  }
+
+  @override
+  String postedMonthsAgo(int count) {
+    return 'نشر منذ $count أشهر';
+  }
+
+  @override
+  String appliedToday(String time) {
+    return 'تم التقديم اليوم $time';
+  }
+
+  @override
+  String appliedYesterday(String time) {
+    return 'تم التقديم أمس $time';
+  }
+
+  @override
+  String appliedOnDate(String date, String time) {
+    return 'تم التقديم في $date، $time';
+  }
+
+  @override
   String get jobClosedLabel => 'مغلقة';
 
   @override
@@ -1441,6 +1477,21 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get sortingTitle => 'الترتيب';
+
+  @override
+  String get sortMostRelevant => 'الأكثر صلة';
+
+  @override
+  String get sortSalaryHighToLow => 'الراتب: من الأعلى إلى الأدنى';
+
+  @override
+  String get sortSalaryLowToHigh => 'الراتب: من الأدنى إلى الأعلى';
+
+  @override
+  String get sortDateRecent => 'التاريخ: الأحدث';
+
+  @override
+  String get sortDateLatest => 'التاريخ: الأخير';
 
   @override
   String get filtersTitle => 'الفلاتر';
@@ -1625,6 +1676,24 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get homeProfileBenefitsTitle => 'فوائد إكمال ملفك الشخصي';
+
+  @override
+  String get profileCompletionAboutMe => 'نبذة عني';
+
+  @override
+  String get profileCompletionPhoto => 'الصورة';
+
+  @override
+  String get profileCompletionExperience => 'خبرتي';
+
+  @override
+  String get profileCompletionEducation => 'تعليمي';
+
+  @override
+  String get profileCompletionSkills => 'مهاراتي';
+
+  @override
+  String get profileCompletionDocuments => 'المستندات';
 
   @override
   String get homeProfileFillButton => 'أكمل الملف الشخصي';

@@ -1435,6 +1435,42 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get postedToday => 'Publicado hoy';
+
+  @override
+  String get postedOneDayAgo => 'Publicado hace 1 día';
+
+  @override
+  String postedDaysAgo(int count) {
+    return 'Publicado hace $count días';
+  }
+
+  @override
+  String postedWeeksAgo(int count) {
+    return 'Publicado hace $count semanas';
+  }
+
+  @override
+  String postedMonthsAgo(int count) {
+    return 'Publicado hace $count meses';
+  }
+
+  @override
+  String appliedToday(String time) {
+    return 'Solicitud enviada hoy $time';
+  }
+
+  @override
+  String appliedYesterday(String time) {
+    return 'Solicitud enviada ayer $time';
+  }
+
+  @override
+  String appliedOnDate(String date, String time) {
+    return 'Solicitud enviada el $date, $time';
+  }
+
+  @override
   String get jobClosedLabel => 'Cerrado';
 
   @override
@@ -1463,6 +1499,21 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get sortingTitle => 'Ordenar por';
+
+  @override
+  String get sortMostRelevant => 'Más relevantes';
+
+  @override
+  String get sortSalaryHighToLow => 'Salario: de mayor a menor';
+
+  @override
+  String get sortSalaryLowToHigh => 'Salario: de menor a mayor';
+
+  @override
+  String get sortDateRecent => 'Fecha: reciente';
+
+  @override
+  String get sortDateLatest => 'Fecha: última';
 
   @override
   String get filtersTitle => 'Filtros';
@@ -1651,6 +1702,24 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get homeProfileBenefitsTitle => 'Beneficios de completar tu perfil';
+
+  @override
+  String get profileCompletionAboutMe => 'Acerca de mí';
+
+  @override
+  String get profileCompletionPhoto => 'Foto';
+
+  @override
+  String get profileCompletionExperience => 'Mi experiencia';
+
+  @override
+  String get profileCompletionEducation => 'Mi educación';
+
+  @override
+  String get profileCompletionSkills => 'Mis habilidades';
+
+  @override
+  String get profileCompletionDocuments => 'Documentos';
 
   @override
   String get homeProfileFillButton => 'Completar perfil';

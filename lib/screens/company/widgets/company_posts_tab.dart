@@ -3,6 +3,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../models/company_models.dart';
+import '../../../utils/localized_dates.dart';
 import 'company_cultural_match_card.dart';
 import 'company_profile_atoms.dart';
 import 'company_profile_styles.dart';
@@ -82,7 +83,8 @@ class _PostCard extends StatelessWidget {
                   children: [
                     Text(company.name, style: companyProfileCardTitleStyle),
                     const SizedBox(height: 2),
-                    Text(post.postedAgo, style: companyProfilePostMetaStyle),
+                    Text(formatPostedAgo(context, post.postedAgo),
+                        style: companyProfilePostMetaStyle),
                   ],
                 ),
               ),

@@ -1421,6 +1421,42 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get postedToday => 'Posted today';
+
+  @override
+  String get postedOneDayAgo => 'Posted 1 day ago';
+
+  @override
+  String postedDaysAgo(int count) {
+    return 'Posted $count days ago';
+  }
+
+  @override
+  String postedWeeksAgo(int count) {
+    return 'Posted $count weeks ago';
+  }
+
+  @override
+  String postedMonthsAgo(int count) {
+    return 'Posted $count months ago';
+  }
+
+  @override
+  String appliedToday(String time) {
+    return 'Applied today $time';
+  }
+
+  @override
+  String appliedYesterday(String time) {
+    return 'Applied yesterday $time';
+  }
+
+  @override
+  String appliedOnDate(String date, String time) {
+    return 'Applied on $date, $time';
+  }
+
+  @override
   String get jobClosedLabel => 'Closed';
 
   @override
@@ -1449,6 +1485,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sortingTitle => 'Sorting';
+
+  @override
+  String get sortMostRelevant => 'Most relevant';
+
+  @override
+  String get sortSalaryHighToLow => 'Salary: High to Low';
+
+  @override
+  String get sortSalaryLowToHigh => 'Salary: Low to High';
+
+  @override
+  String get sortDateRecent => 'Date: Recent';
+
+  @override
+  String get sortDateLatest => 'Date: Latest';
 
   @override
   String get filtersTitle => 'Filters';
@@ -1635,6 +1686,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homeProfileBenefitsTitle => 'Benefits of completing your profile';
+
+  @override
+  String get profileCompletionAboutMe => 'About Me';
+
+  @override
+  String get profileCompletionPhoto => 'Photo';
+
+  @override
+  String get profileCompletionExperience => 'My Experience';
+
+  @override
+  String get profileCompletionEducation => 'My Education';
+
+  @override
+  String get profileCompletionSkills => 'My Skills';
+
+  @override
+  String get profileCompletionDocuments => 'Documents';
 
   @override
   String get homeProfileFillButton => 'Fill Profile';

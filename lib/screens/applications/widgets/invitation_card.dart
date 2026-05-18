@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../models/applications_models.dart';
 import '../../../routes.dart';
+import '../../../utils/localized_dates.dart';
 import 'job_card_shared.dart';
 
 class InvitationCard extends ConsumerWidget {
@@ -194,7 +195,7 @@ class _JobSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          invitation.postedAgo,
+          formatPostedAgo(context, invitation.postedAgo),
           style: const TextStyle(
             fontFamily: 'Noto Sans',
             fontSize: 12,

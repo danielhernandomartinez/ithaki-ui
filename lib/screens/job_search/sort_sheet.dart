@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../l10n/app_localizations.dart';
+import '../../models/job_search_filters.dart';
 
 class SortSheet extends StatelessWidget {
-  final String current;
-  final void Function(String) onSelect;
+  final JobSearchSort current;
+  final void Function(JobSearchSort) onSelect;
 
   const SortSheet({super.key, required this.current, required this.onSelect});
 
   static const options = [
-    'Most relevant',
-    'Salary: High to Low',
-    'Salary: Low to High',
-    'Date: Recent',
-    'Date: Latest',
+    JobSearchSort.mostRelevant,
+    JobSearchSort.salaryHighToLow,
+    JobSearchSort.salaryLowToHigh,
+    JobSearchSort.dateRecent,
+    JobSearchSort.dateLatest,
   ];
 
   @override
@@ -57,7 +58,7 @@ class SortSheet extends StatelessWidget {
                 children: [
                   ListTile(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                    title: Text(option,
+                    title: Text(_sortLabel(l, option),
                         style: TextStyle(
                             fontSize: 15,
                             color: option == current
@@ -80,3 +81,11 @@ class SortSheet extends StatelessWidget {
     );
   }
 }
+
+String _sortLabel(AppLocalizations l, JobSearchSort sort) => switch (sort) {
+      JobSearchSort.mostRelevant => l.sortMostRelevant,
+      JobSearchSort.salaryHighToLow => l.sortSalaryHighToLow,
+      JobSearchSort.salaryLowToHigh => l.sortSalaryLowToHigh,
+      JobSearchSort.dateRecent => l.sortDateRecent,
+      JobSearchSort.dateLatest => l.sortDateLatest,
+    };

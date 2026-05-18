@@ -550,6 +550,59 @@
       }
     }
   },
+  "postedToday": "Δημοσιεύτηκε σήμερα",
+  "postedOneDayAgo": "Δημοσιεύτηκε πριν από 1 ημέρα",
+  "postedDaysAgo": "Δημοσιεύτηκε πριν από {count} ημέρες",
+  "@postedDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "postedWeeksAgo": "Δημοσιεύτηκε πριν από {count} εβδομάδες",
+  "@postedWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "postedMonthsAgo": "Δημοσιεύτηκε πριν από {count} μήνες",
+  "@postedMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "appliedToday": "Αίτηση σήμερα {time}",
+  "@appliedToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "appliedYesterday": "Αίτηση χθες {time}",
+  "@appliedYesterday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "appliedOnDate": "Αίτηση στις {date}, {time}",
+  "@appliedOnDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "jobClosedLabel": "Κλειστή",
   "deadlineReminderLabel": "Υπενθύμιση Προθεσμίας",
   "reportLabel": "Αναφορά",
@@ -566,6 +619,11 @@
     }
   },
   "sortingTitle": "Ταξινόμηση",
+  "sortMostRelevant": "Πιο σχετικά",
+  "sortSalaryHighToLow": "Μισθός: από υψηλό σε χαμηλό",
+  "sortSalaryLowToHigh": "Μισθός: από χαμηλό σε υψηλό",
+  "sortDateRecent": "Ημερομηνία: πρόσφατα",
+  "sortDateLatest": "Ημερομηνία: νεότερα",
   "filtersTitle": "Φίλτρα",
   "resetFilters": "Επαναφορά Φίλτρων",
   "applyFilters": "Εφαρμογή Φίλτρων",
@@ -638,6 +696,12 @@
   "homeProfileWelcomeTitle": "Καλώς ήρθατε στο Ithaki!",
   "homeProfileFillMissing": "Συμπληρώστε τα στοιχεία που λείπουν για να ξεκλειδώσετε την πλήρη εμπειρία. Ένα πλήρες προφίλ σας βοηθά να έχετε καλύτερες αντιστοιχίσεις και περισσότερες προσκλήσεις.",
   "homeProfileBenefitsTitle": "Πλεονεκτήματα ενός πλήρους προφίλ",
+  "profileCompletionAboutMe": "Σχετικά με μένα",
+  "profileCompletionPhoto": "Φωτογραφία",
+  "profileCompletionExperience": "Η εμπειρία μου",
+  "profileCompletionEducation": "Η εκπαίδευσή μου",
+  "profileCompletionSkills": "Οι δεξιότητές μου",
+  "profileCompletionDocuments": "Έγγραφα",
   "homeProfileFillButton": "Συμπλήρωση Προφίλ",
   "homeQuestionsTitle": "Έχετε ερωτήσεις;",
   "homeQuestionsSubtitle": "Αφήστε μας να σας βοηθήσουμε!",

@@ -3,6 +3,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../models/job_detail_models.dart';
+import '../../../utils/localized_dates.dart';
 import 'job_detail_primitives.dart';
 
 class JobDetailMainJobCard extends StatelessWidget {
@@ -41,7 +42,10 @@ class JobDetailMainJobCard extends StatelessWidget {
         // Posted + menu
         Row(children: [
           Expanded(
-            child: Text(l.jobPostedDate(detail.postedDate),
+            child: Text(
+                l.jobPostedDate(
+                  formatPostedDate(context, detail.postedDate),
+                ),
                 style: const TextStyle(
                   fontFamily: 'Noto Sans',
                   fontSize: 13,

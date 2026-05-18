@@ -69,7 +69,7 @@ class ApiJobDetailRepository implements JobDetailRepository {
       appliedAt: '',
       statusLabel: '',
       deadline: _formatDeadline(job['applicationDeadline']),
-      postedDate: mapper.postedAgo(job['postedAt'] ?? job['createdAt']),
+      postedDate: mapper.apiDateString(job['postedAt'] ?? job['createdAt']),
       jobTitle: job['title'] as String? ?? '',
       companyName: companyName,
       companyLogoColor: mapper.colorFromString(companyName),
@@ -219,10 +219,10 @@ class MockJobDetailRepository implements JobDetailRepository {
   Future<JobDetail> getJobDetail(String jobId) async {
     return JobDetail(
       id: jobId,
-      appliedAt: 'Applied today 09:30',
+      appliedAt: '2026-05-18T09:30:00',
       statusLabel: 'Application submitted',
       deadline: 'Application deadline: 30 April 2026',
-      postedDate: 'Posted 1 day ago',
+      postedDate: '2026-05-17T09:30:00',
       jobTitle: 'Junior Front-End Developer',
       companyName: 'TechWave',
       companyLogoColor: IthakiTheme.primaryPurple,

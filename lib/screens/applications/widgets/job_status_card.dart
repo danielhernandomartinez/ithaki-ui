@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../models/job_detail_models.dart';
+import '../../../utils/localized_dates.dart';
 
 class JobStatusCard extends StatelessWidget {
   final JobDetail detail;
@@ -38,7 +39,7 @@ class JobStatusCard extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Text(detail.appliedAt,
+                child: Text(formatAppliedAt(context, detail.appliedAt),
                     style: const TextStyle(
                       fontFamily: 'Noto Sans',
                       fontSize: 16,

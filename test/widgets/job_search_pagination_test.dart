@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import 'package:ithaki_ui/l10n/app_localizations.dart';
+import 'package:ithaki_ui/models/job_search_filters.dart';
 import 'package:ithaki_ui/models/job_search_models.dart';
 import 'package:ithaki_ui/providers/job_search_provider.dart';
 import 'package:ithaki_ui/repositories/job_search_repository.dart';
@@ -19,8 +20,8 @@ class _JobSearchRepository implements JobSearchRepository {
   @override
   Future<JobSearchResult> search({
     String query = '',
-    Map<String, Set<String>> filters = const {},
-    String sort = 'Date: Recent',
+    Map<JobSearchFilter, Set<String>> filters = const {},
+    JobSearchSort sort = JobSearchSort.dateRecent,
     int page = 1,
   }) async {
     return JobSearchResult(

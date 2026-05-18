@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../l10n/app_localizations.dart';
+import '../../models/job_search_filters.dart';
 import '../../utils/ithaki_bottom_sheet.dart';
 import 'filter_sub_sheet.dart';
 import 'location_filter_sheet.dart';
 import 'salary_filter_sheet.dart';
 
 const kFilterOptions = {
-  'Location': ['Athens', 'Thessaloniki', 'Remote', 'Chalkida', 'Patras'],
-  'Industry': [
+  JobSearchFilter.location: [
+    'Athens',
+    'Thessaloniki',
+    'Remote',
+    'Chalkida',
+    'Patras'
+  ],
+  JobSearchFilter.industry: [
     'IT & Web Development',
     'Design & Creative',
     'Sales',
@@ -18,7 +25,7 @@ const kFilterOptions = {
     'Finance',
     'Healthcare'
   ],
-  'Skills': [
+  JobSearchFilter.skills: [
     'Flutter',
     'React',
     'Python',
@@ -28,22 +35,39 @@ const kFilterOptions = {
     'Swift',
     'Kotlin'
   ],
-  'Job Type': ['Full-Time', 'Part-Time', 'Contract', 'Freelance', 'Internship'],
-  'Workplace': ['On-site', 'Remote', 'Hybrid'],
-  'Experience Level': ['Entry', 'Junior', 'Mid-level', 'Senior', 'Lead'],
-  'Salary': [
+  JobSearchFilter.jobType: [
+    'Full-Time',
+    'Part-Time',
+    'Contract',
+    'Freelance',
+    'Internship'
+  ],
+  JobSearchFilter.workplace: ['On-site', 'Remote', 'Hybrid'],
+  JobSearchFilter.experienceLevel: [
+    'Entry',
+    'Junior',
+    'Mid-level',
+    'Senior',
+    'Lead'
+  ],
+  JobSearchFilter.salary: [
     '< 1 000 €',
     '1 000 – 2 000 €',
     '2 000 – 3 500 €',
     '3 500 – 5 000 €',
     '> 5 000 €'
   ],
-  'Travel': ['No travel', 'Occasional', 'Frequent', 'International'],
+  JobSearchFilter.travel: [
+    'No travel',
+    'Occasional',
+    'Frequent',
+    'International'
+  ],
 };
 
 class FiltersSheet extends StatefulWidget {
-  final Map<String, Set<String>> filters;
-  final void Function(Map<String, Set<String>>) onApply;
+  final Map<JobSearchFilter, Set<String>> filters;
+  final void Function(Map<JobSearchFilter, Set<String>>) onApply;
 
   const FiltersSheet({super.key, required this.filters, required this.onApply});
 
@@ -52,7 +76,7 @@ class FiltersSheet extends StatefulWidget {
 }
 
 class _FiltersSheetState extends State<FiltersSheet> {
-  late Map<String, Set<String>> _local;
+  late Map<JobSearchFilter, Set<String>> _local;
 
   @override
   void initState() {
@@ -60,37 +84,38 @@ class _FiltersSheetState extends State<FiltersSheet> {
     _local = {for (final e in widget.filters.entries) e.key: Set.from(e.value)};
   }
 
-  void _openSubSheet(String filterName) {
+  void _openSubSheet(JobSearchFilter filter) {
     final l = AppLocalizations.of(context)!;
-    if (filterName == 'Location') {
+    if (filter == JobSearchFilter.location) {
       showIthakiBottomSheet<void>(
         context: context,
         builder: (_) => LocationFilterSheet(
-          selected: Set.from(_local['Location'] ?? {}),
+          selected: Set.from(_local[JobSearchFilter.location] ?? {}),
           onConfirm: (selected) =>
-              setState(() => _local['Location'] = selected),
+              setState(() => _local[JobSearchFilter.location] = selected),
         ),
       );
       return;
     }
-    if (filterName == 'Salary') {
+    if (filter == JobSearchFilter.salary) {
       showIthakiBottomSheet<void>(
         context: context,
         builder: (_) => SalaryFilterSheet(
-          selected: Set.from(_local['Salary'] ?? {}),
-          onConfirm: (selected) => setState(() => _local['Salary'] = selected),
+          selected: Set.from(_local[JobSearchFilter.salary] ?? {}),
+          onConfirm: (selected) =>
+              setState(() => _local[JobSearchFilter.salary] = selected),
         ),
       );
       return;
     }
-    final options = kFilterOptions[filterName] ?? [];
+    final options = kFilterOptions[filter] ?? [];
     showIthakiBottomSheet<void>(
       context: context,
       builder: (_) => FilterSubSheet(
-        title: _filterLabel(l, filterName),
+        title: _filterLabel(l, filter),
         options: options,
-        selected: Set.from(_local[filterName] ?? {}),
-        onConfirm: (selected) => setState(() => _local[filterName] = selected),
+        selected: Set.from(_local[filter] ?? {}),
+        onConfirm: (selected) => setState(() => _local[filter] = selected),
       ),
     );
   }
@@ -132,11 +157,11 @@ class _FiltersSheetState extends State<FiltersSheet> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
-              children: kFilterOptions.keys.map((name) {
-                final selected = _local[name] ?? {};
+              children: kFilterOptions.keys.map((filter) {
+                final selected = _local[filter] ?? {};
                 final hasSelection = selected.isNotEmpty;
                 String valueText = selected.join('; ');
-                if (name == 'Salary' && selected.isNotEmpty) {
+                if (filter == JobSearchFilter.salary && selected.isNotEmpty) {
                   final parts = selected.first.split('-');
                   if (parts.length == 2) {
                     String fmtNum(String n) {
@@ -153,7 +178,7 @@ class _FiltersSheetState extends State<FiltersSheet> {
                   }
                 }
                 return GestureDetector(
-                  onTap: () => _openSubSheet(name),
+                  onTap: () => _openSubSheet(filter),
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 8),
                     padding: const EdgeInsets.symmetric(
@@ -169,7 +194,7 @@ class _FiltersSheetState extends State<FiltersSheet> {
                               : IthakiTheme.placeholderBg),
                     ),
                     child: Row(children: [
-                      Text(_filterLabel(l, name),
+                      Text(_filterLabel(l, filter),
                           style: TextStyle(
                               fontSize: 15,
                               fontWeight: hasSelection
@@ -244,15 +269,15 @@ class _FiltersSheetState extends State<FiltersSheet> {
     );
   }
 
-  String _filterLabel(AppLocalizations l, String name) => switch (name) {
-        'Location' => l.locationHeading,
-        'Industry' => l.industryLabel,
-        'Skills' => l.profileSkillsTitle,
-        'Job Type' => l.jobTypeTitle,
-        'Workplace' => l.workplaceLabel,
-        'Experience Level' => l.experienceLevelLabel,
-        'Salary' => l.salaryTitle,
-        'Travel' => l.travelLabel,
-        _ => name,
+  String _filterLabel(AppLocalizations l, JobSearchFilter filter) =>
+      switch (filter) {
+        JobSearchFilter.location => l.locationHeading,
+        JobSearchFilter.industry => l.industryLabel,
+        JobSearchFilter.skills => l.profileSkillsTitle,
+        JobSearchFilter.jobType => l.jobTypeTitle,
+        JobSearchFilter.workplace => l.workplaceLabel,
+        JobSearchFilter.experienceLevel => l.experienceLevelLabel,
+        JobSearchFilter.salary => l.salaryTitle,
+        JobSearchFilter.travel => l.travelLabel,
       };
 }

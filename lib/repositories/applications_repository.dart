@@ -46,10 +46,10 @@ class ApiApplicationsRepository implements ApplicationsRepository {
   static Application _parseApplication(Map<String, dynamic> a) {
     final id = a['id']?.toString() ?? '';
     final status = _parseStatus(a['status']);
-    final applied = mapper.appliedAt(a['createdAt'] ?? a['appliedAt']);
+    final applied = mapper.apiDateString(a['createdAt'] ?? a['appliedAt']);
     final j =
         a['job'] is Map<String, dynamic> ? a['job'] as Map<String, dynamic> : a;
-    final posted = mapper.postedAgo(j['postedAt'] ?? j['createdAt']);
+    final posted = mapper.apiDateString(j['postedAt'] ?? j['createdAt']);
     final f = mapper.parseJobFields(a);
 
     return Application(
@@ -104,9 +104,9 @@ const _mockApplications = [
   Application(
     id: '1',
     jobId: 'job-1',
-    appliedAt: 'Applied today 09:30',
+    appliedAt: '2026-05-18T09:30:00',
     status: ApplicationStatus.submitted,
-    postedAgo: 'Posted 1 day ago',
+    postedAgo: '2026-05-17T09:30:00',
     jobTitle: 'Junior Front-End Developer',
     companyName: 'Nexora',
     companyInitials: 'NX',
@@ -123,9 +123,9 @@ const _mockApplications = [
   Application(
     id: '2',
     jobId: 'job-2',
-    appliedAt: 'Applied on 16 November, 11:30',
+    appliedAt: '2025-11-16T11:30:00',
     status: ApplicationStatus.viewed,
-    postedAgo: 'Posted 1 day ago',
+    postedAgo: '2026-05-17T09:30:00',
     jobTitle: 'Junior Front-End Developer',
     companyName: 'TechSound',
     companyInitials: 'TS',
@@ -143,9 +143,9 @@ const _mockApplications = [
   Application(
     id: '3',
     jobId: 'job-3',
-    appliedAt: 'You started your application on 15 Nov 2025',
+    appliedAt: '2025-11-15T09:30:00',
     status: ApplicationStatus.draft,
-    postedAgo: 'Posted 1 day ago',
+    postedAgo: '2026-05-17T09:30:00',
     jobTitle: 'Junior Front-End Developer',
     companyName: 'Athenis Technologies',
     companyInitials: 'AT',
@@ -162,9 +162,9 @@ const _mockApplications = [
   Application(
     id: '4',
     jobId: 'job-4',
-    appliedAt: 'You started your application on 15 Nov 2025',
+    appliedAt: '2025-11-15T09:30:00',
     status: ApplicationStatus.draft,
-    postedAgo: 'Posted 1 day ago',
+    postedAgo: '2026-05-17T09:30:00',
     jobTitle: 'Junior Front-End Developer',
     companyName: 'TechWave',
     companyInitials: 'TW',
@@ -182,9 +182,9 @@ const _mockApplications = [
   Application(
     id: '5',
     jobId: 'job-5',
-    appliedAt: 'Applied on 15 October 2025',
+    appliedAt: '2025-10-15T09:30:00',
     status: ApplicationStatus.closed,
-    postedAgo: 'Posted 1 day ago',
+    postedAgo: '2026-05-17T09:30:00',
     jobTitle: 'Junior Front-End Developer',
     companyName: 'Athenis Technologies',
     companyInitials: 'AT',

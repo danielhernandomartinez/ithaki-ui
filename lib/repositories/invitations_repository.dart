@@ -31,7 +31,7 @@ class ApiInvitationsRepository implements InvitationsRepository {
         senderRaw['role'] as String? ?? inv['senderRole'] as String? ?? '';
 
     final message = inv['message'] as String? ?? '';
-    final posted = mapper.postedAgo(inv['createdAt'] ?? inv['postedAt']);
+    final posted = mapper.apiDateString(inv['createdAt'] ?? inv['postedAt']);
     final f = mapper.parseJobFields(inv);
 
     return Invitation(
@@ -114,7 +114,7 @@ final _mockInvitations = [
     companyName: 'Nexora',
     message:
         "Hi Christos! I'm Eleni, HR manager of Nexora - digital agency (Apps, SaaS solutions, etc.). We are currently hiring 3 remote front-end developers. Please have a look at our open position.",
-    postedAgo: 'Posted 1 day ago',
+    postedAgo: '2026-05-17T09:30:00',
     jobTitle: 'Junior Front-End Developer',
     companyInitials: 'NX',
     companyLogoColor: Color(0xFF905CFF),
@@ -137,7 +137,7 @@ final _mockInvitations = [
     companyName: 'Athenis Technologies',
     message:
         "Hello Christos! Irini here, HR at Athenis Technologies (we create web & app solutions). We're expanding our remote team and hiring Front-End developers. Take a look at our open role — it might be a great match!",
-    postedAgo: 'Posted 1 day ago',
+    postedAgo: '2026-05-17T09:30:00',
     jobTitle: 'Junior Front-End Developer',
     companyInitials: 'AT',
     companyLogoColor: Color(0xFF0D47A1),
@@ -161,7 +161,7 @@ final _mockInvitations = [
     companyName: 'Athenis Technologies',
     message:
         "Hello Christos! Irini here, HR at Athenis Technologies (we create web & app solutions). We're expanding our remote team and hiring Front-End developers. Take a look at our open role — it might be a great match!",
-    postedAgo: 'Posted 1 day ago',
+    postedAgo: '2026-05-17T09:30:00',
     jobTitle: 'Junior Front-End Developer',
     companyInitials: 'AT',
     companyLogoColor: Color(0xFF0D47A1),

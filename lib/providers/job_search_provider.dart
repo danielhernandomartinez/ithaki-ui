@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../config/app_config.dart';
+import '../models/job_search_filters.dart';
 import '../repositories/job_search_repository.dart';
 import '../services/api_client.dart';
 
@@ -12,26 +13,17 @@ final jobSearchRepositoryProvider = Provider<JobSearchRepository>(
 class JobSearchState {
   final int selectedTab;
   final int currentPage;
-  final String sortOption;
+  final JobSearchSort sortOption;
   final Set<String> savedJobIds;
-  final Map<String, Set<String>> filters;
+  final Map<JobSearchFilter, Set<String>> filters;
   final String query;
 
   const JobSearchState({
     this.selectedTab = 0,
     this.currentPage = 1,
-    this.sortOption = 'Date: Recent',
+    this.sortOption = JobSearchSort.dateRecent,
     this.savedJobIds = const {},
-    this.filters = const {
-      'Location': {},
-      'Industry': {},
-      'Skills': {},
-      'Job Type': {},
-      'Workplace': {},
-      'Experience Level': {},
-      'Salary': {},
-      'Travel': {},
-    },
+    this.filters = defaultJobSearchFilters,
     this.query = '',
   });
 
@@ -45,9 +37,9 @@ class JobSearchState {
   JobSearchState copyWith({
     int? selectedTab,
     int? currentPage,
-    String? sortOption,
+    JobSearchSort? sortOption,
     Set<String>? savedJobIds,
-    Map<String, Set<String>>? filters,
+    Map<JobSearchFilter, Set<String>>? filters,
     String? query,
   }) =>
       JobSearchState(
@@ -81,7 +73,7 @@ class JobSearchNotifier extends AsyncNotifier<JobSearchState> {
     }
   }
 
-  void setSort(String option) =>
+  void setSort(JobSearchSort option) =>
       state = AsyncData(state.requireValue.copyWith(sortOption: option));
 
   Future<void> toggleSaved(String jobId) async {
@@ -102,9 +94,9 @@ class JobSearchNotifier extends AsyncNotifier<JobSearchState> {
     state = AsyncData(current.copyWith(query: query, currentPage: 1));
   }
 
-  void applyFilters(Map<String, Set<String>> updated) {
+  void applyFilters(Map<JobSearchFilter, Set<String>> updated) {
     final current = state.requireValue;
-    final merged = Map<String, Set<String>>.from(current.filters);
+    final merged = Map<JobSearchFilter, Set<String>>.from(current.filters);
     for (final e in updated.entries) {
       merged[e.key] = e.value;
     }

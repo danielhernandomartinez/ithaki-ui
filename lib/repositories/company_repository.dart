@@ -161,7 +161,7 @@ class ApiCompanyRepository implements CompanyRepository {
         workMode: mapper.enumTitle(v['workArrangement']),
         employmentType: mapper.enumTitle(v['employmentType']),
         category: mapper.enumTitle(v['industry']),
-        postedAgo: mapper.postedAgo(v['postedAt'] ?? v['createdAt']),
+        postedAgo: mapper.apiDateString(v['postedAt'] ?? v['createdAt']),
       );
     }).toList();
   }
@@ -276,7 +276,7 @@ CompanyProfile mockCompanyProfile(String companyId) {
             "To everyone who joined us this year —\n"
             "welcome to the wave 🌊\n\n"
             "We’re excited for what comes next.",
-        postedAgo: 'Posted 1 day ago',
+        postedAgo: '2026-05-17T09:30:00',
         likes: 24,
       ),
       CompanyPost(
@@ -294,7 +294,7 @@ CompanyProfile mockCompanyProfile(String companyId) {
             'Your dedication is what pushes TechWave\n'
             'forward every day.\n'
             'More innovations loading… ⚡',
-        postedAgo: 'Posted 1 day ago',
+        postedAgo: '2026-05-17T09:30:00',
         likes: 18,
       ),
       CompanyPost(
@@ -315,7 +315,7 @@ CompanyProfile mockCompanyProfile(String companyId) {
             'for your energy and curiosity.\n'
             'To our mentors: you make this community\n'
             'stronger 💪',
-        postedAgo: 'Posted 1 day ago',
+        postedAgo: '2026-05-17T09:30:00',
         likes: 31,
       ),
     ],
@@ -330,7 +330,7 @@ CompanyProfile mockCompanyProfile(String companyId) {
         workMode: 'On-site',
         employmentType: 'Full-Time',
         category: 'IT and Web Development',
-        postedAgo: 'Posted 1 day ago',
+        postedAgo: '2026-05-17T09:30:00',
       ),
       CompanyVacancy(
         id: 'job-4',
@@ -342,7 +342,7 @@ CompanyProfile mockCompanyProfile(String companyId) {
         workMode: 'On-site',
         employmentType: 'Full-Time',
         category: 'IT and Web Development',
-        postedAgo: 'Posted 1 day ago',
+        postedAgo: '2026-05-17T09:30:00',
       ),
     ],
   );

@@ -27,6 +27,12 @@ String normalizeEscapedLineBreaks(String value) => value
     .replaceAll('\r', '\n')
     .replaceAll(RegExp(r'\\r\\n|\\n|\\r|/n'), '\n');
 
+String apiDateString(dynamic value) {
+  if (value == null) return '';
+  final parsed = DateTime.tryParse(value.toString());
+  return parsed?.toIso8601String() ?? value.toString();
+}
+
 // ─── Derived display values ───────────────────────────────────────────────────
 
 /// Generates initials from a company/person name.
@@ -66,56 +72,6 @@ String formatSalary(dynamic salaryMin, dynamic salaryMax, dynamic paymentTerm) {
     return '€${salaryMin.toString()} – €${salaryMax.toString()} $suffix';
   }
   return '€${(salaryMin ?? salaryMax).toString()} $suffix';
-}
-
-/// Relative "posted X ago" string from an ISO date string.
-String postedAgo(dynamic dateStr) {
-  if (dateStr == null) return '';
-  try {
-    final date = DateTime.parse(dateStr.toString());
-    final diff = DateTime.now().difference(date);
-    if (diff.inDays == 0) return 'Posted today';
-    if (diff.inDays == 1) return 'Posted 1 day ago';
-    if (diff.inDays < 7) return 'Posted ${diff.inDays} days ago';
-    final weeks = diff.inDays ~/ 7;
-    if (diff.inDays < 30) {
-      return 'Posted $weeks week${weeks != 1 ? 's' : ''} ago';
-    }
-    final months = diff.inDays ~/ 30;
-    return 'Posted $months month${months != 1 ? 's' : ''} ago';
-  } catch (_) {
-    return '';
-  }
-}
-
-/// "Applied today 09:30" / "Applied on 16 November, 11:30" from an ISO date.
-String appliedAt(dynamic dateStr) {
-  if (dateStr == null) return '';
-  try {
-    final date = DateTime.parse(dateStr.toString());
-    final diff = DateTime.now().difference(date);
-    final time =
-        '${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
-    if (diff.inDays == 0) return 'Applied today $time';
-    if (diff.inDays == 1) return 'Applied yesterday $time';
-    const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December'
-    ];
-    return 'Applied on ${date.day} ${months[date.month - 1]}, $time';
-  } catch (_) {
-    return dateStr.toString();
-  }
 }
 
 /// Shared job + match fields parsed from an application or invitation envelope.

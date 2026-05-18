@@ -2754,6 +2754,54 @@ abstract class AppLocalizations {
   /// **'Posted {date}'**
   String jobPostedDate(String date);
 
+  /// No description provided for @postedToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted today'**
+  String get postedToday;
+
+  /// No description provided for @postedOneDayAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted 1 day ago'**
+  String get postedOneDayAgo;
+
+  /// No description provided for @postedDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted {count} days ago'**
+  String postedDaysAgo(int count);
+
+  /// No description provided for @postedWeeksAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted {count} weeks ago'**
+  String postedWeeksAgo(int count);
+
+  /// No description provided for @postedMonthsAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'Posted {count} months ago'**
+  String postedMonthsAgo(int count);
+
+  /// No description provided for @appliedToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied today {time}'**
+  String appliedToday(String time);
+
+  /// No description provided for @appliedYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied yesterday {time}'**
+  String appliedYesterday(String time);
+
+  /// No description provided for @appliedOnDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied on {date}, {time}'**
+  String appliedOnDate(String date, String time);
+
   /// No description provided for @jobClosedLabel.
   ///
   /// In en, this message translates to:
@@ -2807,6 +2855,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sorting'**
   String get sortingTitle;
+
+  /// No description provided for @sortMostRelevant.
+  ///
+  /// In en, this message translates to:
+  /// **'Most relevant'**
+  String get sortMostRelevant;
+
+  /// No description provided for @sortSalaryHighToLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary: High to Low'**
+  String get sortSalaryHighToLow;
+
+  /// No description provided for @sortSalaryLowToHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'Salary: Low to High'**
+  String get sortSalaryLowToHigh;
+
+  /// No description provided for @sortDateRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Date: Recent'**
+  String get sortDateRecent;
+
+  /// No description provided for @sortDateLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'Date: Latest'**
+  String get sortDateLatest;
 
   /// No description provided for @filtersTitle.
   ///
@@ -3155,6 +3233,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Benefits of completing your profile'**
   String get homeProfileBenefitsTitle;
+
+  /// No description provided for @profileCompletionAboutMe.
+  ///
+  /// In en, this message translates to:
+  /// **'About Me'**
+  String get profileCompletionAboutMe;
+
+  /// No description provided for @profileCompletionPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo'**
+  String get profileCompletionPhoto;
+
+  /// No description provided for @profileCompletionExperience.
+  ///
+  /// In en, this message translates to:
+  /// **'My Experience'**
+  String get profileCompletionExperience;
+
+  /// No description provided for @profileCompletionEducation.
+  ///
+  /// In en, this message translates to:
+  /// **'My Education'**
+  String get profileCompletionEducation;
+
+  /// No description provided for @profileCompletionSkills.
+  ///
+  /// In en, this message translates to:
+  /// **'My Skills'**
+  String get profileCompletionSkills;
+
+  /// No description provided for @profileCompletionDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents'**
+  String get profileCompletionDocuments;
 
   /// No description provided for @homeProfileFillButton.
   ///

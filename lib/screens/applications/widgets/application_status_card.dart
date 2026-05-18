@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../models/application_detail_models.dart';
+import '../../../utils/localized_dates.dart';
 
 class ApplicationStatusCard extends StatelessWidget {
   final ApplicationDetail detail;
@@ -39,7 +40,7 @@ class ApplicationStatusCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  detail.appliedAt,
+                  formatAppliedAt(context, detail.appliedAt),
                   style: const TextStyle(
                     fontFamily: 'Noto Sans',
                     fontSize: 16,

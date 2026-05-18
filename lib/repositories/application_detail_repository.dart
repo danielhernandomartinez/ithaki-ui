@@ -41,7 +41,7 @@ const _mockCompany = CompanyInfo(
 final _mockDetails = <String, ApplicationDetail>{
   '2': ApplicationDetail(
     id: '2',
-    appliedAt: 'You applied on 16 November, 11:30',
+    appliedAt: '2025-11-16T11:30:00',
     statusLabel: 'Viewed',
     appliedWithNote:
         'You applied with your Ithaki CV. On average, employers review applications within the first week.',
@@ -82,7 +82,7 @@ final _mockDetails = <String, ApplicationDetail>{
   ),
   '1': const ApplicationDetail(
     id: '1',
-    appliedAt: 'You applied today, 09:30',
+    appliedAt: '2026-05-18T09:30:00',
     statusLabel: 'Submitted',
     appliedWithNote:
         'You applied with your Ithaki CV. On average, employers review applications within the first week.',

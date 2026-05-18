@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/application_detail_models.dart';
+import '../../../utils/localized_dates.dart';
 import '../../../utils/match_colors.dart';
 
 class JobPostBasicsCard extends StatelessWidget {
@@ -20,7 +21,7 @@ class JobPostBasicsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(detail.postedDate,
+          Text(formatPostedDate(context, detail.postedDate),
               style: const TextStyle(
                 fontFamily: 'Noto Sans',
                 fontSize: 14,

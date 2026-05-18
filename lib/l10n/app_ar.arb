@@ -552,6 +552,59 @@
       }
     }
   },
+  "postedToday": "نشر اليوم",
+  "postedOneDayAgo": "نشر منذ يوم واحد",
+  "postedDaysAgo": "نشر منذ {count} أيام",
+  "@postedDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "postedWeeksAgo": "نشر منذ {count} أسابيع",
+  "@postedWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "postedMonthsAgo": "نشر منذ {count} أشهر",
+  "@postedMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "appliedToday": "تم التقديم اليوم {time}",
+  "@appliedToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "appliedYesterday": "تم التقديم أمس {time}",
+  "@appliedYesterday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "appliedOnDate": "تم التقديم في {date}، {time}",
+  "@appliedOnDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "jobClosedLabel": "مغلقة",
   "deadlineReminderLabel": "تذكير الموعد النهائي",
   "reportLabel": "الإبلاغ",
@@ -568,6 +621,11 @@
     }
   },
   "sortingTitle": "الترتيب",
+  "sortMostRelevant": "الأكثر صلة",
+  "sortSalaryHighToLow": "الراتب: من الأعلى إلى الأدنى",
+  "sortSalaryLowToHigh": "الراتب: من الأدنى إلى الأعلى",
+  "sortDateRecent": "التاريخ: الأحدث",
+  "sortDateLatest": "التاريخ: الأخير",
   "filtersTitle": "الفلاتر",
   "resetFilters": "إعادة تعيين الفلاتر",
   "applyFilters": "تطبيق الفلاتر",
@@ -640,6 +698,12 @@
   "homeProfileWelcomeTitle": "مرحباً بك في Ithaki!",
   "homeProfileFillMissing": "أكمل المعلومات الناقصة لفتح التجربة الكاملة على المنصة. يساعدك الملف الشخصي الكامل على الحصول على تطابقات أفضل ودعوات أكثر.",
   "homeProfileBenefitsTitle": "فوائد إكمال ملفك الشخصي",
+  "profileCompletionAboutMe": "نبذة عني",
+  "profileCompletionPhoto": "الصورة",
+  "profileCompletionExperience": "خبرتي",
+  "profileCompletionEducation": "تعليمي",
+  "profileCompletionSkills": "مهاراتي",
+  "profileCompletionDocuments": "المستندات",
   "homeProfileFillButton": "أكمل الملف الشخصي",
   "homeQuestionsTitle": "هل لديك أسئلة؟",
   "homeQuestionsSubtitle": "دعنا نساعدك!",

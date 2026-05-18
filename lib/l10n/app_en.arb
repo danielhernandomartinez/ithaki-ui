@@ -550,6 +550,59 @@
       }
     }
   },
+  "postedToday": "Posted today",
+  "postedOneDayAgo": "Posted 1 day ago",
+  "postedDaysAgo": "Posted {count} days ago",
+  "@postedDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "postedWeeksAgo": "Posted {count} weeks ago",
+  "@postedWeeksAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "postedMonthsAgo": "Posted {count} months ago",
+  "@postedMonthsAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "appliedToday": "Applied today {time}",
+  "@appliedToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "appliedYesterday": "Applied yesterday {time}",
+  "@appliedYesterday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "appliedOnDate": "Applied on {date}, {time}",
+  "@appliedOnDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "jobClosedLabel": "Closed",
   "deadlineReminderLabel": "Deadline Reminder",
   "reportLabel": "Report",
@@ -566,6 +619,11 @@
     }
   },
   "sortingTitle": "Sorting",
+  "sortMostRelevant": "Most relevant",
+  "sortSalaryHighToLow": "Salary: High to Low",
+  "sortSalaryLowToHigh": "Salary: Low to High",
+  "sortDateRecent": "Date: Recent",
+  "sortDateLatest": "Date: Latest",
   "filtersTitle": "Filters",
   "resetFilters": "Reset Filters",
   "applyFilters": "Apply Filters",
@@ -638,6 +696,12 @@
   "homeProfileWelcomeTitle": "Welcome to Ithaki!",
   "homeProfileFillMissing": "Fill in the missing information to unlock your full experience on the platform. A complete profile helps you get better job matches and more invitations.",
   "homeProfileBenefitsTitle": "Benefits of completing your profile",
+  "profileCompletionAboutMe": "About Me",
+  "profileCompletionPhoto": "Photo",
+  "profileCompletionExperience": "My Experience",
+  "profileCompletionEducation": "My Education",
+  "profileCompletionSkills": "My Skills",
+  "profileCompletionDocuments": "Documents",
   "homeProfileFillButton": "Fill Profile",
   "homeQuestionsTitle": "Have questions?",
   "homeQuestionsSubtitle": "Let us help you!",

@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../../models/job_search_filters.dart';
 import '../../../providers/job_search_data_provider.dart';
 import '../../../providers/job_search_provider.dart';
 import '../../../providers/tour_provider.dart';
 import '../../../routes.dart';
 import '../../../utils/ithaki_bottom_sheet.dart';
+import '../../../utils/localized_dates.dart';
 import '../../../utils/match_colors.dart';
 import '../../../utils/number_utils.dart';
 import '../sort_sheet.dart';
@@ -16,8 +18,8 @@ class JobSearchList extends ConsumerWidget {
   const JobSearchList({super.key});
 
   void _openSort(BuildContext context, WidgetRef ref) {
-    final current =
-        ref.read(jobSearchProvider).value?.sortOption ?? 'Date: Recent';
+    final current = ref.read(jobSearchProvider).value?.sortOption ??
+        JobSearchSort.dateRecent;
     showIthakiBottomSheet<void>(
       context: context,
       isScrollControlled: false,
@@ -137,12 +139,13 @@ class JobSearchList extends ConsumerWidget {
                   matchGradientColors:
                       getMatchGradientColors(jobs[i].matchLabel),
                   matchBackgroundColor: getMatchBgColor(jobs[i].matchLabel),
-                  category: jobs[i].category.isNotEmpty ? jobs[i].category : null,
+                  category:
+                      jobs[i].category.isNotEmpty ? jobs[i].category : null,
                   location: jobs[i].location,
                   workMode: jobs[i].workMode,
                   employmentType: jobs[i].employmentType,
                   level: jobs[i].level,
-                  postedAgo: jobs[i].postedAgo,
+                  postedAgo: formatPostedAgo(context, jobs[i].postedAgo),
                   isSaved: searchState.isSaved(jobs[i].id),
                   onSave: () => notifier.toggleSaved(jobs[i].id),
                   onView: () =>
