@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -77,7 +78,7 @@ class IthakiRouter {
     Routes.blogNews,
     Routes.blogArticle,
     // Debug tools — no auth gate.
-    Routes.apiDiagnostics,
+    if (kDebugMode) Routes.apiDiagnostics,
   };
 
   static Future<String?> _redirect(SessionService sessionService,
@@ -371,10 +372,11 @@ class IthakiRouter {
               assessmentId: state.pathParameters['id']!,
             ),
           ),
-          GoRoute(
-            path: Routes.apiDiagnostics,
-            builder: (context, state) => const ApiDiagnosticsScreen(),
-          ),
+          if (kDebugMode)
+            GoRoute(
+              path: Routes.apiDiagnostics,
+              builder: (context, state) => const ApiDiagnosticsScreen(),
+            ),
           GoRoute(
             path: Routes.blogNews,
             builder: (context, state) => const BlogNewsScreen(),
