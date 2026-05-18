@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/job_search_filters.dart';
+import '../models/job_search_models.dart';
 import '../repositories/job_search_repository.dart';
 import 'job_search_provider.dart';
 import 'swr_async_notifier.dart';
@@ -45,3 +46,17 @@ final jobSearchDataProvider =
     AsyncNotifierProvider<JobSearchDataNotifier, JobSearchResult>(
   JobSearchDataNotifier.new,
 );
+
+/// The list of jobs to display for the current tab. On the "Saved" tab
+/// (selectedTab == 1) only jobs whose IDs are in savedJobIds are returned.
+final displayedJobsProvider = Provider<List<JobListing>>((ref) {
+  final searchState = ref.watch(jobSearchProvider).value;
+  final result = ref.watch(jobSearchDataProvider).value;
+  if (searchState == null || result == null) return const [];
+  if (searchState.selectedTab == 1) {
+    return result.jobs
+        .where((job) => searchState.savedJobIds.contains(job.id))
+        .toList();
+  }
+  return result.jobs;
+});

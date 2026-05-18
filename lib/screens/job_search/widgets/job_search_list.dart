@@ -42,11 +42,7 @@ class JobSearchList extends ConsumerWidget {
     if (searchState == null || searchResult == null) {
       return const Center(child: CircularProgressIndicator());
     }
-    final jobs = searchState.selectedTab == 1
-        ? searchResult.jobs
-            .where((job) => searchState.savedJobIds.contains(job.id))
-            .toList()
-        : searchResult.jobs;
+    final jobs = ref.watch(displayedJobsProvider);
     final isSavedTab = searchState.selectedTab == 1;
 
     return Container(
