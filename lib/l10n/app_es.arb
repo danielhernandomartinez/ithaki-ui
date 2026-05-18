@@ -203,6 +203,8 @@
   "myApplicationsTabLabel": "Mis solicitudes",
   "myApplicationsTabDescription": "Haz un seguimiento de todos los empleos a los que te has postulado y consulta su estado actual. También puedes revisar las invitaciones que has aceptado o buscar solicitudes pasadas en tu archivo.",
   "myApplicationsLoadError": "Error al cargar las solicitudes.",
+  "applicationDetailLoadError": "No pudimos cargar esta solicitud en este momento.",
+  "applicationDetailNotFoundMessage": "No pudimos encontrar los detalles de esta solicitud.",
   "myApplicationsEmptyTitle": "Aún no hay solicitudes",
   "myApplicationsEmptySubtitle": "Los empleos a los que te postules aparecerán aquí\npara que puedas seguir su estado.",
   "myInvitationsTabLabel": "Mis invitaciones ({count})",

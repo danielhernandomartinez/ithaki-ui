@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../providers/application_detail_provider.dart';
 import '../../providers/home_provider.dart';
 import '../../routes.dart';
@@ -20,46 +21,95 @@ class ApplicationDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final detail = ref.watch(applicationDetailProvider(applicationId));
+    final detailAsync = ref.watch(applicationDetailProvider(applicationId));
     final homeData = ref.watch(homeProvider).value;
 
-    if (detail == null) {
-      return const Scaffold(
-        backgroundColor: IthakiTheme.backgroundViolet,
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
+    return detailAsync.when(
+      data: (detail) {
+        if (detail == null) {
+          return _MessageScaffold(
+            message:
+                AppLocalizations.of(context)!.applicationDetailNotFoundMessage,
+          );
+        }
 
-    return MainPanelScaffold(
-      currentRoute: Routes.myApplications,
-      avatarInitials: homeData?.userInitials ?? 'CI',
-      avatarUrl: homeData?.userPhotoUrl,
-      bodyBuilder: (context, ref, topOffset) => SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: topOffset),
-            _pad(ApplicationStatusCard(detail: detail)),
-            _pad(JobPostBasicsCard(detail: detail)),
-            _pad(TalentProfileCard(candidate: detail.candidate)),
-            _pad(CoverLetterCard(text: detail.coverLetter)),
-            _pad(ScreeningQuestionsCard(questions: detail.screeningQuestions)),
-            _pad(ApplicationDetailCompanyCard(company: detail.company)),
-            SizedBox(height: MediaQuery.paddingOf(context).bottom + 112),
+        return MainPanelScaffold(
+          currentRoute: Routes.myApplications,
+          avatarInitials: homeData?.userInitials ?? 'CI',
+          avatarUrl: homeData?.userPhotoUrl,
+          bodyBuilder: (context, ref, topOffset) => SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: topOffset),
+                _pad(ApplicationStatusCard(detail: detail)),
+                _pad(JobPostBasicsCard(detail: detail)),
+                _pad(TalentProfileCard(candidate: detail.candidate)),
+                _pad(CoverLetterCard(text: detail.coverLetter)),
+                _pad(ScreeningQuestionsCard(
+                  questions: detail.screeningQuestions,
+                )),
+                _pad(ApplicationDetailCompanyCard(company: detail.company)),
+                SizedBox(height: MediaQuery.paddingOf(context).bottom + 112),
+              ],
+            ),
+          ),
+          overlayBuilder: (context, ref, topOffset) => [
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: SafeArea(
+                top: false,
+                child: ApplicationDetailStickyBar(applicationId: applicationId),
+              ),
+            ),
           ],
-        ),
+        );
+      },
+      loading: () => const _LoadingScaffold(),
+      error: (_, __) => _MessageScaffold(
+        message: AppLocalizations.of(context)!.applicationDetailLoadError,
       ),
-      overlayBuilder: (context, ref, topOffset) => [
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 0,
-          child: SafeArea(
-            top: false,
-            child: ApplicationDetailStickyBar(applicationId: applicationId),
+    );
+  }
+}
+
+class _LoadingScaffold extends StatelessWidget {
+  const _LoadingScaffold();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      backgroundColor: IthakiTheme.backgroundViolet,
+      body: Center(child: CircularProgressIndicator()),
+    );
+  }
+}
+
+class _MessageScaffold extends StatelessWidget {
+  const _MessageScaffold({
+    required this.message,
+  });
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: IthakiTheme.backgroundViolet,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Text(
+            message,
+            textAlign: TextAlign.center,
+            style: IthakiTheme.bodyRegular.copyWith(
+              color: IthakiTheme.textPrimary,
+            ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

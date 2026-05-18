@@ -602,6 +602,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get myApplicationsLoadError => 'فشل تحميل الطلبات.';
 
   @override
+  String get applicationDetailLoadError =>
+      'We could not load this application right now.';
+
+  @override
+  String get applicationDetailNotFoundMessage =>
+      'We could not find details for this application.';
+
+  @override
   String get myApplicationsEmptyTitle => 'لا توجد طلبات بعد';
 
   @override

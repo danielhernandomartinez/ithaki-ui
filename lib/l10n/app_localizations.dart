@@ -1236,6 +1236,18 @@ abstract class AppLocalizations {
   /// **'Failed to load applications.'**
   String get myApplicationsLoadError;
 
+  /// No description provided for @applicationDetailLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not load this application right now.'**
+  String get applicationDetailLoadError;
+
+  /// No description provided for @applicationDetailNotFoundMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'We could not find details for this application.'**
+  String get applicationDetailNotFoundMessage;
+
   /// No description provided for @myApplicationsEmptyTitle.
   ///
   /// In en, this message translates to:

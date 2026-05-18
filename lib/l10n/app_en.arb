@@ -203,6 +203,8 @@
   "myApplicationsTabLabel": "My Applications",
   "myApplicationsTabDescription": "Track all the jobs you've applied for and see their current status. You can also review invitations you've accepted or find past applications in your archive.",
   "myApplicationsLoadError": "Failed to load applications.",
+  "applicationDetailLoadError": "We could not load this application right now.",
+  "applicationDetailNotFoundMessage": "We could not find details for this application.",
   "myApplicationsEmptyTitle": "No applications yet",
   "myApplicationsEmptySubtitle": "Jobs you apply for will appear here\nso you can track their status.",
   "myInvitationsTabLabel": "My Invitations ({count})",

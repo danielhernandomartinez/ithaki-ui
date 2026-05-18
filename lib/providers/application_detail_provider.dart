@@ -1,18 +1,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../config/app_config.dart';
 import '../models/application_detail_models.dart';
 import '../repositories/application_detail_repository.dart';
+import '../services/api_client.dart';
 import 'profile_provider.dart';
 
 final applicationDetailRepositoryProvider =
     Provider<ApplicationDetailRepository>(
-  (ref) => MockApplicationDetailRepository(),
+  (ref) => AppConfig.useMockData
+      ? MockApplicationDetailRepository()
+      : ApiApplicationDetailRepository(apiClient: ref.watch(apiClientProvider)),
 );
 
 final applicationDetailProvider =
-    Provider.family<ApplicationDetail?, String>((ref, id) {
-  final detail =
-      ref.watch(applicationDetailRepositoryProvider).getApplicationDetail(id);
+    FutureProvider.family<ApplicationDetail?, String>((ref, id) async {
+  final detail = await ref
+      .watch(applicationDetailRepositoryProvider)
+      .getApplicationDetail(id);
   if (detail == null) return null;
 
   final basics = ref.watch(profileBasicsProvider).value;

@@ -608,6 +608,14 @@ class AppLocalizationsEl extends AppLocalizations {
   String get myApplicationsLoadError => 'Αποτυχία φόρτωσης αιτήσεων.';
 
   @override
+  String get applicationDetailLoadError =>
+      'We could not load this application right now.';
+
+  @override
+  String get applicationDetailNotFoundMessage =>
+      'We could not find details for this application.';
+
+  @override
   String get myApplicationsEmptyTitle => 'Δεν υπάρχουν αιτήσεις ακόμη';
 
   @override

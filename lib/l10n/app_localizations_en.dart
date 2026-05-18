@@ -606,6 +606,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myApplicationsLoadError => 'Failed to load applications.';
 
   @override
+  String get applicationDetailLoadError =>
+      'We could not load this application right now.';
+
+  @override
+  String get applicationDetailNotFoundMessage =>
+      'We could not find details for this application.';
+
+  @override
   String get myApplicationsEmptyTitle => 'No applications yet';
 
   @override

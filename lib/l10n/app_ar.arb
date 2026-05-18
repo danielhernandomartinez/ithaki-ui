@@ -205,6 +205,8 @@
   "myApplicationsTabLabel": "طلباتي",
   "myApplicationsTabDescription": "تتبع جميع الوظائف التي تقدمت إليها وشاهد حالتها الحالية. يمكنك أيضًا العثور على الطلبات القديمة في أرشيفك.",
   "myApplicationsLoadError": "فشل تحميل الطلبات.",
+  "applicationDetailLoadError": "We could not load this application right now.",
+  "applicationDetailNotFoundMessage": "We could not find details for this application.",
   "myApplicationsEmptyTitle": "لا توجد طلبات بعد",
   "myApplicationsEmptySubtitle": "الوظائف التي تتقدم إليها ستظهر هنا\nحتى تتمكن من تتبع حالتها.",
   "myInvitationsTabLabel": "دعواتي ({count})",

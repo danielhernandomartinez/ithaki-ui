@@ -613,6 +613,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String get myApplicationsLoadError => 'Error al cargar las solicitudes.';
 
   @override
+  String get applicationDetailLoadError =>
+      'No pudimos cargar esta solicitud en este momento.';
+
+  @override
+  String get applicationDetailNotFoundMessage =>
+      'No pudimos encontrar los detalles de esta solicitud.';
+
+  @override
   String get myApplicationsEmptyTitle => 'Aún no hay solicitudes';
 
   @override
