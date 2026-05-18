@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../models/applications_models.dart';
 import '../../providers/home_provider.dart';
 import '../../providers/invitations_provider.dart';
 import '../../providers/tour_provider.dart';
@@ -35,8 +36,6 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
 
-  String? _pendingDismissId;
-  Timer? _dismissTimer;
   bool _showSuccessBanner = false;
   Timer? _successTimer;
   bool _showDeclinedBanner = false;
@@ -59,42 +58,9 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
   @override
   void dispose() {
     _tabController.dispose();
-    _dismissTimer?.cancel();
     _successTimer?.cancel();
     _declinedTimer?.cancel();
     super.dispose();
-  }
-
-  void _onDismissRequested(String invitationId) {
-    _dismissTimer?.cancel();
-    setState(() {
-      _pendingDismissId = invitationId;
-      _showSuccessBanner = false;
-    });
-    _dismissTimer = Timer(const Duration(seconds: 5), () async {
-      if (!mounted) return;
-      final now = DateTime.now();
-      final time =
-          '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}';
-      final dismissedAt =
-          AppLocalizations.of(context)!.dismissedTodayAt(time);
-      await ref
-          .read(invitationsProvider.notifier)
-          .dismiss(invitationId, dismissedAt);
-      if (!mounted) return;
-      setState(() {
-        _pendingDismissId = null;
-        _showSuccessBanner = true;
-      });
-      _successTimer = Timer(const Duration(seconds: 3), () {
-        if (mounted) setState(() => _showSuccessBanner = false);
-      });
-    });
-  }
-
-  void _onUndo() {
-    _dismissTimer?.cancel();
-    setState(() => _pendingDismissId = null);
   }
 
   void _showInvitationDeclinedBanner() {
@@ -111,6 +77,7 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
     final l = AppLocalizations.of(context)!;
     final homeAsync = ref.watch(homeProvider);
     final invitationsAsync = ref.watch(invitationsProvider);
+    final pendingDismissId = ref.watch(pendingDismissIdProvider);
     final tourState = ref.watch(tourProvider).maybeWhen(
           data: (value) => value,
           orElse: () => null,
@@ -129,6 +96,23 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
         }
       });
     }
+
+    ref.listen<AsyncValue<List<Invitation>>>(invitationsProvider,
+        (prev, next) {
+      final prevList = prev?.value;
+      final nextList = next.value;
+      if (prevList == null || nextList == null) return;
+      final newlyDismissed = nextList.any((i) =>
+          i.isDismissed &&
+          prevList.any((p) => p.id == i.id && !p.isDismissed));
+      if (newlyDismissed) {
+        _successTimer?.cancel();
+        setState(() => _showSuccessBanner = true);
+        _successTimer = Timer(const Duration(seconds: 3), () {
+          if (mounted) setState(() => _showSuccessBanner = false);
+        });
+      }
+    });
 
     final invitationsCount =
         invitationsAsync.value?.where((i) => !i.isDismissed).length ?? 0;
@@ -187,8 +171,14 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
         ),
       ),
       overlayBuilder: (context, ref, topOffset) => [
-        if (_pendingDismissId != null)
-          _banner(topOffset, DismissBanner(onUndo: _onUndo)),
+        if (pendingDismissId != null)
+          _banner(
+            topOffset,
+            DismissBanner(
+              onUndo: () =>
+                  ref.read(invitationsProvider.notifier).cancelDismiss(),
+            ),
+          ),
         if (_showSuccessBanner)
           _banner(
             topOffset,
@@ -217,10 +207,7 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
       case 0:
         return const MyApplicationsTab();
       case 1:
-        return InvitationsTab(
-          pendingDismissId: _pendingDismissId,
-          onDismissRequested: _onDismissRequested,
-        );
+        return const InvitationsTab();
       case 2:
         return const DraftsTab();
       case 3:

@@ -8,26 +8,20 @@ import 'invitation_card.dart';
 import 'tab_empty_state.dart';
 
 class InvitationsTab extends ConsumerWidget {
-  final String? pendingDismissId;
-  final void Function(String) onDismissRequested;
-
-  const InvitationsTab({
-    super.key,
-    required this.pendingDismissId,
-    required this.onDismissRequested,
-  });
+  const InvitationsTab({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l = AppLocalizations.of(context)!;
     final invitationsAsync = ref.watch(invitationsProvider);
+    final pendingDismissId = ref.watch(pendingDismissIdProvider);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           l.invitationsTabDescription,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w400,
             color: IthakiTheme.textPrimary,
@@ -43,7 +37,7 @@ class InvitationsTab extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: 24),
             child: Text(
               l.invitationsLoadError,
-              style: TextStyle(color: IthakiTheme.textSecondary),
+              style: const TextStyle(color: IthakiTheme.textSecondary),
             ),
           ),
           data: (invitations) {
@@ -65,7 +59,15 @@ class InvitationsTab extends ConsumerWidget {
                 return InvitationCard(
                   invitation: inv,
                   isDismissing: pendingDismissId == inv.id,
-                  onDismissRequested: () => onDismissRequested(inv.id),
+                  onDismissRequested: () {
+                    final now = DateTime.now();
+                    final time =
+                        '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}';
+                    ref.read(invitationsProvider.notifier).scheduleDismiss(
+                          inv.id,
+                          l.dismissedTodayAt(time),
+                        );
+                  },
                 );
               },
             );
