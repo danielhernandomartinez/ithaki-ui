@@ -12,15 +12,15 @@ class ApplicationStatusCard extends StatelessWidget {
       case 'Submitted':
         return IthakiTheme.accentPurpleLight;
       case 'Viewed':
-        return const Color(0xFFE9E9E9);
+        return IthakiTheme.statusBgGray;
       case 'Interview':
-        return const Color(0xFFD8E5F9);
+        return IthakiTheme.statusBgBlue;
       case 'Offer':
-        return const Color(0xFFD6F5D0);
+        return IthakiTheme.statusBgGreen;
       case 'Rejected':
-        return const Color(0xFFFFE0E0);
+        return IthakiTheme.statusBgRed;
       default:
-        return const Color(0xFFE9E9E9);
+        return IthakiTheme.statusBgGray;
     }
   }
 
@@ -28,9 +28,9 @@ class ApplicationStatusCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFF2F2F2).withValues(alpha: 0.7),
+        color: IthakiTheme.softGray.withValues(alpha: 0.7),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFF2F2F2)),
+        border: Border.all(color: IthakiTheme.softGray),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Column(

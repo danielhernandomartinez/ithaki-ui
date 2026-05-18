@@ -71,7 +71,7 @@ class TalentProfileCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
-              color: const Color(0xFFD8E5F9),
+              color: IthakiTheme.statusBgBlue,
               borderRadius: BorderRadius.circular(16),
             ),
             child: Text(candidate.availabilityLabel,

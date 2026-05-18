@@ -121,7 +121,7 @@ class AccountSettingsTab extends ConsumerWidget {
               const SizedBox(height: 8),
               Container(
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEDE7F6),
+                  color: IthakiTheme.surfaceLavender,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 padding:

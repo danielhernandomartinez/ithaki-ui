@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../providers/api_diagnostics_provider.dart';
 import '../../repositories/api_diagnostics_repository.dart';
@@ -22,10 +23,10 @@ class _ApiDiagnosticsScreenState extends ConsumerState<ApiDiagnosticsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF3F0FA),
+      backgroundColor: IthakiTheme.diagnosticsBg,
       appBar: AppBar(
         title: const Text('API Diagnostics'),
-        backgroundColor: const Color(0xFF6B4EFF),
+        backgroundColor: IthakiTheme.diagnosticsAccent,
         foregroundColor: Colors.white,
         actions: [
           if (_results.isNotEmpty)
@@ -135,9 +136,9 @@ class _SummaryBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Row(
         children: [
-          _Chip(label: '$ok OK', color: const Color(0xFF22C55E)),
+          _Chip(label: '$ok OK', color: IthakiTheme.diagnosticsSuccess),
           const SizedBox(width: 8),
-          _Chip(label: '$errors Errors', color: const Color(0xFFEF4444)),
+          _Chip(label: '$errors Errors', color: IthakiTheme.diagnosticsError),
           const Spacer(),
           Text(
             running ? '$done / $total' : 'Done $done / $total',
@@ -189,7 +190,7 @@ class _ResultTileState extends State<_ResultTile> {
     final r = widget.result;
     final isError = r.hasError;
     final statusColor =
-        isError ? const Color(0xFFEF4444) : const Color(0xFF22C55E);
+        isError ? IthakiTheme.diagnosticsError : IthakiTheme.diagnosticsSuccess;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
@@ -198,7 +199,7 @@ class _ResultTileState extends State<_ResultTile> {
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: isError
-              ? const Color(0xFFEF4444).withValues(alpha: 0.3)
+              ? IthakiTheme.diagnosticsError.withValues(alpha: 0.3)
               : Colors.transparent,
         ),
       ),
@@ -275,7 +276,7 @@ class _ResultTileState extends State<_ResultTile> {
               child: Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF8F8FA),
+                  color: IthakiTheme.surfaceFaint,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: SelectableText(
@@ -368,7 +369,7 @@ class _RunButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: running ? null : onRun,
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF6B4EFF),
+              backgroundColor: IthakiTheme.diagnosticsAccent,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),

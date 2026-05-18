@@ -168,7 +168,7 @@ class _EditSkillsScreenState extends ConsumerState<EditSkillsScreen> {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFEEEE),
+              color: IthakiTheme.errorPinkBg,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(

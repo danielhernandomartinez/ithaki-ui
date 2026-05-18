@@ -50,7 +50,7 @@ class SortSheet extends StatelessWidget {
               ],
             ),
           ),
-          const Divider(height: 1, color: Color(0xFFF0F0F0)),
+          const Divider(height: 1, color: IthakiTheme.dividerSoft),
 
           // ── Options ───────────────────────────────────────
           ...options.map((option) => Column(
@@ -73,7 +73,7 @@ class SortSheet extends StatelessWidget {
                       Navigator.pop(context);
                     },
                   ),
-                  const Divider(height: 1, color: Color(0xFFF0F0F0)),
+                  const Divider(height: 1, color: IthakiTheme.dividerSoft),
                 ],
               )),
         ],

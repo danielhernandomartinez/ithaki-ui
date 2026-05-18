@@ -56,7 +56,7 @@ class JobDetailMainJobCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               decoration: BoxDecoration(
-                color: const Color(0xFFE8E8E8),
+                color: IthakiTheme.hatchBackgroundMuted,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(l.jobClosedLabel,
@@ -223,7 +223,7 @@ class JobDetailMainJobCard extends StatelessWidget {
           const SizedBox(height: 14),
           JobDetailSection(title: l.niceToHaveTitle, body: detail.niceToHave),
           const SizedBox(height: 14),
-          const Divider(height: 1, color: Color(0xFFE8E8E8)),
+          const Divider(height: 1, color: IthakiTheme.hatchBackgroundMuted),
         ],
 
         // We offer
@@ -231,7 +231,7 @@ class JobDetailMainJobCard extends StatelessWidget {
           const SizedBox(height: 14),
           JobDetailSection(title: l.weOfferTitle, body: detail.whatWeOffer),
           const SizedBox(height: 14),
-          const Divider(height: 1, color: Color(0xFFE8E8E8)),
+          const Divider(height: 1, color: IthakiTheme.hatchBackgroundMuted),
         ],
 
         // Share + Not Interested / Job Removed

@@ -113,7 +113,7 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen>
               borderColor: IthakiTheme.borderLight,
               fillColor: IthakiTheme.backgroundWhite,
               focusedBorderColor: IthakiTheme.primaryPurple,
-              focusedFillColor: const Color(0xFFF0EAFA),
+              focusedFillColor: IthakiTheme.jobCardHighlight,
               filledBorderColor: IthakiTheme.primaryPurple,
               filledFillColor: IthakiTheme.backgroundWhite,
               textStyle: const TextStyle(color: IthakiTheme.textPrimary),

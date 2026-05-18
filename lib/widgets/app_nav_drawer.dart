@@ -240,7 +240,7 @@ class _ProfileCard extends StatelessWidget {
                     widthFactor: progress,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: const Color(0xFFCCFF00),
+                        color: IthakiTheme.navLime,
                         borderRadius: BorderRadius.circular(50),
                       ),
                     ),
@@ -279,7 +279,7 @@ class _HatchPainter extends CustomPainter {
       Paint()..color = IthakiTheme.placeholderBg,
     );
     final paint = Paint()
-      ..color = const Color(0xFFCCCCCC)
+      ..color = IthakiTheme.hatchStripe
       ..strokeWidth = 1.5;
     const spacing = 8.0;
     for (double x = -size.height; x < size.width + size.height; x += spacing) {

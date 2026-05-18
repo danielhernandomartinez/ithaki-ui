@@ -68,7 +68,7 @@ class _SalaryFilterSheetState extends State<SalaryFilterSheet> {
                       color: IthakiTheme.textPrimary)),
             ]),
           ),
-          const Divider(height: 1, color: Color(0xFFF0F0F0)),
+          const Divider(height: 1, color: IthakiTheme.dividerSoft),
           const SizedBox(height: 24),
 
           // ── From / Till fields ────────────────────────────
@@ -152,7 +152,7 @@ class _SalaryFilterSheetState extends State<SalaryFilterSheet> {
             child: SliderTheme(
               data: SliderTheme.of(context).copyWith(
                 activeTrackColor: IthakiTheme.primaryPurple,
-                inactiveTrackColor: const Color(0xFFE0D5F8),
+                inactiveTrackColor: IthakiTheme.sliderInactivePurple,
                 thumbColor: IthakiTheme.primaryPurple,
                 overlayColor: IthakiTheme.primaryPurple.withValues(alpha: 0.12),
                 trackHeight: 4,

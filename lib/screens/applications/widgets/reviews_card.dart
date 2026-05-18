@@ -75,7 +75,7 @@ class StarRow extends StatelessWidget {
         return IthakiIcon(
           filled ? 'star-filled' : 'star',
           size: 18,
-          color: filled ? const Color(0xFFFFB800) : IthakiTheme.borderLight,
+          color: filled ? IthakiTheme.starFilled : IthakiTheme.borderLight,
         );
       }),
     );

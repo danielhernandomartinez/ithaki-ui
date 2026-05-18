@@ -188,17 +188,17 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
                         color: IthakiTheme.primaryPurple, width: 1.5)),
                 disabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
-                    borderSide: const BorderSide(color: Color(0xFFEEEEEE))),
+                    borderSide: const BorderSide(color: IthakiTheme.borderSubtle)),
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 filled: _country == null,
-                fillColor: const Color(0xFFF8F8F8),
+                fillColor: IthakiTheme.surfaceSubtle,
               ),
             ),
           ),
 
           const SizedBox(height: 8),
-          const Divider(height: 1, color: Color(0xFFF0F0F0)),
+          const Divider(height: 1, color: IthakiTheme.dividerSoft),
 
           // ── Checkbox list ─────────────────────────────────
           Expanded(
@@ -217,7 +217,7 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
                   checkboxShape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4)),
                 ),
-                const Divider(height: 1, color: Color(0xFFF0F0F0)),
+                const Divider(height: 1, color: IthakiTheme.dividerSoft),
                 ..._selected
                     .where((city) => !_results.any((r) => r.city == city))
                     .map((city) => Column(
@@ -236,7 +236,7 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
                               checkboxShape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4)),
                             ),
-                            const Divider(height: 1, color: Color(0xFFF0F0F0)),
+                            const Divider(height: 1, color: IthakiTheme.dividerSoft),
                           ],
                         )),
                 ..._results.map((r) {
@@ -265,7 +265,7 @@ class _LocationFilterSheetState extends ConsumerState<LocationFilterSheet> {
                         checkboxShape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4)),
                       ),
-                      const Divider(height: 1, color: Color(0xFFF0F0F0)),
+                      const Divider(height: 1, color: IthakiTheme.dividerSoft),
                     ],
                   );
                 }),

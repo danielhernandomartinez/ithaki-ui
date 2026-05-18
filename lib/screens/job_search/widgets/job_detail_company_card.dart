@@ -69,7 +69,7 @@ class JobDetailCompanyCard extends StatelessWidget {
         ]),
         if (company.description.isNotEmpty) ...[
           const SizedBox(height: 12),
-          const Divider(height: 1, color: Color(0xFFE8E8E8)),
+          const Divider(height: 1, color: IthakiTheme.hatchBackgroundMuted),
           const SizedBox(height: 12),
           Text(company.description,
               style: const TextStyle(

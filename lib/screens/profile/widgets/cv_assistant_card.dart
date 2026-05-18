@@ -21,8 +21,8 @@ class CvAssistantCard extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            const Color(0xFF232124),
-            const Color(0xFF232124),
+            IthakiTheme.gradientCvDark,
+            IthakiTheme.gradientCvDark,
             IthakiTheme.primaryPurple.withValues(alpha: 0.6),
           ],
         ),

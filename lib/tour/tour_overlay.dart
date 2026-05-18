@@ -65,7 +65,7 @@ class _TourTooltip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
       decoration: BoxDecoration(
-        color: const Color(0xFF2E2E2E),
+        color: IthakiTheme.tourSurfaceDark,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -77,7 +77,7 @@ class _TourTooltip extends StatelessWidget {
             style: const TextStyle(
               fontFamily: 'Noto Sans',
               fontSize: 13,
-              color: Color(0xFF9E9E9E),
+              color: IthakiTheme.tourTextMuted,
             ),
           ),
           const SizedBox(height: 6),
@@ -96,7 +96,7 @@ class _TourTooltip extends StatelessWidget {
             style: const TextStyle(
               fontFamily: 'Noto Sans',
               fontSize: 14,
-              color: Color(0xFFCCCCCC),
+              color: IthakiTheme.hatchStripe,
               height: 1.5,
             ),
           ),

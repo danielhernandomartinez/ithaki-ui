@@ -106,7 +106,7 @@ class _FilterSubSheetState extends State<FilterSubSheet> {
           ),
 
           const SizedBox(height: 8),
-          const Divider(height: 1, color: Color(0xFFF0F0F0)),
+          const Divider(height: 1, color: IthakiTheme.dividerSoft),
 
           // ── Checkbox list ─────────────────────────────────
           Expanded(
@@ -125,7 +125,7 @@ class _FilterSubSheetState extends State<FilterSubSheet> {
                   checkboxShape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4)),
                 ),
-                const Divider(height: 1, color: Color(0xFFF0F0F0)),
+                const Divider(height: 1, color: IthakiTheme.dividerSoft),
                 ...filtered.map((option) {
                   final isChosen = _selected.contains(option);
                   return Column(
@@ -148,7 +148,7 @@ class _FilterSubSheetState extends State<FilterSubSheet> {
                         checkboxShape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(4)),
                       ),
-                      const Divider(height: 1, color: Color(0xFFF0F0F0)),
+                      const Divider(height: 1, color: IthakiTheme.dividerSoft),
                     ],
                   );
                 }),

@@ -33,7 +33,7 @@ class OdysseaReviewCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
-                color: const Color(0xFFF0F5C0),
+                color: IthakiTheme.reviewBannerBg,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -42,11 +42,11 @@ class OdysseaReviewCard extends StatelessWidget {
                       fontFamily: 'Noto Sans',
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF6B6B00),
+                      color: IthakiTheme.reviewBannerText,
                     )),
                 const SizedBox(width: 4),
                 const Text('✦',
-                    style: TextStyle(fontSize: 12, color: Color(0xFF6B6B00))),
+                    style: TextStyle(fontSize: 12, color: IthakiTheme.reviewBannerText)),
               ]),
             ),
         ]),

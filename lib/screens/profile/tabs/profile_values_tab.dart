@@ -68,7 +68,7 @@ class ProfileValuesTab extends ConsumerWidget {
         decoration: BoxDecoration(
           color: IthakiTheme.backgroundViolet,
           borderRadius: BorderRadius.circular(999),
-          border: Border.all(color: const Color(0xFFDDD5F8)),
+          border: Border.all(color: IthakiTheme.surfacePurpleSelected),
         ),
         child: Text(label,
             style: const TextStyle(

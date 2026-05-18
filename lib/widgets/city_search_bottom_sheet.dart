@@ -155,7 +155,7 @@ class _CitySearchBottomSheetState extends ConsumerState<CitySearchBottomSheet> {
                     shrinkWrap: true,
                     itemCount: _results.length,
                     separatorBuilder: (_, __) =>
-                        const Divider(height: 1, color: Color(0xFFF0F0F0)),
+                        const Divider(height: 1, color: IthakiTheme.dividerSoft),
                     itemBuilder: (_, i) {
                       final r = _results[i];
                       return ListTile(

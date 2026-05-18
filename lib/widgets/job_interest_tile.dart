@@ -18,7 +18,7 @@ class JobInterestTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFFF5F5F8),
+        color: IthakiTheme.surfaceMistGray,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(children: [

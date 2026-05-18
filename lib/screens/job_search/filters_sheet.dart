@@ -190,7 +190,7 @@ class _FiltersSheetState extends State<FiltersSheet> {
                       borderRadius: BorderRadius.circular(30),
                       border: Border.all(
                           color: hasSelection
-                              ? const Color(0xFFDDD5F8)
+                              ? IthakiTheme.surfacePurpleSelected
                               : IthakiTheme.placeholderBg),
                     ),
                     child: Row(children: [

@@ -17,9 +17,9 @@ class JobDetailMatchBanner extends StatelessWidget {
 
   Color get _progressColor {
     if (percentage >= 80) return IthakiTheme.matchGreen;
-    if (percentage >= 60) return const Color(0xFFFFC44D);
-    if (percentage >= 40) return const Color(0xFFFF8A4C);
-    return const Color(0xFFFF6B6B);
+    if (percentage >= 60) return IthakiTheme.matchScoreGood;
+    if (percentage >= 40) return IthakiTheme.matchScoreWeak;
+    return IthakiTheme.matchScoreLow;
   }
 
   String _matchCopy(AppLocalizations l) {
@@ -39,8 +39,8 @@ class JobDetailMatchBanner extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [
-            Color(0xFF151515),
-            Color(0xFF1D1B28),
+            IthakiTheme.gradientDarkTop,
+            IthakiTheme.gradientDarkBottom,
             IthakiTheme.primaryPurple,
           ],
           begin: Alignment.topLeft,

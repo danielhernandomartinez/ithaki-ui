@@ -112,7 +112,7 @@ class _JobSearchSearchBarState extends ConsumerState<JobSearchSearchBar> {
                       : IthakiTheme.backgroundWhite,
                   border: Border.all(
                     color: count > 0
-                        ? const Color(0xFFDDD5F8)
+                        ? IthakiTheme.surfacePurpleSelected
                         : IthakiTheme.borderLight,
                   ),
                   borderRadius: BorderRadius.circular(30),

@@ -30,7 +30,7 @@ class JobMainCard extends StatelessWidget {
                   style: const TextStyle(
                     fontFamily: 'Noto Sans',
                     fontSize: 14,
-                    color: Color(0xFF4B4B4B),
+                    color: IthakiTheme.graphite,
                     letterSpacing: -0.28,
                   )),
               if (trailingAction != null) trailingAction!,
@@ -48,7 +48,7 @@ class JobMainCard extends StatelessWidget {
             _DetailCell(icon: 'globe', value: detail.languages, wide: true),
           ]),
           const SizedBox(height: 12),
-          const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
+          const Divider(height: 1, thickness: 1, color: IthakiTheme.hatchBackgroundMuted),
           const SizedBox(height: 12),
           IthakiMatchBar(
             percentage: detail.matchPercentage,
@@ -57,7 +57,7 @@ class JobMainCard extends StatelessWidget {
             backgroundColor: getMatchBgColor(detail.matchLabel),
           ),
           const SizedBox(height: 12),
-          const Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
+          const Divider(height: 1, thickness: 1, color: IthakiTheme.hatchBackgroundMuted),
           const SizedBox(height: 12),
           Text(AppLocalizations.of(context)!.curiousWhyMatch,
               style: const TextStyle(
@@ -302,7 +302,7 @@ class _Divider extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(children: [
       SizedBox(height: 16),
-      Divider(height: 1, thickness: 1, color: Color(0xFFE8E8E8)),
+      Divider(height: 1, thickness: 1, color: IthakiTheme.hatchBackgroundMuted),
       SizedBox(height: 16),
     ]);
   }

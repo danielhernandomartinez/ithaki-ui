@@ -24,7 +24,7 @@ class HomeProfileCompletionCard extends ConsumerWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: ColoredBox(
-          color: const Color(0xFFDACCF8),
+          color: IthakiTheme.profileCompletionBg,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
