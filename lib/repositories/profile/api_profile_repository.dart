@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 
 import '../../models/profile_models.dart';
@@ -10,8 +8,7 @@ import 'profile_api_mapper.dart';
 import 'profile_basics_service.dart';
 import 'profile_documents_service.dart';
 import 'profile_language_resolver.dart';
-import 'profile_local_store.dart';
-import 'profile_response_parser.dart';
+import 'profile_loader.dart';
 import 'profile_session_cache.dart';
 import 'profile_skill_resolver.dart';
 
@@ -21,7 +18,12 @@ class ApiProfileRepository implements ProfileRepository {
     _languageResolver = ProfileLanguageResolver(_api);
     _basicsService = ProfileBasicsService(_api);
     _documentsService = ProfileDocumentsService(_api);
-    _skillResolver = ProfileSkillResolver(_api);
+    _loader = ProfileLoader(
+      api: _api,
+      cache: _cache,
+      documentsService: _documentsService,
+      skillResolver: ProfileSkillResolver(_api),
+    );
   }
 
   final ApiClient _api;
@@ -29,123 +31,17 @@ class ApiProfileRepository implements ProfileRepository {
   late final ProfileLanguageResolver _languageResolver;
   late final ProfileBasicsService _basicsService;
   late final ProfileDocumentsService _documentsService;
-  late final ProfileSkillResolver _skillResolver;
+  late final ProfileLoader _loader;
 
   Future<void> _prepare() async {
     await _cache.sync(_api, onSessionChanged: _languageResolver.invalidate);
     await _cache.ensureLoaded();
   }
 
-  static String _prettyJson(Object value) {
-    const encoder = JsonEncoder.withIndent('  ');
-    return encoder.convert(value);
-  }
-
   @override
   Future<ProfileLoadResult> refreshAll() async {
     await _prepare();
-
-    final userRes = await _api.get('/user/me');
-    if (userRes.statusCode != 200) {
-      throw Exception('Failed to load user: ${userRes.statusCode}');
-    }
-
-    final Map<String, dynamic> userData;
-    try {
-      userData = (jsonDecode(userRes.body) as Map).cast<String, dynamic>();
-    } on FormatException {
-      throw Exception('Failed to load user: server returned non-JSON response');
-    }
-    debugPrint('[refreshAll] userInfo ->\n${_prettyJson(userData)}');
-
-    final phoneVerified = userData['phoneVerified'] as bool? ?? false;
-    if (phoneVerified) {
-      await ProfileLocalStore.savePhoneVerified(true);
-    }
-
-    var basics = ProfileResponseParser.parseBasicsFromUser(userData);
-    final onboarding = ProfileResponseParser.stringMap(userData['onboarding']);
-    final onboardingPrefs = ProfileResponseParser.parseJobPreferences(
-      onboarding?['preferences'],
-      onboarding?['jobInterests'],
-    );
-    if (onboardingPrefs != null) {
-      await _cache.saveJobPreferences(onboardingPrefs);
-    }
-
-    final onboardingValues =
-        ProfileResponseParser.titleList(onboarding?['values']);
-    if (onboardingValues.isNotEmpty) {
-      await _cache.saveValues(onboardingValues);
-    }
-
-    try {
-      final profileRes = await _api.get('/job-seeker/me');
-      if (profileRes.statusCode == 200) {
-        final Map<String, dynamic> profileData;
-        try {
-          profileData =
-              (jsonDecode(profileRes.body) as Map).cast<String, dynamic>();
-        } on FormatException {
-          throw Exception(
-            'Failed to load profile: server returned non-JSON response',
-          );
-        }
-
-        basics = ProfileResponseParser.applyProfileBasics(basics, profileData);
-
-        final parsedAboutMe = ProfileResponseParser.parseAboutMe(profileData);
-        final parsedSkills = await _skillResolver.resolveSkillNames(
-          ProfileResponseParser.parseSkills(
-            profileData,
-            _cache.snapshot.skills,
-          ),
-        );
-        final parsedWork =
-            ProfileResponseParser.parseWorkExperiences(profileData);
-        final parsedEducations =
-            ProfileResponseParser.parseEducations(profileData);
-        final parsedPrefs = ProfileResponseParser.parseJobPreferences(
-              profileData['jobPreferences'] ?? profileData['preferences'],
-              profileData['jobInterests'],
-            ) ??
-            onboardingPrefs;
-        final profileValues =
-            ProfileResponseParser.titleList(profileData['values']);
-        final parsedValues =
-            profileValues.isNotEmpty ? profileValues : onboardingValues;
-
-        if (parsedAboutMe != null) {
-          await _cache.saveAboutMe(parsedAboutMe);
-        }
-        await _cache.saveSkills(parsedSkills);
-        await _cache.saveWorkExperiences(parsedWork);
-        await _cache.saveEducations(parsedEducations);
-        if (parsedPrefs != null) {
-          await _cache.saveJobPreferences(parsedPrefs);
-        }
-        if (parsedValues.isNotEmpty) {
-          await _cache.saveValues(parsedValues);
-        }
-      }
-    } catch (e) {
-      debugPrint('[refreshAll] jobSeeker profile partial load -> $e');
-      await _cache.saveBasics(basics);
-      return ProfileLoadResult(
-        basics: _cache.snapshot.basics,
-        isPartial: true,
-        partialError: e,
-      );
-    }
-
-    try {
-      await _cache.saveFiles(await _documentsService.fetchRemoteDocuments());
-    } catch (e) {
-      debugPrint('[refreshAll] documents load skipped -> $e');
-    }
-
-    await _cache.saveBasics(basics);
-    return ProfileLoadResult(basics: _cache.snapshot.basics);
+    return _loader.refreshAll();
   }
 
   @override
