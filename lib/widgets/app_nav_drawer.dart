@@ -38,13 +38,6 @@ class AppNavDrawer extends ConsumerWidget {
     required this.items,
     this.profileProgress = 0.25,
     this.onItemTap,
-    // legacy params kept for call-site compatibility — ignored
-    // ignore: avoid_unused_constructor_parameters
-    String languageLabel = 'English',
-    // ignore: avoid_unused_constructor_parameters
-    String languageFlagCode = 'gb',
-    // ignore: avoid_unused_constructor_parameters
-    VoidCallback? onLanguageTap,
   });
 
   void _showLanguagePicker(
