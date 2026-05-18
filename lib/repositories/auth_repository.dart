@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer' as developer;
 
 import 'profile/profile_local_store.dart';
 
@@ -262,7 +263,9 @@ class ApiAuthRepository implements AuthRepository {
     // OTP send is best-effort — if Twilio fails the user can retry from the OTP screen.
     try {
       await _triggerOtpSms(token);
-    } catch (_) {}
+    } catch (e) {
+      _logOtpSendFailure(e);
+    }
   }
 
   @override
@@ -337,5 +340,17 @@ class ApiAuthRepository implements AuthRepository {
   Future<void> logout() async {
     await _sessionService.clearTokens();
     await ProfileLocalStore.clearAll();
+  }
+
+  static void _logOtpSendFailure(Object error) {
+    final summary = error is AuthException
+        ? error.userMessage
+        : error is TimeoutException
+            ? 'Request timed out'
+            : error.runtimeType.toString();
+    developer.log(
+      'Initial OTP send failed after registration: $summary',
+      name: 'ithaki.auth',
+    );
   }
 }

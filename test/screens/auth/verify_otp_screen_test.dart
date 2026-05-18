@@ -42,6 +42,15 @@ class _FakeAuthRepository implements AuthRepository {
   Future<void> logout() async {}
 }
 
+class _FailingSendOtpAuthRepository extends _FakeAuthRepository {
+  @override
+  Future<void> sendOtp() async {
+    throw const AuthException(
+      'Could not send verification code. Please try again.',
+    );
+  }
+}
+
 GoRouter _router() => GoRouter(
       initialLocation: Routes.verifyOtp,
       routes: [
@@ -70,9 +79,11 @@ GoRouter _router() => GoRouter(
       ],
     );
 
-Widget _buildApp() => ProviderScope(
+Widget _buildApp({AuthRepository? authRepository}) => ProviderScope(
       overrides: [
-        authRepositoryProvider.overrideWithValue(_FakeAuthRepository()),
+        authRepositoryProvider.overrideWithValue(
+          authRepository ?? _FakeAuthRepository(),
+        ),
       ],
       child: MaterialApp.router(
         routerConfig: _router(),
@@ -95,5 +106,27 @@ void main() {
 
     expect(find.text("Let's verify your Account"), findsOneWidget);
     expect(find.textContaining('Welcome on board!'), findsOneWidget);
+  });
+
+  testWidgets('resend failure shows an error instead of restarting silently',
+      (tester) async {
+    await tester.pumpWidget(
+      _buildApp(authRepository: _FailingSendOtpAuthRepository()),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 26));
+
+    await tester.tap(
+      find.byWidgetPredicate(
+        (widget) =>
+            widget is RichText && widget.text.toPlainText() == 'Resend code',
+      ),
+    );
+    await tester.pump();
+
+    expect(
+      find.text('Could not send verification code. Please try again.'),
+      findsOneWidget,
+    );
   });
 }

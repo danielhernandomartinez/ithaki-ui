@@ -132,9 +132,20 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen>
               setState(() => _isSending = true);
               try {
                 await ref.read(authRepositoryProvider).sendOtp();
-              } catch (_) {}
-              if (mounted) setState(() => _isSending = false);
-              startCountdown(24);
+                if (!mounted) return;
+                setState(() => _isSending = false);
+                startCountdown(24);
+              } catch (e) {
+                if (!context.mounted) return;
+                final message = e is AuthException
+                    ? e.userMessage
+                    : 'Could not send verification code. Please try again.';
+                if (kDebugMode) debugPrint('OTP resend error: $e');
+                setState(() => _isSending = false);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(message)),
+                );
+              }
             },
           ),
           const SizedBox(height: 40),
