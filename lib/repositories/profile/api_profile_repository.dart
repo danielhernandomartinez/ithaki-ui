@@ -209,8 +209,10 @@ class ApiProfileRepository implements ProfileRepository {
       return null;
     }
     if (isHttpUrl(value)) return value;
-    debugPrint(
-        '[saveAboutMe] local video ignored; no upload endpoint -> $value');
+    if (kDebugMode) {
+      debugPrint(
+          '[saveAboutMe] local video ignored; no upload endpoint -> $value');
+    }
     return null;
   }
 }

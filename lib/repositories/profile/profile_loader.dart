@@ -38,7 +38,9 @@ class ProfileLoader {
     } on FormatException {
       throw Exception('Failed to load user: server returned non-JSON response');
     }
-    debugPrint('[refreshAll] userInfo ->\n${_prettyJson(userData)}');
+    if (kDebugMode) {
+      debugPrint('[refreshAll] userInfo ->\n${_prettyJson(userData)}');
+    }
 
     final phoneVerified = userData['phoneVerified'] as bool? ?? false;
     if (phoneVerified) {
@@ -103,7 +105,7 @@ class ProfileLoader {
         }
       }
     } catch (e) {
-      debugPrint('[refreshAll] jobSeeker profile partial load -> $e');
+      _debugLog('[refreshAll] jobSeeker profile partial load -> $e');
       await _cache.saveBasics(basics);
       return ProfileLoadResult(
         basics: _cache.snapshot.basics,
@@ -115,7 +117,7 @@ class ProfileLoader {
     try {
       await _cache.saveFiles(await _documentsService.fetchRemoteDocuments());
     } catch (e) {
-      debugPrint('[refreshAll] documents load skipped -> $e');
+      _debugLog('[refreshAll] documents load skipped -> $e');
     }
 
     await _cache.saveBasics(basics);
@@ -136,4 +138,8 @@ class ProfileLoader {
     const encoder = JsonEncoder.withIndent('  ');
     return encoder.convert(value);
   }
+}
+
+void _debugLog(String message) {
+  if (kDebugMode) debugPrint(message);
 }

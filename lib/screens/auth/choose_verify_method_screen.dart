@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -122,7 +123,7 @@ class _ChooseVerifyMethodScreenState
                       final message = e is AuthException
                           ? e.userMessage
                           : 'Something went wrong. Please try again.';
-                      debugPrint('Registration error: $e');
+                      if (kDebugMode) debugPrint('Registration error: $e');
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(message)),
                       );

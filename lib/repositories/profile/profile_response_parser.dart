@@ -103,7 +103,7 @@ class ProfileResponseParser {
     final date =
         uploadedAt.contains('T') ? uploadedAt.split('T').first : uploadedAt;
     final url = _parseDocumentUrl(json);
-    debugPrint(
+    _debugLog(
       '[documents] parsed document -> id=$id, name=${name.isEmpty ? 'Document' : name}, '
       'type=${type.isEmpty ? '<none>' : type}, '
       'uploadedAt=${uploadedAt.isEmpty ? '<none>' : uploadedAt}, '
@@ -122,7 +122,7 @@ class ProfileResponseParser {
   static String? _parseDocumentUrl(Map<String, dynamic> json) {
     for (final key in ['url', 'fileUrl', 'downloadUrl']) {
       final value = json[key];
-      debugPrint('[documents] url field $key -> ${value ?? '<missing>'}');
+      _debugLog('[documents] url field $key -> ${value ?? '<missing>'}');
       if (value is String && value.trim().isNotEmpty) {
         return value.trim();
       }
@@ -132,8 +132,8 @@ class ProfileResponseParser {
 
   static Future<List<UploadedFile>> fetchRemoteDocuments(ApiClient api) async {
     final response = await api.get('/files/me/documents');
-    debugPrint('[documents] list status -> ${response.statusCode}');
-    debugPrint('[documents] list body -> ${response.body}');
+    _debugLog('[documents] list status -> ${response.statusCode}');
+    _debugLog('[documents] list body -> ${response.body}');
     if (response.statusCode != 200) {
       throw Exception('Failed to load documents: ${response.statusCode}');
     }
@@ -243,7 +243,7 @@ class ProfileResponseParser {
       final residence = ProfileCountryResolver.countryNameFor(b['residence']);
       final residenceCode =
           ProfileCountryResolver.countryCodeFor(b['residence']);
-      debugPrint('[refreshAll] basics.photo → ${b['photo']}');
+      _debugLog('[refreshAll] basics.photo → ${b['photo']}');
       result = result.copyWith(
         phone: textValue(b['phone']).isNotEmpty
             ? textValue(b['phone'])
@@ -371,5 +371,9 @@ class ProfileResponseParser {
         )
         .where((e) => e.institutionName.isNotEmpty || e.fieldOfStudy.isNotEmpty)
         .toList();
+  }
+
+  static void _debugLog(String message) {
+    if (kDebugMode) debugPrint(message);
   }
 }

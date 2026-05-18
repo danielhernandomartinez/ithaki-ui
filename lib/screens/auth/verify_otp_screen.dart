@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -156,7 +157,7 @@ class _VerifyOtpScreenState extends ConsumerState<VerifyOtpScreen>
                       final message = e is AuthException
                           ? e.userMessage
                           : 'Something went wrong. Please try again.';
-                      debugPrint('OTP error: $e');
+                      if (kDebugMode) debugPrint('OTP error: $e');
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text(message)),
                       );

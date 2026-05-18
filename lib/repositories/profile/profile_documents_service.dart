@@ -28,11 +28,10 @@ class ProfileDocumentsService {
         .toList();
 
     for (final id in removedIds) {
-      debugPrint('[saveFiles] deleting remote document id=$id');
+      _debugLog('[saveFiles] deleting remote document id=$id');
       final response = await _api.delete('/files/me/documents/$id');
-      debugPrint(
-          '[saveFiles] delete response status -> ${response.statusCode}');
-      debugPrint('[saveFiles] delete response body -> ${response.body}');
+      _debugLog('[saveFiles] delete response status -> ${response.statusCode}');
+      _debugLog('[saveFiles] delete response body -> ${response.body}');
     }
 
     final localFiles = incoming
@@ -44,19 +43,17 @@ class ProfileDocumentsService {
         .whereType<String>()
         .toList();
     if (localPaths.isNotEmpty) {
-      debugPrint('[saveFiles] uploading ${localPaths.length} document(s)');
+      _debugLog('[saveFiles] uploading ${localPaths.length} document(s)');
       for (final file in localFiles) {
-        debugPrint(
-            '[saveFiles] upload candidate -> ${file.name} | ${file.url}');
+        _debugLog('[saveFiles] upload candidate -> ${file.name} | ${file.url}');
       }
       final response = await _api.uploadMultipartFiles(
         '/files/me/upload/documents',
         'uploadedFiles',
         localPaths,
       );
-      debugPrint(
-          '[saveFiles] upload response status -> ${response.statusCode}');
-      debugPrint('[saveFiles] upload response body -> ${response.body}');
+      _debugLog('[saveFiles] upload response status -> ${response.statusCode}');
+      _debugLog('[saveFiles] upload response body -> ${response.body}');
     }
 
     final unsupported = incoming.where(
@@ -64,7 +61,7 @@ class ProfileDocumentsService {
           file.id == null && !ProfileResponseParser.isLocalFilePath(file.url),
     );
     for (final file in unsupported) {
-      debugPrint(
+      _debugLog(
         '[saveFiles] skipped unsupported document source -> ${file.name} | ${file.url}',
       );
     }
@@ -72,7 +69,7 @@ class ProfileDocumentsService {
     try {
       return await fetchRemoteDocuments();
     } catch (e) {
-      debugPrint('[saveFiles] remote refresh failed -> $e');
+      _debugLog('[saveFiles] remote refresh failed -> $e');
       return incoming;
     }
   }
@@ -80,28 +77,28 @@ class ProfileDocumentsService {
   Future<Uint8List> downloadFile(UploadedFile file) async {
     final id = file.id;
     final url = file.url;
-    debugPrint(
+    _debugLog(
       '[downloadFile] requested -> id=${file.id}, name=${file.name}, url=${url ?? '<none>'}',
     );
 
     if (id != null) {
-      debugPrint('[downloadFile] using document id endpoint -> $id');
+      _debugLog('[downloadFile] using document id endpoint -> $id');
       final res = await _api.get(
         '/files/me/documents/$id/download',
         timeout: ApiClient.uploadTimeout,
       );
-      debugPrint('[downloadFile] id endpoint status -> ${res.statusCode}');
+      _debugLog('[downloadFile] id endpoint status -> ${res.statusCode}');
       if (res.statusCode == 200) return res.bodyBytes;
       if (url == null) {
         throw Exception('Download failed: HTTP ${res.statusCode}');
       }
-      debugPrint('[downloadFile] id endpoint failed, trying url fallback');
+      _debugLog('[downloadFile] id endpoint failed, trying url fallback');
     }
 
     if (url != null) {
       final uri = trimmedUri(url);
       if (isHttpUrl(url) && uri != null) {
-        debugPrint('[downloadFile] trying remote url -> $url');
+        _debugLog('[downloadFile] trying remote url -> $url');
         final apiHost = Uri.parse(_api.base).host;
         final isSameOrigin = uri.host == apiHost;
         final headers = isSameOrigin
@@ -110,14 +107,18 @@ class ProfileDocumentsService {
         final res = await _api.client
             .get(uri, headers: headers)
             .timeout(ApiClient.uploadTimeout);
-        debugPrint('[downloadFile] remote url status -> ${res.statusCode}');
+        _debugLog('[downloadFile] remote url status -> ${res.statusCode}');
         if (res.statusCode == 200) return res.bodyBytes;
       } else {
-        debugPrint(
+        _debugLog(
             '[downloadFile] url is not http(s), skipping direct download');
       }
     }
 
     throw Exception('No download source for: ${file.name}');
+  }
+
+  static void _debugLog(String message) {
+    if (kDebugMode) debugPrint(message);
   }
 }

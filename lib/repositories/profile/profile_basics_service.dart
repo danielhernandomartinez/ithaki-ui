@@ -45,7 +45,9 @@ class ProfileBasicsService {
           ),
       },
     };
-    debugPrint('[saveBasics] payload ->\n${_prettyJson(jobSeekerPayload)}');
+    if (kDebugMode) {
+      debugPrint('[saveBasics] payload ->\n${_prettyJson(jobSeekerPayload)}');
+    }
     await _api.postJson('/user/me', {
       'firstName': basics.firstName,
       'lastName': basics.lastName,
@@ -69,7 +71,7 @@ class ProfileBasicsService {
         params: const {'step': 'location'},
       );
     } catch (e) {
-      debugPrint('[saveBasics] onboarding location save skipped -> $e');
+      _debugLog('[saveBasics] onboarding location save skipped -> $e');
     }
 
     return basics.copyWith(photoUrl: uploadedPhotoUrl);
@@ -85,20 +87,20 @@ class ProfileBasicsService {
 
     final file = File(localPath);
     if (!await file.exists()) {
-      debugPrint(
+      _debugLog(
         '[saveBasics] photo upload skipped; file does not exist -> $localPath',
       );
       return photoUrl;
     }
 
-    debugPrint('[saveBasics] photo upload file -> $localPath');
+    _debugLog('[saveBasics] photo upload file -> $localPath');
     final body = await _api.uploadMultipart(
       '/files/me/upload/photo',
       'file',
       localPath,
     );
     final uploadedPhoto = _readUploadedPhoto(body);
-    debugPrint('[saveBasics] uploaded photo -> $uploadedPhoto');
+    _debugLog('[saveBasics] uploaded photo -> $uploadedPhoto');
     return uploadedPhoto;
   }
 
@@ -140,5 +142,9 @@ class ProfileBasicsService {
   static String _prettyJson(Object value) {
     const encoder = JsonEncoder.withIndent('  ');
     return encoder.convert(value);
+  }
+
+  static void _debugLog(String message) {
+    if (kDebugMode) debugPrint(message);
   }
 }
