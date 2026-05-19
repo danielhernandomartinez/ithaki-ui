@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../models/home_models.dart';
@@ -216,6 +217,54 @@ class ApiHomeRepository implements HomeRepository {
         .toList();
   }
 
+  // debugPrint on Android truncates lines at ~1024 chars; chunk the body so
+  // the full payload reaches logcat.
+  static void _logLong(String tag, String body) {
+    const chunkSize = 900;
+    const maxLen = 8000;
+    final trimmed = body.length > maxLen
+        ? '${body.substring(0, maxLen)}…(+${body.length - maxLen} chars)'
+        : body;
+    for (var i = 0; i < trimmed.length; i += chunkSize) {
+      final end =
+          (i + chunkSize < trimmed.length) ? i + chunkSize : trimmed.length;
+      debugPrint('$tag [${i ~/ chunkSize}] ${trimmed.substring(i, end)}');
+    }
+  }
+
+  // Pulls any field that could hold a company logo/photo URL so we can see
+  // in the log whether the backend is returning one.
+  static Map<String, dynamic> _photoFields(Map<String, dynamic> json) {
+    const candidates = {
+      'logo',
+      'logoUrl',
+      'logoURL',
+      'companyLogo',
+      'companyLogoUrl',
+      'photo',
+      'photoUrl',
+      'image',
+      'imageUrl',
+      'picture',
+      'pictureUrl',
+      'avatar',
+      'avatarUrl',
+    };
+    final result = <String, dynamic>{};
+    for (final key in json.keys) {
+      if (candidates.contains(key)) result[key] = json[key];
+    }
+    final company = json['company'];
+    if (company is Map) {
+      for (final entry in company.entries) {
+        if (candidates.contains(entry.key)) {
+          result['company.${entry.key}'] = entry.value;
+        }
+      }
+    }
+    return result;
+  }
+
   static int _applicationCount(String body) {
     if (body.trim().isEmpty) return 0;
     return mapper.extractList(jsonDecode(body)).length;
@@ -239,6 +288,29 @@ class ApiHomeRepository implements HomeRepository {
       );
     }
 
+    final jobs = _parseJobs(jobsResponse.body);
+    if (kDebugMode) {
+      debugPrint(
+        '[home] GET /jobs?page=0&size=3 → ${jobsResponse.statusCode} '
+        '(${jobs.length} jobs)',
+      );
+      _logLong('[home] /jobs body', jobsResponse.body);
+      final rawList = jobsResponse.body.trim().isEmpty
+          ? const <dynamic>[]
+          : mapper.extractList(jsonDecode(jobsResponse.body));
+      for (var i = 0; i < rawList.length; i++) {
+        final raw = rawList[i];
+        if (raw is! Map) continue;
+        final map = Map<String, dynamic>.from(raw);
+        final photo = _photoFields(map);
+        debugPrint(
+          '[home] job[$i] id=${map['id']} '
+          'keys=${map.keys.toList()} '
+          'photoFields=${photo.isEmpty ? 'NONE' : photo}',
+        );
+      }
+    }
+
     // userName / userInitials are overlaid by home_provider.dart.
     return HomeData(
       userName: '',
@@ -249,7 +321,7 @@ class ApiHomeRepository implements HomeRepository {
         applicationsSent: _applicationCount(applicationsResponse.body),
         interviews: 0,
       ),
-      jobs: _parseJobs(jobsResponse.body),
+      jobs: jobs,
       courses: const [],
       news: const [],
       isNewUser: false,

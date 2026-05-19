@@ -19,7 +19,7 @@ class HomeGreetingHeader extends ConsumerWidget {
         name.isEmpty ? l10n.homeGreetingNoName : l10n.homeGreetingName(name);
     return Container(
       margin: EdgeInsets.only(
-        top: topOffset - 8,
+        top: topOffset,
         left: 16,
         right: 16,
         bottom: 0,

@@ -49,7 +49,7 @@ class _ApplicationsTabBarState extends State<ApplicationsTabBar> {
       height: 48,
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: Colors.transparent,
+        color: IthakiTheme.chipActive,
         borderRadius: BorderRadius.circular(24),
       ),
       child: ClipRRect(
@@ -83,7 +83,7 @@ class _ApplicationsTabBarState extends State<ApplicationsTabBar> {
                             isActive ? FontWeight.w600 : FontWeight.w400,
                         color: isActive
                             ? IthakiTheme.textPrimary
-                            : IthakiTheme.textSecondary,
+                            : IthakiTheme.graphite,
                       ),
                     ),
                   ),

@@ -74,22 +74,29 @@ class JobSearchList extends ConsumerWidget {
                     ? l.savedJobsCountLabel(formatNumber(searchResult.totalJobs))
                     : l.jobsFoundLabel(formatNumber(searchResult.totalJobs)),
                 style: const TextStyle(
-                  fontSize: 15,
+                  fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: IthakiTheme.textPrimary,
                 ),
               ),
-              if (!isSavedTab)
-                GestureDetector(
-                  onTap: () => _openSort(context, ref),
+              GestureDetector(
+                onTap: () => _openSort(context, ref),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: IthakiTheme.lightGray,
+                      width: 1,
+                    ),
+                  ),
                   child: const IthakiIcon(
                     'sorting',
                     size: 22,
                     color: IthakiTheme.textPrimary,
                   ),
-                )
-              else
-                const SizedBox(width: 22, height: 22),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 12),
@@ -127,7 +134,7 @@ class JobSearchList extends ConsumerWidget {
                       jobs[i].companyInitials,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

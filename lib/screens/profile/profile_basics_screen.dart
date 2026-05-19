@@ -7,6 +7,7 @@ import '../../data/countries.dart';
 import '../../l10n/app_localizations.dart';
 import '../../routes.dart';
 import '../../utils/ithaki_bottom_sheet.dart';
+import '../../utils/layout_offsets.dart';
 import '../../utils/validators.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/panel_scaffold.dart';
@@ -258,7 +259,7 @@ class _ProfileBasicsScreenState extends ConsumerState<ProfileBasicsScreen> {
             padding: EdgeInsets.only(
               left: 16,
               right: 16,
-              top: MediaQuery.paddingOf(context).top + kToolbarHeight + 24,
+              top: context.ithakiTopOffset,
               bottom: MediaQuery.viewPaddingOf(context).bottom + 16,
             ),
             child: Container(

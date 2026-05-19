@@ -19,7 +19,7 @@ class ProfileTabBar extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16),
       height: 48,
       decoration: BoxDecoration(
-        color: Colors.transparent,
+        color: IthakiTheme.chipActive,
         borderRadius: BorderRadius.circular(24),
       ),
       padding: const EdgeInsets.all(4),
@@ -53,7 +53,7 @@ class ProfileTabBar extends StatelessWidget {
                             selected ? FontWeight.w600 : FontWeight.w400,
                         color: selected
                             ? IthakiTheme.textPrimary
-                            : IthakiTheme.textSecondary,
+                            : IthakiTheme.graphite,
                       ),
                     ),
                   ),

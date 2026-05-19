@@ -179,7 +179,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       bodyBuilder: (context, ref, topOffset) => SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: topOffset - 14),
+            SizedBox(height: topOffset),
             if (isPartial)
               Container(
                 margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),

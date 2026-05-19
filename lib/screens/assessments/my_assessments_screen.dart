@@ -80,7 +80,6 @@ class _MyAssessmentsScreenState extends ConsumerState<MyAssessmentsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: topOffset),
-              const SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: KeyedSubtree(

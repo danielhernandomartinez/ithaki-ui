@@ -62,7 +62,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       height: 48,
       decoration: BoxDecoration(
-        color: Colors.transparent,
+        color: IthakiTheme.chipActive,
         borderRadius: BorderRadius.circular(24),
       ),
       padding: const EdgeInsets.all(4),
@@ -101,7 +101,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
               color: selected
                   ? IthakiTheme.textPrimary
-                  : IthakiTheme.textSecondary,
+                  : IthakiTheme.graphite,
             ),
           ),
         ),

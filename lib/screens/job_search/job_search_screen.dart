@@ -31,14 +31,14 @@ class JobSearchScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: topOffset + 12),
+            SizedBox(height: topOffset),
             const JobSearchTabBar(),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
             KeyedSubtree(
               key: tourKeys[2],
               child: const JobSearchSearchBar(),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
             const JobSearchList(),
             // TODO(future): unhide career assistant banner when ready
             /*

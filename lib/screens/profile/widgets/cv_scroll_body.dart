@@ -41,7 +41,7 @@ class CvScrollBody extends ConsumerWidget {
     return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(
         16,
-        topOffset + 8,
+        topOffset,
         16,
         MediaQuery.viewPaddingOf(context).bottom + 148,
       ),

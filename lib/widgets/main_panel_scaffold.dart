@@ -248,7 +248,7 @@ class _MainPanelScaffoldState extends ConsumerState<MainPanelScaffold> {
                 ),
               ),
             _Panel(
-              topOffset: topOffset,
+              topOffset: context.ithakiPanelTopOffset,
               child: AnimatedSwitcher(
                 duration: _panelAnimationDuration,
                 switchInCurve: Curves.easeOut,
@@ -273,7 +273,7 @@ class _Panel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: topOffset - 14,
+      top: topOffset,
       left: 16,
       right: 16,
       bottom: 40,
