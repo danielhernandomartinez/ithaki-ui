@@ -53,6 +53,14 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
         if (mounted) _showInvitationDeclinedBanner();
       });
     }
+    ref.listenManual<int?>(
+      tourProvider.select((tourAsync) => tourAsync.maybeWhen(
+            data: (tourState) => _tourTabIndex(tourState.currentStep),
+            orElse: () => null,
+          )),
+      (_, desiredTabIndex) => _syncTourTab(desiredTabIndex),
+      fireImmediately: true,
+    );
   }
 
   @override
@@ -72,6 +80,21 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
     });
   }
 
+  static int? _tourTabIndex(int step) => switch (step) {
+        7 => 0,
+        8 => 1,
+        _ => null,
+      };
+
+  void _syncTourTab(int? desiredTabIndex) {
+    if (desiredTabIndex == null ||
+        !mounted ||
+        _tabController.index == desiredTabIndex) {
+      return;
+    }
+    _tabController.animateTo(desiredTabIndex);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
@@ -83,28 +106,13 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
           orElse: () => null,
         );
     final tourKeys = ref.watch(tourKeysProvider);
-    final desiredTabIndex = switch (tourState?.currentStep) {
-      7 => 0,
-      8 => 1,
-      _ => null,
-    };
 
-    if (desiredTabIndex != null && _tabController.index != desiredTabIndex) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted && _tabController.index != desiredTabIndex) {
-          _tabController.animateTo(desiredTabIndex);
-        }
-      });
-    }
-
-    ref.listen<AsyncValue<List<Invitation>>>(invitationsProvider,
-        (prev, next) {
+    ref.listen<AsyncValue<List<Invitation>>>(invitationsProvider, (prev, next) {
       final prevList = prev?.value;
       final nextList = next.value;
       if (prevList == null || nextList == null) return;
       final newlyDismissed = nextList.any((i) =>
-          i.isDismissed &&
-          prevList.any((p) => p.id == i.id && !p.isDismissed));
+          i.isDismissed && prevList.any((p) => p.id == i.id && !p.isDismissed));
       if (newlyDismissed) {
         _successTimer?.cancel();
         setState(() => _showSuccessBanner = true);
