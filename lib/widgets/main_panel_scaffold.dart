@@ -76,10 +76,29 @@ class _MainPanelScaffoldState extends ConsumerState<MainPanelScaffold> {
     setState(() => _openPanel = panel);
   }
 
-  void _toggleMenu() {
+  void _handleBackPressed() {
+    widget.onBeforePanelAction?.call();
+    if (_hasOpenPanel) {
+      _closePanels();
+      return;
+    }
+    if (context.canPop()) {
+      context.pop();
+      return;
+    }
+    if (widget.currentRoute != Routes.home) {
+      context.go(Routes.home);
+    }
+  }
+
+  void _handleMenuPressed() {
     if (widget.onMenuPressed != null) {
       widget.onBeforePanelAction?.call();
       widget.onMenuPressed!.call();
+      return;
+    }
+    if (widget.showBackButton) {
+      _handleBackPressed();
       return;
     }
     if (!widget.enableNavDrawer) return;
@@ -213,7 +232,7 @@ class _MainPanelScaffoldState extends ConsumerState<MainPanelScaffold> {
           avatarInitials: widget.avatarInitials,
           avatarUrl: widget.avatarUrl,
           onNotificationsPressed: _handleNotificationsPressed,
-          onMenuPressed: _toggleMenu,
+          onMenuPressed: _handleMenuPressed,
           onAvatarPressed: _toggleProfile,
         ),
         body: Stack(

@@ -34,6 +34,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       body: Column(
         children: [
           _buildTabBar(l10n),
+          const SizedBox(height: 12),
           Expanded(
             child: IndexedStack(
               index: _tabIndex,
@@ -65,12 +66,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         borderRadius: BorderRadius.circular(24),
       ),
       padding: const EdgeInsets.all(4),
-      child: Row(
-        children: [
-          Expanded(child: _tabPill(l10n.accountSettings, 0)),
-          const SizedBox(width: 6),
-          Expanded(child: _tabPill(l10n.notificationsLabel, 1)),
-        ],
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Row(
+          children: [
+            Expanded(child: _tabPill(l10n.accountSettings, 0)),
+            const SizedBox(width: 6),
+            Expanded(child: _tabPill(l10n.notificationsLabel, 1)),
+          ],
+        ),
       ),
     );
   }
@@ -78,9 +82,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   Widget _tabPill(String label, int index) {
     final selected = _tabIndex == index;
     return GestureDetector(
-      onTap: () => setState(() => _tabIndex = index),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
+      onTap: selected ? null : () => setState(() => _tabIndex = index),
+      child: Container(
         height: 40,
         decoration: BoxDecoration(
           color: selected ? IthakiTheme.backgroundWhite : Colors.transparent,
