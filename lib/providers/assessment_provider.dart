@@ -12,7 +12,7 @@ import 'swr_async_notifier.dart';
 export '../models/assessment_models.dart';
 
 final assessmentRepositoryProvider = Provider<AssessmentRepository>(
-  (ref) => AppConfig.shouldUseMockData
+  (ref) => AppConfig.useMockData
       ? MockAssessmentRepository()
       : ApiAssessmentRepository(apiClient: ref.watch(apiClientProvider)),
 );

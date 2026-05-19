@@ -57,7 +57,7 @@ class HomeNotifier extends SwrAsyncNotifier<HomeData> {
 
   ProfileBasics? _profileBasicsOrNull({bool watch = true}) {
     if (!ref.exists(profileBasicsProvider) &&
-        !AppConfig.shouldUseMockData &&
+        !AppConfig.useMockData &&
         AppConfig.apiBaseUrl.isEmpty) {
       return null;
     }

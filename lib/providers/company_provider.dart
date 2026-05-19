@@ -7,7 +7,7 @@ import '../services/api_client.dart';
 import 'swr_async_notifier.dart';
 
 final companyRepositoryProvider = Provider<CompanyRepository>(
-  (ref) => AppConfig.shouldUseMockData
+  (ref) => AppConfig.useMockData
       ? MockCompanyRepository()
       : ApiCompanyRepository(apiClient: ref.watch(apiClientProvider)),
 );
@@ -23,7 +23,7 @@ final companyProvider = FutureProvider.family<CompanyProfile, String>(
                   .watch(companyRepositoryProvider)
                   .getCompany(companyId);
             } catch (_) {
-              if (AppConfig.shouldUseMockData) {
+              if (AppConfig.useMockData) {
                 return mockCompanyProfile(companyId);
               }
               rethrow;

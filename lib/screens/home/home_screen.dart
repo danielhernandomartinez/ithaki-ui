@@ -164,6 +164,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                   const SizedBox(height: 12),
                   IthakiCard(
+                borderRadius: 30,
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: const HomeJobsSection(),
                   ),
@@ -191,6 +192,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   */
                   const SizedBox(height: 12),
                   IthakiCard(
+                    borderRadius: 30,
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: HomeStatsCard(
                       title: l10n.homeCvSuccess,

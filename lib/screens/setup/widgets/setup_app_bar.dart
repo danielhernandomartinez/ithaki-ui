@@ -40,7 +40,7 @@ class SetupAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
 ProfileBasics? _profileBasicsOrNull(WidgetRef ref) {
   if (!ref.exists(profileBasicsProvider) &&
-      !AppConfig.shouldUseMockData &&
+      !AppConfig.useMockData &&
       AppConfig.apiBaseUrl.isEmpty) {
     return null;
   }

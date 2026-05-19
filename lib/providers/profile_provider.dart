@@ -11,7 +11,7 @@ import 'swr_async_notifier.dart';
 export '../models/profile_models.dart';
 
 final profileRepositoryProvider = Provider<ProfileRepository>(
-  (ref) => AppConfig.shouldUseMockData
+  (ref) => AppConfig.useMockData
       ? MockProfileRepository(persistLocal: true)
       : ApiProfileRepository(apiClient: ref.watch(apiClientProvider)),
 );

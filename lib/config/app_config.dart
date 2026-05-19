@@ -3,7 +3,6 @@ class AppConfig {
 
   static const apiBaseUrl = String.fromEnvironment('ITHAKI_API_BASE_URL');
   static const useMockData = bool.fromEnvironment('ITHAKI_USE_MOCK_DATA');
-  static const shouldUseMockData = useMockData;
-  static const bypassPhoneValidation = shouldUseMockData ||
+  static const bypassPhoneValidation = useMockData ||
       bool.fromEnvironment('ITHAKI_BYPASS_PHONE_VALIDATION');
 }

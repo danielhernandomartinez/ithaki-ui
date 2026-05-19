@@ -7,7 +7,7 @@ import '../services/api_client.dart';
 import 'swr_async_notifier.dart';
 
 final jobDetailRepositoryProvider = Provider<JobDetailRepository>(
-  (ref) => AppConfig.shouldUseMockData
+  (ref) => AppConfig.useMockData
       ? MockJobDetailRepository()
       : ApiJobDetailRepository(apiClient: ref.watch(apiClientProvider)),
 );
@@ -23,7 +23,7 @@ final jobDetailProvider = FutureProvider.family<JobDetail, String>(
                   .watch(jobDetailRepositoryProvider)
                   .getJobDetail(jobId);
             } catch (_) {
-              if (AppConfig.shouldUseMockData) {
+              if (AppConfig.useMockData) {
                 return MockJobDetailRepository().getJobDetail(jobId);
               }
               rethrow;
