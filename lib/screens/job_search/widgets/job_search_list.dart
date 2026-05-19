@@ -71,7 +71,7 @@ class JobSearchList extends ConsumerWidget {
             children: [
               Text(
                 isSavedTab
-                    ? l.savedJobsCountLabel(formatNumber(jobs.length))
+                    ? l.savedJobsCountLabel(formatNumber(searchResult.totalJobs))
                     : l.jobsFoundLabel(formatNumber(searchResult.totalJobs)),
                 style: const TextStyle(
                   fontSize: 15,
@@ -79,14 +79,17 @@ class JobSearchList extends ConsumerWidget {
                   color: IthakiTheme.textPrimary,
                 ),
               ),
-              GestureDetector(
-                onTap: () => _openSort(context, ref),
-                child: const IthakiIcon(
-                  'sorting',
-                  size: 22,
-                  color: IthakiTheme.textPrimary,
-                ),
-              ),
+              if (!isSavedTab)
+                GestureDetector(
+                  onTap: () => _openSort(context, ref),
+                  child: const IthakiIcon(
+                    'sorting',
+                    size: 22,
+                    color: IthakiTheme.textPrimary,
+                  ),
+                )
+              else
+                const SizedBox(width: 22, height: 22),
             ],
           ),
           const SizedBox(height: 12),
@@ -152,7 +155,7 @@ class JobSearchList extends ConsumerWidget {
             ],
 
           const SizedBox(height: 16),
-          if (!isSavedTab) const JobSearchPagination(),
+          const JobSearchPagination(),
         ],
       ),
     );

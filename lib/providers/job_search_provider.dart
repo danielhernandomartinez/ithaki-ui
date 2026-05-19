@@ -16,6 +16,7 @@ class JobSearchState {
   final int currentPage;
   final JobSearchSort sortOption;
   final Set<String> savedJobIds;
+  final int savedRevision;
   final Map<JobSearchFilter, Set<String>> filters;
   final String query;
 
@@ -24,6 +25,7 @@ class JobSearchState {
     this.currentPage = 1,
     this.sortOption = JobSearchSort.dateRecent,
     this.savedJobIds = const {},
+    this.savedRevision = 0,
     this.filters = defaultJobSearchFilters,
     this.query = '',
   });
@@ -40,6 +42,7 @@ class JobSearchState {
     int? currentPage,
     JobSearchSort? sortOption,
     Set<String>? savedJobIds,
+    int? savedRevision,
     Map<JobSearchFilter, Set<String>>? filters,
     String? query,
   }) =>
@@ -48,6 +51,7 @@ class JobSearchState {
         currentPage: currentPage ?? this.currentPage,
         sortOption: sortOption ?? this.sortOption,
         savedJobIds: savedJobIds ?? this.savedJobIds,
+        savedRevision: savedRevision ?? this.savedRevision,
         filters: filters ?? this.filters,
         query: query ?? this.query,
       );
@@ -65,7 +69,7 @@ class JobSearchNotifier extends SwrAsyncNotifier<JobSearchState> {
   }
 
   void selectTab(int tab) =>
-      _set(state.requireValue.copyWith(selectedTab: tab));
+      _set(state.requireValue.copyWith(selectedTab: tab, currentPage: 1));
 
   void changePage(int page) =>
       _set(state.requireValue.copyWith(currentPage: page));
@@ -90,7 +94,12 @@ class JobSearchNotifier extends SwrAsyncNotifier<JobSearchState> {
       updated.add(jobId);
       await ref.read(jobSearchRepositoryProvider).saveJob(jobId);
     }
-    _set(current.copyWith(savedJobIds: updated));
+
+    ref.read(swrCacheProvider).invalidatePrefix('job-search.data.saved.');
+    _set(current.copyWith(
+      savedJobIds: updated,
+      savedRevision: current.savedRevision + 1,
+    ));
   }
 
   void setQuery(String query) {

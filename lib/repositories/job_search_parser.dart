@@ -22,6 +22,7 @@ class JobSearchParser {
     final matchPct = (json['matchPercent'] as num?)?.toInt() ?? 0;
     final matchLabel =
         json['matchLabel'] as String? ?? mapper.matchLabel(matchPct);
+    final isSaved = json['saved'] == true;
 
     return JobListing(
       id: id,
@@ -38,6 +39,7 @@ class JobSearchParser {
       employmentType: employmentType,
       level: level,
       postedAgo: posted,
+      isSaved: isSaved,
     );
   }
 }

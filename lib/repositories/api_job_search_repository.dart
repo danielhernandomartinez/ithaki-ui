@@ -5,20 +5,13 @@ import '../services/api_client.dart';
 import '../utils/api_mappers.dart' as mapper;
 import 'job_search_parser.dart';
 import 'job_search_repository.dart';
-import 'saved_jobs_store.dart';
 
 class ApiJobSearchRepository implements JobSearchRepository {
   ApiJobSearchRepository({
     ApiClient? apiClient,
-    SavedJobsStore savedJobsStore = const SavedJobsStore(),
-  })  : _api = apiClient ?? ApiClient(),
-        _savedJobsStore = savedJobsStore;
+  }) : _api = apiClient ?? ApiClient();
 
   final ApiClient _api;
-  final SavedJobsStore _savedJobsStore;
-
-  // TODO(backend): replace local persistence with real API calls once the
-  // backend exposes GET/POST/DELETE saved-jobs endpoints.
 
   @override
   Future<JobSearchResult> search({
@@ -85,19 +78,63 @@ class ApiJobSearchRepository implements JobSearchRepository {
   }
 
   @override
-  Future<Set<String>> getSavedJobIds() => _savedJobsStore.load();
+  Future<JobSearchResult> listSavedJobs({int page = 1, int size = 10}) async {
+    final params = <String, String>{
+      'page': (page - 1).toString(),
+      'size': size.toString(),
+    };
+
+    final response = await _api.get('/jobs/saved', params: params);
+
+    if (response.statusCode != 200) {
+      throw Exception('Saved jobs fetch failed: ${response.statusCode}');
+    }
+
+    final body = jsonDecode(response.body);
+    final items = mapper.extractList(body);
+    final totalElements = body is Map
+        ? (body['totalElements'] as num?)?.toInt() ?? items.length
+        : items.length;
+    final totalPages =
+        body is Map ? (body['totalPages'] as num?)?.toInt() ?? 1 : 1;
+    final jobs = items
+        .whereType<Map<String, dynamic>>()
+        .map(JobSearchParser.parseJob)
+        .toList();
+
+    return JobSearchResult(
+      jobs: jobs,
+      totalJobs: totalElements,
+      totalPages: totalPages,
+    );
+  }
+
+  @override
+  Future<Set<String>> getSavedJobIds() async {
+    const pageSize = 100;
+    const maxPages = 50;
+
+    final saved = <String>{};
+    var page = 1;
+    var totalPages = 1;
+
+    while (page <= totalPages && page <= maxPages) {
+      final response = await listSavedJobs(page: page, size: pageSize);
+      saved.addAll(response.jobs.map((j) => j.id));
+      totalPages = response.totalPages;
+      page++;
+    }
+
+    return saved;
+  }
 
   @override
   Future<void> saveJob(String jobId) async {
-    final savedIds = await _savedJobsStore.load();
-    savedIds.add(jobId);
-    await _savedJobsStore.save(savedIds);
+    await _api.post('/jobs/$jobId/save');
   }
 
   @override
   Future<void> unsaveJob(String jobId) async {
-    final savedIds = await _savedJobsStore.load();
-    savedIds.remove(jobId);
-    await _savedJobsStore.save(savedIds);
+    await _api.delete('/jobs/$jobId/save');
   }
 }

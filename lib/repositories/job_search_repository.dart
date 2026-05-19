@@ -24,6 +24,8 @@ abstract class JobSearchRepository {
     int page,
   });
 
+  Future<JobSearchResult> listSavedJobs({int page, int size});
+
   Future<Set<String>> getSavedJobIds();
   Future<void> saveJob(String jobId);
   Future<void> unsaveJob(String jobId);
