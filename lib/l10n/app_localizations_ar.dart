@@ -2642,4 +2642,8 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get profileFilesDescription =>
       'ارفع الشهادات أو السيرة الذاتية أو الصور أو أي ملفات أخرى تُبرز مؤهلاتك.';
+
+  @override
+  String get comingSoonMessage =>
+      'ستكون هذه الميزة متاحة في إصدار مستقبلي.';
 }

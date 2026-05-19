@@ -1136,5 +1136,6 @@
   "editProfileBasicsButton": "Editar información básica del perfil",
   "ageLabel": "Edad",
   "locationLabel": "Ubicación",
-  "profileFilesDescription": "Sube certificados, CV, fotos o cualquier otro archivo que muestre tus calificaciones."
+  "profileFilesDescription": "Sube certificados, CV, fotos o cualquier otro archivo que muestre tus calificaciones.",
+  "comingSoonMessage": "Esta función estará disponible en una versión futura."
 }

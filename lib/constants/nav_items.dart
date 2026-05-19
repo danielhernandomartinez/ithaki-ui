@@ -9,13 +9,8 @@ List<NavItem> buildNavItems(AppLocalizations l) => [
           icon: 'applications',
           label: l.navMyApplications,
           route: Routes.myApplications),
-      NavItem(
-          icon: 'ai',
-          label: l.navCareerAssistant,
-          route: Routes.careerAssistant),
-      NavItem(
-          icon: 'assessment',
-          label: l.navMyAssessments,
-          route: Routes.assessments),
-      NavItem(icon: 'blog', label: l.navBlogNews, route: Routes.blogNews),
+      // TODO(future): unhide when features are ready
+      // NavItem(icon: 'ai', label: l.navCareerAssistant, route: Routes.careerAssistant),
+      // NavItem(icon: 'assessment', label: l.navMyAssessments, route: Routes.assessments),
+      // NavItem(icon: 'blog', label: l.navBlogNews, route: Routes.blogNews),
     ];

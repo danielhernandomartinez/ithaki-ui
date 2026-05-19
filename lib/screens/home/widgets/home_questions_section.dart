@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
-import '../../../routes.dart';
+import '../../../utils/coming_soon.dart';
 
 class HomeQuestionsSection extends StatelessWidget {
   const HomeQuestionsSection({super.key});
@@ -44,7 +43,7 @@ class HomeQuestionsSection extends StatelessWidget {
           width: double.infinity,
           height: 48,
           child: OutlinedButton(
-            onPressed: () => context.go(Routes.careerAssistant),
+            onPressed: () => showComingSoonSnackBar(context),
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: IthakiTheme.borderLight),
               shape: RoundedRectangleBorder(

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../providers/home_provider.dart';
-import '../../../routes.dart';
+import '../../../utils/coming_soon.dart';
 
 class HomeNewsSection extends ConsumerWidget {
   const HomeNewsSection({super.key});
@@ -32,7 +31,7 @@ class HomeNewsSection extends ConsumerWidget {
           width: double.infinity,
           height: 48,
           child: OutlinedButton(
-            onPressed: () => context.go(Routes.blogNews),
+            onPressed: () => showComingSoonSnackBar(context),
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: IthakiTheme.borderLight),
               shape: RoundedRectangleBorder(

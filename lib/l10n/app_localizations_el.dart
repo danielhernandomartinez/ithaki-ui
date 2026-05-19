@@ -2684,4 +2684,8 @@ class AppLocalizationsEl extends AppLocalizations {
   @override
   String get profileFilesDescription =>
       'Ανεβάστε πιστοποιητικά, βιογραφικό, φωτογραφίες ή οποιαδήποτε άλλα αρχεία που αποδεικνύουν τα προσόντα σας.';
+
+  @override
+  String get comingSoonMessage =>
+      'Αυτή η λειτουργία θα είναι διαθέσιμη σε μελλοντική έκδοση.';
 }

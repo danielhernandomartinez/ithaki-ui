@@ -4968,6 +4968,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Upload certificates, CV, photos, or any other files that showcase your qualifications.'**
   String get profileFilesDescription;
+
+  /// No description provided for @comingSoonMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This feature will be available in a future version.'**
+  String get comingSoonMessage;
 }
 
 class _AppLocalizationsDelegate

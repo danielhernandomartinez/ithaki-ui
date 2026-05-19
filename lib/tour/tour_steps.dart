@@ -13,7 +13,7 @@ class TourStep {
   });
 }
 
-const int kTourTotalSteps = 13;
+const int kTourTotalSteps = 11;
 
 List<TourStep> tourSteps(AppLocalizations l) => <TourStep>[
       TourStep(
@@ -66,19 +66,13 @@ List<TourStep> tourSteps(AppLocalizations l) => <TourStep>[
         title: l.tourStep10Title,
         body: l.tourStep10Body,
       ),
+      // TODO(future): unhide when career assistant feature is ready
+      // TourStep(stepNumber: 11, title: l.tourStep11Title, body: l.tourStep11Body),
       TourStep(
-        stepNumber: 11,
-        title: l.tourStep11Title,
-        body: l.tourStep11Body,
-      ),
-      TourStep(
-        stepNumber: 12,
+        stepNumber: 11, // was 12
         title: l.tourStep12Title,
         body: l.tourStep12Body,
       ),
-      TourStep(
-        stepNumber: 13,
-        title: l.tourStep13Title,
-        body: l.tourStep13Body,
-      ),
+      // TODO(future): unhide when assessments feature is ready
+      // TourStep(stepNumber: 13, title: l.tourStep13Title, body: l.tourStep13Body),
     ];

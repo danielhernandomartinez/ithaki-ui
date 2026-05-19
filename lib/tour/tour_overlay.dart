@@ -201,7 +201,7 @@ class _TourOverlayState extends ConsumerState<TourOverlay> {
     final router = GoRouter.of(context);
     switch (step) {
       case 1:
-      case 12:
+      case 11: // was 12; renumbered after hiding steps 11 (careerAssistant) and 13 (assessments)
         router.go(Routes.home);
         return;
       case 2:
@@ -223,12 +223,8 @@ class _TourOverlayState extends ConsumerState<TourOverlay> {
       case 10:
         router.go(Routes.profile);
         return;
-      case 11:
-        router.go(Routes.careerAssistant);
-        return;
-      case 13:
-        router.go(Routes.assessments);
-        return;
+      // TODO(future): case 11 → careerAssistant (hidden)
+      // TODO(future): case 13 → assessments (hidden)
     }
   }
 

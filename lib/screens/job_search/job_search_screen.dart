@@ -7,6 +7,7 @@ import '../../l10n/app_localizations.dart';
 import '../../providers/profile_provider.dart';
 import '../../providers/tour_provider.dart';
 import '../../routes.dart';
+import '../../utils/coming_soon.dart';
 import '../../widgets/main_panel_scaffold.dart';
 import '../../widgets/responsive_gradient_banner.dart';
 import 'widgets/job_search_list.dart';
@@ -51,7 +52,7 @@ class JobSearchScreen extends ConsumerWidget {
                   size: 18,
                   color: IthakiTheme.backgroundWhite,
                 ),
-                onButtonPressed: () => context.go(Routes.careerAssistant),
+                onButtonPressed: () => showComingSoonSnackBar(context),
                 backgroundImage: const DecorationImage(
                   image: AssetImage('assets/images/ai_banner_bg.png'),
                   fit: BoxFit.cover,

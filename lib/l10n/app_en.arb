@@ -1146,5 +1146,6 @@
   "editProfileBasicsButton": "Edit Profile Basics",
   "ageLabel": "Age",
   "locationLabel": "Location",
-  "profileFilesDescription": "Upload certificates, CV, photos, or any other files that showcase your qualifications."
+  "profileFilesDescription": "Upload certificates, CV, photos, or any other files that showcase your qualifications.",
+  "comingSoonMessage": "This feature will be available in a future version."
 }

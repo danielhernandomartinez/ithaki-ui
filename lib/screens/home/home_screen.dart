@@ -9,6 +9,7 @@ import '../../providers/profile_provider.dart';
 import '../../providers/tour_provider.dart';
 import '../../routes.dart';
 import '../../tour/tour_welcome_modal.dart';
+import '../../utils/coming_soon.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/main_panel_scaffold.dart';
 import '../../widgets/responsive_gradient_banner.dart';
@@ -188,7 +189,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         size: 18,
                         color: IthakiTheme.backgroundWhite,
                       ),
-                      onButtonPressed: () => context.go(Routes.careerAssistant),
+                      onButtonPressed: () => showComingSoonSnackBar(context),
                       backgroundImage: const DecorationImage(
                         image: AssetImage('assets/images/ai_banner_bg.png'),
                         fit: BoxFit.cover,

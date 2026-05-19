@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/job_detail_models.dart';
-import '../../../routes.dart';
+import '../../../utils/coming_soon.dart';
 import '../../../utils/localized_dates.dart';
 import '../../../utils/match_colors.dart';
 
@@ -70,7 +69,7 @@ class JobMainCard extends StatelessWidget {
           const SizedBox(height: 8),
           IthakiButton(AppLocalizations.of(context)!.askCareerAssistant,
               variant: IthakiButtonVariant.outline,
-              onPressed: () => context.go(Routes.careerAssistant)),
+              onPressed: () => showComingSoonSnackBar(context)),
           const _Divider(),
           Builder(builder: (ctx) {
             final l = AppLocalizations.of(ctx)!;

@@ -10,6 +10,7 @@ import '../../providers/job_detail_provider.dart';
 import '../../providers/job_search_provider.dart';
 import '../../providers/tour_provider.dart';
 import '../../routes.dart';
+import '../../utils/coming_soon.dart';
 import '../../utils/ithaki_bottom_sheet.dart';
 import '../../widgets/main_panel_scaffold.dart';
 import '../applications/widgets/apply_bottom_sheet.dart';
@@ -110,7 +111,7 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen> {
               .deleteReminder(),
           onReport: () => _showReportSheet(context),
           onShare: () => _showShareMenu(context),
-          onAskCareerAssistant: () => context.push(Routes.careerAssistant),
+          onAskCareerAssistant: () => showComingSoonSnackBar(context),
         ),
       ),
     );

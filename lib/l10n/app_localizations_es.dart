@@ -2693,4 +2693,8 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get profileFilesDescription =>
       'Sube certificados, CV, fotos o cualquier otro archivo que muestre tus calificaciones.';
+
+  @override
+  String get comingSoonMessage =>
+      'Esta función estará disponible en una versión futura.';
 }
