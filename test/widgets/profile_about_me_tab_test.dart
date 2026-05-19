@@ -44,13 +44,13 @@ Widget _app() {
 }
 
 void main() {
-  testWidgets('shows video preview when profile has video without bio',
+  testWidgets('hides video introduction when disabled',
       (tester) async {
     await tester.pumpWidget(_app());
     await tester.pumpAndSettle();
 
-    expect(find.text('Video Introduction'), findsOneWidget);
-    expect(find.byType(ProfileVideoPreview), findsOneWidget);
-    expect(find.text('Add About Me Information'), findsNothing);
+    expect(find.text('Video Introduction'), findsNothing);
+    expect(find.byType(ProfileVideoPreview), findsNothing);
+    expect(find.text('Add About Me Information'), findsOneWidget);
   });
 }

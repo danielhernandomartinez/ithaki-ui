@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
+import '../../../config/app_config.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../routes.dart';
@@ -17,7 +18,8 @@ class ProfileAboutMeTab extends ConsumerWidget {
     final aboutMe =
         ref.watch(profileAboutMeProvider).value ?? const ProfileAboutMe();
     final hasBio = aboutMe.bio.trim().isNotEmpty;
-    final hasVideo = aboutMe.videoUrl?.trim().isNotEmpty ?? false;
+    final showVideo = AppConfig.showVideoIntroductionInProfile;
+    final hasVideo = showVideo && (aboutMe.videoUrl?.trim().isNotEmpty ?? false);
 
     if (!hasBio && !hasVideo) {
       return ProfileEmptyStateCard(
@@ -66,7 +68,9 @@ class ProfileAboutMeTab extends ConsumerWidget {
         OutlinedButton.icon(
           onPressed: () => context.push(Routes.profileAboutMe),
           icon: const IthakiIcon('edit-pencil', size: 20),
-          label: Text(l.editAboutMeVideo),
+          label: Text(showVideo
+              ? l.editAboutMeVideo
+              : '${l.edit} ${l.profileAboutMeTitle}'),
           style: OutlinedButton.styleFrom(
             side: const BorderSide(color: IthakiTheme.softGraphite),
             shape:
