@@ -51,20 +51,13 @@ class AppNavDrawer extends ConsumerWidget {
       decoration: BoxDecoration(
         color: IthakiTheme.backgroundWhite,
         borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
-            blurRadius: 12,
-            offset: const Offset(0, 2),
-          ),
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.fromLTRB(12, 16, 12, 0),
               itemCount: items.length,
               itemBuilder: (context, i) {
                 final item = items[i];
@@ -78,12 +71,12 @@ class AppNavDrawer extends ConsumerWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             child: NavProfileCard(progress: profileProgress),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             child: NavLanguageTile(
               flagCode: lang.flag,
               label: lang.label,
@@ -122,27 +115,30 @@ class _NavTile extends StatelessWidget {
           duration: const Duration(milliseconds: 150),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           decoration: BoxDecoration(
-            color: selected ? IthakiTheme.badgeLime : Colors.transparent,
-            borderRadius: BorderRadius.circular(50),
+            color: selected ? IthakiTheme.badgeLime : IthakiTheme.transparent,
+            borderRadius: BorderRadius.circular(24),
           ),
           child: Row(
             children: [
-              IthakiIcon(item.icon, size: 20, color: IthakiTheme.textPrimary),
+              IthakiIcon(
+                item.icon,
+                size: 20,
+                color:
+                    selected ? IthakiTheme.textPrimary : IthakiTheme.graphite,
+              ),
               const SizedBox(width: 14),
               Expanded(
                 child: Text(
                   item.label,
-                  style: TextStyle(
-                    fontSize: 15,
+                  style: IthakiTheme.bodyRegular.copyWith(
                     fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                    color: IthakiTheme.textPrimary,
                   ),
                 ),
               ),
               if (item.badge != null)
                 Container(
-                  width: 22,
-                  height: 22,
+                  width: 24,
+                  height: 24,
                   alignment: Alignment.center,
                   decoration: const BoxDecoration(
                     color: IthakiTheme.textPrimary,
