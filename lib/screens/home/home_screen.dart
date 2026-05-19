@@ -125,7 +125,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   HomeGreetingHeader(topOffset: topOffset),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 8),
                   if ((tourState?.tourCompleted ?? false) &&
                       !(tourState?.restartBannerDismissed ?? false)) ...[
                     Padding(
@@ -150,11 +150,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 8),
                   ],
                   if (profileCompletion < 1.0) ...[
                     const HomeProfileCompletionCard(),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 8),
                   ],
                   IthakiCard(
                     borderRadius: 30,
@@ -162,7 +162,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: const HomeSearchSection(),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 8),
                   IthakiCard(
                 borderRadius: 30,
                     margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -190,7 +190,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ),
                   ),
                   */
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 8),
                   IthakiCard(
                     borderRadius: 30,
                     margin: const EdgeInsets.symmetric(horizontal: 16),
