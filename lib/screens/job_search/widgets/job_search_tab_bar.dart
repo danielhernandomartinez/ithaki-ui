@@ -22,16 +22,19 @@ class JobSearchTabBar extends ConsumerWidget {
           borderRadius: BorderRadius.circular(24),
         ),
         padding: const EdgeInsets.all(4),
-        child: Row(
-          children: [
-            _TabItem(label: l.tabAllJobs, index: 0, selectedTab: selectedTab),
-            const SizedBox(width: 4),
-            _TabItem(
-              label: l.tabSavedJobs(savedCount),
-              index: 1,
-              selectedTab: selectedTab,
-            ),
-          ],
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Row(
+            children: [
+              _TabItem(label: l.tabAllJobs, index: 0, selectedTab: selectedTab),
+              const SizedBox(width: 4),
+              _TabItem(
+                label: l.tabSavedJobs(savedCount),
+                index: 1,
+                selectedTab: selectedTab,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -54,9 +57,10 @@ class _TabItem extends ConsumerWidget {
     final isSelected = selectedTab == index;
     return Expanded(
       child: GestureDetector(
-        onTap: () => ref.read(jobSearchProvider.notifier).selectTab(index),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
+        onTap: isSelected
+            ? null
+            : () => ref.read(jobSearchProvider.notifier).selectTab(index),
+        child: Container(
           height: double.infinity,
           alignment: Alignment.center,
           decoration: BoxDecoration(
