@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../config/app_config.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/profile_provider.dart';
 import '../../widgets/panel_scaffold.dart';
@@ -125,6 +126,7 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
         const SizedBox(height: 24),
 
         // ── Video ──────────────────────────────────────────
+        if (AppConfig.showVideoIntroductionInProfile) ...[
         Text(l.addVideoPresentationOptional,
             style: const TextStyle(
                 fontSize: 15,
@@ -164,6 +166,7 @@ class _EditAboutMeScreenState extends ConsumerState<EditAboutMeScreen> {
         if (_videoUrl != null) ...[
           const SizedBox(height: 12),
           ProfileVideoPreview(source: _videoUrl!),
+        ],
         ],
       ],
     );

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../../config/app_config.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../providers/assessment_provider.dart';
 import '../../../providers/cv_provider.dart';
@@ -51,14 +52,13 @@ class CvScrollBody extends ConsumerWidget {
           if (!isPublished) ...[
             const DraftReviewBanner(),
             const SizedBox(height: 12),
-          ] else ...[
-            CvAssistantCard(onAskPressed: onAskCareerAssistant),
-            const SizedBox(height: 12),
           ],
           CvHeaderCard(
             data: cvData,
             isPublished: isPublished,
-            onLearnMorePressed: onAskCareerAssistant,
+            onLearnMorePressed: AppConfig.showCareerAssistantInProfile
+                ? onAskCareerAssistant
+                : null,
             onPublishPressed: () =>
                 ref.read(cvPublishedProvider.notifier).setPublished(true),
             onReturnToProfilePressed: () => context.push(Routes.profile),
@@ -66,7 +66,11 @@ class CvScrollBody extends ConsumerWidget {
           const SizedBox(height: 12),
           CvSectionCard(
             title: l.profileAboutMeTitle,
-            actionLabel: isPublished ? null : l.editAboutMeVideo,
+            actionLabel: isPublished
+                ? null
+                : (AppConfig.showVideoIntroductionInProfile
+                    ? l.editAboutMeVideo
+                    : '${l.edit} ${l.profileAboutMeTitle}'),
             onActionPressed:
                 isPublished ? null : () => context.push(Routes.profileAboutMe),
             child: Text(
@@ -181,9 +185,12 @@ class CvScrollBody extends ConsumerWidget {
           ),
           if (!isPublished) ...[
             const SizedBox(height: 12),
-            CvAssistantCard(onAskPressed: onAskCareerAssistant),
+            if (AppConfig.showCareerAssistantInProfile)
+              CvAssistantCard(onAskPressed: onAskCareerAssistant),
           ],
-          if (isPublished && cvData.assessmentCards.isNotEmpty) ...[
+          if (AppConfig.showAssessmentsInProfile &&
+              isPublished &&
+              cvData.assessmentCards.isNotEmpty) ...[
             const SizedBox(height: 12),
             CvSectionCard(
               title: l.assessmentsResultsTitle,

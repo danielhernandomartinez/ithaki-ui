@@ -197,7 +197,9 @@ class ApiAssessmentRepository implements AssessmentRepository {
   Future<List<Assessment>> getAssessments() async {
     final res = await _api.get('/assessments');
     if (res.statusCode != 200) {
-      throw Exception('Failed to load assessments: ${res.statusCode}');
+      throw Exception(
+        'Failed to load assessments (${res.statusCode}): ${_api.readErrorBody(res)}',
+      );
     }
     final body = jsonDecode(res.body);
     return _extractList(body)
@@ -210,7 +212,9 @@ class ApiAssessmentRepository implements AssessmentRepository {
   Future<List<Question>> getQuestions(String assessmentId) async {
     final res = await _api.get('/assessments/$assessmentId/questions');
     if (res.statusCode != 200) {
-      throw Exception('Failed to load assessment questions: ${res.statusCode}');
+      throw Exception(
+        'Failed to load assessment questions (${res.statusCode}): ${_api.readErrorBody(res)}',
+      );
     }
     final body = jsonDecode(res.body);
     return _extractList(body)
@@ -225,7 +229,9 @@ class ApiAssessmentRepository implements AssessmentRepository {
         await _api.get('/job-seeker/me/assessments/$assessmentId/progress');
     if (res.statusCode == 404) return null;
     if (res.statusCode != 200) {
-      throw Exception('Failed to load assessment progress: ${res.statusCode}');
+      throw Exception(
+        'Failed to load assessment progress (${res.statusCode}): ${_api.readErrorBody(res)}',
+      );
     }
     final map = _extractMap(jsonDecode(res.body));
     return map == null ? null : _progressFromJson(map);
@@ -252,7 +258,9 @@ class ApiAssessmentRepository implements AssessmentRepository {
         await _api.get('/job-seeker/me/assessments/$assessmentId/result');
     if (res.statusCode == 404) return null;
     if (res.statusCode != 200) {
-      throw Exception('Failed to load assessment result: ${res.statusCode}');
+      throw Exception(
+        'Failed to load assessment result (${res.statusCode}): ${_api.readErrorBody(res)}',
+      );
     }
     final map = _extractMap(jsonDecode(res.body));
     return map == null

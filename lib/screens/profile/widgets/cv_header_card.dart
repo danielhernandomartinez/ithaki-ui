@@ -11,14 +11,14 @@ class CvHeaderCard extends StatelessWidget {
     super.key,
     required this.data,
     required this.isPublished,
-    required this.onLearnMorePressed,
+    this.onLearnMorePressed,
     required this.onPublishPressed,
     required this.onReturnToProfilePressed,
   });
 
   final MyCvData data;
   final bool isPublished;
-  final VoidCallback onLearnMorePressed;
+  final VoidCallback? onLearnMorePressed;
   final VoidCallback onPublishPressed;
   final VoidCallback onReturnToProfilePressed;
 
@@ -182,17 +182,18 @@ class CvHeaderCard extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 6),
-                              GestureDetector(
-                                onTap: onLearnMorePressed,
-                                child: Text(
-                                  l.learnMore,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    color: IthakiTheme.textPrimary,
-                                    decoration: TextDecoration.underline,
+                              if (onLearnMorePressed != null)
+                                GestureDetector(
+                                  onTap: onLearnMorePressed,
+                                  child: Text(
+                                    l.learnMore,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: IthakiTheme.textPrimary,
+                                      decoration: TextDecoration.underline,
+                                    ),
                                   ),
                                 ),
-                              ),
                             ],
                           ),
                         ),

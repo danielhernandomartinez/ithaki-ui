@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
+import '../../config/app_config.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/assessment_provider.dart';
 import '../../providers/cv_provider.dart';
@@ -110,7 +111,9 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen> {
     final educations = ref.watch(profileEducationsProvider).value;
     final files = ref.watch(profileFilesProvider).value;
     final jobPreferences = ref.watch(profileJobPreferencesProvider).value;
-    final assessments = ref.watch(assessmentsListProvider).value;
+    final assessments = AppConfig.showAssessmentsInProfile
+        ? ref.watch(assessmentsListProvider).value
+        : null;
     final isPublished = ref.watch(cvPublishedProvider);
 
     if (basicsAsync.isLoading && basics == null) return _buildLoadingScaffold();
@@ -124,7 +127,9 @@ class _MyCvScreenState extends ConsumerState<MyCvScreen> {
       educations: educations ?? const <Education>[],
       files: files ?? const <UploadedFile>[],
       jobPreferences: jobPreferences ?? const ProfileJobPreferences(),
-      assessments: assessments ?? const <Assessment>[],
+      assessments: AppConfig.showAssessmentsInProfile
+          ? (assessments ?? const <Assessment>[])
+          : const <Assessment>[],
     );
 
     return PopScope(
