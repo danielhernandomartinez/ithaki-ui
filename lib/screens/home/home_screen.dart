@@ -157,6 +157,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     const SizedBox(height: 12),
                   ],
                   IthakiCard(
+                    borderRadius: 30,
                     key: tourKeys[1],
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: const HomeSearchSection(),

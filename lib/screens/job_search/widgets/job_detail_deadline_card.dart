@@ -16,7 +16,7 @@ class JobDetailDeadlineCard extends StatelessWidget {
     return IthakiCard(
       margin: EdgeInsets.zero,
       padding: const EdgeInsets.all(10),
-      borderRadius: 20,
+      borderRadius: 26,
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.fromLTRB(10, 10, 10, 12),

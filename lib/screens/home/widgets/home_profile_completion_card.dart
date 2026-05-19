@@ -23,7 +23,7 @@ class HomeProfileCompletionCard extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(24),
         child: ColoredBox(
           color: IthakiTheme.profileCompletionBg,
           child: Column(
@@ -36,16 +36,16 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: IthakiTheme.backgroundWhite,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(30),
                   ),
-                  padding: const EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(14),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         l10n.homeProfileCompleteYourProfile,
                         style: const TextStyle(
-                          fontSize: 15,
+                          fontSize: 16,
                           fontWeight: FontWeight.w600,
                           color: IthakiTheme.textPrimary,
                         ),
@@ -60,6 +60,7 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                                 Container(
                                   width: 22,
                                   height: 22,
+                                  alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     color: item.completed
                                         ? IthakiTheme.textPrimary
@@ -67,9 +68,11 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                                     shape: BoxShape.circle,
                                   ),
                                   child: item.completed
-                                      ? const Icon(Icons.check,
-                                          size: 14,
-                                          color: IthakiTheme.backgroundWhite)
+                                      ? const IthakiIcon(
+                                          'check',
+                                          size: 16,
+                                          color: IthakiTheme.backgroundWhite,
+                                        )
                                       : null,
                                 ),
                                 const SizedBox(width: 10),
@@ -97,7 +100,12 @@ class HomeProfileCompletionCard extends ConsumerWidget {
 
               // ─── #daccf8 section: welcome + benefits + button ──────
               Padding(
-                padding: const EdgeInsets.only(left: 12, right: 12, bottom: 12),
+                padding: const EdgeInsets.only(
+                  left: 14,
+                  right: 14,
+                  top: 4,
+                  bottom: 14,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -133,8 +141,11 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Icon(Icons.check,
-                                  size: 16, color: IthakiTheme.primaryPurple),
+                              const IthakiIcon(
+                                'check',
+                                size: 16,
+                                color: IthakiTheme.primaryPurple,
+                              ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
