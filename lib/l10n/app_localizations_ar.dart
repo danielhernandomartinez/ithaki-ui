@@ -2645,5 +2645,5 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get comingSoonMessage =>
-      'ستكون هذه الميزة متاحة في إصدار مستقبلي.';
+      'This feature will be available in a future version.';
 }

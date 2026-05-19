@@ -156,6 +156,8 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
               padding: const EdgeInsets.all(12),
               child: _tabBody(),
             ),
+            // TODO(future): unhide career assistant banner when ready
+            /*
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -175,6 +177,7 @@ class _MyApplicationsScreenState extends ConsumerState<MyApplicationsScreen>
                 ),
               ),
             ),
+            */
             SizedBox(height: MediaQuery.paddingOf(context).bottom + 16),
           ],
         ),

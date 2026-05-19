@@ -107,6 +107,8 @@ class JobDetailMatchBanner extends StatelessWidget {
             ),
           ],
         ),
+        // TODO(future): unhide career assistant section when ready
+        /*
         const SizedBox(height: 14),
         Divider(color: Colors.white.withValues(alpha: 0.18), height: 1),
         const SizedBox(height: 16),
@@ -154,6 +156,7 @@ class JobDetailMatchBanner extends StatelessWidget {
             ),
           ),
         ),
+        */
       ]),
     );
   }

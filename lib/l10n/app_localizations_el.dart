@@ -2687,5 +2687,5 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String get comingSoonMessage =>
-      'Αυτή η λειτουργία θα είναι διαθέσιμη σε μελλοντική έκδοση.';
+      'This feature will be available in a future version.';
 }

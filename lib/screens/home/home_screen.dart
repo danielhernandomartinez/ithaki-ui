@@ -61,7 +61,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void _syncTourScroll(TourState? tourState, Map<int, GlobalKey> tourKeys) {
     final step = tourState?.currentStep;
-    if (step != 1 && step != 12) {
+    // step 11 is the renumbered home step (was 12); both 1 and 11 scroll to top
+    if (step != 1 && step != 11) {
       _lastTourScrollStep = null;
       return;
     }
@@ -69,23 +70,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     _lastTourScrollStep = step;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      if (step == 1) {
-        if (_scrollController.hasClients) {
-          _scrollController.animateTo(
-            0,
-            duration: const Duration(milliseconds: 250),
-            curve: Curves.easeOut,
-          );
-        }
-        return;
-      }
-      final targetContext = tourKeys[12]?.currentContext;
-      if (targetContext != null) {
-        Scrollable.ensureVisible(
-          targetContext,
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          0,
           duration: const Duration(milliseconds: 250),
           curve: Curves.easeOut,
-          alignment: 0.12,
         );
       }
     });
@@ -177,6 +166,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: const HomeJobsSection(),
                   ),
+                  // TODO(future): unhide career assistant banner when ready
+                  /*
                   const SizedBox(height: 12),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -196,6 +187,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ),
                   ),
+                  */
                   const SizedBox(height: 12),
                   IthakiCard(
                     margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -243,6 +235,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ],
                     ),
                   ),
+                  // TODO(future): unhide assessments, news, and career assistant sections when ready
+                  /*
                   const SizedBox(height: 12),
                   IthakiCard(
                     key: tourKeys[12],
@@ -259,6 +253,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: const HomeQuestionsSection(),
                   ),
+                  */
                   const SizedBox(height: 12),
                   SizedBox(height: MediaQuery.paddingOf(context).bottom + 16),
                 ],

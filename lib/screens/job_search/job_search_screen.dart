@@ -40,6 +40,8 @@ class JobSearchScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 12),
             const JobSearchList(),
+            // TODO(future): unhide career assistant banner when ready
+            /*
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -59,6 +61,7 @@ class JobSearchScreen extends ConsumerWidget {
                 ),
               ),
             ),
+            */
             SizedBox(height: MediaQuery.paddingOf(context).bottom + 16),
           ],
         ),

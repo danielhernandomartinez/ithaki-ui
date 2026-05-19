@@ -55,6 +55,8 @@ class JobMainCard extends StatelessWidget {
             gradientColors: getMatchGradientColors(detail.matchLabel),
             backgroundColor: getMatchBgColor(detail.matchLabel),
           ),
+          // TODO(future): unhide career assistant section when ready
+          /*
           const SizedBox(height: 12),
           const Divider(height: 1, thickness: 1, color: IthakiTheme.hatchBackgroundMuted),
           const SizedBox(height: 12),
@@ -70,6 +72,7 @@ class JobMainCard extends StatelessWidget {
           IthakiButton(AppLocalizations.of(context)!.askCareerAssistant,
               variant: IthakiButtonVariant.outline,
               onPressed: () => showComingSoonSnackBar(context)),
+          */
           const _Divider(),
           Builder(builder: (ctx) {
             final l = AppLocalizations.of(ctx)!;
