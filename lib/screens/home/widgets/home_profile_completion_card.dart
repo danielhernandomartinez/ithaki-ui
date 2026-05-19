@@ -6,6 +6,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../routes.dart';
 import '../../../providers/home_provider.dart';
 import '../../../providers/profile_provider.dart';
+import '../../../widgets/profile_completion_progress_bar.dart';
 import 'home_purple_button.dart';
 
 class HomeProfileCompletionCard extends ConsumerWidget {
@@ -37,7 +38,7 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                     color: IthakiTheme.backgroundWhite,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -50,7 +51,7 @@ class HomeProfileCompletionCard extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      IthakiHatchProgressBar(progress: progress),
+                      ProfileCompletionProgressBar(progress: progress),
                       const SizedBox(height: 12),
                       ...completionItems.map((item) => Padding(
                             padding: const EdgeInsets.only(bottom: 8),

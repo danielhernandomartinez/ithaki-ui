@@ -40,23 +40,30 @@ class NavLanguageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Row(
-        children: [
-          IthakiFlag(flagCode, width: 28, height: 20, oval: true),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              label,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: IthakiTheme.textPrimary,
+      child: Container(
+        height: 48,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          color: IthakiTheme.backgroundWhite,
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Row(
+          children: [
+            IthakiFlag(flagCode, width: 20, height: 20, oval: true),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Text(
+                label,
+                style: IthakiTheme.bodyRegular,
               ),
             ),
-          ),
-          const IthakiIcon('arrow-down',
-              size: 20, color: IthakiTheme.textSecondary),
-        ],
+            const IthakiIcon(
+              'arrow-down',
+              size: 20,
+              color: IthakiTheme.textPrimary,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -143,7 +150,8 @@ class _LangOption extends StatelessWidget {
               ),
             ),
             if (selected)
-              const IthakiIcon('check', size: 18, color: IthakiTheme.textPrimary),
+              const IthakiIcon('check',
+                  size: 18, color: IthakiTheme.textPrimary),
           ],
         ),
       ),
