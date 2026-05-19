@@ -51,9 +51,7 @@ class ApiNotificationsRepository implements NotificationsRepository {
   @override
   Future<List<NotificationItem>> getNotifications() async {
     final response = await _api.get('/notifications');
-    if (response.statusCode != 200) {
-      throw Exception('Notifications failed: ${response.statusCode}');
-    }
+    if (response.statusCode != 200) return const [];
     if (response.body.trim().isEmpty) return const [];
 
     final decoded = jsonDecode(response.body);
