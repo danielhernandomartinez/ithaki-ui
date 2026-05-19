@@ -15,6 +15,11 @@ class _JobSearchRepository implements JobSearchRepository {
   Future<Set<String>> getSavedJobIds() async => {};
 
   @override
+  Future<JobSearchResult> listSavedJobs({int page = 1, int size = 10}) async {
+    return const JobSearchResult(jobs: [], totalJobs: 0, totalPages: 1);
+  }
+
+  @override
   Future<void> saveJob(String jobId) async {}
 
   @override

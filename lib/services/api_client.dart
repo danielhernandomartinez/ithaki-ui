@@ -277,6 +277,36 @@ class ApiClient {
     return res;
   }
 
+  /// Authenticated POST with no request body. Throws [Exception] on non-2xx responses.
+  /// Automatically refreshes the access token once on 401 and retries.
+  Future<http.Response> post(
+    String path, {
+    Map<String, String>? params,
+    Duration? timeout,
+  }) async {
+    final t = timeout ?? ApiClient.timeout;
+    Map<String, String> headers(String tok) => {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $tok',
+        };
+
+    Future<http.Response> doPost(String tok) =>
+        _client.post(uri(path, params), headers: headers(tok)).timeout(t);
+
+    var token = await requireToken();
+    var res = await doPost(token);
+    if (res.statusCode == 401) {
+      await refreshAccessToken();
+      token = await requireToken();
+      res = await doPost(token);
+    }
+    log('POST', uri(path, params), res.statusCode);
+    if (!_okStatuses.contains(res.statusCode)) {
+      throw Exception(readErrorBody(res));
+    }
+    return res;
+  }
+
   /// Authenticated DELETE. Throws [Exception] on non-2xx responses.
   /// Automatically refreshes the access token once on 401 and retries.
   Future<http.Response> delete(

@@ -188,6 +188,30 @@ class MockJobSearchRepository implements JobSearchRepository {
   }
 
   @override
+  Future<JobSearchResult> listSavedJobs({int page = 1, int size = 10}) async {
+    final savedIds = await _savedJobsStore.load();
+    final savedJobs = _allJobs.where((j) => savedIds.contains(j.id)).toList()
+      ..sort((a, b) => a.id.compareTo(b.id));
+
+    final start = (page - 1) * size;
+    final slice = start >= savedJobs.length
+        ? const <JobListing>[]
+        : savedJobs.sublist(
+            start,
+            (start + size).clamp(0, savedJobs.length),
+          );
+
+    final totalJobs = savedJobs.length;
+    final totalPages = totalJobs == 0 ? 1 : (totalJobs / size).ceil();
+
+    return JobSearchResult(
+      jobs: slice,
+      totalJobs: totalJobs,
+      totalPages: totalPages,
+    );
+  }
+
+  @override
   Future<Set<String>> getSavedJobIds() => _savedJobsStore.load();
 
   @override

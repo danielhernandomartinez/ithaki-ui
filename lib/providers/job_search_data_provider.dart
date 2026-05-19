@@ -13,21 +13,34 @@ class JobSearchDataNotifier extends SwrAsyncNotifier<JobSearchResult> {
   @override
   String get cacheKey {
     final searchState = _searchState;
+    final selectedTab = searchState?.selectedTab ?? 0;
+    final savedRevision = searchState?.savedRevision ?? 0;
     final query = searchState?.query ?? '';
     final filters = searchState?.filters ?? const {};
     final sort = searchState?.sortOption ?? JobSearchSort.dateRecent;
     final page = searchState?.currentPage ?? 1;
-    return 'job-search.$query.${_filtersKey(filters)}.${sort.name}.$page';
+    if (selectedTab == 1) {
+      return 'job-search.data.saved.$savedRevision.$page';
+    }
+    return 'job-search.data.search.$query.${_filtersKey(filters)}.${sort.name}.$page';
   }
 
   @override
   Future<JobSearchResult> load() {
     final searchState = _searchState;
+    final selectedTab = searchState?.selectedTab ?? 0;
+    final page = searchState?.currentPage ?? 1;
+    if (selectedTab == 1) {
+      return ref.read(jobSearchRepositoryProvider).listSavedJobs(
+            page: page,
+            size: 10,
+          );
+    }
     return ref.read(jobSearchRepositoryProvider).search(
           query: searchState?.query ?? '',
           filters: searchState?.filters ?? const {},
           sort: searchState?.sortOption ?? JobSearchSort.dateRecent,
-          page: searchState?.currentPage ?? 1,
+          page: page,
         );
   }
 }
@@ -47,16 +60,9 @@ final jobSearchDataProvider =
   JobSearchDataNotifier.new,
 );
 
-/// The list of jobs to display for the current tab. On the "Saved" tab
-/// (selectedTab == 1) only jobs whose IDs are in savedJobIds are returned.
 final displayedJobsProvider = Provider<List<JobListing>>((ref) {
   final searchState = ref.watch(jobSearchProvider).value;
   final result = ref.watch(jobSearchDataProvider).value;
   if (searchState == null || result == null) return const [];
-  if (searchState.selectedTab == 1) {
-    return result.jobs
-        .where((job) => searchState.savedJobIds.contains(job.id))
-        .toList();
-  }
   return result.jobs;
 });
