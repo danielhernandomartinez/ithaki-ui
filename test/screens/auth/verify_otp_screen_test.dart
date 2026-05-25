@@ -15,6 +15,10 @@ class _FakeAuthRepository implements AuthRepository {
       const LoginSession();
 
   @override
+  Future<LoginSession> loginWithGoogle(String idToken) async =>
+      const LoginSession();
+
+  @override
   Future<void> register({
     required String email,
     required String password,
@@ -36,7 +40,10 @@ class _FakeAuthRepository implements AuthRepository {
   Future<void> updatePhone(String phone) async {}
 
   @override
-  Future<void> resetPassword(String newPassword) async {}
+  Future<void> forgotPassword(String email) async {}
+
+  @override
+  Future<void> resetPassword(String token, String newPassword) async {}
 
   @override
   Future<void> logout() async {}

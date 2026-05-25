@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -11,7 +10,6 @@ import '../../providers/home_provider.dart';
 import '../../providers/invitations_provider.dart';
 import '../../providers/tour_provider.dart';
 import '../../routes.dart';
-import '../../utils/coming_soon.dart';
 import '../../widgets/main_panel_scaffold.dart';
 import 'widgets/application_banners.dart';
 import 'widgets/applications_tab_bar.dart';

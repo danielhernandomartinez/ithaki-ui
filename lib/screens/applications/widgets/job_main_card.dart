@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../models/job_detail_models.dart';
-import '../../../utils/coming_soon.dart';
 import '../../../utils/localized_dates.dart';
 import '../../../utils/match_colors.dart';
 
@@ -47,7 +46,8 @@ class JobMainCard extends StatelessWidget {
             _DetailCell(icon: 'globe', value: detail.languages, wide: true),
           ]),
           const SizedBox(height: 12),
-          const Divider(height: 1, thickness: 1, color: IthakiTheme.hatchBackgroundMuted),
+          const Divider(
+              height: 1, thickness: 1, color: IthakiTheme.hatchBackgroundMuted),
           const SizedBox(height: 12),
           IthakiMatchBar(
             percentage: detail.matchPercentage,

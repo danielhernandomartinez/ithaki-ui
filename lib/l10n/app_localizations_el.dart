@@ -71,6 +71,10 @@ class AppLocalizationsEl extends AppLocalizations {
   String get signInWithGoogle => 'Σύνδεση με Google';
 
   @override
+  String get googleSignInFailed =>
+      'Η σύνδεση με Google απέτυχε. Δοκιμάστε ξανά.';
+
+  @override
   String get emailLabel => 'Email';
 
   @override
@@ -237,6 +241,10 @@ class AppLocalizationsEl extends AppLocalizations {
   String get sendResetLink => 'Αποστολή συνδέσμου';
 
   @override
+  String get resetLinkSendFailed =>
+      'Δεν ήταν δυνατή η αποστολή του συνδέσμου επαναφοράς. Δοκιμάστε ξανά.';
+
+  @override
   String get resetLinkSentHeading => 'Ο σύνδεσμος επαναφοράς στάλθηκε!';
 
   @override
@@ -255,6 +263,14 @@ class AppLocalizationsEl extends AppLocalizations {
   @override
   String get resetPasswordDescription =>
       'Τελευταίο βήμα. Δημιουργήστε έναν νέο κωδικό για να ασφαλίσετε τον λογαριασμό σας.';
+
+  @override
+  String get resetPasswordInvalidLink =>
+      'Ο σύνδεσμος επαναφοράς δεν είναι έγκυρος ή έχει λήξει.';
+
+  @override
+  String get resetPasswordFailed =>
+      'Η επαναφορά κωδικού απέτυχε. Δοκιμάστε ξανά.';
 
   @override
   String get newPasswordLabel => 'Νέος Κωδικός';

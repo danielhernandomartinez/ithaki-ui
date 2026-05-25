@@ -216,6 +216,12 @@ abstract class AppLocalizations {
   /// **'Sign in with Google'**
   String get signInWithGoogle;
 
+  /// No description provided for @googleSignInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Google sign-in failed. Please try again.'**
+  String get googleSignInFailed;
+
   /// No description provided for @emailLabel.
   ///
   /// In en, this message translates to:
@@ -522,6 +528,12 @@ abstract class AppLocalizations {
   /// **'Send reset link'**
   String get sendResetLink;
 
+  /// No description provided for @resetLinkSendFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send reset link. Please try again.'**
+  String get resetLinkSendFailed;
+
   /// No description provided for @resetLinkSentHeading.
   ///
   /// In en, this message translates to:
@@ -557,6 +569,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Final step. Create a new password to secure your account.'**
   String get resetPasswordDescription;
+
+  /// No description provided for @resetPasswordInvalidLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset link is invalid or expired.'**
+  String get resetPasswordInvalidLink;
+
+  /// No description provided for @resetPasswordFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset failed. Please try again.'**
+  String get resetPasswordFailed;
 
   /// No description provided for @newPasswordLabel.
   ///

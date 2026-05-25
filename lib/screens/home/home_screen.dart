@@ -9,16 +9,12 @@ import '../../providers/profile_provider.dart';
 import '../../providers/tour_provider.dart';
 import '../../routes.dart';
 import '../../tour/tour_welcome_modal.dart';
-import '../../utils/coming_soon.dart';
 import '../../widgets/app_nav_drawer.dart';
 import '../../widgets/main_panel_scaffold.dart';
 import '../../widgets/responsive_gradient_banner.dart';
-import 'widgets/home_courses_section.dart';
 import 'widgets/home_greeting_header.dart';
 import 'widgets/home_jobs_section.dart';
-import 'widgets/home_news_section.dart';
 import 'widgets/home_profile_completion_card.dart';
-import 'widgets/home_questions_section.dart';
 import 'widgets/home_search_section.dart';
 import 'widgets/home_stats_card.dart';
 
@@ -164,7 +160,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                   const SizedBox(height: 8),
                   IthakiCard(
-                borderRadius: 30,
+                    borderRadius: 30,
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: const HomeJobsSection(),
                   ),

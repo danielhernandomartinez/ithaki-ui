@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
@@ -29,6 +30,40 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
 
   bool get _canSignIn =>
       !_isLoading && _emailValid && _passwordController.text.isNotEmpty;
+
+  Future<void> _handleGoogleSignIn() async {
+    if (_isLoading) return;
+    final l = AppLocalizations.of(context)!;
+    if (kDebugMode) debugPrint('[googleSignIn] login flow started');
+    setState(() => _isLoading = true);
+    try {
+      final account = await GoogleSignIn.instance.authenticate();
+      final idToken = account.authentication.idToken;
+      if (idToken == null) throw AuthException(l.googleSignInFailed);
+      await ref.read(authRepositoryProvider).loginWithGoogle(idToken);
+      resetProfileProviders(ref);
+      if (kDebugMode) debugPrint('[googleSignIn] login flow succeeded');
+      if (mounted) context.go(Routes.home);
+    } on GoogleSignInException catch (e) {
+      if (!mounted) return;
+      if (e.code == GoogleSignInExceptionCode.canceled) {
+        if (kDebugMode) debugPrint('[googleSignIn] login flow cancelled');
+        return;
+      }
+      if (kDebugMode) debugPrint('Google sign-in error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l.googleSignInFailed)),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      final message = e is AuthException ? e.userMessage : l.googleSignInFailed;
+      if (kDebugMode) debugPrint('Google sign-in error: $e');
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
 
   @override
   void dispose() {
@@ -190,9 +225,7 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
           // Sign in with Google button
           IthakiSocialAuthButton.google(
             label: l.signInWithGoogle,
-            onPressed: () {
-              // TODO: Handle Google sign in
-            },
+            onPressed: _isLoading ? null : _handleGoogleSignIn,
           ),
 
           const SizedBox(height: 32),

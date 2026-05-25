@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../providers/auth_provider.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
+class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  ConsumerState<ForgotPasswordScreen> createState() =>
+      _ForgotPasswordScreenState();
 }
 
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   final _emailController = TextEditingController();
+  bool _isLoading = false;
 
   bool get _emailValid {
     final email = _emailController.text;
@@ -24,6 +29,28 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   void dispose() {
     _emailController.dispose();
     super.dispose();
+  }
+
+  Future<void> _sendResetLink() async {
+    if (!_emailValid || _isLoading) return;
+    if (kDebugMode) debugPrint('[forgotPassword] request started');
+    setState(() => _isLoading = true);
+    try {
+      await ref
+          .read(authRepositoryProvider)
+          .forgotPassword(_emailController.text);
+      if (kDebugMode) debugPrint('[forgotPassword] request accepted');
+      if (mounted) context.push(Routes.resetLinkSent);
+    } catch (_) {
+      if (!mounted) return;
+      if (kDebugMode) debugPrint('[forgotPassword] request failed');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(AppLocalizations.of(context)!.resetLinkSendFailed)),
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -66,9 +93,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           const SizedBox(height: 24),
           IthakiButton(
             l.sendResetLink,
-            isEnabled: _emailValid,
-            onPressed:
-                _emailValid ? () => context.push(Routes.resetLinkSent) : null,
+            isEnabled: _emailValid && !_isLoading,
+            onPressed: _emailValid && !_isLoading ? _sendResetLink : null,
           ),
           const SizedBox(height: 32),
         ],

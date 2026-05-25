@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:ithaki_design_system/ithaki_design_system.dart';
 
-import '../../l10n/app_localizations.dart';
 import '../../providers/profile_provider.dart';
 import '../../providers/tour_provider.dart';
 import '../../routes.dart';
-import '../../utils/coming_soon.dart';
 import '../../widgets/main_panel_scaffold.dart';
-import '../../widgets/responsive_gradient_banner.dart';
 import 'widgets/job_search_list.dart';
 import 'widgets/job_search_search_bar.dart';
 import 'widgets/job_search_tab_bar.dart';
@@ -19,7 +14,6 @@ class JobSearchScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context)!;
     final tourKeys = ref.watch(tourKeysProvider);
     final basics = ref.watch(profileBasicsProvider).value;
 

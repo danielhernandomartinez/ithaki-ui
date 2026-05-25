@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../routes.dart';
@@ -9,7 +10,9 @@ import '../../providers/auth_provider.dart';
 import '../../utils/validators.dart';
 
 class ResetPasswordScreen extends ConsumerStatefulWidget {
-  const ResetPasswordScreen({super.key});
+  const ResetPasswordScreen({super.key, required this.token});
+
+  final String token;
 
   @override
   ConsumerState<ResetPasswordScreen> createState() =>
@@ -24,6 +27,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
   bool _passwordFocused = false;
 
   PasswordValidation _pwVal = PasswordValidation.of('');
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -39,12 +43,48 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
       _confirmPasswordController.text == _passwordController.text &&
       _confirmPasswordController.text.isNotEmpty;
 
-  bool get _canSubmit => _passwordValid && _passwordsMatch;
+  bool get _hasResetToken => widget.token.trim().isNotEmpty;
+
+  bool get _canSubmit =>
+      !_isLoading && _hasResetToken && _passwordValid && _passwordsMatch;
 
   void _onPasswordChanged(String value) {
     setState(() {
       _pwVal = PasswordValidation.of(value);
     });
+  }
+
+  Future<void> _resetPassword() async {
+    final l = AppLocalizations.of(context)!;
+    if (!_hasResetToken) {
+      if (kDebugMode) debugPrint('[resetPassword] missing token');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l.resetPasswordInvalidLink)),
+      );
+      return;
+    }
+    if (_isLoading) return;
+
+    if (kDebugMode) debugPrint('[resetPassword] request started');
+    setState(() => _isLoading = true);
+    try {
+      await ref.read(authRepositoryProvider).resetPassword(
+            widget.token,
+            _passwordController.text,
+          );
+      if (kDebugMode) debugPrint('[resetPassword] request succeeded');
+      if (!mounted) return;
+      context.go(Routes.loginPhone);
+    } catch (e) {
+      if (!mounted) return;
+      final message =
+          e is AuthException ? e.userMessage : l.resetPasswordFailed;
+      if (kDebugMode) debugPrint('[resetPassword] request failed: $e');
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -76,7 +116,9 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
           ),
           const SizedBox(height: 12),
           Text(
-            l.resetPasswordDescription,
+            _hasResetToken
+                ? l.resetPasswordDescription
+                : l.resetPasswordInvalidLink,
             style: IthakiTheme.bodyRegular,
           ),
           const SizedBox(height: 24),
@@ -115,14 +157,7 @@ class _ResetPasswordScreenState extends ConsumerState<ResetPasswordScreen> {
           IthakiButton(
             l.resetPasswordButton,
             isEnabled: _canSubmit,
-            onPressed: _canSubmit
-                ? () async {
-                    await ref.read(authRepositoryProvider).resetPassword(
-                          _passwordController.text,
-                        );
-                    if (context.mounted) context.go(Routes.loginPhone);
-                  }
-                : null,
+            onPressed: _canSubmit ? _resetPassword : null,
           ),
           const SizedBox(height: 20),
         ],

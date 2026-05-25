@@ -491,3 +491,7 @@ final profileCompletionProvider = Provider<double>((ref) {
 void resetProfileProviders(WidgetRef ref) {
   ref.read(_profileInvalidationProvider).resetAll();
 }
+
+void clearProfileProviderCaches(WidgetRef ref) {
+  ref.read(swrCacheProvider).invalidatePrefix(_profileCachePrefix);
+}

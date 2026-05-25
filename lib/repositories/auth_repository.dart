@@ -23,6 +23,7 @@ class LoginSession {
 
 abstract class AuthRepository {
   Future<LoginSession> loginWithEmail(String email, String password);
+  Future<LoginSession> loginWithGoogle(String idToken);
   Future<void> register({
     required String email,
     required String password,
@@ -36,7 +37,8 @@ abstract class AuthRepository {
   Future<void> verifyOtp(String otp);
   Future<void> sendOtp();
   Future<void> updatePhone(String phone);
-  Future<void> resetPassword(String newPassword);
+  Future<void> forgotPassword(String email);
+  Future<void> resetPassword(String token, String newPassword);
   Future<void> logout();
 }
 
@@ -48,6 +50,13 @@ class MockAuthRepository implements AuthRepository {
 
   @override
   Future<LoginSession> loginWithEmail(String email, String password) async {
+    await _sessionService.saveTokens(accessToken: 'mock-token');
+    await ProfileLocalStore.savePhoneVerified(true);
+    return const LoginSession();
+  }
+
+  @override
+  Future<LoginSession> loginWithGoogle(String idToken) async {
     await _sessionService.saveTokens(accessToken: 'mock-token');
     await ProfileLocalStore.savePhoneVerified(true);
     return const LoginSession();
@@ -81,7 +90,11 @@ class MockAuthRepository implements AuthRepository {
   Future<void> updatePhone(String phone) => Future.value();
 
   @override
-  Future<void> resetPassword(String newPassword) => Future.value();
+  Future<void> forgotPassword(String email) => Future.value();
+
+  @override
+  Future<void> resetPassword(String token, String newPassword) =>
+      Future.value();
 
   @override
   Future<void> logout() async {
@@ -98,6 +111,47 @@ class ApiAuthRepository implements AuthRepository {
 
   final ApiClient _api;
   final SessionService _sessionService;
+
+  @override
+  Future<LoginSession> loginWithGoogle(String idToken) async {
+    developer.log('Google token exchange started', name: 'ithaki.auth');
+    final response = await _api.client
+        .post(
+          _api.uri('/auth/google'),
+          headers: _api.jsonHeaders(),
+          body: jsonEncode({'idToken': idToken}),
+        )
+        .timeout(ApiClient.authTimeout);
+    ApiClient.log('POST', _api.uri('/auth/google'), response.statusCode);
+
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw AuthException(
+        'Google sign-in failed. Please try again.',
+        internalDetail: _api.readErrorBody(response),
+      );
+    }
+
+    final Map<String, dynamic> data;
+    try {
+      data = (jsonDecode(response.body) as Map).cast<String, dynamic>();
+    } on FormatException {
+      throw AuthException(
+        'Google sign-in failed. Please try again.',
+        internalDetail: 'server returned non-JSON response',
+      );
+    }
+    final token = _extractToken(data);
+    if (token == null) {
+      throw AuthException(
+        'Google sign-in failed. Please try again.',
+        internalDetail: 'token not found in response',
+      );
+    }
+    await _saveTokens(data);
+    await ProfileLocalStore.savePhoneVerified(true);
+    developer.log('Google token exchange succeeded', name: 'ithaki.auth');
+    return const LoginSession();
+  }
 
   String? _extractToken(Map<String, dynamic> data) {
     final direct = data['accessToken'] ?? data['token'];
@@ -332,8 +386,50 @@ class ApiAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<void> resetPassword(String newPassword) async {
-    // TODO: implement reset password via API once endpoint is available
+  Future<void> forgotPassword(String email) async {
+    developer.log('Password reset link request started', name: 'ithaki.auth');
+    final response = await _api.client
+        .post(
+          _api.uri('/auth/forgot-password'),
+          headers: _api.jsonHeaders(),
+          body: jsonEncode({'email': email.trim()}),
+        )
+        .timeout(ApiClient.authTimeout);
+    ApiClient.log(
+        'POST', _api.uri('/auth/forgot-password'), response.statusCode);
+
+    // Non-2xx is unexpected; silent on unknown email is handled server-side.
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw AuthException(
+        'Could not send reset link. Please try again.',
+        internalDetail: _api.readErrorBody(response),
+      );
+    }
+    developer.log('Password reset link request accepted', name: 'ithaki.auth');
+  }
+
+  @override
+  Future<void> resetPassword(String token, String newPassword) async {
+    developer.log('Password reset request started', name: 'ithaki.auth');
+    final response = await _api.client
+        .post(
+          _api.uri('/auth/reset-password'),
+          headers: _api.jsonHeaders(),
+          body: jsonEncode({'token': token, 'newPassword': newPassword}),
+        )
+        .timeout(ApiClient.authTimeout);
+    ApiClient.log(
+        'POST', _api.uri('/auth/reset-password'), response.statusCode);
+
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw AuthException(
+        response.statusCode == 400
+            ? 'Reset link is invalid or expired.'
+            : 'Password reset failed. Please try again.',
+        internalDetail: _api.readErrorBody(response),
+      );
+    }
+    developer.log('Password reset request succeeded', name: 'ithaki.auth');
   }
 
   @override

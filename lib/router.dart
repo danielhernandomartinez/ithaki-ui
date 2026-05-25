@@ -197,7 +197,9 @@ class IthakiRouter {
           ),
           GoRoute(
             path: Routes.resetPassword,
-            builder: (context, state) => const ResetPasswordScreen(),
+            builder: (context, state) => ResetPasswordScreen(
+              token: state.uri.queryParameters['token'] ?? '',
+            ),
           ),
           GoRoute(
             path: Routes.loginPhone,

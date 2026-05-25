@@ -1,4 +1,4 @@
-package com.ithaki.ithaki_ui
+package com.ithaki.odyssea
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -70,6 +70,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get signInWithGoogle => 'تسجيل الدخول بواسطة Google';
 
   @override
+  String get googleSignInFailed =>
+      'فشل تسجيل الدخول بواسطة Google. يُرجى المحاولة مرة أخرى.';
+
+  @override
   String get emailLabel => 'البريد الإلكتروني';
 
   @override
@@ -232,6 +236,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sendResetLink => 'إرسال رابط الإعادة';
 
   @override
+  String get resetLinkSendFailed =>
+      'تعذر إرسال رابط إعادة التعيين. يُرجى المحاولة مرة أخرى.';
+
+  @override
   String get resetLinkSentHeading => 'تم إرسال رابط إعادة تعيين كلمة المرور!';
 
   @override
@@ -251,6 +259,14 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get resetPasswordDescription =>
       'الخطوة الأخيرة. أنشئ كلمة مرور جديدة لتأمين حسابك.';
+
+  @override
+  String get resetPasswordInvalidLink =>
+      'رابط إعادة التعيين غير صالح أو منتهي الصلاحية.';
+
+  @override
+  String get resetPasswordFailed =>
+      'فشلت إعادة تعيين كلمة المرور. يُرجى المحاولة مرة أخرى.';
 
   @override
   String get newPasswordLabel => 'كلمة المرور الجديدة';

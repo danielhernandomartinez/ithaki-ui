@@ -15,6 +15,8 @@ abstract final class Routes {
   static const forgotPassword = '/forgot-password';
   static const resetLinkSent = '/reset-link-sent';
   static const resetPassword = '/reset-password';
+  static String resetPasswordWith({required String token}) =>
+      '$resetPassword?token=${Uri.encodeComponent(token)}';
   static const loginPhone = '/login-phone';
   static const welcome = '/welcome';
 

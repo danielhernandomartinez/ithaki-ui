@@ -157,14 +157,17 @@ class _MainPanelScaffoldState extends ConsumerState<MainPanelScaffold> {
     context.push(Routes.settingsNotifications);
   }
 
-  void _handleLogOut() {
+  Future<void> _handleLogOut() async {
     widget.onBeforePanelAction?.call();
     _closeProfile();
     final router = GoRouter.of(context);
-    ref.read(authRepositoryProvider).logout().whenComplete(() {
-      resetProfileProviders(ref);
+    try {
+      await ref.read(authRepositoryProvider).logout();
+      clearProfileProviderCaches(ref);
       if (mounted) router.go(Routes.root);
-    });
+    } catch (e) {
+      debugPrint('[logout] failed: $e');
+    }
   }
 
   Widget _activePanel(BuildContext context) {

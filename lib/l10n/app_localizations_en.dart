@@ -70,6 +70,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signInWithGoogle => 'Sign in with Google';
 
   @override
+  String get googleSignInFailed => 'Google sign-in failed. Please try again.';
+
+  @override
   String get emailLabel => 'Email';
 
   @override
@@ -235,6 +238,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sendResetLink => 'Send reset link';
 
   @override
+  String get resetLinkSendFailed =>
+      'Could not send reset link. Please try again.';
+
+  @override
   String get resetLinkSentHeading => 'Password reset link sent!';
 
   @override
@@ -253,6 +260,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get resetPasswordDescription =>
       'Final step. Create a new password to secure your account.';
+
+  @override
+  String get resetPasswordInvalidLink => 'Reset link is invalid or expired.';
+
+  @override
+  String get resetPasswordFailed => 'Password reset failed. Please try again.';
 
   @override
   String get newPasswordLabel => 'New Password';

@@ -1,10 +1,14 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../../routes.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../l10n/app_localizations.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/profile_provider.dart';
 import '../../providers/registration_provider.dart';
 import '../../utils/validators.dart';
 
@@ -45,8 +49,44 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       _confirmPasswordController.text == _passwordController.text &&
       _confirmPasswordController.text.isNotEmpty;
 
+  bool _isGoogleLoading = false;
+
   bool get _canContinue =>
       _emailValid && _passwordValid && _passwordsMatch && _termsAccepted;
+
+  Future<void> _handleGoogleSignIn() async {
+    if (_isGoogleLoading) return;
+    final l = AppLocalizations.of(context)!;
+    if (kDebugMode) debugPrint('[googleSignIn] register flow started');
+    setState(() => _isGoogleLoading = true);
+    try {
+      final account = await GoogleSignIn.instance.authenticate();
+      final idToken = account.authentication.idToken;
+      if (idToken == null) throw AuthException(l.googleSignInFailed);
+      await ref.read(authRepositoryProvider).loginWithGoogle(idToken);
+      resetProfileProviders(ref);
+      if (kDebugMode) debugPrint('[googleSignIn] register flow succeeded');
+      if (mounted) context.go(Routes.home);
+    } on GoogleSignInException catch (e) {
+      if (!mounted) return;
+      if (e.code == GoogleSignInExceptionCode.canceled) {
+        if (kDebugMode) debugPrint('[googleSignIn] register flow cancelled');
+        return;
+      }
+      if (kDebugMode) debugPrint('Google sign-in error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l.googleSignInFailed)),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      final message = e is AuthException ? e.userMessage : l.googleSignInFailed;
+      if (kDebugMode) debugPrint('Google sign-in error: $e');
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
+    } finally {
+      if (mounted) setState(() => _isGoogleLoading = false);
+    }
+  }
 
   void _onPasswordChanged(String value) {
     setState(() {
@@ -79,7 +119,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           const SizedBox(height: 24),
           IthakiSocialAuthButton.google(
             label: l.signInWithGoogle,
-            onPressed: () {},
+            onPressed: _isGoogleLoading ? null : _handleGoogleSignIn,
           ),
           const SizedBox(height: 20),
           const Divider(),

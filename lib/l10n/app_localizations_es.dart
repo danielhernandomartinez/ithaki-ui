@@ -72,6 +72,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get signInWithGoogle => 'Iniciar sesión con Google';
 
   @override
+  String get googleSignInFailed =>
+      'No se pudo iniciar sesión con Google. Inténtalo de nuevo.';
+
+  @override
   String get emailLabel => 'Correo electrónico';
 
   @override
@@ -240,6 +244,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get sendResetLink => 'Enviar enlace de restablecimiento';
 
   @override
+  String get resetLinkSendFailed =>
+      'No se pudo enviar el enlace de restablecimiento. Inténtalo de nuevo.';
+
+  @override
   String get resetLinkSentHeading =>
       '¡Enlace de restablecimiento de contraseña enviado!';
 
@@ -259,6 +267,14 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get resetPasswordDescription =>
       'Último paso. Crea una nueva contraseña para proteger tu cuenta.';
+
+  @override
+  String get resetPasswordInvalidLink =>
+      'El enlace de restablecimiento no es válido o ha caducado.';
+
+  @override
+  String get resetPasswordFailed =>
+      'No se pudo restablecer la contraseña. Inténtalo de nuevo.';
 
   @override
   String get newPasswordLabel => 'Nueva contraseña';
