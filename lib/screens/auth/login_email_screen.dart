@@ -9,6 +9,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';
+import '../../utils/jwt.dart';
 
 class LoginEmailScreen extends ConsumerStatefulWidget {
   const LoginEmailScreen({super.key});
@@ -40,6 +41,12 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
       final account = await GoogleSignIn.instance.authenticate();
       final idToken = account.authentication.idToken;
       if (idToken == null) throw AuthException(l.googleSignInFailed);
+      if (kDebugMode) {
+        final payload = decodeJwtPayload(idToken);
+        debugPrint(
+          '[googleSignIn] idToken aud=${payload?['aud']} azp=${payload?['azp']} iss=${payload?['iss']} exp=${payload?['exp']}',
+        );
+      }
       await ref.read(authRepositoryProvider).loginWithGoogle(idToken);
       resetProfileProviders(ref);
       if (kDebugMode) debugPrint('[googleSignIn] login flow succeeded');

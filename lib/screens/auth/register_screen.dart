@@ -10,6 +10,7 @@ import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';
 import '../../providers/registration_provider.dart';
+import '../../utils/jwt.dart';
 import '../../utils/validators.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
@@ -63,6 +64,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       final account = await GoogleSignIn.instance.authenticate();
       final idToken = account.authentication.idToken;
       if (idToken == null) throw AuthException(l.googleSignInFailed);
+      if (kDebugMode) {
+        final payload = decodeJwtPayload(idToken);
+        debugPrint(
+          '[googleSignIn] idToken aud=${payload?['aud']} azp=${payload?['azp']} iss=${payload?['iss']} exp=${payload?['exp']}',
+        );
+      }
       await ref.read(authRepositoryProvider).loginWithGoogle(idToken);
       resetProfileProviders(ref);
       if (kDebugMode) debugPrint('[googleSignIn] register flow succeeded');

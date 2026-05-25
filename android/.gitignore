@@ -8,7 +8,7 @@ GeneratedPluginRegistrant.java
 .cxx/
 
 # Dev-local Google OAuth config (keep per-developer, not committed)
-/app/src/main/res/values/strings.xml
+/app/src/main/res/values/google_signin.xml
 
 # Remember to never publicly share your keystore.
 # See https://flutter.dev/to/reference-keystore
