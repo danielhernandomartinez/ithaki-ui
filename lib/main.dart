@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -15,30 +14,10 @@ import 'router.dart';
 import 'services/api_client.dart';
 import 'tour/tour_overlay.dart';
 
-const _nativeConfigChannel = MethodChannel('ithaki/config');
-
-Future<String?> _loadGoogleServerClientId() async {
-  try {
-    final clientId =
-        await _nativeConfigChannel.invokeMethod<String>('googleServerClientId');
-    final trimmed = clientId?.trim();
-    if (trimmed == null || trimmed.isEmpty) return null;
-    return trimmed;
-  } catch (e) {
-    debugPrint('[GoogleSignIn] load serverClientId failed: $e');
-    return null;
-  }
-}
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    const googleClientIdFromDefine = String.fromEnvironment('GOOGLE_CLIENT_ID');
-    final googleClientId =
-        googleClientIdFromDefine.isNotEmpty ? googleClientIdFromDefine : null;
-    await GoogleSignIn.instance.initialize(
-      serverClientId: googleClientId ?? await _loadGoogleServerClientId(),
-    );
+    await GoogleSignIn.instance.initialize();
   } catch (e) {
     debugPrint('[GoogleSignIn] initialize failed: $e');
   }
