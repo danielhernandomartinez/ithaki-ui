@@ -10,6 +10,7 @@ class RegistrationState {
   final String phone;
   final String verifyMethod;
   final bool rememberVerifyChoice;
+  final bool fromGoogle;
 
   const RegistrationState({
     this.language = '',
@@ -21,6 +22,7 @@ class RegistrationState {
     this.phone = '',
     this.verifyMethod = '',
     this.rememberVerifyChoice = false,
+    this.fromGoogle = false,
   });
 
   RegistrationState copyWith({
@@ -33,6 +35,7 @@ class RegistrationState {
     String? phone,
     String? verifyMethod,
     bool? rememberVerifyChoice,
+    bool? fromGoogle,
   }) {
     return RegistrationState(
       language: language ?? this.language,
@@ -44,6 +47,7 @@ class RegistrationState {
       phone: phone ?? this.phone,
       verifyMethod: verifyMethod ?? this.verifyMethod,
       rememberVerifyChoice: rememberVerifyChoice ?? this.rememberVerifyChoice,
+      fromGoogle: fromGoogle ?? this.fromGoogle,
     );
   }
 }
@@ -65,6 +69,9 @@ class RegistrationNotifier extends Notifier<RegistrationState> {
 
   void setVerifyMethod(String method, {bool remember = false}) => state =
       state.copyWith(verifyMethod: method, rememberVerifyChoice: remember);
+
+  void setFromGoogle({String name = '', String lastName = '', String email = ''}) =>
+      state = state.copyWith(fromGoogle: true, name: name, lastName: lastName, email: email);
 
   void reset() => state = const RegistrationState();
 }

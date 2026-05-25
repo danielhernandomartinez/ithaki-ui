@@ -117,7 +117,7 @@ class IthakiRouter {
     // null = pre-existing session before this feature — don't block.
     if (phoneVerified != false) return null;
 
-    return Routes.verifyOtp;
+    return Routes.personalDetails;
   }
 
   static GoRouter createRouter(SessionService sessionService) => GoRouter(

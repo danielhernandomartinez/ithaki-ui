@@ -18,7 +18,19 @@ class AuthException implements Exception {
 }
 
 class LoginSession {
-  const LoginSession();
+  final bool isNewUser;
+  final bool phoneVerified;
+  final String name;
+  final String lastName;
+  final String email;
+
+  const LoginSession({
+    this.isNewUser = false,
+    this.phoneVerified = true,
+    this.name = '',
+    this.lastName = '',
+    this.email = '',
+  });
 }
 
 abstract class AuthRepository {
@@ -59,7 +71,7 @@ class MockAuthRepository implements AuthRepository {
   Future<LoginSession> loginWithGoogle(String idToken) async {
     await _sessionService.saveTokens(accessToken: 'mock-token');
     await ProfileLocalStore.savePhoneVerified(true);
-    return const LoginSession();
+    return const LoginSession(isNewUser: false);
   }
 
   @override
@@ -148,9 +160,19 @@ class ApiAuthRepository implements AuthRepository {
       );
     }
     await _saveTokens(data);
-    await ProfileLocalStore.savePhoneVerified(true);
-    developer.log('Google token exchange succeeded', name: 'ithaki.auth');
-    return const LoginSession();
+    developer.log('Google auth payload: $data', name: 'ithaki.auth');
+
+    // /auth/google does not return phoneVerified — fetch it from /user/me.
+    final userInfo = await _fetchUserInfo();
+    final phoneVerified = userInfo['phoneVerified'] == true;
+    await ProfileLocalStore.savePhoneVerified(phoneVerified);
+
+    final name = userInfo['firstName'] as String? ?? '';
+    final lastName = userInfo['lastName'] as String? ?? '';
+    final email = userInfo['email'] as String? ?? data['email'] as String? ?? '';
+
+    developer.log('Google token exchange succeeded phoneVerified=$phoneVerified', name: 'ithaki.auth');
+    return LoginSession(phoneVerified: phoneVerified, name: name, lastName: lastName, email: email);
   }
 
   String? _extractToken(Map<String, dynamic> data) {
@@ -163,6 +185,16 @@ class ApiAuthRepository implements AuthRepository {
       if (nested is String && nested.isNotEmpty) return nested;
     }
     return null;
+  }
+
+  Future<Map<String, dynamic>> _fetchUserInfo() async {
+    try {
+      final response = await _api.get('/user/me');
+      if (response.statusCode == 200) {
+        return (jsonDecode(response.body) as Map).cast<String, dynamic>();
+      }
+    } catch (_) {}
+    return {};
   }
 
   Future<void> _saveTokens(Map<String, dynamic> data) async {

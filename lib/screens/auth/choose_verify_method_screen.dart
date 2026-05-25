@@ -8,6 +8,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/registration_provider.dart';
+import '../../services/session_service.dart';
 
 class ChooseVerifyMethodScreen extends ConsumerStatefulWidget {
   const ChooseVerifyMethodScreen({super.key});
@@ -83,35 +84,46 @@ class _ChooseVerifyMethodScreenState
                       final regState = ref.read(registrationProvider);
                       final repo = ref.read(authRepositoryProvider);
 
-                      try {
-                        await repo.register(
-                          email: regState.email,
-                          password: regState.password,
-                          name: regState.name,
-                          lastName: regState.lastName,
-                          phone: regState.phone,
-                          verifyMethod: method,
-                          techComfort: regState.techLevel,
-                          systemLanguage: regState.language.isNotEmpty
-                              ? regState.language
-                              : 'en',
-                        );
-                      } catch (signupError) {
-                        // Account already created in a previous attempt.
-                        // Resend the OTP and proceed.
-                        final detail = signupError is AuthException
-                            ? (signupError.internalDetail ?? '').toLowerCase()
-                            : signupError.toString().toLowerCase();
-                        if (detail.contains('already') ||
-                            detail.contains('exists') ||
-                            detail.contains('duplicate')) {
-                          await repo.updatePhone(regState.phone);
-                          // Best-effort — user can resend from the OTP screen.
-                          try {
-                            await repo.sendOtp();
-                          } catch (_) {}
-                        } else {
-                          rethrow;
+                      final hasSession = await ref
+                          .read(sessionServiceProvider)
+                          .readAccessToken() != null;
+                      if (regState.fromGoogle || hasSession) {
+                        // Account already exists — just set phone and send OTP.
+                        await repo.updatePhone(regState.phone);
+                        try {
+                          await repo.sendOtp();
+                        } catch (_) {}
+                      } else {
+                        try {
+                          await repo.register(
+                            email: regState.email,
+                            password: regState.password,
+                            name: regState.name,
+                            lastName: regState.lastName,
+                            phone: regState.phone,
+                            verifyMethod: method,
+                            techComfort: regState.techLevel,
+                            systemLanguage: regState.language.isNotEmpty
+                                ? regState.language
+                                : 'en',
+                          );
+                        } catch (signupError) {
+                          // Account already created in a previous attempt.
+                          // Resend the OTP and proceed.
+                          final detail = signupError is AuthException
+                              ? (signupError.internalDetail ?? '').toLowerCase()
+                              : signupError.toString().toLowerCase();
+                          if (detail.contains('already') ||
+                              detail.contains('exists') ||
+                              detail.contains('duplicate')) {
+                            await repo.updatePhone(regState.phone);
+                            // Best-effort — user can resend from the OTP screen.
+                            try {
+                              await repo.sendOtp();
+                            } catch (_) {}
+                          } else {
+                            rethrow;
+                          }
                         }
                       }
 
