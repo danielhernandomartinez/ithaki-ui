@@ -9,7 +9,6 @@ import '../sheets/change_password_sheet.dart';
 import '../sheets/change_phone_sheet.dart';
 import '../sheets/delete_account_sheet.dart';
 import '../sheets/make_invisible_sheet.dart';
-import '../sheets/switch_lite_sheet.dart';
 
 class AccountSettingsTab extends ConsumerWidget {
   const AccountSettingsTab({super.key});
@@ -163,46 +162,6 @@ class AccountSettingsTab extends ConsumerWidget {
                       onPressed: () =>
                           ref.read(profileVisibleProvider.notifier).toggle(),
                     ),
-            ],
-          ),
-        ),
-
-        // Card 3 — Digital Comfort
-        IthakiCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                l10n.digitalComfortTitle,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: IthakiTheme.textPrimary,
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                l10n.digitalComfortExperienced,
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: IthakiTheme.textPrimary,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                l10n.digitalComfortDescription,
-                style:
-                    TextStyle(fontSize: 13, color: IthakiTheme.textSecondary),
-              ),
-              const SizedBox(height: 12),
-              IthakiOutlineButton(
-                l10n.tryIthakiLite,
-                onPressed: () => _showSheet(
-                  context,
-                  SwitchLiteSheet(parentContext: context),
-                ),
-              ),
             ],
           ),
         ),

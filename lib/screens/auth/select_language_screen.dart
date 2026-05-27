@@ -143,7 +143,10 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
                     ref
                         .read(registrationProvider.notifier)
                         .setLanguage(_selected!.id);
-                    context.push(Routes.techComfort);
+                    ref
+                        .read(registrationProvider.notifier)
+                        .setTechLevel('experienced');
+                    context.push(Routes.register);
                   }
                 : null,
           ),
@@ -151,7 +154,12 @@ class _SelectLanguageScreenState extends ConsumerState<SelectLanguageScreen> {
           IthakiButton(
             l.skipButton,
             variant: IthakiButtonVariant.outline,
-            onPressed: () => context.push(Routes.techComfort),
+            onPressed: () {
+              ref
+                  .read(registrationProvider.notifier)
+                  .setTechLevel('experienced');
+              context.push(Routes.register);
+            },
           ),
         ],
       ),

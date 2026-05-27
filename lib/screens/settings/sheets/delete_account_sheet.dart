@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ithaki_design_system/ithaki_design_system.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../../../routes.dart';
 
 class DeleteAccountSheet extends StatefulWidget {
   final BuildContext parentContext;
@@ -67,7 +68,7 @@ class _DeleteAccountSheetState extends State<DeleteAccountSheet> {
               onPressed: canDelete
                   ? () {
                       Navigator.pop(context);
-                      widget.parentContext.go('/tech-comfort');
+                      widget.parentContext.go(Routes.root);
                     }
                   : null,
               style: OutlinedButton.styleFrom(

@@ -81,6 +81,9 @@ class _ChooseVerifyMethodScreenState
                           .read(registrationProvider.notifier)
                           .setVerifyMethod(method, remember: _rememberChoice);
                       final regState = ref.read(registrationProvider);
+                      final techComfort = regState.techLevel.isNotEmpty
+                          ? regState.techLevel
+                          : 'experienced';
                       final repo = ref.read(authRepositoryProvider);
 
                       try {
@@ -91,7 +94,7 @@ class _ChooseVerifyMethodScreenState
                           lastName: regState.lastName,
                           phone: regState.phone,
                           verifyMethod: method,
-                          techComfort: regState.techLevel,
+                          techComfort: techComfort,
                           systemLanguage: regState.language.isNotEmpty
                               ? regState.language
                               : 'en',

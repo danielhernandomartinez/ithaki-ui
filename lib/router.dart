@@ -8,7 +8,6 @@ import 'repositories/profile/profile_local_store.dart';
 import 'services/session_service.dart';
 import 'screens/auth/select_language_screen.dart';
 import 'routes.dart';
-import 'screens/auth/tech_comfort_screen.dart';
 import 'screens/auth/register_screen.dart';
 import 'screens/auth/personal_details_screen.dart';
 import 'screens/auth/verify_email_screen.dart';
@@ -62,7 +61,6 @@ class IthakiRouter {
   // Routes that are accessible without authentication.
   static const _publicRoutes = {
     Routes.root,
-    Routes.techComfort,
     Routes.register,
     Routes.personalDetails,
     Routes.verifyEmail,
@@ -132,7 +130,7 @@ class IthakiRouter {
           ),
           GoRoute(
             path: Routes.techComfort,
-            builder: (context, state) => const TechComfortScreen(),
+            builder: (context, state) => const RegisterScreen(),
           ),
           GoRoute(
             path: Routes.register,
