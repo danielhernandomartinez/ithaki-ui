@@ -17,7 +17,10 @@ import 'tour/tour_overlay.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    await GoogleSignIn.instance.initialize();
+    const serverClientId = String.fromEnvironment('GOOGLE_SERVER_CLIENT_ID');
+    await GoogleSignIn.instance.initialize(
+      serverClientId: serverClientId.isEmpty ? null : serverClientId,
+    );
   } catch (e) {
     debugPrint('[GoogleSignIn] initialize failed: $e');
   }

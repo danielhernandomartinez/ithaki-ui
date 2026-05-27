@@ -11,7 +11,6 @@ import '../../widgets/panel_scaffold.dart';
 const _kProficiencyLevels = [
   'Native',
   'Fluent',
-  'Advanced',
   'Conversational',
   'Basic',
 ];

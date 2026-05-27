@@ -27,19 +27,17 @@ class ProfileLanguageResolver {
   static Map<String, dynamic> proficiencyEnum(String proficiency) {
     switch (_normalize(proficiency)) {
       case 'native':
-        return const {'value': 'C2', 'title': 'Native/Proficiency'};
+        return const {'value': 'NATIVE', 'title': 'Native'};
       case 'fluent':
-        return const {'value': 'C1', 'title': 'Fluent'};
-      case 'advanced':
-        return const {'value': 'B2', 'title': 'Upper Intermediate'};
+        return const {'value': 'FLUENT', 'title': 'Fluent'};
       case 'conversational':
-        return const {'value': 'B1', 'title': 'Intermediate'};
+        return const {'value': 'CONVERSATIONAL', 'title': 'Conversational'};
       case 'basic':
-        return const {'value': 'A1', 'title': 'Basic'};
+        return const {'value': 'BEGINNER', 'title': 'Beginner'};
       default:
         return {
-          'value': ProfileApiMapper.slug(proficiency),
-          'title': proficiency,
+          'value': proficiency.trim().toUpperCase(),
+          'title': proficiency.trim(),
         };
     }
   }
