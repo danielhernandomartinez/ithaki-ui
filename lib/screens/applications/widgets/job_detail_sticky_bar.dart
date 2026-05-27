@@ -63,7 +63,7 @@ class JobDetailStickyBar extends StatelessWidget {
                           onPressed: () {
                             showIthakiBottomSheet<void>(
                               context: context,
-                              builder: (_) => const ApplyBottomSheet(),
+                              builder: (_) => ApplyBottomSheet(jobId: detail.id),
                             );
                           },
                         ),

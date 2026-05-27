@@ -178,7 +178,7 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen> {
           data: (apiDetail) {
             final detail = enrichJobDetail(apiDetail,
                 application: application, invitation: invitation);
-            return [_stickyBar(context, detail, invitation)];
+            return [_stickyBar(context, detail, invitation, detail.id)];
           },
           orElse: () => [],
         );
@@ -256,7 +256,7 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen> {
   }
 
   Widget _stickyBar(
-      BuildContext context, JobDetail detail, Invitation? invitation) {
+      BuildContext context, JobDetail detail, Invitation? invitation, String jobId) {
     return Positioned(
       left: 0,
       right: 0,
@@ -265,7 +265,7 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen> {
         top: false,
         child: widget.isInvitation
             ? InvitationStickyBar(
-                onAccept: () => _showApplySheet(context),
+                onAccept: () => _showApplySheet(context, jobId),
                 onMore: (value) => _handleInvitationMenu(context, value),
               )
             : JobDetailStickyBar(detail: detail),
@@ -293,10 +293,10 @@ class _JobDetailScreenState extends ConsumerState<JobDetailScreen> {
 
   // ── actions ────────────────────────────────────────────────────────────────
 
-  void _showApplySheet(BuildContext context) {
+  void _showApplySheet(BuildContext context, String jobId) {
     showIthakiBottomSheet<void>(
       context: context,
-      builder: (_) => const ApplyBottomSheet(),
+      builder: (_) => ApplyBottomSheet(jobId: jobId),
     );
   }
 

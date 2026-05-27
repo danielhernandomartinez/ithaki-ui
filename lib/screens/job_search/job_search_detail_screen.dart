@@ -181,7 +181,7 @@ class _JobSearchDetailScreenState extends ConsumerState<JobSearchDetailScreen> {
       context: context,
       builder: (_) => KeyedSubtree(
         key: highlightKey,
-        child: const ApplyBottomSheet(),
+        child: ApplyBottomSheet(jobId: widget.jobId),
       ),
     );
   }

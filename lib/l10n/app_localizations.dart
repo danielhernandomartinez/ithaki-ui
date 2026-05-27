@@ -1566,6 +1566,48 @@ abstract class AppLocalizations {
   /// **'Apply Now'**
   String get applyNow;
 
+  /// No description provided for @coverLetterHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a cover letter (optional)'**
+  String get coverLetterHint;
+
+  /// No description provided for @availabilityDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Available from'**
+  String get availabilityDateLabel;
+
+  /// No description provided for @availabilityDateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select date'**
+  String get availabilityDateHint;
+
+  /// No description provided for @applySubmitting.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitting...'**
+  String get applySubmitting;
+
+  /// No description provided for @applySubmitSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Application submitted!'**
+  String get applySubmitSuccess;
+
+  /// No description provided for @applySelectCvFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Select CV file'**
+  String get applySelectCvFile;
+
+  /// No description provided for @applyFileSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'File ready'**
+  String get applyFileSelected;
+
   /// No description provided for @declineSheetTitle.
   ///
   /// In en, this message translates to:

@@ -794,6 +794,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get applyNow => 'Apply Now';
 
   @override
+  String get coverLetterHint => 'Add a cover letter (optional)';
+
+  @override
+  String get availabilityDateLabel => 'Available from';
+
+  @override
+  String get availabilityDateHint => 'Select date';
+
+  @override
+  String get applySubmitting => 'Submitting...';
+
+  @override
+  String get applySubmitSuccess => 'Application submitted!';
+
+  @override
+  String get applySelectCvFile => 'Select CV file';
+
+  @override
+  String get applyFileSelected => 'File ready';
+
+  @override
   String get declineSheetTitle => 'Decline Invitation';
 
   @override
