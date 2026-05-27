@@ -9,6 +9,7 @@ import 'package:ithaki_design_system/ithaki_design_system.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/profile_provider.dart';
+import '../../providers/registration_provider.dart';
 import '../../utils/jwt.dart';
 
 class LoginEmailScreen extends ConsumerStatefulWidget {
@@ -47,10 +48,20 @@ class _LoginEmailScreenState extends ConsumerState<LoginEmailScreen> {
           '[googleSignIn] idToken aud=${payload?['aud']} azp=${payload?['azp']} iss=${payload?['iss']} exp=${payload?['exp']}',
         );
       }
-      await ref.read(authRepositoryProvider).loginWithGoogle(idToken);
+      final session = await ref.read(authRepositoryProvider).loginWithGoogle(idToken);
       resetProfileProviders(ref);
-      if (kDebugMode) debugPrint('[googleSignIn] login flow succeeded');
-      if (mounted) context.go(Routes.home);
+      if (kDebugMode) debugPrint('[googleSignIn] login flow succeeded phoneVerified=${session.phoneVerified}');
+      if (!mounted) return;
+      if (!session.phoneVerified) {
+        ref.read(registrationProvider.notifier).setFromGoogle(
+              name: session.name,
+              lastName: session.lastName,
+              email: session.email,
+            );
+        context.go(Routes.personalDetails);
+      } else {
+        context.go(Routes.home);
+      }
     } on GoogleSignInException catch (e) {
       if (!mounted) return;
       if (e.code == GoogleSignInExceptionCode.canceled) {

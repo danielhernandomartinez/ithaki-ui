@@ -28,6 +28,11 @@ class _PersonalDetailsScreenState extends ConsumerState<PersonalDetailsScreen> {
   @override
   void initState() {
     super.initState();
+    final reg = ref.read(registrationProvider);
+    if (reg.fromGoogle) {
+      _nameController.text = reg.name;
+      _lastNameController.text = reg.lastName;
+    }
     _nameController.addListener(() => setState(() {}));
     _lastNameController.addListener(() => setState(() {}));
     _phoneController.addListener(() => setState(() {}));
