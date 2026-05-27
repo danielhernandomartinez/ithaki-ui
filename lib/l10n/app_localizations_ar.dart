@@ -792,6 +792,27 @@ class AppLocalizationsAr extends AppLocalizations {
   String get applyNow => 'تقدم الآن';
 
   @override
+  String get coverLetterHint => 'أضف خطاب تعريف (اختياري)';
+
+  @override
+  String get availabilityDateLabel => 'متاح من';
+
+  @override
+  String get availabilityDateHint => 'اختر تاريخًا';
+
+  @override
+  String get applySubmitting => 'جارٍ الإرسال...';
+
+  @override
+  String get applySubmitSuccess => 'تم تقديم الطلب!';
+
+  @override
+  String get applySelectCvFile => 'اختر ملف السيرة الذاتية';
+
+  @override
+  String get applyFileSelected => 'الملف جاهز';
+
+  @override
   String get declineSheetTitle => 'رفض الدعوة';
 
   @override

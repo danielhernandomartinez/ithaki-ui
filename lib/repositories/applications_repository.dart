@@ -10,6 +10,13 @@ import '../utils/api_mappers.dart' as mapper;
 
 abstract class ApplicationsRepository {
   Future<List<Application>> getApplications();
+  Future<String> uploadApplicationCv(String filePath);
+  Future<void> submitApplication({
+    required String jobId,
+    String? coverLetter,
+    String? availabilityPeriod,
+    String? cvFilePath,
+  });
 }
 
 class ApiApplicationsRepository implements ApplicationsRepository {
@@ -74,6 +81,29 @@ class ApiApplicationsRepository implements ApplicationsRepository {
   }
 
   @override
+  Future<String> uploadApplicationCv(String filePath) =>
+      _api.uploadMultipart('/files/me/upload/application-cv', 'file', filePath);
+
+  @override
+  Future<void> submitApplication({
+    required String jobId,
+    String? coverLetter,
+    String? availabilityPeriod,
+    String? cvFilePath,
+  }) async {
+    final jobIdValue = int.tryParse(jobId) ?? jobId;
+    final body = {
+      'jobId': jobIdValue,
+      if (coverLetter != null && coverLetter.isNotEmpty)
+        'coverLetter': coverLetter,
+      if (availabilityPeriod != null) 'availabilityPeriod': availabilityPeriod,
+      'cvFilePath': cvFilePath,
+    };
+    debugPrint('[ApplicationsRepo] POST /job-seeker/me/applications body: $body');
+    await _api.postJsonResponse('/job-seeker/me/applications', body);
+  }
+
+  @override
   Future<List<Application>> getApplications() async {
     final response = await _api.get('/job-seeker/me/applications');
 
@@ -93,6 +123,22 @@ class ApiApplicationsRepository implements ApplicationsRepository {
 class MockApplicationsRepository implements ApplicationsRepository {
   @override
   Future<List<Application>> getApplications() async => _mockApplications;
+
+  @override
+  Future<String> uploadApplicationCv(String filePath) async {
+    await Future.delayed(const Duration(milliseconds: 800));
+    return 'public/jobseeker/application-cv/mock_cv.pdf';
+  }
+
+  @override
+  Future<void> submitApplication({
+    required String jobId,
+    String? coverLetter,
+    String? availabilityPeriod,
+    String? cvFilePath,
+  }) async {
+    await Future.delayed(const Duration(seconds: 1));
+  }
 }
 
 // ─── Notifier ─────────────────────────────────────────────────────────────────

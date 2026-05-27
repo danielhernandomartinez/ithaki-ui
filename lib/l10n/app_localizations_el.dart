@@ -800,6 +800,27 @@ class AppLocalizationsEl extends AppLocalizations {
   String get applyNow => 'Υποβολή Αίτησης';
 
   @override
+  String get coverLetterHint => 'Προσθήκη συνοδευτικής επιστολής (προαιρετικά)';
+
+  @override
+  String get availabilityDateLabel => 'Διαθέσιμος/η από';
+
+  @override
+  String get availabilityDateHint => 'Επιλογή ημερομηνίας';
+
+  @override
+  String get applySubmitting => 'Υποβολή...';
+
+  @override
+  String get applySubmitSuccess => 'Η αίτηση υποβλήθηκε!';
+
+  @override
+  String get applySelectCvFile => 'Επιλογή αρχείου CV';
+
+  @override
+  String get applyFileSelected => 'Αρχείο έτοιμο';
+
+  @override
   String get declineSheetTitle => 'Απόρριψη Πρόσκλησης';
 
   @override
