@@ -78,9 +78,6 @@ class _ChooseVerifyMethodScreenState
                           .read(registrationProvider.notifier)
                           .setVerifyMethod(method, remember: _rememberChoice);
                       final regState = ref.read(registrationProvider);
-                      final techComfort = regState.techLevel.isNotEmpty
-                          ? regState.techLevel
-                          : 'experienced';
                       final repo = ref.read(authRepositoryProvider);
 
                       final hasSession = await ref

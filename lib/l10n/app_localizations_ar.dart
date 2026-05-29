@@ -1637,6 +1637,22 @@ class AppLocalizationsAr extends AppLocalizations {
   String get changePasswordTitle => 'تغيير كلمة المرور';
 
   @override
+  String get currentPasswordLabel => 'كلمة المرور الحالية';
+
+  @override
+  String get currentPasswordHint => 'أدخل كلمة المرور الحالية';
+
+  @override
+  String get currentPasswordIncorrect => 'كلمة المرور الحالية غير صحيحة.';
+
+  @override
+  String get changePasswordFailed => 'تعذّر تغيير كلمة المرور. حاول مرة أخرى.';
+
+  @override
+  String get changePasswordSocialLogin =>
+      'يستخدم هذا الحساب تسجيل الدخول عبر وسائل التواصل الاجتماعي، لذا لا توجد كلمة مرور لتغييرها.';
+
+  @override
   String get repeatNewPasswordLabel => 'تكرار كلمة المرور الجديدة';
 
   @override

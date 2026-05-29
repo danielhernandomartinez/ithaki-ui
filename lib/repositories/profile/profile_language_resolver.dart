@@ -3,7 +3,6 @@ import 'dart:convert';
 import '../../models/profile_models.dart';
 import '../../services/api_client.dart';
 import '../../utils/parse_utils.dart';
-import 'profile_api_mapper.dart';
 
 class ProfileLanguageResolver {
   ProfileLanguageResolver(this._api);

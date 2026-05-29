@@ -1662,6 +1662,23 @@ class AppLocalizationsEs extends AppLocalizations {
   String get changePasswordTitle => 'Cambiar contraseña';
 
   @override
+  String get currentPasswordLabel => 'Contraseña actual';
+
+  @override
+  String get currentPasswordHint => 'Ingresa tu contraseña actual';
+
+  @override
+  String get currentPasswordIncorrect => 'La contraseña actual es incorrecta.';
+
+  @override
+  String get changePasswordFailed =>
+      'No se pudo cambiar tu contraseña. Inténtalo de nuevo.';
+
+  @override
+  String get changePasswordSocialLogin =>
+      'Esta cuenta usa inicio de sesión social, por lo que no tiene contraseña para cambiar.';
+
+  @override
   String get repeatNewPasswordLabel => 'Repetir nueva contraseña';
 
   @override

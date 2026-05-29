@@ -91,4 +91,64 @@ void main() {
       throwsA(isA<AuthException>()),
     );
   });
+
+  ApiAuthRepository changePwRepoFor({
+    required int status,
+    Map<String, dynamic>? body,
+  }) {
+    storage['jwt_token'] = 'token123';
+    final client = MockClient((request) async {
+      expect(request.method, 'POST');
+      expect(request.url.path, '/api/users/me/change-password');
+      expect(request.headers['Authorization'], 'Bearer token123');
+      final decoded =
+          (jsonDecode(request.body) as Map).cast<String, dynamic>();
+      expect(decoded.keys,
+          containsAll(['currentPassword', 'newPassword', 'confirmPassword']));
+      return http.Response(body == null ? '' : jsonEncode(body), status);
+    });
+    return ApiAuthRepository(
+      apiClient: ApiClient(client: client, baseUrl: 'http://localhost'),
+    );
+  }
+
+  test('changePassword completes on 204', () async {
+    final repo = changePwRepoFor(status: 204);
+
+    await expectLater(
+      repo.changePassword(
+        currentPassword: 'OldPass1!',
+        newPassword: 'NewPass1!',
+        confirmPassword: 'NewPass1!',
+      ),
+      completes,
+    );
+  });
+
+  test('changePassword throws currentPassword error on 422', () async {
+    final repo = changePwRepoFor(status: 422, body: {'message': 'wrong'});
+
+    await expectLater(
+      repo.changePassword(
+        currentPassword: 'WrongPass1!',
+        newPassword: 'NewPass1!',
+        confirmPassword: 'NewPass1!',
+      ),
+      throwsA(isA<AuthException>()
+          .having((e) => e.field, 'field', 'currentPassword')),
+    );
+  });
+
+  test('changePassword throws social error on 400', () async {
+    final repo = changePwRepoFor(status: 400, body: {'message': 'social'});
+
+    await expectLater(
+      repo.changePassword(
+        currentPassword: 'OldPass1!',
+        newPassword: 'NewPass1!',
+        confirmPassword: 'NewPass1!',
+      ),
+      throwsA(isA<AuthException>().having((e) => e.field, 'field', 'social')),
+    );
+  });
 }
