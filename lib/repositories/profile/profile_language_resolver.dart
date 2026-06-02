@@ -32,6 +32,7 @@ class ProfileLanguageResolver {
         return const {'value': 'FLUENT', 'title': 'Fluent'};
       case 'conversational':
         return const {'value': 'CONVERSATIONAL', 'title': 'Conversational'};
+      case 'beginner':
       case 'basic':
         return const {'value': 'BEGINNER', 'title': 'Beginner'};
       default:

@@ -56,7 +56,8 @@ class ApiApplicationsRepository implements ApplicationsRepository {
     final applied = mapper.apiDateString(a['createdAt'] ?? a['appliedAt']);
     final j =
         a['job'] is Map<String, dynamic> ? a['job'] as Map<String, dynamic> : a;
-    final posted = mapper.apiDateString(j['postedAt'] ?? j['createdAt']);
+    final posted = j['postedAgo'] as String? ??
+        mapper.apiDateString(j['postedAt'] ?? j['createdAt']);
     final f = mapper.parseJobFields(a);
 
     return Application(
@@ -99,7 +100,8 @@ class ApiApplicationsRepository implements ApplicationsRepository {
       if (availabilityPeriod != null) 'availabilityPeriod': availabilityPeriod,
       'cvFilePath': cvFilePath,
     };
-    debugPrint('[ApplicationsRepo] POST /job-seeker/me/applications body: $body');
+    debugPrint(
+        '[ApplicationsRepo] POST /job-seeker/me/applications body: $body');
     await _api.postJsonResponse('/job-seeker/me/applications', body);
   }
 
