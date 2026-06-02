@@ -12,7 +12,7 @@ const _kProficiencyLevels = [
   'Native',
   'Fluent',
   'Conversational',
-  'Basic',
+  'Beginner',
 ];
 
 class EditLanguagesScreen extends ConsumerStatefulWidget {

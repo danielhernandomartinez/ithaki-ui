@@ -107,25 +107,41 @@ JobFields parseJobFields(Map<String, dynamic> envelope) {
       : (companyFromEnvelope is Map ? companyFromEnvelope : null);
   final companyName = companyRaw != null
       ? (companyRaw['name'] as String? ?? '')
-      : (j['companyName'] as String? ??
-          envelope['companyName'] as String? ??
-          '');
+      : (companyFromJob is String && companyFromJob.isNotEmpty
+          ? companyFromJob
+          : j['companyName'] as String? ??
+              envelope['companyName'] as String? ??
+              '');
+  final companyKey = companyName.isNotEmpty ? companyName : jobTitle;
 
-  final salary = formatSalary(j['salaryMin'], j['salaryMax'], j['paymentTerm']);
+  final salary = j['salary'] as String? ??
+      j['salaryRange'] as String? ??
+      formatSalary(j['salaryMin'], j['salaryMax'], j['paymentTerm']);
   final location = j['location'] as String? ?? '';
-  final workplaceType = enumTitle(j['workArrangement']);
-  final employmentType = enumTitle(j['employmentType']);
-  final experienceLevel = enumTitle(j['experienceLevel']);
-  final category = enumTitle(j['industry']);
-  final matchPct = (envelope['matchPercentage'] as num?)?.toInt() ?? 0;
-  final matchLabel = envelope['matchLabel'] as String? ?? '';
+  final workplaceType =
+      j['workType'] as String? ?? enumTitle(j['workArrangement']);
+  final employmentType =
+      j['schedule'] as String? ?? enumTitle(j['employmentType']);
+  final experienceLevel =
+      j['level'] as String? ?? enumTitle(j['experienceLevel']);
+  final category = j['category'] as String? ?? enumTitle(j['industry']);
+  final matchPct = (envelope['matchPercent'] as num?)?.toInt() ??
+      (envelope['matchPercentage'] as num?)?.toInt() ??
+      (j['matchPercent'] as num?)?.toInt() ??
+      (j['matchPercentage'] as num?)?.toInt() ??
+      0;
+  final matchText = envelope['matchLabel'] as String? ??
+      j['matchLabel'] as String? ??
+      matchLabel(matchPct);
 
   return (
     jobId: jobId,
     jobTitle: jobTitle,
     companyName: companyName,
-    companyInitials: initials(companyName),
-    companyLogoColor: colorFromString(companyName),
+    companyInitials: j['logoInitials'] as String? ??
+        envelope['logoInitials'] as String? ??
+        initials(companyKey),
+    companyLogoColor: colorFromString(companyKey),
     salary: salary,
     location: location,
     workplaceType: workplaceType,
@@ -133,7 +149,7 @@ JobFields parseJobFields(Map<String, dynamic> envelope) {
     experienceLevel: experienceLevel,
     category: category,
     matchPercentage: matchPct,
-    matchLabel: matchLabel,
+    matchLabel: matchText,
   );
 }
 
