@@ -1659,6 +1659,23 @@ class AppLocalizationsEl extends AppLocalizations {
   String get changePasswordTitle => 'Αλλαγή Κωδικού';
 
   @override
+  String get currentPasswordLabel => 'Τρέχων Κωδικός';
+
+  @override
+  String get currentPasswordHint => 'Εισάγετε τον τρέχοντα κωδικό σας';
+
+  @override
+  String get currentPasswordIncorrect => 'Ο τρέχων κωδικός είναι λανθασμένος.';
+
+  @override
+  String get changePasswordFailed =>
+      'Δεν ήταν δυνατή η αλλαγή του κωδικού σας. Δοκιμάστε ξανά.';
+
+  @override
+  String get changePasswordSocialLogin =>
+      'Αυτός ο λογαριασμός χρησιμοποιεί σύνδεση μέσω κοινωνικού δικτύου και δεν έχει κωδικό για αλλαγή.';
+
+  @override
   String get repeatNewPasswordLabel => 'Επανάληψη Νέου Κωδικού';
 
   @override

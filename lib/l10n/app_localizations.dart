@@ -3150,6 +3150,36 @@ abstract class AppLocalizations {
   /// **'Change Password'**
   String get changePasswordTitle;
 
+  /// No description provided for @currentPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Password'**
+  String get currentPasswordLabel;
+
+  /// No description provided for @currentPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your current password'**
+  String get currentPasswordHint;
+
+  /// No description provided for @currentPasswordIncorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'Current password is incorrect.'**
+  String get currentPasswordIncorrect;
+
+  /// No description provided for @changePasswordFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not change your password. Please try again.'**
+  String get changePasswordFailed;
+
+  /// No description provided for @changePasswordSocialLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'This account uses social login, so it has no password to change.'**
+  String get changePasswordSocialLogin;
+
   /// No description provided for @repeatNewPasswordLabel.
   ///
   /// In en, this message translates to:

@@ -8,9 +8,13 @@ import '../services/api_client.dart';
 import '../services/session_service.dart';
 
 class AuthException implements Exception {
-  const AuthException(this.userMessage, {this.internalDetail});
+  const AuthException(this.userMessage, {this.internalDetail, this.field});
   final String userMessage;
   final String? internalDetail;
+
+  /// Identifies which input caused the error so the UI can localize and place
+  /// the message (e.g. `currentPassword`, `social`). Null for generic failures.
+  final String? field;
 
   @override
   String toString() => 'AuthException: $userMessage'
@@ -51,6 +55,11 @@ abstract class AuthRepository {
   Future<void> updatePhone(String phone);
   Future<void> forgotPassword(String email);
   Future<void> resetPassword(String token, String newPassword);
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+    required String confirmPassword,
+  });
   Future<void> logout();
 }
 
@@ -106,6 +115,14 @@ class MockAuthRepository implements AuthRepository {
 
   @override
   Future<void> resetPassword(String token, String newPassword) =>
+      Future.value();
+
+  @override
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) =>
       Future.value();
 
   @override
@@ -462,6 +479,54 @@ class ApiAuthRepository implements AuthRepository {
       );
     }
     developer.log('Password reset request succeeded', name: 'ithaki.auth');
+  }
+
+  @override
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    final token = await _api.requireToken();
+    final response = await _api.client
+        .post(
+          _api.uri('/users/me/change-password'),
+          headers: _api.jsonHeaders(token: token),
+          body: jsonEncode({
+            'currentPassword': currentPassword,
+            'newPassword': newPassword,
+            'confirmPassword': confirmPassword,
+          }),
+        )
+        .timeout(ApiClient.timeout);
+    ApiClient.log(
+        'POST', _api.uri('/users/me/change-password'), response.statusCode);
+
+    if (response.statusCode == 200 || response.statusCode == 204) return;
+
+    // 422 — the stored current password did not match.
+    if (response.statusCode == 422) {
+      throw AuthException(
+        'Current password is incorrect.',
+        field: 'currentPassword',
+        internalDetail: _api.readErrorBody(response),
+      );
+    }
+
+    // 400 — client-side validation already enforces non-blank + matching
+    // passwords, so the remaining 400 case is a social-login account.
+    if (response.statusCode == 400) {
+      throw AuthException(
+        'This account uses social login and has no password to change.',
+        field: 'social',
+        internalDetail: _api.readErrorBody(response),
+      );
+    }
+
+    throw AuthException(
+      'Could not change your password. Please try again.',
+      internalDetail: _api.readErrorBody(response),
+    );
   }
 
   @override
