@@ -490,17 +490,17 @@ class ApiAuthRepository implements AuthRepository {
     final token = await _api.requireToken();
     final response = await _api.client
         .post(
-          _api.uri('/users/me/change-password'),
+          _api.uri('/user/me/change-password'),
           headers: _api.jsonHeaders(token: token),
           body: jsonEncode({
-            'currentPassword': currentPassword,
-            'newPassword': newPassword,
-            'confirmPassword': confirmPassword,
-          }),
+      'currentPassword': currentPassword,
+      'newPassword': newPassword,
+      'confirmPassword': confirmPassword,
+    }),
         )
         .timeout(ApiClient.timeout);
     ApiClient.log(
-        'POST', _api.uri('/users/me/change-password'), response.statusCode);
+        'POST', _api.uri('/user/me/change-password'), response.statusCode);
 
     if (response.statusCode == 200 || response.statusCode == 204) return;
 
